@@ -1,22 +1,22 @@
+import { execSync } from "node:child_process";
 // scripts/update-versions.ts
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
-import { load, dump } from 'js-yaml';
-import { execSync } from 'child_process';
+import { readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { dump, load } from "js-yaml";
 
 interface Versions {
   [key: string]: string;
 }
 
-const VERSIONS_PATH = join(process.cwd(), 'docs', 'meta', 'versions.yml');
+const VERSIONS_PATH = join(process.cwd(), "docs", "meta", "versions.yml");
 
 // Load current versions
 function loadVersions(): Versions {
   try {
-    const content = readFileSync(VERSIONS_PATH, 'utf8');
+    const content = readFileSync(VERSIONS_PATH, "utf8");
     return load(content) as Versions;
-  } catch (error) {
-    console.error('Error loading versions.yml:', error);
+  } catch (_error) {
+    console.error("Error loading versions.yml:", error);
     return {};
   }
 }
@@ -34,21 +34,21 @@ function saveVersions(versions: Versions): void {
 // Get package version from package.json
 function getPackageVersion(packageName: string): string | null {
   try {
-    const output = execSync(`pnpm list ${packageName} --json`, { encoding: 'utf8' });
+    const output = execSync(`pnpm list ${packageName} --json`, { encoding: "utf8" });
     const data = JSON.parse(output);
-    
+
     // Extract version from pnpm list output
     if (data[0]?.dependencies?.[packageName]) {
       return data[0].dependencies[packageName].version;
     }
-    
+
     // Try devDependencies
     if (data[0]?.devDependencies?.[packageName]) {
       return data[0].devDependencies[packageName].version;
     }
-    
+
     return null;
-  } catch (error) {
+  } catch (_error) {
     console.warn(`Could not get version for ${packageName}`);
     return null;
   }
@@ -66,17 +66,17 @@ function updateVersion(key: string, value: string): void {
 function autoUpdateVersions(): void {
   const versions = loadVersions();
   const packagesToCheck = [
-    { key: 'astro', package: 'astro' },
-    { key: 'tailwindcss', package: 'tailwindcss' },
-    { key: 'biome', package: '@biomejs/biome' },
-    { key: 'typescript', package: 'typescript' },
-    { key: 'preact', package: 'preact' },
-    { key: 'playwright', package: '@playwright/test' },
-    { key: 'vite', package: 'vite' },
+    { key: "astro", package: "astro" },
+    { key: "tailwindcss", package: "tailwindcss" },
+    { key: "biome", package: "@biomejs/biome" },
+    { key: "typescript", package: "typescript" },
+    { key: "preact", package: "preact" },
+    { key: "playwright", package: "@playwright/test" },
+    { key: "vite", package: "vite" },
   ];
-  
-  console.log('🔍 Checking package versions...\n');
-  
+
+  console.log("🔍 Checking package versions...\n");
+
   let updated = false;
   for (const { key, package: pkg } of packagesToCheck) {
     const currentVersion = getPackageVersion(pkg);
@@ -86,22 +86,22 @@ function autoUpdateVersions(): void {
       updated = true;
     }
   }
-  
+
   // Check Node version
   const nodeVersion = process.version.substring(1); // Remove 'v' prefix
-  const nodeMajor = nodeVersion.split('.')[0] + '.x';
-  if (versions['node'] !== nodeVersion) {
-    console.log(`node: ${versions['node']} → ${nodeVersion}`);
-    versions['node'] = nodeVersion;
-    versions['node-current'] = nodeMajor;
+  const nodeMajor = `${nodeVersion.split(".")[0]}.x`;
+  if (versions.node !== nodeVersion) {
+    console.log(`node: ${versions.node} → ${nodeVersion}`);
+    versions.node = nodeVersion;
+    versions["node-current"] = nodeMajor;
     updated = true;
   }
-  
+
   if (updated) {
     saveVersions(versions);
-    console.log('\n✅ Versions updated successfully!');
+    console.log("\n✅ Versions updated successfully!");
   } else {
-    console.log('✅ All versions are up to date!');
+    console.log("✅ All versions are up to date!");
   }
 }
 
