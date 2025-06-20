@@ -1,0 +1,26 @@
+{
+  "semantic": {
+    "background": {
+      "default": { "value": "{color.gray.50}", "dark": "{color.gray.900}" },
+      "subtle": { "value": "{color.gray.100}", "dark": "{color.gray.800}" },
+      "inverted": { "value": "{color.gray.900}", "dark": "{color.gray.50}" }
+    },
+    "foreground": {
+      "default": { "value": "{color.gray.900}", "dark": "{color.gray.50}" },
+      "muted": { "value": "{color.gray.700}", "dark": "{color.gray.300}" },
+      "inverted": { "value": "{color.gray.50}", "dark": "{color.gray.900}" }
+    },
+    "primary": {
+      "surface": { "value": "{color.imperialRed.500}", "dark": "{color.imperialRed.600}" },
+      "onSurface": { "value": "{color.gray.50}", "dark": "{color.gray.50}" }
+    },
+    "accent": {
+      "surface": { "value": "{color.orangeWeb.500}", "dark": "{color.orangeWeb.600}" },
+      "onSurface": { "value": "{color.gray.900}", "dark": "{color.gray.900}" }
+    },
+    "info": {
+      "surface": { "value": "{color.moonstone.500}", "dark": "{color.moonstone.600}" },
+      "onSurface": { "value": "{color.gray.50}", "dark": "{color.gray.50}" }
+    }
+  }
+}
