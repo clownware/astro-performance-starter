@@ -1,9 +1,28 @@
 // src/components/mdx/index.ts
 
-import Callout from "./Callout.astro";
+// Dynamic import wrapper to avoid loading .astro during Node evaluation
+let Callout: any;
+try {
+  // @ts-ignore
+  Callout = (await import("./Callout.astro")).default;
+} catch {
+  Callout = () => null;
+}
 // Astro components
-import Figure from "./Figure.astro";
-import Grid from "./Grid.astro";
+let Figure: any;
+try {
+  // @ts-ignore
+  Figure = (await import("./Figure.astro")).default;
+} catch {
+  Figure = (props: any) => props.children;
+}
+let Grid: any;
+try {
+  // @ts-ignore
+  Grid = (await import("./Grid.astro")).default;
+} catch {
+  Grid = (props: any) => props.children;
+}
 
 import Blockquote from "./Blockquote";
 // Preact components (ensure .tsx files are processed by Preact integration)
