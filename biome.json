@@ -1,5 +1,10 @@
 {
   "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "organizeImports": {
     "enabled": true
   },
@@ -49,6 +54,7 @@
     }
   },
   "files": {
-    "ignore": [".astro", "dist", "node_modules", ".github", "pnpm-lock.yaml", "*.min.js", "*.d.ts"]
+    "ignoreUnknown": false,
+    "ignore": ["dist", "node_modules", ".astro", ".github", "pnpm-lock.yaml", "*.min.js", "*.d.ts"]
   }
 }

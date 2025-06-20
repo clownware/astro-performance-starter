@@ -8,8 +8,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "format": "biome format --write .",
-    "lint": "biome lint --write .",
+    "format": "biome format . --write",
+    "format:check": "biome format .",
+    "lint": "biome check . --apply",
     "check": "astro check && tsc --noEmit",
     "quality": "pnpm run format && pnpm run lint && pnpm run check",
     "build:tokens": "node scripts/build-tokens.js",
@@ -43,7 +44,9 @@
     "sharp": "^0.33.0",
     "tsx": "^4.7.0",
     "typescript": "^5.6.0",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "@commitlint/cli": "^18.5.0",
+    "@commitlint/config-conventional": "^18.5.0"
   },
   "optionalDependencies": {
     "@axe-core/playwright": "^4.10.0",
@@ -52,7 +55,7 @@
     "vitest": "^2.1.0"
   },
   "lint-staged": {
-    "*.{astro,ts,tsx,js,jsx,md,mdx,json,yml,yaml}": ["biome format --write", "biome check --write"]
+    "*.{astro,ts,tsx,js,jsx,md,mdx,json,yml,yaml}": ["biome format --write", "biome check --apply"]
   },
   "engines": {
     "node": ">=22.0.0",
