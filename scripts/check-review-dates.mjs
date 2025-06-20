@@ -11,7 +11,7 @@
  *   npm run check:reviews
  */
 
-import { readFileSync, readdirSync, statSync } from "fs";
+import { readFileSync, readdirSync, statSync } from "node:fs";
 import { extname, join, relative } from "node:path";
 import { dirname } from "node:path";
 import { fileURLToPath } from "url";
@@ -29,7 +29,9 @@ function parseFrontmatter(content) {
   const frontmatterRegex = /^---\s*\n([\s\S]*?)\n---/;
   const match = content.match(frontmatterRegex);
 
-  if (!match) return {};
+  if (!match) {
+    return {};
+  }
 
   const frontmatter = {};
   const lines = match[1].split("\n");
@@ -180,17 +182,17 @@ function checkReviewDates() {
 
   if (warnings.length > 0) {
     console.log("\n⚠️  REVIEW WARNINGS:");
-    warnings.forEach((warning) => {
+    for (const warning of warnings) {
       console.log(`   ${warning.file}: ${warning.message}`);
-    });
+    }
     _hasErrors = true;
   }
 
   if (suggestions.length > 0) {
     console.log("\n💡 SUGGESTIONS (add review dates to these files):");
-    suggestions.forEach((suggestion) => {
+    for (const suggestion of suggestions) {
       console.log(`   ${suggestion.file}: ${suggestion.message}`);
-    });
+    }
   }
 
   if (warnings.length === 0 && suggestions.length === 0) {
