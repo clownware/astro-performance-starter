@@ -1,0 +1,64 @@
+{
+  "name": "astro-performance-starter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@9.15.0",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "format": "biome format --write .",
+    "lint": "biome lint --apply .",
+    "check": "astro check && tsc --noEmit",
+    "quality": "pnpm run format && pnpm run lint && pnpm run check",
+    "build:tokens": "scripts/build-tokens.js",
+    "validate:contrast": "tsx scripts/validate-contrast.ts",
+    "validate:overrides": "tsx scripts/validate-budget-overrides.ts",
+    "validate:links": "astro build --dry-run",
+    "check:reviews": "node scripts/check-review-dates.mjs",
+    "update:roadmap-status": "node ./scripts/update-roadmap-status.mjs",
+    "prepare": "husky install"
+  },
+  "dependencies": {
+    "@astrojs/mdx": "^4.0.1",
+    "@astrojs/preact": "^4.0.0",
+    "@astrojs/sitemap": "^4.0.0",
+    "@astrojs/tailwind": "^6.0.0",
+    "@fontsource-variable/inter": "^5.1.0",
+    "astro": "^5.8.0",
+    "preact": "^10.24.0",
+    "tailwindcss": "^4.0.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@biomejs/biome": "^1.9.4",
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.0.0",
+    "gray-matter": "^4.0.3",
+    "astrobook": "^0.5.0",
+    "husky": "^9.1.0",
+    "lighthouse": "^12.0.0",
+    "lint-staged": "^15.2.0",
+    "sharp": "^0.33.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.6.0",
+    "unist-util-visit": "^5.0.0"
+  },
+  "optionalDependencies": {
+    "@axe-core/playwright": "^4.10.0",
+    "style-dictionary": "^4.0.0",
+    "tailwindcss-themer": "^4.0.0",
+    "vitest": "^2.1.0"
+  },
+  "lint-staged": {
+    "*.{astro,ts,tsx,js,jsx,md,mdx,json,yml,yaml}": [
+      "biome format --write",
+      "biome check --apply"
+    ]
+  },
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=9.0.0"
+  }
+}

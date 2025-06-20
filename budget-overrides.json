@@ -1,0 +1,17 @@
+{
+  "$schema": "./schemas/budget-override.schema.json",
+  "overrides": [],
+  "expired_overrides": [
+    {
+      "metric": "example-javascript-size",
+      "original": 163840,
+      "temporary": 180000,
+      "reason": "Adding interactive dashboard component",
+      "adr": "docs/adr/005-dashboard-interactivity.md",
+      "expires": "2024-02-15",
+      "ticket": "PROJ-123",
+      "approved_by": "tech-lead",
+      "created": "2024-01-15"
+    }
+  ]
+}

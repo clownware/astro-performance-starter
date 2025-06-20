@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 9
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint, format & type-check
+        run: pnpm run quality
+
+      - name: Validate budget overrides
+        run: pnpm run validate:overrides
+
+      - name: Check documentation review dates
+        run: pnpm run check:reviews
+
+      - name: Build site
+        run: pnpm run build
+
+      - name: Enforce JS bundle size budget (160 KB gzipped target)
+        shell: bash
+        run: |
+          set -e
+          JS_BUNDLE_PATH="dist/assets"
+          JS_SIZE_LIMIT_BYTES=163840 # 160 KB target (gzipped)
+          if [ ! -d "$JS_BUNDLE_PATH" ]; then
+            echo "⚠️  JS bundle path '$JS_BUNDLE_PATH' not found. Skipping size check."
+            exit 0
+          fi
+          if [ "$(uname)" = "Darwin" ]; then
+            JS_SIZE=$(find "$JS_BUNDLE_PATH" -name "*.js" -type f -exec stat -f%z {} + | awk '{sum+=$1} END {print sum}')
+          else
+            JS_SIZE=$(find "$JS_BUNDLE_PATH" -name "*.js" -type f -exec stat -c%s {} + | awk '{sum+=$1} END {print sum}')
+          fi
+          JS_SIZE=${JS_SIZE:-0}
+          echo "ℹ️  Total raw JS size: $JS_SIZE bytes"
+          if [ "$JS_SIZE" -gt "$JS_SIZE_LIMIT_BYTES" ]; then
+            echo "❌ JavaScript bundle size exceeds limit ($JS_SIZE_LIMIT_BYTES bytes)."
+            exit 1
+          fi
+          echo "✅ Bundle size within limit."
+
+      - name: Security audit (high severity)
+        run: pnpm audit --audit-level=high --prod
