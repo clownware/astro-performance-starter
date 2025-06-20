@@ -14,10 +14,10 @@ description: "Covers core architecture decisions, repository setup, and developm
 - **Deliverables**: Core architecture decisions, repository setup, development environment
 
 ## Entry Criteria
-- [ ] Project requirements defined
-- [ ] Hosting platform chosen
-- [ ] Team assembled (if applicable)
-- [ ] Development machines ready
+- [x] Project requirements defined
+- [x] Hosting platform chosen
+- [x] Team assembled (if applicable)
+- [x] Development machines ready
 
 ## Implementation Steps
 
@@ -165,15 +165,15 @@ trim_trailing_whitespace = true
 
 ## Exit Criteria
 
-- [ ] Repository initialized with correct .gitignore
-- [ ] Package manager locked (pnpm-lock.yaml committed)
-- [ ] Node.js version specified (.nvmrc file)
-- [ ] TypeScript in strict mode
-- [ ] Git hooks functioning (test with commit)
-- [ ] Branch strategy documented
-- [ ] Environment variables structured
-- [ ] ADR template and first decision recorded
-- [ ] README has basic project information
+- [x] Repository initialized with correct .gitignore
+- [x] Package manager locked (pnpm-lock.yaml committed)
+- [x] Node.js version specified (.nvmrc file)
+- [x] TypeScript in strict mode
+- [x] Git hooks functioning (test with commit)
+- [x] Branch strategy documented
+- [x] Environment variables structured
+- [x] ADR template and first decision recorded
+- [x] README has basic project information
 
 ## Rollback Strategy
 

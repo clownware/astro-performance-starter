@@ -1,0 +1,38 @@
+// src/components/mdx/Link.tsx
+import type { ComponentChildren } from "preact";
+
+interface LinkProps extends preact.JSX.HTMLAttributes<HTMLAnchorElement> {
+  children: ComponentChildren;
+  href?: string;
+}
+
+export default function Link({ children, href, class: className, ...props }: LinkProps) {
+  const isExternal =
+    href && (href.startsWith("http://") || href.startsWith("https://") || href.startsWith("//"));
+  const _isAnchor = href?.startsWith("#");
+
+  const defaultClasses =
+    "text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500/50 rounded-sm";
+
+  if (isExternal) {
+    return (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class={`${defaultClasses} ${className ?? ""}`}
+        {...props}
+      >
+        {children}
+      </a>
+    );
+  }
+
+  // For internal links (including anchors), let Astro handle them or use basic styling.
+  // If using Astro's View Transitions, regular <a> tags are typically fine.
+  return (
+    <a href={href} class={`${defaultClasses} ${className ?? ""}`} {...props}>
+      {children}
+    </a>
+  );
+}

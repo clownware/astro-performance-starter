@@ -1,0 +1,21 @@
+---
+import { Image } from "astro:assets";
+// src/components/mdx/Figure.astro
+import type { ImageMetadata } from "astro";
+
+export interface Props {
+  src: ImageMetadata | string; // Allow direct image import or path
+  alt: string;
+  caption?: string;
+  class?: string; // Allow passing additional classes
+}
+const { src: _src, alt: _alt, caption: _caption, class: _className } = Astro.props as Props;
+---
+<figure class:list={["my-6 text-center", _className]}>
+  {typeof _src === 'string' ? (
+    <img src={_src} alt={_alt} class="max-w-full h-auto mx-auto rounded shadow-md" />
+  ) : (
+    <Image src={_src} alt={_alt} class="max-w-full h-auto mx-auto rounded shadow-md" />
+  )}
+  {_caption && <figcaption class="mt-2 text-sm text-gray-600 dark:text-gray-400 italic">{_caption}</figcaption>}
+</figure>

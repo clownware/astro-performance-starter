@@ -11,7 +11,7 @@ Thank you for your interest in contributing! This project follows a structured a
 
 ## 📋 Prerequisites
 
-- Node.js 20.x or later
+- Node.js 22.x or later
 - pnpm 9.x or later
 - Familiarity with our [Implementation Guides](docs/implementation-guides/00-overview/README.md)
 

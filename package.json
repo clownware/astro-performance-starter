@@ -52,7 +52,7 @@
     "vitest": "^2.1.0"
   },
   "lint-staged": {
-    "*.{astro,ts,tsx,js,jsx,md,mdx,json,yml,yaml}": ["biome format --write", "biome check --apply"]
+    "*.{astro,ts,tsx,js,jsx,md,mdx,json,yml,yaml}": ["biome format --write", "biome check --write"]
   },
   "engines": {
     "node": ">=22.0.0",

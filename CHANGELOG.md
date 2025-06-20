@@ -16,5 +16,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Initial project structure and documentation.
+- **Content Model Definition (Phase 1):**
+  - Established core content collections in `src/content/config.ts`:
+    - `blog`: For blog posts, articles, and tutorials. Includes fields for title, description, dates, author, tags, category, featured image, and draft status. Supports MDX.
+    - `projects`: For portfolio case studies. Includes fields for title, description, dates, tags, client, repository/demo URLs, images, status, and draft status. Supports MDX.
+    - `bio`: For author/about information. Includes fields for name, title, contact, avatar, social links, short/long bios, location, resume, and draft status. Stored as JSON.
+    - `navigation`: For site navigation structures (e.g., header, footer). Includes fields for link text, URL, order, target, icon, and draft status. Stored as JSON.
+  - Implemented Zod schemas for robust validation of all content collection frontmatter and data.
+  - Added `draft` field to all collections to control content visibility.
+  - Configured MDX custom components in `astro.config.mjs` (`Figure`, `Grid`, `Callout`, `Link`, `Blockquote`) for enhanced content rendering.
+  - Created URL generation utilities in `src/utils/url-utils.ts` for consistent and SEO-friendly paths.
+  - Added initial content fixtures for all collections to serve as examples.
 
 *(More details to come)*

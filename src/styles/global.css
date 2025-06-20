@@ -1,0 +1,39 @@
+@import "../../tokens/dist/tokens.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Accessibility primitives */
+@layer utilities {
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-semantic-focus-ring focus:ring-offset-2;
+  }
+  .focus-visible-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-semantic-focus-ring focus-visible:ring-offset-2;
+  }
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+}
+
+/* Light theme (default) variables come from the token build output */
+
+/* Dark mode overrides – prefers user toggle via `.dark` class but supports OS setting */
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Fallback if utility prefers automatic dark – but class still wins */
+    color-scheme: dark;
+  }
+}
+
+.dark {
+  /* Use the dark variants generated in the token build */
+}

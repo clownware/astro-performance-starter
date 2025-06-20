@@ -1,89 +1,90 @@
 {
-	"name": "Astro Performance Starter Dev Container",
-	"image": "mcr.microsoft.com/devcontainers/typescript-node:22-bullseye",
+  "name": "Astro Performance Starter Dev Container",
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:22-bullseye",
 
-	"features": {
-		"ghcr.io/devcontainers-contrib/features/pnpm:1": {}, // pnpm feature, version pinned
-		"ghcr.io/devcontainers/features/common-utils:2": { // Common utilities, version pinned
-			"installZsh": true,
-			"configureZshAsDefaultShell": true,
-			"installOhMyZsh": true,
-			"upgradePackages": true
-			// "installGpg": true // Optional: if commit signing is needed
-		},
-		"ghcr.io/devcontainers/features/github-cli:1": {} // GitHub CLI, version pinned
-		// "ghcr.io/devcontainers/features/git-lfs:1": {} // Optional: Git LFS, version pinned
-		// "ghcr.io/devcontainers/features/docker-in-docker:2": {} // Optional: Docker-in-Docker
-		// "ghcr.io/devcontainers/features/sshd:1": {"version": "latest"} // Optional: SSH server
-	},
+  "features": {
+    "ghcr.io/devcontainers-contrib/features/pnpm:1": {}, // pnpm feature, version pinned
+    "ghcr.io/devcontainers/features/common-utils:2": {
+      // Common utilities, version pinned
+      "installZsh": true,
+      "configureZshAsDefaultShell": true,
+      "installOhMyZsh": true,
+      "upgradePackages": true
+      // "installGpg": true // Optional: if commit signing is needed
+    },
+    "ghcr.io/devcontainers/features/github-cli:1": {} // GitHub CLI, version pinned
+    // "ghcr.io/devcontainers/features/git-lfs:1": {} // Optional: Git LFS, version pinned
+    // "ghcr.io/devcontainers/features/docker-in-docker:2": {} // Optional: Docker-in-Docker
+    // "ghcr.io/devcontainers/features/sshd:1": {"version": "latest"} // Optional: SSH server
+  },
 
-	"mounts": [
-		"source=pnpm-store,target=/home/node/.local/share/pnpm,type=volume", // Cache pnpm store
-		"source=corepack-cache,target=/home/node/.corepack,type=volume"   // Cache corepack shims
-	],
+  "mounts": [
+    "source=pnpm-store,target=/home/node/.local/share/pnpm,type=volume", // Cache pnpm store
+    "source=corepack-cache,target=/home/node/.corepack,type=volume" // Cache corepack shims
+  ],
 
-	// Runs commands after the container is created.
-	"postCreateCommand": "corepack enable && pnpm install && pnpm run build:tokens",
+  // Runs commands after the container is created.
+  "postCreateCommand": "corepack enable && pnpm install && pnpm run build:tokens",
 
-	// Runs commands when a file in the workspace changes (e.g., git pull).
-	"updateContentCommand": "pnpm install --frozen-lockfile --ignore-scripts",
+  // Runs commands when a file in the workspace changes (e.g., git pull).
+  "updateContentCommand": "pnpm install --frozen-lockfile --ignore-scripts",
 
-	"forwardPorts": [4321],
-	"portsAttributes": {
-		"4321": {
-			"label": "Astro dev server",
-			"onAutoForward": "openPreview"
-		}
-	},
+  "forwardPorts": [4321],
+  "portsAttributes": {
+    "4321": {
+      "label": "Astro dev server",
+      "onAutoForward": "openPreview"
+    }
+  },
 
-	"containerEnv": {
-		"TZ": "Etc/UTC",
-		"PNPM_HOME": "/home/node/.local/share/pnpm" // Expose pnpm home for pnpm env use
-		// "NODE_ENV": "development" // Optional: set Node environment
-	},
+  "containerEnv": {
+    "TZ": "Etc/UTC",
+    "PNPM_HOME": "/home/node/.local/share/pnpm" // Expose pnpm home for pnpm env use
+    // "NODE_ENV": "development" // Optional: set Node environment
+  },
 
-	// VS Code specific settings and extensions
-	"customizations": {
-		"vscode": {
-			"extensions": [
-				"astro-build.astro-vscode",
-				"bradlc.vscode-tailwindcss",
-				"biomejs.biome",
-				"github.vscode-pull-request-github",
-				"ms-vscode-remote.remote-containers",
-				"ms-azuretools.vscode-docker" // Helpful for Docker-in-Docker or managing containers
-			],
-			"settings": {
-				"editor.formatOnSave": true,
-				"files.eol": "\n",
-				"[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
-				"[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
-				"[typescriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
-				"[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
-				"[json]": { "editor.defaultFormatter": "biomejs.biome" },
-				"[jsonc]": { "editor.defaultFormatter": "biomejs.biome" },
-				"[markdown]": { "editor.defaultFormatter": "biomejs.biome" }, // Assuming Biome handles MD
-				"editor.codeActionsOnSave": {
-					"source.organizeImports.biome": "explicit",
-					"source.fixAll.biome": "explicit"
-				},
-				"terminal.integrated.defaultProfile.linux": "zsh", // Ensure zsh is default in terminal
-        		"terminal.integrated.profiles.linux": {
-          			"zsh": {
-            			"path": "/usr/bin/zsh"
-          			}
-        		}
-			}
-		}
-	}
+  // VS Code specific settings and extensions
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "astro-build.astro-vscode",
+        "bradlc.vscode-tailwindcss",
+        "biomejs.biome",
+        "github.vscode-pull-request-github",
+        "ms-vscode-remote.remote-containers",
+        "ms-azuretools.vscode-docker" // Helpful for Docker-in-Docker or managing containers
+      ],
+      "settings": {
+        "editor.formatOnSave": true,
+        "files.eol": "\n",
+        "[typescript]": { "editor.defaultFormatter": "biomejs.biome" },
+        "[javascript]": { "editor.defaultFormatter": "biomejs.biome" },
+        "[typescriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+        "[javascriptreact]": { "editor.defaultFormatter": "biomejs.biome" },
+        "[json]": { "editor.defaultFormatter": "biomejs.biome" },
+        "[jsonc]": { "editor.defaultFormatter": "biomejs.biome" },
+        "[markdown]": { "editor.defaultFormatter": "biomejs.biome" }, // Assuming Biome handles MD
+        "editor.codeActionsOnSave": {
+          "source.organizeImports.biome": "explicit",
+          "source.fixAll.biome": "explicit"
+        },
+        "terminal.integrated.defaultProfile.linux": "zsh", // Ensure zsh is default in terminal
+        "terminal.integrated.profiles.linux": {
+          "zsh": {
+            "path": "/usr/bin/zsh"
+          }
+        }
+      }
+    }
+  }
 
-	// Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
-	// "remoteUser": "node", // Already default for typescript-node image, UID 1000
+  // Uncomment to connect as a non-root user. See https://aka.ms/vscode-remote/containers/non-root.
+  // "remoteUser": "node", // Already default for typescript-node image, UID 1000
 
-	// For personal dotfiles integration
-	// "dotfiles": {
-	// 	"repository": "YOUR_GITHUB_USERNAME/YOUR_DOTFILES_REPO",
-	// 	"targetPath": "~/dotfiles", // Or another path like /tmp/dotfiles
-	// 	"installCommand": "bash ~/dotfiles/install.sh" // Or your custom install script
-	// }
+  // For personal dotfiles integration
+  // "dotfiles": {
+  // 	"repository": "YOUR_GITHUB_USERNAME/YOUR_DOTFILES_REPO",
+  // 	"targetPath": "~/dotfiles", // Or another path like /tmp/dotfiles
+  // 	"installCommand": "bash ~/dotfiles/install.sh" // Or your custom install script
+  // }
 }

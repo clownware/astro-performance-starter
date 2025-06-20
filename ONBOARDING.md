@@ -12,7 +12,7 @@ description: "Guide for developers to set up and start working with the Astro Pe
 ## Prerequisites
 
 Before you begin, ensure you have:
-- **Node.js** 20.x or later ([install](https://nodejs.org/))
+- **Node.js** 22.x or later ([install](https://nodejs.org/))
 - **pnpm** 9.x or later (`npm install -g pnpm`)
 - **Git** for version control
 - **VS Code** (recommended) with the Astro extension

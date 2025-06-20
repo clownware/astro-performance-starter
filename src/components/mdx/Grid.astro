@@ -1,0 +1,27 @@
+---
+// src/components/mdx/Grid.astro
+export interface Props {
+  cols?: number;
+  sm?: number;
+  md?: number;
+  lg?: number;
+  xl?: number;
+  gap?: number;
+  class?: string;
+}
+const { cols = 1, sm, md, lg, xl, gap = 4, class: _className } = Astro.props as Props;
+
+// Create responsive grid classes including all breakpoints
+const _colClasses = [
+  `grid-cols-${cols}`,
+  sm && `sm:grid-cols-${sm}`,
+  md && `md:grid-cols-${md}`,
+  lg && `lg:grid-cols-${lg}`,
+  xl && `xl:grid-cols-${xl}`,
+  `gap-${gap}`,
+].filter(Boolean);
+---
+
+<div class:list={["grid", ..._colClasses, _className]}>
+  <slot />
+</div>

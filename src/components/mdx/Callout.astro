@@ -1,0 +1,82 @@
+---
+// src/components/mdx/Callout.astro
+export interface Props {
+  type?: "note" | "warning" | "danger" | "info" | "success";
+  title?: string;
+  icon?: boolean;
+  class?: string;
+}
+const {
+  type = "note",
+  title: _title,
+  icon: _icon = true,
+  class: _className,
+} = Astro.props as Props;
+
+// Base styling for all callouts
+const _baseClasses = "border-l-4 p-4 my-6 rounded-r-md shadow";
+// Type-specific styling options
+const typeStyles = {
+  note: {
+    border: "border-blue-500",
+    bg: "bg-blue-50 dark:bg-blue-950",
+    text: "text-blue-900 dark:text-blue-100",
+    defaultTitle: "Note",
+  },
+  info: {
+    border: "border-cyan-500",
+    bg: "bg-cyan-50 dark:bg-cyan-950",
+    text: "text-cyan-900 dark:text-cyan-100",
+    defaultTitle: "Information",
+  },
+  warning: {
+    border: "border-yellow-500",
+    bg: "bg-yellow-50 dark:bg-yellow-950",
+    text: "text-yellow-900 dark:text-yellow-100",
+    defaultTitle: "Warning",
+  },
+  danger: {
+    border: "border-red-500",
+    bg: "bg-red-50 dark:bg-red-950",
+    text: "text-red-900 dark:text-red-100",
+    defaultTitle: "Danger",
+  },
+  success: {
+    border: "border-green-500",
+    bg: "bg-green-50 dark:bg-green-950",
+    text: "text-green-900 dark:text-green-100",
+    defaultTitle: "Success",
+  },
+};
+
+const currentStyle = typeStyles[type] || typeStyles.note;
+const _displayTitle = _title === undefined ? currentStyle.defaultTitle : _title;
+
+// SVG path data for icons
+const _iconPaths = {
+  note: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  info: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
+  warning:
+    "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z",
+  danger: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z",
+  success: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
+};
+---
+
+<div class:list={[_baseClasses, currentStyle.border, currentStyle.bg, currentStyle.text, _className]}>
+  <div class="flex items-start">
+    {_icon && (
+      <svg class="w-5 h-5 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={_iconPaths[type]} />
+      </svg>
+    )}
+    <div class="flex-1">
+      {_displayTitle && (
+        <div class="font-semibold mb-1">{_displayTitle}</div>
+      )}
+      <div class="prose prose-sm max-w-none">
+        <slot />
+      </div>
+    </div>
+  </div>
+</div>

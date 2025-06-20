@@ -57,6 +57,9 @@
       "800": { "value": "189 61% 75%" },
       "900": { "value": "189 61% 85%" }
     },
+    "spaceCadet": {
+      "500": { "value": "227 50% 16%" }
+    },
     "pearl": {
       "100": { "value": "51 35% 10%" },
       "200": { "value": "51 35% 20%" },
@@ -67,6 +70,63 @@
       "700": { "value": "51 35% 88%" },
       "800": { "value": "51 35% 93%" },
       "900": { "value": "51 35% 97%" }
+    }
+  },
+  "spacing": {
+    "0": { "value": "0" },
+    "1": { "value": "0.25rem" },
+    "2": { "value": "0.5rem" },
+    "3": { "value": "0.75rem" },
+    "4": { "value": "1rem" },
+    "5": { "value": "1.25rem" },
+    "6": { "value": "1.5rem" },
+    "8": { "value": "2rem" },
+    "10": { "value": "2.5rem" },
+    "12": { "value": "3rem" },
+    "16": { "value": "4rem" },
+    "20": { "value": "5rem" },
+    "24": { "value": "6rem" }
+  },
+  "fontSize": {
+    "xs": { "value": "0.75rem" },
+    "sm": { "value": "0.875rem" },
+    "base": { "value": "1rem" },
+    "lg": { "value": "1.125rem" },
+    "xl": { "value": "1.25rem" },
+    "2xl": { "value": "1.5rem" },
+    "3xl": { "value": "1.875rem" },
+    "4xl": { "value": "2.25rem" },
+    "5xl": { "value": "3rem" },
+    "6xl": { "value": "3.75rem" }
+  },
+  "borderRadius": {
+    "none": { "value": "0" },
+    "sm": { "value": "0.125rem" },
+    "base": { "value": "0.25rem" },
+    "md": { "value": "0.375rem" },
+    "lg": { "value": "0.5rem" },
+    "xl": { "value": "0.75rem" },
+    "2xl": { "value": "1rem" },
+    "3xl": { "value": "1.5rem" },
+    "full": { "value": "9999px" }
+  },
+  "shadow": {
+    "sm": { "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)" },
+    "base": { "value": "0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)" },
+    "md": { "value": "0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)" },
+    "lg": { "value": "0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)" },
+    "xl": { "value": "0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)" }
+  },
+  "motion": {
+    "duration": {
+      "base": { "value": "250ms" },
+      "fast": { "value": "150ms" },
+      "slow": { "value": "400ms" }
+    },
+    "ease": {
+      "in-out": { "value": "cubic-bezier(0.4, 0, 0.2, 1)" },
+      "in": { "value": "cubic-bezier(0.4, 0, 1, 1)" },
+      "out": { "value": "cubic-bezier(0, 0, 0.2, 1)" }
     }
   }
 }

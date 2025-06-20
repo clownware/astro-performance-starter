@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import tokens from "./tokens/dist/tailwind-tokens.js";
+import tokens from "./tokens/dist/tailwind-tokens.json";
 
 const config: Config = {
   content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}"],
@@ -10,7 +10,9 @@ const config: Config = {
       spacing: tokens.spacing,
       fontSize: tokens.fontSize,
       borderRadius: tokens.borderRadius,
-      transitionDuration: tokens.transitionDuration,
+      boxShadow: tokens.shadow,
+      transitionDuration: tokens.motion.duration,
+      transitionTimingFunction: tokens.motion.ease,
     },
   },
   plugins: [],

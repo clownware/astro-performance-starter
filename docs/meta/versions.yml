@@ -19,6 +19,7 @@ alpinejs: "3.14.x"
 astro-mdx: "4.x"
 astro-tailwind: "6.x"
 astro-sitemap: "4.x"
+astro-check: "0.9.4"
 
 # Testing tools (Showcase track)
 playwright: "1.49.x"
