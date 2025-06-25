@@ -69,4 +69,17 @@ jobs:
           echo "✅ Bundle size within limit."
 
       - name: Security audit (high severity)
-        run: pnpm audit --audit-level=high --prod
+        run: pnpm run audit:ci
+
+      - name: Trivy SBOM scan
+        uses: aquasecurity/trivy-action@v0.21.0
+        with:
+          scan-type: 'fs'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+      - name: Upload security results
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'

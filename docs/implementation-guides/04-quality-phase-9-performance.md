@@ -923,7 +923,7 @@ name: Performance Budget Check
 
 on:
   pull_request:
-    branches: [main]
+    branches: [master]
 
 jobs:
   lighthouse:

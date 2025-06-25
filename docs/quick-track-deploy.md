@@ -50,7 +50,7 @@ To get a unique site deployed, you'll primarily interact with these areas. We're
 ## Next Steps After Personalization
 
 1.  **Commit your changes**: `git add . && git commit -m "Initial personalization"`
-2.  **Push to your repository**: `git push origin main`
+2.  **Push to your repository**: `git push origin master`
 3.  **Follow Deployment Guide**: Ensure you've followed the steps in [Phase 10: Deployment & Monitoring](./implementation-guides/05-deployment-phase-10-deployment.md) to connect your repository to Cloudflare Pages (or your chosen hosting provider).
 
 That's it! With these changes, your deployed site will have your basic branding and content.

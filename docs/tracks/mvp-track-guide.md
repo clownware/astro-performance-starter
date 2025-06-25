@@ -340,7 +340,7 @@ export default defineConfig({
 
 ```bash
 # That's it!
-git push origin main
+git push origin master
 # Cloudflare handles the rest
 ```
 
@@ -361,7 +361,7 @@ pnpm dev
 ```
 
 ## Deployment
-Pushes to main auto-deploy to Cloudflare Pages.
+Pushes to master auto-deploy to Cloudflare Pages.
 
 ## Content Management
 Edit markdown files in src/content/.

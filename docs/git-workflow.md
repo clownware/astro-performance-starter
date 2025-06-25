@@ -12,7 +12,7 @@ This document outlines the branching strategy, commit conventions, and pull requ
 ## Branch Strategy
 
 ### Main Branches
-- `main` - Production-ready code
+- `master` - Production-ready code
 - `develop` - Integration branch (Showcase only)
 
 ### Feature Branches
@@ -21,7 +21,7 @@ This document outlines the branching strategy, commit conventions, and pull requ
 - `docs/*` - Documentation updates
 
 ### Workflow
-1. Create feature branch from main
+1. Create feature branch from master
 2. Make changes with conventional commits
 3. Open PR with description
 4. Merge after review (Showcase) or self-merge (MVP)
@@ -37,7 +37,7 @@ This document outlines the branching strategy, commit conventions, and pull requ
 - `chore:` - Maintenance
 
 ## Pull Request Process
-- Open a PR from your feature branch to `main` (or `develop` for Showcase)
+- Open a PR from your feature branch to `master` (or `develop` for Showcase)
 - Fill out the PR template with context and screenshots if relevant
 - Assign reviewers for Showcase track
 - Ensure all checks (CI, lint, tests) pass before merge

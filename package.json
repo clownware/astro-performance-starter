@@ -19,6 +19,8 @@
     "validate:links": "astro build --dry-run",
     "check:reviews": "node scripts/check-review-dates.mjs",
     "update:roadmap-status": "node ./scripts/update-roadmap-status.mjs",
+    "audit": "pnpm audit --production",
+    "audit:ci": "pnpm audit --production --json",
     "prepare": "husky install"
   },
   "dependencies": {

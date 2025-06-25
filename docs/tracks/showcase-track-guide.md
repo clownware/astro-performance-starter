@@ -708,7 +708,7 @@ name: Deploy
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
 
 jobs:

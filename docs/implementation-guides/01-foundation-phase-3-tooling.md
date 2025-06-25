@@ -79,9 +79,9 @@ name: CI
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 env:
   NODE_VERSION: '22'
@@ -248,6 +248,45 @@ jobs:
 ```
 
 ### VSCode Settings
+
+### Branch Protection Rules (3.10)
+
+Implementing branch protection ensures that your `master` branch always stays in a releasable state. The rules below apply to **both MVP and Showcase tracks**.
+
+1. **Create a protection rule**
+   - Navigate to **Repository → Settings → Branches → Branch protection rules**.
+   - Click **Add rule** and set **Branch name pattern** to `master` (or your default branch).
+
+2. **Require status checks to pass**
+   - Enable **Require status checks to pass before merging**.
+   - Select the following check that is created by the CI workflow above:
+     - `CI / build-test` – combined lint, format, type-check, and build job
+   - Keep **Require branches to be up to date before merging** enabled to prevent stale merges.
+
+3. **Additional recommended settings**
+   - **Require a pull-request review before merging** → `1` approving review.
+   - **Dismiss stale pull request approvals when new commits are pushed**.
+   - **Require linear history** to avoid merge commits.
+   - **Include administrators** so that rules apply to everyone.
+
+4. **Automating with `gh` CLI (optional)**
+
+   The same rule can be applied programmatically:
+
+   ```bash
+   gh api \
+     --method PUT \
+     -H "Accept: application/vnd.github+json" \
+     /repos/:owner/:repo/branches/master/protection \
+     -F required_status_checks.strict=true \
+     -F required_status_checks.contexts[]='CI / build-test' \
+     -F enforce_admins=true \
+     -F required_pull_request_reviews.dismiss_stale_reviews=true \
+     -F required_pull_request_reviews.required_approving_review_count=1 \
+     -F restrictions=null
+   ```
+
+> Once the rule is in place, any pull request that does **not** pass the CI workflow will be blocked from merging, completing step **3.10** of this phase.
 
 ```json
 // .vscode/settings.json

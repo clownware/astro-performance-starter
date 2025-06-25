@@ -343,7 +343,7 @@ import Button from '@/components/atoms/Button.astro';
 
 - [ ] Test fresh install: `pnpm create astro@latest -- --template github:yourusername/astro-performance-starter`
 - [ ] Run through ONBOARDING.md steps
-- [ ] Verify CI passes on main branch
+- [ ] Verify CI passes on master branch
 - [ ] Check all documentation links work
 - [ ] Test both MVP and Showcase track instructions
 - [ ] Add topics to GitHub: `astro`, `tailwindcss`, `performance`, `template`, `starter`

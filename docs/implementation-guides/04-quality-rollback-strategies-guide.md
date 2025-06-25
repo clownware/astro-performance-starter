@@ -327,7 +327,7 @@ name: Deploy with Automatic Rollback
 
 on:
   push:
-    branches: [main]
+    branches: [master]
 
 jobs:
   deploy:

@@ -716,7 +716,7 @@ on:
   push:
     branches: [main, develop]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 jobs:
   test:
