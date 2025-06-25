@@ -20,7 +20,7 @@
     "check:reviews": "node scripts/check-review-dates.mjs",
     "update:roadmap-status": "node ./scripts/update-roadmap-status.mjs",
     "audit": "pnpm audit --production",
-    "audit:ci": "pnpm audit --production --json",
+    "audit:ci": "pnpm audit --production --audit-level=high --json",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -61,7 +61,8 @@
     "vitest": "^2.1.0"
   },
   "lint-staged": {
-    "*.{astro,ts,tsx,js,jsx,md,mdx,json}": ["biome format --write", "biome check"],
+    "*.{astro,ts,tsx,js,jsx,md,mdx}": ["biome format --write", "biome check"],
+    "*.json": ["biome format --write"],
     "*.{yml,yaml}": ["biome check"]
   },
   "engines": {
