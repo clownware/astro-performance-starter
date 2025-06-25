@@ -6,10 +6,24 @@
  */
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const root = dirname(new URL(import.meta.url).pathname.replace(/^\//, ""));
-const base = JSON.parse(readFileSync(join(root, "..", "tokens", "base.json"), "utf-8"));
-const semantic = JSON.parse(readFileSync(join(root, "..", "tokens", "semantic.json"), "utf-8"));
+const root = dirname(fileURLToPath(import.meta.url));
+const base: Record<string, unknown> = JSON.parse(
+  readFileSync(join(root, "..", "tokens", "base.json"), "utf-8"),
+);
+interface TokenEntry {
+  value: string;
+}
+interface SemanticTokens {
+  semantic: {
+    background: Record<string, TokenEntry>;
+    foreground: Record<string, TokenEntry>;
+  };
+}
+const semantic: SemanticTokens = JSON.parse(
+  readFileSync(join(root, "..", "tokens", "semantic.json"), "utf-8"),
+);
 
 type RGB = [number, number, number];
 
@@ -71,12 +85,15 @@ function resolveRef(ref: string): string {
   const path = ref.replace(/[{}]/g, "").split("."); // e.g. ["color","gray","50"]
   let current: unknown = base;
   for (const segment of path) {
-    current = current[segment];
+    if (typeof current !== "object" || current === null) {
+      break;
+    }
+    current = (current as Record<string, unknown>)[segment];
     if (!current) {
       break;
     }
   }
-  if (current?.value) {
+  if (current && typeof current === "object" && "value" in current) {
     return current.value as string;
   }
   throw new Error(`Unable to resolve token reference: ${ref}`);
@@ -108,7 +125,10 @@ for (const [fgKey, bgKey] of PAIRS) {
   const bgHsl = resolveRef(bg[bgKey].value as string);
   const ratio = contrast(hslStringToRgb(fgHsl), hslStringToRgb(bgHsl));
   if (ratio < 4.5) {
-    failures.push({ pair: `${fgKey} on ${bgKey}`, ratio: Number(ratio.toFixed(2)) });
+    failures.push({
+      pair: `${String(fgKey)} on ${String(bgKey)}`,
+      ratio: Number(ratio.toFixed(2)),
+    });
   }
 }
 

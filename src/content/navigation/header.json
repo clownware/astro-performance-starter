@@ -1,38 +1,31 @@
 {
-  "name": "Main Header Navigation",
-  "links": [
+  "items": [
     {
-      "text": "Home",
+      "label": "Home",
       "href": "/",
-      "order": 1,
-      "draft": false
+      "order": 1
     },
     {
-      "text": "Blog",
+      "label": "Blog",
       "href": "/blog/",
-      "order": 2,
-      "draft": false
+      "order": 2
     },
     {
-      "text": "Projects",
+      "label": "Projects",
       "href": "/projects/",
-      "order": 3,
-      "draft": false
+      "order": 3
     },
     {
-      "text": "About",
+      "label": "About",
       "href": "/about/",
-      "order": 4,
-      "draft": false
+      "order": 4
     },
     {
-      "text": "GitHub",
+      "label": "GitHub",
       "href": "https://github.com/your-repo/astro-performance-starter",
-      "target": "_blank",
+      "isExternal": true,
       "icon": "github-logo",
-      "order": 5,
-      "draft": false
+      "order": 5
     }
-  ],
-  "draft": false
+  ]
 }

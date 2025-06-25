@@ -1,7 +1,7 @@
 // src/components/mdx/index.ts
 
 // Dynamic import wrapper to avoid loading .astro during Node evaluation
-let Callout: any;
+let Callout: unknown;
 try {
   // @ts-ignore
   Callout = (await import("./Callout.astro")).default;
@@ -9,19 +9,19 @@ try {
   Callout = () => null;
 }
 // Astro components
-let Figure: any;
+let Figure: unknown;
 try {
   // @ts-ignore
   Figure = (await import("./Figure.astro")).default;
 } catch {
-  Figure = (props: any) => props.children;
+  Figure = ({ children }: { children: unknown }): unknown => children;
 }
-let Grid: any;
+let Grid: unknown;
 try {
   // @ts-ignore
   Grid = (await import("./Grid.astro")).default;
 } catch {
-  Grid = (props: any) => props.children;
+  Grid = ({ children }: { children: unknown }): unknown => children;
 }
 
 import Blockquote from "./Blockquote";

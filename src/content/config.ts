@@ -1,10 +1,10 @@
 // src/content/config.ts
-import { defineCollection, z } from "astro:content";
+import { type ImageFunction, defineCollection, z } from "astro:content";
 
 // Portfolio/Case Studies Schema
 const projectsCollection = defineCollection({
   type: "content",
-  schema: ({ image }) =>
+  schema: ({ image }: { image: ImageFunction }) =>
     z.object({
       title: z.string(),
       description: z.string().max(160), // SEO meta description
@@ -35,7 +35,7 @@ const projectsCollection = defineCollection({
 // Blog Posts Schema
 const blogCollection = defineCollection({
   type: "content",
-  schema: ({ image }) =>
+  schema: ({ image }: { image: ImageFunction }) =>
     z.object({
       title: z.string(),
       description: z.string().max(160),
@@ -71,7 +71,7 @@ const navigationCollection = defineCollection({
 // Bio/About Content
 const bioCollection = defineCollection({
   type: "content",
-  schema: ({ image }) =>
+  schema: ({ image }: { image: ImageFunction }) =>
     z.object({
       name: z.string(),
       title: z.string(),

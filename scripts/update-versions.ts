@@ -16,7 +16,7 @@ function loadVersions(): Versions {
     const content = readFileSync(VERSIONS_PATH, "utf8");
     return load(content) as Versions;
   } catch (_error) {
-    console.error("Error loading versions.yml:", error);
+    console.error("Error loading versions.yml:", _error);
     return {};
   }
 }
