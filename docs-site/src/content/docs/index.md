@@ -10,11 +10,11 @@ hero:
     file: ../../assets/logo.svg
   actions:
     - text: Get Started
-      link: /quick-track-deploy
+      link: ./quick-track-deploy
       icon: right-arrow
       variant: primary
     - text: View on GitHub
-      link: 'https://github.com/chrispezza/astro-starter-template'
+      link: 'https://github.com/clownware/astro-starter-template'
       icon: external
 banner:
   content: >
@@ -47,9 +47,9 @@ This template provides a production-ready foundation for building high-performan
 
 Choose your path based on your timeline and requirements:
 
-- **[MVP Track (2-3 weeks)](/tracks/mvp-track-guide)** - Essential features for rapid deployment
-- **[Showcase Track (4-6 weeks)](/tracks/showcase-track-guide)** - Full-featured implementation with advanced optimizations
-- **[Quick Deploy](/quick-track-deploy)** - Get running in minutes
+- **[MVP Track (2-3 weeks)](./tracks/mvp-track-guide)** - Essential features for rapid deployment
+- **[Showcase Track (4-6 weeks)](./tracks/showcase-track-guide)** - Full-featured implementation with advanced optimizations
+- **[Quick Deploy](./quick-track-deploy)** - Get running in minutes
 
 ## Tech Stack
 
@@ -76,9 +76,9 @@ This starter template includes everything you need for production-ready developm
 
 ## Next Steps
 
-1. **[Read the Quick Deploy Guide](/quick-track-deploy)** to get started immediately
-2. **[Explore Implementation Guides](/implementation-guides)** for detailed setup instructions
-3. **[Review Architecture Decisions](/adr)** to understand the technical choices
-4. **[Check the FAQ](/faq)** for common questions and solutions
+1. **[Read the Quick Deploy Guide](./quick-track-deploy)** to get started immediately
+2. **[Explore Implementation Guides](./implementation-guides)** for detailed setup instructions
+3. **[Review Architecture Decisions](./adr)** to understand the technical choices
+4. **[Check the FAQ](./faq)** for common questions and solutions
 
 Ready to build something amazing? Let's get started! 🚀
