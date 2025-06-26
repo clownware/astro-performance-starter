@@ -8,4 +8,6 @@ description: >-
 ---
 This document tracks changes and updates specifically to the design system, including tokens, components, and styling guidelines.
 
-*(Under construction)*
+:::caution 🚧 Work in progress
+This changelog is still being compiled. See our [Implementation Roadmap](./implementation-guides) for current progress and upcoming features.
+:::

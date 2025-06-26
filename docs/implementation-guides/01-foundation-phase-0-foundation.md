@@ -6,9 +6,11 @@ description: >-
   Covers core architecture decisions, repository setup, and development
   environment for both MVP and Showcase tracks.
 ---
+<Badge variant="success">Done</Badge>
+
 ## Overview
 - **Track**: Both (MVP & Showcase)
-- **Duration**: 1 day
+- **Effort**: Minimal, foundational setup
 - **Dependencies**: None
 - **Deliverables**: Core architecture decisions, repository setup, development environment
 

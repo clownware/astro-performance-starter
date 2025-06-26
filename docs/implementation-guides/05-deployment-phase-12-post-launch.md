@@ -8,7 +8,7 @@ description: >-
 ---
 ## Overview
 - **Track**: Basic (MVP) / Enhanced (Showcase)
-- **Duration**: 1 day initial, ongoing maintenance
+- **Effort**: Initial setup, then ongoing maintenance as needed
 - **Dependencies**: Phase 0-11 completed
 - **Deliverables**: Monitoring dashboards, feedback systems, maintenance plan, growth strategy
 
@@ -849,12 +849,12 @@ jobs:
 ```markdown
 ## Content Calendar Template
 
-### Week 1
+### Sample Cadence: Cycle 1
 - **Monday**: Technical tutorial post
 - **Wednesday**: Project case study
 - **Friday**: Industry news roundup
 
-### Week 2
+### Sample Cadence: Cycle 2
 - **Monday**: Tool comparison article
 - **Wednesday**: Video tutorial
 - **Friday**: Guest post

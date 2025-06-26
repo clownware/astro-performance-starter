@@ -1,6 +1,6 @@
 ---
-title: MVP Track - Implementation Path
-description: "> **Fast-track to production with essential features only**\r"
+title: MVP Track Guide
+description: 'A step-by-step guide to launching a high-performance MVP with the Astro Starter Template, optimized for rapid delivery.'
 ---
 # MVP Track - Implementation Path
 
@@ -8,7 +8,7 @@ description: "> **Fast-track to production with essential features only**\r"
 
 ## Overview
 
-The MVP track prioritizes shipping a performant, accessible website in 2-3 weeks. This track focuses on content presentation with zero JavaScript, manual testing, and essential features only.
+This track focuses on content presentation with zero JavaScript, manual testing, and essential features only.
 
 ### Track Philosophy
 
@@ -24,13 +24,13 @@ The MVP track prioritizes shipping a performant, accessible website in 2-3 weeks
 - Blogs and content sites
 - Proof of concepts
 - Learning projects
-- Time-constrained launches
+- Fast launches
 
 ## Success Metrics
 
 | Metric | Target | Why It Matters |
 |--------|--------|----------------|
-| **Time to Launch** | 2-3 weeks | Fast feedback loop |
+| **Time to Launch** | As fast as possible | Fast feedback loop |
 | **Lighthouse Score** | 95+ | Performance = UX |
 | **Page Weight** | < 200KB | Fast on slow connections |
 | **JavaScript Size** | 0KB | No bundle = no problems |
@@ -38,7 +38,7 @@ The MVP track prioritizes shipping a performant, accessible website in 2-3 weeks
 
 ## Phase Implementation Guide
 
-### Phase 0: Foundation (1 day)
+### Phase 0: Foundation
 
 **MVP Decisions:**
 ```yaml
@@ -56,7 +56,7 @@ Repository: GitHub
 - API integrations
 - Advanced TypeScript configs
 
-### Phase 1: Content Architecture (1 day)
+### Phase 1: Content Architecture
 
 **MVP Approach:**
 ```typescript
@@ -234,7 +234,7 @@ const padding = {
 </Section>
 ```
 
-### Phase 7: Content (3 days)
+### Phase 7: Content
 
 **MVP Content Strategy:**
 
@@ -268,7 +268,7 @@ Explain the project clearly...
 <meta property="og:description" content={description}>
 ```
 
-### Phase 8: QA (1 day)
+### Phase 8: QA
 
 **MVP Testing Checklist:**
 

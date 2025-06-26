@@ -6,13 +6,13 @@ description: >-
   Helps users choose the right implementation track (MVP or Showcase) for their
   project based on various factors.
 ---
-> 🎯 **Purpose**: Help you choose the right implementation track for your project
+> **Purpose**: Help you choose the right implementation track for your project
 
 ## Quick Decision Matrix
 
 | Factor | Choose MVP If... | Choose Showcase If... |
 |--------|------------------|----------------------|
-| **Timeline** | Need to ship in 2-3 weeks | Have 4-6 weeks available |
+| **Timeline** | Need to ship quickly | Have more time for polish and flexibility |
 | **Purpose** | Content/portfolio display | Technical demonstration |
 | **Team Size** | Solo developer | Team or advanced solo |
 | **JavaScript** | Minimal/none preferred | Interactive features needed |
@@ -26,10 +26,9 @@ description: >-
 
 **Best For**:
 - Personal portfolios
-- Simple business sites  
-- Blogs and content sites
-- Proof of concepts
-- Learning projects
+- **Timeline:** Flexible (optimized for speed)
+- **Cost:** Minimal (focus on essentials)
+- **Risk:** Lower complexity, fewer moving parts
 
 **Characteristics**:
 - Zero JavaScript by default
@@ -169,7 +168,7 @@ description: >-
 ### MVP Track
 
 **Benefits**:
-- ✅ 2-3 week delivery
+
 - ✅ Minimal maintenance
 - ✅ Focus on content
 - ✅ Easier onboarding
@@ -191,7 +190,7 @@ description: >-
 - ✅ Portfolio piece
 
 **Costs**:
-- ❌ 4-6 week timeline
+
 - ❌ Higher complexity
 - ❌ More maintenance
 - ❌ Steeper learning curve
@@ -224,7 +223,7 @@ description: >-
 ## Decision Checklist
 
 ### Choose MVP if you answer "yes" to most:
-- [ ] Need to ship within 3 weeks?
+- [ ] Need to ship quickly?
 - [ ] Content more important than features?
 - [ ] Comfortable with manual testing?
 - [ ] Prefer simplicity over complexity?
@@ -232,7 +231,7 @@ description: >-
 - [ ] Limited maintenance budget?
 
 ### Choose Showcase if you answer "yes" to most:
-- [ ] Have 4+ weeks for development?
+- [ ] Have extra time for development?
 - [ ] Need to demonstrate technical skills?
 - [ ] Require automated testing?
 - [ ] Want comprehensive documentation?

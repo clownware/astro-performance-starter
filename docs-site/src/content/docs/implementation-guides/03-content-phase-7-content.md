@@ -358,7 +358,7 @@ const imageURL = new URL(image, Astro.site);
 "Need a blazing-fast website? I build performance-focused web applications using React, Astro, and modern tools. 100% Lighthouse scores guaranteed. Get a free consultation."
 
 ### Blog Post
-"Core Web Vitals got you down? Learn proven strategies to achieve 100/100 Lighthouse scores, optimize INP, and create instant-feeling web experiences. Code examples included."
+"Core Web Vitals got you down? Learn proven strategies to achieve Performance ≥ 95, Accessibility 100, Best-Practices 100, SEO 100, optimize INP, and create instant-feeling web experiences. Code examples included."
 
 ### Project Case Study
 "See how I helped TechStyle Fashion increase conversions by 40% through performance optimization and UX improvements. Detailed case study with metrics and technical insights."

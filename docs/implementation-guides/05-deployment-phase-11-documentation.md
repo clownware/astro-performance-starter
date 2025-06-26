@@ -51,11 +51,11 @@ markdown
 ![License](https://img.shields.io/github/license/username/repo)
 ![Version](https://img.shields.io/github/package-json/v/username/repo)
 
-A lightning-fast portfolio site built with Astro, achieving perfect Lighthouse scores through modern web development practices.
+A lightning-fast portfolio site built with Astro, achieving Lighthouse target benchmarks (Performance ≥ 95, Accessibility 100, Best-Practices 100, SEO 100) through modern web development practices.
 
 ## ✨ Features
 
-- 🚀 **Blazing Fast**: 100/100 Lighthouse scores
+- 🚀 **Blazing Fast**: Performance ≥ 95, Accessibility 100, Best-Practices 100, SEO 100
 - 🎨 **Beautiful Design**: Tailwind CSS with custom design system
 - ♿ **Accessible**: WCAG AA compliant
 - 📱 **Responsive**: Mobile-first approach
@@ -311,12 +311,11 @@ markdown
 ## Overview
 
 All components follow Atomic Design principles and are built with TypeScript for type safety.
-
 ## Component Catalog
 
 ### Atoms
 
-#### Button
+#### Atom: Button
 
 The base button component supporting multiple variants and sizes.
 
@@ -338,7 +337,6 @@ import Button from '@/components/atoms/Button.astro';
   Call to Action
 </Button>
 
-
 **Props:**
 - `variant`: 'primary' | 'secondary' | 'ghost' | 'danger'
 - `size`: 'sm' | 'md' | 'lg'
@@ -346,7 +344,7 @@ import Button from '@/components/atoms/Button.astro';
 - `disabled?`: boolean
 - `external?`: boolean (adds target="_blank")
 
-#### Badge
+#### Atom: Badge
 
 Small labeling component for tags and statuses.
 
@@ -354,14 +352,13 @@ astro
 <Badge variant="success">Active</Badge>
 <Badge variant="warning" size="sm">Beta</Badge>
 
-
 **Props:**
 - `variant`: 'default' | 'outline' | 'ghost'
 - `padding`: 'none' | 'sm' | 'md' | 'lg'
 - `hover?`: boolean
 - `as?`: HTML element tag name
 
-#### FormField
+#### Atom: FormField
 
 Accessible form field with label and error handling.
 

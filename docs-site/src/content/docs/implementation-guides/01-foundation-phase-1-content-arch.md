@@ -6,6 +6,8 @@ description: >-
   Details content schema, TypeScript types, URL strategy, and content fixtures
   for both MVP and Showcase tracks.
 ---
+<Badge variant="success">Done</Badge>
+
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1-2 days

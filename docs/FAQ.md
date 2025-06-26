@@ -6,4 +6,6 @@ description: Answers to common questions about the Astro Performance Starter tem
 ---
 This document will answer common questions about the Astro Performance Starter template.
 
-*(Under construction)*
+:::caution 🚧 Work in progress
+This FAQ is not yet complete. For immediate answers, please see our [Implementation Roadmap](./implementation-guides) or check the [Project Roadmap](./README.md#roadmap).
+:::

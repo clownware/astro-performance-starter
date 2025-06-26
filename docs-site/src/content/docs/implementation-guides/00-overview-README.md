@@ -6,6 +6,8 @@ description: >-
   Master index for the Astro Implementation Guide, outlining MVP and Showcase
   tracks.
 ---
+<Badge variant="success">Done</Badge>
+
 ## Quick Start
 
 This guide provides a structured approach to building high-performance Astro sites with two implementation tracks:
@@ -40,12 +42,12 @@ graph TD
 
 ## Implementation Tracks
 
-### MVP Track (2-3 weeks)
-- **Goal**: Ship a performant, accessible site quickly
+### MVP Track
+- **Goal**: Ship a performant, accessible site as quickly as possible
 - **Focus**: Content presentation, zero JavaScript, essential features
 - **Best For**: Portfolios, blogs, marketing sites
 
-### Showcase Track (4-6 weeks)
+### Showcase Track
 - **Goal**: Demonstrate advanced technical capabilities
 - **Focus**: Component architecture, testing, advanced patterns
 - **Best For**: Technical portfolios, team projects, enterprise sites
@@ -54,13 +56,13 @@ graph TD
 
 ## Phase Overview
 
-| Phase | Name | MVP | Showcase | Duration | Critical Path |
+| Phase | Name | MVP | Showcase | Effort | Critical Path |
 |-------|------|-----|----------|----------|---------------|
-| 0 | [Foundation](./01-foundation-phase-0-foundation.md) | Full | Full | 1 day | ✅ |
+| 0 | [Foundation](./01-foundation-phase-0-foundation.md) | Full | Full | Low | ✅ |
 | 1 | [Content Architecture](./01-foundation-phase-1-content-arch.md) | Full | Full | 1-2 days | ✅ |
 | 2 | [Design System](./01-foundation-phase-2-design-system.md) | Full | Full | 1-2 days | ✅ |
 | 3 | [Tooling](./01-foundation-phase-3-tooling.md) | Full | Full | 1 day | ✅ |
-| 4 | [Skeleton](./02-structure-phase-4-skeleton.md) | Full | Full | 2-3 days | ⚡ |
+| 4 | [Skeleton](./02-structure-phase-4-skeleton.md) | Full | Full | Moderate | ⚡ |
 | 5 | [Components](./02-structure-phase-5-components.md) | Lite | Full | 2-4 days | ⚡ |
 | 6 | [Sections](./02-structure-phase-6-sections.md) | Lite | Full | 2-3 days | ⚡ |
 | 7 | [Content](./03-content-phase-7-content.md) | Full | Full | 3-5 days | 📝 |

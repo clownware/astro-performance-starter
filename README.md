@@ -23,7 +23,12 @@
 
 Welcome to this opinionated, high-performance starter template for Astro projects. This template is meticulously crafted for developers aiming for **top-tier Lighthouse scores (97+ Performance, 98+ Accessibility)**, a cutting-edge developer experience, and a highly structured, maintainable codebase. It's built with AI-assisted development in mind (see [`./docs/ai-context/`](./docs/ai-context/)), adhering to strong principles for optimal quality and efficiency.
 
-🚧 **Project Status:** This template is currently in **beta**. Expect ongoing improvements and potential minor adjustments. Feedback is welcome!
+🚧 **Project Status:** This template is currently in **beta** (`v0.1.0`). Expect rapid iteration and breaking changes until v1.0.0. Feedback is welcome!
+
+> **Note:** Pre-1.0.0 (`0.x.y`) versions follow [semantic versioning best practices](https://semver.org/#spec-item-4): breaking changes can occur at any time. Use with care in production environments.
+
+🤖 **AI-Accelerated Setup:**
+You can point your favorite AI agent (e.g., Cascade, Copilot, ChatGPT) at the [Phase 4 Implementation Guide](./docs/implementation-guides/04-skeleton-phase.md) to start customizing your project instantly. See the "AI Context" section in the docs (under Advanced) for details.
 
 ## 🧭 Core Principles
 

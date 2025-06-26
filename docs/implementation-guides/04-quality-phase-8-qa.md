@@ -8,7 +8,7 @@ description: >-
 ---
 ## Overview
 - **Track**: Lite (MVP) / Full (Showcase)
-- **Duration**: 1-3 days
+- **Effort**: Varies by scope and testing depth
 - **Dependencies**: Phase 0-7 completed
 - **Deliverables**: Test results, bug fixes, accessibility audit, cross-browser validation
 

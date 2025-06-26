@@ -6,6 +6,8 @@ description: >-
   Details linting setup, formatting configuration, CI pipeline, and quality
   gates for both tracks.
 ---
+<Badge variant="success">Done</Badge>
+
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1 day

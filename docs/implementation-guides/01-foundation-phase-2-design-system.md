@@ -6,6 +6,8 @@ description: >-
   Covers design tokens, Tailwind configuration, CSS architecture, and
   accessibility primitives for both tracks.
 ---
+<Badge variant="success">Done</Badge>
+
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1-2 days

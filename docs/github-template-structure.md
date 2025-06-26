@@ -148,9 +148,11 @@ In GitHub settings, check "Template repository" to enable the "Use this template
 ```markdown
 # Astro Performance Starter
 
-> Production-ready Astro starter with 100/100 Lighthouse scores, comprehensive tooling, and AI-assisted development guides.
+> Production-ready Astro starter with Performance ≥ 95, Accessibility 100, Best-Practices 100, SEO 100, comprehensive tooling, and AI-assisted development guides.
 
-[![Lighthouse Score](https://img.shields.io/badge/Lighthouse-100%2F100-brightgreen)](https://pagespeed.web.dev/)
+**Lighthouse Target Benchmarks:** Performance ≥ 95, Accessibility 100, Best-Practices 100, SEO 100
+
+<small>Scores may vary ±3 pts depending on device and network. Our CI guards ensure Performance never ships below 95.</small>
 [![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 ## Features
@@ -288,7 +290,7 @@ import Button from '@/components/atoms/Button.astro';
 
 <BaseLayout 
   title="Astro Performance Starter"
-  description="Lightning-fast starter template with perfect Lighthouse scores"
+  description="Lightning-fast starter template with Lighthouse target benchmarks (Performance ≥ 95, Accessibility 100, Best-Practices 100, SEO 100)"
 >
   <Section size="lg">
     <Container>

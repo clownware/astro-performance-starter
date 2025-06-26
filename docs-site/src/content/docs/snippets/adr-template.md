@@ -3,13 +3,29 @@ title: 'ADR-XXX: [Short Title]'
 description: "```markdown\r"
 ---
 ```markdown
-# ADR-XXX: [Short Title]
+:::caution 🚧 Work in progress
+This is an ADR template stub. For finalized decisions, see the [Project Roadmap](../README.md#roadmap) or [Implementation Roadmap](../implementation-guides).
+:::
+
+# ADR-XXX: [Title]
 
 ## Status
 [Proposed | Accepted | Deprecated | Superseded by ADR-XXX]
 
 ## Context
 What is the issue that we're seeing that is motivating this decision or change? Provide enough context so that someone reading this in the future understands the "why" behind the decision.
+
+<!--
+  Contributors: Add an architecture diagram below if relevant. Use Mermaid for flowcharts, sequence diagrams, etc.
+  See: https://mermaid.js.org/syntax/ for syntax reference.
+-->
+
+```mermaid
+%% Example: Replace with your diagram
+graph TD
+  A[User] -->|Request| B[App]
+  B -->|Response| A
+```
 
 ## Decision Drivers
 - Driver 1

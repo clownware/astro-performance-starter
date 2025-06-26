@@ -6,8 +6,8 @@
   --sl-color-accent-low: #1e1b4b;
   --sl-color-accent: #6366f1;
   --sl-color-accent-high: #c7d2fe;
-  
-  /* Neutral colors */
+
+  /* Neutral colors - Light mode */
   --sl-color-white: #ffffff;
   --sl-color-gray-1: #f8fafc;
   --sl-color-gray-2: #f1f5f9;
@@ -16,13 +16,13 @@
   --sl-color-gray-5: #94a3b8;
   --sl-color-gray-6: #64748b;
   --sl-color-black: #0f172a;
-  
+
   /* Semantic colors */
   --sl-color-success: #22c55e;
   --sl-color-warning: #f59e0b;
   --sl-color-danger: #ef4444;
   --sl-color-info: #3b82f6;
-  
+
   /* Typography */
   --sl-font-size-sm: 0.875rem;
   --sl-font-size-base: 1rem;
@@ -31,7 +31,7 @@
   --sl-font-size-2xl: 1.5rem;
   --sl-font-size-3xl: 1.875rem;
   --sl-font-size-4xl: 2.25rem;
-  
+
   /* Spacing */
   --sl-spacing-xs: 0.25rem;
   --sl-spacing-sm: 0.5rem;
@@ -39,12 +39,12 @@
   --sl-spacing-lg: 1.5rem;
   --sl-spacing-xl: 2rem;
   --sl-spacing-2xl: 3rem;
-  
+
   /* Transitions */
   --sl-transition-fast: 150ms ease-in-out;
   --sl-transition-base: 200ms ease-in-out;
   --sl-transition-slow: 300ms ease-in-out;
-  
+
   /* Shadows */
   --sl-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --sl-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -52,23 +52,67 @@
   --sl-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
+/* FIXED: Dark mode colors - corrected the white/black mapping */
 [data-theme="dark"] {
   --sl-color-accent-low: #312e81;
   --sl-color-accent: #818cf8;
   --sl-color-accent-high: #4f46e5;
-  --sl-color-white: #0f172a;
+  
+  /* Fixed: White should be light in dark mode, black should be dark */
+  --sl-color-white: #f8fafc;
+  --sl-color-black: #0f172a;
+  
+  /* Dark mode grays - inverted properly */
   --sl-color-gray-1: #1e293b;
   --sl-color-gray-2: #334155;
   --sl-color-gray-3: #475569;
   --sl-color-gray-4: #64748b;
   --sl-color-gray-5: #94a3b8;
   --sl-color-gray-6: #cbd5e1;
-  --sl-color-black: #f8fafc;
-  
+
   --sl-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --sl-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
   --sl-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
   --sl-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Enhanced banner contrast and styling */
+.site-banner {
+  background: var(--sl-color-accent-low) !important;
+  border-bottom: 1px solid var(--sl-color-accent) !important;
+}
+
+.site-banner * {
+  color: var(--sl-color-white) !important;
+}
+
+.site-banner a {
+  color: var(--sl-color-accent-high) !important;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.site-banner a:hover {
+  color: var(--sl-color-white) !important;
+  text-decoration: none;
+}
+
+/* Dark mode banner adjustments */
+[data-theme="dark"] .site-banner {
+  background: var(--sl-color-gray-1) !important;
+  border-bottom: 1px solid var(--sl-color-gray-3) !important;
+}
+
+[data-theme="dark"] .site-banner * {
+  color: var(--sl-color-gray-6) !important;
+}
+
+[data-theme="dark"] .site-banner a {
+  color: var(--sl-color-accent) !important;
+}
+
+[data-theme="dark"] .site-banner a:hover {
+  color: var(--sl-color-accent-high) !important;
 }
 
 /* Base typography improvements */
@@ -94,7 +138,12 @@ body {
 }
 
 /* Enhanced header hierarchy */
-.content h1, .content h2, .content h3, .content h4, .content h5, .content h6 {
+.content h1,
+.content h2,
+.content h3,
+.content h4,
+.content h5,
+.content h6 {
   position: relative;
   scroll-margin-top: calc(var(--sl-nav-height) + var(--sl-spacing-lg));
 }
@@ -267,7 +316,7 @@ table tbody tr:last-child td {
 }
 
 .card::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -460,15 +509,15 @@ table tbody tr:last-child td {
   :root {
     --sl-font-size-base: 0.9375rem;
   }
-  
+
   .content h1 {
     font-size: var(--sl-font-size-3xl);
   }
-  
+
   .content h2 {
     font-size: var(--sl-font-size-2xl);
   }
-  
+
   .content h3 {
     font-size: var(--sl-font-size-xl);
   }
@@ -477,11 +526,11 @@ table tbody tr:last-child td {
     grid-template-columns: 1fr;
     gap: var(--sl-spacing-md);
   }
-  
+
   table {
     font-size: var(--sl-font-size-xs);
   }
-  
+
   table th,
   table td {
     padding: var(--sl-spacing-xs) var(--sl-spacing-sm);
@@ -498,19 +547,19 @@ table tbody tr:last-child td {
   .edit-link {
     display: none;
   }
-  
+
   .main-pane {
     max-width: 100%;
   }
-  
+
   .content {
     font-size: 12pt;
   }
-  
+
   a {
     text-decoration: underline;
   }
-  
+
   .astro-code {
     border: 1px solid #ddd;
     page-break-inside: avoid;
@@ -553,7 +602,12 @@ table tbody tr:last-child td {
 
 /* Loading skeleton for better perceived performance */
 .skeleton {
-  background: linear-gradient(90deg, var(--sl-color-gray-2) 25%, var(--sl-color-gray-3) 50%, var(--sl-color-gray-2) 75%);
+  background: linear-gradient(
+    90deg,
+    var(--sl-color-gray-2) 25%,
+    var(--sl-color-gray-3) 50%,
+    var(--sl-color-gray-2) 75%
+  );
   background-size: 200% 100%;
   animation: loading 1.5s ease-in-out infinite;
 }

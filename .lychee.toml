@@ -1,0 +1,31 @@
+# Lychee configuration for link checking
+# See: https://github.com/lycheeverse/lychee/blob/master/docs/config.md
+
+# Only check links in these directories
+include = ["docs/**", "docs-site/**"]
+
+# Exclude URLs or patterns (add more as needed)
+exclude = [
+  "https://localhost*",
+  "http://localhost*",
+  "https://127.0.0.1*",
+  "http://127.0.0.1*",
+  "mailto:*",
+  "#*"
+]
+
+# Fail on any broken link
+fail_on = "all"
+
+# Treat warnings as errors
+warnings_as_errors = true
+
+# Increase timeout for slow links
+timeout = 20
+
+# Retry failed links
+max_retries = 2
+retry_wait_time = 2
+
+# Only check internal links (uncomment if desired)
+# accept = ["^/"]

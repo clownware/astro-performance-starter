@@ -1,6 +1,8 @@
 ---
-title: 'Showcase Track Guide'
-description: 'A comprehensive guide to building a production-ready showcase project with the Astro Starter Template, focusing on advanced patterns and best practices.'
+title: Showcase Track Guide
+description: >-
+  A comprehensive guide to building a high-performance showcase project with the
+  Astro Starter Template, focusing on advanced patterns and best practices.
 ---
       - name: Visual Tests
         run: pnpm run test:visual
@@ -14,9 +16,8 @@ description: 'A comprehensive guide to building a production-ready showcase proj
           
       - name: Bundle Analysis
         run: pnpm run analyze
-```
 
-### Phase 4: Skeleton (3 days)
+### Phase 4: Skeleton
 
 **Showcase Layout System:**
 ```astro
@@ -326,7 +327,7 @@ const CardContent = () => (
 </script>
 ```
 
-### Phase 6: Sections (3 days)
+### Phase 6: Sections
 
 **Showcase Section Components:**
 
@@ -477,7 +478,7 @@ const technologies = [...new Set(projects.flatMap(p => p.data.technologies))];
 </script>
 ```
 
-### Phase 7: Content (5 days)
+### Phase 7: Content
 
 **Showcase Content Strategy:**
 

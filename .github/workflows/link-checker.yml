@@ -15,11 +15,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Check Markdown links
-        uses: gaurav-nelson/github-action-markdown-link-check@v1
-        with:
-          use-quiet-mode: 'yes'
-          use-verbose-mode: 'yes'
-          check-modified-files-only: 'no'
-          base-branch: 'main'
-          config-file: '.markdown-link-check.json'
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Check all links with Lychee
+        run: pnpm run check:links
