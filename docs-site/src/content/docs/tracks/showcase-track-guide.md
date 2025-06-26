@@ -4,18 +4,21 @@ description: >-
   A comprehensive guide to building a high-performance showcase project with the
   Astro Starter Template, focusing on advanced patterns and best practices.
 ---
-      - name: Visual Tests
-        run: pnpm run test:visual
-        env:
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
-          
-      - name: Lighthouse CI
-        uses: treosh/lighthouse-ci-action@v10
-        with:
-          uploadArtifacts: true
-          
-      - name: Bundle Analysis
-        run: pnpm run analyze
+```yaml
+- name: Visual Tests
+  run: pnpm run test:visual
+  env:
+    PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+
+- name: Lighthouse CI
+  uses: treosh/lighthouse-ci-action@v10
+  with:
+    uploadArtifacts: true
+
+- name: Bundle Analysis
+  run: pnpm run analyze
+```
+
 
 ### Phase 4: Skeleton
 

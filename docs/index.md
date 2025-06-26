@@ -154,12 +154,12 @@ banner:
 ### Quick Reference
 - **[FAQ](./faq)** - Common questions and troubleshooting
 - **[Quick Deploy](./quick-track-deploy)** - 5-minute setup guide
-- **[Track Comparison](./tracks/track-comparison)** - MVP vs Showcase decision guide
+- **[Track Comparison](./tracks/track-comparison/)** - MVP vs Showcase decision guide
 
 ### Implementation Paths
 - **[Implementation Guides](./implementation-guides/)** - 12-phase walkthrough (start at Phase 4)
-- **[MVP Track Guide](./tracks/mvp-track-guide)** - 2-3 week implementation
-- **[Showcase Track Guide](./tracks/showcase-track-guide)** - 4-6 week full-featured build
+- **[MVP Track Guide](./tracks/mvp-track-guide/)** - 2-3 week implementation
+- **[Showcase Track Guide](./tracks/showcase-track-guide/)** - 4-6 week full-featured build
 
 ### Deep Dive Resources
 - **[Design System](./design-system-changelog)** - Tokens, patterns, and accessibility

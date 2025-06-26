@@ -58,17 +58,17 @@ export default defineConfig({
           items: [
             {
               label: "Overview",
-              link: "/",
+              link: "",  
               badge: { text: "New", variant: "note" },
             },
             {
               label: "Quick Deploy",
-              link: "/quick-track-deploy",
+              link: "quick-track-deploy",
               badge: { text: "5 min", variant: "success" },
             },
-            { label: "FAQ", link: "/faq" },
-            { label: "README", link: "/readme" },
-            { label: "Roadmap", link: "/roadmap" },
+            { label: "FAQ", link: "faq" },
+            { label: "README", link: "readme" },
+            { label: "Roadmap", link: "roadmap" },
           ],
         },
         {
@@ -80,10 +80,10 @@ export default defineConfig({
         {
           label: "Development",
           items: [
-            { label: "Contributing", link: "/contributing" },
-            { label: "Git Workflow", link: "/git-workflow" },
-            { label: "Design Tokens", link: "/how-to-use-design-tokens" },
-            { label: "Design System Changelog", link: "/design-system-changelog" },
+            { label: "Contributing", link: "contributing" },
+            { label: "Git Workflow", link: "git-workflow" },
+            { label: "Design Tokens", link: "how-to-use-design-tokens" },
+            { label: "Design System Changelog", link: "design-system-changelog" },
             {
               label: "Content Guidelines",
               autogenerate: { directory: "content" },
@@ -95,11 +95,11 @@ export default defineConfig({
           items: [
             {
               label: "GitHub Template Structure",
-              link: "/github-template-structure",
+              link: "github-template-structure",
               badge: { text: "Important", variant: "tip" },
             },
-            { label: "Documentation Review Cadence", link: "/documentation-review-cadence" },
-            { label: "Link Migration Guide", link: "/link-migration-guide" },
+            { label: "Documentation Review Cadence", link: "documentation-review-cadence" },
+            { label: "Link Migration Guide", link: "link-migration-guide" },
           ],
         },
         {
@@ -107,19 +107,19 @@ export default defineConfig({
           collapsed: false,
           items: [
             {
+              label: "Track Comparison",
+              link: "tracks/track-comparison",
+              badge: { text: "Compare", variant: "note" },
+            },
+            {
               label: "MVP Track (2-3 weeks)",
-              link: "/tracks/mvp-track-guide",
+              link: "tracks/mvp-track-guide",
               badge: { text: "Fast", variant: "success" },
             },
             {
               label: "Showcase Track (4-6 weeks)",
-              link: "/tracks/showcase-track-guide",
+              link: "tracks/showcase-track-guide",
               badge: { text: "Full", variant: "tip" },
-            },
-            {
-              label: "All Tracks",
-              autogenerate: { directory: "tracks" },
-              collapsed: true,
             },
           ],
         },

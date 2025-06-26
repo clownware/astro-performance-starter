@@ -169,31 +169,31 @@ description: >-
 
 **Benefits**:
 
-- ✅ Minimal maintenance
-- ✅ Focus on content
-- ✅ Easier onboarding
-- ✅ Lower complexity
+- Minimal maintenance
+- Focus on content
+- Easier onboarding
+- Lower complexity
 
 **Costs**:
-- ❌ Manual testing only
-- ❌ Limited interactivity
-- ❌ Basic documentation
-- ❌ Less impressive technically
+- Manual testing only
+- Limited interactivity
+- Basic documentation
+- Less impressive technically
 
 ### Showcase Track
 
 **Benefits**:
-- ✅ Technical excellence
-- ✅ Automated quality
-- ✅ Rich interactions
-- ✅ Comprehensive docs
-- ✅ Portfolio piece
+- Technical excellence
+- Automated quality
+- Rich interactions
+- Comprehensive docs
+- Portfolio piece
 
 **Costs**:
 
-- ❌ Higher complexity
-- ❌ More maintenance
-- ❌ Steeper learning curve
+- Higher complexity
+- More maintenance
+- Steeper learning curve
 
 ## Real-World Examples
 
