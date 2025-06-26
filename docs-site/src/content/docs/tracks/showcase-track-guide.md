@@ -1,6 +1,6 @@
 ---
-title: Building a Design System
-description: "- name: Visual Tests\r         run: pnpm run test:visual\r         env:\r           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}\r"
+title: 'Showcase Track Guide'
+description: 'A comprehensive guide to building a production-ready showcase project with the Astro Starter Template, focusing on advanced patterns and best practices.'
 ---
       - name: Visual Tests
         run: pnpm run test:visual

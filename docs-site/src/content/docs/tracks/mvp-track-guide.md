@@ -1,6 +1,6 @@
 ---
-title: MVP Track - Implementation Path
-description: "> **Fast-track to production with essential features only**\r"
+title: 'MVP Track Guide'
+description: 'A step-by-step guide to launching a high-performance MVP with the Astro Starter Template in 2-3 weeks.'
 ---
 # MVP Track - Implementation Path
 
@@ -8,7 +8,7 @@ description: "> **Fast-track to production with essential features only**\r"
 
 ## Overview
 
-The MVP track prioritizes shipping a performant, accessible website in 2-3 weeks. This track focuses on content presentation with zero JavaScript, manual testing, and essential features only.
+This track focuses on content presentation with zero JavaScript, manual testing, and essential features only.
 
 ### Track Philosophy
 

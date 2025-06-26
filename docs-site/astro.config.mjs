@@ -7,9 +7,15 @@ import { defineConfig } from "astro/config";
 // https://astro.build/config
 export default defineConfig({
   site: "https://clownware.github.io",
-  base: process.env.NODE_ENV === "production" ? "/astro-starter-template" : "/",
+  base: "/astro-starter-template",
   integrations: [
-    astroExpressiveCode(),
+    astroExpressiveCode({
+      themes: ['dark-plus', 'light-plus'],
+      styleOverrides: {
+        borderRadius: '0.5rem',
+        borderColor: 'var(--sl-color-gray-3)',
+      },
+    }),
 
     starlight({
       title: "Astro Performance Starter",
@@ -24,6 +30,16 @@ export default defineConfig({
           href: "https://github.com/clownware/astro-starter-template",
           icon: "github",
         },
+        {
+          label: "Discord",
+          href: "#",
+          icon: "discord",
+        },
+        {
+          label: "Twitter",
+          href: "https://twitter.com/clownware",
+          icon: "twitter",
+        },
       ],
       editLink: {
         baseUrl: "https://github.com/clownware/astro-starter-template/edit/master/docs/",
@@ -31,43 +47,74 @@ export default defineConfig({
       sidebar: [
         {
           label: "Getting Started",
+          badge: { text: 'Start Here', variant: 'tip' },
           items: [
-            { label: "Overview", link: "/" },
-            { label: "Quick Deploy", link: "./quick-track-deploy" },
-            { label: "FAQ", link: "./faq" },
+            { 
+              label: "Overview", 
+              link: "/",
+              badge: { text: 'New', variant: 'note' }
+            },
+            { 
+              label: "Quick Deploy", 
+              link: "/quick-track-deploy",
+              badge: { text: '5 min', variant: 'success' }
+            },
+            { label: "FAQ", link: "/faq" },
           ],
         },
         {
           label: "Implementation Guides",
           collapsed: false,
+          badge: { text: '12 Phases', variant: 'caution' },
           autogenerate: { directory: "implementation-guides" },
         },
         {
           label: "Development",
           items: [
-            { label: "Contributing", link: "./contributing" },
-            { label: "Git Workflow", link: "./git-workflow" },
-            { label: "Design Tokens", link: "./how-to-use-design-tokens" },
-            { label: "Design System Changelog", link: "./design-system-changelog" },
+            { label: "Contributing", link: "/contributing" },
+            { label: "Git Workflow", link: "/git-workflow" },
+            { label: "Design Tokens", link: "/how-to-use-design-tokens" },
+            { label: "Design System Changelog", link: "/design-system-changelog" },
           ],
         },
         {
           label: "Architecture",
           items: [
-            { label: "GitHub Template Structure", link: "./github-template-structure" },
-            { label: "Documentation Review Cadence", link: "./documentation-review-cadence" },
-            { label: "Link Migration Guide", link: "./link-migration-guide" },
+            { 
+              label: "GitHub Template Structure", 
+              link: "/github-template-structure",
+              badge: { text: 'Important', variant: 'tip' }
+            },
+            { label: "Documentation Review Cadence", link: "/documentation-review-cadence" },
+            { label: "Link Migration Guide", link: "/link-migration-guide" },
           ],
         },
         {
           label: "Architecture Decision Records",
           collapsed: true,
+          badge: "ADRs",
           autogenerate: { directory: "adr" },
         },
         {
           label: "Tracks",
           collapsed: false,
-          autogenerate: { directory: "tracks" },
+          items: [
+            {
+              label: "MVP Track (2-3 weeks)",
+              link: "/tracks/mvp-track-guide",
+              badge: { text: 'Fast', variant: 'success' }
+            },
+            {
+              label: "Showcase Track (4-6 weeks)",
+              link: "/tracks/showcase-track-guide",
+              badge: { text: 'Full', variant: 'tip' }
+            },
+            {
+              label: "All Tracks",
+              autogenerate: { directory: "tracks" },
+              collapsed: true,
+            }
+          ],
         },
         {
           label: "Patterns & Snippets",
@@ -75,10 +122,12 @@ export default defineConfig({
           items: [
             {
               label: "Patterns",
+              badge: "UI",
               autogenerate: { directory: "patterns" },
             },
             {
               label: "Code Snippets",
+              badge: "Code",
               autogenerate: { directory: "snippets" },
             },
           ],
@@ -86,6 +135,7 @@ export default defineConfig({
         {
           label: "AI Context",
           collapsed: true,
+          badge: { text: 'Beta', variant: 'caution' },
           autogenerate: { directory: "ai-context" },
         },
       ],
@@ -96,11 +146,74 @@ export default defineConfig({
         minHeadingLevel: 2,
         maxHeadingLevel: 4,
       },
+      favicon: '/favicon.svg',
+      head: [
+        // Add meta tags for better SEO
+        {
+          tag: 'meta',
+          attrs: {
+            name: 'keywords',
+            content: 'astro, performance, lighthouse, starter, template, web development'
+          }
+        },
+        // Add Open Graph tags
+        {
+          tag: 'meta',
+          attrs: {
+            property: 'og:type',
+            content: 'website'
+          }
+        },
+        // Enhanced font loading
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'preconnect',
+            href: 'https://fonts.googleapis.com'
+          }
+        },
+        {
+          tag: 'link',
+          attrs: {
+            rel: 'preconnect',
+            href: 'https://fonts.gstatic.com',
+            crossorigin: true
+          }
+        },
+      ],
+      // Language configuration
+      locales: {
+        root: {
+          label: 'English',
+          lang: 'en',
+        },
+      },
     }),
     mdx(),
   ],
   markdown: {
     remarkPlugins: [],
     rehypePlugins: [],
+    // Enhanced code block configuration
+    syntaxHighlight: 'shiki',
+    shikiConfig: {
+      theme: 'dark-plus',
+      wrap: true,
+    },
+  },
+  // Enhanced build configuration
+  vite: {
+    ssr: {
+      noExternal: ['@astrojs/starlight'],
+    },
+    optimizeDeps: {
+      exclude: ['@astrojs/starlight'],
+    },
+  },
+  // Performance optimizations
+  output: 'static',
+  compressHTML: true,
+  build: {
+    inlineStylesheets: 'auto',
   },
 });
