@@ -38,6 +38,8 @@ jobs:
 
       - name: Build docs-site
         run: pnpm --filter docs-site run build
+        env:
+          NODE_ENV: production
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
