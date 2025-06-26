@@ -14,7 +14,7 @@
   --sl-color-black: #0f172a;
 }
 
-[data-theme='dark'] {
+[data-theme="dark"] {
   --sl-color-accent-low: #312e81;
   --sl-color-accent: #818cf8;
   --sl-color-accent-high: #4f46e5;
@@ -158,7 +158,7 @@ table th {
   .hero h1 {
     font-size: 2rem;
   }
-  
+
   .card-grid {
     grid-template-columns: 1fr;
   }

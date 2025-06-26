@@ -62,9 +62,9 @@
     "vitest": "^2.1.0"
   },
   "lint-staged": {
-    "*.{astro,ts,tsx,js,jsx,md,mdx}": ["biome format --write", "biome check"],
-    "*.json": ["biome format --write"],
-    "*.{yml,yaml}": ["biome check"]
+    "*.{astro,ts,tsx,js,jsx,md,mdx}": "biome check --apply --no-errors-on-unmatched",
+    "*.json": "biome check --apply --no-errors-on-unmatched",
+    "*.{yml,yaml}": "biome check --no-errors-on-unmatched"
   },
   "engines": {
     "node": ">=22.0.0",
