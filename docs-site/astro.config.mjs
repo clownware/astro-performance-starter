@@ -6,7 +6,7 @@ import { defineConfig } from "astro/config";
 
 // https://astro.build/config
 export default defineConfig({
-  site: "https://chrispezza.github.io",
+  site: "https://clownware.github.io",
   base: process.env.NODE_ENV === "production" ? "/astro-starter-template" : "/",
   integrations: [
     astroExpressiveCode(),
@@ -21,12 +21,12 @@ export default defineConfig({
       social: [
         {
           label: "GitHub",
-          href: "https://github.com/chrispezza/astro-starter-template",
+          href: "https://github.com/clownware/astro-starter-template",
           icon: "github",
         },
       ],
       editLink: {
-        baseUrl: "https://github.com/chrispezza/astro-starter-template/edit/master/docs/",
+        baseUrl: "https://github.com/clownware/astro-starter-template/edit/master/docs/",
       },
       sidebar: [
         {
