@@ -1,12 +1,9 @@
 ---
-title: "Project Directory Structure"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Overview of the standardized directory structure for Astro projects."
+title: Project Directory Structure
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: Overview of the standardized directory structure for Astro projects.
 ---
-
-# Project Directory Structure
-
 > 📁 **Purpose**: Standardized organization for Astro projects
 
 ## Complete Structure

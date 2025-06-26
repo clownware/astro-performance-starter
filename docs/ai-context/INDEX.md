@@ -1,13 +1,13 @@
 ---
 current_phase: 5
-title: "AI Assistant Context Index"
-version: "1.0.0"
-lastUpdated: "2025-06-19"
-review: "2025-12-31"
-description: "Central entry point and contextual guide for AI assistants working on this Astro project."
+title: AI Assistant Context Index
+version: 1.0.0
+lastUpdated: '2025-06-19'
+review: '2025-12-31'
+description: >-
+  Central entry point and contextual guide for AI assistants working on this
+  Astro project.
 ---
-# AI Assistant Context Index
-
 > 🤖 **Purpose**: Central entry point for AI assistants working on this Astro project
 
 ## Quick Start for AI Assistants

@@ -1,12 +1,11 @@
 ---
-title: "Consolidated Table Format Guide"
-version: "1.0.0"
-lastUpdated: "2025-06-19"
-description: "Standard format for MVP vs Showcase track tables to eliminate duplication and improve maintainability."
+title: Consolidated Table Format Guide
+version: 1.0.0
+lastUpdated: '2025-06-19'
+description: >-
+  Standard format for MVP vs Showcase track tables to eliminate duplication and
+  improve maintainability.
 ---
-
-# Consolidated Table Format Guide
-
 > 🎯 **Purpose**: Eliminate duplicate content between MVP and Showcase tracks while maintaining clear differentiation
 
 ## Problem Addressed

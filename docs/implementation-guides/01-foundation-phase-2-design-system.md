@@ -1,12 +1,11 @@
 ---
-title: "Phase 2: Design System & Tokens"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Covers design tokens, Tailwind configuration, CSS architecture, and accessibility primitives for both tracks."
+title: 'Phase 2: Design System & Tokens'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Covers design tokens, Tailwind configuration, CSS architecture, and
+  accessibility primitives for both tracks.
 ---
-
-# Phase 2: Design System & Tokens
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1-2 days

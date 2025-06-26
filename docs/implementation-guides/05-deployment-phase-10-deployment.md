@@ -1,12 +1,11 @@
 ---
-title: "Phase 10: Deployment & Monitoring"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Covers live site deployment, CI/CD pipeline, monitoring setup, and backup strategy for both tracks."
+title: 'Phase 10: Deployment & Monitoring'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Covers live site deployment, CI/CD pipeline, monitoring setup, and backup
+  strategy for both tracks.
 ---
-
-# Phase 10: Deployment & Monitoring
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1 day

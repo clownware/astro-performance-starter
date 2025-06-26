@@ -1,12 +1,11 @@
 ---
-title: "Phase 3: Essential Tooling & Quality Gates"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Details linting setup, formatting configuration, CI pipeline, and quality gates for both tracks."
+title: 'Phase 3: Essential Tooling & Quality Gates'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Details linting setup, formatting configuration, CI pipeline, and quality
+  gates for both tracks.
 ---
-
-# Phase 3: Essential Tooling & Quality Gates
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1 day

@@ -1,12 +1,11 @@
 ---
-title: "Track Comparison: MVP vs Showcase"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Helps users choose the right implementation track (MVP or Showcase) for their project based on various factors."
+title: 'Track Comparison: MVP vs Showcase'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Helps users choose the right implementation track (MVP or Showcase) for their
+  project based on various factors.
 ---
-
-# Track Comparison: MVP vs Showcase
-
 > 🎯 **Purpose**: Help you choose the right implementation track for your project
 
 ## Quick Decision Matrix

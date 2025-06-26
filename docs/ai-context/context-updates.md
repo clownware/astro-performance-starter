@@ -1,12 +1,9 @@
 ---
-title: "Maintaining AI Context"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Guidelines for keeping AI context documents accurate and helpful."
+title: Maintaining AI Context
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: Guidelines for keeping AI context documents accurate and helpful.
 ---
-
-# Maintaining AI Context
-
 > 🔄 **Purpose**: Keep AI context documents accurate and helpful
 
 ## When to Update Context

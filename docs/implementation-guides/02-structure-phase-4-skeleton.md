@@ -1,12 +1,11 @@
 ---
-title: "Phase 4: Skeleton Layout & Routing"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Covers base layout, routing structure, navigation, and metadata system for both tracks."
+title: 'Phase 4: Skeleton Layout & Routing'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Covers base layout, routing structure, navigation, and metadata system for
+  both tracks.
 ---
-
-# Phase 4: Skeleton Layout & Routing
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 2-3 days

@@ -1,10 +1,7 @@
 ---
 sidebar_position: 2
-title: "Using Design Tokens"
+title: Using Design Tokens
 ---
-
-# Using Design Tokens
-
 > Applies to both MVP & Showcase tracks.
 
 This guide shows **developers** how to consume and extend the design–token system shipped with the Astro Performance Starter.

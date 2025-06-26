@@ -1,12 +1,11 @@
 ---
-title: "Phase 9: Performance & SEO"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Covers site optimization, performance reports, SEO implementation, and monitoring setup for both tracks."
+title: 'Phase 9: Performance & SEO'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Covers site optimization, performance reports, SEO implementation, and
+  monitoring setup for both tracks.
 ---
-
-# Phase 9: Performance & SEO
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1-2 days

@@ -1,13 +1,12 @@
 ---
-title: "Performance Budgets & Quality Guardrails"
-version: "2.0.0"
-lastUpdated: "2025-06-10"
-review: "2025-12-31"
-description: "Defines performance budgets, Core Web Vitals targets, and quality guardrails for the project."
+title: Performance Budgets & Quality Guardrails
+version: 2.0.0
+lastUpdated: '2025-06-10'
+review: '2025-12-31'
+description: >-
+  Defines performance budgets, Core Web Vitals targets, and quality guardrails
+  for the project.
 ---
-
-# Performance Budgets & Quality Guardrails
-
 ## Performance Budgets
 
 ### Core Web Vitals Targets

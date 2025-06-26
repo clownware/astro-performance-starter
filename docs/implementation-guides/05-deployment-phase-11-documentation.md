@@ -1,12 +1,11 @@
 ---
-title: "Phase 11: Documentation"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Covers README, setup guides, component docs, and maintenance procedures for Essential (MVP) and Comprehensive (Showcase) tracks."
+title: 'Phase 11: Documentation'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Covers README, setup guides, component docs, and maintenance procedures for
+  Essential (MVP) and Comprehensive (Showcase) tracks.
 ---
-
-# Phase 11: Documentation
-
 ## Overview
 - **Track**: Essential (MVP) / Comprehensive (Showcase)
 - **Duration**: 1-2 days

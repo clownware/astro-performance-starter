@@ -1,12 +1,9 @@
 ---
-title: "AI Assistant Prompt Templates"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Copy-paste prompts for common development tasks using AI assistants."
+title: AI Assistant Prompt Templates
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: Copy-paste prompts for common development tasks using AI assistants.
 ---
-
-# AI Assistant Prompt Templates
-
 > 🤖 **Purpose**: Copy-paste prompts for common development tasks
 
 ## Component Creation Prompts

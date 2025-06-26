@@ -1,12 +1,11 @@
 ---
-title: "Phase 0: Foundation Decisions"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Covers core architecture decisions, repository setup, and development environment for both MVP and Showcase tracks."
+title: 'Phase 0: Foundation Decisions'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Covers core architecture decisions, repository setup, and development
+  environment for both MVP and Showcase tracks.
 ---
-
-# Phase 0: Foundation Decisions
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1 day

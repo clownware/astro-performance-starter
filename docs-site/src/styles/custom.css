@@ -1,0 +1,165 @@
+/* Custom styles for Astro Performance Starter docs */
+
+:root {
+  --sl-color-accent-low: #1e1b4b;
+  --sl-color-accent: #6366f1;
+  --sl-color-accent-high: #c7d2fe;
+  --sl-color-white: #ffffff;
+  --sl-color-gray-1: #f8fafc;
+  --sl-color-gray-2: #f1f5f9;
+  --sl-color-gray-3: #e2e8f0;
+  --sl-color-gray-4: #cbd5e1;
+  --sl-color-gray-5: #94a3b8;
+  --sl-color-gray-6: #64748b;
+  --sl-color-black: #0f172a;
+}
+
+[data-theme='dark'] {
+  --sl-color-accent-low: #312e81;
+  --sl-color-accent: #818cf8;
+  --sl-color-accent-high: #4f46e5;
+  --sl-color-white: #0f172a;
+  --sl-color-gray-1: #1e293b;
+  --sl-color-gray-2: #334155;
+  --sl-color-gray-3: #475569;
+  --sl-color-gray-4: #64748b;
+  --sl-color-gray-5: #94a3b8;
+  --sl-color-gray-6: #cbd5e1;
+  --sl-color-black: #f8fafc;
+}
+
+/* Enhance code blocks */
+.astro-code {
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  border: 1px solid var(--sl-color-gray-3);
+}
+
+/* Improve table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 1.5rem 0;
+}
+
+table th,
+table td {
+  border: 1px solid var(--sl-color-gray-3);
+  padding: 0.75rem;
+  text-align: left;
+}
+
+table th {
+  background-color: var(--sl-color-gray-1);
+  font-weight: 600;
+  color: var(--sl-color-black);
+  color: var(--sl-color-black);
+}
+
+/* Badge styling for status indicators */
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-badge.accepted {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.status-badge.proposed {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.status-badge.deprecated {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* Enhance hero section */
+.hero {
+  text-align: center;
+  padding: 3rem 0;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, var(--sl-color-accent), #3b82f6);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Improve navigation */
+.sidebar-content {
+  font-size: 0.9rem;
+}
+
+.sidebar-content .top-level > li > a {
+  font-weight: 600;
+}
+
+/* Enhanced cards */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.card {
+  border: 1px solid var(--sl-color-gray-3);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  background: var(--sl-color-gray-1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Performance metrics styling */
+.metric {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  background: var(--sl-color-gray-1);
+  border: 1px solid var(--sl-color-gray-3);
+  font-weight: 600;
+}
+
+.metric.perfect {
+  background: #dcfce7;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.metric.good {
+  background: #fef3c7;
+  border-color: #f59e0b;
+  color: #92400e;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+  
+  .card-grid {
+    grid-template-columns: 1fr;
+  }
+}

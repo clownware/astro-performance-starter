@@ -2,9 +2,6 @@
 title: Content Authoring Guidelines
 description: How to create and manage content for the Astro Performance Starter template.
 ---
-
-# Content Authoring Guidelines
-
 This document provides guidelines for creating and managing content within this project. Adhering to these guidelines ensures consistency, quality, and optimal performance.
 
 ## Getting Started

@@ -1,12 +1,9 @@
 ---
-title: "ADR-XXX: [Short Title]"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Template for Architectural Decision Records (ADRs)."
+title: 'ADR-XXX: [Short Title]'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: Template for Architectural Decision Records (ADRs).
 ---
-
-# ADR-XXX: [Short Title]
-
 ## Status
 
 [Proposed | Accepted | Deprecated | Superseded by ADR-XXX]

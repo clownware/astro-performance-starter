@@ -1,12 +1,9 @@
 ---
-title: "📚 Documentation Hub"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Central hub for all documentation related to the Astro Performance Starter."
+title: "\U0001F4DA Documentation Hub"
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: Central hub for all documentation related to the Astro Performance Starter.
 ---
-
-# 📚 Documentation Hub
-
 > Canonical documentation entry point is the **root [`README.md`](../README.md`)** of this repository.
 >
 > This stub exists to avoid 404s and duplicate sources of truth. Please navigate to the root README for the latest quick-links, roadmap and contribution guidelines.

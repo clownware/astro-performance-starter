@@ -1,12 +1,11 @@
 ---
-title: "Islands Architecture Pattern"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Strategic guide for adding interactivity to Astro sites using Islands Architecture while maintaining performance."
+title: Islands Architecture Pattern
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Strategic guide for adding interactivity to Astro sites using Islands
+  Architecture while maintaining performance.
 ---
-
-# Islands Architecture Pattern
-
 > 🏝️ **Purpose**: Strategic guide for adding interactivity to your Astro site while maintaining performance
 
 ## What is Islands Architecture?

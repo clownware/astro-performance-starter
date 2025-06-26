@@ -1,12 +1,11 @@
 ---
-title: "Quick Track: Deploy Your First Site"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "The fastest way to get a personalized version of this {{versions.astro}} starter deployed."
+title: 'Quick Track: Deploy Your First Site'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  The fastest way to get a personalized version of this {{versions.astro}}
+  starter deployed.
 ---
-
-# Quick Track: Deploy Your First Site
-
 Welcome! This guide is for users who want to quickly deploy a personalized version of this {{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch.
 
 Our goal is to get your site live with your own basic information. For detailed explanations and advanced configurations, please refer to the comprehensive [Implementation Roadmap](./ROADMAP.md) and the individual phase guides in the `implementation-guides` directory.

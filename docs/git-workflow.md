@@ -1,12 +1,11 @@
 ---
-title: "Git Workflow"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Outlines the branching strategy, commit conventions, and pull request process for this project."
+title: Git Workflow
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Outlines the branching strategy, commit conventions, and pull request process
+  for this project.
 ---
-
-# Git Workflow
-
 This document outlines the branching strategy, commit conventions, and pull request process for this project.
 
 ## Branch Strategy
@@ -41,4 +40,3 @@ This document outlines the branching strategy, commit conventions, and pull requ
 - Fill out the PR template with context and screenshots if relevant
 - Assign reviewers for Showcase track
 - Ensure all checks (CI, lint, tests) pass before merge
-

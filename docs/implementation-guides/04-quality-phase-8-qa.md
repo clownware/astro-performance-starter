@@ -1,12 +1,11 @@
 ---
-title: "Phase 8: Quality Assurance"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Covers test results, bug fixes, accessibility audit, and cross-browser validation for Lite (MVP) and Full (Showcase) tracks."
+title: 'Phase 8: Quality Assurance'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Covers test results, bug fixes, accessibility audit, and cross-browser
+  validation for Lite (MVP) and Full (Showcase) tracks.
 ---
-
-# Phase 8: Quality Assurance
-
 ## Overview
 - **Track**: Lite (MVP) / Full (Showcase)
 - **Duration**: 1-3 days

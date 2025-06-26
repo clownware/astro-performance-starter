@@ -1,13 +1,10 @@
 ---
-title: "Technology Stack"
-version: "2.0.0"
-lastUpdated: "2025-06-10"
-review: "2025-12-31"
-description: "Details the core technology stack used in the Astro Performance Starter."
+title: Technology Stack
+version: 2.0.0
+lastUpdated: '2025-06-10'
+review: '2025-12-31'
+description: Details the core technology stack used in the Astro Performance Starter.
 ---
-
-# Technology Stack
-
 ## Core Stack
 
 ### Framework & Build Tools

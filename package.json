@@ -13,6 +13,7 @@
     "lint": "biome check .",
     "check": "astro check && tsc --noEmit",
     "quality": "pnpm run format && pnpm run lint && pnpm run check",
+    "docs:clean:headings": "tsx scripts/remove-duplicate-headings.ts",
     "build:tokens": "node scripts/build-tokens.js",
     "validate:contrast": "tsx scripts/validate-contrast.ts",
     "validate:overrides": "tsx scripts/validate-budget-overrides.ts",

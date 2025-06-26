@@ -1,12 +1,11 @@
 ---
-title: "Phase 1: Content & Data Architecture"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Details content schema, TypeScript types, URL strategy, and content fixtures for both MVP and Showcase tracks."
+title: 'Phase 1: Content & Data Architecture'
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Details content schema, TypeScript types, URL strategy, and content fixtures
+  for both MVP and Showcase tracks.
 ---
-
-# Phase 1: Content & Data Architecture
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1-2 days

@@ -1,12 +1,11 @@
 ---
-title: "Performance Patterns"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Proven techniques for achieving and maintaining high Lighthouse scores (97+) in Astro projects."
+title: Performance Patterns
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Proven techniques for achieving and maintaining high Lighthouse scores (97+)
+  in Astro projects.
 ---
-
-# Performance Patterns
-
 > ⚡ **Purpose**: Proven techniques for achieving and maintaining 97+ Lighthouse scores
 
 ## Core Performance Principles

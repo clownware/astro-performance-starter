@@ -1,12 +1,11 @@
 ---
-title: "Image Optimization Guide"
-version: "1.0.0"
-lastUpdated: "2025-06-10"
-description: "Comprehensive guide to image optimization strategies for Astro projects, focusing on performance and visual quality."
+title: Image Optimization Guide
+version: 1.0.0
+lastUpdated: '2025-06-10'
+description: >-
+  Comprehensive guide to image optimization strategies for Astro projects,
+  focusing on performance and visual quality.
 ---
-
-# Image Optimization Guide
-
 > 🖼️ **Purpose**: Comprehensive asset pipeline for optimal image delivery
 
 ## Overview
