@@ -33,8 +33,8 @@ export default defineConfig({
           label: "Getting Started",
           items: [
             { label: "Overview", link: "/" },
-            { label: "Quick Deploy", link: "/quick-track-deploy" },
-            { label: "FAQ", link: "/faq" },
+            { label: "Quick Deploy", link: "./quick-track-deploy" },
+            { label: "FAQ", link: "./faq" },
           ],
         },
         {
@@ -45,24 +45,29 @@ export default defineConfig({
         {
           label: "Development",
           items: [
-            { label: "Contributing", link: "/contributing" },
-            { label: "Git Workflow", link: "/git-workflow" },
-            { label: "Design Tokens", link: "/how-to-use-design-tokens" },
-            { label: "Design System Changelog", link: "/design-system-changelog" },
+            { label: "Contributing", link: "./contributing" },
+            { label: "Git Workflow", link: "./git-workflow" },
+            { label: "Design Tokens", link: "./how-to-use-design-tokens" },
+            { label: "Design System Changelog", link: "./design-system-changelog" },
           ],
         },
         {
           label: "Architecture",
           items: [
-            { label: "GitHub Template Structure", link: "/github-template-structure" },
-            { label: "Documentation Review Cadence", link: "/documentation-review-cadence" },
-            { label: "Link Migration Guide", link: "/link-migration-guide" },
+            { label: "GitHub Template Structure", link: "./github-template-structure" },
+            { label: "Documentation Review Cadence", link: "./documentation-review-cadence" },
+            { label: "Link Migration Guide", link: "./link-migration-guide" },
           ],
         },
         {
           label: "Architecture Decision Records",
           collapsed: true,
           autogenerate: { directory: "adr" },
+        },
+        {
+          label: "Tracks",
+          collapsed: false,
+          autogenerate: { directory: "tracks" },
         },
         {
           label: "Patterns & Snippets",
@@ -77,11 +82,6 @@ export default defineConfig({
               autogenerate: { directory: "snippets" },
             },
           ],
-        },
-        {
-          label: "Tracks",
-          collapsed: true,
-          autogenerate: { directory: "tracks" },
         },
         {
           label: "AI Context",
