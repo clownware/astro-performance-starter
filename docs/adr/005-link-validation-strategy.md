@@ -1,3 +1,7 @@
+---
+title: 'ADR-005: Link Validation Strategy'
+description: "✅ **ACCEPTED** - Implemented in build pipeline\r"
+---
 # ADR-005: Link Validation Strategy
 
 ## Status

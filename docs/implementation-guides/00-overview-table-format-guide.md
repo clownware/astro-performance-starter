@@ -1,7 +1,7 @@
 ---
 title: Consolidated Table Format Guide
 version: 1.0.0
-lastUpdated: '2025-06-19'
+lastUpdated: 2025-06-19T00:00:00.000Z
 description: >-
   Standard format for MVP vs Showcase track tables to eliminate duplication and
   improve maintainability.

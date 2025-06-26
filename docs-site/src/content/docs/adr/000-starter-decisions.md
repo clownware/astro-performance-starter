@@ -6,9 +6,6 @@ description: >-
   Architectural Decision Record for initial Astro performance starter template
   architecture choices.
 ---
-
-# ADR-001: Astro Performance Starter Template Architecture Decisions
-
 ## Status
 
 Accepted

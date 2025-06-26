@@ -1,9 +1,6 @@
 ---
 title: package scripts
-description: >-
-  ```json // package.json - scripts section {   "scripts": {     "dev": "astro
-  dev",     "build": "astro check && astro build",     "preview": "astro
-  preview",
+description: "```json\r // package.json - scripts section\r {\r   \"scripts\": {\r     \"dev\": \"astro dev\",\r     \"build\": \"astro check && astro build\",\r     \"preview\": \"astro previe"
 ---
 ```json
 // package.json - scripts section

@@ -1,3 +1,7 @@
+---
+title: lint staged config
+description: "```json\r // package.json - lint-staged configuration\r {\r   \"lint-staged\": {\r     \"*.{js,ts,jsx,tsx,astro}\": [\r       \"biome check --apply --no-errors-on-unmatch"
+---
 ```json
 // package.json - lint-staged configuration
 {

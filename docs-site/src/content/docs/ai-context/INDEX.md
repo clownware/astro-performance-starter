@@ -8,8 +8,6 @@ description: >-
   Central entry point and contextual guide for AI assistants working on this
   Astro project.
 ---
-# AI Assistant Context Index
-
 > 🤖 **Purpose**: Central entry point for AI assistants working on this Astro project
 
 ## Quick Start for AI Assistants

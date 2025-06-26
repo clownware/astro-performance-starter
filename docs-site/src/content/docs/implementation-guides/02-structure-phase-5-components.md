@@ -6,9 +6,6 @@ description: >-
   Details development of reusable UI components, documentation, and
   accessibility patterns for Lite (MVP) and Full (Showcase) tracks.
 ---
-
-# Phase 5: UI Component Library
-
 ## Overview
 - **Track**: Lite (MVP) / Full (Showcase)
 - **Duration**: 2-4 days

@@ -6,9 +6,6 @@ description: >-
   Proven techniques for achieving and maintaining high Lighthouse scores (97+)
   in Astro projects.
 ---
-
-# Performance Patterns
-
 > ⚡ **Purpose**: Proven techniques for achieving and maintaining 97+ Lighthouse scores
 
 ## Core Performance Principles

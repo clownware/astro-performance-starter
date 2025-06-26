@@ -1,7 +1,7 @@
 ---
 title: 'Phase 4: Skeleton Layout & Routing'
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers base layout, routing structure, navigation, and metadata system for
   both tracks.

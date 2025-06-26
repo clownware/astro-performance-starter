@@ -1,7 +1,7 @@
 ---
 title: Astro Implementation Guide - Master Index
 version: 2.0.0
-lastUpdated: '2025-01-15'
+lastUpdated: 2025-01-15T00:00:00.000Z
 description: >-
   Master index for the Astro Implementation Guide, outlining MVP and Showcase
   tracks.

@@ -1,3 +1,7 @@
+---
+title: Documentation Review Cadence
+description: "> **Solution for \"Living\" guides without review cadence**: Automated review date tracking and CI enforcement\r"
+---
 # Documentation Review Cadence
 
 > **Solution for "Living" guides without review cadence**: Automated review date tracking and CI enforcement

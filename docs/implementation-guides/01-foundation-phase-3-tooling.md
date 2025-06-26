@@ -1,7 +1,7 @@
 ---
 title: 'Phase 3: Essential Tooling & Quality Gates'
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details linting setup, formatting configuration, CI pipeline, and quality
   gates for both tracks.

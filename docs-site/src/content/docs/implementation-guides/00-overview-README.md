@@ -6,9 +6,6 @@ description: >-
   Master index for the Astro Implementation Guide, outlining MVP and Showcase
   tracks.
 ---
-
-# Astro Implementation Guide - Master Index
-
 ## Quick Start
 
 This guide provides a structured approach to building high-performance Astro sites with two implementation tracks:

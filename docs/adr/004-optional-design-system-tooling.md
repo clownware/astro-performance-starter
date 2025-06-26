@@ -1,9 +1,13 @@
 ---
-title: "ADR-004: Optional Design System Tooling for MVP Track"
-status: "Proposed"
-date: "2025-06-10"
-version: "1.0.0"
-deciders: "Project Maintainers, AI Assistant (Cascade)"
+title: 'ADR-004: Optional Design System Tooling for MVP Track'
+status: Proposed
+date: '2025-06-10'
+version: 1.0.0
+deciders: 'Project Maintainers, AI Assistant (Cascade)'
+description: >-
+  The Astro starter template includes robust design system tooling, specifically
+  a script to build design tokens (`scripts/build-tokens.ts`) and a contrast
+  valida
 ---
 
 ## Context and Problem Statement

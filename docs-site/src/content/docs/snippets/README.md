@@ -1,8 +1,6 @@
 ---
 title: Documentation Snippets
-description: >-
-  This directory contains reusable code snippets and configuration blocks that
-  are referenced across multiple documentation files.
+description: "This directory contains reusable code snippets and configuration blocks that are referenced across multiple documentation files.\r"
 ---
 # Documentation Snippets
 

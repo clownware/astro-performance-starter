@@ -1,6 +1,6 @@
 ---
 title: Install Husky
-description: '```bash'
+description: "```bash\r"
 ---
 ```bash
 # Install Husky

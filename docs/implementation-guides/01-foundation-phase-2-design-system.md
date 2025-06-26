@@ -1,7 +1,7 @@
 ---
 title: 'Phase 2: Design System & Tokens'
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers design tokens, Tailwind configuration, CSS architecture, and
   accessibility primitives for both tracks.

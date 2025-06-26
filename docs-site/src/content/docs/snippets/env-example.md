@@ -1,6 +1,6 @@
 ---
 title: .env.example
-description: '```bash'
+description: "```bash\r"
 ---
 ```bash
 # .env.example

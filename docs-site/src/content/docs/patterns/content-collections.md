@@ -4,9 +4,6 @@ version: 1.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: Advanced patterns for working with Astro Content Collections.
 ---
-
-# Content Collections Patterns
-
 > 📚 **Purpose**: Advanced patterns for working with Astro Content Collections
 
 ## Content Modeling Principles

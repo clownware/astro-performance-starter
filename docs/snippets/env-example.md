@@ -1,3 +1,7 @@
+---
+title: .env.example
+description: "```bash\r"
+---
 ```bash
 # .env.example
 # Deployment

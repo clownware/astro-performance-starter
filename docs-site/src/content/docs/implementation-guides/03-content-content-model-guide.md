@@ -6,9 +6,6 @@ description: >-
   Best practices for designing content schemas in Astro using Content
   Collections.
 ---
-
-# Content Model Guide - Schema Design Patterns
-
 ## Overview
 
 This guide covers best practices for designing content schemas in Astro using Content Collections. Well-designed schemas ensure type safety, content consistency, and excellent developer experience.

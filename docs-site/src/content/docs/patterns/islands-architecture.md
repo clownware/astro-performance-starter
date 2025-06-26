@@ -6,9 +6,6 @@ description: >-
   Strategic guide for adding interactivity to Astro sites using Islands
   Architecture while maintaining performance.
 ---
-
-# Islands Architecture Pattern
-
 > 🏝️ **Purpose**: Strategic guide for adding interactivity to your Astro site while maintaining performance
 
 ## What is Islands Architecture?

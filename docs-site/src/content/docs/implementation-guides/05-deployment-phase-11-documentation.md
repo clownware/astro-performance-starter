@@ -6,9 +6,6 @@ description: >-
   Covers README, setup guides, component docs, and maintenance procedures for
   Essential (MVP) and Comprehensive (Showcase) tracks.
 ---
-
-# Phase 11: Documentation
-
 ## Overview
 - **Track**: Essential (MVP) / Comprehensive (Showcase)
 - **Duration**: 1-2 days
@@ -55,8 +52,6 @@ markdown
 ![Version](https://img.shields.io/github/package-json/v/username/repo)
 
 A lightning-fast portfolio site built with Astro, achieving perfect Lighthouse scores through modern web development practices.
-
-<!-- Screenshot image removed; add a valid path when available -->
 
 ## ✨ Features
 
@@ -914,14 +909,6 @@ markdown
    - Test all features
    - Verify performance
 
-### Major Version Updates
-
-1. Create new branch
-2. Update one package at a time
-3. Fix breaking changes
-4. Run full test suite
-5. Deploy to staging first
-
 ## Common Issues
 
 ### Build Failures
@@ -1143,3 +1130,5 @@ Container component with hover effects and padding options.
 - `variant`: 'default' | 'primary' | 'secondary'
 - `padding`: 'sm' | 'md' | 'lg'
 - `hover?`: boolean
+
+```

@@ -1,8 +1,10 @@
 ---
-title: "Contributing Guide"
-version: "1.0.0"
-lastUpdated: "2025-06-19"
-description: "How to contribute to the Astro Performance Starter Template, with a focus on version management and documentation consistency."
+title: Contributing Guide
+version: 1.0.0
+lastUpdated: 2025-06-19T00:00:00.000Z
+description: >-
+  How to contribute to the Astro Performance Starter Template, with a focus on
+  version management and documentation consistency.
 ---
 
 # Contributing to the Astro Performance Starter Template

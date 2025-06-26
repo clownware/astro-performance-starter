@@ -1,7 +1,7 @@
 ---
 title: 'Phase 5: UI Component Library'
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details development of reusable UI components, documentation, and
   accessibility patterns for Lite (MVP) and Full (Showcase) tracks.

@@ -1,8 +1,6 @@
 ---
 title: Astro Performance Template - Repository Structure
-description: >-
-  ``` astro-performance-starter/ ├── .github/ │   ├── workflows/ │   │   └──
-  ci.yml                    # Working CI pipeline │   ├── FUNDING.yml
+description: "```\r astro-performance-starter/\r ├── .github/\r │   ├── workflows/\r │   │   └── ci.yml                    # Working CI pipeline\r │   ├── FUNDING.yml             "
 ---
 # Astro Performance Template - Repository Structure
 

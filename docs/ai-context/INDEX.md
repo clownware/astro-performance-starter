@@ -2,7 +2,7 @@
 current_phase: 5
 title: AI Assistant Context Index
 version: 1.0.0
-lastUpdated: '2025-06-19'
+lastUpdated: 2025-06-19T00:00:00.000Z
 review: '2025-12-31'
 description: >-
   Central entry point and contextual guide for AI assistants working on this

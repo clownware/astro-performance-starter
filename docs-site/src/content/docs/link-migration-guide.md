@@ -1,8 +1,6 @@
 ---
 title: Link Migration Guide
-description: >-
-  > **Solution for Issue #6**: Converting hard-coded relative links to
-  build-time validated references
+description: "> **Solution for Issue #6**: Converting hard-coded relative links to build-time validated references\r"
 ---
 # Link Migration Guide
 

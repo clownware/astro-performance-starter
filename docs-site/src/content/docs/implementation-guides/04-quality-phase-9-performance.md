@@ -6,9 +6,6 @@ description: >-
   Covers site optimization, performance reports, SEO implementation, and
   monitoring setup for both tracks.
 ---
-
-# Phase 9: Performance & SEO
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1-2 days

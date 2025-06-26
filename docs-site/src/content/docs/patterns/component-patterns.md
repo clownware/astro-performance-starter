@@ -4,9 +4,6 @@ version: 1.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: Reusable UI patterns for creating consistent and accessible components.
 ---
-
-# Component Patterns
-
 > 🎨 **Purpose**: Reusable UI patterns for consistent, accessible components
 
 ## Component Creation Principles

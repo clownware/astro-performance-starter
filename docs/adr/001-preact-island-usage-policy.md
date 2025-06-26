@@ -1,3 +1,7 @@
+---
+title: 'ADR 001: Preact Island Usage Policy'
+description: "**Status**: Accepted\r **Date**: 2025-06-10\r"
+---
 # ADR 001: Preact Island Usage Policy
 
 **Status**: Accepted

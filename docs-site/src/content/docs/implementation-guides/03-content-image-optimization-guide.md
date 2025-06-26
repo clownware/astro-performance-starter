@@ -6,9 +6,6 @@ description: >-
   Comprehensive guide to image optimization strategies for Astro projects,
   focusing on performance and visual quality.
 ---
-
-# Image Optimization Guide
-
 > 🖼️ **Purpose**: Comprehensive asset pipeline for optimal image delivery
 
 ## Overview

@@ -1,7 +1,7 @@
 ---
 title: 'Phase 8: Quality Assurance'
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers test results, bug fixes, accessibility audit, and cross-browser
   validation for Lite (MVP) and Full (Showcase) tracks.

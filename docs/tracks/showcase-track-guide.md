@@ -1,3 +1,7 @@
+---
+title: Building a Design System
+description: "- name: Visual Tests\r         run: pnpm run test:visual\r         env:\r           PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}\r"
+---
       - name: Visual Tests
         run: pnpm run test:visual
         env:

@@ -1,3 +1,7 @@
+---
+title: Install Husky
+description: "```bash\r"
+---
 ```bash
 # Install Husky
 pnpm add -D husky lint-staged

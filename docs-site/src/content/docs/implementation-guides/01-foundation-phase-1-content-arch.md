@@ -6,9 +6,6 @@ description: >-
   Details content schema, TypeScript types, URL strategy, and content fixtures
   for both MVP and Showcase tracks.
 ---
-
-# Phase 1: Content & Data Architecture
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1-2 days

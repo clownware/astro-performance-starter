@@ -1,7 +1,7 @@
 ---
 title: 'Quick Track: Deploy Your First Site'
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   The fastest way to get a personalized version of this {{versions.astro}}
   starter deployed.

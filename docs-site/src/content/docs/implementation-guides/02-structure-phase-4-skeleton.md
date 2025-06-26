@@ -6,9 +6,6 @@ description: >-
   Covers base layout, routing structure, navigation, and metadata system for
   both tracks.
 ---
-
-# Phase 4: Skeleton Layout & Routing
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 2-3 days

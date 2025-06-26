@@ -1,7 +1,7 @@
 ---
 title: 'ADR-002: Future CSS Tooling Considerations (UnoCSS/Plugins)'
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   A note on potential future exploration of UnoCSS or advanced Tailwind plugins
   for specific CSS needs.

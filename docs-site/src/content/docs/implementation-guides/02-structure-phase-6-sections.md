@@ -6,9 +6,6 @@ description: >-
   Covers composed page sections, hero components, feature grids, and
   testimonials for Lite (MVP) and Full (Showcase) tracks.
 ---
-
-# Phase 6: Page Sections & Composition
-
 ## Overview
 - **Track**: Lite (MVP) / Full (Showcase)
 - **Duration**: 2-3 days

@@ -1,6 +1,6 @@
 ---
 title: 'ADR-XXX: [Short Title]'
-description: '```markdown'
+description: "```markdown\r"
 ---
 ```markdown
 # ADR-XXX: [Short Title]

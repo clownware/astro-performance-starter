@@ -1,6 +1,6 @@
 ---
 title: Rollback Strategies - Recovery Procedures
-description: "> \U0001F504 **Purpose**: Comprehensive recovery procedures for when things go wrong"
+description: "> \U0001F504 **Purpose**: Comprehensive recovery procedures for when things go wrong\r"
 ---
 # Rollback Strategies - Recovery Procedures
 

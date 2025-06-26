@@ -1,7 +1,7 @@
 ---
 title: Image Optimization Guide
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Comprehensive guide to image optimization strategies for Astro projects,
   focusing on performance and visual quality.

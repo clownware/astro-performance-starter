@@ -6,9 +6,6 @@ description: >-
   Standard format for MVP vs Showcase track tables to eliminate duplication and
   improve maintainability.
 ---
-
-# Consolidated Table Format Guide
-
 > 🎯 **Purpose**: Eliminate duplicate content between MVP and Showcase tracks while maintaining clear differentiation
 
 ## Problem Addressed

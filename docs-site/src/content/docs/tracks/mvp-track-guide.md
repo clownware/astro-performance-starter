@@ -1,6 +1,6 @@
 ---
 title: MVP Track - Implementation Path
-description: '> **Fast-track to production with essential features only**'
+description: "> **Fast-track to production with essential features only**\r"
 ---
 # MVP Track - Implementation Path
 

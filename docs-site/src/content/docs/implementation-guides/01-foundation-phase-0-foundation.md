@@ -6,9 +6,6 @@ description: >-
   Covers core architecture decisions, repository setup, and development
   environment for both MVP and Showcase tracks.
 ---
-
-# Phase 0: Foundation Decisions
-
 ## Overview
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1 day

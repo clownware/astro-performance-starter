@@ -7,9 +7,6 @@ description: >-
   Defines performance budgets, Core Web Vitals targets, and quality guardrails
   for the project.
 ---
-
-# Performance Budgets & Quality Guardrails
-
 ## Performance Budgets
 
 ### Core Web Vitals Targets

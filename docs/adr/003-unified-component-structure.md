@@ -1,9 +1,13 @@
 ---
-title: "ADR-003: Unified Component Structure and Atomic Design Adherence"
-status: "Proposed"
-date: "2025-06-10"
-version: "1.0.0"
-deciders: "Project Maintainers, AI Assistant (Cascade)"
+title: 'ADR-003: Unified Component Structure and Atomic Design Adherence'
+status: Proposed
+date: '2025-06-10'
+version: 1.0.0
+deciders: 'Project Maintainers, AI Assistant (Cascade)'
+description: >-
+  The current `docs/implementation-guides/00-overview-directory-structure.md`
+  defines a clear Atomic Design methodology for organizing components within the
+  `src/
 ---
 
 ## Context and Problem Statement

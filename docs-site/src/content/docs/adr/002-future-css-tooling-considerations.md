@@ -6,9 +6,6 @@ description: >-
   A note on potential future exploration of UnoCSS or advanced Tailwind plugins
   for specific CSS needs.
 ---
-
-# ADR-002: Future CSS Tooling Considerations (UnoCSS/Plugins)
-
 ## Status
 
 Proposed (For future consideration / ADR Backlog)

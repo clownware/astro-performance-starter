@@ -1,6 +1,7 @@
 ---
 sidebar_position: 2
 title: Using Design Tokens
+description: "> Applies to both MVP & Showcase tracks.\r"
 ---
 > Applies to both MVP & Showcase tracks.
 

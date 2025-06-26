@@ -1,7 +1,7 @@
 ---
 title: 'ADR-001: Astro Performance Starter Template Architecture Decisions'
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Architectural Decision Record for initial Astro performance starter template
   architecture choices.

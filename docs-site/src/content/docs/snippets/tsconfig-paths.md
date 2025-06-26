@@ -1,9 +1,6 @@
 ---
 title: tsconfig paths
-description: >-
-  ```json // tsconfig.json {   "extends": "astro/tsconfigs/strict",  
-  "compilerOptions": {     "baseUrl": ".",     "paths": {       "@/*":
-  ["src/*"],       "@comp
+description: "```json\r // tsconfig.json\r {\r   \"extends\": \"astro/tsconfigs/strict\",\r   \"compilerOptions\": {\r     \"baseUrl\": \".\",\r     \"paths\": {\r       \"@/*\": [\"src/*\"],\r     "
 ---
 ```json
 // tsconfig.json

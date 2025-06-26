@@ -1,8 +1,10 @@
 ---
-title: "Phase 7: Content"
-version: "1.0.0"
-lastUpdated: "2024-01-15"
-description: "Guidelines for content strategy, creation, and SEO optimization within the project."
+title: 'Phase 7: Content'
+version: 1.0.0
+lastUpdated: 2024-01-15T00:00:00.000Z
+description: >-
+  Guidelines for content strategy, creation, and SEO optimization within the
+  project.
 ---
 
 *What performance challenges are you facing? I'd love to hear about your optimization wins and struggles. [Reach out on Twitter](https://twitter.com/yourusername) or [email me](mailto:your@email.com).*

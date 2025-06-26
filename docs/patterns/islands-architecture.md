@@ -1,7 +1,7 @@
 ---
 title: Islands Architecture Pattern
 version: 1.0.0
-lastUpdated: '2025-06-10'
+lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Strategic guide for adding interactivity to Astro sites using Islands
   Architecture while maintaining performance.
