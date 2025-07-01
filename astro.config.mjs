@@ -174,7 +174,7 @@ export default defineConfig({
     }),
     // Main site Tailwind with strict isolation
     tailwind({
-      configFile: "./tailwind.config.mjs",
+      configFile: "./tailwind.config.ts",
       applyBaseStyles: false, // Important for isolation from Starlight
     }),
     sitemap(),
@@ -184,7 +184,7 @@ export default defineConfig({
 
   markdown: {
     remarkPlugins: [
-      starlightLinksValidator,
+      [starlightLinksValidator, {}],
       [
         remarkSnippetIncludes,
         {

@@ -39,14 +39,27 @@ mkdirSync(distDir, { recursive: true });
 const baseTokenPath = join(tokensDir, "base.json");
 const baseTokens = JSON.parse(readFileSync(baseTokenPath, "utf-8")) as BaseTokens;
 
-const tailwindTokens = {
-  colors: baseTokens.color ?? {},
-  spacing: baseTokens.spacing ?? {},
-  fontSize: baseTokens.fontSize ?? {},
-  borderRadius: baseTokens.borderRadius ?? {},
-  shadow: baseTokens.shadow ?? {},
-  motion: baseTokens.motion ?? {},
-};
+const tailwindTokens: Record<string, TokenGroup> = {};
+
+// Conditionally add token categories only if they exist in the base tokens
+if (baseTokens.color) {
+  tailwindTokens.colors = baseTokens.color;
+}
+if (baseTokens.spacing) {
+  tailwindTokens.spacing = baseTokens.spacing;
+}
+if (baseTokens.fontSize) {
+  tailwindTokens.fontSize = baseTokens.fontSize;
+}
+if (baseTokens.borderRadius) {
+  tailwindTokens.borderRadius = baseTokens.borderRadius;
+}
+if (baseTokens.shadow) {
+  tailwindTokens.shadow = baseTokens.shadow;
+}
+if (baseTokens.motion) {
+  tailwindTokens.motion = baseTokens.motion;
+}
 
 const tailwindTokenPath = join(distDir, "tailwind-tokens.json");
 writeFileSync(tailwindTokenPath, JSON.stringify(tailwindTokens, null, 2));
@@ -59,13 +72,10 @@ const semanticTokens = JSON.parse(readFileSync(semanticTokenPath, "utf-8")) as S
 const toKebabCase = (str: string) =>
   str.replace(/([a-z0-9]|(?<=[a-z0-9]))([A-Z])/g, "$1-$2").toLowerCase();
 
-// Recursively flattens token groups into a record of CSS variable names and values.
-// This is more performant than the previous reduce-based implementation.
 function flattenTokensRecursive(obj: TokenGroup, prefix: string[], acc: Record<string, string>) {
   for (const [key, value] of Object.entries(obj)) {
     const newPrefix = [...prefix, toKebabCase(key)];
     if (value && typeof value === "object" && !("value" in value)) {
-      // Recursively flatten nested tokens
       const nestedTokens = flattenTokens(value as TokenGroup, newPrefix);
       for (const [nestedKey, nestedValue] of Object.entries(nestedTokens)) {
         acc[nestedKey] = nestedValue;
@@ -87,7 +97,6 @@ const flattenTokens = (obj: TokenGroup, prefix: string[] = []): Record<string, s
   return acc;
 };
 
-// Generates CSS variables from flattened tokens
 const generateCssVariables = (tokens: Record<string, string>): string => {
   let lightCss = ":root {\n";
   let darkCss = ".dark {\n";
@@ -111,6 +120,8 @@ const generateCssVariables = (tokens: Record<string, string>): string => {
   lightCss += "}\n";
   if (darkCss !== ".dark {\n") {
     darkCss += "}\n";
+  } else {
+    darkCss = ""; // Ensure darkCss is empty if no dark tokens are found
   }
 
   return lightCss + darkCss;

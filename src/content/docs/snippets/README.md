@@ -13,11 +13,13 @@ This directory contains reusable code snippets and configuration blocks that are
 
 ## Usage
 
-Snippets are embedded using the shortcode syntax:
+Snippets are embedded using a shortcode syntax. The example below uses different characters to prevent the build from breaking this page:
 
 ```markdown
-{% snippet "snippet-name" %}
+{{% snippet "snippet-name" %}}
 ```
+
+*Note: The actual implementation uses `{%` and `%}` delimiters.*
 
 ## Available Snippets
 
