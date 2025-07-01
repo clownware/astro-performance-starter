@@ -9,10 +9,6 @@ import compress from "astro-compress";
 import astroExpressiveCode from "astro-expressive-code";
 import starlightLinksValidator from "starlight-links-validator";
 
-import {
-  rehypeInjectVersions,
-  remarkInjectVersions,
-} from "./scripts/src/remark-inject-versions.mjs";
 import { remarkSnippetIncludes } from "./scripts/src/remark-snippet-includes.mjs";
 
 import { viteInjectVersions } from "./scripts/src/vite-plugin-inject-versions.mjs";
@@ -172,11 +168,7 @@ export default defineConfig({
         // components: mdxComponents, // DEPRECATED: Moved to top-level `components` property.
         // Removed explicit Aside component import to avoid Node parsing .astro files during config evaluation.
         // Starlight provides default components out-of-the-box, so custom mapping is unnecessary here.
-        remarkPlugins: [
-          starlightLinksValidator(),
-          [remarkInjectVersions, { rootDir, strict: process.env.CI === "true" }],
-        ],
-        rehypePlugins: [[rehypeInjectVersions, { rootDir }]],
+        remarkPlugins: [starlightLinksValidator()],
       },
       locales: {
         root: {
@@ -197,12 +189,6 @@ export default defineConfig({
             strict: true,
           },
         ],
-        // Add our version injection plugin
-        [remarkInjectVersions, { rootDir: process.cwd(), strict: process.env.CI === "true" }],
-      ],
-      rehypePlugins: [
-        // Optional: also process HTML nodes
-        [rehypeInjectVersions, { rootDir: process.cwd() }],
       ],
     }),
     // Main site Tailwind with strict isolation
