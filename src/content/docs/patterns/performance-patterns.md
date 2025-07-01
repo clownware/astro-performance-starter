@@ -1,29 +1,32 @@
 ---
 title: Performance Patterns
-version: 1.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Proven techniques for achieving and maintaining high Lighthouse scores (97+)
-  in Astro projects.
-last_reviewed_on: '2025-07-01'
+  in Astro projects
+tableOfContents: true
+pagefind: true
 ---
 > ⚡ **Purpose**: Proven techniques for achieving and maintaining 97+ Lighthouse scores
 
 ## Core Performance Principles
 
 ### 1. Ship Less JavaScript
+
 - Default to static HTML/CSS
 - Use Islands Architecture sparingly
 - Lazy load non-critical features
 - Tree-shake unused code
 
 ### 2. Optimize Critical Path
+
 - Inline critical CSS
 - Preload key resources
 - Defer non-critical scripts
 - Minimize render-blocking resources
 
 ### 3. Efficient Asset Loading
+
 - Modern image formats (AVIF, WebP)
 - Responsive images with srcset
 - Font subsetting and preloading
@@ -34,7 +37,11 @@ last_reviewed_on: '2025-07-01'
 ### 1. Responsive Image Component
 
 ```astro
----
+
+
+***
+
+
 // OptimizedImage.astro
 import { Image } from 'astro:assets';
 
@@ -54,7 +61,11 @@ const {
 
 // Generate widths for different screen sizes
 const widths = [320, 640, 800, 1024, 1280, 1600];
----
+
+
+***
+
+
 
 <Image
   src={src}
@@ -79,7 +90,11 @@ const widths = [320, 640, 800, 1024, 1280, 1600];
 ### 2. Progressive Image Loading
 
 ```astro
----
+
+
+***
+
+
 // ProgressiveImage.astro
 import { Image } from 'astro:assets';
 
@@ -98,7 +113,11 @@ const placeholderSrc = await getImage({
   quality: 10,
   format: 'webp'
 });
----
+
+
+***
+
+
 
 <div class="progressive-image">
   <img 
@@ -148,10 +167,18 @@ const placeholderSrc = await getImage({
 ### 1. Critical CSS Extraction
 
 ```astro
----
+
+
+***
+
+
 // CriticalStyles.astro
 // Inline critical CSS for above-the-fold content
----
+
+
+***
+
+
 
 <style is:inline>
   /* Reset and base styles */
@@ -177,9 +204,17 @@ const placeholderSrc = await getImage({
 ### 2. CSS Loading Strategy
 
 ```astro
----
+
+
+***
+
+
 // OptimizedStyles.astro
----
+
+
+***
+
+
 
 <!-- Critical CSS (inline) -->
 <style is:inline>
@@ -201,10 +236,17 @@ const placeholderSrc = await getImage({
 ### 3. Scoped Animation Styles
 
 ```astro
----
+
+
+***
+
+
 // AnimationStyles.astro
 // Only load animation CSS when needed
----
+
+
+***
+
 
 <style>
   /* Check for motion preference first */
@@ -223,7 +265,7 @@ const placeholderSrc = await getImage({
     }
     
     @keyframes slideUp {
-      from { transform: translateY(10px); opacity: 0; }
+      from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
   }
@@ -232,32 +274,32 @@ const placeholderSrc = await getImage({
 
 ## JavaScript Performance Patterns
 
-### 1. Code Splitting with Islands
+### 1. Conditional Client Directives
 
 ```astro
----
-// InteractiveSection.astro
+
+
+***
+
+
+// ConditionalIsland.astro
+import InteractiveComponent from './InteractiveComponent.astro';
+
 export interface Props {
   loadWhen: 'visible' | 'idle' | 'media';
   mediaQuery?: string;
 }
 
-const { loadWhen, mediaQuery } = Astro.props;
+const { loadWhen, mediaQuery = '(min-width: 768px)' } = Astro.props;
 
-// Choose loading strategy based on importance
-const clientDirective = loadWhen === 'media' 
-  ? `client:media="${mediaQuery}"`
-  : `client:${loadWhen}`;
----
 
-<section class="interactive-section">
-  <!-- Static content always loads -->
-  <div class="static-content">
-    <h2>Always Visible Content</h2>
-    <p>This loads immediately with zero JavaScript.</p>
-  </div>
+***
+
+
+
+<section>
+  <h2>Conditionally Loaded Island</h2>
   
-  <!-- Interactive content loads based on strategy -->
   {loadWhen === 'visible' && (
     <InteractiveComponent client:visible />
   )}
@@ -275,9 +317,17 @@ const clientDirective = loadWhen === 'media'
 ### 2. Debounced Event Handlers
 
 ```astro
----
+
+
+***
+
+
 // DebouncedSearch.astro
----
+
+
+***
+
+
 
 <input 
   type="search" 
@@ -289,7 +339,7 @@ const clientDirective = loadWhen === 'media'
 <script>
   // Debounce function to limit API calls
   function debounce(func: Function, wait: number) {
-    let timeout: NodeJS.Timeout;
+    let timeout: number;
     return function executedFunction(...args: any[]) {
       const later = () => {
         clearTimeout(timeout);
@@ -299,17 +349,15 @@ const clientDirective = loadWhen === 'media'
       timeout = setTimeout(later, wait);
     };
   }
-  
-  const searchInput = document.getElementById('search-input');
-  
-  const performSearch = debounce((value: string) => {
-    // Actual search logic here
-    console.log('Searching for:', value);
+
+  const input = document.getElementById('search-input');
+  const performSearch = debounce((query: string) => {
+    console.log(`Searching for: ${query}`);
+    // Fetch API call would go here
   }, 300);
-  
-  searchInput?.addEventListener('input', (e) => {
-    const target = e.target as HTMLInputElement;
-    performSearch(target.value);
+
+  input.addEventListener('input', ({ target }) => {
+    performSearch((target as HTMLInputElement).value);
   });
 </script>
 ```
@@ -317,9 +365,17 @@ const clientDirective = loadWhen === 'media'
 ### 3. Intersection Observer for Lazy Loading
 
 ```astro
----
+
+
+***
+
+
 // LazyLoadContainer.astro
----
+
+
+***
+
+
 
 <div class="lazy-container" data-src="/api/content">
   <div class="skeleton">Loading...</div>
@@ -333,46 +389,45 @@ const clientDirective = loadWhen === 'media'
     const src = container.getAttribute('data-src');
     if (!src) return;
     
-    try {
-      const response = await fetch(src);
-      const html = await response.text();
-      container.innerHTML = html;
-      container.classList.add('loaded');
-    } catch (error) {
-      container.innerHTML = '<p>Failed to load content</p>';
-    }
+    const response = await fetch(src);
+    const content = await response.text();
+    container.innerHTML = content;
   };
-  
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          loadContent(entry.target);
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      rootMargin: '50px',
-      threshold: 0.01
+
+  const observer = new IntersectionObserver((entries, obs) => {
+    for (const entry of entries) {
+      if (entry.isIntersecting) {
+        loadContent(entry.target);
+        obs.unobserve(entry.target);
+      }
     }
-  );
-  
-  lazyContainers.forEach(container => observer.observe(container));
+  }, { rootMargin: '200px' });
+
+  lazyContainers.forEach(container => {
+    observer.observe(container);
+  });
 </script>
 ```
 
-## Font Loading Patterns
+## Font & Resource Loading
 
-### 1. Optimal Font Loading
+### 1. Modern Font Loading
 
 ```astro
----
-// FontLoader.astro
----
 
-<!-- Preconnect to font origins -->
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+***
+
+
+// FontLoader.astro
+
+
+***
+
+
+<!-- Preconnect to Google Fonts (if used) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 <!-- Preload critical fonts -->
 <link 
@@ -395,48 +450,33 @@ const clientDirective = loadWhen === 'media'
   
   /* Fallback font stack */
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
   }
 </style>
 ```
 
-### 2. Font Subsetting Strategy
-
-```bash
-# scripts/subset-fonts.sh
-# Subset fonts to only include used characters
-
-# Latin subset for most Western languages
-pyftsubset input-font.ttf \
-  --output-file=output-font-latin.woff2 \
-  --flavor=woff2 \
-  --layout-features=* \
-  --unicodes=U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD
-```
-
-## Resource Hints
-
-### 1. Strategic Preloading
+### 2. Resource Hints
 
 ```astro
----
-// ResourceHints.astro
-// Add resource hints based on route
-const currentPath = Astro.url.pathname;
 
-const routeHints = {
-  '/': {
-    preload: ['/images/hero.webp'],
-    prefetch: ['/about', '/projects']
-  },
-  '/blog': {
-    preload: ['/styles/blog.css'],
-    prefetch: ['/blog/recent-post']
-  }
+
+***
+
+
+// ResourceHints.astro
+// Use in your BaseLayout.astro
+
+// Example hints object
+const hints = {
+  preload: ['/images/hero.webp'],
+  prefetch: ['/about'],
+  preconnect: ['https://api.example.com']
 };
 
-const hints = routeHints[currentPath] || { preload: [], prefetch: [] };
----
+
+***
+
+
 
 <!-- Preload critical resources for this route -->
 {hints.preload.map(resource => (
@@ -553,9 +593,17 @@ self.addEventListener('fetch', event => {
 ### 1. Performance Observer
 
 ```astro
----
+
+
+***
+
+
 // PerformanceMonitor.astro
----
+
+
+***
+
+
 
 <script>
   // Monitor Core Web Vitals

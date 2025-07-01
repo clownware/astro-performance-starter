@@ -1,18 +1,12 @@
 ---
-title: 00 overview README
-description: '***'
-last_reviewed_on: '2025-07-01'
----
-
-***
-
 title: Astro Implementation Guide - Master Index
-version: 2.0.0
-lastUpdated: 2025-01-15T00:00:00.000Z
 description: >-
-Master index for the Astro Implementation Guide, outlining MVP and Showcase
-tracks.
--------
+    Master index for the Astro Implementation Guide, outlining MVP and Showcase
+    tracks.
+lastUpdated: true
+tableOfContents: true
+pagefind: true
+---
 
 <Badge variant="success">Done</Badge>
 

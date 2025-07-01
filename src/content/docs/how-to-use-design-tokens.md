@@ -1,11 +1,10 @@
 ---
-sidebar_position: 2
 title: Using Design Tokens
-description: "> Applies to both MVP & Showcase tracks.\r"
-last_reviewed_on: '2025-07-01'
+description: A guide for developers on how to consume and extend the design-token system
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
-> Applies to both MVP & Showcase tracks.
-
 This guide shows **developers** how to consume and extend the design–token system shipped with the Astro Performance Starter.
 
 ## 1. Quick recap
@@ -81,7 +80,5 @@ useEffect(() => {
 
 * `pnpm run validate:contrast` – ensures WCAG-AA contrast for semantic pairs.
 * CI fails if new tokens break contrast budgets.
-
----
 
 Need help? Check `docs/implementation-guides/01-foundation-phase-2-design-system.md` or open an issue.

@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+
 - Initial project structure and documentation.
 - **Content Model Definition (Phase 1):**
   - Established core content collections in `src/content/config.ts`:
@@ -28,4 +29,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Created URL generation utilities in `src/utils/url-utils.ts` for consistent and SEO-friendly paths.
   - Added initial content fixtures for all collections to serve as examples.
 
-*(More details to come)*
+<Aside type="note" title="Work in Progress">
+  More details to come.
+</Aside>

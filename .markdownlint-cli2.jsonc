@@ -1,0 +1,51 @@
+// .markdownlint-cli2.jsonc
+{
+  "globs": [
+    "src/content/docs/**/*.md",
+    "src/content/docs/**/*.mdx"
+    // Uncomment if using Markdoc:
+    // "src/content/docs/**/*.markdoc"
+  ],
+  "ignores": [
+    "node_modules",
+    "**/dist/**",
+    "**/.astro/**"
+  ],
+
+  "config": {
+    "default": true,
+
+    // Disable rules that conflict with Starlight patterns
+    "MD013": false, // Line length - Starlight often needs longer lines
+    "MD041": false, // First line heading - Starlight uses frontmatter title
+    "MD025": false, // Multiple top-level headings - conflicts with Starlight's title handling
+    "MD046": false, // Code block style - allow flexibility
+
+    // Enhanced rules for better Starlight compatibility
+    "MD024": { "siblings_only": true }, // Allow duplicate headings in different sections
+    "MD028": false, // Allow blank lines in blockquotes (useful for complex Asides)
+    "MD009": { "br_spaces": 2 }, // Allow trailing spaces for line breaks
+    // ... your other rules
+    "MD003": { "style": "atx" },
+
+    // Allow Starlight components and semantic HTML
+    "MD033": {
+      "allowed_elements": [
+        // Starlight Components
+        "Aside", "Card", "CardGrid", "FileTree", "Icon", "LinkCard", "Steps", "TabItem", "Tabs",
+        "Badge", "Button", "Component", "Figure", "FormField", "Grid", "link", "slot",
+
+        // Common Semantic HTML
+        "details", "summary", "kbd", "abbr", "cite", "mark", "time", "a", "div", "p", "small", "span", "strong", "h3",
+
+        // NEWLY ADDED for rich content inside components
+        "em",     // Italics
+        "code",   // Inline code
+        "ul",     // Unordered lists
+        "ol",     // Ordered lists
+        "li",     // List items
+        "img"     // Images
+      ]
+    }
+  }
+}

@@ -1,24 +1,20 @@
 ---
-title: LINK MIGRATION GUIDE
-description: '***'
-last_reviewed_on: '2025-07-01'
----
-
-***
-
 title: Link Migration Guide
-description: "> **Solution for Issue #6**: Converting hard-coded relative links to build-time validated references\r"
----------------------------------------------------------------------------------------------------------------------
+description: '***'
+lastUpdated: true
+tableOfContents: true
+pagefind: true
+---
 
 # Link Migration Guide
 
-> **Solution for Issue #6**: Converting hard-coded relative links to build-time validated references
+## Solution Converting Hard-Coded Relative Links to Build-Time Validated References
 
-## Problem
+### Problem
 
 Documentation contains hard-coded relative links like `](./implementation-guides/...)` that will break when files move between `docs/` ↔ `src/content/` during content collection migration.
 
-## Solution
+### Solution
 
 We've implemented **build-time link validation** using a remark plugin that:
 
@@ -27,9 +23,9 @@ We've implemented **build-time link validation** using a remark plugin that:
 3. ✅ **Prepares for Content Collections** - seamless migration to `src/content/`
 4. ✅ **Zero runtime overhead** - validation happens during build only
 
-## Link Formats Supported
+### Link Formats Supported
 
-### Current (Relative Links)
+#### Current (Relative Links)
 
 ```markdown
 [Phase 0](./implementation-guides/01-foundation-phase-0-foundation.md)
@@ -37,7 +33,7 @@ We've implemented **build-time link validation** using a remark plugin that:
 [Track Comparison](../tracks/track-comparison.md)
 ```
 
-### Future-Ready (Absolute References)
+#### Future-Ready (Absolute References)
 
 ```markdown
 [Phase 0](./docs/implementation-guides/01-foundation-phase-0-foundation.md)
@@ -45,7 +41,7 @@ We've implemented **build-time link validation** using a remark plugin that:
 [Track Comparison](./docs/tracks/track-comparison.md)
 ```
 
-### Content Collections (Future)
+#### Content Collections (Future)
 
 ```markdown
 [Phase 0](./docs/foundation/phase-0)
@@ -53,15 +49,15 @@ We've implemented **build-time link validation** using a remark plugin that:
 [Track Comparison](./docs/tracks/comparison)
 ```
 
-## Migration Steps
+### Migration Steps
 
-### Phase 1: Enable Link Validation (✅ Complete)
+#### Phase 1: Enable Link Validation (✅ Complete)
 
 1. **Added remark plugin** - `scripts/remark-validate-links.mjs`
 2. **Updated Astro config** - validates links during build
 3. **Added validation script** - `pnpm run validate:links`
 
-### Phase 2: Convert to Absolute References (Optional)
+#### Phase 2: Convert to Absolute References (Optional)
 
 To prepare for content collections, convert relative links to absolute:
 
@@ -74,7 +70,7 @@ grep -r "](\./" docs/ --include="*.md"
 # After:  [Phase 0](./docs/implementation-guides/01-foundation-phase-0-foundation.md)
 ```
 
-### Phase 3: Content Collections Migration (Future)
+#### Phase 3: Content Collections Migration (Future)
 
 When migrating to `src/content/docs/`:
 

@@ -1,14 +1,10 @@
 ---
-title: adr template
-description: '***'
-last_reviewed_on: '2025-07-01'
+title: ADR template
+description: 'Template for Architecture Decision Records'
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
-
-***
-
-title: 'ADR-XXX: \[Short Title]'
-description: "\`\`\`markdown\r"
--------------------------------
 
 ````markdown
 :::caution 🚧 Work in progress
@@ -105,6 +101,3 @@ const example = 'implementation details';
 
 * [Link 1](/snippets/url/)
 * [Link 2](/snippets/url/)
-
-```
-```

@@ -1,19 +1,12 @@
 ---
-title: CONTRIBUTING
-description: '***'
-last_reviewed_on: '2025-07-01'
----
-
-***
-
 title: Contributing Guide
-version: 1.0.0
 lastUpdated: 2025-06-19T00:00:00.000Z
 description: >-
-How to contribute to the Astro Performance Starter Template, with a focus on
-version management and documentation consistency.
--------------------------------------------------
-
+  How to contribute to the Astro Performance Starter Template, with a focus on
+  version management and documentation consistency
+tableOfContents: true
+pagefind: true
+---
 # Contributing to the Astro Performance Starter Template
 
 Thank you for your interest in contributing! This project aims to set a new standard for performance, maintainability, and developer experience in Astro-based static sites. Please review the guidelines below before submitting a pull request.
@@ -58,9 +51,11 @@ This project uses a **centralized version injection system** to keep all documen
 
 1. **Update dependencies** as needed (e.g. `pnpm up` or manual changes).
 2. Run the update script:
+
    ```bash
    pnpm tsx scripts/update-versions.ts
    ```
+
    This will auto-detect installed versions and update `versions.yml`.
 3. **Commit changes** to both `versions.yml` and any affected lockfiles.
 4. **Check docs**: All version references in documentation should now be up-to-date via placeholders.

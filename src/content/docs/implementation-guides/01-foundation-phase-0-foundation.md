@@ -1,21 +1,23 @@
 ---
-title: 'Phase 0: Foundation Decisions'
-version: 1.0.0
+title: Phase 0- Foundation Decisions
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers core architecture decisions, repository setup, and development
-  environment for both MVP and Showcase tracks.
-last_reviewed_on: '2025-07-01'
+  environment for both MVP and Showcase tracks
+tableOfContents: true
+pagefind: true
 ---
 <Badge variant="success">Done</Badge>
 
 ## Overview
+
 - **Track**: Both (MVP & Showcase)
 - **Effort**: Minimal, foundational setup
 - **Dependencies**: None
 - **Deliverables**: Core architecture decisions, repository setup, development environment
 
 ## Entry Criteria
+
 - [x] Project requirements defined
 - [x] Hosting platform chosen
 - [x] Team assembled (if applicable)
@@ -182,12 +184,14 @@ trim_trailing_whitespace = true
 If critical issues found after Phase 0:
 
 1. **Package Manager Issues**:
+
    ```bash
    rm -rf node_modules pnpm-lock.yaml
    pnpm install
    ```
 
 2. **Git Configuration Issues**:
+
    ```bash
    rm -rf .git
    git init
@@ -202,18 +206,21 @@ If critical issues found after Phase 0:
 ## AI Assistant Notes
 
 ### Key Files to Reference
+
 - `package.json` - Verify scripts and dependencies
 - `tsconfig.json` - TypeScript configuration
 - `.husky/pre-commit` - Git hooks
 - `docs/adr/001-foundation.md` - Key decisions
 
 ### Common Prompts for This Phase
+
 - "Set up Astro {{versions.astro}} project with TypeScript strict mode"
 - "Configure Biome for Astro project"
 - "Create Git hooks for code quality"
 - "Write ADR for foundation decisions"
 
 ### Context Requirements
+
 - Project type (portfolio, blog, marketing)
 - Team size (solo vs team)
 - Deployment target (Cloudflare Pages, Vercel, etc.)

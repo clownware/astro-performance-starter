@@ -26,7 +26,9 @@ hero:
       variant: minimal
 banner:
   content: "<strong>\U0001F6A7 Beta Release ({{versions.template}})</strong> This template is in active development and may introduce breaking changes until v1.0.0. <a href=\"design-system-changelog\">See what's new →</a>"
-last_reviewed_on: '2025-07-01'
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 
 import { Aside, Card, CardGrid, Icon } from '@astrojs/starlight/components';
@@ -95,12 +97,14 @@ import { Aside, Card, CardGrid, Icon } from '@astrojs/starlight/components';
 <summary><strong>View full tech stack details</strong></summary>
 
 ### Core Dependencies
+
 - **UI Framework**: Preact v{{versions.preact}} for interactive islands
 - **Content**: MDX with Astro Content Collections API
 - **Images**: Astro Image component with Sharp processing (AVIF + WebP)
 - **Fonts**: @fontsource for self-hosting variable fonts
 
 ### Development Experience
+
 - Zero-config TypeScript with strict mode
 - Automated code formatting and linting
 - Git hooks for quality enforcement
@@ -108,6 +112,7 @@ import { Aside, Card, CardGrid, Icon } from '@astrojs/starlight/components';
 - Component-driven development
 
 ### Performance & Quality
+
 - Performance budgets with CI enforcement
 - Automated accessibility testing with axe-core
 - Broken link detection with Lychee
@@ -121,16 +126,19 @@ import { Aside, Card, CardGrid, Icon } from '@astrojs/starlight/components';
 **Navigate the docs efficiently:**
 
 ### Quick Reference
+
 - **[FAQ](faq)** - Common questions and troubleshooting
 - **[Quick Deploy](quick-track-deploy)** - 5-minute setup guide
 - **[Track Comparison](tracks/track-comparison)** - MVP vs Showcase decision guide
 
 ### Implementation Paths
+
 - **[Implementation Guides](implementation-guides)** - 12-phase walkthrough (start at Phase 4)
 - **[MVP Track Guide](tracks/mvp-track-guide)** - 2-3 week implementation
 - **[Showcase Track Guide](tracks/showcase-track-guide)** - 4-6 week full-featured build
 
 ### Deep Dive Resources
+
 - **[Design System](design-system-changelog)** - Tokens, patterns, and accessibility
 - **[Architecture Decisions](adr)** - Technical decision log and templates
 - **[AI Context](ai-context)** - Using AI agents with this template
@@ -184,15 +192,13 @@ Point your favorite AI agent (Cascade, Copilot, ChatGPT) at the [Phase 4 Impleme
   </a>
 </div>
 
----
-
 > **Project Status:** This template is currently in **beta** ({{versions.template}}). Expect rapid iteration and breaking changes until v1.0.0. [See what's new →](design-system-changelog)
 
 <div style="text-align: center; margin-top: 3rem; color: var(--sl-color-gray-5);">
   <p>Built with ❤️ by the Astro community</p>
   <p>
-    <a href="contributing">Contribute</a> • 
-    <a href="https://github.com/clownware/astro-starter-template/issues">Report Issues</a> • 
+    <a href="contributing">Contribute</a> •
+    <a href="https://github.com/clownware/astro-starter-template/issues">Report Issues</a> •
     <a href="https://discord.gg/astro">Join Discord</a>
   </p>
 </div>

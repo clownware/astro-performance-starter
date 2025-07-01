@@ -1,7 +1,9 @@
 ---
 title: Accessibility Guide - WCAG Compliance
-description: "> ♿ **Purpose**: Ensure your Astro site meets WCAG 2.1 AA standards\r"
-last_reviewed_on: '2025-07-01'
+description: '> ♿ **Purpose**: Ensure your Astro site meets WCAG 2.1 AA standards'
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 # Accessibility Guide - WCAG Compliance
 
@@ -14,15 +16,19 @@ This guide provides practical implementation details for building accessible Ast
 ## WCAG Principles
 
 ### 1. Perceivable
+
 Information and UI components must be presentable in ways users can perceive.
 
 ### 2. Operable
+
 UI components and navigation must be operable by all users.
 
 ### 3. Understandable
+
 Information and UI operation must be understandable.
 
 ### 4. Robust
+
 Content must be robust enough to work with various assistive technologies.
 
 ## Core Requirements
@@ -76,9 +82,17 @@ Content must be robust enough to work with various assistive technologies.
 ### 1. Semantic HTML Structure
 
 ```astro
----
+
+
+***
+
+
 // src/layouts/BaseLayout.astro
----
+
+
+***
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -136,7 +150,11 @@ Content must be robust enough to work with various assistive technologies.
 ### 2. Accessible Navigation
 
 ```astro
----
+
+
+***
+
+
 // src/components/Navigation.astro
 export interface Props {
   items: Array<{
@@ -148,7 +166,11 @@ export interface Props {
 
 const { items } = Astro.props;
 const currentPath = Astro.url.pathname;
----
+
+
+***
+
+
 
 <nav role="navigation" aria-label="Main">
   <ul class="nav-list">
@@ -195,9 +217,17 @@ const currentPath = Astro.url.pathname;
 ### 3. Accessible Forms
 
 ```astro
----
+
+
+***
+
+
 // src/components/ContactForm.astro
----
+
+
+***
+
+
 
 <form method="POST" action="/api/contact" novalidate>
   <fieldset>
@@ -438,7 +468,11 @@ const currentPath = Astro.url.pathname;
 ### 5. Images and Media
 
 ```astro
----
+
+
+***
+
+
 // src/components/AccessibleImage.astro
 import { Image } from 'astro:assets';
 
@@ -450,7 +484,11 @@ export interface Props {
 }
 
 const { src, alt, caption, decorative = false } = Astro.props;
----
+
+
+***
+
+
 
 {decorative ? (
   <Image 
@@ -476,7 +514,11 @@ const { src, alt, caption, decorative = false } = Astro.props;
 ### 6. Interactive Components
 
 ```astro
----
+
+
+***
+
+
 // src/components/AccessibleModal.astro
 export interface Props {
   id: string;
@@ -484,7 +526,11 @@ export interface Props {
 }
 
 const { id, title } = Astro.props;
----
+
+
+***
+
+
 
 <div 
   id={id}
@@ -566,7 +612,11 @@ const { id, title } = Astro.props;
 ### 7. Tables
 
 ```astro
----
+
+
+***
+
+
 // src/components/AccessibleTable.astro
 export interface Props {
   caption: string;
@@ -579,7 +629,11 @@ export interface Props {
 }
 
 const { caption, data, columns } = Astro.props;
----
+
+
+***
+
+
 
 <table>
   <caption>{caption}</caption>

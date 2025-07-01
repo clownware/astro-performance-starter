@@ -1,12 +1,11 @@
 ---
 title: Performance Budgets & Quality Guardrails
-version: 2.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
-review: '2025-12-31'
 description: >-
   Defines performance budgets, Core Web Vitals targets, and quality guardrails
-  for the project.
-last_reviewed_on: '2025-07-01'
+  for the project
+tableOfContents: true
+pagefind: true
 ---
 ## Performance Budgets
 
@@ -64,8 +63,10 @@ HTML:
 ```
 
 ## Note on inline_scripts: 0
+
 This rule prohibits raw `<script>` tags directly in HTML output that are not managed by Astro's build process or explicitly allowed via CSP hashes/nonces.
 For client-side JavaScript:
+
 1. **Astro Islands (Preact, React, Vue, Svelte, SolidJS)**: This is the PREFERRED METHOD.
    Use client directives like `client:load`, `client:idle`, or `client:visible`.
    Astro processes these island scripts, bundles them, and they can be managed with a Content Security Policy (CSP)
@@ -279,18 +280,21 @@ When budgets must be exceeded:
 ## Performance Culture
 
 ### Daily Practices
+
 - Check bundle size before commits
 - Test on throttled connection
 - Validate on real devices
 - Monitor Core Web Vitals
 
 ### Weekly Reviews
+
 - Performance regression check
 - Dependency audit
 - Image optimization review
 - Third-party script audit
 
 ### Monthly Audits
+
 - Full Lighthouse analysis
 - Real user metrics review
 - Competitive benchmarking

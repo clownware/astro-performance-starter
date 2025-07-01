@@ -1,27 +1,30 @@
 ---
 title: Content Collections Patterns
-version: 1.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
-description: Advanced patterns for working with Astro Content Collections.
-last_reviewed_on: '2025-07-01'
+description: Advanced patterns for working with Astro Content Collections
+tableOfContents: true
+pagefind: true
 ---
 > 📚 **Purpose**: Advanced patterns for working with Astro Content Collections
 
 ## Content Modeling Principles
 
 ### 1. Schema-First Design
+
 - Define your content structure before creating content
 - Use Zod for runtime validation
 - Include all metadata upfront
 - Plan for future content needs
 
 ### 2. Type Safety Throughout
+
 - Leverage TypeScript's type inference
 - Generate types from schemas
 - Use discriminated unions for variants
 - Validate at build time
 
 ### 3. Flexible but Consistent
+
 - Allow for content variations
 - Maintain consistent core fields
 - Use optional fields sparingly
@@ -518,7 +521,11 @@ export const components = {
 ### 2. Dynamic Component Loading
 
 ```astro
----
+
+
+***
+
+
 // DynamicContent.astro
 const { componentName, props } = Astro.props;
 
@@ -533,7 +540,11 @@ const componentMap = {
 const Component = componentMap[componentName] 
   ? (await componentMap[componentName]()).default 
   : null;
----
+
+
+***
+
+
 
 {Component && <Component {...props} />}
 ```
@@ -600,7 +611,11 @@ if (import.meta.env.DEV) {
 ### 2. Lazy Content Loading
 
 ```astro
----
+
+
+***
+
+
 // LazyContent.astro
 export interface Props {
   collection: string;
@@ -608,7 +623,11 @@ export interface Props {
 }
 
 const { collection, id } = Astro.props;
----
+
+
+***
+
+
 
 <div 
   class="lazy-content"

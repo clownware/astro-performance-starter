@@ -1,14 +1,10 @@
 ---
-title: 005 link validation strategy
-description: '***'
-last_reviewed_on: '2025-07-01'
----
-
-***
-
 title: 'ADR-005: Link Validation Strategy'
 description: "✅ **ACCEPTED** - Implemented in build pipeline\r"
----------------------------------------------------------------
+lastUpdated: 2025-06-10T00:00:00.000Z
+tableOfContents: true
+pagefind: true
+---
 
 # ADR-005: Link Validation Strategy
 
@@ -68,6 +64,7 @@ graph TD
    * Supports multiple base paths for future migration
 
 2. **Link Resolution Strategy**
+
    ```javascript
    // Priority order:
    1. Absolute paths: /docs/file.md → ${rootDir}/docs/file.md

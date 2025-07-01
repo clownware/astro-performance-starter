@@ -1,19 +1,21 @@
 ---
-title: 'Phase 6: Page Sections & Composition'
-version: 1.0.0
+title: Phase 6- Page Sections & Composition
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers composed page sections, hero components, feature grids, and
-  testimonials for Lite (MVP) and Full (Showcase) tracks.
-last_reviewed_on: '2025-07-01'
+  testimonials for Lite (MVP) and Full (Showcase) tracks
+tableOfContents: true
+pagefind: true
 ---
 ## Overview
+
 - **Track**: Lite (MVP) / Full (Showcase)
 - **Duration**: 2-3 days
 - **Dependencies**: Phase 0-5 completed
 - **Deliverables**: Composed page sections, hero components, feature grids, testimonials
 
 ## Entry Criteria
+
 - [ ] Component library built (Phase 5)
 - [ ] Design tokens integrated
 - [ ] Layout system functional
@@ -45,7 +47,11 @@ last_reviewed_on: '2025-07-01'
 ### Hero Section (MVP)
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/Hero.astro
 import Container from '@/components/ui/Container.astro';
 import Section from '@/components/ui/Section.astro';
@@ -65,7 +71,11 @@ export interface Props {
 }
 
 const { title, subtitle, primaryCTA, secondaryCTA } = Astro.props;
----
+
+
+***
+
+
 
 <Section size="xl" class="hero-section">
   <Container size="md" class="text-center">
@@ -118,7 +128,11 @@ const { title, subtitle, primaryCTA, secondaryCTA } = Astro.props;
 ### Features Grid Section
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/Features.astro
 import Container from '@/components/ui/Container.astro';
 import Section from '@/components/ui/Section.astro';
@@ -138,7 +152,11 @@ export interface Props {
 }
 
 const { title = "Features", subtitle, features } = Astro.props;
----
+
+
+***
+
+
 
 <Section size="lg">
   <Container>
@@ -174,7 +192,11 @@ const { title = "Features", subtitle, features } = Astro.props;
 ### CTA Section
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/CTA.astro
 import Container from '@/components/ui/Container.astro';
 import Section from '@/components/ui/Section.astro';
@@ -195,7 +217,11 @@ const {
   buttonHref,
   variant = 'default' 
 } = Astro.props;
----
+
+
+***
+
+
 
 <Section size="md" background={variant === 'gradient' ? 'default' : 'subtle'}>
   <Container size="sm">
@@ -234,7 +260,11 @@ const {
 ### About Section
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/About.astro
 import { Image } from 'astro:assets';
 import Container from '@/components/ui/Container.astro';
@@ -255,7 +285,11 @@ const {
   imageAlt,
   imagePosition = 'right' 
 } = Astro.props;
----
+
+
+***
+
+
 
 <Section size="lg">
   <Container>
@@ -291,7 +325,11 @@ const {
 ### Showcase: Animated Hero
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/AnimatedHero.astro
 import Container from '@/components/ui/Container.astro';
 import Section from '@/components/ui/Section.astro';
@@ -311,7 +349,11 @@ const { title, subtitle, primaryCTA, backgroundPattern = true } = Astro.props;
 
 // Split title into words for animation
 const titleWords = title.split(' ');
----
+
+
+***
+
+
 
 <Section size="xl" class="animated-hero">
   {backgroundPattern && (
@@ -461,7 +503,11 @@ const titleWords = title.split(' ');
 ### Showcase: Testimonials Section
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/Testimonials.astro
 import Container from '@/components/ui/Container.astro';
 import Section from '@/components/ui/Section.astro';
@@ -486,7 +532,11 @@ const {
   subtitle,
   testimonials 
 } = Astro.props;
----
+
+
+***
+
+
 
 <Section size="lg" background="subtle">
   <Container>
@@ -572,7 +622,11 @@ const {
 ### Showcase: Stats Section
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/Stats.astro
 import Container from '@/components/ui/Container.astro';
 import Section from '@/components/ui/Section.astro';
@@ -589,7 +643,11 @@ export interface Props {
 }
 
 const { stats, title } = Astro.props;
----
+
+
+***
+
+
 
 <Section size="md">
   <Container>
@@ -618,7 +676,11 @@ const { stats, title } = Astro.props;
 ### Blog Listing Section
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/BlogListing.astro
 import { getCollection } from 'astro:content';
 import Container from '@/components/ui/Container.astro';
@@ -647,7 +709,11 @@ const posts = await getCollection('blog', ({ data }) => !data.draft);
 const sortedPosts = posts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, limit);
----
+
+
+***
+
+
 
 <Section size="lg">
   <Container>
@@ -728,7 +794,11 @@ const sortedPosts = posts
 ### Project Grid Section
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/ProjectGrid.astro
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
@@ -757,7 +827,11 @@ const projects = await getCollection('projects', ({ data }) =>
 const sortedProjects = projects.sort((a, b) => 
   (a.data.sortOrder || 999) - (b.data.sortOrder || 999)
 );
----
+
+
+***
+
+
 
 <Section size="lg" background="subtle">
   <Container>
@@ -839,7 +913,11 @@ const sortedProjects = projects.sort((a, b) =>
 ### 1. Page Assembly
 
 ```astro
----
+
+
+***
+
+
 // src/pages/index.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/sections/Hero.astro';
@@ -869,7 +947,11 @@ const features = [
     icon: "accessibility"
   }
 ];
----
+
+
+***
+
+
 
 <BaseLayout 
   title="Your Name - Web Developer"
@@ -920,7 +1002,11 @@ const features = [
 ### 2. Dynamic Section Loading
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/DynamicSections.astro
 const sections = [
   { component: 'Hero', props: { title: 'Welcome' } },
@@ -934,7 +1020,11 @@ const sectionComponents = {
   Features: await import('./Features.astro'),
   CTA: await import('./CTA.astro'),
 };
----
+
+
+***
+
+
 
 {sections.map(({ component, props }) => {
   const Component = sectionComponents[component]?.default;
@@ -945,7 +1035,11 @@ const sectionComponents = {
 ### 3. Section Variants
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/SectionWrapper.astro
 export interface Props {
   variant?: 'default' | 'wide' | 'narrow' | 'full';
@@ -979,7 +1073,11 @@ const spacingClasses = {
   normal: 'py-12 md:py-20',
   spacious: 'py-20 md:py-32'
 };
----
+
+
+***
+
+
 
 <section 
   id={id}
@@ -998,7 +1096,11 @@ const spacingClasses = {
 ### 1. Lazy Loading Sections
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/LazySection.astro
 export interface Props {
   name: string;
@@ -1007,7 +1109,11 @@ export interface Props {
 
 const { name, threshold = 0.1 } = Astro.props;
 const sectionId = `lazy-${name}-${Math.random().toString(36).slice(2)}`;
----
+
+
+***
+
+
 
 <div 
   id={sectionId}
@@ -1076,7 +1182,11 @@ export function getSectionLoadPriority(sectionName: string): 'eager' | 'lazy' {
 ### 1. Section Navigation
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/SkipToSection.astro
 const sections = [
   { id: 'hero', label: 'Hero' },
@@ -1085,7 +1195,11 @@ const sections = [
   { id: 'projects', label: 'Projects' },
   { id: 'contact', label: 'Contact' }
 ];
----
+
+
+***
+
+
 
 <nav class="sr-only" aria-label="Skip to section">
   <ul>
@@ -1103,7 +1217,11 @@ const sections = [
 ### 2. Section Announcements
 
 ```astro
----
+
+
+***
+
+
 // src/components/sections/AccessibleSection.astro
 export interface Props {
   title: string;
@@ -1112,7 +1230,11 @@ export interface Props {
 
 const { title, announceOnScroll = false } = Astro.props;
 const sectionId = `section-${Math.random().toString(36).slice(2)}`;
----
+
+
+***
+
+
 
 <section 
   id={sectionId}
@@ -1158,6 +1280,7 @@ const sectionId = `section-${Math.random().toString(36).slice(2)}`;
 > **Why this change?** Earlier versions embedded large inline scripts for each section. We now extract the observer/animation logic into a tiny Preact island (`StatsObserverIsland.tsx`) imported **once**. Each section renders minimal HTML on the server so users without JavaScript still see meaningful content.
 >
 > **Implementation tips**
+>
 > 1. Render placeholders server-side (numbers without animation).
 > 2. In the island, hydrate only when the section becomes visible (`client:visible`).
 > 3. Share a single IntersectionObserver utility.
@@ -1217,17 +1340,20 @@ If section implementation causes issues:
 ## AI Assistant Notes
 
 ### Key Files to Reference
+
 - `src/components/sections/*` - All section components
 - `src/pages/index.astro` - Section composition
 - Section-specific assets and content
 
 ### Common Prompts for This Phase
+
 - "Create a testimonials section with carousel"
 - "Build an accessible FAQ accordion section"
 - "Design a hero section with animated background"
 - "Compose sections for landing page"
 
 ### Context Requirements
+
 - Brand guidelines for styling
 - Content requirements per section
 - Performance constraints

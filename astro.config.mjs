@@ -162,14 +162,6 @@ export default defineConfig({
         maxHeadingLevel: 4,
       },
       favicon: "./src/assets/logo.svg",
-      markdown: {
-        // Provide shared MDX components (stubs for Card, CardGrid, etc.) so docs MDX files
-        // can use them without importing each one individually.
-        // components: mdxComponents, // DEPRECATED: Moved to top-level `components` property.
-        // Removed explicit Aside component import to avoid Node parsing .astro files during config evaluation.
-        // Starlight provides default components out-of-the-box, so custom mapping is unnecessary here.
-        remarkPlugins: [starlightLinksValidator()],
-      },
       locales: {
         root: {
           label: "English",
@@ -179,27 +171,30 @@ export default defineConfig({
     }),
     mdx({
       components: mdxComponents,
-      remarkPlugins: [
-        // Add snippet includes plugin first (processes shortcodes before other plugins)
-        [
-          remarkSnippetIncludes,
-          {
-            rootDir: process.cwd(),
-            snippetsDir: "src/content/docs/snippets",
-            strict: true,
-          },
-        ],
-      ],
     }),
     // Main site Tailwind with strict isolation
     tailwind({
-      configFile: "./tailwind.config.ts",
+      configFile: "./tailwind.config.mjs",
       applyBaseStyles: false, // Important for isolation from Starlight
     }),
     sitemap(),
     preact(), // Ensure Preact is available for .tsx MDX components
     compress(), // Optional: For compressing output, good for performance
   ],
+
+  markdown: {
+    remarkPlugins: [
+      starlightLinksValidator(),
+      [
+        remarkSnippetIncludes,
+        {
+          rootDir: process.cwd(),
+          snippetsDir: "src/content/docs/snippets",
+          strict: true,
+        },
+      ],
+    ],
+  },
 
   // Enhanced build configuration
   vite: {

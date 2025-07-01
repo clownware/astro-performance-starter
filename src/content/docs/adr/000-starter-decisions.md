@@ -1,18 +1,12 @@
 ---
-title: 000 starter decisions
-description: '***'
-last_reviewed_on: '2025-07-01'
----
-
-***
-
-title: 'ADR-001: Astro Performance Starter Template Architecture Decisions'
-version: 1.0.0
+title: 'ADR-000: Astro Performance Starter Template Architecture Decisions'
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
-Architectural Decision Record for initial Astro performance starter template
-architecture choices.
----------------------
+  Architectural Decision Record for initial Astro performance starter template
+  architecture choices
+tableOfContents: true
+pagefind: true
+---
 
 ## Status
 
@@ -36,7 +30,7 @@ This Astro performance starter template aims to provide a production-ready found
 
 This starter template is specifically designed as an **Astro Performance Starter** to achieve 100/100 Lighthouse scores with zero JavaScript by default. The framework choice is Astro \{\{versions.astro}}, and the decisions below focus on optimal tooling choices within the Astro ecosystem.
 
-**Astro \{\{versions.astro}} + Vite Build System**
+#### Astro \{\{versions.astro}} + Vite Build System
 
 * **Pros**: Zero JS by default, excellent performance, built-in optimizations, perfect for static sites, islands architecture for selective hydration
 * **Rationale**: Astro is specifically chosen for performance-first static sites, making this the ideal foundation for a performance-focused starter template
@@ -44,24 +38,24 @@ This starter template is specifically designed as an **Astro Performance Starter
 
 ### Code Quality Tooling
 
-**Option 1: Biome (single tool)**
+#### Option 1: Biome (single tool)
 
 * **Pros**: 20x faster than ESLint, single tool for lint + format
 * **Cons**: Newer tool, less ecosystem
 
-**Option 2: ESLint + Prettier**
+#### Option 2: ESLint + Prettier
 
 * **Pros**: Mature, extensive plugin ecosystem
 * **Cons**: Slower, requires multiple tools, config complexity
 
 ### CSS Framework
 
-**Option 1: Tailwind CSS \{\{versions.tailwindcss}}**
+#### Option 1: Tailwind CSS \{\{versions.tailwindcss}}
 
 * **Pros**: Utility-first, tree-shakeable, design tokens support
 * **Cons**: Learning curve for newcomers
 
-**Option 2: CSS Modules + PostCSS**
+#### Option 2: CSS Modules + PostCSS
 
 * **Pros**: Familiar to most developers, explicit
 * **Cons**: More boilerplate, harder to maintain consistency

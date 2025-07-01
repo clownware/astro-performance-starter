@@ -1,15 +1,15 @@
 ---
 title: Project Directory Structure
-version: 1.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
-description: Overview of the standardized directory structure for Astro projects.
-last_reviewed_on: '2025-07-01'
+description: Overview of the standardized directory structure for Astro projects
+tableOfContents: true
+pagefind: true
 ---
 > 📁 **Purpose**: Standardized organization for Astro projects
 
 ## Complete Structure
 
-```
+```bash
 project-root/
 ├── .astro/                     # Astro cache (git-ignored)
 ├── .github/                    # GitHub configuration
@@ -177,6 +177,7 @@ project-root/
 ## Directory Purposes
 
 ### Configuration Files (Root)
+
 - **astro.config.mjs**: Framework configuration
 - **tailwind.config.ts**: CSS framework setup
 - **tsconfig.json**: TypeScript settings
@@ -184,6 +185,7 @@ project-root/
 - **package.json**: Dependencies and scripts
 
 ### Source Code (/src)
+
 - **components/**: Reusable UI components (Atomic Design)
 - **content/**: Markdown/MDX content with schemas
 - **layouts/**: Page wrapper components
@@ -193,17 +195,20 @@ project-root/
 - **types/**: TypeScript definitions
 
 ### Documentation (/docs)
+
 - **adr/**: Architecture decisions
 - **implementation-guides/**: Phase-by-phase guides
 - **design-system-changelog.md**: UI updates
 
 ### Build & Deploy
+
 - **dist/**: Production build output
 - **public/**: Static assets served as-is
 - **scripts/**: Build and utility scripts
 - **.github/**: CI/CD workflows
 
 ### Quality & Testing
+
 - **tests/**: Test suites (Showcase track)
 - **perf-baseline/**: Performance benchmarks
 - **.husky/**: Git hooks for quality
@@ -211,14 +216,16 @@ project-root/
 ## File Naming Conventions
 
 ### Components
-```
+
+```bash
 PascalCase.astro     # Astro components
 kebab-case.ts        # TypeScript files
 kebab-case.css       # Style files
 ```
 
 ### Content
-```
+
+```bash
 blog/
   2024-01-15-post-title.mdx    # Date prefix for posts
   draft-post-idea.mdx           # Drafts clearly marked
@@ -228,7 +235,8 @@ projects/
 ```
 
 ### Utilities
-```
+
+```bash
 utils/
   format-date.ts                # Descriptive function names
   parse-markdown.ts             # Action-object pattern
@@ -237,6 +245,7 @@ utils/
 ## Import Aliases
 
 Configure in `tsconfig.json`:
+
 ```json
 {
   "compilerOptions": {
@@ -249,6 +258,7 @@ Configure in `tsconfig.json`:
 ```
 
 Usage:
+
 ```typescript
 import Button from '@/components/atoms/Button.astro';
 import { formatDate } from '@/utils/dates';
@@ -260,13 +270,16 @@ import type { Project } from '@/types/content';
 ## Organization Principles
 
 ### 1. Atomic Design for Components
+
 - **Atoms**: Smallest building blocks (Button, Input)
 - **Molecules**: Simple combinations (Card, FormField)
 - **Organisms**: Complex sections (Header, Hero)
 
 ### 2. Feature-Based Organization
+
 Group related code by feature when it grows:
-```
+
+```bash
 features/
   blog/
     components/
@@ -275,8 +288,10 @@ features/
 ```
 
 ### 3. Colocation
+
 Keep related files together:
-```
+
+```bash
 projects/
   ProjectCard.astro      # Component
   ProjectCard.test.ts    # Test
@@ -284,6 +299,7 @@ projects/
 ```
 
 ### 4. Public vs Processed
+
 - **public/**: Served as-is, no processing
 - **src/assets/**: Processed by build tools
 
@@ -330,14 +346,24 @@ playwright-report/
 ## Best Practices
 
 ### 1. Keep Pages Thin
+
 Pages should primarily compose components:
+
 ```astro
----
+
+
+***
+
+
 // pages/index.astro
 import Layout from '@layouts/BaseLayout.astro';
 import Hero from '@components/organisms/Hero.astro';
 import Features from '@components/organisms/Features.astro';
----
+
+
+***
+
+
 
 <Layout>
   <Hero />
@@ -346,7 +372,9 @@ import Features from '@components/organisms/Features.astro';
 ```
 
 ### 2. Centralize Types
+
 Define types once, import everywhere:
+
 ```typescript
 // types/content.ts
 export interface Project {
@@ -357,7 +385,9 @@ export interface Project {
 ```
 
 ### 3. Use Index Files Sparingly
+
 Only for public APIs:
+
 ```typescript
 // components/atoms/index.ts
 export { default as Button } from './Button.astro';
@@ -365,6 +395,7 @@ export { default as Badge } from './Badge.astro';
 ```
 
 ### 4. Organize by Concern
+
 - **Business logic**: /src/lib or /src/features
 - **UI components**: /src/components
 - **Content**: /src/content
@@ -384,6 +415,7 @@ When restructuring existing projects:
 ## Maintenance
 
 Regular tasks:
+
 - Clean up unused files monthly
 - Update dependencies weekly
 - Review structure quarterly

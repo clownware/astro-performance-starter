@@ -1,7 +1,9 @@
 ---
 title: Rollback Strategies - Recovery Procedures
-description: "> \U0001F504 **Purpose**: Comprehensive recovery procedures for when things go wrong\r"
-last_reviewed_on: '2025-07-01'
+description: "> \U0001F504 **Purpose**: Comprehensive recovery procedures for when things go wrong"
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 # Rollback Strategies - Recovery Procedures
 
@@ -120,7 +122,11 @@ Layout and component changes that affect the entire site.
 ```typescript
 // Implement backwards compatibility
 // src/components/Button.astro
----
+
+
+***
+
+
 // Support both old and new props
 export interface Props {
   // New prop
@@ -140,7 +146,11 @@ const {
 if (type && import.meta.env.DEV) {
   console.warn('Button: "type" prop is deprecated. Use "variant" instead.');
 }
----
+
+
+***
+
+
 ```
 
 ### Phase 7: Content Rollback
@@ -241,9 +251,17 @@ jobs:
 ```typescript
 // Feature flag approach
 // src/components/HeavyComponent.astro
----
+
+
+***
+
+
 const enableNewFeature = import.meta.env.PUBLIC_ENABLE_HEAVY_FEATURE === 'true';
----
+
+
+***
+
+
 
 {enableNewFeature ? (
   <NewHeavyComponent />
@@ -295,13 +313,21 @@ netlify rollback
 ```typescript
 // Emergency error boundary
 // src/layouts/ErrorBoundary.astro
----
+
+
+***
+
+
 export interface Props {
   fallback?: string;
 }
 
 const { fallback = '/maintenance' } = Astro.props;
----
+
+
+***
+
+
 
 <script define:vars={{ fallback }}>
   window.addEventListener('error', (event) => {
@@ -499,10 +525,18 @@ git gc --aggressive --prune=now
 ### 3. Emergency Maintenance Mode
 
 ```astro
----
+
+
+***
+
+
 // src/pages/maintenance.astro
 // Deploy this as index.astro in emergencies
----
+
+
+***
+
+
 
 <!DOCTYPE html>
 <html lang="en">

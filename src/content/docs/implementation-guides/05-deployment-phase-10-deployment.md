@@ -1,19 +1,21 @@
 ---
-title: 'Phase 10: Deployment & Monitoring'
-version: 1.0.0
+title: Phase 10- Deployment & Monitoring
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers live site deployment, CI/CD pipeline, monitoring setup, and backup
-  strategy for both tracks.
-last_reviewed_on: '2025-07-01'
+  strategy for both tracks
+tableOfContents: true
+pagefind: true
 ---
 ## Overview
+
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1 day
 - **Dependencies**: Phase 0-9 completed
 - **Deliverables**: Live site, CI/CD pipeline, monitoring setup, backup strategy
 
 ## Entry Criteria
+
 - [ ] Performance optimization complete
 - [ ] All tests passing
 - [ ] Content finalized
@@ -43,11 +45,13 @@ last_reviewed_on: '2025-07-01'
 Cloudflare Pages is the recommended deployment platform for this project due to its fast global edge network, free analytics, and seamless integration with Cloudflare Workers for any dynamic functionalities or server-side rendering (SSR) needs. This makes it an excellent choice for high-performance static sites with the option to scale to more complex applications.
 
 **Key Advantages**:
+
 - **Performance**: Leverages Cloudflare's extensive CDN for fast content delivery worldwide.
 - **Analytics**: Provides built-in, privacy-focused web analytics.
 - **Scalability with Workers**: Easily add server-side logic, API endpoints, or SSR for specific components/pages using Cloudflare Workers.
 
 **Watch-outs & Tweaks**:
+
 - **SSR Islands & Cloudflare Functions**: If using SSR for Astro {{versions.astro}} islands or implementing API routes via Cloudflare Functions (either through Pages Functions or dedicated Workers), be mindful of potential cold starts. These can impact the initial response time for dynamic parts of your site.
 - **Performance Budgeting**: Factor in potential cold start times into your performance targets, especially for critical user interactions relying on server-side execution. Optimize functions for quick boot-up where possible.
 - **Configuration**: Ensure `wrangler.toml` is correctly configured for your project's needs, including environment variables, redirects, and custom headers.
@@ -473,10 +477,18 @@ export function measurePerformance(name: string, fn: () => void | Promise<void>)
 ### 3. Analytics Setup
 
 ```astro
----
+
+
+***
+
+
 // src/components/Analytics.astro
 const { analyticsId, gtmId, enableAnalytics } = Astro.props;
----
+
+
+***
+
+
 
 {enableAnalytics && (
   <>
@@ -841,18 +853,21 @@ If deployment issues occur:
 ## AI Assistant Notes
 
 ### Key Files to Reference
+
 - Deployment configuration files
 - CI/CD workflows
 - Environment variable setup
 - Monitoring scripts
 
 ### Common Prompts for This Phase
+
 - "Set up Cloudflare Pages deployment"
 - "Configure GitHub Actions for CI/CD"
 - "Implement error tracking with Sentry"
 - "Create automated backup strategy"
 
 ### Context Requirements
+
 - Hosting platform choice
 - Domain name
 - Analytics preferences

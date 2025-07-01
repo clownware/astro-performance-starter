@@ -1,19 +1,21 @@
 ---
-title: 'Phase 8: Quality Assurance'
-version: 1.0.0
+title: Phase 8- Quality Assurance
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers test results, bug fixes, accessibility audit, and cross-browser
-  validation for Lite (MVP) and Full (Showcase) tracks.
-last_reviewed_on: '2025-07-01'
+  validation for Lite (MVP) and Full (Showcase) tracks
+tableOfContents: true
+pagefind: true
 ---
 ## Overview
+
 - **Track**: Lite (MVP) / Full (Showcase)
 - **Effort**: Varies by scope and testing depth
 - **Dependencies**: Phase 0-7 completed
 - **Deliverables**: Test results, bug fixes, accessibility audit, cross-browser validation
 
 ## Entry Criteria
+
 - [ ] All pages and components built
 - [ ] Content populated
 - [ ] Images optimized
@@ -865,18 +867,21 @@ If critical issues found:
 ## AI Assistant Notes
 
 ### Key Files to Reference
+
 - `tests/e2e/*` - End-to-end test suites
 - `playwright.config.ts` - Test configuration
 - Test utilities and helpers
 - Bug tracking templates
 
 ### Common Prompts for This Phase
+
 - "Write E2E tests for user registration flow"
 - "Create accessibility test suite"
 - "Set up visual regression testing"
 - "Debug flaky test failures"
 
 ### Context Requirements
+
 - User flows to test
 - Browser/device matrix
 - Performance thresholds

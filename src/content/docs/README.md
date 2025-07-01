@@ -1,22 +1,14 @@
 ---
-title: README
-description: '***'
-last_reviewed_on: '2025-07-01'
----
-
-***
-
-title: "\U0001F4DA Documentation Hub"
-version: 1.0.0
+title: Docs README
 lastUpdated: 2025-06-10T00:00:00.000Z
-description: Central hub for all documentation related to the Astro Performance Starter.
-----------------------------------------------------------------------------------------
+description: Central hub for all documentation related to the Astro Performance Starter
+tableOfContents: true
+pagefind: true
+---
 
 > Canonical documentation entry point is the **root [`README.md`](/)** of this repository.
 >
 > This stub exists to avoid 404s and duplicate sources of truth. Please navigate to the root README for the latest quick-links, roadmap and contribution guidelines.
-
-***
 
 For a deep dive into phase-by-phase guides, browse the `implementation-guides/` directory or open the [Implementation Roadmap](/ROADMAP/).
 
@@ -57,40 +49,40 @@ These phases establish immutable decisions that are costly to change later.
 
 Build the application skeleton and component library.
 
-5. **[Phase 4: Skeleton](/implementation-guides/02-structure-phase-4-skeleton/)** ⏱️ 2-3 days\
+1. **[Phase 4: Skeleton](/implementation-guides/02-structure-phase-4-skeleton/)** ⏱️ 2-3 days\
    Create layouts, routing, navigation, SEO metadata
 
-6. **[Phase 5: Components](/implementation-guides/02-structure-phase-5-components/)** ⏱️ 2-4 days\
+2. **[Phase 5: Components](/implementation-guides/02-structure-phase-5-components/)** ⏱️ 2-4 days\
    Build UI component library (MVP: essential only, Showcase: full library)
 
-7. **[Phase 6: Sections](/implementation-guides/02-structure-phase-6-sections/)** ⏱️ 2-3 days\
+3. **[Phase 6: Sections](/implementation-guides/02-structure-phase-6-sections/)** ⏱️ 2-3 days\
    Compose page sections from components
 
 ### Implementation (Days 11-15)
 
 Create content and ensure quality.
 
-8. **[Phase 7: Content](/implementation-guides/03-content-phase-7-content/)** ⏱️ 3-5 days\
+1. **[Phase 7: Content](/implementation-guides/03-content-phase-7-content/)** ⏱️ 3-5 days\
    Author content, optimize images, populate site
 
-9. **[Phase 8: QA](/implementation-guides/04-quality-phase-8-qa/)** ⏱️ 1-3 days\
+2. **[Phase 8: QA](/implementation-guides/04-quality-phase-8-qa/)** ⏱️ 1-3 days\
    Test functionality, accessibility, cross-browser
 
-10. **[Phase 9: Performance](/implementation-guides/04-quality-phase-9-performance/)** ⏱️ 1-2 days\
-    Optimize for Core Web Vitals, enforce budgets
+3. **[Phase 9: Performance](/implementation-guides/04-quality-phase-9-performance/)** ⏱️ 1-2 days\
+   Optimize for Core Web Vitals, enforce budgets
 
 ### Deployment (Days 16-18)
 
 Ship to production and establish maintenance.
 
-11. **[Phase 10: Deployment](/implementation-guides/05-deployment-phase-10-deployment/)** ⏱️ 1 day\
-    Deploy to hosting, configure CDN, set up monitoring
+1. **[Phase 10: Deployment](/implementation-guides/05-deployment-phase-10-deployment/)** ⏱️ 1 day\
+   Deploy to hosting, configure CDN, set up monitoring
 
-12. **[Phase 11: Documentation](/implementation-guides/05-deployment-phase-11-documentation/)** ⏱️ 1-2 days\
-    Document architecture, components, maintenance procedures
+2. **[Phase 11: Documentation](/implementation-guides/05-deployment-phase-11-documentation/)** ⏱️ 1-2 days\
+   Document architecture, components, maintenance procedures
 
-13. **[Phase 12: Post-Launch](/implementation-guides/05-deployment-phase-12-post-launch/)** ⏱️ 1 day\
-    Establish monitoring, feedback loops, iteration plan
+3. **[Phase 12: Post-Launch](/implementation-guides/05-deployment-phase-12-post-launch/)** ⏱️ 1 day\
+   Establish monitoring, feedback loops, iteration plan
 
 ### Progress Tracking
 
@@ -240,4 +232,4 @@ See our [Contributing Guide](/CONTRIBUTING/) for:
 
 ***
 
-*Questions? Check our [FAQ](/FAQ/) or open a [Discussion](#) <!-- TODO: Update GitHub Discussions link -->*
+*Questions? Check our [FAQ](/FAQ/) or open a [Discussion](https://github.com/clownware/astro-starter-template/discussions) <!-- TODO: Update GitHub Discussions link -->*

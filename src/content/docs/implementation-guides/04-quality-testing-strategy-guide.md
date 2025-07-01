@@ -1,7 +1,9 @@
 ---
 title: Testing Strategy Guide
-description: "> **Purpose**: Comprehensive testing approach for MVP and Showcase tracks\r"
-last_reviewed_on: '2025-07-01'
+description: '> **Purpose**: Comprehensive testing approach for MVP and Showcase tracks'
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 # Testing Strategy Guide
 
@@ -25,6 +27,7 @@ This guide outlines testing strategies tailored to each implementation track. MV
 ## MVP Track Testing
 
 ### Philosophy
+
 Focus on critical user paths and core functionality with efficient manual testing.
 
 ### 1. Manual Testing Checklist
@@ -134,6 +137,7 @@ echo "All smoke tests passed!"
 ## Showcase Track Testing
 
 ### Philosophy
+
 Implement comprehensive automated testing with continuous integration to catch regressions early.
 
 ### 1. Testing Stack
@@ -573,7 +577,7 @@ jobs:
 
 ### Directory Structure
 
-```
+```bash
 tests/
 ├── e2e/                    # End-to-end tests
 │   ├── navigation.spec.ts
@@ -826,6 +830,7 @@ test.describe('Flaky Test Suite', () => {
 ### 3. Test Performance
 
 Keep tests fast by:
+
 - Running tests in parallel
 - Using test fixtures
 - Mocking external services
@@ -837,11 +842,13 @@ Keep tests fast by:
 ### 1. Over-Testing
 
 **MVP**: Don't automate everything
+
 - Focus on critical paths
 - Manual testing is often faster
 - Maintain cost/benefit balance
 
 **Showcase**: Don't test implementation details
+
 - Test behavior, not structure
 - Avoid brittle selectors
 - Focus on user outcomes
@@ -849,11 +856,13 @@ Keep tests fast by:
 ### 2. Under-Testing
 
 **MVP**: Don't skip accessibility
+
 - Basic keyboard navigation
 - Color contrast
 - Screen reader basics
 
 **Showcase**: Don't ignore edge cases
+
 - Error states
 - Loading states
 - Empty states
@@ -892,6 +901,7 @@ Keep tests fast by:
 ## Conclusion
 
 Choose your testing strategy based on project needs:
+
 - **MVP**: Quick, focused manual testing
 - **Showcase**: Comprehensive automated testing
 

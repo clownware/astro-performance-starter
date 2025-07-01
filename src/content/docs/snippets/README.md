@@ -1,7 +1,11 @@
 ---
 title: Documentation Snippets
-description: "This directory contains reusable code snippets and configuration blocks that are referenced across multiple documentation files.\r"
-last_reviewed_on: '2025-07-01'
+description: >-
+  This directory contains reusable code snippets and configuration blocks that
+  are referenced across multiple documentation files
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 # Documentation Snippets
 
@@ -31,6 +35,7 @@ Snippets are embedded using the shortcode syntax:
 ## Snippet Structure
 
 Each snippet file should:
+
 - Be standalone and complete
 - Include necessary context comments
 - Follow the project's code style
@@ -39,6 +44,7 @@ Each snippet file should:
 ## Maintenance
 
 When updating a snippet:
+
 1. Update the snippet file directly
 2. Changes propagate automatically to all references
 3. No need to update multiple documentation files

@@ -1,19 +1,21 @@
 ---
-title: 'Phase 4: Skeleton Layout & Routing'
-version: 1.0.0
+title: Phase 4- Skeleton Layout & Routing
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers base layout, routing structure, navigation, and metadata system for
-  both tracks.
-last_reviewed_on: '2025-07-01'
+  both tracks
+tableOfContents: true
+pagefind: true
 ---
 ## Overview
+
 - **Track**: Both (MVP & Showcase)
 - **Effort**: Moderate, depends on project complexity
 - **Dependencies**: Phase 0-3 completed
 - **Deliverables**: Base layout, routing structure, navigation, metadata system
 
 ## Entry Criteria
+
 - [ ] Design system configured
 - [ ] Content architecture defined
 - [ ] Tooling and CI functional
@@ -41,7 +43,11 @@ last_reviewed_on: '2025-07-01'
 ### Base Layout Component
 
 ```astro
----
+
+
+***
+
+
 // src/layouts/BaseLayout.astro
 import { ViewTransitions } from 'astro:transitions';
 import Header from '@/components/layout/Header.astro';
@@ -69,7 +75,11 @@ const {
 
 const siteTitle = 'Your Site Name';
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
----
+
+
+***
+
+
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
@@ -169,7 +179,11 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 ### Header Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/layout/Header.astro
 import { getCollection } from 'astro:content';
 import ThemeToggle from '@/components/ThemeToggle.astro';
@@ -177,7 +191,11 @@ import MobileMenu from '@/components/MobileMenu.astro';
 
 const navigation = await getCollection('navigation');
 const navItems = navigation[0]?.data.items || [];
----
+
+
+***
+
+
 
 <header class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
   <div class="container flex h-16 items-center justify-between">
@@ -217,7 +235,11 @@ const navItems = navigation[0]?.data.items || [];
 ### Mobile Navigation Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/MobileMenu.astro
 // This Astro component now delegates its interactive parts to a client-side island.
 import MobileMenuIsland from '@/components/islands/MobileMenuIsland.tsx'; // Or .jsx, .vue, .svelte
@@ -231,7 +253,11 @@ export interface Props {
 }
 
 const { items } = Astro.props;
----
+
+
+***
+
+
 {/* 
   The visual structure and interactive logic for the mobile menu are now handled by 
   the 'MobileMenuIsland' client component. This approach adheres to the 'inline_scripts: 0' 
@@ -251,7 +277,11 @@ const { items } = Astro.props;
 ### Footer Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/layout/Footer.astro
 const currentYear = new Date().getFullYear();
 
@@ -266,7 +296,11 @@ const socialLinks = [
   { label: 'LinkedIn', href: 'https://linkedin.com/in/yourusername', icon: 'linkedin' },
   { label: 'Twitter', href: 'https://twitter.com/yourusername', icon: 'twitter' },
 ];
----
+
+
+***
+
+
 
 <footer class="border-t border-border bg-background">
   <div class="container py-8">
@@ -337,13 +371,21 @@ const socialLinks = [
 ### Page Routes
 
 ```astro
----
+
+
+***
+
+
 // src/pages/index.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/home/Hero.astro';
 import FeaturedProjects from '@/components/home/FeaturedProjects.astro';
 import RecentPosts from '@/components/home/RecentPosts.astro';
----
+
+
+***
+
+
 
 <BaseLayout
   title="Your Name - Web Developer"
@@ -356,13 +398,21 @@ import RecentPosts from '@/components/home/RecentPosts.astro';
 ```
 
 ```astro
----
+
+
+***
+
+
 // src/pages/projects.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects', ({ data }) => !data.draft);
----
+
+
+***
+
+
 
 <BaseLayout
   title="Projects"
@@ -407,9 +457,17 @@ const projects = await getCollection('projects', ({ data }) => !data.draft);
 ### Skip Link Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/a11y/SkipLink.astro
----
+
+
+***
+
+
 
 <a href="#main-content" class="skip-link">
   Skip to main content
@@ -438,10 +496,18 @@ const projects = await getCollection('projects', ({ data }) => !data.draft);
 ### 404 Page
 
 ```astro
----
+
+
+***
+
+
 // src/pages/404.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
----
+
+
+***
+
+
 
 <BaseLayout
   title="404 - Page Not Found"
@@ -466,10 +532,18 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 ### Analytics Setup
 
 ```astro
----
+
+
+***
+
+
 // src/components/Analytics.astro
 const { analyticsId } = import.meta.env;
----
+
+
+***
+
+
 
 {analyticsId && (
   <!-- Plausible Analytics -->
@@ -590,18 +664,21 @@ If skeleton needs major changes:
 ## AI Assistant Notes
 
 ### Key Files to Reference
+
 - `src/layouts/BaseLayout.astro` - Main layout
 - `src/components/layout/*` - Header/Footer
 - `public/_headers` - Security headers
 - `perf-baseline/scores.json` - Performance targets
 
 ### Common Prompts for This Phase
+
 - "Create Astro layout with SEO metadata"
 - "Build accessible mobile navigation"
 - "Set up security headers for Astro"
 - "Configure font preloading strategy"
 
 ### Context Requirements
+
 - Site structure and pages
 - Brand/logo assets
 - Navigation hierarchy

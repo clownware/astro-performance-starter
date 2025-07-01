@@ -1,7 +1,9 @@
 ---
 title: Install Husky
-description: "```bash\r"
-last_reviewed_on: '2025-07-01'
+description: '```bash'
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 ```bash
 # Install Husky
@@ -13,6 +15,7 @@ echo 'pnpm exec lint-staged' > .husky/pre-commit
 ```
 
 **`.husky/pre-commit`:**
+
 ```bash
 #!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"
@@ -21,6 +24,7 @@ pnpm exec lint-staged
 ```
 
 **`.husky/commit-msg`:**
+
 ```bash
 #!/usr/bin/env sh
 . "$(dirname "$0")/_/husky.sh"

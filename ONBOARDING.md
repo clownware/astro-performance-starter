@@ -12,6 +12,7 @@ description: "Guide for developers to set up and start working with the Astro Pe
 ## Prerequisites
 
 Before you begin, ensure you have:
+
 - **Node.js** 22.x or later ([install](https://nodejs.org/))
 - **pnpm** 9.x or later (`npm install -g pnpm`)
 - **Git** for version control
@@ -60,7 +61,7 @@ pnpm run validate:contrast # Check WCAG compliance
 
 ## Project Structure at a Glance
 
-```
+```bash
 src/
 ├── pages/        # Routes (file = URL)
 ├── layouts/      # Page wrappers
@@ -92,7 +93,9 @@ src/
 ## Common Tasks
 
 ### Adding a New Page
+
 Create a file in `src/pages/`:
+
 ```astro
 ---
 // src/pages/example.astro
@@ -105,7 +108,9 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 ```
 
 ### Creating a Component
+
 Add to appropriate atomic level:
+
 ```astro
 ---
 // src/components/atoms/MyButton.astro
@@ -122,7 +127,9 @@ const { variant = 'primary' } = Astro.props;
 ```
 
 ### Working with Content
+
 Add MDX files to `src/content/`:
+
 ```mdx
 ---
 # src/content/blog/my-post.mdx
@@ -152,4 +159,4 @@ This supports **markdown** and components.
 
 ---
 
-*Welcome to the team! We're excited to have you contributing to this project. Remember: when in doubt, check the performance budget and prefer static solutions.*
+*Welcome to the team! We're excited to have you contributing to this project. Remember: when in doubt, check the performance budget and prefer static solutions.

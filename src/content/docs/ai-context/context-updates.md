@@ -1,9 +1,9 @@
 ---
 title: Maintaining AI Context
-version: 1.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
-description: Guidelines for keeping AI context documents accurate and helpful.
-last_reviewed_on: '2025-07-01'
+description: Guidelines for keeping AI context documents accurate and helpful
+tableOfContents: true
+pagefind: true
 ---
 > 🔄 **Purpose**: Keep AI context documents accurate and helpful
 
@@ -120,6 +120,7 @@ last_reviewed_on: '2025-07-01'
 ### Monthly Deep Review
 
 1. **Test All Examples**
+
    ```bash
    # Create fresh project
    pnpm create astro@latest -- --template ./
@@ -129,6 +130,7 @@ last_reviewed_on: '2025-07-01'
    ```
 
 2. **Dependency Audit**
+
    ```bash
    # Check for updates
    pnpm outdated
@@ -208,7 +210,8 @@ jobs:
 ### 1. Stale Phase Status
 
 **Problem**: Phase checkboxes don't reflect actual progress
-**Solution**: 
+**Solution**:
+
 - Review completed work against phase exit criteria
 - Update checkboxes based on actual completion
 - Add notes about partial completion
@@ -217,6 +220,7 @@ jobs:
 
 **Problem**: Examples use old syntax or deprecated features
 **Solution**:
+
 - Test examples in fresh project
 - Update to current best practices
 - Add version notes if needed
@@ -226,6 +230,7 @@ jobs:
 
 **Problem**: AI makes incorrect assumptions
 **Solution**:
+
 - Add explicit constraints
 - Document implicit knowledge
 - Include more examples
@@ -235,6 +240,7 @@ jobs:
 
 **Problem**: Different guides say different things
 **Solution**:
+
 - Identify source of truth
 - Update all references
 - Add clarification notes
@@ -294,20 +300,24 @@ jobs:
 ## Review Schedule
 
 ### Daily
+
 - Quick scan for obvious errors during development
 
 ### Weekly  
+
 - Phase status accuracy
 - Active development areas
 - New patterns or issues
 
 ### Monthly
+
 - Full accuracy audit  
 - Dependency updates
 - Pattern effectiveness
 - Team feedback
 
 ### Quarterly
+
 - Complete restructure evaluation
 - Archive outdated content
 - Plan major updates

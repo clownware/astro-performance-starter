@@ -1,23 +1,25 @@
 ---
 title: Consolidated Table Format Guide
-version: 1.0.0
 lastUpdated: 2025-06-19T00:00:00.000Z
 description: >-
   Standard format for MVP vs Showcase track tables to eliminate duplication and
-  improve maintainability.
-last_reviewed_on: '2025-07-01'
+  improve maintainability
+tableOfContents: true
+pagefind: true
 ---
 > 🎯 **Purpose**: Eliminate duplicate content between MVP and Showcase tracks while maintaining clear differentiation
 
 ## Problem Addressed
 
 **Before**: Separate tables for each track leading to:
+
 - Duplicate task names and descriptions
 - Higher maintenance burden
 - Inconsistent formatting
 - Content drift between tracks
 
 **After**: Single consolidated table with track indicators providing:
+
 - Single source of truth
 - Consistent formatting
 - Easier maintenance
@@ -50,12 +52,15 @@ last_reviewed_on: '2025-07-01'
 ## Track Indicators
 
 ### Standard Symbols
+
 - ✅ = Required for this track
 - ❌ = Not required for this track
 - 📋 = Optional/recommended for this track
 
 ### Progressive Enhancement Notation
+
 Use arrow notation in the Notes column for different implementations:
+
 - `Basic → Advanced` - Different complexity levels
 - `Manual → Automated` - Different approaches
 - `Essential → Enhanced` - Different scope
@@ -122,6 +127,7 @@ When converting existing tables:
 ### Consolidation Status
 
 **Completed Phases:**
+
 - [x] Phase 8 QA - Implementation steps & exit criteria consolidated
 - [x] Phase 11 Documentation - Implementation steps & exit criteria consolidated  
 - [x] Phase 12 Post Launch - Implementation steps & exit criteria consolidated
@@ -129,10 +135,12 @@ When converting existing tables:
 - [x] Phase 5 Components - Implementation steps consolidated
 
 **Already Using Consolidated Format:**
+
 - Phase 4 Skeleton - Uses consolidated format ✅
 - Phase 9 Performance - Uses consolidated format ✅
 
 **No Duplication Issues:**
+
 - Phases 0-3, 7, 10 - Single track or no table duplication
 
 ## Benefits

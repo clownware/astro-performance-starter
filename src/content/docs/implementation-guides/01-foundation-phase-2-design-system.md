@@ -1,21 +1,23 @@
 ---
-title: 'Phase 2: Design System & Tokens'
-version: 1.0.0
+title: Phase 2- Design System & Tokens
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers design tokens, Tailwind configuration, CSS architecture, and
-  accessibility primitives for both tracks.
-last_reviewed_on: '2025-07-01'
+  accessibility primitives for both tracks
+tableOfContents: true
+pagefind: true
 ---
 <Badge variant="success">Done</Badge>
 
 ## Overview
+
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1-2 days
 - **Dependencies**: Phase 0-1 completed
 - **Deliverables**: Design tokens, Tailwind config, CSS architecture, accessibility primitives
 
 ## Entry Criteria
+
 - [x] Content architecture defined
 - [x] TypeScript configured
 - [x] Tailwind CSS installed
@@ -207,6 +209,7 @@ last_reviewed_on: '2025-07-01'
 Tailwind CSS {{versions.tailwindcss}} is now stable and provides significant improvements over v3, including better performance, enhanced design token integration, and improved developer experience.
 
 **Key {{versions.tailwindcss}} Benefits:**
+
 - **Better Performance**: Faster build times and smaller CSS output
 - **Enhanced Design Tokens**: Native CSS variables support
 - **Improved DX**: Better IDE support and error messages
@@ -221,12 +224,13 @@ The project uses `tailwindcss: "^{{versions.tailwindcss}}"` which ensures you ge
 The project currently leverages Astro's built-in `<Image>` component for image optimization. This component, often paired with the Sharp.js library under the hood (as per default Astro configurations), handles tasks like resizing, format conversion (e.g., to AVIF, WebP), and generating responsive `srcset` attributes. This is generally sufficient for optimal performance and image handling at the current scale.
 
 **Future Consideration: Image CDN Fallback/Enhancement**
-While the built-in solution is robust, if the project experiences a significant spike in traffic, or if the requirements for delivering numerous device-specific image variants become more complex, integrating a dedicated image CDN should be considered. 
+While the built-in solution is robust, if the project experiences a significant spike in traffic, or if the requirements for delivering numerous device-specific image variants become more complex, integrating a dedicated image CDN should be considered.
 
 Services like **Cloudflare Images** (or similar offerings like Cloudinary, Imgix) provide benefits such as:
--   **Real-time Resizing and Optimization**: Images can be transformed on-the-fly based on request parameters or device characteristics, reducing the need to pre-generate all variants.
--   **Global CDN Delivery**: Faster image delivery worldwide.
--   **Advanced Features**: Watermarking, format negotiation, and more sophisticated art direction capabilities.
+
+- **Real-time Resizing and Optimization**: Images can be transformed on-the-fly based on request parameters or device characteristics, reducing the need to pre-generate all variants.
+- **Global CDN Delivery**: Faster image delivery worldwide.
+- **Advanced Features**: Watermarking, format negotiation, and more sophisticated art direction capabilities.
 
 This is not an immediate requirement but a potential future enhancement to keep in mind for scalability and advanced image manipulation needs. The decision to integrate such a service would involve cost considerations and a re-evaluation of the image delivery pipeline.
 
@@ -490,7 +494,11 @@ console.log('✅ Design tokens built successfully');
 ### Accessibility Utilities
 
 ```astro
----
+
+
+***
+
+
 // src/components/a11y/VisuallyHidden.astro
 export interface Props {
   as?: keyof HTMLElementTagNameMap;
@@ -498,7 +506,11 @@ export interface Props {
 }
 
 const { as: Tag = 'span', class: className } = Astro.props;
----
+
+
+***
+
+
 
 <Tag class:list={['sr-only', className]}>
   <slot />
@@ -733,9 +745,17 @@ validateContrast();
 ### Dark Mode Implementation
 
 ```astro
----
+
+
+***
+
+
 // src/components/ThemeToggle.astro
----
+
+
+***
+
+
 
 <button
   id="theme-toggle"
@@ -811,6 +831,7 @@ validateContrast();
 If design system needs major changes:
 
 1. **Token Updates**:
+
    ```bash
    # Keep old tokens
    cp tokens/base.json tokens/base.json.backup
@@ -833,18 +854,21 @@ If design system needs major changes:
 ## AI Assistant Notes
 
 ### Key Files to Reference
+
 - `tokens/base.json` - Core design tokens
 - `tailwind.config.ts` - Tailwind configuration
 - `src/styles/global.css` - Global styles
 - Token build script
 
 ### Common Prompts for This Phase
+
 - "Create accessible color palette with WCAG AA compliance"
 - "Set up Tailwind with design tokens"
 - "Implement dark mode with CSS variables"
 - "Create fluid typography scale"
 
 ### Context Requirements
+
 - Brand colors if any
 - Typography preferences
 - Motion preferences

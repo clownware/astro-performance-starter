@@ -18,23 +18,27 @@ Thank you for your interest in contributing! This project follows a structured a
 ## 🎯 Ways to Contribute
 
 ### 1. Documentation Improvements
+
 - Fix typos or clarify instructions
 - Add examples or use cases
 - Translate guides to other languages
 - Improve AI context documents
 
 ### 2. Code Enhancements
+
 - Fix bugs in the starter template
 - Improve performance optimizations
 - Add new design tokens
 - Enhance accessibility features
 
 ### 3. Pattern Contributions
+
 - Document new patterns you've discovered
 - Share performance optimization techniques
 - Add new component examples (following our patterns)
 
 ### 4. Testing and Feedback
+
 - Report issues with clear reproduction steps
 - Test on different devices and browsers
 - Provide feedback on the implementation guides
@@ -42,6 +46,7 @@ Thank you for your interest in contributing! This project follows a structured a
 ## 🔄 Development Workflow
 
 ### 1. Fork and Clone
+
 ```bash
 # Fork on GitHub first, then:
 git clone https://github.com/YOUR_USERNAME/astro-performance-starter.git
@@ -50,6 +55,7 @@ pnpm install
 ```
 
 ### 2. Create a Branch
+
 ```bash
 # Pattern: type/description
 git checkout -b docs/improve-phase-5-examples
@@ -60,6 +66,7 @@ git checkout -b feat/new-component-pattern
 ### 3. Make Your Changes
 
 Follow the appropriate phase guide:
+
 - Component changes: See [Phase 5](docs/implementation-guides/02-structure/phase-5-components.md)
 - Performance changes: See [Phase 9](docs/implementation-guides/04-quality/phase-9-performance.md)
 - Documentation: Match existing style and formatting
@@ -90,6 +97,7 @@ git commit -m "feat(components): add skeleton loading pattern"
 ```
 
 **Types:**
+
 - `feat`: New feature
 - `fix`: Bug fix
 - `docs`: Documentation only
@@ -109,23 +117,27 @@ git commit -m "feat(components): add skeleton loading pattern"
 ## 📏 Code Standards
 
 ### TypeScript
+
 - Strict mode is required
 - All exports must be typed
 - Use interfaces over types when possible
 
 ### Components
+
 - Must be accessible (WCAG AA minimum)
 - Include TypeScript props interface
 - Follow Atomic Design principles
 - Zero JavaScript by default
 
 ### Styling
+
 - Use design tokens, never hardcode values
 - Follow mobile-first approach
 - Support dark mode
 - Maintain CSS budget limits
 
 ### Documentation
+
 - Every pattern needs an example
 - Include "why" not just "how"
 - Reference phase guides when relevant
@@ -135,6 +147,7 @@ git commit -m "feat(components): add skeleton loading pattern"
 ## 🧪 Testing Requirements
 
 ### For Code Changes
+
 - [ ] Passes all quality checks (`pnpm run quality`)
 - [ ] Lighthouse scores remain 97+ for performance
 - [ ] No accessibility regressions
@@ -142,6 +155,7 @@ git commit -m "feat(components): add skeleton loading pattern"
 - [ ] Works without JavaScript enabled
 
 ### For Documentation
+
 - [ ] Links are not broken
 - [ ] Code examples are tested
 - [ ] Formatting is consistent
@@ -150,14 +164,17 @@ git commit -m "feat(components): add skeleton loading pattern"
 ## 🚀 Pull Request Guidelines
 
 ### PR Title Format
+
 Follow conventional commits format:
-```
+
+```text
 docs(phase-5): improve component examples
 fix(ci): correct bundle size calculation
 feat(tokens): add motion timing tokens
 ```
 
 ### PR Description Template
+
 ```markdown
 ## Summary
 Brief description of changes
@@ -179,6 +196,7 @@ Closes #123
 ```
 
 ### Review Process
+
 1. Automated checks must pass
 2. At least one maintainer review for code changes
 3. Documentation changes can be self-merged after 24 hours
@@ -186,12 +204,14 @@ Closes #123
 ## 🤝 Code of Conduct
 
 ### Our Standards
+
 - Be respectful and inclusive
 - Welcome newcomers and help them learn
 - Accept constructive criticism gracefully
 - Focus on what's best for the community
 
 ### Unacceptable Behavior
+
 - Harassment or discriminatory language
 - Personal attacks or trolling
 - Public or private harassment
@@ -207,6 +227,7 @@ Closes #123
 ## 🙏 Recognition
 
 Contributors will be:
+
 - Added to the README contributors section
 - Mentioned in release notes
 - Given credit in relevant documentation

@@ -1,0 +1,477 @@
+{
+  "timestamp": "2025-07-01T15:59:31.951Z",
+  "totalFiles": 67,
+  "issues": [
+    {
+      "file": "src\\content\\docs\\ROADMAP.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\README.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\quick-track-deploy.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\LINK-MIGRATION-GUIDE.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\index.mdx",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\how-to-use-design-tokens.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\github-template-structure.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\git-workflow.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\FAQ.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\DOCUMENTATION-REVIEW-CADENCE.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\design-system-changelog.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\CONTRIBUTING.md",
+      "valid": false,
+      "errors": [
+        "Failed to parse frontmatter. The file may be corrupted or have invalid YAML syntax. Error: can not read a block mapping entry; a multiline key may not be an implicit key at line 8, column 1:\n    \n    ^"
+      ],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\tracks\\track-comparison.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\tracks\\showcase-track-guide.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\tracks\\mvp-track-guide.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\tsconfig-paths.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\README.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\package-scripts.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\mvp-scripts.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\lint-staged-config.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\git-hooks.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\env-production.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\env-production-temp.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\env-example.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\commitlint-config.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\biome-config.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\snippets\\adr-template.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\patterns\\performance-patterns.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\patterns\\islands-architecture.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\patterns\\content-collections.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\patterns\\component-patterns.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\05-deployment-phase-12-post-launch.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\05-deployment-phase-11-documentation.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\05-deployment-phase-10-deployment.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\04-quality-testing-strategy-guide.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\04-quality-rollback-strategies-guide.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\04-quality-phase-9-performance.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\04-quality-phase-8-qa.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\04-quality-accessibility-guide.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\03-content-phase-7-content.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\03-content-image-optimization-guide.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\03-content-content-model-guide.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\02-structure-phase-6-sections.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\02-structure-phase-5-components.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\02-structure-phase-4-skeleton.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\01-foundation-phase-3-tooling.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\01-foundation-phase-2-design-system.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\01-foundation-phase-1-content-arch.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\01-foundation-phase-0-foundation.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\00-overview-tech-stack.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\00-overview-table-format-guide.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\00-overview-README.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\00-overview-directory-structure.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\implementation-guides\\00-overview-budgets-guardrails.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\examples\\biome-ignore-example.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\content\\author-guidelines.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\ai-context\\prompt-templates.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\ai-context\\INDEX.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\ai-context\\context-updates.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\adr\\template.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\adr\\006-documentation-review-cadence.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\adr\\005-link-validation-strategy.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\adr\\004-optional-design-system-tooling.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\adr\\003-unified-component-structure.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\adr\\002-future-css-tooling-considerations.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\adr\\001-preact-island-usage-policy.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    },
+    {
+      "file": "src\\content\\docs\\adr\\000-starter-decisions.md",
+      "valid": true,
+      "errors": [],
+      "warnings": [],
+      "fixed": false
+    }
+  ]
+}

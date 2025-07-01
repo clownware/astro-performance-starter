@@ -1,20 +1,17 @@
 ---
-title: github template structure
-description: '***'
-last_reviewed_on: '2025-07-01'
+title: GitHub Template Structure
+description: >-
+  An overview of the Astro Performance Starter template's recommended repository
+  structure for a minimal setup
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
-
-***
-
-title: Astro Performance Template - Repository Structure
-description: "\`\`\`\r astro-performance-starter/\r ├── .github/\r │   ├── workflows/\r │   │   └── ci.yml                    # Working CI pipeline\r │   ├── FUNDING.yml             "
----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
 # Astro Performance Template - Repository Structure
 
 ## Recommended GitHub Repository Structure
 
-```
+```bash
 astro-performance-starter/
 ├── .github/
 │   ├── workflows/
@@ -247,25 +244,32 @@ MIT \[Your Name]
 
 Built with for the web performance community
 
-````
-
 ### 3. Add GitHub-Specific Files
 
-**.github/FUNDING.yml**
+#### .github/FUNDING.yml
+
 ```yaml
 github: [yourusername]
 custom: ["https://www.buymeacoffee.com/yourusername"]
-````
+```
 
-**.github/ISSUE\_TEMPLATE/phase\_completion.md**
+#### .github/ISSUE\_TEMPLATE/phase\_completion.md
 
 ```markdown
----
+
+
+***
+
+
 name: Phase Completion Checklist
 about: Track completion of implementation phases
 title: 'Phase [X] Complete: [Phase Name]'
 labels: phase-completion
----
+
+
+***
+
+
 
 ## Phase Details
 - **Phase Number**: 
@@ -291,15 +295,23 @@ labels: phase-completion
 
 ### Include Working Examples
 
-**src/pages/index.astro**
+#### src/pages/index.astro
 
 ```astro
----
+
+
+***
+
+
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Container from '@/components/structural/Container.astro';
 import Section from '@/components/structural/Section.astro';
 import Button from '@/components/atoms/Button.astro';
----
+
+
+***
+
+
 
 <BaseLayout 
   title="Astro Performance Starter"

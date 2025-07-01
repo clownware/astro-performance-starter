@@ -1,7 +1,9 @@
 ---
 title: commitlint config
-description: "```js\r // commitlint.config.js\r export default {\r   extends: ['@commitlint/config-conventional'],\r   rules: {\r     'type-enum': [\r       2,\r       'always',\r   "
-last_reviewed_on: '2025-07-01'
+description: "```js\r // commitlint.config.js\r export default {\r   extends: ['@commitlint/config-conventional'],\r   rules: {\r     'type-enum': [\r       2,\r       'always',"
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 ```js
 // commitlint.config.js
@@ -33,6 +35,7 @@ export default {
 ```
 
 **Installation:**
+
 ```bash
 pnpm add -D @commitlint/cli @commitlint/config-conventional
 ```

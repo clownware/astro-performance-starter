@@ -1,19 +1,10 @@
 ---
-title: 03 content phase 7 content
-description: '***'
-last_reviewed_on: '2025-07-01'
----
-
-***
-
-title: 'Phase 7: Content'
-version: 1.0.0
+title: '"Phase 7: Content"'
+description: Develop high-quality content and ensure it aligns with performance goals
 lastUpdated: 2024-01-15T00:00:00.000Z
-description: >-
-Guidelines for content strategy, creation, and SEO optimization within the
-project.
---------
-
+tableOfContents: true
+pagefind: true
+---
 *What performance challenges are you facing? I'd love to hear about your optimization wins and struggles. [Reach out on Twitter](https://twitter.com/yourusername) or [email me](/implementation-guides/mailto:your@email/).*
 
 ## Image Optimization
@@ -67,7 +58,11 @@ await Promise.all(images.map(optimizeImage));
 ### 2. Art Direction for Images
 
 ```astro
----
+
+
+***
+
+
 // src/components/OptimizedPicture.astro
 import { getImage } from 'astro:assets';
 
@@ -94,7 +89,11 @@ const {
 const avif = await getImage({ src, format: 'avif' });
 const webp = await getImage({ src, format: 'webp' });
 const fallback = await getImage({ src, format: 'jpg' });
----
+
+
+***
+
+
 
 <picture>
   <!-- Art direction sources -->
@@ -251,7 +250,11 @@ for (const item of content) {
 ### SEO Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/SEO.astro
 export interface Props {
   title: string;
@@ -279,7 +282,11 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
----
+
+
+***
+
+
 
 <!-- Primary Meta Tags -->
 <title>{title}</title>
@@ -460,12 +467,20 @@ const imageURL = new URL(image, Astro.site);
 ### Privacy Policy
 
 ```mdx
----
+
+
+***
+
+
 # src/content/pages/privacy.mdx
 title: "Privacy Policy"
 description: "How we collect, use, and protect your information"
 noindex: true
----
+
+
+***
+
+
 
 # Privacy Policy
 
@@ -520,12 +535,20 @@ For privacy concerns, contact: privacy@yourdomain.com
 ### Terms of Service
 
 ```mdx
----
+
+
+***
+
+
 # src/content/pages/terms.mdx
 title: "Terms of Service"
 description: "Terms and conditions for using this website"
 noindex: true
----
+
+
+***
+
+
 
 # Terms of Service
 
@@ -566,7 +589,11 @@ For questions about these terms: legal@yourdomain.com
 ## 404 Error Page
 
 ```astro
----
+
+
+***
+
+
 // src/pages/404.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Container from '@/components/ui/Container.astro';
@@ -579,7 +606,11 @@ const popularPages = [
   { title: 'Blog', href: '/blog', description: 'Read my latest articles' },
   { title: 'Contact', href: '/contact', description: 'Get in touch' }
 ];
----
+
+
+***
+
+
 
 <BaseLayout
   title="404 - Page Not Found"
@@ -855,11 +886,19 @@ For blog posts:
 ### Homepage Content
 
 ```mdx
----
+
+
+***
+
+
 # src/content/pages/home.mdx
 title: "Home"
 description: "I create fast, accessible, and beautiful web experiences that users love"
----
+
+
+***
+
+
 
 # Crafting Digital Experiences That Matter
 
@@ -886,12 +925,20 @@ Whether you need a portfolio site, business platform, or complex web application
 ### About Page Content
 
 ```mdx
----
+
+
+***
+
+
 # src/content/pages/about.mdx
 title: "About"
 description: "Learn about my journey in web development and the values that drive my work"
 image: "./images/profile.jpg"
----
+
+
+***
+
+
 
 # About Me
 
@@ -933,7 +980,11 @@ I'm always interested in new projects and opportunities. Whether you need a webs
 ### Project Case Study
 
 ````mdx
----
+
+
+***
+
+
 # src/content/projects/ecommerce-redesign.mdx
 title: "E-commerce Platform Redesign"
 description: "Increased conversion rates by 40% through performance optimization and UX improvements"
@@ -958,7 +1009,11 @@ outcomes:
     description: "Better mobile experience drove more users"
 externalUrl: "https://example.com"
 sortOrder: 1
----
+
+
+***
+
+
 
 ## Project Overview
 
@@ -1115,12 +1170,14 @@ The redesign exceeded all target metrics:
 
 [View Live Site](https://example.com) [Next Project →](/implementation-guides/projects/saas-dashboard/)
 
-````
-
 ### Blog Post Example
 
 ```mdx
----
+
+
+***
+
+
 # src/content/blog/web-performance-2024.mdx
 title: "Web Performance in 2024: What Really Matters"
 description: "Core Web Vitals are just the beginning. Here's what you need to know about modern web performance."
@@ -1132,7 +1189,11 @@ cover: "./images/blog/performance-hero.jpg"
 coverAlt: "Dashboard showing performance metrics and Core Web Vitals scores"
 canonicalUrl: "https://yourdomain.com/blog/web-performance-2024"
 relatedPosts: ["optimizing-images-astro", "lazy-loading-patterns"]
----
+
+
+***
+
+
 
 Performance isn't just about speed—it's about creating experiences that feel instant and effortless. In 2024, with users expecting native-app-like performance from web apps, the stakes have never been higher.
 
@@ -1362,7 +1423,7 @@ getTTFB(sendToAnalytics);
 * Automated performance testing
 * Real user monitoring
 
-## Key Takeaways
+## Key Takeaways for Performance
 
 1. **INP is the new FID** - Optimize for entire interactions
 2. **Edge computing is mainstream** - Move logic closer to users

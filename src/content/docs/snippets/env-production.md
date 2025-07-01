@@ -1,7 +1,9 @@
 ---
 title: .env.example
-description: "```bash"
-last_reviewed_on: "2025-07-01"
+description: '```bash'
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 ```bash
 # .env.example

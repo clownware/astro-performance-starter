@@ -1,18 +1,12 @@
 ---
-title: quick track deploy
-description: '***'
-last_reviewed_on: '2025-07-01'
----
-
-***
-
-title: 'Quick Track: Deploy Your First Site'
-version: 1.0.0
-lastUpdated: 2025-06-10T00:00:00.000Z
+title: '"Quick Track: Deploy Your First Site"'
 description: >-
-The fastest way to get a personalized version of this \{\{versions.astro}}
-starter deployed.
------------------
+  The fastest way to get a personalized version of this {{versions.astro}}
+  starter deployed
+lastUpdated: 2025-06-10T00:00:00.000Z
+tableOfContents: true
+pagefind: true
+---
 
 Welcome! This guide is for users who want to quickly deploy a personalized version of this \{\{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch.
 

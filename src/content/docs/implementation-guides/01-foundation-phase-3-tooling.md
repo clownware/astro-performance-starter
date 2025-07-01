@@ -1,21 +1,23 @@
 ---
-title: 'Phase 3: Essential Tooling & Quality Gates'
-version: 1.0.0
+title: Phase 3- Essential Tooling & Quality Gates
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details linting setup, formatting configuration, CI pipeline, and quality
-  gates for both tracks.
-last_reviewed_on: '2025-07-01'
+  gates for both tracks
+tableOfContents: true
+pagefind: true
 ---
 <Badge variant="success">Done</Badge>
 
 ## Overview
+
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1 day
 - **Dependencies**: Phase 0-2 completed
 - **Deliverables**: Linting setup, formatting config, CI pipeline, quality gates
 
 ## Entry Criteria
+
 - [x] TypeScript configured
 - [x] Design system initialized
 - [x] Git repository set up
@@ -44,10 +46,10 @@ last_reviewed_on: '2025-07-01'
 
 This project uses Biome as its primary tool for code formatting and linting, replacing the more traditional combination of ESLint and Prettier. Here’s why:
 
--   **Performance**: Biome is written in Rust and is designed to be extremely fast—often over 20x faster than ESLint. This keeps the development feedback loop quick, especially in large codebases.
--   **Simplicity**: By combining formatting and linting into a single tool, Biome reduces configuration overhead. There's only one configuration file (`biome.json`) and one dependency to manage.
--   **All-in-One Solution**: Biome handles formatting, linting, and import sorting out of the box, eliminating the need for separate plugins and tools to make them work together.
--   **First-Class TypeScript Support**: It's built with TypeScript in mind, providing robust and accurate type-aware linting.
+- **Performance**: Biome is written in Rust and is designed to be extremely fast—often over 20x faster than ESLint. This keeps the development feedback loop quick, especially in large codebases.
+- **Simplicity**: By combining formatting and linting into a single tool, Biome reduces configuration overhead. There's only one configuration file (`biome.json`) and one dependency to manage.
+- **All-in-One Solution**: Biome handles formatting, linting, and import sorting out of the box, eliminating the need for separate plugins and tools to make them work together.
+- **First-Class TypeScript Support**: It's built with TypeScript in mind, providing robust and accurate type-aware linting.
 
 ## Code Examples
 
@@ -321,26 +323,30 @@ Implementing branch protection ensures that your `master` branch always stays in
 
 ## Development Setup
 
-1. Install dependencies:
-   ```bash
-   pnpm install
-   ```
+1.  Install dependencies:
 
-2. Build design tokens:
-   ```bash
-   pnpm run build:tokens # Note: You'll need to create the './scripts/build-tokens.js' file as part of implementing the design token system (Phase 2).
-   ```
+        ```bash
+        pnpm install
+        ```
 
-3. Start development server:
-   ```bash
-   pnpm run dev
-   ```
+2.  Build design tokens:
+
+        ```bash
+        pnpm run build:tokens # Note: You'll need to create the './scripts/build-tokens.js' file as part of implementing the design token system (Phase 2).
+        ```
+
+3.  Start development server:
+
+        ```bash
+        pnpm run dev
+        ```
 
 ## Code Quality Standards
 
 ### Before Committing
 
 Our pre-commit hooks will automatically:
+
 - Format your code with Biome
 - Sort Tailwind classes
 - Validate TypeScript types
@@ -348,12 +354,15 @@ Our pre-commit hooks will automatically:
 ### Manual Checks
 
 Run all quality checks:
+
 ```bash
 pnpm run quality
 ```
+
 *Note: As the project grows, the full `pnpm run quality` suite (including tests, extensive linting, etc.) might become slower. For faster local iteration, a mechanism such as setting an environment variable (e.g., `CI=0` or `FAST_LINT=true`) might be implemented to run a quicker, focused subset of these checks. However, the complete quality suite will always be enforced by pre-commit hooks and the CI pipeline to ensure no regressions.*
 
 Individual checks:
+
 - `pnpm run lint` - Check for code issues
 - `pnpm run format:check` - Verify formatting
 - `pnpm run check` - Type checking
@@ -393,6 +402,7 @@ Individual checks:
 ### Performance Budget
 
 Respect our performance budgets:
+
 - JS Bundle: < 160KB
 - CSS Bundle: < 50KB
 - Images: < 200KB each
@@ -403,7 +413,6 @@ Respect our performance budgets:
 - Test with keyboard navigation
 - Verify with screen readers
 - Check color contrast
-```
 
 ## Common Pitfalls
 
@@ -437,40 +446,48 @@ Respect our performance budgets:
 If tooling causes issues:
 
 1. **Biome Problems**:
-   ```bash
-   # Temporarily disable
-   mv biome.json biome.json.backup
-   # Use basic prettier config
-   echo '{"semi": true}' > .prettierrc
-   ```
+
+    ```bash
+       # Temporarily disable
+       mv biome.json biome.json.backup
+       # Use basic prettier config
+       echo '{"semi": true}' > .prettierrc
+    ```
 
 2. **CI Failures**:
-   - Check for flaky tests
-   - Increase timeouts if needed
-   - Review recent dependency updates
+
+    ```text
+      - Check for flaky tests
+      - Increase timeouts if needed
+      - Review recent dependency updates
+    ```
 
 3. **Hook Issues**:
-   ```bash
-   # Bypass hooks temporarily
-   git commit --no-verify
-   # Fix and re-enable
-   ```
+
+    ```bash
+       # Bypass hooks temporarily
+       git commit --no-verify
+       # Fix and re-enable
+    ```
 
 ## AI Assistant Notes
 
 ### Key Files to Reference
+
 - `biome.json` - Linting and formatting rules
 - `.github/workflows/ci.yml` - CI pipeline
 - `package.json` - Scripts and hooks
 - `.vscode/settings.json` - Editor config
 
 ### Common Prompts for This Phase
+
 - "Set up Biome for Astro project"
 - "Create GitHub Actions CI for quality checks"
 - "Configure pre-commit hooks with Husky"
 - "Add security scanning to CI"
 
 ### Context Requirements
+
 - Team size and experience
 - CI/CD platform (GitHub Actions, etc.)
 - Performance requirements

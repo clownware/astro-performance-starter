@@ -1,9 +1,9 @@
 ---
 title: AI Assistant Prompt Templates
-version: 1.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
-description: Copy-paste prompts for common development tasks using AI assistants.
-last_reviewed_on: '2025-07-01'
+description: Copy-paste prompts for common development tasks using AI assistants
+tableOfContents: true
+pagefind: true
 ---
 > 🤖 **Purpose**: Copy-paste prompts for common development tasks
 
@@ -11,7 +11,7 @@ last_reviewed_on: '2025-07-01'
 
 ### Basic Component
 
-```
+```text
 Create an Astro component called [ComponentName] that:
 - Has TypeScript props interface
 - Uses our design tokens from tokens/base.json
@@ -26,7 +26,7 @@ Reference our Button component pattern from phase-5-components.md
 
 ### Interactive Component
 
-```
+```text
 Create an Astro component with optional interactivity:
 - Name: [ComponentName]
 - Static by default (zero JS)
@@ -42,7 +42,7 @@ Performance budget: < 5KB JavaScript
 
 ### Complex Layout Component
 
-```
+```text
 Build a [SectionName] section component that:
 - Uses our Container and Section structural components
 - Responsive with our Grid component
@@ -59,7 +59,7 @@ See phase-6-sections.md for section patterns
 
 ### Content Collection Schema
 
-```
+```text
 Create an Astro content collection schema for [ContentType]:
 - Use Zod for validation
 - Include these required fields: [list fields]
@@ -75,7 +75,7 @@ Consider future content needs and extensibility
 
 ### MDX Component
 
-```
+```text
 Create an MDX component for [Purpose]:
 - Accepts these props: [list props]
 - Handles this content: [describe content]
@@ -92,7 +92,7 @@ Follow MDX patterns from content-collections.md
 
 ### Image Optimization
 
-```
+```text
 Optimize images in [Component/Page]:
 - Use Astro's <Image> component
 - Generate AVIF and WebP formats
@@ -107,7 +107,7 @@ Reference performance-patterns.md for examples
 
 ### Bundle Size Reduction
 
-```
+```text
 Reduce JavaScript bundle size for [Feature]:
 - Current size: [X]KB
 - Target size: < [Y]KB
@@ -122,7 +122,7 @@ See budgets-guardrails.md for limits
 
 ### Lighthouse Score Improvement
 
-```
+```text
 Improve Lighthouse scores for [Page]:
 - Current scores: [list scores]
 - Target: 97+ performance, 98+ accessibility
@@ -139,7 +139,7 @@ Reference phase-9-performance.md
 
 ### Accessibility Audit
 
-```
+```text
 Audit [Component/Page] for accessibility:
 - Test with keyboard navigation only
 - Check color contrast (4.5:1 minimum)
@@ -155,7 +155,7 @@ Must meet WCAG AA standards from budgets-guardrails.md
 
 ### E2E Test Creation
 
-```
+```text
 Write Playwright E2E test for [Feature]:
 - Test happy path: [describe flow]
 - Test error states
@@ -172,7 +172,7 @@ See phase-8-qa.md for test structure
 
 ### Island Architecture Decision
 
-```
+```text
 Evaluate if [Feature] needs client-side JavaScript:
 1. Can it be done with HTML/CSS only?
 2. Can it be done at build time?
@@ -187,7 +187,7 @@ Reference islands-architecture.md for decision framework
 
 ### Performance Pattern Implementation
 
-```
+```text
 Implement [Pattern] for better performance:
 - Current metric: [value]
 - Target metric: [value]
@@ -204,7 +204,7 @@ Follow patterns from performance-patterns.md
 
 ### Debug Build Error
 
-```
+```text
 Debug Astro build error:
 - Error message: [paste error]
 - When it occurs: [build/dev/preview]
@@ -219,7 +219,7 @@ Reference our tooling setup in phase-3-tooling.md
 
 ### Performance Regression
 
-```
+```text
 Investigate performance regression:
 - Metric that regressed: [LCP, FID, CLS, etc.]
 - When it started: [commit/date]
@@ -236,7 +236,7 @@ Follow rollback strategy from phase-9-performance.md
 
 ### Upgrade Dependencies
 
-```
+```text
 Upgrade [Package] from [current] to [target]:
 - Check breaking changes
 - Update TypeScript types if needed
@@ -252,7 +252,7 @@ Follow our dependency management guidelines
 
 ### Schema Migration
 
-```
+```text
 Migrate content schema for [Collection]:
 - Current schema: [describe]
 - Target schema: [describe]
@@ -270,7 +270,7 @@ See content migration patterns in content-collections.md
 
 ### Component Documentation
 
-```
+```text
 Document [Component] following our standards:
 - Purpose and use cases
 - Props interface with descriptions
@@ -286,7 +286,7 @@ Follow documentation pattern from phase-5-components.md
 
 ### ADR Creation
 
-```
+```text
 Create Architecture Decision Record for [Decision]:
 - Context: [why this decision is needed]
 - Options considered: [list 2-3 options]
@@ -303,7 +303,7 @@ Number it sequentially (ADR-XXX)
 
 ### Add Dark Mode Support
 
-```
+```text
 Add dark mode support to [Component]:
 - Use our semantic color tokens
 - Add dark: variants in Tailwind
@@ -315,7 +315,7 @@ Add dark mode support to [Component]:
 
 ### Make Component Responsive
 
-```
+```text
 Make [Component] responsive:
 - Mobile-first approach
 - Use our breakpoint system
@@ -327,7 +327,7 @@ Make [Component] responsive:
 
 ### Improve SEO
 
-```
+```text
 Improve SEO for [Page]:
 - Add proper meta tags
 - Use semantic HTML

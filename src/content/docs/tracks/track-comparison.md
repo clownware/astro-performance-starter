@@ -1,11 +1,11 @@
 ---
-title: 'Track Comparison: MVP vs Showcase'
-version: 1.0.0
+title: Track Comparison- MVP vs Showcase
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Helps users choose the right implementation track (MVP or Showcase) for their
-  project based on various factors.
-last_reviewed_on: '2025-07-01'
+  project based on various factors
+tableOfContents: true
+pagefind: true
 ---
 > **Purpose**: Help you choose the right implementation track for your project
 
@@ -23,15 +23,18 @@ last_reviewed_on: '2025-07-01'
 ## Track Overview
 
 ### MVP Track
+
 **Philosophy**: Ship fast, focus on content, minimize complexity
 
 **Best For**:
+
 - Personal portfolios
 - **Timeline:** Flexible (optimized for speed)
 - **Cost:** Minimal (focus on essentials)
 - **Risk:** Lower complexity, fewer moving parts
 
 **Characteristics**:
+
 - Zero JavaScript by default
 - Manual testing only
 - Essential components only
@@ -39,9 +42,11 @@ last_reviewed_on: '2025-07-01'
 - Simplified tooling
 
 ### Showcase Track
+
 **Philosophy**: Demonstrate technical excellence and best practices
 
 **Best For**:
+
 - Technical portfolios
 - Team projects
 - Enterprise sites
@@ -49,6 +54,7 @@ last_reviewed_on: '2025-07-01'
 - Sites requiring interactions
 
 **Characteristics**:
+
 - Selective JavaScript islands
 - Automated testing suite
 - Full component library
@@ -58,7 +64,9 @@ last_reviewed_on: '2025-07-01'
 ## Phase-by-Phase Comparison
 
 ### Foundation Phases (0-4)
+
 **Both tracks identical** - These phases establish immutable decisions:
+
 - Phase 0: Foundation setup
 - Phase 1: Content architecture
 - Phase 2: Design system
@@ -75,11 +83,13 @@ last_reviewed_on: '2025-07-01'
 | **Testing** | Manual checks | Visual regression |
 
 **MVP Components**:
+
 - Button, Card, Section
 - Container, Grid, Image
 - Badge, Link
 
 **Showcase Additions**:
+
 - Modal, Tabs, Accordion
 - Form inputs, Tooltip
 - Loading states, Alerts
@@ -95,6 +105,7 @@ last_reviewed_on: '2025-07-01'
 | **Islands** | None | Strategic placement |
 
 ### Phase 7: Content Creation
+
 **Identical for both tracks** - Focus on quality content
 
 ### Phase 8: Quality Assurance
@@ -107,6 +118,7 @@ last_reviewed_on: '2025-07-01'
 | **Coverage** | Critical paths | Comprehensive |
 
 ### Phase 9: Performance
+
 **Both tracks target same budgets** - No compromise on performance
 
 ### Phase 10: Deployment
@@ -139,26 +151,32 @@ last_reviewed_on: '2025-07-01'
 ## Switching Tracks
 
 ### MVP → Showcase
+
 **When to upgrade**:
+
 - Site proving successful
 - Need more interactivity
 - Team growing
 - Enterprise requirements
 
 **How to upgrade**:
+
 1. Complete MVP first
 2. Add Showcase components incrementally
 3. Introduce testing gradually
 4. Enhance documentation
 
 ### Showcase → MVP
+
 **When to downgrade**:
+
 - Timeline pressure
 - Over-engineering evident
 - Solo maintenance
 - Simpler requirements
 
 **How to downgrade**:
+
 1. Identify essential features
 2. Remove complex tooling
 3. Simplify test suite
@@ -176,6 +194,7 @@ last_reviewed_on: '2025-07-01'
 - Lower complexity
 
 **Costs**:
+
 - Manual testing only
 - Limited interactivity
 - Basic documentation
@@ -184,6 +203,7 @@ last_reviewed_on: '2025-07-01'
 ### Showcase Track
 
 **Benefits**:
+
 - Technical excellence
 - Automated quality
 - Rich interactions
@@ -199,11 +219,13 @@ last_reviewed_on: '2025-07-01'
 ## Real-World Examples
 
 ### MVP Track Success Stories
+
 1. **Personal Portfolio**: Developer shipped in 10 days, focused on case studies
 2. **Small Business Site**: 5-page site with contact form, zero JavaScript
 3. **Documentation Site**: Clean, fast, focused on content quality
 
 ### Showcase Track Success Stories
+
 1. **Agency Portfolio**: Interactive case studies with WebGL
 2. **SaaS Marketing Site**: A/B testing, analytics, personalization
 3. **Open Source Project**: Full component library, extensive docs
@@ -223,7 +245,8 @@ last_reviewed_on: '2025-07-01'
 
 ## Decision Checklist
 
-### Choose MVP if you answer "yes" to most:
+### Choose MVP if you answer "yes" to most
+
 - [ ] Need to ship quickly?
 - [ ] Content more important than features?
 - [ ] Comfortable with manual testing?
@@ -231,7 +254,8 @@ last_reviewed_on: '2025-07-01'
 - [ ] Working solo or small team?
 - [ ] Limited maintenance budget?
 
-### Choose Showcase if you answer "yes" to most:
+### Choose Showcase if you answer "yes" to most
+
 - [ ] Have extra time for development?
 - [ ] Need to demonstrate technical skills?
 - [ ] Require automated testing?
@@ -244,6 +268,7 @@ last_reviewed_on: '2025-07-01'
 **Start with MVP if unsure** - You can always upgrade to Showcase later. It's easier to add complexity than remove it.
 
 **Consider your audience**:
+
 - Recruiters? → Showcase to demonstrate skills
 - Customers? → MVP to ship value quickly
 - Team members? → Showcase for maintainability

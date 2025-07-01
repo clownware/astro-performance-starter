@@ -1,19 +1,21 @@
 ---
-title: 'Phase 5: UI Component Library'
-version: 1.0.0
+title: Phase 5- UI Component Library
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details development of reusable UI components, documentation, and
-  accessibility patterns for Lite (MVP) and Full (Showcase) tracks.
-last_reviewed_on: '2025-07-01'
+  accessibility patterns for Lite (MVP) and Full (Showcase) tracks
+tableOfContents: true
+pagefind: true
 ---
 ## Overview
+
 - **Track**: Lite (MVP) / Full (Showcase)
 - **Duration**: 2-4 days
 - **Dependencies**: Phase 0-4 completed
 - **Deliverables**: Reusable UI components, component documentation, accessibility patterns
 
 ## Entry Criteria
+
 - [ ] Design system tokens available
 - [ ] Skeleton layout functional
 - [ ] TypeScript configured
@@ -49,8 +51,8 @@ To prevent drift between the MVP and Showcase component sets, we will adopt a cl
 
 When a component has distinct MVP and Showcase versions, use a suffix to differentiate them:
 
--   **MVP**: `ComponentName.mvp.astro`
--   **Showcase**: `ComponentName.showcase.astro`
+- **MVP**: `ComponentName.mvp.astro`
+- **Showcase**: `ComponentName.showcase.astro`
 
 If a component is identical across both tracks, no suffix is needed.
 
@@ -76,7 +78,11 @@ This table serves as the single source of truth for which component to use for e
 ### Button Component (MVP & Showcase)
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Button.astro
 import type { HTMLAttributes } from 'astro/types';
 
@@ -127,7 +133,11 @@ const linkProps = Tag === 'a' ? {
   href,
   ...(external && { target: '_blank', rel: 'noopener noreferrer' })
 } : {};
----
+
+
+***
+
+
 
 <Tag
   class:list={classes}
@@ -147,7 +157,11 @@ const linkProps = Tag === 'a' ? {
 ### Card Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Card.astro
 export interface Props {
   variant?: 'default' | 'outline' | 'ghost';
@@ -185,7 +199,11 @@ const classes = [
   hover && 'transition-shadow hover:shadow-lg',
   className,
 ];
----
+
+
+***
+
+
 
 <Tag class:list={classes}>
   <slot />
@@ -195,7 +213,11 @@ const classes = [
 ### Section Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Section.astro
 export interface Props {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -227,7 +249,11 @@ const classes = [
   backgrounds[background],
   className,
 ];
----
+
+
+***
+
+
 
 <section class:list={classes}>
   <slot />
@@ -237,7 +263,11 @@ const classes = [
 ### Container Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Container.astro
 export interface Props {
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -265,7 +295,11 @@ const classes = [
   prose && 'prose prose-gray dark:prose-invert max-w-none',
   className,
 ];
----
+
+
+***
+
+
 
 <div class:list={classes}>
   <slot />
@@ -275,7 +309,11 @@ const classes = [
 ### Grid Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Grid.astro
 export interface Props {
   cols?: 1 | 2 | 3 | 4 | 6 | 12;
@@ -312,7 +350,11 @@ const classes = [
   gaps[gap],
   className,
 ];
----
+
+
+***
+
+
 
 <div class:list={classes}>
   <slot />
@@ -322,7 +364,11 @@ const classes = [
 ### Image Component Wrapper
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Image.astro
 import { Image as AstroImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -363,7 +409,11 @@ const wrapperClass = [
   'overflow-hidden rounded-lg',
   aspectRatio && aspects[aspectRatio],
 ];
----
+
+
+***
+
+
 
 <figure class="space-y-2">
   <div class:list={wrapperClass}>
@@ -386,7 +436,11 @@ const wrapperClass = [
 ### Badge Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Badge.astro
 export interface Props {
   variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
@@ -422,7 +476,11 @@ const classes = [
   sizes[size],
   className,
 ];
----
+
+
+***
+
+
 
 <span class:list={classes}>
   <slot />
@@ -432,7 +490,11 @@ const classes = [
 ### Link Component
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Link.astro
 export interface Props {
   href: string;
@@ -461,7 +523,11 @@ const linkProps = external ? {
   target: '_blank',
   rel: 'noopener noreferrer'
 } : {};
----
+
+
+***
+
+
 
 <a href={href} class:list={classes} {...linkProps}>
   <slot />
@@ -476,7 +542,11 @@ const linkProps = external ? {
 #### Modal Component (Showcase)
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Modal.astro
 export interface Props {
   id: string;
@@ -491,7 +561,11 @@ const sizes = {
   md: 'max-w-lg',
   lg: 'max-w-2xl',
 };
----
+
+
+***
+
+
 
 <div
   id={id}
@@ -540,7 +614,11 @@ const sizes = {
 #### Tabs Component (Showcase)
 
 ```astro
----
+
+
+***
+
+
 // src/components/ui/Tabs.astro
 export interface Props {
   items: Array<{
@@ -552,7 +630,11 @@ export interface Props {
 }
 
 const { items, defaultTab = items[0]?.id } = Astro.props;
----
+
+
+***
+
+
 
 <div class="tabs" data-default-tab={defaultTab}>
   <div class="border-b border-gray-200 dark:border-gray-700">
@@ -685,12 +767,14 @@ export default defineConfig({
 ## Exit Criteria
 
 ### MVP (Lite)
+
 - [ ] Essential components built
 - [ ] All components accessible
 - [ ] TypeScript types complete
 - [ ] Basic documentation written
 
 ### Showcase (Full)
+
 - [ ] Complete component library
 - [ ] Astrobook configured
 - [ ] Visual testing active
@@ -720,17 +804,20 @@ If components need major refactoring:
 ## AI Assistant Notes
 
 ### Key Files to Reference
+
 - `src/components/ui/*` - Component library
 - `astrobook.config.mjs` - Documentation setup
 - Component usage in pages
 
 ### Common Prompts for This Phase
+
 - "Create accessible button component with variants"
 - "Build responsive grid system with Tailwind"
 - "Set up Astrobook for component documentation"
 - "Create modal with focus trap and ARIA"
 
 ### Context Requirements
+
 - Design system tokens
 - Component requirements
 - Accessibility standards

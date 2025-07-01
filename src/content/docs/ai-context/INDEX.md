@@ -1,20 +1,13 @@
 ---
-title: INDEX
-description: '***'
-last_reviewed_on: '2025-07-01'
+title: AI Assistant Context Index
+description: >-
+  Central entry point and contextual guide for AI assistants working on this
+  Astro project.
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 
-***
-
-current\_phase: 5
-title: AI Assistant Context Index
-version: 1.0.0
-lastUpdated: 2025-06-19T00:00:00.000Z
-review: '2025-12-31'
-description: >-
-Central entry point and contextual guide for AI assistants working on this
-Astro project.
---------------
 
 > 🤖 **Purpose**: Central entry point for AI assistants working on this Astro project
 
@@ -40,7 +33,7 @@ This is a modern Astro static site with:
 
 ## Key Directories
 
-```
+```bash
 src/
 ├── components/     # UI components (atomic design)
 ├── content/        # Content collections (blog, projects)
@@ -92,7 +85,7 @@ This value is updated automatically by CI on pull request merges.
 
 ### Component Creation
 
-```
+```text
 "Create an accessible [component] with:
 - TypeScript interfaces
 - Tailwind styling using our tokens
@@ -102,7 +95,7 @@ This value is updated automatically by CI on pull request merges.
 
 ### Performance Optimization
 
-```
+```text
 "Optimize [feature] to:
 - Reduce bundle size
 - Improve Core Web Vitals
@@ -112,7 +105,7 @@ This value is updated automatically by CI on pull request merges.
 
 ### Content Modeling
 
-```
+```text
 "Create Astro content collection for [type] with:
 - Zod schema
 - TypeScript types

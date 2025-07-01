@@ -1,19 +1,21 @@
 ---
-title: 'Phase 9: Performance & SEO'
-version: 1.0.0
+title: Phase 9- Performance & SEO
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers site optimization, performance reports, SEO implementation, and
-  monitoring setup for both tracks.
-last_reviewed_on: '2025-07-01'
+  monitoring setup for both tracks
+tableOfContents: true
+pagefind: true
 ---
 ## Overview
+
 - **Track**: Both (MVP & Showcase)
 - **Duration**: 1-2 days
 - **Dependencies**: Phase 0-8 completed
 - **Deliverables**: Optimized site, performance reports, SEO implementation, monitoring setup
 
 ## Entry Criteria
+
 - [ ] QA testing complete
 - [ ] All bugs fixed
 - [ ] Content finalized
@@ -380,9 +382,17 @@ async function optimizeFonts() {
 ```
 
 ```astro
----
+
+
+***
+
+
 // src/components/FontLoader.astro
----
+
+
+***
+
+
 
 <style is:inline>
   /* Critical font loading */
@@ -725,7 +735,11 @@ auditSEO('https://localhost:3000').then(issues => {
 ### 2. Schema Markup Implementation
 
 ```astro
----
+
+
+***
+
+
 // src/components/SchemaOrg.astro
 export interface Props {
   type: 'WebSite' | 'Person' | 'BlogPosting' | 'Article';
@@ -805,7 +819,11 @@ const schemas = {
 };
 
 const schema = schemas[type];
----
+
+
+***
+
+
 
 <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 ```
@@ -857,9 +875,17 @@ export default defineConfig({
 ### 1. Core Web Vitals Monitoring
 
 ```astro
----
+
+
+***
+
+
 // src/components/WebVitals.astro
----
+
+
+***
+
+
 
 <script>
   import { getCLS, getFID, getLCP, getFCP, getTTFB } from 'web-vitals';
@@ -1077,18 +1103,21 @@ If performance degrades:
 ## AI Assistant Notes
 
 ### Key Files to Reference
+
 - `astro.config.mjs` - Build optimizations
 - `public/_headers` - Caching strategy
 - Performance audit scripts
 - Lighthouse configuration
 
 ### Common Prompts for This Phase
+
 - "Optimize bundle size for production"
 - "Implement Core Web Vitals monitoring"
 - "Set up caching headers for static assets"
 - "Create performance budget CI workflow"
 
 ### Context Requirements
+
 - Current performance metrics
 - Target audience geography
 - CDN preferences

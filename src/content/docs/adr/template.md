@@ -1,13 +1,11 @@
 ---
 title: ADR Template
-status: template
 lastUpdated: 2025-06-10T00:00:00.000Z
-version: 1.0.0
-description: Template for Architectural Decision Records (ADRs).
-last_reviewed_on: '2025-07-01'
+description: Template for Architectural Decision Records (ADRs)
+tableOfContents: true
+pagefind: true
 ---
-
-# ADR-XXX:
+# ADR-XXX
 
 ## Status
 
@@ -27,35 +25,44 @@ What is the issue that we're seeing that is motivating this decision or change? 
 ## Considered Options
 
 ### Option 1: [Name]
+
 **Description**: Brief description of this approach
 
 **Pros**:
+
 - Advantage 1
 - Advantage 2
 
 **Cons**:
+
 - Disadvantage 1
 - Disadvantage 2
 
 ### Option 2: [Name]
+
 **Description**: Brief description of this approach
 
 **Pros**:
+
 - Advantage 1
 - Advantage 2
 
 **Cons**:
+
 - Disadvantage 1
 - Disadvantage 2
 
 ### Option 3: [Name]
+
 **Description**: Brief description of this approach
 
 **Pros**:
+
 - Advantage 1
 - Advantage 2
 
 **Cons**:
+
 - Disadvantage 1
 - Disadvantage 2
 
@@ -73,16 +80,19 @@ const example = 'implementation details';
 ## Consequences
 
 ### Positive
+
 - What becomes easier or better as a result of this change
 - Performance improvements expected
 - Developer experience improvements
 
 ### Negative
+
 - What becomes more difficult
 - Technical debt we're accepting
 - Additional complexity introduced
 
 ### Neutral
+
 - Things that change but aren't necessarily better or worse
 - Migration requirements
 - Training needs
@@ -90,6 +100,7 @@ const example = 'implementation details';
 ## Validation
 
 How will we know if this decision was correct?
+
 - **Metric 1**: [e.g., Bundle size remains under 160KB]
 - **Metric 2**: [e.g., Build time under 2 minutes]
 - **Metric 3**: [e.g., Developer satisfaction survey]
@@ -105,7 +116,7 @@ How will we know if this decision was correct?
 
 Additional implementation notes, migration strategies, or other relevant information that doesn't fit in the sections above.
 
----
+***
 
 **Date**: YYYY-MM-DD  
 **Participants**: [List of people involved in the decision]  

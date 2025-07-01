@@ -1,11 +1,11 @@
 ---
 title: Image Optimization Guide
-version: 1.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Comprehensive guide to image optimization strategies for Astro projects,
-  focusing on performance and visual quality.
-last_reviewed_on: '2025-07-01'
+  focusing on performance and visual quality
+tableOfContents: true
+pagefind: true
 ---
 > 🖼️ **Purpose**: Comprehensive asset pipeline for optimal image delivery
 
@@ -28,11 +28,19 @@ This guide covers image optimization strategies for Astro projects, focusing on 
 ### Implementation Strategy
 
 ```astro
----
+
+
+***
+
+
 // Always provide multiple formats
 import { Image } from 'astro:assets';
 import heroImage from '@/assets/images/hero.jpg';
----
+
+
+***
+
+
 
 <Image 
   src={heroImage}
@@ -86,8 +94,13 @@ export default defineConfig({
 ### 3. Component Patterns
 
 #### Hero Images
+
 ```astro
----
+
+
+***
+
+
 // components/HeroImage.astro
 import { Image } from 'astro:assets';
 
@@ -98,7 +111,11 @@ export interface Props {
 }
 
 const { src, alt, priority = false } = Astro.props;
----
+
+
+***
+
+
 
 <Image 
   src={src}
@@ -114,8 +131,13 @@ const { src, alt, priority = false } = Astro.props;
 ```
 
 #### Content Images
+
 ```astro
----
+
+
+***
+
+
 // components/ContentImage.astro
 import { Image } from 'astro:assets';
 
@@ -126,7 +148,11 @@ export interface Props {
 }
 
 const { src, alt, caption } = Astro.props;
----
+
+
+***
+
+
 
 <figure class="my-8">
   <Image 
@@ -148,8 +174,13 @@ const { src, alt, caption } = Astro.props;
 ```
 
 #### Thumbnail Grid
+
 ```astro
----
+
+
+***
+
+
 // components/ThumbnailGrid.astro
 import { Image } from 'astro:assets';
 
@@ -162,7 +193,11 @@ export interface Props {
 }
 
 const { images } = Astro.props;
----
+
+
+***
+
+
 
 <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
   {images.map((image) => (
@@ -187,11 +222,19 @@ const { images } = Astro.props;
 ### 1. Above-the-Fold Images
 
 ```astro
----
+
+
+***
+
+
 // Prioritize LCP image
 import { Image } from 'astro:assets';
 import heroImage from '@/assets/images/hero.jpg';
----
+
+
+***
+
+
 
 <!-- Preload the LCP image -->
 <link 
@@ -241,12 +284,20 @@ export function getImageWidths(layout: 'full' | 'half' | 'third' | 'content') {
 ### 3. Art Direction
 
 ```astro
----
+
+
+***
+
+
 // Different images for different viewports
 import { Picture } from 'astro:assets';
 import mobileHero from '@/assets/images/hero-mobile.jpg';
 import desktopHero from '@/assets/images/hero-desktop.jpg';
----
+
+
+***
+
+
 
 <Picture
   sources={[
@@ -394,7 +445,11 @@ export function getCloudflareImageURL(
 
 ```typescript
 // components/ImageWithMetrics.astro
----
+
+
+***
+
+
 import { Image } from 'astro:assets';
 
 export interface Props {
@@ -404,7 +459,11 @@ export interface Props {
 }
 
 const { src, alt, ...props } = Astro.props;
----
+
+
+***
+
+
 
 <Image 
   src={src}
@@ -481,12 +540,14 @@ export default defineConfig({
 ## Checklist
 
 ### Pre-Development
+
 - [ ] Audit all image assets
 - [ ] Define responsive breakpoints
 - [ ] Set up image processing pipeline
 - [ ] Configure CDN if using
 
 ### During Development
+
 - [ ] Use appropriate formats (AVIF > WebP > JPEG)
 - [ ] Implement responsive images
 - [ ] Add loading strategies
@@ -494,6 +555,7 @@ export default defineConfig({
 - [ ] Validate image sizes
 
 ### Pre-Deployment
+
 - [ ] Run image optimization scripts
 - [ ] Validate all images < 200KB
 - [ ] Check Core Web Vitals impact

@@ -1,19 +1,10 @@
 ---
-title: 01 foundation phase 1 content arch
-description: '***'
-last_reviewed_on: '2025-07-01'
----
-
-***
-
-title: 'Phase 1: Content & Data Architecture'
-version: 1.0.0
+title: '"Phase 1: Content & Data Architecture"'
+description: Establish content and data architecture for your project
 lastUpdated: 2025-06-10T00:00:00.000Z
-description: >-
-Details content schema, TypeScript types, URL strategy, and content fixtures
-for both MVP and Showcase tracks.
----------------------------------
-
+tableOfContents: true
+pagefind: true
+---
 <Badge variant="success">Done</Badge>
 
 ## Overview
@@ -209,7 +200,11 @@ export const mdxComponents = {
 ### Content Fixtures
 
 ```mdx
----
+
+
+***
+
+
 # src/content/projects/example-project.mdx
 title: "E-commerce Platform Redesign"
 description: "Increased conversion rate by 40% through user-centered design"
@@ -231,7 +226,11 @@ outcomes:
     value: "-60%"
     description: "Optimized assets and lazy loading"
 sortOrder: 1
----
+
+
+***
+
+
 
 ## Project Overview
 
@@ -363,6 +362,7 @@ validateContent();
 If content architecture needs changes:
 
 1. **Schema Changes**:
+
    ```bash
    # Create migration script
    node scripts/migrate-content.js --from v1 --to v2

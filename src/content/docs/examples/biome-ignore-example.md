@@ -1,7 +1,11 @@
 ---
 title: biome ignore example
-description: "This document shows examples of what NOT to do in TypeScript code, along with better alternatives.\r"
-last_reviewed_on: '2025-07-01'
+description: >-
+  This document shows examples of what NOT to do in TypeScript code, along with
+  better alternatives
+lastUpdated: true
+tableOfContents: true
+pagefind: true
 ---
 
 # Common TypeScript Mistakes
