@@ -10,7 +10,7 @@ import { fileURLToPath } from "node:url";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const base: Record<string, unknown> = JSON.parse(
-  readFileSync(join(root, "..", "tokens", "base.json"), "utf-8"),
+  readFileSync(join(root, "..", "..", "tokens", "base.json"), "utf-8"),
 );
 interface TokenEntry {
   value: string;
