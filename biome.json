@@ -1,16 +1,23 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
     "useIgnoreFile": true
   },
-  "organizeImports": {
-    "enabled": true
+  "files": {
+    "includes": [
+      "src/**/*.{astro,ts,tsx,js,jsx,md,mdx}",
+      "src/content/docs/**/*.{md,mdx}",
+      "docs/**/*.{md,mdx}",
+      "scripts/**/*.{ts,js,mjs}",
+      "*.{md,mdx,ts,js,mjs}"
+    ]
   },
+
   "formatter": {
     "enabled": true,
-    "formatWithErrors": false,
+    "formatWithErrors": true,
     "indentStyle": "space",
     "indentWidth": 2,
     "lineEnding": "lf",
@@ -26,14 +33,14 @@
       "arrowParentheses": "always",
       "bracketSpacing": true,
       "bracketSameLine": false,
-      "quoteStyle": "double",
-      "attributePosition": "auto"
+      "quoteStyle": "double"
     }
   },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
+
       "complexity": {
         "noBannedTypes": "error",
         "noUselessTypeConstraint": "error"
@@ -49,12 +56,60 @@
       "style": {
         "noNonNullAssertion": "warn",
         "useAsConstAssertion": "error",
-        "useBlockStatements": "error"
+        "useBlockStatements": "error",
+        "noParameterAssign": "error",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       }
     }
   },
-  "files": {
-    "ignoreUnknown": false,
-    "ignore": ["dist", "node_modules", ".astro", ".github", "pnpm-lock.yaml", "*.min.js", "*.d.ts"]
-  }
+  "overrides": [
+    {
+      "includes": ["**/*.md", "**/*.mdx"],
+      "formatter": {
+        "lineWidth": 120
+      },
+      "linter": {
+        "rules": {
+          "style": {
+            "noUnusedTemplateLiteral": "off"
+          },
+          "complexity": {
+            "noBannedTypes": "off"
+          },
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["scripts/**/*.{ts,js,mjs}"],
+      "linter": {
+        "rules": {
+          "suspicious": {
+            "noExplicitAny": "off"
+          },
+          "style": {
+            "useNodejsImportProtocol": "error"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.astro"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useImportType": "off"
+          }
+        }
+      }
+    }
+  ]
 }

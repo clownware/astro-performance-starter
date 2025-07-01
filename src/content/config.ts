@@ -1,5 +1,11 @@
 // src/content/config.ts
-import { type ImageFunction, defineCollection, z } from "astro:content";
+import { defineCollection, type ImageFunction, z } from "astro:content";
+import { docsSchema } from "@astrojs/starlight/schema";
+
+// Documentation Schema (Starlight)
+const docsCollection = defineCollection({
+  schema: docsSchema(),
+});
 
 // Portfolio/Case Studies Schema
 const projectsCollection = defineCollection({
@@ -97,6 +103,7 @@ const bioCollection = defineCollection({
 });
 
 export const collections = {
+  docs: docsCollection,
   projects: projectsCollection,
   blog: blogCollection,
   navigation: navigationCollection,

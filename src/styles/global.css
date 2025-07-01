@@ -1,7 +1,22 @@
+/**
+ * Main Site Global Styles
+ * =====================
+ * These styles apply only to the main site, not documentation
+ */
+
+/* Import design tokens at the root level */
 @import "../../tokens/dist/tokens.css";
+
+/* Tailwind directives - scoped by our config */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Ensure tokens don't leak into Starlight pages */
+body[data-starlight-page] {
+  /* Reset any token-based custom properties if needed */
+  all: revert;
+}
 
 /* Accessibility primitives */
 @layer utilities {

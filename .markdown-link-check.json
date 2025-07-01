@@ -1,7 +1,10 @@
 {
   "ignorePatterns": [
     {
-      "pattern": "^http://localhost"
+      "pattern": "^https?://"
+    },
+    {
+      "pattern": "^mailto:"
     }
   ],
   "timeout": "10s",

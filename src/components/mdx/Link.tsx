@@ -7,9 +7,7 @@ interface LinkProps extends preact.JSX.HTMLAttributes<HTMLAnchorElement> {
 }
 
 export default function Link({ children, href, class: className, ...props }: LinkProps) {
-  const isExternal =
-    href && (href.startsWith("http://") || href.startsWith("https://") || href.startsWith("//"));
-  const _isAnchor = href?.startsWith("#");
+  const isExternal = href && (href.startsWith("http://") || href.startsWith("https://"));
 
   const defaultClasses =
     "text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500/50 rounded-sm";

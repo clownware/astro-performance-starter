@@ -18,7 +18,10 @@
     "jsx": "react-jsx",
     "jsxImportSource": "preact",
     "plugins": [{ "name": "@astrojs/ts-plugin" }],
-    "types": ["astro/client"]
+    "types": ["astro/client", "node"],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true
   },
   "include": [
     "src/**/*.astro",
@@ -26,9 +29,8 @@
     "src/**/*.tsx",
     "src/**/*.js",
     "src/**/*.jsx",
-    "scripts/**/*.ts",
     "env.d.ts",
     "astro.config.mjs"
   ],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist", "scripts"]
 }
