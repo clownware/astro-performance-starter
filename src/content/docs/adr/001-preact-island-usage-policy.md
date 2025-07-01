@@ -1,6 +1,7 @@
 ---
 title: 'ADR 001: Preact Island Usage Policy'
 description: "**Status**: Accepted\r **Date**: 2025-06-10\r"
+last_reviewed_on: '2025-07-01'
 ---
 # ADR 001: Preact Island Usage Policy
 

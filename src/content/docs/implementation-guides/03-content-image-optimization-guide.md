@@ -5,6 +5,7 @@ lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Comprehensive guide to image optimization strategies for Astro projects,
   focusing on performance and visual quality.
+last_reviewed_on: '2025-07-01'
 ---
 > 🖼️ **Purpose**: Comprehensive asset pipeline for optimal image delivery
 

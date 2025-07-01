@@ -6,6 +6,7 @@ review: '2025-12-31'
 description: >-
   Defines performance budgets, Core Web Vitals targets, and quality guardrails
   for the project.
+last_reviewed_on: '2025-07-01'
 ---
 ## Performance Budgets
 

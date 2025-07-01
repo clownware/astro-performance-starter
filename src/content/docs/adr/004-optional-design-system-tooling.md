@@ -8,6 +8,7 @@ description: >-
   The Astro starter template includes robust design system tooling, specifically
   a script to build design tokens (`scripts/build-tokens.ts`) and a contrast
   valida
+last_reviewed_on: '2025-07-01'
 ---
 
 ## Context and Problem Statement

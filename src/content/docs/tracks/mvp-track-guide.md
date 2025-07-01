@@ -3,6 +3,7 @@ title: MVP Track Guide
 description: >-
   A step-by-step guide to launching a high-performance MVP with the Astro
   Starter Template, optimized for rapid delivery.
+last_reviewed_on: '2025-07-01'
 ---
 # MVP Track - Implementation Path
 

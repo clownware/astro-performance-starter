@@ -5,6 +5,7 @@ lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Proven techniques for achieving and maintaining high Lighthouse scores (97+)
   in Astro projects.
+last_reviewed_on: '2025-07-01'
 ---
 > ⚡ **Purpose**: Proven techniques for achieving and maintaining 97+ Lighthouse scores
 

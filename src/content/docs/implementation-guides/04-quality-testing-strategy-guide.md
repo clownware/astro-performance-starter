@@ -1,6 +1,7 @@
 ---
 title: Testing Strategy Guide
 description: "> **Purpose**: Comprehensive testing approach for MVP and Showcase tracks\r"
+last_reviewed_on: '2025-07-01'
 ---
 # Testing Strategy Guide
 

@@ -1,6 +1,7 @@
 ---
 title: biome config
 description: "```json\r // biome.json\r {\r   \"$schema\": \"https://biomejs.dev/schemas/1.9.4/schema.json\",\r   \"vcs\": {\r     \"enabled\": true,\r     \"clientKind\": \"git\",\r     \"useIg"
+last_reviewed_on: '2025-07-01'
 ---
 ```json
 // biome.json

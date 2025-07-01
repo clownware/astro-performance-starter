@@ -1,6 +1,7 @@
 ---
 title: .env.example
-description: "```bash\r"
+description: "```bash"
+last_reviewed_on: "2025-07-01"
 ---
 ```bash
 # .env.example
@@ -26,4 +27,3 @@ PUBLIC_ENABLE_NEWSLETTER=false
 
 # Development
 DEV_SERVER_PORT=4321
-```

@@ -5,6 +5,7 @@ lastUpdated: 2025-06-19T00:00:00.000Z
 description: >-
   Standard format for MVP vs Showcase track tables to eliminate duplication and
   improve maintainability.
+last_reviewed_on: '2025-07-01'
 ---
 > 🎯 **Purpose**: Eliminate duplicate content between MVP and Showcase tracks while maintaining clear differentiation
 

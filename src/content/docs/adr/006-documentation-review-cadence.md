@@ -1,6 +1,7 @@
 ---
 title: 'ADR-006: Documentation Review Cadence'
 description: "**Date**: 2025-06-19  \r **Status**: Accepted  \r **Context**: Documentation governance and maintenance automation  \r **Supersedes**: None  \r **Review**: 2025-12-"
+last_reviewed_on: '2025-07-01'
 ---
 # ADR-006: Documentation Review Cadence
 

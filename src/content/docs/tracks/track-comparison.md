@@ -5,6 +5,7 @@ lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Helps users choose the right implementation track (MVP or Showcase) for their
   project based on various factors.
+last_reviewed_on: '2025-07-01'
 ---
 > **Purpose**: Help you choose the right implementation track for your project
 

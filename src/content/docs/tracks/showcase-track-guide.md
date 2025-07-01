@@ -3,6 +3,7 @@ title: Showcase Track Guide
 description: >-
   A comprehensive guide to building a high-performance showcase project with the
   Astro Starter Template, focusing on advanced patterns and best practices.
+last_reviewed_on: '2025-07-01'
 ---
 ```yaml
 - name: Visual Tests

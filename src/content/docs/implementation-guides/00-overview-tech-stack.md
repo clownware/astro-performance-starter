@@ -4,6 +4,7 @@ version: 2.0.0
 lastUpdated: 2025-06-10T00:00:00.000Z
 review: '2025-12-31'
 description: Details the core technology stack used in the Astro Performance Starter.
+last_reviewed_on: '2025-07-01'
 ---
 ## Core Stack
 

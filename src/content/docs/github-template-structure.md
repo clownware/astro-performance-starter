@@ -1,6 +1,7 @@
 ---
 title: github template structure
 description: '***'
+last_reviewed_on: '2025-07-01'
 ---
 
 ***

@@ -1,6 +1,7 @@
 ---
 title: Documentation Snippets
 description: "This directory contains reusable code snippets and configuration blocks that are referenced across multiple documentation files.\r"
+last_reviewed_on: '2025-07-01'
 ---
 # Documentation Snippets
 

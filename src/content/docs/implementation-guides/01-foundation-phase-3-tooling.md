@@ -5,6 +5,7 @@ lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details linting setup, formatting configuration, CI pipeline, and quality
   gates for both tracks.
+last_reviewed_on: '2025-07-01'
 ---
 <Badge variant="success">Done</Badge>
 

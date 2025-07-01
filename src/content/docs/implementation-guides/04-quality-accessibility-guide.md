@@ -1,6 +1,7 @@
 ---
 title: Accessibility Guide - WCAG Compliance
 description: "> ♿ **Purpose**: Ensure your Astro site meets WCAG 2.1 AA standards\r"
+last_reviewed_on: '2025-07-01'
 ---
 # Accessibility Guide - WCAG Compliance
 

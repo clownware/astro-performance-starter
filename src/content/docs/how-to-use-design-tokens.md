@@ -2,6 +2,7 @@
 sidebar_position: 2
 title: Using Design Tokens
 description: "> Applies to both MVP & Showcase tracks.\r"
+last_reviewed_on: '2025-07-01'
 ---
 > Applies to both MVP & Showcase tracks.
 

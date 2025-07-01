@@ -1,6 +1,7 @@
 ---
 title: 005 link validation strategy
 description: '***'
+last_reviewed_on: '2025-07-01'
 ---
 
 ***

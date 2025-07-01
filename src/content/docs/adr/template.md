@@ -4,6 +4,7 @@ status: template
 lastUpdated: 2025-06-10T00:00:00.000Z
 version: 1.0.0
 description: Template for Architectural Decision Records (ADRs).
+last_reviewed_on: '2025-07-01'
 ---
 
 # ADR-XXX:

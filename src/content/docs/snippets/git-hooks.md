@@ -1,6 +1,7 @@
 ---
 title: Install Husky
 description: "```bash\r"
+last_reviewed_on: '2025-07-01'
 ---
 ```bash
 # Install Husky

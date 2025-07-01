@@ -5,6 +5,7 @@ lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers design tokens, Tailwind configuration, CSS architecture, and
   accessibility primitives for both tracks.
+last_reviewed_on: '2025-07-01'
 ---
 <Badge variant="success">Done</Badge>
 

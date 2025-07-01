@@ -5,6 +5,7 @@ lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   A note on potential future exploration of UnoCSS or advanced Tailwind plugins
   for specific CSS needs.
+last_reviewed_on: '2025-07-01'
 ---
 ## Status
 

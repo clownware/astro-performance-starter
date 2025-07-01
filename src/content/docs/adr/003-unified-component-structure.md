@@ -8,6 +8,7 @@ description: >-
   The current `docs/implementation-guides/00-overview-directory-structure.md`
   defines a clear Atomic Design methodology for organizing components within the
   `src/
+last_reviewed_on: '2025-07-01'
 ---
 
 ## Context and Problem Statement

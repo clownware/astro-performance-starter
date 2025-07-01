@@ -1,6 +1,7 @@
 ---
 title: package scripts
 description: "```json\r // package.json - scripts section\r {\r   \"scripts\": {\r     \"dev\": \"astro dev\",\r     \"build\": \"astro check && astro build\",\r     \"preview\": \"astro previe"
+last_reviewed_on: '2025-07-01'
 ---
 ```json
 // package.json - scripts section

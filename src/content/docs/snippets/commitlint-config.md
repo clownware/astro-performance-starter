@@ -1,6 +1,7 @@
 ---
 title: commitlint config
 description: "```js\r // commitlint.config.js\r export default {\r   extends: ['@commitlint/config-conventional'],\r   rules: {\r     'type-enum': [\r       2,\r       'always',\r   "
+last_reviewed_on: '2025-07-01'
 ---
 ```js
 // commitlint.config.js

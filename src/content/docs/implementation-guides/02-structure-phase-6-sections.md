@@ -5,6 +5,7 @@ lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers composed page sections, hero components, feature grids, and
   testimonials for Lite (MVP) and Full (Showcase) tracks.
+last_reviewed_on: '2025-07-01'
 ---
 ## Overview
 - **Track**: Lite (MVP) / Full (Showcase)
