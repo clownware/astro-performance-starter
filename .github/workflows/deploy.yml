@@ -40,9 +40,6 @@ jobs:
       - name: Build site
         run: pnpm run build
         
-      - name: Verify build output
-        run: ls -R
-        
       - name: Setup Pages
         uses: actions/configure-pages@v4
         
