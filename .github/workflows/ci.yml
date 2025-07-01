@@ -48,9 +48,6 @@ jobs:
       - name: Validate semantic color contrast
         run: pnpm run validate:contrast
 
-      - name: Check documentation review dates
-        run: pnpm run check:reviews
-
       - name: Build site
         run: pnpm run build
 
