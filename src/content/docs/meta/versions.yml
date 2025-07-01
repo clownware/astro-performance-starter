@@ -20,3 +20,6 @@ husky: 9.x
 node-lts: 20.x
 node-current: 22.x
 node-minimum: 20.11.0
+style-dictionary: 4.0.0
+tailwindcss-themer: 4.0.0
+newtool: 1.0.0
