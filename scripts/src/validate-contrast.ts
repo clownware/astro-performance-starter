@@ -22,7 +22,7 @@ interface SemanticTokens {
   };
 }
 const semantic: SemanticTokens = JSON.parse(
-  readFileSync(join(root, "..", "tokens", "semantic.json"), "utf-8"),
+  readFileSync(join(root, "..", "..", "tokens", "semantic.json"), "utf-8"),
 );
 
 type RGB = [number, number, number];
