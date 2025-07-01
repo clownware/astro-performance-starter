@@ -9,7 +9,7 @@ interface ValidationResult {
   missingVersions: string[];
 }
 
-const VERSIONS_PATH = join(process.cwd(), "docs", "meta", "versions.yml");
+const VERSIONS_PATH = join(process.cwd(), "src", "content", "docs", "meta", "versions.yml");
 const DOCS_PATH = join(process.cwd(), "src", "content", "docs");
 
 function loadVersions(): Record<string, string> {
@@ -84,7 +84,7 @@ function validateVersions(): void {
 
   if (hasErrors) {
     console.error("\n❌ Version validation failed!");
-    console.error("Add missing versions to docs/meta/versions.yml or fix references.");
+    console.error("Add missing versions to src/content/docs/meta/versions.yml or fix references.");
     process.exit(1);
   } else {
     console.log("\n✅ All version references are valid!");
