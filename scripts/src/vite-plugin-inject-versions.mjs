@@ -1,46 +1,41 @@
 // scripts/src/vite-plugin-inject-versions.mjs
-// Vite plugin to inject version placeholders ({{versions.*}}) in *any* text-based
-// asset. This ensures that front-matter strings processed by Starlight (such as
-// banner.content) also get replaced—something remark/rehype plugins cannot see.
-
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { load } from "js-yaml";
 
 let versionsCache = null;
 
-function loadVersions(rootDir, strict = false) {
+// This function now reads from versions.json
+function loadVersions(rootDir) {
   if (versionsCache) {
     return versionsCache;
   }
 
-  const versionsPath = join(rootDir, "src", "content", "docs", "meta", "versions.yml");
+  // The update:versions script creates versions.json in the root.
+  const versionsPath = join(rootDir, "versions.json");
 
   try {
     const content = readFileSync(versionsPath, "utf8");
-    versionsCache = load(content) || {};
-
-    if (versionsCache.template && !versionsCache.template.startsWith("v")) {
-      versionsCache.template = `v${versionsCache.template}`;
-    }
-
-    console.log(`[vite-inject-versions] Loaded ${Object.keys(versionsCache).length} versions`);
+    versionsCache = JSON.parse(content) || {};
+    console.log(
+      `[vite-inject-versions] Loaded ${Object.keys(versionsCache).length} versions from versions.json`,
+    );
     return versionsCache;
   } catch (err) {
-    if (strict) {
-      throw new Error(`[vite-inject-versions] Unable to read versions.yml: ${err?.message ?? err}`);
-    }
-    console.warn(`[vite-inject-versions] Unable to read versions.yml: ${err?.message ?? err}`);
+    console.warn(`[vite-inject-versions] Unable to read versions.json: ${err?.message ?? err}`);
     return {};
   }
 }
 
 /**
- * @param {{ rootDir?: string, strict?: boolean }} opts
+ * Vite plugin to inject version placeholders ({{versions.*}}) in *any* text-based
+ * asset. This ensures that front-matter strings processed by Starlight (such as
+ * banner.content) also get replaced—something remark/rehype plugins cannot see.
+ * @param {{ rootDir?: string }} opts
  * @returns {import('vite').Plugin}
  */
 export function viteInjectVersions(opts = {}) {
-  const { rootDir = process.cwd(), strict = false } = opts;
+  const { rootDir = process.cwd() } = opts;
+  // This regex is robust and handles whitespace.
   const regex = /{{\s*versions\.([\w-]+)\s*}}/g;
 
   return {
@@ -48,35 +43,31 @@ export function viteInjectVersions(opts = {}) {
     enforce: "pre",
     configResolved() {
       // Load versions once when Vite configuration is resolved.
-      loadVersions(rootDir, strict);
+      loadVersions(rootDir);
     },
-    transform(code, id) {
-      if (!code.match(regex)) {
+    transform(code, _id) {
+      // Quick check to avoid processing files that don't have placeholders
+      if (!code.includes("{{versions.")) {
         return null;
       }
 
       const versions = versionsCache || {};
-      const missingVersions = new Set();
 
       const transformedCode = code.replace(regex, (_match, key) => {
-        if (versions[key]) {
+        if (versions[key] !== undefined) {
           return versions[key];
         }
-
-        missingVersions.add(key);
-        if (strict) {
-          throw new Error(`Missing version key: ${key} in ${id}`);
-        }
-        return "(version unknown)";
+        // If key is not found, leave the placeholder as is.
+        // This prevents breaking things if a key is missing.
+        return _match;
       });
 
-      if (missingVersions.size > 0) {
-        console.warn(
-          `[vite-inject-versions] Missing versions in ${id}: ${[...missingVersions].join(", ")}`,
-        );
+      // Only return if changes were made to avoid unnecessary processing
+      if (transformedCode !== code) {
+        return { code: transformedCode, map: null };
       }
 
-      return transformedCode;
+      return null;
     },
   };
 }

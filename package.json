@@ -20,7 +20,7 @@
     "docs:clean:headings": "tsx scripts/src/remove-duplicate-headings.ts",
     "update:versions": "tsx scripts/src/update-versions.ts",
     "validate:versions": "tsx scripts/src/validate-versions.ts",
-    "build:versions": "pnpm run update:versions && node scripts/src/remark-inject-versions.mjs",
+    "build:versions": "pnpm run update:versions",
     "prebuild": "pnpm run build:tokens && pnpm run update:versions",
     "predev": "pnpm run update:versions",
     "check:versions": "pnpm run validate:versions",

@@ -8,11 +8,11 @@ tableOfContents: true
 pagefind: true
 ---
 
-Welcome! This guide is for users who want to quickly deploy a personalized version of this Astro \{\{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch. First things first:
+Welcome! This guide is for users who want to quickly deploy a personalized version of this Astro \{\{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch. After you First things first:
 
 ```bash
 # 1. Create your project from the template
-pnpm create astro@latest my-site --template your-username/astro-performance-starter
+pnpm create astro@latest my-site --template clownware/astro-starter-template
 
 # 2. Navigate into the project
 cd my-site

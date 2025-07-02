@@ -57,7 +57,7 @@ Get up and running in 30 seconds:
 
 ```bash
 # 1. Create your project from the template
-pnpm create astro@latest my-site --template your-username/astro-performance-starter
+pnpm create astro@latest my-site --template clownware/astro-starter-template
 
 # 2. Navigate into the project
 cd my-site

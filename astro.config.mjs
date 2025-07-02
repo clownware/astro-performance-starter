@@ -52,17 +52,15 @@ export default defineConfig({
       sidebar: [
         {
           label: "Getting Started",
-          badge: { text: "Start Here", variant: "tip" },
           items: [
             {
               label: "Overview",
               link: "readme/",
-              badge: { text: "New", variant: "note" },
             },
             {
               label: "Quick Deploy",
               link: "quick-track-deploy/",
-              badge: { text: "5 min", variant: "success" },
+              badge: { text: "Start Here", variant: "tip" },
             },
             { label: "FAQ", link: "faq/" },
           ],
@@ -70,11 +68,136 @@ export default defineConfig({
         {
           label: "Implementation Guides",
           collapsed: false,
-          badge: { text: "12 Phases", variant: "caution" },
-          autogenerate: { directory: "implementation-guides" },
+          items: [
+            {
+              label: "Overview",
+              collapsed: true,
+              items: [
+                { label: "Introduction", link: "implementation-guides/00-overview-readme" },
+                {
+                  label: "Budgets & Guardrails",
+                  link: "implementation-guides/00-overview-budgets-guardrails",
+                },
+                {
+                  label: "Directory Structure",
+                  link: "implementation-guides/00-overview-directory-structure",
+                },
+                {
+                  label: "Table Format Guide",
+                  link: "implementation-guides/00-overview-table-format-guide",
+                },
+                { label: "Tech Stack", link: "implementation-guides/00-overview-tech-stack" },
+              ],
+            },
+            {
+              label: "Foundation",
+              badge: { text: "Phases DONE", variant: "success" },
+              collapsed: true,
+              items: [
+                {
+                  label: "Phase 0: Foundation",
+                  link: "implementation-guides/01-foundation-phase-0-foundation",
+                },
+                {
+                  label: "Phase 1: Content Architecture",
+                  link: "implementation-guides/01-foundation-phase-1-content-arch",
+                },
+                {
+                  label: "Phase 2: Design System",
+                  link: "implementation-guides/01-foundation-phase-2-design-system",
+                },
+                {
+                  label: "Phase 3: Tooling",
+                  link: "implementation-guides/01-foundation-phase-3-tooling",
+                },
+              ],
+            },
+            {
+              label: "Structure",
+              badge: { text: "Phases 4-6", variant: "note" },
+              collapsed: true,
+              items: [
+                {
+                  label: "Phase 4: Skeleton",
+                  link: "implementation-guides/02-structure-phase-4-skeleton",
+                },
+                {
+                  label: "Phase 5: Components",
+                  link: "implementation-guides/02-structure-phase-5-components",
+                },
+                {
+                  label: "Phase 6: Sections",
+                  link: "implementation-guides/02-structure-phase-6-sections",
+                },
+              ],
+            },
+            {
+              label: "Content",
+              badge: { text: "Phase 7", variant: "note" },
+              collapsed: true,
+              items: [
+                {
+                  label: "Phase 7: Content",
+                  link: "implementation-guides/03-content-phase-7-content",
+                },
+                {
+                  label: "Content Model Guide",
+                  link: "implementation-guides/03-content-content-model-guide",
+                },
+                {
+                  label: "Image Optimization Guide",
+                  link: "implementation-guides/03-content-image-optimization-guide",
+                },
+              ],
+            },
+            {
+              label: "Quality",
+              badge: { text: "Phases 8-9", variant: "note" },
+              collapsed: true,
+              items: [
+                { label: "Phase 8: QA", link: "implementation-guides/04-quality-phase-8-qa" },
+                {
+                  label: "Phase 9: Performance",
+                  link: "implementation-guides/04-quality-phase-9-performance",
+                },
+                {
+                  label: "Accessibility Guide",
+                  link: "implementation-guides/04-quality-accessibility-guide",
+                },
+                {
+                  label: "Rollback Strategies Guide",
+                  link: "implementation-guides/04-quality-rollback-strategies-guide",
+                },
+                {
+                  label: "Testing Strategy Guide",
+                  link: "implementation-guides/04-quality-testing-strategy-guide",
+                },
+              ],
+            },
+            {
+              label: "Deployment",
+              badge: { text: "Phases 10-12", variant: "note" },
+              collapsed: true,
+              items: [
+                {
+                  label: "Phase 10: Deployment",
+                  link: "implementation-guides/05-deployment-phase-10-deployment",
+                },
+                {
+                  label: "Phase 11: Documentation",
+                  link: "implementation-guides/05-deployment-phase-11-documentation",
+                },
+                {
+                  label: "Phase 12: Post-Launch",
+                  link: "implementation-guides/05-deployment-phase-12-post-launch",
+                },
+              ],
+            },
+          ],
         },
         {
           label: "Development",
+          collapsed: true,
           items: [
             { label: "Contributing", link: "contributing/" },
             { label: "Git Workflow", link: "git-workflow/" },
@@ -88,6 +211,7 @@ export default defineConfig({
         },
         {
           label: "Architecture",
+          collapsed: true,
           items: [
             {
               label: "GitHub Template Structure",
@@ -100,22 +224,19 @@ export default defineConfig({
         },
         {
           label: "Tracks",
-          collapsed: false,
+          collapsed: true,
           items: [
             {
               label: "Track Comparison",
               link: "tracks/track-comparison/",
-              badge: { text: "Compare", variant: "note" },
             },
             {
               label: "MVP Track (2-3 weeks)",
               link: "tracks/mvp-track-guide/",
-              badge: { text: "Fast", variant: "success" },
             },
             {
               label: "Showcase Track (4-6 weeks)",
               link: "tracks/showcase-track-guide/",
-              badge: { text: "Full", variant: "tip" },
             },
           ],
         },
@@ -124,7 +245,7 @@ export default defineConfig({
           collapsed: true,
           items: [
             {
-              label: "Architecture Decision Records (ADRs)",
+              label: "Architecture Decision Records",
               badge: "ADRs",
               autogenerate: { directory: "adr" },
             },
@@ -192,6 +313,8 @@ export default defineConfig({
         },
       ],
     ],
+    rehypePlugins: [],
+    mdxComponents,
   },
 
   // Enhanced build configuration

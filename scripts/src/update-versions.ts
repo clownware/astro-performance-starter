@@ -8,12 +8,13 @@ interface Versions {
   [key: string]: string;
 }
 
-const VERSIONS_PATH = join(process.cwd(), "src", "content", "docs", "meta", "versions.yml");
+const VERSIONS_YAML_PATH = join(process.cwd(), "src", "content", "docs", "meta", "versions.yml");
+const VERSIONS_JSON_PATH = join(process.cwd(), "versions.json");
 
 // Load current versions
 function loadVersions(): Versions {
   try {
-    const content = readFileSync(VERSIONS_PATH, "utf8");
+    const content = readFileSync(VERSIONS_YAML_PATH, "utf8");
     return load(content) as Versions;
   } catch (_error) {
     console.error("Error loading versions.yml:", _error);
@@ -23,12 +24,16 @@ function loadVersions(): Versions {
 
 // Save versions
 function saveVersions(versions: Versions): void {
-  const content = dump(versions, {
+  const yamlContent = dump(versions, {
     lineWidth: -1, // Don't wrap lines
     quotingType: '"',
     forceQuotes: false,
   });
-  writeFileSync(VERSIONS_PATH, content);
+  writeFileSync(VERSIONS_YAML_PATH, yamlContent);
+
+  // Save to JSON for Vite plugin
+  const jsonContent = JSON.stringify(versions, null, 2);
+  writeFileSync(VERSIONS_JSON_PATH, jsonContent);
 }
 
 // Get package version from package.json
@@ -101,7 +106,9 @@ function autoUpdateVersions(): void {
     saveVersions(versions);
     console.log("\n✅ Versions updated successfully!");
   } else {
-    console.log("✅ All versions are up to date!");
+    // Even if no versions were updated, we still need to ensure the files exist.
+    saveVersions(versions);
+    console.log("✅ All versions are up to date! Versions files ensured.");
   }
 }
 
