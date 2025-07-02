@@ -1,5 +1,5 @@
 ---
-title: Phase 2- Design System & Tokens
+title: Phase 2 - Design System & Tokens
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers design tokens, Tailwind configuration, CSS architecture, and

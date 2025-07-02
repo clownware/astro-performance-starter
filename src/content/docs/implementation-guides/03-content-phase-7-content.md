@@ -1,5 +1,5 @@
 ---
-title: 'Phase 7: Content'
+title: 'Phase 7 - Content'
 description: Develop high-quality content and ensure it aligns with performance goals
 lastUpdated: 2024-01-15T00:00:00.000Z
 tableOfContents: true

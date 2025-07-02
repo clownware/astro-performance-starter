@@ -1,5 +1,5 @@
 ---
-title: Phase 3- Essential Tooling & Quality Gates
+title: Phase 3 - Essential Tooling & Quality Gates
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details linting setup, formatting configuration, CI pipeline, and quality

@@ -1,5 +1,5 @@
 ---
-title: 'Phase 11: Documentation'
+title: 'Phase 11 - Documentation'
 description: >-
    Covers README, setup guides, component docs, and maintenance procedures for
    Essential (MVP) and Comprehensive (Showcase) tracks

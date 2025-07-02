@@ -1,5 +1,5 @@
 ---
-title: Phase 5- UI Component Library
+title: Phase 5 - UI Component Library
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details development of reusable UI components, documentation, and

@@ -9,7 +9,7 @@ export default function remarkBasePrefix(opts = {}) {
   // Ensure base starts with "/" and has *no* trailing slash.
   const base = String(opts.base || "").replace(/\/$/, "");
 
-  return (tree) => {
+  return (tree, file) => {
     visit(tree, "link", (node) => {
       const url = node.url || "";
 
@@ -17,6 +17,7 @@ export default function remarkBasePrefix(opts = {}) {
       //  • Ignore mailto:, http(s):, #hash, ../../foo, etc.
       //  • Don’t double-prefix if author ever inlines the base.
       if (url.startsWith("/") && !url.startsWith(`${base}/`)) {
+        console.log("[prefix]", file.path, "→", base + url);
         node.url = base + url;
       }
     });

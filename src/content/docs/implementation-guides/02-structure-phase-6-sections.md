@@ -1,5 +1,5 @@
 ---
-title: Phase 6- Page Sections & Composition
+title: Phase 6 - Page Sections & Composition
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers composed page sections, hero components, feature grids, and

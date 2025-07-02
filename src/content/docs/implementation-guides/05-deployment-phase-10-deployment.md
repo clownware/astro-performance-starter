@@ -1,5 +1,5 @@
 ---
-title: Phase 10- Deployment & Monitoring
+title: Phase 10 - Deployment & Monitoring
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers live site deployment, CI/CD pipeline, monitoring setup, and backup

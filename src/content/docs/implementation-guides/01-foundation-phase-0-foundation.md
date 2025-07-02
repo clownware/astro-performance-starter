@@ -1,5 +1,5 @@
 ---
-title: Phase 0- Foundation Decisions
+title: Phase 0 - Foundation Decisions
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers core architecture decisions, repository setup, and development

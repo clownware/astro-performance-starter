@@ -1,5 +1,5 @@
 ---
-title: Phase 4- Skeleton Layout & Routing
+title: Phase 4 - Skeleton Layout & Routing
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers base layout, routing structure, navigation, and metadata system for

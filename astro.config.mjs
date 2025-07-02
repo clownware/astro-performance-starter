@@ -165,9 +165,6 @@ export default defineConfig({
           lang: "en",
         },
       },
-      markdown: {
-        remarkPlugins: [[remarkBasePrefix, { base: "/astro-starter-template" }]],
-      },
     }),
     starlightLinksValidator({ base: "/astro-starter-template" }),
     mdx({
@@ -185,6 +182,7 @@ export default defineConfig({
 
   markdown: {
     remarkPlugins: [
+      [remarkBasePrefix, { base: "/astro-starter-template" }],
       [
         remarkSnippetIncludes,
         {
