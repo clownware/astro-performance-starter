@@ -18,7 +18,7 @@ const rootDir = fileURLToPath(new URL(".", import.meta.url));
 
 export default defineConfig({
   trailingSlash: "always",
-  site: "https://clownware.github.io/astro-starter-template/",
+  site: "https://clownware.github.io/astro-starter-template",
   base: "/astro-starter-template",
 
   integrations: [
