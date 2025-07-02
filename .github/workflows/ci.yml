@@ -78,7 +78,7 @@ jobs:
         run: pnpm run audit:ci
 
       - name: Trivy SBOM scan
-        uses: aquasecurity/trivy-action@0.19.0
+        uses: aquasecurity/trivy-action@0.31.0
         with:
           scan-type: 'fs'
           format: 'sarif'
