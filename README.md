@@ -56,8 +56,20 @@ This isn't just another Astro starter. It's a comprehensive foundation for proje
 Get up and running in 30 seconds:
 
 ```bash
+# 1. Create your project from the template
 pnpm create astro@latest my-site --template your-username/astro-performance-starter
-cd my-site && pnpm dev
+
+# 2. Navigate into the project
+cd my-site
+
+# 3. Install dependencies
+pnpm install
+
+# 4. Build the design tokens (required first time)
+pnpm run build:tokens
+
+# 5. Start the development server
+pnpm run dev
 ```
 
 (For detailed setup, see [`./ONBOARDING.md`](./ONBOARDING.md).)

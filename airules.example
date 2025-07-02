@@ -1,0 +1,14 @@
+# AI Development Rules for [Project Name]
+
+## Core Directives
+- This project is built on the Astro Performance Starter. Adhere strictly to its patterns.
+- The primary goal is [e.g., "to build a personal blog about web development"].
+- The target audience is [e.g., "intermediate to advanced developers"].
+- The brand voice is [e.g., "professional, informative, and slightly informal"].
+
+## Non-Negotiable Rules
+1.  **Performance is the highest priority.** No change should negatively impact Lighthouse scores.
+2.  **Zero-JS by default.** All new features must work without client-side JavaScript first.
+3.  **Use Preact islands only for complex, necessary interactivity,** as defined in the project's ADRs.
+4.  **Use design tokens** from `tokens/base.json` for all styling. Do not use hardcoded colors or spacing.
+5.  **All code must be type-safe** and pass `pnpm run check` without errors.

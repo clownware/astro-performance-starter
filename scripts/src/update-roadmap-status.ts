@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 // --- CONFIGURATION ---
-const DOCS_DIR = join(process.cwd(), "docs");
+const DOCS_DIR = join(process.cwd(), "src", "content", "docs");
 const GUIDES_DIR = join(DOCS_DIR, "implementation-guides");
 const README_PATH = join(DOCS_DIR, "README.md");
 const PHASES = [

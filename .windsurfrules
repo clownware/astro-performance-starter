@@ -3,21 +3,25 @@
 Every time you choose to apply a rule(s), explicitly state the rule(s) in the output. You can abbreviate the rule description to a single word or phrase.
 
 ## Project Context
+
 Astro Performance Starter Template - Production-ready GitHub template with comprehensive documentation:
+
 - Target 100/100 Lighthouse scores with zero JavaScript by default
 - Phase-based implementation guides (12 phases: Foundation → Deployment)
-- MVP Track (2-3 weeks) vs Showcase Track (4-6 weeks) 
+- MVP Track (2-3 weeks) vs Showcase Track (4-6 weeks)
 - AI-optimized documentation structure with context management
 - GitHub template repository with working examples
 - Focus on web performance, accessibility (WCAG AA), and developer experience
 
 ## Code Style and Structure
+
 - Write concise, technical TypeScript code with accurate examples
 - Use functional and declarative programming patterns; avoid classes
 - Prefer iteration and modularization over code duplication
 - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError)
 - Follow atomic design pattern with clear component hierarchy:
-```
+
+```bash
 src/
 ├── components/
 │   ├── atoms/          # Basic UI elements (Button, Input)
@@ -33,56 +37,23 @@ src/
 ```
 
 ## Tech Stack
+
 - **Framework**: Astro v5.x with Vite 6.x bundler
 - **Package Manager**: pnpm 9.x (required - locked in package.json)
-- **Runtime**: Node.js 20.x LTS (specified in .nvmrc)
-- **Styling**: Tailwind CSS v4.0-beta with design tokens system
-- **Code Quality**: Biome (replaces ESLint + Prettier for 20x speed)
+- **Runtime**: Node.js 22.x LTS (specified in .nvmrc)
+- **Styling**: Tailwind CSS v3.4.4 with design tokens system
+- **Code Quality**: Biome 2.0.6 (replaces ESLint + Prettier for 20x speed)
 - **Content**: MDX with Astro Content Collections API
 - **Images**: Astro Image component with Sharp processing (AVIF + WebP)
 - **Fonts**: @fontsource for self-hosting variable fonts
-- **TypeScript**: v5.6.0 in strict mode with @astrojs/check
+- **TypeScript**: v5.8.3 in strict mode with @astrojs/check
 
 ## Package Dependencies
-Core dependencies match tech-stack.md exactly:
-```json
 
-{
-  "dependencies": {
-    "@astrojs/mdx": "^4.0.1",
-    "@astrojs/preact": "^4.0.0",
-    "@astrojs/sitemap": "^4.0.0",
-    "@astrojs/tailwind": "^6.0.0",
-    "@fontsource-variable/inter": "^5.1.0",
-    "astro": "^5.8.0",
-    "preact": "^10.24.0",
-    "tailwindcss": "^4.0.0"
-  },
-  "devDependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@biomejs/biome": "^1.9.4",
-    "@playwright/test": "^1.49.0",
-    "astrobook": "^0.5.0",
-    "husky": "^9.1.0",
-    "lighthouse": "^12.0.0",
-    "lint-staged": "^15.2.0",
-    "sharp": "^0.33.0",
-    "tsx": "^4.7.0",
-    "typescript": "^5.6.0"
-  },
-  "optionalDependencies": {
-    "@axe-core/playwright": "^4.10.0",
-    "style-dictionary": "^4.0.0",
-    "tailwindcss-themer": "^4.0.0",
-    "vitest": "^2.1.0"
-  },
-  "engines": {
-    "node": ">=22.0.0"
-  }
-}
-```
+Core dependencies can be found in package.json
 
 ## Naming Conventions
+
 - Use lowercase with dashes for directories (e.g., components/hero-section)
 - Use PascalCase for component files (e.g., HeroSection.astro)
 - Use camelCase for utility files (e.g., formatDate.ts)
@@ -91,13 +62,15 @@ Core dependencies match tech-stack.md exactly:
 - Use semantic naming for design tokens (primary, secondary, etc.)
 
 ## TypeScript Usage
+
 - Use TypeScript strict mode (required in tsconfig.json)
 - Prefer interfaces over types for component props
 - Avoid enums; use const objects with 'as const' assertion
 - Define strict types for Content Collections schemas
 - Use Astro.props typing for component props
 - Implement absolute imports with @ aliases:
-  ```typescript
+
+```typescript
   "@/*": ["src/*"]
   "@components/*": ["src/components/*"]
   "@layouts/*": ["src/layouts/*"]
@@ -108,6 +81,7 @@ Core dependencies match tech-stack.md exactly:
   ```
 
 ## Astro-Specific Patterns
+
 - Use zero JavaScript by default; add interactivity strategically
 - Follow progressive enhancement: CSS → View Transitions → Alpine.js → Preact islands
 - Use proper client directives:
@@ -120,6 +94,7 @@ Core dependencies match tech-stack.md exactly:
 - Use Astro components for static content, framework components only for complex state
 
 ## Design System Implementation
+
 - Use design tokens as single source of truth in `tokens/` directory
 - Build tokens to CSS variables and Tailwind config via `pnpm run build:tokens`
 - Token structure: `tokens/base.json` → `tokens/dist/tokens.css` + Tailwind integration
@@ -128,7 +103,19 @@ Core dependencies match tech-stack.md exactly:
 - Use semantic color naming (background, foreground, primary, secondary, etc.)
 - Include motion tokens for consistent animations and transitions
 
+## Starlight Documentation Rules
+
+- All documentation lives under src/content/docs/
+- Always include a front-matter title, description, lastUpdated, tableOfContents, pagefind
+- Keep the page’s first written heading at h2 or lower
+- Link to other docs pages with clean slugs—no file extensions
+- Configure sidebar navigation via starlight.sidebar
+- Write call-outs with triple-colon asides
+- Fence code blocks and lean on Expressive Code
+- Start links with / or use a relative path—never hard-code the site’s base prefix
+
 ## Performance Requirements
+
 - Target Lighthouse scores: Performance 100, Accessibility 100, Best Practices 100, SEO 100
 - Implement performance budgets with CI enforcement via Lighthouse CI
 - Use Astro's built-in image optimization (no external CDNs)
@@ -137,7 +124,9 @@ Core dependencies match tech-stack.md exactly:
 - Monitor Core Web Vitals: LCP < 2.5s, FID < 100ms, CLS < 0.1
 
 ## Development Workflow Scripts
+
 Use exact scripts from package.json:
+
 ```json
 {
   "scripts": {
@@ -153,6 +142,7 @@ Use exact scripts from package.json:
 ```
 
 ## Git and Code Quality
+
 - Use conventional commits (enforced via Husky hooks):
   - "feat:" for new features
   - "fix:" for bug fixes  
@@ -166,6 +156,7 @@ Use exact scripts from package.json:
 - Maintain pnpm-lock.yaml in version control
 
 ## Phase-Based Development
+
 - Follow 12-phase implementation roadmap (Phase 0: Foundation → Phase 12: Post-Launch)
 - Choose track early: MVP (portfolio/blog focus) vs Showcase (technical demonstration)
 - Each phase has entry criteria, implementation steps, exit criteria, and rollback strategy
@@ -173,8 +164,10 @@ Use exact scripts from package.json:
 - Use ADR template for architectural decisions in `docs/adr/`
 
 ## Testing Strategy
+
 MVP Track: Manual testing with dev tools
-Showcase Track: 
+Showcase Track:
+
 - E2E testing with Playwright
 - Component documentation with Astrobook
 - Accessibility testing with axe-core + Playwright
@@ -182,6 +175,7 @@ Showcase Track:
 - Visual regression testing (optional)
 
 ## Deployment and Hosting
+
 - Primary: Cloudflare Pages (global CDN, generous free tier)
 - Alternatives: Vercel, Netlify, AWS Amplify
 - Build command: `pnpm build`
@@ -190,6 +184,7 @@ Showcase Track:
 - Environment variables managed via `.env.example` template
 
 ## AI Assistant Guidelines
+
 - Reference phase-specific documentation in `docs/implementation-guides/`
 - Use working code examples from template repository
 - Follow established patterns in `docs/patterns/`

@@ -1,5 +1,5 @@
 ---
-title: '"Phase 1: Content & Data Architecture"'
+title: 'Phase 1: Content & Data Architecture'
 description: Establish content and data architecture for your project
 lastUpdated: 2025-06-10T00:00:00.000Z
 tableOfContents: true

@@ -73,7 +73,7 @@ A CLI flag during project initialization (Option 3) is a desirable future enhanc
   * `package.json` scripts need to be updated.
   * The token build script (`scripts/build-tokens.ts`) and the contrast validation logic need to be modified to respect the environment variable.
   * CI workflow files (e.g., `.github/workflows/ci.yml`) need to be updated to set this variable for MVP-specific jobs or provide ways to trigger MVP builds.
-  * Documentation (`ONBOARDING.md`, `ROADMAP.md`, relevant phase guides, and potentially a new "Customization" guide) must clearly explain this option, the environment variable, and the available npm scripts.
+  * Documentation (the [Onboarding guide](../onboarding), the [Roadmap](../roadmap), relevant phase guides, and potentially a new "Customization" guide) must clearly explain this option, the environment variable, and the available npm scripts.
   * If these tools are skipped, the project will rely on default/pre-built tokens. Users choosing the MVP path must be aware that direct token modification or extensive theme changes might require running the full tooling.
 
 ## Validation

@@ -69,6 +69,9 @@ web_modules/
 # Yarn Integrity file
 .yarnclean
 
+# Build artifacts and reports
+frontmatter-report.json
+
 # dotenv environment variables file
 .env
 .env.*
@@ -115,6 +118,9 @@ public
 
 # Mac files
 .DS_Store
+
+# Windows system files
+desktop.ini
 
 # VSCode files
 .vscode/

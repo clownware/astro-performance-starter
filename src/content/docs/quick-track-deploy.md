@@ -1,20 +1,37 @@
 ---
-title: '"Quick Track: Deploy Your First Site"'
+title: 'Quick Track: Deploy Your First Site'
 description: >-
   The fastest way to get a personalized version of this {{versions.astro}}
   starter deployed
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 
-Welcome! This guide is for users who want to quickly deploy a personalized version of this \{\{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch.
+Welcome! This guide is for users who want to quickly deploy a personalized version of this Astro \{\{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch. First things first:
 
-Our goal is to get your site live with your own basic information. For detailed explanations and advanced configurations, please refer to the comprehensive [Implementation Roadmap](/ROADMAP/) and the individual phase guides in the `implementation-guides` directory.
+```bash
+# 1. Create your project from the template
+pnpm create astro@latest my-site --template your-username/astro-performance-starter
+
+# 2. Navigate into the project
+cd my-site
+
+# 3. Install dependencies
+pnpm install
+
+# 4. Build the design tokens (required first time)
+pnpm run build:tokens
+
+# 5. Start the development server
+pnpm run dev
+```
+
+Our goal is to get your site live with your own basic information. For detailed explanations and advanced configurations, please refer to the individual phase guides in the `implementation-guides` directory.
 
 ## The Four Key Areas to Personalize
 
-To get a unique site deployed, you'll primarily interact with these areas. We're assuming you're using Cloudflare Pages for deployment as recommended in our [Phase 10 Deployment Guide](/implementation-guides/05-deployment-phase-10-deployment/).
+To get a unique site deployed, you'll primarily interact with these areas. We're assuming you're using Cloudflare Pages for deployment as recommended in our [Phase 10 Deployment Guide](../implementation-guides/05-deployment-phase-10-deployment/).
 
 1. **Site-Wide Configuration (`astro.config.mjs`)**
    * **File**: `astro.config.mjs` (in the project root)
@@ -52,7 +69,7 @@ To get a unique site deployed, you'll primarily interact with these areas. We're
 
 1. **Commit your changes**: `git add . && git commit -m "Initial personalization"`
 2. **Push to your repository**: `git push origin master`
-3. **Follow Deployment Guide**: Ensure you've followed the steps in [Phase 10: Deployment & Monitoring](/implementation-guides/05-deployment-phase-10-deployment/) to connect your repository to Cloudflare Pages (or your chosen hosting provider).
+3. **Follow Deployment Guide**: Ensure you've followed the steps in [Phase 10: Deployment & Monitoring](../implementation-guides/05-deployment-phase-10-deployment/) to connect your repository to Cloudflare Pages (or your chosen hosting provider).
 
 That's it! With these changes, your deployed site will have your basic branding and content.
 
@@ -65,4 +82,4 @@ This starter template is packed with features and best practices. Once you're co
 * **Component Patterns**: `docs/patterns/` for building new UI elements with \{\{versions.tailwindcss}}.
 * **Full Phase Guides**: The `docs/implementation-guides/` directory for in-depth understanding of each setup phase.
 
-**Improving Documentation Discoverability**: As this project's documentation grows, we plan to explore options like a dedicated documentation site with features such as advanced search and collapsible sections to make navigating the detailed guides easier. For now, the [Roadmap](/ROADMAP/) provides a good overview of all available documentation.
+**Improving Documentation Discoverability**: As this project's documentation grows, we plan to explore options like a dedicated documentation site with features such as advanced search and collapsible sections to make navigating the detailed guides easier. For now, the phase guides provide a good overview of all available documentation.

@@ -23,7 +23,7 @@ astro-performance-starter/
 │
 ├── docs/
 │   ├── README.md                     # Docs overview & navigation
-│   ├── ROADMAP.md                    # Phase-by-phase guide
+
 │   ├── implementation-guides/        # All the guides
 │   │   ├── 00-overview/
 │   │   ├── 01-foundation/
@@ -193,7 +193,7 @@ pnpm run dev
 
 This starter includes comprehensive phase-by-phase implementation guides:
 
-* **[Implementation Roadmap](/docs/ROADMAP/)** - Start here!
+* **[Implementation Roadmap](./roadmap)** - Start here!
 * **[Track Comparison](/docs/implementation-guides/tracks/track-comparison/)** - MVP vs Showcase
 * **[AI Context Guide](/docs/implementation-guides/ai-context/INDEX/)** - For AI assistants
 
@@ -326,7 +326,7 @@ import Button from '@/components/atoms/Button.astro';
         This starter is pre-configured for maximum performance and developer experience.
       </p>
       <div class="flex gap-4">
-        <Button href="./docs/ROADMAP">
+        <Button href="./roadmap">
           Read the Docs
         </Button>
         <Button href="https://github.com/yourusername/astro-performance-starter" variant="secondary" external>
