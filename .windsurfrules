@@ -112,7 +112,7 @@ Core dependencies can be found in package.json
 - Configure sidebar navigation via starlight.sidebar
 - Write call-outs with triple-colon asides
 - Fence code blocks and lean on Expressive Code
-- Start links with / or use a relative path—never hard-code the site’s base prefix
+- Start links with / or use a root-relative path—never hard-code the site’s base prefix
 
 ## Performance Requirements
 

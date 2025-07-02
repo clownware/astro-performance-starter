@@ -8,9 +8,8 @@ import { defineConfig } from "astro/config";
 import compress from "astro-compress";
 import astroExpressiveCode from "astro-expressive-code";
 import starlightLinksValidator from "starlight-links-validator";
-
+import remarkBasePrefix from "./scripts/src/remark-base-prefix.mjs";
 import { remarkSnippetIncludes } from "./scripts/src/remark-snippet-includes.mjs";
-
 import { viteInjectVersions } from "./scripts/src/vite-plugin-inject-versions.mjs";
 import { components as mdxComponents } from "./src/components/mdx/index.ts";
 
@@ -166,7 +165,11 @@ export default defineConfig({
           lang: "en",
         },
       },
+      markdown: {
+        remarkPlugins: [[remarkBasePrefix, { base: "/astro-starter-template" }]],
+      },
     }),
+    starlightLinksValidator({ base: "/astro-starter-template" }),
     mdx({
       components: mdxComponents,
     }),
@@ -182,7 +185,6 @@ export default defineConfig({
 
   markdown: {
     remarkPlugins: [
-      [starlightLinksValidator, {}],
       [
         remarkSnippetIncludes,
         {

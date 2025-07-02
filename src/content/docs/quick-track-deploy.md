@@ -31,7 +31,7 @@ Our goal is to get your site live with your own basic information. For detailed 
 
 ## The Four Key Areas to Personalize
 
-To get a unique site deployed, you'll primarily interact with these areas. We're assuming you're using Cloudflare Pages for deployment as recommended in our [Phase 100 Deployment Guide](../implementation-guides/05-deployment-phase-10-deployment/).
+To get a unique site deployed, you'll primarily interact with these areas. We're assuming you're using Cloudflare Pages for deployment as recommended in our [Phase 10 Deployment Guide](/implementation-guides/05-deployment-phase-10-deployment/).
 
 1. **Site-Wide Configuration (`astro.config.mjs`)**
    * **File**: `astro.config.mjs` (in the project root)
