@@ -51,7 +51,7 @@
     "@astrojs/ts-plugin": "^1.10.4",
     "@biomejs/biome": "^2.0.6",
     "@commitlint/cli": "^18.5.0",
-    "@commitlint/config-conventional": "^18.5.0",
+    "@commitlint/config-conventional": "^19.8.1",
     "@playwright/test": "^1.49.0",
     "@types/glob": "^8.1.0",
     "@types/js-yaml": "^4.0.9",
