@@ -10,6 +10,7 @@ import astroExpressiveCode from "astro-expressive-code";
 import starlightLinksValidator from "starlight-links-validator";
 import remarkBasePrefix from "./scripts/src/remark-base-prefix.mjs";
 import { remarkSnippetIncludes } from "./scripts/src/remark-snippet-includes.mjs";
+import { remarkValidateLinks } from "./scripts/src/remark-validate-links.mjs";
 import { viteInjectVersions } from "./scripts/src/vite-plugin-inject-versions.mjs";
 import { components as mdxComponents } from "./src/components/mdx/index.ts";
 
@@ -197,17 +198,7 @@ export default defineConfig({
         },
         {
           label: "Development",
-          collapsed: true,
-          items: [
-            { label: "Contributing", link: "contributing/" },
-            { label: "Git Workflow", link: "git-workflow/" },
-            { label: "Design Tokens", link: "how-to-use-design-tokens/" },
-            { label: "Design System Changelog", link: "design-system-changelog/" },
-            {
-              label: "Content Guidelines",
-              autogenerate: { directory: "content" },
-            },
-          ],
+          autogenerate: { directory: "development" },
         },
         {
           label: "Architecture",
@@ -304,6 +295,13 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [
       [remarkBasePrefix, { base: "/astro-starter-template" }],
+      [
+        remarkValidateLinks,
+        {
+          rootDir: rootDir,
+          excludePaths: ["src/content/docs"],
+        },
+      ],
       [
         remarkSnippetIncludes,
         {

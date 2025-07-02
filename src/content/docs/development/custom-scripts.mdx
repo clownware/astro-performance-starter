@@ -1,0 +1,35 @@
+---
+title: Custom Scripts
+description: A guide to the custom scripts and automation used in this project.
+lastUpdated: true
+--- 
+
+This project uses a collection of custom scripts to automate common tasks, enforce quality standards, and enhance the build process. This page provides an overview of what each script does.
+
+## Package Scripts
+
+These scripts are run from the command line using `pnpm run <command>`.
+
+| Command | Script | Description |
+| :--- | :--- | :--- |
+| `build:tokens` | `build-tokens.ts` | Compiles design tokens from `/tokens` into CSS variables and a Tailwind theme. |
+| `check:budgets` | `track-performance-budgets.ts` | Checks the site's performance metrics against defined budgets. |
+| `docs:clean:headings` | `remove-duplicate-headings.ts` | Removes duplicate headings from docs to prevent table of contents errors. |
+| `update:roadmap-status` | `update-roadmap-status.ts` | Updates status badges in roadmap documents based on frontmatter. |
+| `update:versions` | `update-versions.ts` | Updates `versions.json` with current dependency versions from `package.json`. |
+| `validate:contrast` | `validate-contrast.ts` | Checks design token color combinations for WCAG AA contrast compliance. |
+| `validate:frontmatter` | `validate-frontmatter.ts` | Validates the frontmatter of all Markdown/MDX files against a schema. |
+| `validate:overrides` | `validate-budget-overrides.ts` | Validates the structure of the `budget-overrides.json` file. |
+| `validate:versions` | `validate-versions.ts` | Checks if `versions.json` matches `package.json`. Used in CI. |
+| `audit:ci` | `audit-filter.ts` | Runs `pnpm audit` and filters the output for use in CI. |
+
+## Build-Integrated Scripts
+
+These scripts are plugins that run automatically during the `astro build` and `astro dev` processes. They are configured in `astro.config.mjs`.
+
+| Type | Script | Description |
+| :--- | :--- | :--- |
+| Remark | `remark-base-prefix.mjs` | Automatically adds the site's `base` path to internal links. |
+| Remark | `remark-snippet-includes.mjs` | Allows embedding code snippets from files into Markdown. |
+| Remark | `remark-validate-links.mjs` | Validates all internal links in non-documentation Markdown files. |
+| Vite | `vite-plugin-inject-versions.mjs` | Makes version numbers from `versions.json` available in documentation pages. |

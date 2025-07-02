@@ -749,12 +749,6 @@ jobs:
             exit 1
           fi
           
-      - name: Check broken links
-        uses: lycheeverse/lychee-action@v1
-        with:
-          args: --verbose --no-progress https://yourdomain.com
-          fail: true
-          
       - name: Performance check
         run: |
           npx lighthouse https://yourdomain.com \

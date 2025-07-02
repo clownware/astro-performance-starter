@@ -21,6 +21,7 @@ import { visit } from "unist-util-visit";
  * @param {Object} options
  * @param {string} options.rootDir - Project root directory
  * @param {string[]} options.basePaths - Base paths to search (['/docs', '/src/content'])
+ * @param {string[]} options.excludePaths - Paths to exclude from validation (e.g., ['src/content/docs'])
  * @param {boolean} options.validateAnchors - Whether to validate section anchors
  * @param {boolean} options.strict - Whether to fail build on broken links
  */
@@ -28,6 +29,7 @@ export function remarkValidateLinks(options = {}) {
   const {
     rootDir = process.cwd(),
     basePaths = ["/docs"],
+    excludePaths = [],
     validateAnchors = false, // TODO: implement anchor validation
     strict = true,
   } = options;
@@ -38,6 +40,14 @@ export function remarkValidateLinks(options = {}) {
     const currentFilePath = file.path || file.history?.[0];
     if (!currentFilePath) {
       return;
+    }
+
+    // Skip files in excluded paths
+    const normalizedCurrentPath = relative(rootDir, currentFilePath).replace(/\\/g, "/");
+    for (const excludePath of excludePaths) {
+      if (normalizedCurrentPath.startsWith(excludePath)) {
+        return;
+      }
     }
 
     const currentDir = dirname(currentFilePath);

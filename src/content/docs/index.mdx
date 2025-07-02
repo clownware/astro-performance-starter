@@ -92,7 +92,7 @@ import { Aside, Card, CardGrid, Icon } from '@astrojs/starlight/components';
 - **TypeScript**: v{{versions.typescript}} in strict mode with path aliases
 - **Content Collections & Type-Safety**: Astro Content Collections with Zod schemas
 - **Commit Message Linting**: Commitlint is integrated with Husky for semantic versioning
-- **Documentation & Link Validation**: Starlight documentation with Lychee for broken link detection
+- **Link Validation**: Automated checking for all internal links (+docs) via custom Remark plugin.
 - **Package Manager**: pnpm v{{versions.pnpm}} (required for performance)
 - **Comprehensive Testing**: Playwright v{{versions.playwright}} for E2E tests + Vitest for fast unit tests
 - **Performance Automation**: Sharp v{{versions.sharp}} image optimization + Lighthouse CI
@@ -119,7 +119,7 @@ import { Aside, Card, CardGrid, Icon } from '@astrojs/starlight/components';
 
 - Performance budgets with CI enforcement
 - Automated accessibility testing with axe-core
-- Broken link detection with Lychee
+- Comprehensive broken link detection (docs and pages)
 - Design token compilation system
 - Bundle size monitoring
 
