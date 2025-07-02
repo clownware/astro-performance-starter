@@ -58,7 +58,7 @@
     "@types/mdast": "^4.0.4",
     "@types/node": "^22.15.33",
     "astro": "^5.10.1",
-    "astrobook": "^0.5.0",
+    "astrobook": "^0.8.3",
     "chalk": "^5.3.0",
     "glob": "^10.4.2",
     "globby": "^14.1.0",
