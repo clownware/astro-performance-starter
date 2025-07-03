@@ -266,8 +266,7 @@ export default defineConfig({
         maxHeadingLevel: 4,
       },
       favicon: "./src/assets/logo.svg",
-      // Disable Starlight's built-in 404 so the main site 404 handles all paths
-      notFound: false,
+
       locales: {
         root: {
           label: "English",
