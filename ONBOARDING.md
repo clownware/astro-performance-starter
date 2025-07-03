@@ -40,6 +40,14 @@ pnpm run dev
 # → http://localhost:4321
 ```
 
+### Next Steps
+
+Once you're up and running, consider these initial configuration steps:
+
+- [ ] **Configure Analytics**: This template is privacy-first. See our guide on [Adding Web Analytics](/implementation-guides/06-optional-features/01-analytics) to add Plausible or Fathom.
+- [ ] **Customize Content**: Edit the example blog post in `src/content/blog/` and update your site configuration in `.env`.
+- [ ] **Review the Guides**: The `src/content/docs/implementation-guides/` contain detailed instructions for building out your site.
+
 ## Essential Commands
 
 ```bash
