@@ -30,7 +30,6 @@ export default defineConfig({
       },
     }),
     starlight({
-
       title: "Astro Performance Starter",
       description: "Production-ready Astro starter template with 100/100 Lighthouse scores",
       logo: {
