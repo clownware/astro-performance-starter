@@ -1,5 +1,7 @@
 # 🚀 Astro Performance Starter Template
 
+> **Live demo:** [Example landing page](https://clownware.github.io/astro-starter-template/examples/landing)
+
 <!-- BADGE PANEL - AT A GLANCE -->
 <p align="center">
   <a href="https://github.com/your-username/your-repo/actions/workflows/ci.yml">

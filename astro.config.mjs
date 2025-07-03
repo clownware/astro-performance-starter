@@ -265,6 +265,7 @@ export default defineConfig({
         maxHeadingLevel: 4,
       },
       favicon: "./src/assets/logo.svg",
+
       locales: {
         root: {
           label: "English",
