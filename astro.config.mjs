@@ -53,18 +53,12 @@ export default defineConfig({
       sidebar: [
         {
           label: "Getting Started",
-          items: [
-            {
-              label: "Overview",
-              link: "readme/",
-            },
-            {
-              label: "Quick Deploy",
-              link: "quick-track-deploy/",
-              badge: { text: "Start Here", variant: "tip" },
-            },
-            { label: "FAQ", link: "faq/" },
-          ],
+          autogenerate: { directory: "getting-started" },
+        },
+        {
+          label: "Quick Deploy",
+          link: "/getting-started/quick-track-deploy/",
+          badge: { text: "Start Here", variant: "tip" },
         },
         {
           label: "Implementation Guides",

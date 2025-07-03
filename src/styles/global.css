@@ -41,6 +41,11 @@ body[data-starlight-page] {
 
 /* Light theme (default) variables come from the token build output */
 
+/* A basic style for all links. Customize or replace with a Link component. */
+/* a {
+  @apply text-primary-600 underline hover:text-primary-700;
+} */
+
 /* Dark mode overrides – prefers user toggle via `.dark` class but supports OS setting */
 @media (prefers-color-scheme: dark) {
   :root {

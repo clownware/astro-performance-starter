@@ -29,7 +29,7 @@ pagefind: true
 | 5.02 | Create Card component | ✅ | ✅ | For content display |
 | 5.03 | Build Section wrapper | ✅ | ✅ | Consistent spacing |
 | 5.04 | Create Container component | ✅ | ✅ | Responsive widths |
-| 5.05 | Add Link component | ✅ | ✅ | External indicator |
+| 5.05 | Document Link Component | ✅ | ✅ | Create tutorial guide |
 | 5.06 | Build Image component | ✅ | ✅ | Wrapper for Astro Image |
 | 5.07 | Create basic Badge | ✅ | ✅ | For tags/labels |
 | 5.08 | Add Grid component | ✅ | ✅ | Responsive layouts |
@@ -66,7 +66,7 @@ This table serves as the single source of truth for which component to use for e
 | Card | `Card.astro` | `Card.astro` | Same component, extended with props. |
 | Section | `Section.astro` | `Section.astro` | Shared. |
 | Container | `Container.astro` | `Container.astro` | Shared. |
-| Link | `Link.mvp.astro` | `Link.showcase.astro` | Showcase version may include more icon options. |
+| Link | N/A | N/A | Moved to a documentation guide. |
 | Image | `Image.astro` | `Image.astro` | Shared wrapper for Astro's Image. |
 | Badge | `Badge.mvp.astro` | `Badge.showcase.astro` | Showcase adds more color and style options. |
 | Grid | `Grid.astro` | `Grid.astro` | Shared. |
@@ -485,57 +485,14 @@ const classes = [
 <span class:list={classes}>
   <slot />
 </span>
-```
 
 ### Link Component
 
-```astro
+The `Link` component has been moved into a dedicated tutorial to empower you to build it yourself and understand the template's architecture. This approach avoids providing an overly opinionated component out-of-the-box.
 
+- **Guide: [Creating Components: The Link Component](/implementation-guides/05-components/01-creating-components)**
 
-***
-
-
-// src/components/ui/Link.astro
-export interface Props {
-  href: string;
-  external?: boolean;
-  underline?: boolean;
-  class?: string;
-}
-
-const {
-  href,
-  external = href.startsWith('http'),
-  underline = true,
-  class: className,
-} = Astro.props;
-
-const classes = [
-  'text-primary-600 dark:text-primary-400',
-  'hover:text-primary-800 dark:hover:text-primary-300',
-  'transition-colors duration-200',
-  'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600',
-  underline && 'underline underline-offset-2',
-  className,
-];
-
-const linkProps = external ? {
-  target: '_blank',
-  rel: 'noopener noreferrer'
-} : {};
-
-
-***
-
-
-
-<a href={href} class:list={classes} {...linkProps}>
-  <slot />
-  {external && (
-    <span class="sr-only">(opens in new tab)</span>
-  )}
-</a>
-```
+This guide will walk you through creating a flexible `Link` component that can handle internal and external links, apply consistent styling, and manage accessibility attributes.
 
 ### Showcase Components
 

@@ -29,13 +29,13 @@ pagefind: true
 | 4.02 | Build header component | ✅ | ✅ | Logo, nav, theme toggle |
 | 4.03 | Build footer component | ✅ | ✅ | Links, copyright |
 | 4.04 | Design mobile navigation | ✅ | ✅ | Responsive pattern |
-| 4.05 | Create page routes | ✅ | ✅ | All main pages |
+| 4.05 | Create minimal page routes | ✅ | ✅ | `index.astro` & `404.astro` only. See guide. |
 | 4.06 | Set up metadata system | ✅ | ✅ | SEO, OpenGraph |
 | 4.07 | Configure font loading | ✅ | ✅ | Preload, swap |
 | 4.08 | Add security headers | ✅ | ✅ | CSP, HSTS |
 | 4.09 | Set up skip links | ✅ | ✅ | Accessibility |
 | 4.10 | Create error pages | ✅ | ✅ | 404, 500 |
-| 4.11 | Add analytics setup | ✅ | ✅ | Privacy-first |
+| 4.11 | Review analytics options | ☑️ | ☑️ | Optional. See dedicated guide. |
 | 4.12 | Baseline performance | ✅ | ✅ | Initial metrics |
 
 ## Code Examples
@@ -370,50 +370,57 @@ const socialLinks = [
 
 ### Page Routes
 
+This template provides a minimal set of pages to get you started: `index.astro` and `404.astro`. The homepage is intentionally simple, serving as a heavily-commented example for you to build upon.
+
+For detailed instructions on adding new pages (like an `/about` or `/contact` page), please refer to our dedicated guide:
+
+- **Guide: [Creating Your First Page](/getting-started/creating-your-first-page)**
+
+Below is the simplified, foundational code for `src/pages/index.astro`. Use this as your starting point.
+
 ```astro
-
-
-***
-
-
+---
 // src/pages/index.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Hero from '@/components/home/Hero.astro';
-import FeaturedProjects from '@/components/home/FeaturedProjects.astro';
-import RecentPosts from '@/components/home/RecentPosts.astro';
-
-
-***
-
-
+import Section from '@/components/structural/Section.astro';
+import Container from '@/components/structural/Container.astro';
+import Button from '@/components/ui/Button.astro';
+---
 
 <BaseLayout
-  title="Your Name - Web Developer"
-  description="Creating beautiful, performant web experiences with modern technologies."
+  title="Astro Performance Starter"
+  description="A production-ready starter template for high-performance Astro websites."
 >
-  <Hero />
-  <FeaturedProjects />
-  <RecentPosts />
+  <Section>
+    <Container>
+      <h1 class="text-5xl font-bold">Astro Performance Starter</h1>
+      <p class="mt-4 text-lg text-foreground/80">
+        Welcome to your new Astro site! This is a minimal homepage that you can
+        build upon.
+      </p>
+      <div class="mt-8">
+        <Button href="/about">Learn More</Button>
+      </div>
+    </Container>
+  </Section>
 </BaseLayout>
 ```
 
-```astro
+### Analytics Setup
 
+This template does not include analytics out-of-the-box to respect user privacy. Adding analytics is an optional step that you can take based on your project's needs. We have created a detailed guide with copy-paste recipes for popular, privacy-focused providers.
 
-***
+- **Guide: [Adding Web Analytics](/implementation-guides/06-optional-features/01-analytics)**
 
+This approach keeps the template clean while empowering you to make the right choice for your site.
 
+```bash
 // src/pages/projects.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects', ({ data }) => !data.draft);
-
-
 ***
-
-
-
 <BaseLayout
   title="Projects"
   description="A showcase of my recent work and side projects."
@@ -452,23 +459,7 @@ const projects = await getCollection('projects', ({ data }) => !data.draft);
 /
   Link: </_astro/inter-latin-400-normal.woff2>; rel=preload; as=font; type=font/woff2; crossorigin=anonymous
   Link: </_astro/inter-latin-700-normal.woff2>; rel=preload; as=font; type=font/woff2; crossorigin=anonymous
-```
-
-### Skip Link Component
-
-```astro
-
-
-***
-
-
 // src/components/a11y/SkipLink.astro
-
-
-***
-
-
-
 <a href="#main-content" class="skip-link">
   Skip to main content
 </a>
@@ -496,18 +487,8 @@ const projects = await getCollection('projects', ({ data }) => !data.draft);
 ### 404 Page
 
 ```astro
-
-
-***
-
-
 // src/pages/404.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
-
-
-***
-
-
 
 <BaseLayout
   title="404 - Page Not Found"
@@ -527,39 +508,6 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     </a>
   </div>
 </BaseLayout>
-```
-
-### Analytics Setup
-
-```astro
-
-
-***
-
-
-// src/components/Analytics.astro
-const { analyticsId } = import.meta.env;
-
-
-***
-
-
-
-{analyticsId && (
-  <!-- Plausible Analytics -->
-  <script
-    defer
-    data-domain="yourdomain.com"
-    src="https://plausible.io/js/script.js"
-  ></script>
-  
-  <!-- OR Cloudflare Web Analytics -->
-  <script
-    defer
-    src="https://static.cloudflareinsights.com/beacon.min.js"
-    data-cf-beacon={`{"token": "${analyticsId}"}`}
-  ></script>
-)}
 ```
 
 ### Performance Baseline Script
