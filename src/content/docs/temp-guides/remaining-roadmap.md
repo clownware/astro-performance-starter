@@ -1,3 +1,11 @@
+---
+title: Remaining Roadmap
+description: 'Remaining parts of the template that need to be implemented'
+lastUpdated: true
+tableOfContents: false
+pagefind: false
+---
+
 # Audit of the Template's Completeness
 
 Based on the
@@ -83,7 +91,7 @@ The goal here is to provide a small set of high-quality, unopinionated component
 5.03 & 5.04: Section & Container Components: Implement. These structural components are essential for building consistent page layouts and are explicitly mentioned in the minimal
 github-template-structure.md
 .
-5.05, 5.06, 5.07, 5.08: Link, Image, Badge, Grid: Implement basic versions. These are all part of the MVP track. They should be simple, follow best practices (e.g., the Image component should be a wrapper around Astro's <Image>), and serve as clear examples for the user to extend.
+5.05, 5.06, 5.07, 5.08: Link, Image, Badge, Grid: Implement basic versions. These are all part of the MVP track. They should be simple, follow best practices (e.g., the Image component should be a wrapper around Astro's *Image*, and serve as clear examples for the user to extend.
 What to Leave for the End-User (Project-Specific Implementation)
 These items are highly specific to a particular project's needs, branding, or content. Including them would make the template bloated and harder to adapt.
 

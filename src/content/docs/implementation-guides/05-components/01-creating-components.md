@@ -1,7 +1,9 @@
 ---
 title: 'Creating Components: The Link Component'
 description: 'A step-by-step guide to creating a flexible, reusable Link component in your Astro project.'
-lastUpdated: 2025-07-03
+lastUpdated: true
+tableOfContents: true 
+pagefind: true
 ---
 
 This guide walks you through creating a reusable `Link` component. This is a powerful pattern that teaches you how to abstract away complexity and enforce consistency across your site.

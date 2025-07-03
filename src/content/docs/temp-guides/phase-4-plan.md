@@ -1,3 +1,11 @@
+---
+title: Phase 4 Plan
+description: 'Plan for Phase 4'
+lastUpdated: true
+tableOfContents: false
+pagefind: false
+---
+
 After reviewing the guides again, here is where the non-implemented aspects of Phase 4 are better suited:
 
 ## 1. Analytics Setup (Step 4.11)
@@ -10,7 +18,7 @@ Location: src/content/docs/implementation-guides/06-optional-features/01-analyti
 Content: This guide would explain why analytics aren't included by default (privacy, user choice) and provide copy-paste-ready recipes for a few popular, privacy-first options (e.g., Plausible, Fathom). It would show the user exactly:
 Which component to create (e.g., src/components/Analytics.astro).
 How to add the necessary environment variables to their .env file.
-Where to import and place the <Analytics /> component in src/layouts/BaseLayout.astro.
+Where to import and place the *Analytics* component in src/layouts/BaseLayout.astro.
 
 ### Better Place 2: The Environment Example File (.env.example)
 

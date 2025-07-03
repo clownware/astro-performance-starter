@@ -1,3 +1,11 @@
+---
+title: Phase 5 Plan
+description: 'Plan for Phase 5'
+lastUpdated: true
+tableOfContents: false
+pagefind: false
+---
+
 That's another excellent, nuanced question. While the "MVP Track" for Phase 5 is a great starting point, we can refine it further to maximize the template's flexibility and value. Not all MVP components are created equal.
 
 My analysis is that we should implement most of the Phase 5 MVP components directly, but with a specific strategy. However, one of them is a perfect candidate to be moved "elsewhere" into the documentation flow, just like we did with analytics.
