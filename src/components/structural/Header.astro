@@ -1,0 +1,31 @@
+---
+// Header with mobile navigation
+// biome-ignore lint/correctness/noUnusedImports: used in markup
+import MobileMenuToggle from "@/components/islands/MobileMenuToggle.tsx";
+---
+
+<header
+  class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+>
+  <div class="container flex h-16 items-center justify-between">
+    <a href="/" class="flex items-center gap-2 font-bold">
+      <!-- Logo can be an SVG or an Astro Icon component -->
+      <span>Site Name</span>
+    </a>
+    <!-- Mobile toggle visible under md -->
+      <MobileMenuToggle menuId="mobile-menu" client:idle />
+      <!-- Desktop Nav (placeholder) -->
+    <div class="flex items-center gap-4">
+      <span class="hidden text-sm md:inline">Navigation</span>
+    </div>
+  </div>
+  <!-- Mobile menu panel -->
+  <nav
+    id="mobile-menu"
+    hidden
+    class="fixed inset-0 z-40 flex flex-col gap-6 bg-background p-6 opacity-0 transition-opacity duration-200 pointer-events-none md:hidden"
+  >
+    <a href="/" class="text-lg font-medium" >Docs Home</a>
+    <a href="/examples/landing" class="text-lg font-medium" >Demo Landing</a>
+  </nav>
+</header>
