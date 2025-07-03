@@ -1,0 +1,24 @@
+---
+// This component injects a client-side script to handle theme setup before the page loads.
+// This prevents the flash of unstyled content (FOUC) when a user has a dark theme preference.
+---
+
+<script is:inline>
+  const theme = (() => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+      return localStorage.getItem('theme');
+    }
+    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark';
+    }
+    return 'light';
+  })();
+
+  if (theme === 'dark') {
+    document.documentElement.classList.add('dark');
+  } else {
+    document.documentElement.classList.remove('dark');
+  }
+  // Set the data-theme attribute for theme-aware styling if needed
+  document.documentElement.setAttribute('data-theme', theme);
+</script>

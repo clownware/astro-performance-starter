@@ -28,6 +28,7 @@
     "validate:contrast": "tsx scripts/src/validate-contrast.ts",
     "validate:overrides": "tsx scripts/src/validate-budget-overrides.ts",
     "check:budgets": "tsx scripts/src/track-performance-budgets.ts",
+    "baseline:perf": "tsx scripts/src/baseline-performance.ts",
     "validate:frontmatter": "tsx scripts/src/validate-frontmatter.ts",
     "update:roadmap-status": "tsx scripts/src/update-roadmap-status.ts",
     "audit": "pnpm audit --production",

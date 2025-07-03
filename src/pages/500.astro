@@ -1,0 +1,23 @@
+---
+// biome-ignore lint/correctness/noUnusedImports: BaseLayout is used in the template markup below
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="500 - Server Error"
+  description="Something went wrong on our end."
+  noindex={true}
+>
+  <div class="container flex min-h-[60vh] flex-col items-center justify-center text-center">
+    <h1 class="mb-4 text-6xl font-bold">500</h1>
+    <p class="mb-8 text-xl text-foreground/60">
+      Sorry, something went wrong on our server. Please try again later.
+    </p>
+    <a
+      href="/"
+      class="rounded-lg bg-primary px-6 py-3 text-primary-foreground hover:bg-primary/90 focus-visible:ring-2 focus-visible:ring-ring"
+    >
+      Go Home
+    </a>
+  </div>
+</BaseLayout>
