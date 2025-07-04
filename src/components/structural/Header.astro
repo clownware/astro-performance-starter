@@ -1,31 +1,60 @@
 ---
-// Header with mobile navigation
-// biome-ignore lint/correctness/noUnusedImports: used in markup
+import { getCollection } from "astro:content";
 import MobileMenuToggle from "@/components/islands/MobileMenuToggle.tsx";
+import ThemeSetup from "@/components/ThemeSetup.astro"; // Corrected path
+import type { NavItem } from "@/types/navigation"; // Import the new type
+
+const navigation = await getCollection("navigation");
+// Explicitly type navItems to ensure type safety in the template
+const navItems: NavItem[] = navigation[0]?.data.items || [];
 ---
 
 <header
   class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
   <div class="container flex h-16 items-center justify-between">
-    <a href="/" class="flex items-center gap-2 font-bold">
-      <!-- Logo can be an SVG or an Astro Icon component -->
-      <span>Site Name</span>
+    <a href="/" class="flex items-center gap-2 font-bold" aria-label="Homepage">
+      <svg class="size-6 text-primary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"></path>
+      </svg>
+      <span class="text-lg">Site Name</span>
     </a>
-    <!-- Mobile toggle visible under md -->
+
+    <nav class="hidden md:flex items-center gap-6" aria-label="Main navigation">
+      {navItems.map((item: NavItem) => (
+        <a
+          href={item.href}
+          class="text-sm font-medium text-foreground/70 transition-colors hover:text-foreground focus-visible-ring"
+          aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
+          target={item.isExternal ? '_blank' : undefined}
+          rel={item.isExternal ? 'noopener noreferrer' : undefined}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+
+    <div class="flex items-center gap-2">
+      <ThemeSetup />
       <MobileMenuToggle menuId="mobile-menu" client:idle />
-      <!-- Desktop Nav (placeholder) -->
-    <div class="flex items-center gap-4">
-      <span class="hidden text-sm md:inline">Navigation</span>
     </div>
   </div>
-  <!-- Mobile menu panel -->
+
   <nav
     id="mobile-menu"
     hidden
-    class="fixed inset-0 z-40 flex flex-col gap-6 bg-background p-6 opacity-0 transition-opacity duration-200 pointer-events-none md:hidden"
+    class="fixed inset-0 top-16 z-40 flex flex-col gap-6 bg-background p-6 opacity-0 transition-opacity duration-200 pointer-events-none md:hidden"
+    aria-label="Mobile navigation"
   >
-    <a href="/" class="text-lg font-medium" >Docs Home</a>
-    <a href="/examples/landing" class="text-lg font-medium" >Demo Landing</a>
+    {navItems.map((item: NavItem) => (
+      <a
+        href={item.href}
+        class="text-lg font-medium text-foreground/90 transition-colors hover:text-foreground focus-visible-ring"
+        target={item.isExternal ? '_blank' : undefined}
+        rel={item.isExternal ? 'noopener noreferrer' : undefined}
+      >
+        {item.label}
+      </a>
+    ))}
   </nav>
 </header>

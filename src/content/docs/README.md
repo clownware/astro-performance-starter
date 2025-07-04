@@ -6,9 +6,7 @@ tableOfContents: true
 pagefind: true
 ---
 
-> Canonical documentation entry point is the **root [`README.md`](./)** of this repository.
->
-> This stub exists to avoid 404s and duplicate sources of truth. Please navigate to the root README for the latest quick-links, roadmap and contribution guidelines.
+> **Note**: These markdown files are bundled *only* for local reference and to give AI coding assistants rich context while you work. The live documentation site is hosted separately at [aps.docs.clownware.org](https://aps.docs.clownware.org).
 
 For a deep dive into phase-by-phase guides, browse the `implementation-guides/` directory.
 

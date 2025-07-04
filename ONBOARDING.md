@@ -79,6 +79,14 @@ src/
 └── utils/        # Helper functions
 ```
 
+## Architectural Notes
+
+### The Role of `src/pages/index.astro`
+
+This template ships with a clean homepage located at `src/pages/index.astro` by default. When you run `pnpm dev`, this is the page you will see at the root of your local server.
+
+- **Local AI Context**: The `/docs` directory in this repository is not part of the production build. It exists to provide rich, local-only context for AI development assistants, enabling them to understand the project's architecture and patterns.
+
 ## Development Workflow
 
 1. **Pick up a task** from your project board

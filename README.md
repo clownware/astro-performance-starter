@@ -74,6 +74,12 @@ pnpm run build:tokens
 pnpm run dev
 ```
 
+You should now see a clean homepage at `http://localhost:4321/` with zero additional steps.
+
+### About the `/docs` directory
+
+This repo includes a large `/docs` folder full of markdown files. These files **do not get shipped to production**. They exist solely as rich context for AI coding assistants and as reference material while you work locally. The live documentation for this starter lives at **[aps.docs.clownware.org](https://aps.docs.clownware.org)**.
+
 (For detailed setup, see [`./ONBOARDING.md`](./ONBOARDING.md).)
 
 ## ✨ Enhanced Features
