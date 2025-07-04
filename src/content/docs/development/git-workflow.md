@@ -13,21 +13,30 @@ This document outlines the branching strategy, commit conventions, and pull requ
 
 ### Main Branches
 
-- `master` - Production-ready code
-- `develop` - Integration branch (Showcase only)
+- `master` - Stable releases and production-ready code
+- `develop` - Active development and integration branch
 
 ### Feature Branches
 
-- `feature/*` - New features
-- `fix/*` - Bug fixes
+- `feature/*` - New features and enhancements
+- `fix/*` - Bug fixes and hotfixes
 - `docs/*` - Documentation updates
+- `chore/*` - Maintenance and tooling updates
 
-### Workflow
+### Workflow for Template Development
 
-1. Create feature branch from master
+1. Create feature branch from `develop`
 2. Make changes with conventional commits
-3. Open PR with description
-4. Merge after review (Showcase) or self-merge (MVP)
+3. Test locally with `pnpm dev` and `pnpm build`
+4. Open PR to `develop` with clear description
+5. Merge after review and CI checks pass
+6. Periodic merges from `develop` to `master` for releases
+
+### Workflow for Template Users
+
+- Fork or use the template from `master` branch
+- Adapt branching strategy to your project needs
+- Consider simplified workflow: `main` + feature branches
 
 ## Commit Convention
 
@@ -42,7 +51,15 @@ This document outlines the branching strategy, commit conventions, and pull requ
 
 ## Pull Request Process
 
-- Open a PR from your feature branch to `master` (or `develop` for Showcase)
-- Fill out the PR template with context and screenshots if relevant
-- Assign reviewers for Showcase track
-- Ensure all checks (CI, lint, tests) pass before merge
+### For Template Development
+
+- Open PR from feature branch to `develop`
+- Fill out PR template with context and screenshots if relevant
+- Assign reviewers and wait for approval
+- Ensure all checks (CI, lint, build) pass before merge
+
+### For Template Users
+
+- Adapt this process to your team's needs
+- Consider automated deployment from main branch
+- Use the included CI pipeline as a starting point

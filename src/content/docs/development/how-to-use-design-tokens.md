@@ -81,4 +81,4 @@ useEffect(() => {
 * `pnpm run validate:contrast` – ensures WCAG-AA contrast for semantic pairs.
 * CI fails if new tokens break contrast budgets.
 
-Need help? Check `docs/implementation-guides/01-foundation-phase-2-design-system.md` or open an issue.
+Need help? Check the [Design System implementation guide](/implementation-guides/01-foundation-phase-2-design-system/) or open an issue.

@@ -109,9 +109,9 @@ Ship to production and establish maintenance.
 
 #### Core Documentation
 
-* **[Technology Stack](./implementation-guides/00-overview-tech-stack/)** - Why we chose these tools
-* **[Performance Budgets](./implementation-guides/00-overview-budgets-guardrails/)** - Quality gates and metrics
-* **[Directory Structure](./implementation-guides/00-overview-directory-structure/)** - Project organization
+* **[Technology Stack](./implementation-guides/00-overview/tech-stack/)** - Why we chose these tools
+* **[Performance Budgets](./implementation-guides/00-overview/budgets-guardrails/)** - Quality gates and metrics
+* **[Directory Structure](./implementation-guides/00-overview/directory-structure/)** - Project organization
 
 #### Design Patterns
 

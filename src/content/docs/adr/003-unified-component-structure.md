@@ -1,7 +1,7 @@
 ---
 title: ' ADR-003: Unified Component Structure and Atomic Design Adherence'
 description: >-
-  The current `docs/implementation-guides/00-overview-directory-structure.md`
+  The current `docs/implementation-guides/00-overview/directory-structure.md`
   defines a clear Atomic Design methodology for organizing components within the
   `src/
 lastUpdated: true
@@ -11,7 +11,7 @@ pagefind: true
 
 ## Context and Problem Statement
 
-The current `docs/implementation-guides/00-overview-directory-structure.md` defines a clear Atomic Design methodology for organizing components within the `src/components/` directory. This structure includes subdirectories such as `atoms/`, `molecules/`, `organisms/`, `structural/`, and `mdx/`.
+The current `docs/implementation-guides/00-overview/directory-structure.md` defines a clear Atomic Design methodology for organizing components within the `src/components/` directory. This structure includes subdirectories such as `atoms/`, `molecules/`, `organisms/`, `structural/`, and `mdx/`.
 
 There is a potential for future development phases (e.g., a hypothetical "Phase 5 UI Components" or similar initiatives) to introduce new, potentially overlapping component categorization schemes, such as a `src/components/ui/` directory. This could lead to:
 
@@ -67,7 +67,7 @@ No new top-level component categorization folders (e.g., `src/components/ui/`, `
 * **Neutral/To Address**:
   * Developers must be familiar with Atomic Design principles to correctly categorize new components.
   * Any future documentation for phases that introduce UI components (e.g., "Phase 5 UI Components") must explicitly instruct developers to follow this established Atomic Design structure.
-  * The `docs/implementation-guides/00-overview-directory-structure.md` should be considered the primary source of truth for component organization and may need minor clarifications to reinforce this decision if any ambiguity is found.
+  * The `docs/implementation-guides/00-overview/directory-structure.md` should be considered the primary source of truth for component organization and may need minor clarifications to reinforce this decision if any ambiguity is found.
 
 ## Validation
 
@@ -78,4 +78,4 @@ No new top-level component categorization folders (e.g., `src/components/ui/`, `
 ## References
 
 * [Atomic Design by Brad Frost](https://atomicdesign.bradfrost.com/)
-* Internal: `docs/implementation-guides/00-overview-directory-structure.md`
+* Internal: `docs/implementation-guides/00-overview/directory-structure.md`

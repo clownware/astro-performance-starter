@@ -1,14 +1,14 @@
 ---
 title: 'Quick Track: Deploy Your First Site'
 description: >-
-  The fastest way to get a personalized version of this {{versions.astro}}
+  The fastest way to get a personalized version of this Astro 5.x
   starter deployed
 lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 
-Welcome! This guide is for users who want to quickly deploy a personalized version of this Astro {{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch to get your site live with your own branding.
+Welcome! This guide is for users who want to quickly deploy a personalized version of this Astro 5.x starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch to get your site live with your own branding.
 
 First things first:
 
@@ -29,15 +29,15 @@ pnpm run build:tokens
 pnpm run dev
 ```
 
-Our goal is to get your site live with your own basic information. For detailed explanations and advanced configurations, please refer to the individual phase guides in the `implementation-guides` directory. Note that Phases 0-4, and the MVP section of Phase 5 is already complete. If you're using Agentic AI tools have your agent conduct an analysis and audit of Phase 5 to begin.
+Our goal is to get your site live with your own basic information. For detailed explanations and advanced configurations, please refer to the individual phase guides in the `src/content/docs/implementation-guides/` directory. Note that Phases 0-4 are complete and in the `completed/` folder, while Phase 5 (Components) is in `active-phases/` with optional elements you can customize. Phase 6 (Sections) hasn't been started yet. If you're using AI tools, have your agent start with [Phase 5 Components](../implementation-guides/active-phases/phase-5-components.md).
 
 ## The Four Key Areas to Personalize
 
-To get a unique site deployed, you'll primarily interact with these areas. We're assuming you're using Cloudflare Pages for deployment as recommended in our [Phase 10 Deployment Guide](/implementation-guides/05-deployment-phase-10-deployment/).
+To get a unique site deployed, you'll primarily interact with these areas. We're assuming you're using Cloudflare Pages for deployment as recommended in our [Phase 10 Deployment Guide](../implementation-guides/active-phases/phase-10-deployment/).
 
 1. **Site-Wide Configuration (`astro.config.mjs`)**
    * **File**: `astro.config.mjs` (in the project root)
-   * **Why**: This file tells \{\{versions.astro}} your site's URL, which is crucial for SEO, sitemaps, and correct asset linking.
+   * **Why**: This file tells Astro your site's URL, which is crucial for SEO, sitemaps, and correct asset linking.
    * **Action**:
      * Open `astro.config.mjs`.
      * Find the `site` property within `defineConfig`.
@@ -63,7 +63,7 @@ To get a unique site deployed, you'll primarily interact with these areas. We're
 
 1. **Commit your changes**: `git add . && git commit -m "Initial personalization"`
 2. **Push to your repository**: `git push origin master`
-3. **Follow Deployment Guide**: Ensure you've followed the steps in [Phase 10: Deployment & Monitoring](../implementation-guides/05-deployment-phase-10-deployment/) to connect your repository to Cloudflare Pages (or your chosen hosting provider).
+3. **Follow Deployment Guide**: Ensure you've followed the steps in [Phase 10: Deployment & Monitoring](../implementation-guides/active-phases/phase-10-deployment/) to connect your repository to Cloudflare Pages (or your chosen hosting provider).
 
 That's it! With these changes, your deployed site will have your basic branding and content.
 
@@ -73,7 +73,7 @@ This starter template is packed with features and best practices. Once you're co
 
 * **Content Collections**: `src/content/` for managing blog posts, projects, etc.
 * **Design Tokens**: `tokens/` for customizing the look and feel extensively.
-* **Component Patterns**: `docs/patterns/` for building new UI elements with \{\{versions.tailwindcss}}.
-* **Full Phase Guides**: The `docs/implementation-guides/` directory for in-depth understanding of each setup phase.
+* **Component Patterns**: `/patterns/` for building new UI elements with Tailwind CSS.
+* **Full Phase Guides**: The `src/content/docs/implementation-guides/` directory for in-depth understanding of each setup phase.
 
 **Improving Documentation Discoverability**: As this project's documentation grows, we plan to explore options like a dedicated documentation site with features such as advanced search and collapsible sections to make navigating the detailed guides easier. For now, the phase guides provide a good overview of all available documentation.
