@@ -46,7 +46,7 @@ Once you're up and running, consider these initial configuration steps:
 
 - [ ] **Configure Analytics**: This template is privacy-first. See our guide on [Adding Web Analytics](/implementation-guides/06-optional-features/01-analytics) to add Plausible or Fathom.
 - [ ] **Customize Content**: Edit the example blog post in `src/content/blog/` and update your site configuration in `.env`.
-- [ ] **Review the Guides**: The `src/content/docs/implementation-guides/` contain detailed instructions for building out your site.
+- [ ] **Review the Guides**: The `src/content/docs/implementation-guides/active-phases/` contain current development phase instructions. Start with [Phase 5 Components](./src/content/docs/implementation-guides/active-phases/phase-5-components.md) which has optional elements you can customize.
 
 ## Essential Commands
 
@@ -161,16 +161,16 @@ This supports **markdown** and components.
 
 ## Getting Help
 
-- **Framework Guide**: See [Implementation Overview](./docs/implementation-guides/00-overview/README.md)
-- **Tech Stack**: Review [Technology Choices](./docs/implementation-guides/00-overview/tech-stack.md)
+- **Framework Guide**: See [Implementation Overview](./src/content/docs/implementation-guides/README.md)
+- **Tech Stack**: Review [Technology Choices](./src/content/docs/implementation-guides/reference/tech-stack.md)
 - **Component Docs**: Run `pnpm run astrobook` (Showcase track only)
 - **Team Chat**: [Link to Team Chat] <!-- TODO: Update Slack/Discord link -->
 
 ## Next Steps
 
 1. ✅ Confirm dev server is running
-2. 📖 Read the [Implementation Overview](./docs/implementation-guides/00-overview/README.md)
-3. 🎯 Check current phase in [AI Context](./docs/implementation-guides/ai-context/INDEX.md)
+2. 📚 Read the [Implementation Overview](./src/content/docs/implementation-guides/README.md)
+3. 🎯 Start with [Phase 5 Components](./src/content/docs/implementation-guides/active-phases/phase-5-components.md) - optional elements you can customize
 4. 💪 Pick your first task!
 
 ---

@@ -228,8 +228,8 @@ src/
 
 ## Learning Resources
 
-* [Why These Technology Choices?](/docs/implementation-guides/00-overview-tech-stack/)
-* [Performance Budget Philosophy](/docs/implementation-guides/00-overview-budgets-guardrails/)
+* [Why These Technology Choices?](/docs/implementation-guides/00-overview/tech-stack/)
+* [Performance Budget Philosophy](/docs/implementation-guides/00-overview/budgets-guardrails/)
 * [Islands Architecture Guide](/docs/implementation-guides/patterns/islands-architecture/)
 
 ## Contributing

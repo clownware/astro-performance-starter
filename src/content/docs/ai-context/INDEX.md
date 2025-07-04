@@ -45,7 +45,7 @@ src/
 docs/
 ├── implementation-guides/  # Phase-by-phase guides
 ├── adr/                   # Architecture decisions
-└── llm-context/          # AI assistant docs
+└── ai-context/           # AI assistant docs
 ```
 
 ## Current Implementation Status

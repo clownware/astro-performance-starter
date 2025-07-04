@@ -29,7 +29,7 @@ Welcome to this opinionated, high-performance starter template for Astro project
 > **Note:** Pre-1.0.0 (`0.x.y`) versions follow [semantic versioning best practices](https://semver.org/#spec-item-4): breaking changes can occur at any time. Use with care in production environments.
 
 🤖 **AI-Accelerated Setup:**
-You can point your favorite AI agent (e.g., Cascade, Copilot, ChatGPT) at the [Phase 4 Implementation Guide](./docs/implementation-guides/04-skeleton-phase.md) to start customizing your project instantly. See the "AI Context" section in the docs (under Advanced) for details.
+You can point your favorite AI agent (e.g., Cascade, Copilot, ChatGPT) at the [Phase 5 Components Guide](./src/content/docs/implementation-guides/active-phases/phase-5-components.md) to start with optional component customizations. Phase 5 has flexible elements you can implement as needed, while Phase 6 (sections) hasn't been started yet.
 
 ## 🧭 Core Principles
 

@@ -26,6 +26,8 @@ The *Astro Performance Starter* gives you a production-ready foundation focused 
 | Robots rules | `public/robots.txt` | Default allow + sitemap reference. |
 | Favicon | `public/favicon.svg`, `public/favicon.ico`, `public/apple-touch-icon.png` | Replace with your own brand assets. |
 | Mobile menu island | `src/components/islands/MobileMenuToggle.tsx` | Progressive enhancement; header wiring next. |
+| TypeScript types | `src/types/` | Navigation types and auto-generated content types. |
+| Project assets | `src/assets/logo.svg` | Optimized logo asset for branding. |
 
 ## UI Components (Phase 5 - Complete)
 
@@ -42,6 +44,38 @@ The *Astro Performance Starter* gives you a production-ready foundation focused 
 | Grid | `src/components/structural/Grid.astro` | Responsive CSS Grid with consistent gaps and breakpoint behavior. |
 
 **Link styling:** Basic commented-out styles provided in `src/styles/global.css` - customize as needed or create Link component using provided documentation patterns.
+
+## Development Tools & Scripts
+
+| Tool | Path/Config | Purpose |
+|------|-------------|----------|
+| Design tokens | `tokens/base.json`, `tokens/semantic.json` | Complete design system with build script. |
+| Token builder | `scripts/src/build-tokens.ts` | Converts JSON tokens to CSS variables and Tailwind config. |
+| Performance baseline | `scripts/src/baseline-performance.ts` | Lighthouse score tracking and budgets. |
+| Contrast validator | `scripts/src/validate-contrast.ts` | WCAG AA accessibility validation. |
+| Budget tracking | `scripts/src/track-performance-budgets.ts` | Performance budget enforcement. |
+| Biome linting | `biome.json` | Fast linting and formatting (replaces ESLint + Prettier). |
+| Git hooks | `.husky/pre-commit` | Pre-configured commit hooks with lint-staged. |
+| Vitest testing | `vitest.config.ts` | Testing framework configuration. |
+
+## AI Development Context
+
+| Feature | Path | Purpose |
+|---------|------|----------|
+| Windsurf AI rules | `.windsurfrules` | AI assistant configuration for optimal development patterns. |
+| AI rules template | `airules.example` | Template for customizing AI development context. |
+| Comprehensive docs | `src/content/docs/` | Complete implementation guides, patterns, and ADRs for AI context. |
+
+## Configuration Files
+
+| Config | Purpose |
+|--------|----------|
+| `.editorconfig` | Consistent editor settings across team. |
+| `.commitlintrc.cjs` | Enforces conventional commit messages. |
+| `.lintstagedignore` | Files to skip during pre-commit linting. |
+| `tailwind.config.ts` | Tailwind with design token integration. |
+| `tsconfig.json` | Strict TypeScript configuration. |
+| `.nvmrc` | Node.js version specification. |
 
 ## Running the template locally
 
@@ -65,6 +99,7 @@ pnpm dev       # start local dev server
 | Item | Reason |
 |------|--------|
 | `.github/FUNDING.yml` | Funding links vary; add your own if desired |
+| Documentation-specific files | Markdown linting configs, frontmatter validation scripts removed for general use |
 
 ## Next phases
 
