@@ -45,6 +45,8 @@ This track focuses on content presentation with zero JavaScript, manual testing,
 
 ### Phase 0: Foundation
 
+> 💡 **Starter Template**: All foundation decisions are pre-configured in this template
+
 **MVP Decisions:**
 
 ```yaml
@@ -55,6 +57,8 @@ Package Manager: pnpm
 Deployment: Cloudflare Pages
 Repository: GitHub
 ```
+
+> 📖 **See Also**: [ADR-000: Starter Decisions](/adr/000-starter-decisions/) for detailed rationale
 
 **Skip These:**
 
@@ -170,50 +174,52 @@ const { title, description } = Astro.props;
 
 ### Phase 5: Components (1 day)
 
+> 💡 **Starter Template**: Essential components are pre-built in `/src/components/ui/`
+
 **MVP Component List:**
 
-1. **Button.astro**
+1. **Button.astro** → Available at `/src/components/ui/Button.astro`
 
-```astro
-const { href, variant = 'primary' } = Astro.props;
-const classes = {
-  primary: 'bg-blue-600 text-white hover:bg-blue-700',
-  secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-};
+   ```astro
+   const { href, variant = 'primary' } = Astro.props;
+   const classes = {
+     primary: 'bg-blue-600 text-white hover:bg-blue-700',
+     secondary: 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+   };
 
-<a href={href} class={`px-4 py-2 rounded ${classes[variant]}`}>
-  <slot />
-</a>
-```
+   <a href={href} class={`px-4 py-2 rounded ${classes[variant]}`}>
+     <slot />
+   </a>
+   ```
 
-1. **Card.astro**
+2. **Card.astro** → Available at `/src/components/ui/Card.astro`
 
-```astro
-const { title, description, link } = Astro.props;
+   ```astro
+   const { title, description, link } = Astro.props;
 
-<article class="border rounded-lg p-6 hover:shadow-lg transition-shadow">
-  <h3 class="text-xl font-bold mb-2">{title}</h3>
-  <p class="text-gray-600 mb-4">{description}</p>
-  {link && <a href={link} class="text-blue-600 hover:underline">Learn more →</a>}
-</article>
-```
+   <article class="border rounded-lg p-6 hover:shadow-lg transition-shadow">
+     <h3 class="text-xl font-bold mb-2">{title}</h3>
+     <p class="text-gray-600 mb-4">{description}</p>
+     {link && <a href={link} class="text-blue-600 hover:underline">Learn more →</a>}
+   </article>
+   ```
 
-1. **Section.astro**
+3. **Section.astro** → Available at `/src/components/structural/Section.astro`
 
-```astro
-const { size = 'md' } = Astro.props;
-const padding = {
-  sm: 'py-8',
-  md: 'py-16',
-  lg: 'py-24'
-};
+   ```astro
+   const { size = 'md' } = Astro.props;
+   const padding = {
+     sm: 'py-8',
+     md: 'py-16',
+     lg: 'py-24'
+   };
 
-<section class={`${padding[size]} px-4`}>
-  <div class="max-w-4xl mx-auto">
-    <slot />
-  </div>
-</section>
-```
+   <section class={`${padding[size]} px-4`}>
+     <div class="max-w-4xl mx-auto">
+       <slot />
+     </div>
+   </section>
+   ```
 
 **Skip These Components:**
 

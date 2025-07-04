@@ -60,15 +60,17 @@ const pageDescription = 'Learn more about our company and our mission.';
 
 ## Step 3: Add the Page to Navigation (Optional)
 
-If you want your new page to appear in the site's main navigation menu, you need to add it to the `navigation` content collection.
+If you want your new page to appear in the site's main navigation menu, you need to add it to the navigation configuration.
 
 1. **Navigate** to `src/content/navigation/`.
-2. **Edit** the `header.mdx` file (or a similar file managing your navigation items).
-3. **Add a new entry** to the list:
+2. **Edit** the `header.json` file.
+3. **Add a new entry** to the JSON array:
 
-    ```yaml
-    - text: 'About'
-      href: '/about'
+    ```json
+    {
+      "text": "About",
+      "href": "/about"
+    }
     ```
 
 Your new page will now automatically appear in the header and footer navigation. This separation of content and configuration makes it easy to manage your site's structure.

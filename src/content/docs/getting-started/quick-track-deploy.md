@@ -8,7 +8,9 @@ tableOfContents: true
 pagefind: true
 ---
 
-Welcome! This guide is for users who want to quickly deploy a personalized version of this Astro \{\{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch. After you First things first:
+Welcome! This guide is for users who want to quickly deploy a personalized version of this Astro {{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch to get your site live with your own branding.
+
+First things first:
 
 ```bash
 # 1. Create your project from the template
@@ -27,7 +29,7 @@ pnpm run build:tokens
 pnpm run dev
 ```
 
-Our goal is to get your site live with your own basic information. For detailed explanations and advanced configurations, please refer to the individual phase guides in the `implementation-guides` directory.
+Our goal is to get your site live with your own basic information. For detailed explanations and advanced configurations, please refer to the individual phase guides in the `implementation-guides` directory. Note that Phases 0-4, and the MVP section of Phase 5 is already complete. If you're using Agentic AI tools have your agent conduct an analysis and audit of Phase 5 to begin.
 
 ## The Four Key Areas to Personalize
 
