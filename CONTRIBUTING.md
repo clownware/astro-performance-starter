@@ -144,6 +144,31 @@ git commit -m "feat(components): add skeleton loading pattern"
 - Update AI context if adding new patterns
 - **Use Standard Front-Matter**: All documentation files should include YAML front-matter with `title`, `version`, `lastUpdated` (YYYY-MM-DD), and a brief `description`.
 
+### Version Management (Template-Specific)
+
+This project uses a **centralized version injection system** to keep all documentation DRY:
+
+- **Single Source**: All versions managed in `docs/meta/versions.yml`
+- **Placeholders**: Use `{{versions.astro}}`, `{{versions.tailwindcss}}`, etc. instead of hardcoded versions
+- **Auto-Update**: Run `pnpm tsx scripts/update-versions.ts` after dependency updates
+- **Never Hardcode**: Always use placeholders for version references in documentation
+
+**Common Placeholders:**
+
+| Tool/Dependency   | Placeholder                |
+|-------------------|----------------------------|
+| Astro             | `{{versions.astro}}`       |
+| Tailwind CSS      | `{{versions.tailwindcss}}` |
+| Node.js           | `{{versions.node}}`        |
+| TypeScript        | `{{versions.typescript}}`  |
+| Biome             | `{{versions.biome}}`       |
+
+**Adding New Versions:**
+
+1. Add to `docs/meta/versions.yml`
+2. Use placeholder in docs: `{{versions.newtool}}`
+3. Run update script to sync versions
+
 ## 🧪 Testing Requirements
 
 ### For Code Changes

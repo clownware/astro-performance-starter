@@ -370,41 +370,15 @@ const socialLinks = [
 
 ### Page Routes
 
-This template provides a minimal set of pages to get you started: `index.astro` and `404.astro`. The homepage is intentionally simple, serving as a heavily-commented example for you to build upon.
+This template ships with this documentation site as its homepage, which is generated from `src/content/docs/index.mdx`. This means there is no `src/pages/index.astro` file by default.
 
-For detailed instructions on adding new pages (like an `/about` or `/contact` page), please refer to our dedicated guide:
+This is an intentional design choice to allow the template and its documentation to coexist. For most users, the first step is to replace the documentation with their own homepage.
 
-- **Guide: [Creating Your First Page](/getting-started/creating-your-first-page)**
+**To create your own homepage at the site's root (`/`), please follow our dedicated, step-by-step guide:**
 
-Below is the simplified, foundational code for `src/pages/index.astro`. Use this as your starting point.
+- **➡️ Guide: [Creating Your Real Homepage](/getting-started/creating-your-first-page#creating-your-real-homepage-index-astro)**
 
-```astro
----
-// src/pages/index.astro
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Section from '@/components/structural/Section.astro';
-import Container from '@/components/structural/Container.astro';
-import Button from '@/components/ui/Button.astro';
----
-
-<BaseLayout
-  title="Astro Performance Starter"
-  description="A production-ready starter template for high-performance Astro websites."
->
-  <Section>
-    <Container>
-      <h1 class="text-5xl font-bold">Astro Performance Starter</h1>
-      <p class="mt-4 text-lg text-foreground/80">
-        Welcome to your new Astro site! This is a minimal homepage that you can
-        build upon.
-      </p>
-      <div class="mt-8">
-        <Button href="/about">Learn More</Button>
-      </div>
-    </Container>
-  </Section>
-</BaseLayout>
-```
+This guide covers removing the docs, creating your `index.astro`, and updating the site configuration correctly.
 
 ### Analytics Setup
 

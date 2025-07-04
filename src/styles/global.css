@@ -1,7 +1,12 @@
 /**
- * Main Site Global Styles
- * =====================
- * These styles apply only to the main site, not documentation
+ * Main Site Global Styles for Astro Performance Starter
+ * 
+ * This file includes:
+ * - Tailwind CSS layer imports (@tailwind directives - IDE warnings are expected)
+ * - Custom focus ring utilities (@apply directives - IDE warnings are expected)
+ * - Dark mode configuration
+ * 
+ * Note: @tailwind and @apply warnings from CSS linters are normal and expected
  */
 
 /* Import design tokens at the root level */
@@ -21,10 +26,10 @@ body[data-starlight-page] {
 /* Accessibility primitives */
 @layer utilities {
   .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-semantic-focus-ring focus:ring-offset-2;
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
   }
   .focus-visible-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-semantic-focus-ring focus-visible:ring-offset-2;
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
   }
   .sr-only {
     position: absolute;
@@ -54,6 +59,6 @@ body[data-starlight-page] {
   }
 }
 
-.dark {
-  /* Use the dark variants generated in the token build */
-}
+/* Dark mode support:
+ * Dark theme variables are automatically handled by Tailwind's dark: variants
+ * and the design token system. No additional CSS rules needed here. */

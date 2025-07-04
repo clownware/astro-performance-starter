@@ -68,6 +68,10 @@ Core dependencies can be found in package.json
 - Avoid enums; use const objects with 'as const' assertion
 - Define strict types for Content Collections schemas
 - Use Astro.props typing for component props
+- **NEW**: When wrapping Astro components, use pragmatic TypeScript patterns:
+  - Prefer `ComponentProps<typeof Component>` for extending framework components
+  - Use `@ts-ignore` with clear comments for complex framework type intersections
+  - Document reasoning in ADRs when using type escape hatches
 - Implement absolute imports with @ aliases:
 
 ```typescript
@@ -192,3 +196,22 @@ Showcase Track:
 - Update `docs/ai-context/INDEX.md` when making significant changes
 - Create ADRs for architectural decisions using template in `docs/adr/`
 - Maintain performance-first mindset in all suggestions
+
+## Component Wrapping Patterns
+
+- Keep wrapper interfaces minimal and focused
+- Use object spread (`{...props}`) for prop forwarding when possible
+- Prefer composition over complex prop transformation
+- Document any TypeScript escape hatches with clear reasoning
+
+## Astro 5.0 Patterns
+
+- Use `ClientRouter` instead of deprecated `ViewTransitions`
+- Configure `disable404Route: true` in Starlight when using custom 404 pages
+- Follow new absolute import patterns and tsconfig structure
+
+## New Quality Gates
+
+- Document any `@ts-ignore` usage with clear reasoning
+- Prefer type safety but accept framework limitations
+- Use ADRs for complex type decisions

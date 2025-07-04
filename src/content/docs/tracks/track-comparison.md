@@ -1,5 +1,5 @@
 ---
-title: Track Comparison- MVP vs Showcase
+title: Track Comparison - MVP vs Showcase
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Helps users choose the right implementation track (MVP or Showcase) for their
@@ -7,7 +7,13 @@ description: >-
 tableOfContents: true
 pagefind: true
 ---
+# Track Comparison - MVP vs Showcase
+
 > **Purpose**: Help you choose the right implementation track for your project
+
+> 💡 **Starter Template**: Both tracks leverage the same high-performance foundation with pre-configured Astro 5.x, TypeScript, Tailwind CSS, and design tokens
+
+> 📖 **Quick Links**: [MVP Track Guide](/tracks/mvp-track-guide/) | [Showcase Track Guide](/tracks/showcase-track-guide/) | [Architecture Patterns](/patterns/)
 
 ## Quick Decision Matrix
 
@@ -65,13 +71,17 @@ pagefind: true
 
 ### Foundation Phases (0-4)
 
+> 💡 **Starter Template**: Foundation phases are pre-configured in the template
+
 **Both tracks identical** - These phases establish immutable decisions:
 
-- Phase 0: Foundation setup
-- Phase 1: Content architecture
-- Phase 2: Design system
-- Phase 3: Tooling
-- Phase 4: Skeleton layout
+- **Phase 0: Foundation setup** → Pre-configured with Astro 5.x + TypeScript strict mode
+- **Phase 1: Content architecture** → Content Collections schemas included
+- **Phase 2: Design system** → Design tokens system ready in `/tokens/`
+- **Phase 3: Tooling** → Biome, Tailwind CSS, and build pipeline configured
+- **Phase 4: Skeleton layout** → Base layouts and components provided
+
+> 📖 **See Also**: [Component Patterns](/patterns/component-patterns/) for architectural guidance
 
 ### Phase 5: UI Components
 
@@ -119,7 +129,17 @@ pagefind: true
 
 ### Phase 9: Performance
 
-**Both tracks target same budgets** - No compromise on performance
+> 💡 **Starter Template**: Performance budgets and optimizations pre-configured
+
+**Both tracks target same budgets** - No compromise on performance:
+
+- **Lighthouse Scores**: 98+ across all categories
+- **Bundle Size**: <160KB JavaScript (when used)
+- **Images**: AVIF/WebP with Sharp processing pre-configured
+- **Fonts**: Self-hosted variable fonts via @fontsource
+- **CSS**: Tailwind CSS with design tokens, purged in production
+
+> 📖 **See Also**: [Performance Patterns](/patterns/performance-patterns/) for optimization techniques
 
 ### Phase 10: Deployment
 
@@ -265,6 +285,8 @@ pagefind: true
 
 ## Final Advice
 
+> 💡 **Starter Template Advantage**: Both tracks start from the same optimized foundation, making switching between tracks easier
+
 **Start with MVP if unsure** - You can always upgrade to Showcase later. It's easier to add complexity than remove it.
 
 **Consider your audience**:
@@ -272,5 +294,18 @@ pagefind: true
 - Recruiters? → Showcase to demonstrate skills
 - Customers? → MVP to ship value quickly
 - Team members? → Showcase for maintainability
+
+**Timeline Reality Check**:
+
+- **MVP Track**: 2-3 weeks with template foundation
+- **Showcase Track**: 4-6 weeks with comprehensive features
+
+**Template Benefits for Both Tracks**:
+
+- Pre-configured performance optimizations
+- Type-safe development environment
+- Production-ready build pipeline
+- Accessible design system foundation
+- Modern Astro 5.x best practices
 
 **Remember the goal**: Both tracks produce high-performance, accessible sites. The difference is in development approach and feature depth, not quality.

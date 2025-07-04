@@ -8,7 +8,9 @@ tableOfContents: true
 pagefind: true
 ---
 
-Welcome! This guide is for users who want to quickly deploy a personalized version of this Astro \{\{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch. After you First things first:
+Welcome! This guide is for users who want to quickly deploy a personalized version of this Astro {{versions.astro}} starter template without diving deep into all the phase guides immediately. We'll focus on the **absolute minimum** files you need to touch to get your site live with your own branding.
+
+First things first:
 
 ```bash
 # 1. Create your project from the template
@@ -27,7 +29,7 @@ pnpm run build:tokens
 pnpm run dev
 ```
 
-Our goal is to get your site live with your own basic information. For detailed explanations and advanced configurations, please refer to the individual phase guides in the `implementation-guides` directory.
+Our goal is to get your site live with your own basic information. For detailed explanations and advanced configurations, please refer to the individual phase guides in the `implementation-guides` directory. Note that Phases 0-4, and the MVP section of Phase 5 is already complete. If you're using Agentic AI tools have your agent conduct an analysis and audit of Phase 5 to begin.
 
 ## The Four Key Areas to Personalize
 
@@ -41,15 +43,7 @@ To get a unique site deployed, you'll primarily interact with these areas. We're
      * Find the `site` property within `defineConfig`.
      * Change the placeholder URL to your actual domain (e.g., `https://your-domain.com`). If you don't have a domain yet, you can use the Cloudflare Pages URL you'll get after deployment (e.g., `https://your-project.pages.dev`).
 
-2. **Main Page Content (e.g., `src/pages/index.astro`)**
-   * **File**: `src/pages/index.astro` (or the primary landing page of your site)
-   * **Why**: This is your homepage content.
-   * **Action**:
-     * Open `src/pages/index.astro`.
-     * Modify the main heading, introductory text, and any other content to reflect your project or personal brand.
-     * Look for placeholder text like "Welcome to \{\{versions.astro}} Starter" and replace it.
-
-3. **Global Layout & Metadata (e.g., `src/layouts/BaseLayout.astro` or `src/components/common/SiteMetadata.astro`)**
+2. **Global Layout & Metadata (e.g., `src/layouts/BaseLayout.astro` or `src/components/common/SiteMetadata.astro`)**
    * **File(s)**: This might be in a layout file like `src/layouts/BaseLayout.astro` (often imported by pages) or a dedicated metadata component.
    * **Why**: This controls your site's title, meta description, social sharing information, and potentially the favicon.
    * **Action**:
@@ -57,7 +51,7 @@ To get a unique site deployed, you'll primarily interact with these areas. We're
      * Update the `<title>` tag, `<meta name="description">`, and any Open Graph tags (`og:title`, `og:description`, etc.) with your site's information.
      * Replace `public/favicon.svg` (and other favicon formats if present) with your own site icon.
 
-4. **Deployment Configuration (e.g., `wrangler.toml` for Cloudflare Pages)**
+3. **Deployment Configuration (e.g., `wrangler.toml` for Cloudflare Pages)**
    * **File**: `wrangler.toml` (if deploying to Cloudflare Pages, as recommended)
    * **Why**: This file configures your Cloudflare Pages project, including its name, which forms part of its default URL.
    * **Action**:
