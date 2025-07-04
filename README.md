@@ -74,6 +74,12 @@ pnpm run build:tokens
 pnpm run dev
 ```
 
+You should now see a clean homepage at `http://localhost:4321/` with zero additional steps.
+
+### About the `/docs` directory
+
+This repo includes a large `/docs` folder full of markdown files. These files **do not get shipped to production**. They exist solely as rich context for AI coding assistants and as reference material while you work locally. The live documentation for this starter lives at **[aps.docs.clownware.org](https://aps.docs.clownware.org)**.
+
 (For detailed setup, see [`./ONBOARDING.md`](./ONBOARDING.md).)
 
 ## ✨ Enhanced Features
@@ -101,7 +107,15 @@ Dive in by following the detailed **[`./ONBOARDING.md`](./ONBOARDING.md)** guide
 
 ## 🗺️ Project Roadmap & Tracks
 
-Understand the project's phased development and choose your implementation path (MVP or Showcase) by reviewing the **[Implementation Roadmap](./docs/README.md#implementation-roadmap)**.
+**Choose Your Implementation Path:**
+
+* **[Track Comparison](https://aps.docs.clownware.org/tracks/track-comparison/)** - Help choosing between MVP and Showcase tracks
+* **[MVP Track Guide](https://aps.docs.clownware.org/tracks/mvp-track-guide/)** - Fast deployment (2-3 weeks)
+* **[Showcase Track Guide](https://aps.docs.clownware.org/tracks/showcase-track-guide/)** - Technical excellence (4-6 weeks)
+
+Both tracks leverage the same high-performance foundation with pre-configured Astro 5.x, TypeScript, Tailwind CSS, and design tokens.
+
+**Local Documentation**: Review the detailed **[Implementation Roadmap](./docs/README.md#implementation-roadmap)** for phase-by-phase guidance.
 
 ## 🤝 Contributing
 

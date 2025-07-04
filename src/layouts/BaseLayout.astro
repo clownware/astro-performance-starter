@@ -1,13 +1,8 @@
 ---
-// biome-ignore lint/correctness/noUnusedImports: component referenced in markup below
-import { ViewTransitions } from "astro:transitions";
-// biome-ignore lint/correctness/noUnusedImports: component referenced in markup below
+import { ClientRouter } from "astro:transitions";
 import SkipLink from "@/components/a11y/SkipLink.astro";
-// biome-ignore lint/correctness/noUnusedImports: component referenced in markup below
 import Footer from "@/components/structural/Footer.astro";
-// biome-ignore lint/correctness/noUnusedImports: component referenced in markup below
 import Header from "@/components/structural/Header.astro";
-// biome-ignore lint/correctness/noUnusedImports: component referenced in markup below
 import ThemeSetup from "@/components/ThemeSetup.astro";
 
 import "@fontsource-variable/inter";
@@ -32,7 +27,6 @@ const {
 void { title, description, image, canonicalURL, noindex };
 
 const siteTitle = "Astro Starter Template"; // Changed from 'Your Site Name'
-// biome-ignore lint/correctness/noUnusedVariables: variable is used in markup below
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 ---
 
@@ -87,7 +81,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
       crossorigin="anonymous"
     />
 
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body class="flex min-h-screen flex-col bg-background text-foreground antialiased">
     <!-- Theme Detection & Setup -->

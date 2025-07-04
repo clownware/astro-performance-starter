@@ -1,0 +1,27 @@
+---
+import { Image as AstroImage } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+interface Props {
+  src: ImageMetadata | string | Promise<{ default: ImageMetadata }>;
+  alt: string;
+  class?: string;
+  format?: "avif" | "webp" | "png" | "jpeg" | "jpg" | "svg" | "gif";
+  quality?: number | "low" | "mid" | "high" | "max";
+  width?: number;
+  height?: number;
+}
+
+const props = Astro.props as Props;
+const { class: className, ...imageProps } = props;
+
+const composedClass = [
+  "rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-xl",
+  className,
+]
+  .filter(Boolean)
+  .join(" ");
+---
+
+{/* @ts-ignore - Astro Image component type compatibility */}
+<AstroImage {...imageProps} class={composedClass} />

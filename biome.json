@@ -107,6 +107,13 @@
         "rules": {
           "style": {
             "useImportType": "off"
+          },
+          "correctness": {
+            "noUnusedVariables": "off",
+            "noUnusedImports": "off"
+          },
+          "suspicious": {
+            "noExplicitAny": "off"
           }
         }
       }

@@ -9,9 +9,9 @@ pagefind: true
 
 ## Overview
 
-The *Astro Performance Starter* gives you a production-ready foundation focused on performance, accessibility, and DX. Phase&nbsp;4 (“Skeleton & Routing”) delivers the minimal runnable site structure so you can start building immediately.
+The *Astro Performance Starter* gives you a production-ready foundation focused on performance, accessibility, and DX. **Phase 5 ("UI Component Library - MVP") is now complete**, delivering essential UI components alongside the foundational site structure.
 
-## What’s included after Phase 4
+## What’s included in this template
 
 | Feature | Path | Notes |
 |---------|------|-------|
@@ -26,6 +26,22 @@ The *Astro Performance Starter* gives you a production-ready foundation focused 
 | Robots rules | `public/robots.txt` | Default allow + sitemap reference. |
 | Favicon | `public/favicon.svg`, `public/favicon.ico`, `public/apple-touch-icon.png` | Replace with your own brand assets. |
 | Mobile menu island | `src/components/islands/MobileMenuToggle.tsx` | Progressive enhancement; header wiring next. |
+
+## UI Components (Phase 5 - Complete)
+
+**Essential UI primitives following atomic design patterns:**
+
+| Component | Path | Purpose |
+|-----------|------|----------|
+| Button | `src/components/atoms/Button.astro` | Versatile button with size/variant props. Primary foundation for interactions. |
+| Badge | `src/components/atoms/Badge.astro` | Non-interactive labels for status, metrics, or categories. |
+| Image | `src/components/atoms/Image.astro` | Wrapper around Astro's Image with project defaults (AVIF, optimized sizing). |
+| Card | `src/components/molecules/Card.astro` | Flexible content container with consistent spacing and styling. |
+| Container | `src/components/structural/Container.astro` | Manages horizontal width and centers content across breakpoints. |
+| Section | `src/components/structural/Section.astro` | Controls vertical rhythm and spacing for page sections. |
+| Grid | `src/components/structural/Grid.astro` | Responsive CSS Grid with consistent gaps and breakpoint behavior. |
+
+**Link styling:** Basic commented-out styles provided in `src/styles/global.css` - customize as needed or create Link component using provided documentation patterns.
 
 ## Running the template locally
 
@@ -52,4 +68,6 @@ pnpm dev       # start local dev server
 
 ## Next phases
 
-Phase 5 introduces reusable UI atoms (Button, Card, etc.). Phase 6 connects content collections. Follow the [Structure implementation guide](../implementation-guides/02-structure-phase-4-skeleton) for step-by-step progress.
+**Phase 5 is complete!** ✅ All MVP UI components are implemented and ready to use.
+
+**Up next:** Phase 6 connects content collections for managing blog posts, projects, and structured data. Follow the [implementation guides](../implementation-guides/) for step-by-step progress on remaining phases.

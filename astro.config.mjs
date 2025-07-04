@@ -32,6 +32,7 @@ export default defineConfig({
     starlight({
       title: "Astro Performance Starter",
       description: "Production-ready Astro starter template with 100/100 Lighthouse scores",
+      disable404Route: true,
       logo: {
         src: "./src/assets/logo.svg",
         replacesTitle: false,
