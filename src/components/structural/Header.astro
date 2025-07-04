@@ -12,19 +12,19 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
 <header
   class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
-  <div class="container flex h-16 items-center justify-between">
+  <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href="/" class="flex items-center gap-2 font-bold" aria-label="Homepage">
       <svg class="size-6 text-primary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"></path>
       </svg>
-      <span class="text-lg">Site Name</span>
+      <span class="text-lg">Clownware</span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-6" aria-label="Main navigation">
+    <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
       {navItems.map((item: NavItem) => (
         <a
           href={item.href}
-          class="text-sm font-medium text-foreground/70 transition-colors hover:text-foreground focus-visible-ring"
+          class="text-base font-medium text-foreground/80 transition-all hover:text-foreground hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
           aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
           target={item.isExternal ? '_blank' : undefined}
           rel={item.isExternal ? 'noopener noreferrer' : undefined}

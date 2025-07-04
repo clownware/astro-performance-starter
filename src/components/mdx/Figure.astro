@@ -7,7 +7,6 @@ export interface Props extends HTMLAttributes<"figure"> {
   caption?: string;
 }
 
-// biome-ignore lint/correctness/noUnusedVariables: Variables are used in template
 const { src, alt, caption, ...figureAttrs } = Astro.props;
 ---
 
