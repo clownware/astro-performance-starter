@@ -8,8 +8,8 @@ interface Versions {
   [key: string]: string;
 }
 
-const VERSIONS_YAML_PATH = join(process.cwd(), "src", "content", "docs", "meta", "versions.yml");
-const VERSIONS_JSON_PATH = join(process.cwd(), "versions.json");
+const VERSIONS_YAML_PATH = join(process.cwd(), "src", "content", "versions", "versions.yml");
+const VERSIONS_JSON_PATH = join(process.cwd(), "src", "content", "versions", "versions.json");
 
 // Load current versions
 function loadVersions(): Versions {

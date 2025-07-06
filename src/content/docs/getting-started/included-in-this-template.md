@@ -84,8 +84,7 @@ pnpm install   # install dependencies
 pnpm dev       # start local dev server
 ```
 
-• Docs home: `http://localhost:4321/astro-starter-template/`
-• Demo page: `http://localhost:4321/astro-starter-template/examples/landing`
+• Demo home: `http://localhost:4321/`
 
 ## Customizing the skeleton
 

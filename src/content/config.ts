@@ -75,6 +75,13 @@ const navigationCollection = defineCollection({
 });
 
 // Bio/About Content
+// src/content/config.ts
+const versionsCollection = defineCollection({
+  type: "data",
+  schema: z.record(z.string()),
+});
+
+// Bio/About Content
 const bioCollection = defineCollection({
   type: "content",
   schema: ({ image }: { image: ImageFunction }) =>
@@ -108,4 +115,5 @@ export const collections = {
   blog: blogCollection,
   navigation: navigationCollection,
   bio: bioCollection,
+  versions: versionsCollection,
 };
