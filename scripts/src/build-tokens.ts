@@ -95,8 +95,42 @@ function resolveTokenReferences(obj: TokenGroup, context: BaseTokens): TokenGrou
           // If we found a token with a value, use it
           if (resolvedValue && typeof resolvedValue === "object" && "value" in resolvedValue) {
             resolved[key] = { value: resolvedValue.value };
+
+            // Handle dark mode token references
             if (token.dark) {
-              (resolved[key] as Token).dark = token.dark;
+              if (
+                typeof token.dark === "string" &&
+                token.dark.startsWith("{") &&
+                token.dark.endsWith("}")
+              ) {
+                // Resolve dark mode reference
+                const darkRefPath = token.dark.slice(1, -1).split(".");
+                let darkResolvedValue: any = context;
+
+                for (const part of darkRefPath) {
+                  if (
+                    darkResolvedValue &&
+                    typeof darkResolvedValue === "object" &&
+                    part in darkResolvedValue
+                  ) {
+                    darkResolvedValue = darkResolvedValue[part];
+                  } else {
+                    darkResolvedValue = null;
+                    break;
+                  }
+                }
+
+                if (
+                  darkResolvedValue &&
+                  typeof darkResolvedValue === "object" &&
+                  "value" in darkResolvedValue
+                ) {
+                  (resolved[key] as Token).dark = darkResolvedValue.value;
+                }
+              } else {
+                // Use dark value as-is if it's not a reference
+                (resolved[key] as Token).dark = token.dark;
+              }
             }
           } else {
             // Fallback to original if reference couldn't be resolved
@@ -209,9 +243,12 @@ const generateCssVariables = (tokens: Record<string, string>): string => {
   return lightCss + darkCss;
 };
 
+// Resolve semantic tokens before flattening for CSS
+const resolvedSemanticForCss = resolveTokenReferences(semanticTokens.semantic ?? {}, baseTokens);
+
 const allVars = {
   ...flattenTokens(baseTokens as TokenGroup),
-  ...flattenTokens(semanticTokens.semantic ?? {}),
+  ...flattenTokens(resolvedSemanticForCss),
 };
 
 const cssTokenPath = join(distDir, "tokens.css");

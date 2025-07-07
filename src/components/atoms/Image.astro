@@ -10,10 +10,24 @@ interface Props {
   quality?: number | "low" | "mid" | "high" | "max";
   width?: number;
   height?: number;
+  sizes?: string;
+  widths?: number[];
+  densities?: number[];
+  loading?: "lazy" | "eager";
+  decoding?: "async" | "sync" | "auto";
 }
 
 const props = Astro.props as Props;
 const { class: className, ...imageProps } = props;
+
+// Default to AVIF format for best compression (with WebP fallback)
+const optimizedProps = {
+  format: "avif" as const,
+  quality: "high" as const,
+  loading: "lazy" as const,
+  decoding: "async" as const,
+  ...imageProps,
+};
 
 const composedClass = [
   "rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-xl",
@@ -24,4 +38,4 @@ const composedClass = [
 ---
 
 {/* @ts-ignore - Astro Image component type compatibility */}
-<AstroImage {...imageProps} class={composedClass} />
+<AstroImage {...optimizedProps} class={composedClass} />

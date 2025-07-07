@@ -4,7 +4,6 @@ import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
-import compress from "astro-compress";
 import astroExpressiveCode from "astro-expressive-code";
 import { remarkSnippetIncludes } from "./scripts/src/remark-snippet-includes.mjs";
 import { remarkValidateLinks } from "./scripts/src/remark-validate-links.mjs";
@@ -42,7 +41,6 @@ export default defineConfig({
     }),
     sitemap(),
     preact(), // Ensure Preact is available for .tsx MDX components
-    compress(), // Optional: For compressing output, good for performance
   ],
 
   markdown: {
@@ -51,14 +49,14 @@ export default defineConfig({
         remarkValidateLinks,
         {
           rootDir: rootDir,
-          excludePaths: ["src/content/docs"],
+          excludePaths: ["docs"],
         },
       ],
       [
         remarkSnippetIncludes,
         {
           rootDir: process.cwd(),
-          snippetsDir: "src/content/docs/snippets",
+          snippetsDir: "docs/snippets",
           strict: true,
         },
       ],
@@ -77,5 +75,17 @@ export default defineConfig({
 
   build: {
     inlineStylesheets: "auto",
+  },
+
+  // Image optimization configuration using Sharp
+  image: {
+    service: {
+      entrypoint: "astro/assets/services/sharp",
+      config: {
+        limitInputPixels: 268402689, // ~16K x 16K pixels max
+      },
+    },
+    domains: [],
+    remotePatterns: [],
   },
 });
