@@ -75,7 +75,6 @@ const navigationCollection = defineCollection({
 });
 
 // Bio/About Content
-// src/content/config.ts
 const versionsCollection = defineCollection({
   type: "data",
   schema: z.record(z.string()),
@@ -83,30 +82,25 @@ const versionsCollection = defineCollection({
 
 // Bio/About Content
 const bioCollection = defineCollection({
-  type: "content",
-  schema: ({ image }: { image: ImageFunction }) =>
-    z.object({
-      name: z.string(),
-      title: z.string(),
-      location: z.string().optional(),
-      avatar: image(), // Astro's image schema helper
-      social: z
-        .object({
-          github: z.string().url().optional(),
-          linkedin: z.string().url().optional(),
-          twitter: z.string().url().optional(),
-          email: z.string().email().optional(),
-        })
-        .optional(),
-      skills: z
-        .array(
-          z.object({
-            category: z.string(),
-            items: z.array(z.string()),
-          }),
-        )
-        .optional(),
-    }),
+  type: "data",
+  schema: z.object({
+    name: z.string(),
+    title: z.string(),
+    location: z.string().optional(),
+    avatar: z.string(), // Path to avatar image
+    social: z
+      .object({
+        github: z.string().url().optional(),
+        linkedin: z.string().url().optional(),
+        twitter: z.string().url().optional(),
+        email: z.string().email().optional(),
+      })
+      .optional(),
+    bioShort: z.string(),
+    bioLong: z.string(),
+    resumeUrl: z.string().url().optional(),
+    draft: z.boolean().default(false),
+  }),
 });
 
 export const collections = {
