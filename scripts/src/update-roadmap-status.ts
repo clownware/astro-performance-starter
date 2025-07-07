@@ -35,29 +35,33 @@ function findPhaseFile(phase: Phase): Promise<string | null> {
   return new Promise((resolve) => {
     const fs = require("node:fs");
     const path = require("node:path");
-    fs.readdir(GUIDES_DIR, { withFileTypes: true }, (err, directories) => {
-      if (err) {
-        resolve(null);
-      } else {
-        for (const dirent of directories) {
-          if (dirent.isDirectory()) {
-            const subDir = path.join(GUIDES_DIR, dirent.name);
-            fs.readdir(subDir, (err, files) => {
-              if (err) {
-                resolve(null);
-              } else {
-                const matchedFile = files.find((file) => phase.pathMatcher.test(file));
-                if (matchedFile) {
-                  resolve(path.join(subDir, matchedFile));
-                } else {
+    fs.readdir(
+      GUIDES_DIR,
+      { withFileTypes: true },
+      (err: NodeJS.ErrnoException | null, directories: any[]) => {
+        if (err) {
+          resolve(null);
+        } else {
+          for (const dirent of directories) {
+            if (dirent.isDirectory()) {
+              const subDir = path.join(GUIDES_DIR, dirent.name);
+              fs.readdir(subDir, (err: NodeJS.ErrnoException | null, files: string[]) => {
+                if (err) {
                   resolve(null);
+                } else {
+                  const matchedFile = files.find((file: string) => phase.pathMatcher.test(file));
+                  if (matchedFile) {
+                    resolve(path.join(subDir, matchedFile));
+                  } else {
+                    resolve(null);
+                  }
                 }
-              }
-            });
+              });
+            }
           }
         }
-      }
-    });
+      },
+    );
   });
 }
 
@@ -69,7 +73,7 @@ function getPhaseStatus(phase: Phase): Promise<Phase> {
       } else {
         const fs = require("node:fs");
         const matter = require("gray-matter");
-        fs.readFile(filePath, "utf-8", (err, fileContent) => {
+        fs.readFile(filePath, "utf-8", (err: NodeJS.ErrnoException | null, fileContent: string) => {
           if (err) {
             resolve({ ...phase, completed: false, found: true });
           } else {
