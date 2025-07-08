@@ -41,7 +41,7 @@ jobs:
         run: pnpm run budgets:validate
 
       - name: Validate semantic color contrast
-        run: pnpm run validate:contrast
+        run: pnpm run design:validate
 
       - name: Build site
         run: pnpm run build
