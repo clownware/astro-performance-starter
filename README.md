@@ -1,15 +1,15 @@
-# 🚀 Astro Performance Starter Template
+# Astro Performance Starter Template
 
 > **Live demo:** [Example landing page](https://clownware.github.io/astro-starter-template/examples/landing)
 
 <!-- BADGE PANEL - AT A GLANCE -->
-<p align="center">
-  <a href="https://github.com/your-username/your-repo/actions/workflows/ci.yml">
-    <img alt="CI Status" src="https://github.com/your-username/your-repo/actions/workflows/ci.yml/badge.svg">
+<p style="text-align: center;">
+  <a href="https://github.com/clownware/astro-starter-template/actions/workflows/ci.yml">
+    <img alt="CI Status" src="https://github.com/clownware/astro-starter-template/actions/workflows/ci.yml/badge.svg">
   </a>
-  <img alt="Node Version" src="https://img.shields.io/badge/node-%3E=20.x-brightgreen">
-  <a href="https://github.com/your-username/your-repo/blob/main/LICENSE.txt">
-    <img alt="License" src="https://img.shields.io/github/license/your-username/your-repo">
+  <img alt="Node Version" src="https://img.shields.io/badge/node-%3E=22.x-brightgreen">
+  <a href="https://github.com/clownware/astro-starter-template/blob/main/LICENSE.txt">
+    <img alt="License" src="https://img.shields.io/github/license/clownware/astro-starter-template">
   </a>
   <img alt="Lighthouse Performance" src="https://img.shields.io/badge/Lighthouse-97%2B-brightgreen">
   <a href="#your-pagespeed-insights-badge-url-here">
