@@ -38,7 +38,7 @@ jobs:
         run: pnpm run quality
 
       - name: Validate budget overrides
-        run: pnpm run validate:overrides
+        run: pnpm run budgets:validate
 
       - name: Validate semantic color contrast
         run: pnpm run validate:contrast
