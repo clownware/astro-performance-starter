@@ -33,23 +33,23 @@ You can point your favorite AI agent (e.g., Cascade, Copilot, ChatGPT) at the [P
 
 ## 🧭 Core Principles
 
-* **Performance is Paramount**: Every decision is weighed against its performance impact.
-* **Zero-JS first. Islands only when needed.**
-* **Token-Driven Design**: All styling (colors, spacing, typography) is managed via a robust design token system ([`./tokens/`](./tokens/)).
-* **Accessibility as a Baseline**: WCAG AA compliance is a minimum requirement.
-* **Strict Quality Gates**: Automated checks for formatting, linting, type safety, and performance budgets via pre-commit hooks and CI.
+- **Performance is Paramount**: Every decision is weighed against its performance impact.
+- **Zero-JS first. Islands only when needed.**
+- **Token-Driven Design**: All styling (colors, spacing, typography) is managed via a robust design token system ([`./tokens/`](./tokens/)).
+- **Accessibility as a Baseline**: WCAG AA compliance is a minimum requirement.
+- **Strict Quality Gates**: Automated checks for formatting, linting, type safety, and performance budgets via pre-commit hooks and CI.
 
 ## 🤔 Why This Starter?
 
 This isn't just another Astro starter. It's a comprehensive foundation for projects where performance and quality are non-negotiable. We provide:
 
-* **Extreme Performance Focus**: Strict budgets (JS < 160KB gzip, CSS < 50KB uncompressed) and best practices baked in.
-* **Default Build Size**: Aims for < 90 KB JS and < 15 KB CSS (gzipped) for the default starter content.
-* **Astro v5 + Tailwind v4 + full design-token pipeline.**
-* **TypeScript strict**: For robust, type-safe code.
-* **Structured Development**: Phased implementation roadmap, atomic design principles, and comprehensive internal documentation.
-* **AI-Ready**: Detailed context guides ([`./docs/ai-context/`](./docs/ai-context/)) to empower AI coding assistants to work effectively within the project's constraints and patterns.
-* **Two Development Tracks**: Choose between an ultra-lean **MVP Track** (minimal features, zero JS) or a richer **Showcase Track** (full features, selective interactivity) as per the [Implementation Roadmap](./docs/README.md#implementation-roadmap).
+- **Extreme Performance Focus**: Strict budgets (JS < 160KB gzip, CSS < 50KB uncompressed) and best practices baked in.
+- **Default Build Size**: Aims for < 90 KB JS and < 15 KB CSS (gzipped) for the default starter content.
+- **Astro v5 + Tailwind v4 + full design-token pipeline.**
+- **TypeScript strict**: For robust, type-safe code.
+- **Structured Development**: Phased implementation roadmap, atomic design principles, and comprehensive internal documentation.
+- **AI-Ready**: Detailed context guides ([`./docs/ai-context/`](./docs/ai-context/)) to empower AI coding assistants to work effectively within the project's constraints and patterns.
+- **Two Development Tracks**: Choose between an ultra-lean **MVP Track** (minimal features, zero JS) or a richer **Showcase Track** (full features, selective interactivity) as per the [Implementation Roadmap](./docs/README.md#implementation-roadmap).
 
 <!-- TODO: Add Lighthouse 100/100 screenshot here once the project is deployed and audited. -->
 
@@ -84,22 +84,22 @@ This repo includes a large `/docs` folder full of markdown files. These files **
 
 ## ✨ Enhanced Features
 
-* **Astro v5 (or latest)**: Cutting-edge Astro features and performance.
-* **Tailwind CSS v4 (or latest)**: Utility-first CSS, configured with design tokens.
-* **Biome**: Integrated for formatting and linting (replaces Prettier/ESLint).
-* **TypeScript strict**: End-to-end type safety.
-* **Atomic Design Component Structure**: `src/components/` organized by atoms, molecules, organisms, etc.
-* **Content Collections**: Type-safe content management with MDX.
-* **Comprehensive Documentation**: `/docs` includes:
+- **Astro v5 (or latest)**: Cutting-edge Astro features and performance.
+- **Tailwind CSS v4 (or latest)**: Utility-first CSS, configured with design tokens.
+- **Biome**: Integrated for formatting and linting (replaces Prettier/ESLint).
+- **TypeScript strict**: End-to-end type safety.
+- **Atomic Design Component Structure**: `src/components/` organized by atoms, molecules, organisms, etc.
+- **Content Collections**: Type-safe content management with MDX.
+- **Comprehensive Documentation**: `/docs` includes:
 
-  * Phased [Implementation Roadmap](./docs/README.md#implementation-roadmap)
-  * Detailed [`implementation-guides/`](./docs/implementation-guides/)
-  * Architectural Decision Records ([`adr/`](./docs/adr/))
-  * AI Assistant Context ([`ai-context/`](./docs/ai-context/))
+  - Phased [Implementation Roadmap](./docs/README.md#implementation-roadmap)
+  - Detailed [`implementation-guides/`](./docs/implementation-guides/)
+  - Architectural Decision Records ([`adr/`](./docs/adr/))
+  - AI Assistant Context ([`ai-context/`](./docs/ai-context/))
 
-* **GitHub Actions CI/CD**: Workflows for quality checks, build, and deployment previews.
-* **Husky & lint-staged**: Pre-commit hooks for code quality.
-* **Devcontainer**: Pre-configured development environment for consistency.
+- **GitHub Actions CI/CD**: Workflows for quality checks, build, and deployment previews.
+- **Husky & lint-staged**: Pre-commit hooks for code quality.
+- **Devcontainer**: Pre-configured development environment for consistency.
 
 ## 🚀 Getting Started
 
@@ -109,9 +109,9 @@ Dive in by following the detailed **[`./ONBOARDING.md`](./ONBOARDING.md)** guide
 
 **Choose Your Implementation Path:**
 
-* **[Track Comparison](https://aps.docs.clownware.org/tracks/track-comparison/)** - Help choosing between MVP and Showcase tracks
-* **[MVP Track Guide](https://aps.docs.clownware.org/tracks/mvp-track-guide/)** - Fast deployment (2-3 weeks)
-* **[Showcase Track Guide](https://aps.docs.clownware.org/tracks/showcase-track-guide/)** - Technical excellence (4-6 weeks)
+- **[Track Comparison](https://aps.docs.clownware.org/tracks/track-comparison/)** - Help choosing between MVP and Showcase tracks
+- **[MVP Track Guide](https://aps.docs.clownware.org/tracks/mvp-track-guide/)** - Fast deployment (2-3 weeks)
+- **[Showcase Track Guide](https://aps.docs.clownware.org/tracks/showcase-track-guide/)** - Technical excellence (4-6 weeks)
 
 Both tracks leverage the same high-performance foundation with pre-configured Astro 5.x, TypeScript, Tailwind CSS, and design tokens.
 

@@ -10,19 +10,21 @@ interface Props {
 const { variant = "primary", size = "md", class: className, href, ...rest } = Astro.props as Props;
 
 const baseStyles =
-  "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible-ring disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
 
 const variantStyles = {
-  primary: "bg-primary-600 text-white hover:bg-primary-700",
+  primary:
+    "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus:ring-primary-500 shadow-sm hover:shadow-md",
   secondary:
-    "bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700",
-  ghost: "hover:bg-gray-100 dark:hover:bg-gray-800",
+    "bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 active:bg-gray-100 focus:ring-primary-500 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-700 dark:active:bg-gray-600 shadow-sm hover:shadow",
+  ghost:
+    "text-gray-700 hover:bg-gray-100 hover:text-gray-900 active:bg-gray-200 focus:ring-primary-500 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-gray-100 dark:active:bg-gray-700",
 };
 
 const sizeStyles = {
-  sm: "h-9 px-3",
-  md: "h-10 px-4 py-2",
-  lg: "h-11 px-8",
+  sm: "text-xs h-8 px-3 py-1.5",
+  md: "text-sm h-10 px-4 py-2",
+  lg: "text-base h-12 px-6 py-3",
 };
 
 const Tag = href ? "a" : "button";
