@@ -34,11 +34,6 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Update and Validate Versions
-        run: |
-          pnpm run update:versions
-          pnpm run validate:versions
-
       - name: Lint, format & type-check
         run: pnpm run quality
 
