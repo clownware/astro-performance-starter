@@ -5,9 +5,11 @@ updates:
     schedule:
       interval: "daily"
     target-branch: "develop"
+    rebase-strategy: "auto"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
     target-branch: "develop"
     registries: []
+    rebase-strategy: "auto"
