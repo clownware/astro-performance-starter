@@ -1,0 +1,198 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Badge from "@/components/atoms/Badge.astro";
+import ProjectLayout from "@/layouts/ProjectLayout.astro";
+import { formatDate, formatPostMetadata } from "@/utils/formatDate";
+
+// Generate static paths for all projects
+export async function getStaticPaths() {
+  const entries = await getCollection(
+    "projects",
+    ({ data }: CollectionEntry<"projects">) => !data.draft,
+  );
+
+  return entries.map((entry: CollectionEntry<"projects">) => ({
+    params: { slug: entry.slug },
+    props: {
+      entry: entry,
+      allProjects: entries.map((e: CollectionEntry<"projects">) => ({
+        ...e.data,
+        slug: e.slug,
+      })),
+    },
+  }));
+}
+
+// Props provided by getStaticPaths
+const { entry, allProjects } = Astro.props as {
+  entry: CollectionEntry<"projects">;
+  allProjects: Array<CollectionEntry<"projects">["data"] & { slug: string }>;
+};
+
+// Extract project data and render content
+const project = entry.data;
+const { Content } = await entry.render();
+
+// Derive hero image fallback
+const heroImage = project.cover ?? "/logo.svg";
+
+// SEO meta
+const pageTitle = `${project.title} - Project Showcase`;
+const pageDescription = project.description;
+const pageImage = project.cardImage ?? heroImage;
+
+const projectMetadata = formatPostMetadata(project.date, project.description);
+
+// Add slug to project for layout
+const projectWithSlug = { ...project, slug: entry.slug };
+---
+
+<ProjectLayout
+  title={pageTitle}
+  description={pageDescription}
+  image={pageImage}
+  project={projectWithSlug}
+>
+  <!-- Additional project content goes in the slot -->
+  <div class="project-additional-content">
+    <!-- Project Stats -->
+    <div class="project-stats grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 p-6 bg-background-surface rounded-lg border border-border-default">
+      <div class="stat-item text-center">
+        <div class="stat-value text-2xl font-bold text-primary-600 mb-1">
+          {project.technologies?.length ?? 0}
+        </div>
+        <div class="stat-label text-sm text-foreground-secondary">
+          Technologies
+        </div>
+      </div>
+      <div class="stat-item text-center">
+        <div class="stat-value text-2xl font-bold text-primary-600 mb-1">
+          {projectMetadata.readingTime}
+        </div>
+        <div class="stat-label text-sm text-foreground-secondary">
+          Reading Time
+        </div>
+      </div>
+      <div class="stat-item text-center">
+        <div class="stat-value text-2xl font-bold text-primary-600 mb-1">
+          {projectMetadata.isRecent ? 'Recent' : 'Established'}
+        </div>
+        <div class="stat-label text-sm text-foreground-secondary">
+          Status
+        </div>
+      </div>
+    </div>
+
+    <!-- Rich Content -->
+    <div class="rich-content prose prose-lg max-w-none">
+      <Content />
+    </div>
+
+    <!-- Project Timeline -->
+    <div class="project-timeline mt-12 p-6 bg-background-surface rounded-lg border border-border-default">
+      <h3 class="text-xl font-semibold text-foreground-primary mb-4">Project Timeline</h3>
+      <div class="timeline-items space-y-4">
+        <div class="timeline-item flex items-center gap-4">
+          <div class="timeline-marker w-3 h-3 bg-primary-600 rounded-full flex-shrink-0"></div>
+          <div class="timeline-content">
+            <div class="timeline-date text-sm text-foreground-secondary">
+              {formatDate(project.date, 'full')}
+            </div>
+            <div class="timeline-title font-medium text-foreground-primary">
+              Project Started
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item flex items-center gap-4">
+          <div class="timeline-marker w-3 h-3 bg-primary-600 rounded-full flex-shrink-0"></div>
+          <div class="timeline-content">
+            <div class="timeline-date text-sm text-foreground-secondary">
+              {project.duration || 'Ongoing'}
+            </div>
+            <div class="timeline-title font-medium text-foreground-primary">
+              Project Duration
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Related Projects -->
+    <div class="related-projects mt-12">
+      <h3 class="text-xl font-semibold text-foreground-primary mb-6">More Projects</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {allProjects
+          .filter(p => p.slug !== project.slug)
+          .slice(0, 2)
+          .map((relatedProject) => (
+            <article class="related-project-card bg-background-surface border border-border-default rounded-lg p-6 hover:border-border-hover transition-colors duration-200">
+              <h4 class="text-lg font-semibold text-foreground-primary mb-2">
+                <a href={`/projects/${relatedProject.slug}`} class="hover:text-primary-600 transition-colors duration-200">
+                  {relatedProject.title}
+                </a>
+              </h4>
+              <p class="text-foreground-secondary text-sm mb-4 line-clamp-2">
+                {relatedProject.description}
+              </p>
+              <div class="flex flex-wrap gap-2">
+                {(relatedProject.technologies ?? [])
+                  .slice(0, 3)
+                  .map((tech: string) => (
+                    <Badge class="text-xs">
+                      {tech}
+                    </Badge>
+                  ))}
+                {(relatedProject.technologies?.length ?? 0) > 3 && (
+                  <span class="text-xs text-foreground-secondary">
+                    +{(relatedProject.technologies?.length ?? 0) - 3} more
+                  </span>
+                )}
+              </div>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</ProjectLayout>
+
+<style>
+  .project-stats {
+    background: linear-gradient(135deg, rgba(var(--color-primary-500), 0.05) 0%, rgba(var(--color-primary-600), 0.1) 100%);
+  }
+
+  .timeline-items {
+    position: relative;
+  }
+
+  .timeline-items::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 12px;
+    bottom: 12px;
+    width: 2px;
+    background: linear-gradient(to bottom, 
+      theme('colors.primary.600'), 
+      theme('colors.primary.600'), 
+      theme('colors.primary.600')
+    );
+  }
+
+  .timeline-item {
+    position: relative;
+    z-index: 1;
+  }
+
+  .related-project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

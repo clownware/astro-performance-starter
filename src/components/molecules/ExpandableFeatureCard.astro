@@ -1,0 +1,122 @@
+---
+import Badge from "@/components/atoms/Badge.astro";
+import Card from "@/components/molecules/Card.astro";
+
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  metric: string;
+  expandedDetails: string[];
+  techTerms: Record<string, string>;
+}
+
+const { icon, title, description, metric, expandedDetails, techTerms } = Astro.props;
+
+// Function to wrap technical terms with tooltips
+function wrapTechTerms(text: string, _terms?: Record<string, string>): string {
+  // Tooltip highlighting removed per UX requirements
+  return text;
+}
+
+const processedDescription = wrapTechTerms(description, techTerms);
+---
+
+<Card data-card class="relative p-6 bg-background-primary border border-primary hover:border-primary-300 transition-colors group">
+  <div class="flex items-start justify-between mb-4">
+    <div class="flex items-start space-x-4 flex-1">
+      <div class="text-2xl" aria-hidden="true">{icon}</div>
+      <div class="flex-1">
+        <h3 class="text-lg font-semibold text-foreground-primary pr-4">
+          {title}
+        </h3>
+      </div>
+    </div>
+    <Badge class="bg-primary-100 text-primary-800 text-xs shrink-0">
+      {metric}
+    </Badge>
+  </div>
+  
+  <div class="pl-12">
+    <p class="text-foreground-secondary mb-4" set:html={processedDescription}></p>
+    
+    <!-- Expandable details with working CSS-only solution -->
+    <details class="feature-details group">
+      <summary class="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center gap-1 mb-3 transition-colors cursor-pointer list-none">
+        <span>Show details</span>
+        <svg class="w-4 h-4 transform transition-transform duration-200 group-open:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+        </svg>
+      </summary>
+      
+      <div class="expand-content">
+        <ul class="space-y-2 text-sm text-foreground-secondary">
+          {expandedDetails.map((detail) => (
+            <li class="flex items-start gap-2">
+              <span class="text-primary-500 mt-1 text-xs">▸</span>
+              <span set:html={wrapTechTerms(detail, techTerms)}></span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </details>
+  </div>
+</Card>
+
+<script>
+  // Functional approach for synchronized expand behavior
+  const syncFeatureCards = () => {
+    const details = document.querySelectorAll<HTMLDetailsElement>('.feature-details');
+    
+    const syncAllCards = (shouldOpen: boolean) => {
+      details.forEach(detail => {
+        detail.open = shouldOpen;
+      });
+    };
+    
+    const handleToggle = (event: Event) => {
+      const target = event.target as HTMLDetailsElement;
+      const isOpening = target.open;
+      syncAllCards(isOpening);
+    };
+    
+    // Add event listeners using functional approach
+    details.forEach(detail => {
+      detail.addEventListener('toggle', handleToggle);
+    });
+  };
+  
+  // Initialize when DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', syncFeatureCards);
+  } else {
+    syncFeatureCards();
+  }
+</script>
+
+<style>
+  /* Remove default details/summary styling */
+  .feature-details summary::-webkit-details-marker {
+    display: none;
+  }
+  
+  .feature-details summary::marker {
+    display: none;
+  }
+  
+  /* Smooth expand animation */
+  .feature-details .expand-content {
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

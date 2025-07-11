@@ -63,6 +63,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@playwright/test": "^1.53.2",
+    "@tailwindcss/typography": "^0.5.16",
     "@types/glob": "^8.1.0",
     "@types/js-yaml": "^4.0.9",
     "@types/mdast": "^4.0.4",

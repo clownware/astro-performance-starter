@@ -10,21 +10,24 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
 ---
 
 <header
-  class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+  class="sticky top-0 z-50 w-full border-b border-primary bg-background-primary/95 backdrop-blur supports-[backdrop-filter]:bg-background-primary/60"
 >
   <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-    <a href="/" class="flex items-center gap-2 font-bold" aria-label="Homepage">
-      <svg class="size-6 text-primary" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"></path>
-      </svg>
-      <span class="text-lg">Clownware</span>
+    <a href="/" class="flex items-center" aria-label="Homepage">
+      <img 
+        src="/cw-wordmark.svg" 
+        alt="Clownware" 
+        class="h-8 w-auto" 
+        width="220" 
+        height="60"
+      />
     </a>
 
     <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
       {navItems.map((item: NavItem) => (
         <a
           href={item.href}
-          class="text-base font-medium text-foreground/80 transition-all hover:text-foreground hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800"
+          class="text-base font-medium text-foreground-secondary transition-all hover:text-foreground-primary hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-background-secondary"
           aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
           target={item.isExternal ? '_blank' : undefined}
           rel={item.isExternal ? 'noopener noreferrer' : undefined}
@@ -43,13 +46,13 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
   <nav
     id="mobile-menu"
     hidden
-    class="fixed inset-0 top-16 z-40 flex flex-col gap-6 bg-background p-6 opacity-0 transition-opacity duration-200 pointer-events-none md:hidden"
+    class="fixed inset-0 top-16 z-40 flex flex-col gap-6 bg-background-primary p-6 opacity-0 transition-opacity duration-200 pointer-events-none md:hidden"
     aria-label="Mobile navigation"
   >
     {navItems.map((item: NavItem) => (
       <a
         href={item.href}
-        class="text-lg font-medium text-foreground/90 transition-colors hover:text-foreground focus-visible-ring"
+        class="text-lg font-medium text-foreground-primary transition-colors hover:text-foreground-primary focus-visible-ring"
         target={item.isExternal ? '_blank' : undefined}
         rel={item.isExternal ? 'noopener noreferrer' : undefined}
       >

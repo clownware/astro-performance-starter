@@ -1,0 +1,375 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getCollection } from "astro:content";
+import type { GetStaticPaths, Page } from "astro";
+import Badge from "@/components/atoms/Badge.astro";
+import Button from "@/components/atoms/Button.astro";
+import Image from "@/components/atoms/Image.astro";
+import Card from "@/components/molecules/Card.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatPostMetadata } from "@/utils/formatDate";
+
+// Type for posts with metadata
+type PostWithMetadata = CollectionEntry<"blog"> & {
+  metadata: ReturnType<typeof formatPostMetadata>;
+};
+
+// Pagination configuration
+const POSTS_PER_PAGE = 6;
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  // Get all published blog posts, sorted by date (newest first)
+  const allPosts = await getCollection("blog", ({ data }: CollectionEntry<"blog">) => {
+    return data.draft !== true;
+  });
+
+  // Sort posts by date (newest first)
+  const sortedPosts = allPosts.sort((a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) => {
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  });
+
+  // Generate paginated routes
+  return paginate(sortedPosts, {
+    pageSize: POSTS_PER_PAGE,
+  });
+};
+
+// Get the current page data
+interface Props {
+  page?: Page<CollectionEntry<"blog">>;
+}
+
+// Extract the potentially-undefined page prop
+const { page: incomingPage } = Astro.props as Props;
+
+// If no page prop (pagination failed), get all posts manually
+let posts: CollectionEntry<"blog">[];
+let page: Page<CollectionEntry<"blog">>;
+
+if (incomingPage) {
+  // Use pagination data
+  page = incomingPage;
+  posts = page.data;
+} else {
+  // Fallback: get all posts manually
+  const allPosts = await getCollection("blog", ({ data }: CollectionEntry<"blog">) => {
+    return data.draft !== true;
+  });
+
+  const sortedPosts = allPosts.sort((a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) => {
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  });
+
+  posts = sortedPosts;
+  page = {
+    currentPage: 1,
+    lastPage: 1,
+    url: { prev: undefined, next: undefined },
+    data: sortedPosts,
+  } as unknown as Page<CollectionEntry<"blog">>;
+}
+
+// Get featured posts (separate from pagination)
+const featuredPosts = await getCollection("blog", ({ data }: CollectionEntry<"blog">) => {
+  return data.draft !== true && data.featured === true;
+}).then(
+  (posts: CollectionEntry<"blog">[]) =>
+    posts
+      .sort((a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) => {
+        return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+      })
+      .slice(0, 3), // Limit to 3 featured posts
+);
+
+// Sort featured posts by date
+const featuredPostsWithMetadata = featuredPosts.map((post: CollectionEntry<"blog">) => ({
+  ...post,
+  metadata: formatPostMetadata(post.data.date, post.body),
+}));
+
+// Pre-process posts with metadata
+const postsWithMetadata = posts.map((post: CollectionEntry<"blog">) => ({
+  ...post,
+  metadata: formatPostMetadata(post.data.date, post.body),
+}));
+
+// Page metadata
+const pageTitle = page.currentPage === 1 ? "Blog" : `Blog - Page ${page.currentPage}`;
+const pageDescription =
+  page.currentPage === 1
+    ? "Thoughts, tutorials, and insights about web development, Astro, and modern frontend technologies."
+    : `Blog posts - Page ${page.currentPage} of ${page.lastPage}`;
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  image="/og-blog.jpg"
+>
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <!-- Blog Header -->
+    <div class="mb-12 text-center">
+      <h1 class="mb-4 text-4xl font-bold tracking-tight text-foreground-default sm:text-5xl">
+        Blog
+      </h1>
+      <p class="mx-auto max-w-2xl text-lg text-foreground-subtle">
+        Thoughts, tutorials, and insights about web development, Astro, and modern frontend technologies.
+      </p>
+    </div>
+
+    <!-- Featured Posts Section (only on first page) -->
+    {page.currentPage === 1 && featuredPostsWithMetadata.length > 0 && (
+      <section class="mb-16" aria-labelledby="featured-posts-heading">
+        <h2 id="featured-posts-heading" class="mb-8 text-center text-2xl font-bold text-foreground-default">
+          Featured Posts
+        </h2>
+        <div class="flex flex-wrap justify-center gap-8">
+          {featuredPostsWithMetadata.map((post: PostWithMetadata) => (
+            <Card class="group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]">
+              <div class="aspect-video overflow-hidden">
+                {(() => {
+                  const img = post.data.cardImage ?? post.data.cover;
+                  if (!img) return null;
+                  return typeof img === "string" ? (
+                    <img
+                      src={img}
+                      alt={post.data.coverAlt || `Image for ${post.data.title}`}
+                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                    />
+                  ) : (
+                    <Image
+                      src={img}
+                      alt={post.data.coverAlt || `Image for ${post.data.title}`}
+                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      loading="eager"
+                    />
+                  );
+                })()}
+                {post.metadata.isRecent && (
+                  <div class="absolute left-3 top-3">
+                    <Badge>New</Badge>
+                  </div>
+                )}
+              </div>
+
+              <div class="p-6">
+                <div class="mb-3 flex flex-wrap gap-2">
+                  {post.data.tags.slice(0, 3).map((tag: string) => (
+                    <Badge>{tag}</Badge>
+                  ))}
+                </div>
+
+                <h3 class="mb-3 text-xl font-semibold text-foreground-default">
+                  <a
+                    href={`/blog/${post.slug}/`}
+                    class="stretched-link hover:text-accent-600 transition-colors"
+                  >
+                    {post.data.title}
+                  </a>
+                </h3>
+
+                <p class="mb-4 text-foreground-subtle line-clamp-3">
+                  {post.data.description}
+                </p>
+
+                <div class="flex items-center justify-between text-sm text-foreground-subtle">
+                  <span>{post.metadata.publishedDate}</span>
+                  <span>{post.metadata.readingTime}</span>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- All Posts Section -->
+    <section aria-labelledby="all-posts-heading">
+      <h2 id="all-posts-heading" class="mb-8 text-center text-2xl font-bold text-foreground-default">
+        {page.currentPage === 1 ? "All Posts" : `Posts - Page ${page.currentPage}`}
+      </h2>
+
+      {postsWithMetadata.length === 0 ? (
+        <div class="py-16 text-center">
+          <p class="text-lg text-foreground-subtle">No blog posts found.</p>
+          <Button href="/" variant="secondary" class="mt-4">
+            Back to Home
+          </Button>
+        </div>
+      ) : (
+        <>
+          <!-- Posts Grid -->
+          <div class="flex flex-wrap justify-center gap-8">
+            {postsWithMetadata.map((post: PostWithMetadata) => (
+              <Card class="group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]">
+                <div class="aspect-video overflow-hidden">
+                  {(() => {
+                    const img = post.data.cardImage ?? post.data.cover;
+                    if (!img) return null;
+                    return typeof img === "string" ? (
+                      <img
+                        src={img}
+                        alt={post.data.coverAlt || post.data.title}
+                        class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    ) : (
+                      <Image
+                        src={img}
+                        alt={post.data.coverAlt || post.data.title}
+                        class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    );
+                  })()}
+                  {post.metadata.isRecent && (
+                    <div class="absolute left-3 top-3">
+                      <Badge>New</Badge>
+                    </div>
+                  )}
+                </div>
+
+                <div class="p-6">
+                  <div class="mb-3 flex flex-wrap gap-2">
+                    {post.data.tags?.map((tag: string) => (
+                      <Badge>{tag}</Badge>
+                    ))}
+                  </div>
+
+                  <h3 class="mb-3 text-xl font-semibold text-foreground-default group-hover:text-accent-600 transition-colors">
+                    <a href={`/blog/${post.slug}/`} class="after:absolute after:inset-0">
+                      {post.data.title}
+                    </a>
+                  </h3>
+
+                  <p class="mb-4 text-foreground-subtle line-clamp-3">
+                    {post.data.description}
+                  </p>
+
+                  <div class="flex items-center justify-between text-sm text-foreground-subtle">
+                    <span>{post.metadata.publishedDate}</span>
+                    <span>{post.metadata.readingTime}</span>
+                  </div>
+                </div>
+              </Card>
+            ))}
+          </div>
+
+          <!-- Pagination -->
+          {page.lastPage > 1 && (
+            <nav class="mt-12 flex justify-center" aria-label="Blog pagination">
+              <div class="flex items-center space-x-2">
+                <!-- Previous Page -->
+                {page.url.prev ? (
+                  <Button
+                    href={page.url.prev}
+                    variant="secondary"
+                    size="sm"
+                    class="flex items-center"
+                    aria-label={`Go to page ${page.currentPage - 1}`}
+                  >
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Previous
+                  </Button>
+                ) : (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    class="flex items-center opacity-50 cursor-not-allowed"
+                    disabled
+                  >
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Previous
+                  </Button>
+                )}
+
+                <!-- Page Numbers -->
+                <div class="hidden sm:flex items-center space-x-1">
+                  {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => {
+                    const isCurrentPage = pageNum === page.currentPage;
+                    const href = pageNum === 1 ? '/blog/' : `/blog/${pageNum}/`;
+                    
+                    return isCurrentPage ? (
+                      <span
+                        class="px-3 py-2 text-sm font-medium text-accent-600 bg-accent-100 border border-accent-300 rounded-md"
+                        aria-current="page"
+                      >
+                        {pageNum}
+                      </span>
+                    ) : (
+                      <Button
+                        href={href}
+                        variant="ghost"
+                        size="sm"
+                        class="px-3 py-2 text-sm"
+                        aria-label={`Go to page ${pageNum}`}
+                      >
+                        {pageNum}
+                      </Button>
+                    );
+                  })}
+                </div>
+
+                <!-- Current Page Indicator (Mobile) -->
+                <div class="sm:hidden px-3 py-2 text-sm text-foreground-subtle">
+                  Page {page.currentPage} of {page.lastPage}
+                </div>
+
+                <!-- Next Page -->
+                {page.url.next ? (
+                  <Button
+                    href={page.url.next}
+                    variant="secondary"
+                    size="sm"
+                    class="flex items-center"
+                    aria-label={`Go to page ${page.currentPage + 1}`}
+                  >
+                    Next
+                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Button>
+                ) : (
+                  <Button
+                    variant="secondary"
+                    size="sm"
+                    class="flex items-center opacity-50 cursor-not-allowed"
+                    disabled
+                  >
+                    Next
+                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </Button>
+                )}
+              </div>
+            </nav>
+          )}
+        </>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    content: "";
+  }
+</style>

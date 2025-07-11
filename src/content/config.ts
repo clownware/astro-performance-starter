@@ -11,6 +11,7 @@ const projectsCollection = defineCollection({
       date: z.date(),
       draft: z.boolean().default(false),
       featured: z.boolean().default(false),
+      cardImage: image().optional(),
       cover: image(),
       coverAlt: z.string(),
       tags: z.array(z.string()),
@@ -42,9 +43,12 @@ const blogCollection = defineCollection({
       date: z.date(),
       updated: z.date().optional(),
       draft: z.boolean().default(false),
+      featured: z.boolean().default(false),
       cover: image().optional(),
       coverAlt: z.string().optional(),
+      cardImage: image().optional(),
       tags: z.array(z.string()).default([]),
+      technologies: z.array(z.string()).default([]),
       author: z.string().default("Your Name"), // Default author
       readingTime: z.number().optional(), // Optional: can be calculated
       canonicalUrl: z.string().url().optional(),

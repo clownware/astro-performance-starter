@@ -1,12 +1,133 @@
 ---
+import Container from "@/components/structural/Container.astro";
+
 const currentYear = new Date().getFullYear();
 void currentYear;
+
+const footerLinks = [
+  { label: "Home", href: "/" },
+  { label: "Blog", href: "/blog/" },
+  { label: "Projects", href: "/projects/" },
+  { label: "About", href: "/about/" },
+  { label: "Contact", href: "/contact/" },
+];
+
+const docsLinks = [
+  {
+    label: "Quick Deploy",
+    href: "https://astro.clownware.org/getting-started/quick-track-deploy/",
+  },
+  { label: "Implementation Guides", href: "https://astro.clownware.org/implementation-guides/" },
+  {
+    label: "Directory Structure",
+    href: "https://astro.clownware.org/getting-started/directory-structure/",
+  },
+  { label: "MVP Track", href: "https://astro.clownware.org/tracks/mvp-track-guide/" },
+  { label: "Showcase Track", href: "https://astro.clownware.org/tracks/showcase-track-guide/" },
+];
+
+const socialLinks = [
+  { label: "GitHub", href: "https://github.com/clownware/astro-starter-template", icon: "🐈" },
+];
 ---
 
-<footer class="border-t border-border bg-background">
-  <div class="container flex items-center justify-center py-8">
-    <p class="text-sm text-foreground/60">
-      &copy; {currentYear} Clownware. All rights reserved.
-    </p>
-  </div>
+<footer class="border-t border-default bg-background-default">
+  <Container class="py-16 sm:py-20 lg:py-24">
+    <div class="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-4 lg:gap-12">
+      <!-- Brand Section -->
+      <div class="lg:col-span-1">
+        <div class="mb-6">
+          <img 
+            src="/cw-wordmark.svg" 
+            alt="Clownware" 
+            class="h-10 w-auto" 
+            width="220" 
+            height="60"
+          />
+        </div>
+        <p class="text-sm text-foreground-secondary leading-relaxed max-w-sm">
+          Production-ready Astro template with zero-JS baseline and 95+ Lighthouse scores. Built for performance and developer experience.
+        </p>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="lg:col-span-1">
+        <h3 class="text-sm font-semibold text-foreground-primary mb-6 uppercase tracking-wide">Navigation</h3>
+        <ul class="space-y-4">
+          {footerLinks.map((link) => (
+            <li>
+              <a 
+                href={link.href} 
+                class="text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 hover:translate-x-1 flex items-center min-h-[1.25rem]"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Docs Links -->
+      <div class="lg:col-span-1">
+        <h3 class="text-sm font-semibold text-foreground-primary mb-6 uppercase tracking-wide">Docs</h3>
+        <ul class="space-y-4">
+          {docsLinks.map((link) => (
+            <li>
+              <a 
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 hover:translate-x-1 flex items-center gap-1 min-h-[1.25rem]"
+              >
+                {link.label}
+                <svg class="size-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Social Links -->
+      <div class="lg:col-span-1">
+        <h3 class="text-sm font-semibold text-foreground-primary mb-6 uppercase tracking-wide">Connect</h3>
+        <ul class="space-y-4">
+          {socialLinks.map((link) => (
+            <li>
+              <a 
+                href={link.href} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 flex items-center gap-3 group"
+              >
+                <span class="text-lg group-hover:scale-110 transition-transform duration-200">{link.icon}</span>
+                <span class="group-hover:translate-x-1 transition-transform duration-200">{link.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="border-t border-default mt-16 pt-8">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <p class="text-sm text-foreground-secondary">
+          &copy; {currentYear} Clownware. All rights reserved.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 text-xs">
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800">
+            🔒 MIT Licensed
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary-100 text-secondary-800">
+            🎆 Production Ready
+          </span>
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800">
+            🤖 AI Optimized
+          </span>
+        </div>
+      </div>
+    </div>
+  </Container>
 </footer>

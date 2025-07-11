@@ -6,6 +6,6 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<div class:list={["overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900", className]}>
+<div class:list={["overflow-hidden rounded-lg border border-primary bg-background-secondary shadow-sm", className]}>
   <slot />
 </div>

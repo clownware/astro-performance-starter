@@ -1,4 +1,6 @@
+import typography from "@tailwindcss/typography";
 import type { Config } from "tailwindcss";
+
 import tokens from "./tokens/dist/tailwind-tokens.json";
 
 /**
@@ -37,13 +39,70 @@ const config: Config = {
   darkMode: "class",
   theme: {
     extend: {
-      colors: transformTokens(tokens.colors),
+      // Design tokens -> Tailwind colors
+      // Existing palette tokens are transformed above. Add semantic aliases so
+      // utilities like `text-foreground-primary` work out-of-the-box.
+      colors: {
+        ...transformTokens(tokens.colors),
+        foreground: {
+          primary: "var(--color-foreground-primary)",
+          secondary: "var(--color-foreground-secondary)",
+        },
+        background: {
+          primary: "var(--color-background-primary)",
+          secondary: "var(--color-background-secondary)",
+        },
+        border: {
+          primary: "var(--color-border-primary)",
+        },
+        success: {
+          100: "var(--color-success-100)",
+          600: "var(--color-success-600)",
+          700: "var(--color-success-700)",
+        },
+        warning: {
+          100: "var(--color-warning-100)",
+          600: "var(--color-warning-600)",
+          700: "var(--color-warning-700)",
+        },
+        error: {
+          100: "var(--color-error-100)",
+          600: "var(--color-error-600)",
+          700: "var(--color-error-700)",
+        },
+      },
       spacing: transformTokens(tokens.spacing),
       fontSize: transformTokens(tokens.fontSize),
       borderRadius: transformTokens(tokens.borderRadius),
       boxShadow: transformTokens(tokens.shadow),
       transitionDuration: transformTokens(tokens.motion?.duration),
       transitionTimingFunction: transformTokens(tokens.motion?.ease),
+      typography: () => ({
+        DEFAULT: {
+          css: {
+            "--tw-prose-body": "var(--color-foreground-secondary)",
+            "--tw-prose-headings": "var(--color-foreground-primary)",
+            "--tw-prose-lead": "var(--color-foreground-secondary)",
+            "--tw-prose-links": "var(--color-primary-600)",
+            "--tw-prose-bold": "var(--color-foreground-primary)",
+            "--tw-prose-counters": "var(--color-foreground-secondary)",
+            "--tw-prose-bullets": "var(--color-border-primary)",
+            "--tw-prose-hr": "var(--color-border-primary)",
+            "--tw-prose-quotes": "var(--color-foreground-primary)",
+            "--tw-prose-quote-borders": "var(--color-border-primary)",
+            "--tw-prose-captions": "var(--color-foreground-secondary)",
+            "--tw-prose-code": "var(--color-foreground-primary)",
+            "--tw-prose-pre-code": "var(--color-foreground-primary)",
+            "--tw-prose-pre-bg": "var(--color-background-secondary)",
+            "--tw-prose-th-borders": "var(--color-border-primary)",
+            "--tw-prose-td-borders": "var(--color-border-primary)",
+            // Add hover states for links
+            "a:hover": {
+              color: "var(--color-primary-700)",
+            },
+          },
+        },
+      }),
       animation: {
         "fade-in": "fade-in 0.5s ease-in-out",
         "slide-up": "slide-up 0.3s ease-out",
@@ -61,6 +120,7 @@ const config: Config = {
     },
   },
   plugins: [
+    typography,
     // Accessibility plugin
     ({ addUtilities }) => {
       addUtilities({

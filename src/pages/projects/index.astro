@@ -1,0 +1,235 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Badge from "@/components/atoms/Badge.astro";
+import Button from "@/components/atoms/Button.astro";
+import ProjectCard from "@/components/molecules/ProjectCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+// Load project entries from content collection and sort by publishedDate (desc)
+const entries = await getCollection(
+  "projects",
+  ({ data }: CollectionEntry<"projects">) => !data.draft,
+);
+
+// Project item shape used for UI rendering
+interface ProjectItem {
+  title: string;
+  description: string;
+  image: string;
+  techStack: string[];
+  demoUrl?: string;
+  githubUrl?: string;
+  href: string;
+  date: Date;
+  tags: string[];
+}
+
+// Transform to simple objects for UI
+const projects: ProjectItem[] = entries
+  .sort(
+    (a: CollectionEntry<"projects">, b: CollectionEntry<"projects">) =>
+      new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+  )
+  .map((entry: CollectionEntry<"projects">) => ({
+    title: entry.data.title,
+    description: entry.data.description,
+    image: entry.data.cardImage
+      ? typeof entry.data.cardImage === "string"
+        ? entry.data.cardImage
+        : entry.data.cardImage.src
+      : entry.data.cover
+        ? typeof entry.data.cover === "string"
+          ? entry.data.cover
+          : entry.data.cover.src
+        : "/logo.svg",
+    techStack: entry.data.technologies ?? [],
+    demoUrl: entry.data.externalUrl ?? undefined,
+    githubUrl: entry.data.githubUrl ?? undefined,
+    href: `/projects/${entry.slug}/`,
+    date: entry.data.date,
+    tags: entry.data.tags ?? [],
+  }));
+
+// Extract unique tech stack items for filtering
+const allTechStack = [
+  ...new Set(projects.flatMap((project: ProjectItem) => project.techStack)),
+].sort();
+
+const pageTitle = "Projects";
+const pageDescription =
+  "Explore our portfolio of web development projects showcasing modern technologies and best practices.";
+---
+
+<BaseLayout
+  title={pageTitle}
+  description={pageDescription}
+  image="/og-default.jpg"
+>
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <!-- Page Header -->
+    <div class="mb-12 text-center">
+      <h1 class="mb-4 text-4xl font-bold tracking-tight text-foreground-default sm:text-5xl">
+        {pageTitle}
+      </h1>
+      <p class="mx-auto max-w-2xl text-lg text-foreground-subtle">
+        {pageDescription}
+      </p>
+    </div>
+
+    <!-- Filter Controls -->
+    <section class="mb-12" aria-labelledby="filter-heading">
+      <h2 id="filter-heading" class="mb-4 text-center text-xl font-bold text-foreground-default">Filter by Technology</h2>
+      <div class="flex flex-wrap justify-center gap-3">
+        <Button 
+          variant="ghost" 
+          size="sm"
+          class="filter-btn active"
+          data-filter="all"
+        >
+          All Projects
+        </Button>
+        {allTechStack.map((tech) => (
+          <Badge class="cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors duration-200 filter-badge" data-filter={tech.toLowerCase()}>
+            {tech}
+          </Badge>
+        ))}
+      </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section class="text-center" aria-labelledby="projects-heading">
+      <h2 id="projects-heading" class="mb-8 text-center text-2xl font-bold text-foreground-default">All Projects</h2>
+      <div class="flex flex-wrap justify-center gap-8">
+        {projects.map((project) => (
+          <ProjectCard
+            class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]"
+            title={project.title}
+            description={project.description}
+            image={project.image}
+            techStack={project.techStack}
+            demoUrl={project.demoUrl}
+            githubUrl={project.githubUrl}
+            href={project.href}
+            date={project.date}
+            tags={project.tags}
+            data-tech-stack={project.techStack.map((tech) => tech.toLowerCase()).join(' ')}
+          />
+        ))}
+      </div>
+    </section>
+
+    <!-- Empty State (hidden by default, shown when no projects match filter) -->
+    <div id="empty-state" class="hidden text-center py-12">
+      <div class="text-6xl mb-4" aria-hidden="true">🔍</div>
+      <h3 class="text-xl font-semibold text-foreground-primary mb-2">
+        No projects found
+      </h3>
+      <p class="text-foreground-secondary mb-6">
+        Try selecting a different technology filter or view all projects.
+      </p>
+      <Button 
+        variant="primary" 
+        size="md"
+        class="reset-filter-btn"
+      >
+        Show All Projects
+      </Button>
+    </div>
+
+    <!-- Load More Section -->
+    <section class="text-center mt-12">
+      <p class="text-foreground-secondary mb-6">
+        Want to see more projects? Check out our complete portfolio.
+      </p>
+      <Button 
+        variant="secondary" 
+        size="lg"
+        href="#"
+        class="inline-flex items-center"
+      >
+        <span class="mr-2" aria-hidden="true">📂</span>
+        View All Projects
+      </Button>
+    </section>
+  </div>
+</BaseLayout>
+
+<script lang="js" is:inline>
+  // Client-side filtering functionality
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll(
+      '.filter-btn'
+    );
+    const filterBadges = document.querySelectorAll(
+      '.filter-badge'
+    );
+    const projectCards = document.querySelectorAll(
+      '[data-tech-stack]'
+    );
+    const emptyState = document.getElementById('empty-state');
+    const resetButton = document.querySelector(
+      '.reset-filter-btn'
+    );
+
+    const filterProjects = (filterValue) => {
+      let visibleCount = 0;
+
+      projectCards.forEach((card) => {
+        const techStack = card.getAttribute('data-tech-stack') || '';
+        const shouldShow = filterValue === 'all' || techStack.includes(filterValue);
+        card.style.display = shouldShow ? 'block' : 'none';
+        if (shouldShow) visibleCount++;
+      });
+
+      if (emptyState) {
+        emptyState.classList.toggle('hidden', visibleCount !== 0);
+      }
+
+      filterButtons.forEach((btn) => btn.classList.remove('active'));
+      filterBadges.forEach((badge) => badge.classList.remove('active'));
+    };
+
+    filterButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const filterValue = button.getAttribute('data-filter') ?? 'all';
+        filterProjects(filterValue);
+        button.classList.add('active');
+      });
+    });
+
+    filterBadges.forEach((badge) => {
+      badge.addEventListener('click', () => {
+        const filterValue = badge.getAttribute('data-filter') ?? 'all';
+        filterProjects(filterValue);
+        badge.classList.add('active');
+      });
+    });
+
+    resetButton?.addEventListener('click', () => {
+      filterProjects('all');
+      filterButtons.forEach((btn) => {
+        if (btn.getAttribute('data-filter') === 'all') {
+          btn.classList.add('active');
+        } else {
+          btn.classList.remove('active');
+        }
+      });
+    });
+  });
+</script>
+
+<style>
+  .filter-btn.active {
+    @apply bg-primary-600 text-white;
+  }
+  .filter-badge.active {
+    @apply bg-primary-600 text-white;
+  }
+  [data-tech-stack] {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+  [data-tech-stack][style*="display: none"] {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+</style>
