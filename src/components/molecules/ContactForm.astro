@@ -21,14 +21,17 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
     className
   ]}
   action={action}
+  name="contact"
   method="POST"
-  data-netlify="true"
-  data-netlify-honeypot="bot-field"
+  data-static-form-name="contact"
   {...attrs}
 >
-  <!-- Honeypot field for spam protection -->
-  <input type="hidden" name="bot-field" />
-  <input type="hidden" name="form-name" value="contact" />
+  <!-- Honeypot field for spam protection (optional but good practice) -->
+  <p class="hidden">
+    <label>
+      Don’t fill this out if you’re human: <input name="bot-field" />
+    </label>
+  </p>
   
   <div class="contact-form__field">
     <label 
