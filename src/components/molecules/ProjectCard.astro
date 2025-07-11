@@ -1,0 +1,337 @@
+---
+import type { HTMLAttributes } from "astro/types";
+import Badge from "@/components/atoms/Badge.astro";
+import { formatDate } from "@/utils/formatDate";
+
+interface Props extends HTMLAttributes<"article"> {
+  title: string;
+  description: string;
+  image: string;
+  techStack: string[];
+  demoUrl?: string;
+  githubUrl?: string;
+  href?: string;
+  date?: Date | string;
+  tags?: string[];
+  client?: string;
+  projectRole?: string;
+  duration?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  techStack,
+  demoUrl,
+  githubUrl,
+  href,
+  date,
+  tags = [],
+  client,
+  projectRole,
+  duration,
+  class: className,
+  ...attrs
+} = Astro.props;
+
+// Format date if provided
+const formattedDate = date ? formatDate(date, "short") : null;
+const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60 * 1000 : false;
+---
+
+{href ? (
+  <a href={href} class="block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg">
+    <article 
+      class:list={["w-full", 
+        "project-card",
+        "bg-background-secondary",
+        "border border-primary",
+        "rounded-lg",
+        "overflow-hidden",
+        "transition-all duration-300",
+        "hover:shadow-lg hover:border-primary-300",
+        "focus-within:ring-2 focus-within:ring-primary-500",
+        className
+      ]} 
+      {...attrs}
+    >
+      <div class="project-card__image-container relative overflow-hidden">
+        <img 
+          src={image} 
+          alt={`Screenshot of ${title} project`}
+          class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      
+      <div class="project-card__content p-6">
+        <header class="project-card__header mb-4">
+          <div class="project-card__meta flex flex-wrap items-center gap-2 mb-3 text-sm text-foreground-secondary">
+            {formattedDate && (
+              <time datetime={date instanceof Date ? date.toISOString() : date}>
+                {formattedDate}
+              </time>
+            )}
+            {isRecent && (
+              <Badge class="bg-secondary-600 text-white text-xs px-2 py-0.5">New</Badge>
+            )}
+            {client && (
+              <span class="flex items-center gap-1">
+                <span class="text-foreground-secondary">•</span>
+                <span class="font-medium">{client}</span>
+              </span>
+            )}
+            {projectRole && (
+              <span class="flex items-center gap-1">
+                <span class="text-foreground-secondary">•</span>
+                <span>{projectRole}</span>
+              </span>
+            )}
+            {duration && (
+              <span class="flex items-center gap-1">
+                <span class="text-foreground-secondary">•</span>
+                <span>{duration}</span>
+              </span>
+            )}
+          </div>
+          
+          <h3 class="project-card__title text-xl font-semibold text-foreground-primary mb-2">
+            {title}
+          </h3>
+          <p class="project-card__description text-foreground-secondary leading-relaxed">
+            {description}
+          </p>
+        </header>
+        
+        {tags.length > 0 && (
+          <div class="project-card__tags mb-4">
+            <div class="flex items-center gap-2 mb-2">
+              <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Categories</span>
+            </div>
+            <ul class="flex flex-wrap gap-2" role="list">
+              {tags.map((tag) => (
+                <li>
+                  <Badge>{tag}</Badge>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        
+        <div class="project-card__tech-stack mb-6">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Technologies</span>
+          </div>
+          <ul class="flex flex-wrap gap-2" role="list">
+            {techStack.map((tech) => (
+              <li>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">
+                  {tech}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        
+        {(demoUrl || githubUrl) && (
+          <footer class="project-card__actions flex gap-3">
+            {demoUrl && (
+              <a 
+                href={demoUrl}
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View live demo of ${title} project`}
+              >
+                <span class="mr-2" aria-hidden="true">🚀</span>
+                Live Demo
+              </a>
+            )}
+            {githubUrl && (
+              <a 
+                href={githubUrl}
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={`View ${title} source code on GitHub`}
+              >
+                <span class="mr-2" aria-hidden="true">📁</span>
+                Source Code
+              </a>
+            )}
+          </footer>
+        )}
+      </div>
+    </article>
+  </a>
+) : (
+  <article 
+    class:list={["w-full", 
+      "project-card",
+      "bg-background-subtle",
+      "border border-default",
+      "rounded-lg",
+      "overflow-hidden",
+      "transition-all duration-300",
+      "hover:shadow-lg hover:border-primary-300",
+      "focus-within:ring-2 focus-within:ring-primary-500",
+      className
+    ]} 
+    {...attrs}
+  >
+    <div class="project-card__image-container relative overflow-hidden">
+      <img 
+        src={image} 
+        alt={`Screenshot of ${title} project`}
+        class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+        loading="lazy"
+        decoding="async"
+      />
+    </div>
+    
+    <div class="project-card__content p-6">
+      <header class="project-card__header mb-4">
+        <div class="project-card__meta flex flex-wrap items-center gap-2 mb-3 text-sm text-foreground-secondary">
+          {formattedDate && (
+            <time datetime={date instanceof Date ? date.toISOString() : date}>
+              {formattedDate}
+            </time>
+          )}
+          {isRecent && (
+            <Badge class="bg-secondary-600 text-white text-xs px-2 py-0.5">New</Badge>
+          )}
+          {client && (
+            <span class="flex items-center gap-1">
+              <span class="text-foreground-secondary">•</span>
+              <span class="font-medium">{client}</span>
+            </span>
+          )}
+          {projectRole && (
+            <span class="flex items-center gap-1">
+              <span class="text-foreground-secondary">•</span>
+              <span>{projectRole}</span>
+            </span>
+          )}
+          {duration && (
+            <span class="flex items-center gap-1">
+              <span class="text-foreground-secondary">•</span>
+              <span>{duration}</span>
+            </span>
+          )}
+        </div>
+        
+        <h3 class="project-card__title text-xl font-semibold text-foreground-primary mb-2">
+          {title}
+        </h3>
+        <p class="project-card__description text-foreground-secondary leading-relaxed">
+          {description}
+        </p>
+      </header>
+      
+      {tags.length > 0 && (
+        <div class="project-card__tags mb-4">
+          <span class="sr-only">Project categories:</span>
+          <ul class="flex flex-wrap gap-2" role="list">
+            {tags.map((tag) => (
+              <li>
+                <Badge>{tag}</Badge>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+      
+      <div class="project-card__tech-stack mb-6">
+        <span class="sr-only">Technologies used:</span>
+        <ul class="flex flex-wrap gap-2" role="list">
+          {techStack.map((tech) => (
+            <li>
+              <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">
+                {tech}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+      
+      {(demoUrl || githubUrl) && (
+        <footer class="project-card__actions flex gap-3">
+          {demoUrl && (
+            <a 
+              href={demoUrl}
+              class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View live demo of ${title} project`}
+            >
+              <span class="mr-2" aria-hidden="true">🚀</span>
+              Live Demo
+            </a>
+          )}
+          {githubUrl && (
+            <a 
+              href={githubUrl}
+              class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`View ${title} source code on GitHub`}
+            >
+              <span class="mr-2" aria-hidden="true">📁</span>
+              Source Code
+            </a>
+          )}
+        </footer>
+      )}
+    </div>
+  </article>
+)}
+
+<style>
+  .project-card {
+    /* Ensure consistent card height in grid layouts */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .project-card__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .project-card__actions {
+    margin-top: auto;
+  }
+  
+  .project-card__image-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      transparent 70%,
+      rgba(0, 0, 0, 0.1) 100%
+    );
+    pointer-events: none;
+  }
+  
+  /* Enhanced focus states for better accessibility */
+  .project-card:focus-within .project-card__image {
+    transform: scale(1.02);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .project-card__actions {
+      flex-direction: column;
+    }
+    
+    .project-card__actions a {
+      justify-content: center;
+    }
+  }
+</style>

@@ -3,6 +3,7 @@ import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 
 import Card from "@/components/molecules/Card.astro";
+import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
 import Container from "@/components/structural/Container.astro";
 import Grid from "@/components/structural/Grid.astro";
 import Section from "@/components/structural/Section.astro";
@@ -13,45 +14,110 @@ const features = [
     icon: "🚀",
     title: "Performance-First Architecture",
     description:
-      "Zero-JS baseline targeting 100/100 Lighthouse scores with strict quality gates enforced by Biome and CI/CD.",
-    metric: "95+ Performance",
+      "Zero-JS baseline with islands architecture. Ships with 95+ Lighthouse and CI/CD performance budgets.",
+    metric: "95+ Lighthouse",
+    expandedDetails: [
+      "Static site generation with selective hydration for optimal performance",
+      "Automatic code splitting and lazy loading for JavaScript components",
+      "Built-in image optimization with WebP/AVIF conversion",
+      "Performance budgets enforced in CI/CD pipeline",
+      "Core Web Vitals monitoring and optimization",
+    ],
   },
   {
     icon: "🤖",
-    title: "AI-Optimized Documentation",
+    title: "AI-Assisted Development",
     description:
-      "12-phase implementation guides, ADRs, and pattern libraries designed for rich, coherent AI context.",
-    metric: "12 Phases",
+      "Rich context documentation and prompt libraries that supercharge AI coding for 10x faster development.",
+    metric: "10x Faster",
+    expandedDetails: [
+      "Structured documentation that AI assistants can understand and use effectively",
+      "Architectural Decision Records (ADRs) for tracking design choices",
+      "Phase-by-phase implementation guides with clear milestones",
+      "Pattern libraries with real-world examples and anti-patterns",
+      "Context-aware documentation that adapts to your project needs",
+    ],
   },
   {
     icon: "🎨",
-    title: "Token-Driven Design System",
+    title: "Enterprise-Grade Design System",
     description:
-      "Full dark mode support with WCAG AA accessibility and automated contrast validation built into CI.",
-    metric: "Design Tokens",
+      "Semantic design tokens with automatic dark mode, WCAG AA compliance, and automated contrast validation.",
+    metric: "WCAG AA",
+    expandedDetails: [
+      "Semantic color tokens that automatically adapt to light/dark themes",
+      "WCAG AA contrast ratio validation in build process",
+      "Consistent spacing, typography, and color scales",
+      "Automated design token generation from source files",
+      "Theme switching with system preference detection",
+    ],
   },
   {
     icon: "⚡",
-    title: "Modern Toolchain",
+    title: "Next-Gen Opinionated Toolchain",
     description:
-      "Biome for 20x faster linting, TypeScript strict mode, and automated versioning with Husky hooks.",
+      "Biome replaces ESLint + Prettier with 20x speed. TypeScript strict mode and automated quality gates.",
     metric: "20x Faster",
+    expandedDetails: [
+      "Biome replaces ESLint + Prettier with 20x performance improvement",
+      "TypeScript strict mode catches errors before they reach production",
+      "Git hooks for automated code quality checks",
+      "Conventional commits with automated changelog generation",
+      "Dependency vulnerability scanning and updates",
+    ],
   },
   {
-    icon: "🔧",
+    icon: "🧩",
     title: "Production-Ready Components",
     description:
-      "Atomic design with structural primitives, optimized Image wrapper, and zero-config Tailwind setup.",
-    metric: "Zero Config",
+      "Battle-tested atomic design system with accessible primitives, responsive layouts, and TypeScript interfaces.",
+    metric: "Type-Safe",
+    expandedDetails: [
+      "Atomic design methodology: atoms, molecules, organisms, templates",
+      "Accessible components with proper ARIA attributes",
+      "Responsive design patterns built into every component",
+      "TypeScript interfaces for type-safe component props",
+      "Reusable structural components for consistent layouts",
+    ],
   },
   {
-    icon: "📚",
-    title: "Multiple Implementation Tracks",
+    icon: "🏗️",
+    title: "Robust Page Templates",
     description:
-      "Choose MVP Track (2-3 weeks) or Showcase Track (4-6 weeks) with comprehensive deployment guides.",
-    metric: "2 Tracks",
+      "Portfolio-ready pages included: About, Projects, Blog, Contact. Launch with professional content, not empty shells.",
+    metric: "Ready to Ship",
+    expandedDetails: [
+      "Professional About page with skills showcase and responsive design",
+      "Projects portfolio with grid layouts and detailed case studies",
+      "Blog system with MDX support and content collections",
+      "Contact forms with Cloudflare Pages integration",
+      "Responsive navigation and footer components",
+    ],
   },
 ];
+
+// Technical term definitions for tooltips
+const techTerms: Record<string, string> = {
+  Biome:
+    "A fast, all-in-one toolchain that replaces ESLint and Prettier with 20x better performance",
+  Preact:
+    "A lightweight 3KB alternative to React with the same API, perfect for interactive components",
+  TypeScript:
+    "JavaScript with type safety that catches errors during development instead of production",
+  Astro:
+    "A modern web framework that delivers zero JavaScript by default with optional interactive islands",
+  "Tailwind CSS": "A utility-first CSS framework that lets you build designs directly in your HTML",
+  Sharp:
+    "High-performance image processing library that automatically optimizes images for the web",
+  Playwright: "Cross-browser testing framework that works with Chrome, Firefox, Safari, and Edge",
+  Vitest: "Lightning-fast unit testing framework built on Vite with hot module replacement",
+  "WCAG AA":
+    "Web Content Accessibility Guidelines level AA - the standard for accessible web content",
+  "Islands Architecture":
+    "A pattern where interactive components are isolated islands in a sea of static HTML",
+  "Zero-JS baseline":
+    "The site works perfectly without JavaScript, then progressively enhances with interactivity",
+};
 
 const metrics = [
   { label: "Performance", score: "95+", icon: "🚀" },
@@ -61,15 +127,74 @@ const metrics = [
 ];
 
 const techStack = [
-  { name: "Astro", version: "v5.x", description: "Modern web framework" },
-  { name: "TypeScript", version: "v5.8.3", description: "Strict mode enabled" },
-  { name: "Tailwind CSS", version: "v3.4.4", description: "Utility-first styling" },
-  { name: "Biome", version: "v2.0.6", description: "20x faster linting" },
-  { name: "Preact", version: "v10.x", description: "Interactive islands" },
-  { name: "Playwright", version: "v1.x", description: "E2E testing" },
-  { name: "Vitest", version: "v2.x", description: "Fast unit testing" },
-  { name: "Sharp", version: "v0.x", description: "Image optimization" },
+  {
+    name: "Astro",
+    version: "v5.x",
+    description: "Static site generator with islands",
+    benefit: "Zero-JS by default, blazing fast performance",
+    category: "Framework",
+  },
+  {
+    name: "TypeScript",
+    version: "v5.8.3",
+    description: "Type-safe JavaScript with strict mode",
+    benefit: "Catch errors early, better DX",
+    category: "Language",
+  },
+  {
+    name: "Tailwind CSS",
+    version: "v3.4.4",
+    description: "Utility-first CSS framework",
+    benefit: "Rapid styling, consistent design system",
+    category: "Styling",
+  },
+  {
+    name: "Biome",
+    version: "v2.0.6",
+    description: "All-in-one toolchain for web projects",
+    benefit: "20x faster than ESLint + Prettier combined",
+    category: "Tooling",
+  },
+  {
+    name: "Preact",
+    version: "v10.x",
+    description: "Lightweight React alternative",
+    benefit: "3KB runtime, familiar React-like syntax",
+    category: "Interactivity",
+  },
+  {
+    name: "Playwright",
+    version: "v1.x",
+    description: "End-to-end testing",
+    benefit: "Reliable cross-browser testing automation",
+    category: "E2E Testing",
+  },
+  {
+    name: "Vitest",
+    version: "v2.x",
+    description: "Fast unit testing powered by Vite",
+    benefit: "Lightning-fast test execution and hot reload",
+    category: "Unit Testing",
+  },
+  {
+    name: "Sharp",
+    version: "v0.x",
+    description: "High-performance image processing",
+    benefit: "Automatic conversion, responsive images",
+    category: "Image Processing",
+  },
 ];
+
+const stackRationale = {
+  performance:
+    "Every tool chosen prioritizes speed and efficiency, from Astro's zero-JS baseline to Biome's 20x faster linting.",
+  developer_experience:
+    "Modern tooling with TypeScript strict mode, hot reload, and comprehensive testing ensures productive development.",
+  production_ready:
+    "Battle-tested tools used by major companies, with strong community support and active maintenance.",
+  future_proof:
+    "Latest versions of stable technologies that will continue to evolve with web standards.",
+};
 ---
 
 <BaseLayout
@@ -77,71 +202,87 @@ const techStack = [
   description="Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 100/100 Lighthouse scores, and AI-optimized documentation for rapid development."
 >
   <!-- Hero Section -->
-  <Section class="relative overflow-hidden pt-16 pb-32">
+  <Section class="relative overflow-hidden flex flex-col items-center justify-center text-center min-h-[calc(100vh-4rem)]">
     <!-- Background gradient -->
-    <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true">
-      <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-blue-500 to-purple-600 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
+    <div
+      class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
+      aria-hidden="true"
+    >
+      <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary-500 to-primary-700 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
     </div>
     
     <Container>
       <div class="mx-auto max-w-4xl text-center">
-        <Badge class="mb-6 bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300 text-base px-4 py-2">
+        <Badge class="mb-4 sm:mb-6 bg-primary-100 text-primary-800 text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2">
           🎆 Production-Ready Astro Template
         </Badge>
         
-        <h1 class="text-5xl font-extrabold tracking-tight text-gray-900 dark:text-white sm:text-7xl">
+        <h1 class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-foreground-primary">
           Astro Performance Starter.
-          <span class="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+          <br>
+          <span class="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
            Beyond Opinionated.
           </span>
         </h1>
         
-        <p class="mt-8 text-xl leading-8 text-gray-600 dark:text-gray-300">
-          Zero-JS baseline • Strict Quality Gates • 12-phase AI-optimized documentation
-          <br class="hidden sm:block" />
-          10x idea to production with comprehensive guides and modern toolchain.
+        <p class="mt-3 sm:mt-4 text-base sm:text-lg leading-6 sm:leading-7 text-foreground-secondary">
+          Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 100/100 Lighthouse scores, and AI-optimized documentation for rapid development.
         </p>
         
-        <div class="mt-12 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
-          <Button href="https://github.com/clownware/astro-starter-template" variant="primary">
+        <div class="mt-4 sm:mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
+          <Button href="https://github.com/clownware/astro-starter-template" variant="primary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6">
+            <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
             View on GitHub
           </Button>
-          <Button href="https://astro.clownware.org" variant="secondary">
-            View Documentation →
+          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6">
+            📖 View Documentation →
           </Button>
         </div>
         
-        <div class="mt-8 text-sm text-gray-500 dark:text-gray-400">
+        <div class="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground-subtle">
           ✓ TypeScript strict mode • ✓ Biome 20x faster linting • ✓ WCAG AA compliant
         </div>
       </div>
     </Container>
+    <!-- Scroll Indicator -->
+    <div class="absolute inset-x-0 bottom-4 flex flex-col items-center">
+      <a href="#performance" class="group flex flex-col items-center text-foreground-secondary hover:text-primary-600 transition-colors" aria-label="Scroll to next section">
+        <span class="text-xs sm:text-sm font-medium mb-1 sm:mb-2 opacity-75 group-hover:opacity-100 transition-opacity">Explore below</span>
+        <svg class="w-5 h-5 sm:w-6 sm:h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </a>
+    </div>
   </Section>
 
   <!-- Lighthouse Metrics Showcase -->
-  <Section class="bg-gray-50 dark:bg-gray-900/50">
+  <Section id="performance" class="relative bg-background-secondary">
+    <!-- Section separator -->
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
     <Container>
       <div class="text-center">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
-          🏆 Target Performance Metrics
+        <h2 class="text-3xl font-bold text-foreground-primary">
+          🎯 Lighthouse Performance Scores
         </h2>
-        <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-          Lighthouse scores out of the box with strict quality gates
+        <p class="mt-4 text-lg text-foreground-secondary">
+          Optimized for Core Web Vitals and search engine performance
         </p>
       </div>
       
-      <div class="mt-12 grid grid-cols-2 gap-6 sm:grid-cols-4">
+      <div class="mt-4 sm:mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
         {metrics.map((metric) => (
-          <Card class="text-center p-6 bg-white dark:bg-gray-800 border-2 border-green-200 dark:border-green-800">
-            <div class="text-3xl mb-3">{metric.icon}</div>
-            <div class="text-3xl font-bold text-green-600 dark:text-green-400">{metric.score}</div>
-            <div class="text-sm font-medium text-gray-700 dark:text-gray-300 mt-1">{metric.label}</div>
+          <Card class="border-2 border-primary-300 bg-background-secondary p-6 text-center">
+            <div class="text-3xl font-bold text-primary-600">{metric.score}</div>
+            <div class="mt-1 text-sm font-medium text-foreground-secondary">{metric.label}</div>
+
           </Card>
         ))}
       </div>
       
       <div class="mt-8 text-center">
-        <p class="text-sm text-gray-500 dark:text-gray-400">
+        <p class="text-sm text-foreground-subtle">
           Scores reflect ideal conditions (empty starter). Real-world results may vary by deployment and content.
         </p>
       </div>
@@ -149,91 +290,142 @@ const techStack = [
   </Section>
 
   <!-- Key Features -->
-  <Section>
+  <Section id="features" class="relative">
+    <!-- Section separator -->
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
     <Container>
       <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-3xl font-bold tracking-tight text-gray-900 dark:text-white sm:text-4xl">
+        <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl">
           Why Choose This Template?
         </h2>
-        <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-          Built for developers who want to ship fast without compromising on quality
-        </p>
+        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-foreground-subtle">
+        </div>
       </div>
       
-      <Grid class="mt-16 gap-8">
+      <Grid class="mt-12 gap-8">
         {features.map((feature) => (
-          <Card class="relative p-8 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 transition-colors">
-            <div class="flex items-start justify-between mb-4">
-              <div class="flex items-start space-x-4 flex-1">
-                <div class="text-2xl" aria-hidden="true">{feature.icon}</div>
-                <div class="flex-1">
-                  <h3 class="text-lg font-semibold text-gray-900 dark:text-white pr-4">
-                    {feature.title}
-                  </h3>
-                </div>
-              </div>
-              <Badge class="bg-blue-50 text-blue-700 dark:bg-blue-900/20 dark:text-blue-300 text-xs shrink-0">
-                {feature.metric}
-              </Badge>
-            </div>
-            <p class="text-gray-600 dark:text-gray-300 ml-12">
-              {feature.description}
-            </p>
-          </Card>
+          <ExpandableFeatureCard
+            icon={feature.icon}
+            title={feature.title}
+            description={feature.description}
+            metric={feature.metric}
+            expandedDetails={feature.expandedDetails}
+            techTerms={techTerms}
+          />
         ))}
       </Grid>
     </Container>
   </Section>
 
   <!-- Tech Stack -->
-  <Section class="bg-gray-50 dark:bg-gray-900/50">
+  <Section id="tech-stack" class="bg-background-secondary relative">
+    <!-- Section separator -->
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
     <Container>
       <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+        <h2 class="text-3xl font-bold text-foreground-primary">
           🛠️ Modern Tech Stack
         </h2>
-        <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
-          Carefully selected tools for excellent developer experience
+        <p class="mt-4 text-lg text-foreground-secondary">
+          Carefully selected tools for optimal developer experience
         </p>
       </div>
       
-      <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {techStack.map((tech) => (
-          <Card class="p-6 text-center bg-white dark:bg-gray-800 hover:border-blue-300 dark:hover:border-blue-600 transition-colors">
-            <h3 class="font-semibold text-gray-900 dark:text-white">{tech.name}</h3>
-            <p class="text-sm text-blue-600 dark:text-blue-400 font-mono font-medium">{tech.version}</p>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-1">{tech.description}</p>
+          <Card class="p-6 text-center hover:shadow-lg transition-shadow group">
+            <div class="mb-3">
+              <Badge class="bg-secondary-100 text-secondary-800 text-xs">
+                {tech.category}
+              </Badge>
+            </div>
+            <h3 class="font-semibold text-foreground-primary text-lg mb-2">{tech.name}</h3>
+            <p class="text-sm text-primary-600 font-mono font-medium mb-3">{tech.version}</p>
+            <p class="text-sm text-foreground-secondary mb-3 leading-relaxed">{tech.description}</p>
+            <div class="mt-4 pt-4 border-t border-dashed border-border-default">
+              <p class="text-xs text-foreground-subtle italic group-hover:text-foreground-secondary transition-colors">
+                                {tech.benefit}              </p>
+            </div>
           </Card>
         ))}
+      </div>
+      
+      <!-- Why This Stack Section -->
+      <div class="mt-12 mx-auto max-w-4xl">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold text-foreground-primary mb-4">
+            🤔 Why This Stack?
+          </h3>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card class="p-6">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
+              ⚡ Performance First
+            </h4>
+            <p class="text-sm text-foreground-secondary leading-relaxed">
+              {stackRationale.performance}
+            </p>
+          </Card>
+          
+          <Card class="p-6">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
+              🎯 Developer Experience
+            </h4>
+            <p class="text-sm text-foreground-secondary leading-relaxed">
+              {stackRationale.developer_experience}
+            </p>
+          </Card>
+          
+          <Card class="p-6">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
+              🏭 Production Ready
+            </h4>
+            <p class="text-sm text-foreground-secondary leading-relaxed">
+              {stackRationale.production_ready}
+            </p>
+          </Card>
+          
+          <Card class="p-6">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
+              🔮 Future Proof
+            </h4>
+            <p class="text-sm text-foreground-secondary leading-relaxed">
+              {stackRationale.future_proof}
+            </p>
+          </Card>
+        </div>
       </div>
     </Container>
   </Section>
 
   <!-- Implementation Tracks -->
-  <Section>
+  <Section id="implementation" class="relative">
+    <!-- Section separator -->
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
     <Container>
       <div class="mx-auto max-w-4xl">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-gray-900 dark:text-white">
+          <h2 class="text-3xl font-bold text-foreground-primary">
             🛤️ Choose Your Implementation Track
           </h2>
-          <p class="mt-4 text-lg text-gray-600 dark:text-gray-300">
+          <p class="mt-4 text-lg text-foreground-secondary">
             Structured paths based on your timeline and goals
           </p>
         </div>
         
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
           <!-- MVP Track -->
-          <Card class="p-8 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-900/20 dark:to-emerald-900/20 border-2 border-green-200 dark:border-green-800">
+          <Card class="p-6 bg-primary-50 border-2 border-primary-200">
             <div class="mb-4">
-              <h3 class="text-xl font-bold text-green-800 dark:text-green-300">
+              <h3 class="text-xl font-bold text-primary-800">
                 ⚡ MVP Track
               </h3>
             </div>
-            <p class="text-green-700 dark:text-green-300 mb-6">
+            <p class="text-primary-700 mb-6">
               Launch a minimum viable product with essential features and performance optimization.
             </p>
-            <ul class="text-sm text-green-600 dark:text-green-400 space-y-2 mb-6">
+            <ul class="text-sm text-primary-600 space-y-2 mb-6">
               <li>✓ Core pages and navigation</li>
               <li>✓ Performance optimization</li>
               <li>✓ SEO and accessibility</li>
@@ -245,16 +437,16 @@ const techStack = [
           </Card>
           
           <!-- Showcase Track -->
-          <Card class="p-8 bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-900/20 dark:to-indigo-900/20 border-2 border-purple-200 dark:border-purple-800">
+          <Card class="p-6 bg-secondary-50 border-2 border-secondary-200">
             <div class="mb-4">
-              <h3 class="text-xl font-bold text-purple-800 dark:text-purple-300">
+              <h3 class="text-xl font-bold text-secondary-800">
                 🏆 Showcase Track
               </h3>
             </div>
-            <p class="text-purple-700 dark:text-purple-300 mb-6">
+            <p class="text-secondary-700 mb-6">
               Build a portfolio-worthy project with advanced features and comprehensive documentation.
             </p>
-            <ul class="text-sm text-purple-600 dark:text-purple-400 space-y-2 mb-6">
+            <ul class="text-sm text-secondary-600 space-y-2 mb-6">
               <li>✓ Advanced animations</li>
               <li>✓ Complex interactions</li>
               <li>✓ Content management</li>
@@ -270,13 +462,15 @@ const techStack = [
   </Section>
 
   <!-- CTA Section -->
-  <Section class="bg-gray-900 dark:bg-black">
+  <Section class="relative bg-foreground-primary">
+    <!-- Section separator -->
+    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
     <Container>
       <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-3xl font-bold text-white">
+        <h2 class="text-3xl font-bold text-background-primary">
           Ready to Build Something Amazing?
         </h2>
-        <p class="mt-4 text-lg text-gray-300">
+        <p class="mt-4 text-lg text-background-secondary">
           Join developers using AI-assisted workflows to ship faster than ever
         </p>
         
@@ -289,7 +483,7 @@ const techStack = [
           </Button>
         </div>
         
-        <div class="mt-8 text-sm text-gray-400">
+        <div class="mt-8 text-sm text-background-secondary">
           🔒 MIT Licensed • 🎆 Production Ready • 🤖 AI Optimized
         </div>
       </div>

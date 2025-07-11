@@ -1,0 +1,236 @@
+---
+import Badge from "@/components/atoms/Badge.astro";
+import Button from "@/components/atoms/Button.astro";
+import SocialLink from "@/components/atoms/SocialLink.astro";
+import Card from "@/components/molecules/Card.astro";
+import ContactForm from "@/components/molecules/ContactForm.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="Contact Us"
+  description="Get in touch with our team. We'd love to hear from you and discuss your project needs."
+>
+  <main class="min-h-screen bg-background-primary">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-950 dark:to-secondary-950 py-16">
+      <div class="container mx-auto px-4">
+        <div class="max-w-3xl mx-auto text-center">
+          <h1 class="text-4xl md:text-5xl font-bold text-foreground-default mb-6">
+            Let's Start a Conversation
+          </h1>
+          <p class="text-xl text-foreground-subtle mb-8 leading-relaxed">
+            Whether you have a question, want to discuss a project, or just want to say hello, 
+            we're here to help. Choose the method that works best for you.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <Badge>Available for new projects</Badge>
+            <Badge>Remote-friendly</Badge>
+            <Badge>Quick response time</Badge>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <section class="py-16">
+      <div class="container mx-auto px-4">
+        <div class="grid lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          
+          <!-- Contact Form Section -->
+          <div class="space-y-8">
+            <div class="text-center lg:text-left">
+              <h2 class="text-3xl font-bold text-foreground-default mb-4">
+                Send us a message
+              </h2>
+              <p class="text-foreground-subtle mb-6">
+                Fill out the form below and we'll get back to you within 24 hours.
+              </p>
+            </div>
+            
+            <!-- Primary Component Showcase: ContactForm -->
+            <ContactForm action="/contact" />
+            
+            <div class="text-sm text-foreground-subtle text-center lg:text-left">
+              <p>
+                By submitting this form, you agree to our privacy policy. 
+                We'll never share your information with third parties.
+              </p>
+            </div>
+          </div>
+
+          <!-- Alternative Contact Methods -->
+          <div class="space-y-8">
+            <div class="text-center lg:text-left">
+              <h2 class="text-3xl font-bold text-foreground-default mb-4">
+                Other ways to reach us
+              </h2>
+              <p class="text-foreground-subtle mb-6">
+                Prefer a different communication method? We've got you covered.
+              </p>
+            </div>
+
+            <!-- Contact Methods using Card components -->
+            <div class="space-y-6">
+              <Card class="p-6">
+                <div class="flex items-start space-x-4">
+                  <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
+                    <span class="text-2xl">📧</span>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-foreground-default mb-2">Email</h3>
+                    <p class="text-foreground-subtle mb-3">
+                      For detailed inquiries or project discussions
+                    </p>
+                    <Button 
+                      href="mailto:hello@example.com" 
+                      variant="secondary" 
+                      size="sm"
+                    >
+                      hello@example.com
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+
+              <Card class="p-6">
+                <div class="flex items-start space-x-4">
+                  <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
+                    <span class="text-2xl">💬</span>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-foreground-default mb-2">Live Chat</h3>
+                    <p class="text-foreground-subtle mb-3">
+                      Quick questions? Chat with us in real-time
+                    </p>
+                    <div class="flex items-center space-x-2">
+                      <Badge>Online now</Badge>
+                      <span class="text-sm text-foreground-subtle">
+                        Mon-Fri, 9AM-5PM EST
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Card>
+
+              <Card class="p-6">
+                <div class="flex items-start space-x-4">
+                  <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
+                    <span class="text-2xl">📞</span>
+                  </div>
+                  <div class="flex-1">
+                    <h3 class="text-lg font-semibold text-foreground-default mb-2">Phone</h3>
+                    <p class="text-foreground-subtle mb-3">
+                      Prefer to talk? Schedule a call with our team
+                    </p>
+                    <Button 
+                      href="tel:+1234567890" 
+                      variant="secondary" 
+                      size="sm"
+                    >
+                      +1 (234) 567-890
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            </div>
+
+            <!-- Social Media Links -->
+            <div class="pt-8 border-t border-border-default">
+              <h3 class="text-xl font-semibold text-foreground-default mb-4">
+                Follow us on social media
+              </h3>
+              <div class="flex space-x-4">
+                <SocialLink 
+                  platform="github" 
+                  href="https://github.com/example" 
+                  showIcon={true}
+                />
+                <SocialLink 
+                  platform="linkedin" 
+                  href="https://linkedin.com/company/example" 
+                  showIcon={true}
+                />
+                <SocialLink 
+                  platform="twitter" 
+                  href="https://twitter.com/example" 
+                  showIcon={true}
+                />
+              </div>
+            </div>
+
+            <!-- Location & Availability -->
+            <div class="pt-8 border-t border-border-default">
+              <h3 class="text-xl font-semibold text-foreground-default mb-4">
+                Location & Availability
+              </h3>
+              <div class="space-y-4">
+                <div class="flex items-center space-x-3">
+                  <span class="text-foreground-subtle">📍</span>
+                  <span class="text-foreground-default">San Francisco, CA</span>
+                  <Badge>Remote-friendly</Badge>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span class="text-foreground-subtle">🕒</span>
+                  <span class="text-foreground-default">Mon-Fri, 9AM-6PM PST</span>
+                  <Badge>Quick response</Badge>
+                </div>
+                <div class="flex items-center space-x-3">
+                  <span class="text-foreground-subtle">🌍</span>
+                  <span class="text-foreground-default">Serving clients worldwide</span>
+                  <Badge>Global reach</Badge>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Response Expectations -->
+    <section class="py-16 bg-background-surface">
+      <div class="container mx-auto px-4">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-3xl font-bold text-foreground-default mb-8">
+            What to expect after reaching out
+          </h2>
+          <div class="grid md:grid-cols-3 gap-8">
+            <div class="space-y-4">
+              <div class="w-16 h-16 bg-surface-subtle rounded-full flex items-center justify-center mx-auto">
+                <span class="text-2xl">⚡</span>
+              </div>
+              <h3 class="text-xl font-semibold text-foreground-default">
+                Quick Response
+              </h3>
+              <p class="text-foreground-subtle">
+                We'll acknowledge your message within 2 hours during business hours
+              </p>
+            </div>
+            <div class="space-y-4">
+              <div class="w-16 h-16 bg-secondary-100 dark:bg-secondary-900 rounded-full flex items-center justify-center mx-auto">
+                <span class="text-2xl">🎯</span>
+              </div>
+              <h3 class="text-xl font-semibold text-foreground-default">
+                Detailed Follow-up
+              </h3>
+              <p class="text-foreground-subtle">
+                Within 24 hours, we'll provide a comprehensive response to your inquiry
+              </p>
+            </div>
+            <div class="space-y-4">
+              <div class="w-16 h-16 bg-accent-100 dark:bg-accent-900 rounded-full flex items-center justify-center mx-auto">
+                <span class="text-2xl">🤝</span>
+              </div>
+              <h3 class="text-xl font-semibold text-foreground-default">
+                Next Steps
+              </h3>
+              <p class="text-foreground-subtle">
+                We'll schedule a call or meeting to discuss your project in detail
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

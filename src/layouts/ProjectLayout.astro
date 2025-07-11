@@ -1,0 +1,289 @@
+---
+import type { ImageMetadata } from "astro";
+import Badge from "@/components/atoms/Badge.astro";
+import Button from "@/components/atoms/Button.astro";
+import Image from "@/components/atoms/Image.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatDate } from "@/utils/formatDate";
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalURL?: URL;
+  // Project-specific props
+  project: {
+    title: string;
+    description: string;
+    cover: ImageMetadata | string;
+    coverAlt: string;
+    technologies: string[];
+    date?: Date | string;
+    client?: string;
+    duration?: string;
+    role?: string;
+    tags?: string[];
+    externalUrl?: string;
+    outcomes?: Array<{
+      metric: string;
+      value: string;
+      description?: string;
+    }>;
+  };
+}
+
+const { title, description, image, canonicalURL, project } = Astro.props;
+
+// Format dates if provided
+const publishedDate = project.date ? formatDate(project.date, "full") : null;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  canonicalURL={canonicalURL}
+>
+  <article class="project-article">
+    <!-- Project Hero Section -->
+    <header class="project-hero relative overflow-hidden bg-gradient-to-br from-background-primary to-background-secondary">
+      <div class="mx-auto max-w-4xl px-4 py-12 lg:py-20 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Project Info -->
+          <div class="project-info">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
+              <ol class="flex items-center space-x-2 text-sm text-foreground-secondary">
+                <li>
+                  <a 
+                    href="/projects/" 
+                    class="hover:text-foreground-primary transition-colors duration-200"
+                    aria-label="Back to projects"
+                  >
+                    Projects
+                  </a>
+                </li>
+                <li class="flex items-center">
+                  <span class="mx-2" aria-hidden="true">→</span>
+                  <span class="text-foreground-primary font-medium">{project.title}</span>
+                </li>
+              </ol>
+            </nav>
+
+            <!-- Project Title -->
+            <h1 class="project-title text-4xl lg:text-5xl font-bold text-foreground-primary mb-4 leading-tight">
+              {project.title}
+            </h1>
+
+            <!-- Project Description -->
+            <p class="project-description text-lg text-foreground-secondary mb-6 leading-relaxed">
+              {project.description}
+            </p>
+
+            <!-- Project Meta -->
+            <div class="project-meta flex flex-wrap items-center gap-4 mb-8">
+              {project.client && (
+                <Badge class="text-sm">
+                  {project.client}
+                </Badge>
+              )}
+              {project.role && (
+                <span class="text-sm text-foreground-secondary">
+                  {project.role}
+                </span>
+              )}
+              {publishedDate && (
+                <span class="text-sm text-foreground-secondary">
+                  <time datetime={project.date?.toString()}>
+                    {publishedDate}
+                  </time>
+                </span>
+              )}
+              {project.duration && (
+                <span class="text-sm text-foreground-secondary">
+                  {project.duration}
+                </span>
+              )}
+            </div>
+
+            <!-- Call-to-Action Buttons -->
+            <div class="project-actions flex flex-wrap gap-4">
+              {project.externalUrl && (
+                <Button 
+                  variant="primary" 
+                  size="lg"
+                  href={project.externalUrl}
+                  class="inline-flex items-center"
+                >
+                  <span class="mr-2" aria-hidden="true">🚀</span>
+                  View Project
+                </Button>
+              )}
+              <Button 
+                variant="secondary" 
+                size="lg"
+                href="/projects/"
+                class="inline-flex items-center"
+              >
+                <span class="mr-2" aria-hidden="true">←</span>
+                Back to Projects
+              </Button>
+            </div>
+          </div>
+
+          <!-- Hero Image -->
+          <div class="project-hero-image">
+            <div class="relative rounded-xl overflow-hidden shadow-2xl">
+              {project.cover && (
+                <Image
+                  src={project.cover}
+                  alt={project.coverAlt || project.title}
+                  class="w-full h-auto"
+                  format="avif"
+                  quality="high"
+                  loading="eager"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  widths={[400, 600, 800, 1200]}
+                />
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-foreground-primary/20 to-transparent pointer-events-none"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="project-content mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <!-- Tech Stack Section -->
+      <section class="tech-stack-section mb-12" aria-labelledby="tech-stack-heading">
+        <h2 id="tech-stack-heading" class="text-2xl font-bold text-foreground-primary mb-6">
+          Tech Stack
+        </h2>
+        <div class="tech-stack-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {(project.technologies ?? []).map((tech: string) => (
+             <div class="tech-item text-center p-4 bg-background-secondary border border-primary rounded-lg hover:border-primary-300 transition-colors duration-200">
+               <Badge class="w-full justify-center text-sm font-medium">
+                 {tech}
+               </Badge>
+             </div>
+           ))}
+        </div>
+      </section>
+
+      <!-- Project Details -->
+      <section class="project-details mb-12" aria-labelledby="details-heading">
+        <h2 id="details-heading" class="text-2xl font-bold text-foreground-primary mb-6">
+          Project Details
+        </h2>
+        <div class="prose prose-lg max-w-none text-foreground-secondary">
+          <p class="text-lg leading-relaxed">{project.description}</p>
+          
+          <!-- Slot for additional content -->
+          <div class="additional-content mt-8">
+            <slot />
+          </div>
+        </div>
+      </section>
+
+      <!-- Back to Projects -->
+      <section class="back-navigation text-center">
+        <Button 
+          variant="ghost" 
+          size="lg"
+          href="/projects"
+          class="inline-flex items-center"
+        >
+          <span class="mr-2" aria-hidden="true">←</span>
+          Back to Projects
+        </Button>
+      </section>
+    </main>
+  </article>
+</BaseLayout>
+
+<style>
+  .project-hero {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--color-primary-300) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--color-secondary-300) / 0.1) 0%, transparent 50%);
+  }
+
+  .tech-stack-grid .tech-item {
+    transition: all 0.2s ease;
+  }
+
+  .tech-stack-grid .tech-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsl(var(--color-foreground-primary) / 0.1);
+  }
+
+  .gallery-grid .gallery-item {
+    break-inside: avoid;
+  }
+
+  .prose {
+    @apply text-foreground-primary;
+    line-height: 1.7;
+  }
+
+  .prose h1 {
+    @apply text-3xl font-bold text-foreground-primary mt-12 mb-6 leading-tight;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold text-foreground-primary mt-10 mb-5 leading-tight;
+  }
+
+  .prose h3 {
+    @apply text-xl font-semibold text-foreground-primary mt-8 mb-4 leading-tight;
+  }
+
+  .prose h4 {
+    @apply text-lg font-medium text-foreground-primary mt-6 mb-3 leading-tight;
+  }
+
+  .prose p {
+    @apply mb-6 leading-relaxed text-foreground-secondary;
+  }
+
+  .prose ul, .prose ol {
+    @apply mb-6 pl-6 space-y-2;
+  }
+
+  .prose li {
+    @apply leading-relaxed text-foreground-secondary;
+  }
+
+  .prose li strong {
+    @apply text-foreground-primary font-semibold;
+  }
+
+  .prose strong {
+    @apply text-foreground-primary font-semibold;
+  }
+
+  .prose table {
+    @apply w-full border-collapse border border-gray-200 mb-6;
+  }
+
+  .prose th {
+    @apply border border-gray-200 px-4 py-2 bg-background-secondary text-foreground-primary font-semibold text-left;
+  }
+
+  .prose td {
+    @apply border border-gray-200 px-4 py-2 text-foreground-secondary;
+  }
+
+  .prose hr {
+    @apply border-gray-200 my-8;
+  }
+
+  .prose code {
+    @apply bg-background-secondary px-1.5 py-0.5 rounded text-sm font-mono text-foreground-primary;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-primary-500 pl-4 italic text-foreground-secondary my-6;
+  }
+</style>

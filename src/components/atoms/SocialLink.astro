@@ -1,0 +1,187 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type SocialPlatform = "github" | "linkedin" | "twitter" | "facebook" | "reddit";
+
+interface Props extends HTMLAttributes<"a"> {
+  platform: SocialPlatform;
+  href: string;
+  showIcon?: boolean;
+}
+
+const { platform, href, showIcon = true, class: className, ...attrs } = Astro.props;
+
+// Platform-specific configurations
+const platformConfig = {
+  github: {
+    name: "GitHub",
+    icon: "🐙",
+    color: "hover:text-foreground-primary",
+    bgColor: "hover:bg-background-secondary",
+  },
+  linkedin: {
+    name: "LinkedIn",
+    icon: "💼",
+    color: "hover:text-primary-700",
+    bgColor: "hover:bg-primary-100",
+  },
+  twitter: {
+    name: "Twitter",
+    icon: "🐦",
+    color: "hover:text-primary-500",
+    bgColor: "hover:bg-primary-100",
+  },
+  facebook: {
+    name: "Facebook",
+    icon: "👍",
+    color: "hover:text-primary-600",
+    bgColor: "hover:bg-primary-100",
+  },
+  reddit: {
+    name: "Reddit",
+    icon: "👽",
+    color: "hover:text-secondary-500",
+    bgColor: "hover:bg-secondary-100",
+  },
+};
+
+const config = platformConfig[platform];
+const linkText = `${config.name} profile`;
+---
+
+<a 
+  class:list={[
+    "social-link",
+    "inline-flex items-center",
+    "px-3 py-2",
+    "text-sm font-medium",
+    "text-foreground-secondary",
+    "border border-transparent",
+    "rounded-md",
+    "transition-all duration-200",
+    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500",
+    config.color,
+    config.bgColor,
+    className
+  ]}
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={`Visit my ${linkText} (opens in new tab)`}
+  data-platform={platform}
+  {...attrs}
+>
+  {showIcon && (
+    <span 
+      class="social-link__icon mr-2 text-base" 
+      aria-hidden="true"
+      role="img"
+      aria-label={`${config.name} icon`}
+    >
+      {config.icon}
+    </span>
+  )}
+  
+  <span class="social-link__text">
+    {config.name}
+  </span>
+  
+  <!-- External link indicator -->
+  <span 
+    class="social-link__external ml-1 text-xs opacity-60" 
+    aria-hidden="true"
+    title="Opens in new tab"
+  >
+    ↗
+  </span>
+  
+  <!-- Screen reader only text for context -->
+  <span class="sr-only">
+    (opens in new tab)
+  </span>
+</a>
+
+<style>
+  .social-link {
+    /* Ensure consistent baseline alignment */
+    vertical-align: baseline;
+  }
+  
+  .social-link:hover .social-link__icon {
+    transform: scale(1.1);
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .social-link:hover .social-link__external {
+    opacity: 1;
+    transform: translateX(1px) translateY(-1px);
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .social-link:focus {
+    /* Enhanced focus state for better accessibility */
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* Platform-specific hover effects */
+  .social-link[data-platform="github"]:hover .social-link__icon {
+    filter: grayscale(0) brightness(1.1);
+  }
+  
+  .social-link[data-platform="linkedin"]:hover .social-link__icon {
+    filter: hue-rotate(10deg) brightness(1.1);
+  }
+  
+  .social-link[data-platform="twitter"]:hover .social-link__icon {
+    filter: hue-rotate(-10deg) brightness(1.1);
+  }
+  
+  .social-link[data-platform="facebook"]:hover .social-link__icon {
+    filter: hue-rotate(10deg) brightness(1.1);
+  }
+  
+  .social-link[data-platform="reddit"]:hover .social-link__icon {
+    filter: hue-rotate(-10deg) brightness(1.1);
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 640px) {
+    .social-link {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.875rem;
+    }
+    
+    .social-link__icon {
+      margin-right: 0.375rem;
+    }
+  }
+  
+  /* High contrast mode support */
+  @media (prefers-contrast: high) {
+    .social-link {
+      border: 1px solid currentColor;
+    }
+    
+    .social-link:hover {
+      background-color: currentColor;
+      color: white;
+    }
+  }
+  
+  /* Reduced motion support */
+  @media (prefers-reduced-motion: reduce) {
+    .social-link,
+    .social-link__icon,
+    .social-link__external {
+      transition: none;
+    }
+    
+    .social-link:hover .social-link__icon {
+      transform: none;
+    }
+    
+    .social-link:hover .social-link__external {
+      transform: none;
+    }
+  }
+</style>

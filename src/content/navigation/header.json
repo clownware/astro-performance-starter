@@ -21,11 +21,16 @@
       "order": 4
     },
     {
+      "label": "Contact",
+      "href": "/contact/",
+      "order": 5
+    },
+    {
       "label": "GitHub",
-      "href": "https://github.com/your-repo/astro-performance-starter",
+      "href": "https://github.com/clownware/astro-starter-template",
       "isExternal": true,
       "icon": "github-logo",
-      "order": 5
+      "order": 6
     }
   ]
 }

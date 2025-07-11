@@ -1,0 +1,20 @@
+---
+import { readFile } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { Code } from "astro-expressive-code/components";
+
+export interface Props {
+  src: string;
+  lang: string;
+  title: string;
+  parentURL: string;
+}
+
+const { src, lang, title, parentURL } = Astro.props;
+
+// Resolve the file path relative to the component that uses this one
+const resolvedPath = new URL(src, parentURL);
+const code = await readFile(fileURLToPath(resolvedPath), "utf-8");
+---
+
+<Code code={code} lang={lang} title={title} />

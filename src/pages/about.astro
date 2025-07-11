@@ -1,0 +1,233 @@
+---
+
+import Button from "@/components/atoms/Button.astro";
+import Image from "@/components/atoms/Image.astro";
+import SocialLink from "@/components/atoms/SocialLink.astro";
+// Import the avatar image
+import avatarImage from "@/images/avatar-placeholder.png";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+// Skills data
+const skills = [
+  "TypeScript",
+  "Astro",
+  "React",
+  "Vue",
+  "Node.js",
+  "Python",
+  "Tailwind CSS",
+  "PostgreSQL",
+  "Docker",
+  "AWS",
+  "Git",
+  "Figma",
+];
+
+// Experience data
+const experiences = [
+  {
+    title: "Senior Full-Stack Developer",
+    company: "Tech Innovations Inc.",
+    period: "2022 - Present",
+    description:
+      "Leading development of modern web applications using Astro, React, and TypeScript. Architected scalable solutions serving 100K+ users.",
+  },
+  {
+    title: "Frontend Developer",
+    company: "Digital Solutions Co.",
+    period: "2020 - 2022",
+    description:
+      "Built responsive web applications with focus on performance and accessibility. Improved Core Web Vitals scores by 40%.",
+  },
+  {
+    title: "Junior Developer",
+    company: "StartupXYZ",
+    period: "2019 - 2020",
+    description:
+      "Developed features for SaaS platform using Vue.js and Node.js. Collaborated with design team to implement pixel-perfect UIs.",
+  },
+];
+---
+
+<BaseLayout
+  title="About"
+  description="Learn about my journey as a full-stack developer, my skills, and experience building modern web applications."
+  image="/og-about.jpg"
+>
+  <main id="main-content" class="min-h-screen">
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-br from-primary-50 to-secondary-50 pt-16 pb-8 sm:pt-24 sm:pb-12">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <div class="mb-8">
+            <Image
+              src={avatarImage}
+              alt="Profile photo"
+              class="mx-auto h-32 w-32 rounded-full object-cover shadow-lg ring-4 ring-background-primary"
+              width={128}
+              height={128}
+              loading="eager"
+            />
+          </div>
+          <h1 class="text-4xl font-bold tracking-tight text-foreground-primary sm:text-6xl">
+            Hi, I'm Alex
+          </h1>
+          <p class="mt-6 text-lg leading-8 text-foreground-secondary">
+            A passionate full-stack developer who loves building fast, accessible, and beautiful web experiences.
+            I specialize in modern JavaScript frameworks and performance optimization.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bio Section -->
+    <section class="pt-16 sm:pt-12">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-8">
+            My Story
+          </h2>
+          <div class="prose prose-lg max-w-none">
+            <p class="text-foreground-secondary leading-relaxed mb-6">
+              My journey into web development started during college when I built my first website using HTML and CSS. 
+              What began as curiosity quickly turned into a passion for creating digital experiences that make a difference.
+            </p>
+            <p class="text-foreground-secondary leading-relaxed mb-6">
+              Over the years, I've had the privilege of working with startups and established companies, 
+              helping them build scalable web applications that serve thousands of users. I'm particularly 
+              passionate about performance optimization, accessibility, and creating maintainable codebases.
+            </p>
+            <p class="text-foreground-secondary leading-relaxed">
+              When I'm not coding, you can find me contributing to open-source projects, writing technical 
+              articles, or exploring the latest web technologies. I believe in continuous learning and 
+              sharing knowledge with the developer community.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section class="bg-background-secondary py-16 sm:py-24">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-4">
+            Skills & Technologies
+          </h2>
+          <p class="text-lg leading-8 text-foreground-secondary mb-12">
+            Technologies I work with to build modern web applications
+          </p>
+        </div>
+        <div class="mx-auto max-w-4xl">
+          <div class="flex flex-wrap justify-center gap-4">
+            {skills.map((skill) => (
+              <div class="rounded-full bg-primary-100 px-4 py-2 text-sm font-semibold text-primary-800 transition-transform duration-200 hover:scale-105">
+                {skill}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section class="py-16 sm:py-24">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-12">
+            Experience
+          </h2>
+          <div class="space-y-8">
+            {experiences.map((exp) => (
+              <article class="relative pl-8 pb-8 border-l-2 border-border-primary last:border-l-0 last:pb-0">
+                <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-primary-600 ring-4 ring-background-primary"></div>
+                <div class="space-y-2">
+                  <h3 class="text-xl font-semibold text-foreground-primary">
+                    {exp.title}
+                  </h3>
+                  <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4">
+                    <p class="text-primary-600 font-medium">
+                      {exp.company}
+                    </p>
+                    <p class="text-sm text-foreground-secondary">
+                      {exp.period}
+                    </p>
+                  </div>
+                  <p class="text-foreground-secondary leading-relaxed">
+                    {exp.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Social Links Section -->
+    <section class="bg-background-secondary py-16 sm:py-24">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-4">
+            Let's Connect
+          </h2>
+          <p class="text-lg leading-8 text-foreground-secondary mb-8">
+            Find me on these platforms or reach out directly
+          </p>
+          <div class="flex justify-center gap-6">
+            <SocialLink 
+              platform="github" 
+              href="https://github.com/clownware"
+              class="text-lg"
+            />
+            <SocialLink 
+              platform="linkedin" 
+              href="https://linkedin.com/company/clownware"
+              class="text-lg"
+            />
+            <SocialLink 
+              platform="twitter" 
+              href="https://twitter.com/clownware_dev"
+              class="text-lg"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-16 sm:py-24">
+      <div class="mx-auto max-w-7xl px-6 lg:px-8">
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-4">
+            Ready to Work Together?
+          </h2>
+          <p class="text-lg leading-8 text-foreground-secondary mb-8">
+            I'm always interested in new opportunities and exciting projects. 
+            Let's discuss how we can bring your ideas to life.
+          </p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <Button 
+              href="/contact" 
+              variant="primary" 
+              size="lg"
+              class="inline-flex items-center"
+            >
+              Get In Touch
+            </Button>
+            <Button 
+              href="/resume.pdf" 
+              variant="secondary" 
+              size="lg"
+              class="inline-flex items-center"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download Resume
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

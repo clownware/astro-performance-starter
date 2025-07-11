@@ -50,7 +50,7 @@ jobs:
         shell: bash
         run: |
           set -e
-          JS_BUNDLE_PATH="dist/assets"
+          JS_BUNDLE_PATH="dist/_astro"
           JS_SIZE_LIMIT_BYTES=163840 # 160 KB target (gzipped)
           if [ ! -d "$JS_BUNDLE_PATH" ]; then
             echo "⚠️  JS bundle path '$JS_BUNDLE_PATH' not found. Skipping size check."
