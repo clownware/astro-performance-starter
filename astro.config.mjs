@@ -18,9 +18,9 @@ const rootDir = fileURLToPath(new URL(".", import.meta.url));
 // - `undefined` (or any other value): Builds for root deployment (e.g., Cloudflare Pages).
 const isGhPages = process.env.DEPLOY_TARGET === "gh-pages";
 
-const site = isGhPages ? "https://clownware.github.io" : "https://your-production-domain.com"; // TODO: Update with your production domain
+const site = isGhPages ? "https://clownware.github.io/astro-starter-template" : "https://your-production-domain.com"; // TODO: Update with your production domain
 
-const base = isGhPages ? "/astro-starter-template" : "/";
+const base = isGhPages ? "/astro-starter-template/" : "/";
 
 export default defineConfig({
   site,
