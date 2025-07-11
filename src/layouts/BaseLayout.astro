@@ -4,9 +4,13 @@ import SkipLink from "@/components/a11y/SkipLink.astro";
 import Footer from "@/components/structural/Footer.astro";
 import Header from "@/components/structural/Header.astro";
 import ThemeSetup from "@/components/ThemeSetup.astro";
+import { siteMetadata } from "@/config";
 
 import "@fontsource-variable/inter";
 import "@/styles/global.css";
+
+// Font asset URLs for proper hashed filenames in production
+import interVarUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 
 export interface Props {
   title: string;
@@ -26,7 +30,7 @@ const {
 // Prevent Biome false positives for unused variables in Astro templates
 void { title, description, image, canonicalURL, noindex };
 
-const siteTitle = "Astro Starter Template"; // Changed from 'Your Site Name'
+const siteTitle = siteMetadata.title;
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 ---
 
@@ -65,17 +69,10 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
 
-    <!-- Font Preloading -->
+    <!-- Font Preloading (hashed URLs injected by Vite) -->
     <link
       rel="preload"
-      href="/_astro/inter-latin-400-normal.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      href="/_astro/inter-latin-700-normal.woff2"
+      href={interVarUrl}
       as="font"
       type="font/woff2"
       crossorigin="anonymous"
@@ -83,12 +80,12 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 
     <ClientRouter />
   </head>
-  <body class="flex min-h-screen flex-col bg-background text-foreground antialiased">
+  <body class="flex min-h-screen flex-col bg-background-primary text-foreground-primary antialiased">
     <!-- Theme Detection & Setup -->
     <ThemeSetup />
     <SkipLink />
     <Header />
-    <main id="main-content" class="flex-1">
+    <main id="main-content" class="flex-1 snap-y snap-mandatory overflow-y-auto">
       <slot />
     </main>
     <Footer />
