@@ -93,7 +93,7 @@
   },
   "optionalDependencies": {
     "@axe-core/playwright": "^4.10.0",
-    "style-dictionary": "^4.0.0",
+    "style-dictionary": "^5.0.1",
     "tailwindcss-themer": "^4.0.0"
   },
   "lint-staged": {

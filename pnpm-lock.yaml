@@ -40,15 +40,15 @@ importers:
         specifier: ^4.10.0
         version: 4.10.2(playwright-core@1.53.2)
       style-dictionary:
-        specifier: ^4.0.0
-        version: 4.4.0
+        specifier: ^5.0.1
+        version: 5.0.1
       tailwindcss-themer:
         specifier: ^4.0.0
         version: 4.1.1(tailwindcss@3.4.17)
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.4
-        version: 0.9.4(prettier@3.6.1)(typescript@5.8.3)
+        version: 0.9.4(prettier@3.6.2)(typescript@5.8.3)
       '@astrojs/ts-plugin':
         specifier: ^1.10.4
         version: 1.10.4
@@ -1659,6 +1659,9 @@ packages:
   '@types/node@17.0.45':
     resolution: {integrity: sha512-w+tIMs3rq2afQdsPJlODhoUEKzFP1ayaoyl1CcnwtIlsVe7K7bA1NGm4s3PraqTLlXnbIN84zuBlxBWo1u9BLw==}
 
+  '@types/node@22.16.3':
+    resolution: {integrity: sha512-sr4Xz74KOUeYadexo1r8imhRtlVXcs+j3XK3TcoiYk7B1t3YRVJgtaD3cwX73NYb71pmVuMLNRhJ9XKdoDB74g==}
+
   '@types/node@24.0.11':
     resolution: {integrity: sha512-CJV8eqrYnwQJGMrvcRhQmZfpyniDavB+7nAZYJc6w99hFYJyFN3INV1/2W3QfQrqM36WTLrijJ1fxxvGBmCSxA==}
 
@@ -1750,8 +1753,8 @@ packages:
   '@yarnpkg/lockfile@1.1.0':
     resolution: {integrity: sha512-GpSwvyXOcOOlV70vbnzjj4fW5xW/FdUF6nQEt1ENy7m4ZCczi1+/buVUPAqmGfqznsORNFzUMjctTIp8a9tuCQ==}
 
-  '@zip.js/zip.js@2.7.62':
-    resolution: {integrity: sha512-OaLvZ8j4gCkLn048ypkZu29KX30r8/OfFF2w4Jo5WXFr+J04J+lzJ5TKZBVgFXhlvSkqNFQdfnY1Q8TMTCyBVA==}
+  '@zip.js/zip.js@2.7.63':
+    resolution: {integrity: sha512-B02i6QDMUQ4c+5F9LmliBGA+jFsiEHIlF0eLQ6rWLaQOD3YwI6vyWwGkVCNJnVVguE2xYyr9fAwSD/3valm1/Q==}
     engines: {bun: '>=0.7.0', deno: '>=1.0.0', node: '>=16.5.0'}
 
   JSONStream@1.3.5:
@@ -3862,8 +3865,8 @@ packages:
     engines: {node: '>=10.13.0'}
     hasBin: true
 
-  prettier@3.6.1:
-    resolution: {integrity: sha512-5xGWRa90Sp2+x1dQtNpIpeOQpTDBs9cZDmA/qs2vDNN2i18PdapqY7CmBeyLlMuGqXJRIOPaCaVZTLNQRWUH/A==}
+  prettier@3.6.2:
+    resolution: {integrity: sha512-I7AIg5boAr5R0FFtJ6rCfD+LFsWHp81dolrFD8S79U9tb8Az2nGrJncnMSnys+bpQJfRUzqs9hnA81OAA3hCuQ==}
     engines: {node: '>=14'}
     hasBin: true
 
@@ -4292,9 +4295,9 @@ packages:
   stubborn-fs@1.2.5:
     resolution: {integrity: sha512-H2N9c26eXjzL/S/K+i/RHHcFanE74dptvvjM8iwzwbVcWY/zjBbgRqF3K0DY4+OD+uTTASTBvDoxPDaPN02D7g==}
 
-  style-dictionary@4.4.0:
-    resolution: {integrity: sha512-+xU0IA1StzqAqFs/QtXkK+XJa7wpS4X5H+JQccRKsRCElgeLGocFU1U/UMvMUylKFw6vwGV+Y/a2wb2pm5rFFQ==}
-    engines: {node: '>=18.0.0'}
+  style-dictionary@5.0.1:
+    resolution: {integrity: sha512-j+yQ4hM7a52iUQg5LVC8bnRkem4sU+unIY2qsyjoikPVzaxjkHd4ER7bnK+znW/Rhha69t4Fi5O46UHg6w8jFQ==}
+    engines: {node: '>=22.0.0'}
     hasBin: true
 
   style-to-js@1.1.17:
@@ -4480,6 +4483,9 @@ packages:
 
   uncrypto@0.1.3:
     resolution: {integrity: sha512-Ql87qFHB3s/De2ClA9e0gsnS6zXG27SkTiSJwjCc9MebbfapQfuPzumMIUMi38ezPZVNFcHI9sUIepeQfw8J8Q==}
+
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   undici-types@7.8.0:
     resolution: {integrity: sha512-9UJ2xGDvQ43tYyVMpuHlsgApydB8ZKfVYTsLDhXkFL/6gfkp+U8xTGdh8pMJv1SpZna0zxG1DwsKZsreLbXBxw==}
@@ -5034,9 +5040,9 @@ snapshots:
     optionalDependencies:
       astro: 5.11.0(@types/node@24.0.11)(jiti@2.4.2)(lightningcss@1.29.3)(rollup@4.44.1)(terser@5.39.0)(tsx@4.20.3)(typescript@5.8.3)(yaml@2.8.0)
 
-  '@astrojs/check@0.9.4(prettier@3.6.1)(typescript@5.8.3)':
+  '@astrojs/check@0.9.4(prettier@3.6.2)(typescript@5.8.3)':
     dependencies:
-      '@astrojs/language-server': 2.15.4(prettier@3.6.1)(typescript@5.8.3)
+      '@astrojs/language-server': 2.15.4(prettier@3.6.2)(typescript@5.8.3)
       chokidar: 4.0.3
       kleur: 4.1.5
       typescript: 5.8.3
@@ -5049,7 +5055,7 @@ snapshots:
 
   '@astrojs/internal-helpers@0.6.1': {}
 
-  '@astrojs/language-server@2.15.4(prettier@3.6.1)(typescript@5.8.3)':
+  '@astrojs/language-server@2.15.4(prettier@3.6.2)(typescript@5.8.3)':
     dependencies:
       '@astrojs/compiler': 2.12.2
       '@astrojs/yaml2ts': 0.2.2
@@ -5063,14 +5069,14 @@ snapshots:
       volar-service-css: 0.0.62(@volar/language-service@2.4.15)
       volar-service-emmet: 0.0.62(@volar/language-service@2.4.15)
       volar-service-html: 0.0.62(@volar/language-service@2.4.15)
-      volar-service-prettier: 0.0.62(@volar/language-service@2.4.15)(prettier@3.6.1)
+      volar-service-prettier: 0.0.62(@volar/language-service@2.4.15)(prettier@3.6.2)
       volar-service-typescript: 0.0.62(@volar/language-service@2.4.15)
       volar-service-typescript-twoslash-queries: 0.0.62(@volar/language-service@2.4.15)
       volar-service-yaml: 0.0.62(@volar/language-service@2.4.15)
       vscode-html-languageservice: 5.5.0
       vscode-uri: 3.1.0
     optionalDependencies:
-      prettier: 3.6.1
+      prettier: 3.6.2
     transitivePeerDependencies:
       - typescript
 
@@ -6593,6 +6599,11 @@ snapshots:
 
   '@types/node@17.0.45': {}
 
+  '@types/node@22.16.3':
+    dependencies:
+      undici-types: 6.21.0
+    optional: true
+
   '@types/node@24.0.11':
     dependencies:
       undici-types: 7.8.0
@@ -6723,7 +6734,7 @@ snapshots:
   '@yarnpkg/lockfile@1.1.0':
     optional: true
 
-  '@zip.js/zip.js@2.7.62':
+  '@zip.js/zip.js@2.7.63':
     optional: true
 
   JSONStream@1.3.5:
@@ -9381,7 +9392,7 @@ snapshots:
   prettier@2.8.7:
     optional: true
 
-  prettier@3.6.1:
+  prettier@3.6.2:
     optional: true
 
   prismjs@1.30.0: {}
@@ -10008,12 +10019,13 @@ snapshots:
 
   stubborn-fs@1.2.5: {}
 
-  style-dictionary@4.4.0:
+  style-dictionary@5.0.1:
     dependencies:
       '@bundled-es-modules/deepmerge': 4.3.1
       '@bundled-es-modules/glob': 10.4.2
       '@bundled-es-modules/memfs': 4.17.0
-      '@zip.js/zip.js': 2.7.62
+      '@types/node': 22.16.3
+      '@zip.js/zip.js': 2.7.63
       chalk: 5.4.1
       change-case: 5.4.4
       commander: 12.1.0
@@ -10021,7 +10033,7 @@ snapshots:
       json5: 2.2.3
       patch-package: 8.0.0
       path-unified: 0.2.0
-      prettier: 3.6.1
+      prettier: 3.6.2
       tinycolor2: 1.6.0
     optional: true
 
@@ -10221,6 +10233,9 @@ snapshots:
   ultrahtml@1.6.0: {}
 
   uncrypto@0.1.3: {}
+
+  undici-types@6.21.0:
+    optional: true
 
   undici-types@7.8.0: {}
 
@@ -10498,12 +10513,12 @@ snapshots:
     optionalDependencies:
       '@volar/language-service': 2.4.15
 
-  volar-service-prettier@0.0.62(@volar/language-service@2.4.15)(prettier@3.6.1):
+  volar-service-prettier@0.0.62(@volar/language-service@2.4.15)(prettier@3.6.2):
     dependencies:
       vscode-uri: 3.1.0
     optionalDependencies:
       '@volar/language-service': 2.4.15
-      prettier: 3.6.1
+      prettier: 3.6.2
 
   volar-service-typescript-twoslash-queries@0.0.62(@volar/language-service@2.4.15):
     dependencies:
