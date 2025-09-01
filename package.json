@@ -76,7 +76,7 @@
     "gray-matter": "^4.0.3",
     "husky": "^9.1.0",
     "js-yaml": "^4.1.0",
-    "lighthouse": "^12.7.1",
+    "lighthouse": "^12.8.2",
     "lint-staged": "^15.2.0",
     "markdownlint-cli2": "^0.18.1",
     "remark": "^15.0.1",
