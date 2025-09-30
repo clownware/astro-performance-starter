@@ -185,8 +185,7 @@ Use this template to create your own repository:
 # After cloning
 cd your-project
 pnpm install
-pnpm run build:tokens
-pnpm run dev
+pnpm run dev  # Tokens auto-compile on dev start
 ```
 
 ## Documentation
