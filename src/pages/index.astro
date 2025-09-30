@@ -98,18 +98,25 @@ const features = [
 
 // Technical term definitions for tooltips
 const techTerms: Record<string, string> = {
+  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
   Biome:
     "A fast, all-in-one toolchain that replaces ESLint and Prettier with 20x better performance",
+  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
   Preact:
     "A lightweight 3KB alternative to React with the same API, perfect for interactive components",
+  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
   TypeScript:
     "JavaScript with type safety that catches errors during development instead of production",
+  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
   Astro:
     "A modern web framework that delivers zero JavaScript by default with optional interactive islands",
   "Tailwind CSS": "A utility-first CSS framework that lets you build designs directly in your HTML",
+  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
   Sharp:
     "High-performance image processing library that automatically optimizes images for the web",
+  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
   Playwright: "Cross-browser testing framework that works with Chrome, Firefox, Safari, and Edge",
+  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
   Vitest: "Lightning-fast unit testing framework built on Vite with hot module replacement",
   "WCAG AA":
     "Web Content Accessibility Guidelines level AA - the standard for accessible web content",
@@ -188,11 +195,11 @@ const techStack = [
 const stackRationale = {
   performance:
     "Every tool chosen prioritizes speed and efficiency, from Astro's zero-JS baseline to Biome's 20x faster linting.",
-  developer_experience:
+  developerExperience:
     "Modern tooling with TypeScript strict mode, hot reload, and comprehensive testing ensures productive development.",
-  production_ready:
+  productionReady:
     "Battle-tested tools used by major companies, with strong community support and active maintenance.",
-  future_proof:
+  futureProof:
     "Latest versions of stable technologies that will continue to evolve with web standards.",
 };
 ---
@@ -373,7 +380,7 @@ const stackRationale = {
               🎯 Developer Experience
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
-              {stackRationale.developer_experience}
+              {stackRationale.developerExperience}
             </p>
           </Card>
           
@@ -382,7 +389,7 @@ const stackRationale = {
               🏭 Production Ready
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
-              {stackRationale.production_ready}
+              {stackRationale.productionReady}
             </p>
           </Card>
           
@@ -391,7 +398,7 @@ const stackRationale = {
               🔮 Future Proof
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
-              {stackRationale.future_proof}
+              {stackRationale.futureProof}
             </p>
           </Card>
         </div>

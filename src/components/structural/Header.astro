@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import MobileMenuToggle from "@/components/islands/MobileMenuToggle.tsx";
 import ThemeSetup from "@/components/ThemeSetup.astro"; // Corrected path
 import type { NavItem } from "@/types/navigation"; // Import the new type
 
@@ -10,7 +9,7 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
 ---
 
 <header
-  class="sticky top-0 z-50 w-full border-b border-primary bg-background-primary/95 backdrop-blur supports-[backdrop-filter]:bg-background-primary/60"
+  class="sticky top-0 z-50 w-full border-b border-primary bg-background-primary/95 supports-[backdrop-filter]:backdrop-blur supports-[backdrop-filter]:bg-background-primary/60"
 >
   <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href="/" class="flex items-center" aria-label="Homepage">
@@ -39,15 +38,48 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
 
     <div class="flex items-center gap-2">
       <ThemeSetup />
-      <MobileMenuToggle menuId="mobile-menu" client:idle />
+      <!-- CSS-only mobile menu toggle: hidden checkbox + label button -->
+      <label
+        for="mobile-menu-toggle"
+        role="button"
+        aria-label="Toggle menu"
+        class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md border border-primary bg-background-primary/80 transition motion-safe:transition-colors motion-reduce:transition-none hover:bg-background-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
+      >
+        <span class="sr-only">Toggle menu</span>
+        <!-- Hamburger icon -->
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="h-5 w-5"
+          aria-hidden="true"
+        >
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      </label>
     </div>
   </div>
 
+  <!-- Hidden checkbox controls mobile nav visibility via peer-checked classes -->
+  <input
+    id="mobile-menu-toggle"
+    type="checkbox"
+    class="peer sr-only"
+    aria-controls="mobile-menu"
+    aria-label="Toggle main menu"
+  />
+
   <nav
     id="mobile-menu"
-    hidden
-    class="fixed inset-0 top-16 z-40 flex flex-col gap-6 bg-background-primary p-6 opacity-0 transition-opacity duration-200 pointer-events-none md:hidden"
+    class="fixed inset-0 top-16 z-40 hidden flex-col gap-6 bg-background-primary p-6 opacity-0 pointer-events-none md:hidden motion-safe:transition-opacity motion-reduce:transition-none duration-200 peer-checked:flex peer-checked:opacity-100 peer-checked:pointer-events-auto"
     aria-label="Mobile navigation"
+    aria-live="polite"
   >
     {navItems.map((item: NavItem) => (
       <a

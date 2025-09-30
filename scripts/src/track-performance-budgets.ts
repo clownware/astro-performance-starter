@@ -5,9 +5,9 @@ import { join, relative } from "node:path";
 import { glob } from "glob";
 
 // --- CONFIGURATION ---
-const BUILD_DIR = "dist";
-const BUDGET_CONFIG_PATH = "budgets.json";
-const BYTES_IN_KB = 1024;
+const buildDir = "dist";
+const budgetConfigPath = "budgets.json";
+const bytesInKb = 1024;
 // --- END CONFIGURATION ---
 
 type FileType = "js" | "css" | "html" | "images" | "fonts" | "other";
@@ -15,8 +15,8 @@ type FileType = "js" | "css" | "html" | "images" | "fonts" | "other";
 interface Budget {
   name: string;
   path: string;
-  maxSizeKB: number;
-  maxTotalSizeKB?: number;
+  maxSizeKb: number;
+  maxTotalSizeKb?: number;
   ignore?: string[];
 }
 
@@ -26,7 +26,7 @@ interface BudgetConfig {
 
 interface FileResult {
   path: string;
-  sizeKB: number;
+  sizeKb: number;
   type: FileType;
 }
 
@@ -49,8 +49,8 @@ function getFileType(filePath: string): FileType {
   return "other";
 }
 
-function formatSize(sizeKB: number): string {
-  return `${sizeKB.toFixed(2)} KB`;
+function formatSize(sizeKb: number): string {
+  return `${sizeKb.toFixed(2)} KB`;
 }
 
 function checkBudgets(config: BudgetConfig): boolean {
@@ -58,36 +58,36 @@ function checkBudgets(config: BudgetConfig): boolean {
 
   for (const budget of config.budgets) {
     console.log(`\n\x1b[1m\x1b[36mChecking budget: ${budget.name}\x1b[0m`);
-    const budgetPath = join(BUILD_DIR, budget.path);
+    const budgetPath = join(buildDir, budget.path);
     const files = glob.sync(`${budgetPath}/**/*`, { nodir: true, ignore: budget.ignore });
 
     const results: FileResult[] = files.map((file) => ({
       path: file,
-      sizeKB: statSync(file).size / BYTES_IN_KB,
+      sizeKb: statSync(file).size / bytesInKb,
       type: getFileType(file),
     }));
 
-    let totalSizeKB = 0;
+    let totalSizeKb = 0;
     let budgetViolated = false;
 
     const violations: string[] = [];
 
     for (const file of results) {
-      totalSizeKB += file.sizeKB;
-      if (file.sizeKB > budget.maxSizeKB) {
+      totalSizeKb += file.sizeKb;
+      if (file.sizeKb > budget.maxSizeKb) {
         violations.push(
-          `  \x1b[31m❌\x1b[0m ${relative(BUILD_DIR, file.path)} (${formatSize(
-            file.sizeKB,
-          )}) exceeds individual file limit of ${formatSize(budget.maxSizeKB)}`,
+          `  \x1b[31m❌\x1b[0m ${relative(buildDir, file.path)} (${formatSize(
+            file.sizeKb,
+          )}) exceeds individual file limit of ${formatSize(budget.maxSizeKb)}`,
         );
         budgetViolated = true;
       }
     }
 
-    if (budget.maxTotalSizeKB && totalSizeKB > budget.maxTotalSizeKB) {
+    if (budget.maxTotalSizeKb && totalSizeKb > budget.maxTotalSizeKb) {
       violations.push(
-        `  \x1b[31m❌\x1b[0m Total size (${formatSize(totalSizeKB)}) exceeds budget of ${formatSize(
-          budget.maxTotalSizeKB,
+        `  \x1b[31m❌\x1b[0m Total size (${formatSize(totalSizeKb)}) exceeds budget of ${formatSize(
+          budget.maxTotalSizeKb,
         )}`,
       );
       budgetViolated = true;
@@ -96,16 +96,18 @@ function checkBudgets(config: BudgetConfig): boolean {
     if (budgetViolated) {
       allBudgetsPassed = false;
       console.error(`\x1b[31mBudget "${budget.name}" FAILED:\x1b[0m`);
-      violations.forEach((v) => console.error(v));
+      violations.forEach((v) => {
+        console.error(v);
+      });
 
-      const largestFiles = results.sort((a, b) => b.sizeKB - a.sizeKB).slice(0, 5);
+      const largestFiles = results.sort((a, b) => b.sizeKb - a.sizeKb).slice(0, 5);
       console.log("\n  \x1b[2mTop 5 largest files:\x1b[0m");
-      largestFiles.forEach((f) =>
-        console.log(`  \x1b[2m- ${relative(BUILD_DIR, f.path)}: ${formatSize(f.sizeKB)}\x1b[0m`),
-      );
+      largestFiles.forEach((f) => {
+        console.log(`  \x1b[2m- ${relative(buildDir, f.path)}: ${formatSize(f.sizeKb)}\x1b[0m`);
+      });
     } else {
       console.log(
-        `\x1b[32m✅ Budget "${budget.name}" PASSED\x1b[0m (Total size: ${formatSize(totalSizeKB)})`,
+        `\x1b[32m✅ Budget "${budget.name}" PASSED\x1b[0m (Total size: ${formatSize(totalSizeKb)})`,
       );
     }
   }
@@ -117,9 +119,9 @@ function main() {
   console.log("--- Performance Budget Analysis ---");
   let config: BudgetConfig;
   try {
-    config = JSON.parse(readFileSync(BUDGET_CONFIG_PATH, "utf-8"));
+    config = JSON.parse(readFileSync(budgetConfigPath, "utf-8"));
   } catch (error) {
-    console.error(`Error reading or parsing ${BUDGET_CONFIG_PATH}:`, error);
+    console.error(`Error reading or parsing ${budgetConfigPath}:`, error);
     process.exit(1);
   }
 
@@ -155,8 +157,8 @@ function _getFileType(filePath: string): FileType {
   return "other";
 }
 
-function _formatSize(sizeKB: number): string {
-  return `${sizeKB.toFixed(2)} KB`;
+function _formatSize(sizeKb: number): string {
+  return `${sizeKb.toFixed(2)} KB`;
 }
 
 main();

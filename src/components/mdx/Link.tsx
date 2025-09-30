@@ -1,7 +1,7 @@
 // src/components/mdx/Link.tsx
-import type { ComponentChildren } from "preact";
+import type { ComponentChildren, JSX } from "preact";
 
-interface LinkProps extends preact.JSX.HTMLAttributes<HTMLAnchorElement> {
+interface LinkProps extends JSX.HTMLAttributes<HTMLAnchorElement> {
   children: ComponentChildren;
   href?: string;
 }
