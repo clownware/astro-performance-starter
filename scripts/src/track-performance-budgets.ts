@@ -96,13 +96,15 @@ function checkBudgets(config: BudgetConfig): boolean {
     if (budgetViolated) {
       allBudgetsPassed = false;
       console.error(`\x1b[31mBudget "${budget.name}" FAILED:\x1b[0m`);
-      violations.forEach((v) => console.error(v));
+      violations.forEach((v) => {
+        console.error(v);
+      });
 
       const largestFiles = results.sort((a, b) => b.sizeKb - a.sizeKb).slice(0, 5);
       console.log("\n  \x1b[2mTop 5 largest files:\x1b[0m");
-      largestFiles.forEach((f) =>
-        console.log(`  \x1b[2m- ${relative(buildDir, f.path)}: ${formatSize(f.sizeKb)}\x1b[0m`),
-      );
+      largestFiles.forEach((f) => {
+        console.log(`  \x1b[2m- ${relative(buildDir, f.path)}: ${formatSize(f.sizeKb)}\x1b[0m`);
+      });
     } else {
       console.log(
         `\x1b[32m✅ Budget "${budget.name}" PASSED\x1b[0m (Total size: ${formatSize(totalSizeKb)})`,

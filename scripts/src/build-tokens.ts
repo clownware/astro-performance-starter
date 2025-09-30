@@ -50,10 +50,10 @@ const deepMerge = (target: Record<string, unknown>, source: Record<string, unkno
       typeof target[k] === "object" &&
       !Array.isArray(target[k])
     ) {
-      // @ts-ignore safe merge for plain objects
+      // @ts-expect-error safe merge for plain objects
       target[k] = deepMerge(target[k] as Record<string, unknown>, v as Record<string, unknown>);
     } else {
-      // @ts-ignore assign leaf
+      // @ts-expect-error assign leaf
       target[k] = v;
     }
   }
