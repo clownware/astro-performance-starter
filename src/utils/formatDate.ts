@@ -103,7 +103,7 @@ export function formatDateShort(input: DateInput, options: FormatOptions = {}): 
  * @param input - Date input
  * @returns ISO string or null if invalid
  */
-export function formatDateISO(input: DateInput): string | null {
+export function formatDateIso(input: DateInput): string | null {
   const date = normalizeDate(input);
   if (!date) {
     return null;
@@ -269,7 +269,7 @@ export function formatDate(
     case "relative":
       return formatDateRelative(input, options);
     case "iso":
-      return formatDateISO(input);
+      return formatDateIso(input);
     default:
       return formatDateShort(input, options);
   }
@@ -327,7 +327,7 @@ export default {
   formatFull: formatDateFull,
   formatShort: formatDateShort,
   formatRelative: formatDateRelative,
-  formatISO: formatDateISO,
+  formatIso: formatDateIso,
   estimateReadingTime,
   formatReadingTime,
   formatPostMetadata,

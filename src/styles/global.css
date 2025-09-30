@@ -17,20 +17,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Ensure tokens don't leak into Starlight pages */
-body[data-starlight-page] {
-  /* Reset any token-based custom properties if needed */
-  all: revert;
-}
-
 /* Accessibility primitives */
 @layer utilities {
-  .focus-ring {
-    @apply focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2;
-  }
-  .focus-visible-ring {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2;
-  }
+  /* Focus utilities are provided via Tailwind plugin to use semantic tokens */
   .sr-only {
     position: absolute;
     width: 1px;
@@ -42,14 +31,23 @@ body[data-starlight-page] {
     white-space: nowrap;
     border-width: 0;
   }
+  /* Reduced motion utility */
+  @media (prefers-reduced-motion: reduce) {
+    .motion-reduced { transition: none; }
+  }
 }
 
 /* Light theme (default) variables come from the token build output */
 
-/* A basic style for all links. Customize or replace with a Link component. */
-/* a {
-  @apply text-primary-600 underline hover:text-primary-700;
-} */
+/* Global link styles (element default). Prefer component-level overrides when needed. */
+@layer base {
+  a {
+    @apply underline text-primary-600 hover:text-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 rounded-sm;
+  }
+  .dark a {
+    @apply text-primary-400 hover:text-primary-300;
+  }
+}
 
 /* Dark mode overrides – prefers user toggle via `.dark` class but supports OS setting */
 @media (prefers-color-scheme: dark) {

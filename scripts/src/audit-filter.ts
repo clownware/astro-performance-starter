@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 
 // Define types for the pnpm audit report structure
 interface Advisory {
+  // biome-ignore lint/style/useNamingConvention: external JSON key from pnpm audit output
   module_name: string;
   severity: "low" | "moderate" | "high" | "critical";
   title: string;
@@ -14,9 +15,12 @@ interface PnpmAuditReport {
 }
 
 // Run pnpm audit and capture JSON output
-const result = spawnSync("pnpm", ["audit", "--prod", "--json"], {
+// Use pnpm.cmd on Windows for proper execution
+const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
+const result = spawnSync(pnpmCommand, ["audit", "--prod", "--json"], {
   encoding: "utf8",
   stdio: ["inherit", "pipe", "inherit"],
+  shell: true, // Use shell on Windows to resolve .cmd files
 });
 
 if (result.error) {

@@ -26,6 +26,11 @@
     "MD032": true, // Lists spacing
     "MD035": { "style": "---" } // Horizontal rule style
   },
+  // Ensure YAML front matter is recognized and ignored by lint rules
+  // This prevents false positives like MD003/MD022 on front matter lines
+  "markdownlintOptions": {
+    "frontMatter": "^---\\r?\\n[\\s\\S]*?\\r?\\n---\\r?\\n"
+  },
   
   // File patterns to lint
   "globs": [

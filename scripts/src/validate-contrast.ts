@@ -25,9 +25,9 @@ const semantic: SemanticTokens = JSON.parse(
   readFileSync(join(root, "..", "..", "tokens", "semantic.json"), "utf-8"),
 );
 
-type RGB = [number, number, number];
+type Rgb = [number, number, number];
 
-function hslStringToRgb(hsl: string): RGB {
+function hslStringToRgb(hsl: string): Rgb {
   // "210 40% 98%" -> h,s,l numbers
   const [h, sPercent, lPercent] = hsl.split(/\s+/);
   const hNum = Number.parseFloat(h);
@@ -64,10 +64,10 @@ function hslStringToRgb(hsl: string): RGB {
     g = 0;
     b = x;
   }
-  return [r + m, g + m, b + m].map((v) => Math.round(v * 255)) as RGB;
+  return [r + m, g + m, b + m].map((v) => Math.round(v * 255)) as Rgb;
 }
 
-function luminance([r, g, b]: RGB): number {
+function luminance([r, g, b]: Rgb): number {
   const srgb = [r, g, b].map((v) => {
     const c = v / 255;
     return c <= 0.03928 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
@@ -75,7 +75,7 @@ function luminance([r, g, b]: RGB): number {
   return 0.2126 * srgb[0] + 0.7152 * srgb[1] + 0.0722 * srgb[2];
 }
 
-function contrast(a: RGB, b: RGB): number {
+function contrast(a: Rgb, b: Rgb): number {
   const l1 = luminance(a) + 0.05;
   const l2 = luminance(b) + 0.05;
   return l1 > l2 ? l1 / l2 : l2 / l1;
@@ -103,7 +103,7 @@ const bg = semantic.semantic.background;
 const fg = semantic.semantic.foreground;
 
 // Define meaningful foreground → background mappings
-const PAIRS: [keyof typeof fg, keyof typeof bg][] = [
+const pairs: [keyof typeof fg, keyof typeof bg][] = [
   ["default", "default"],
   ["muted", "default"],
   ["subtle", "subtle"],
@@ -116,7 +116,7 @@ interface Issue {
 }
 const failures: Issue[] = [];
 
-for (const [fgKey, bgKey] of PAIRS) {
+for (const [fgKey, bgKey] of pairs) {
   // Skip if tokens are missing
   if (!fg[fgKey] || !bg[bgKey]) {
     continue;

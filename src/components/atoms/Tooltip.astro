@@ -14,64 +14,46 @@ const positionClasses = {
   right: "left-full top-1/2 transform -translate-y-1/2 ml-2",
 };
 
-const arrowClasses = {
-  top: "top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-foreground-primary",
-  bottom:
-    "bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-foreground-primary",
-  left: "left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-foreground-primary",
-  right:
-    "right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-foreground-primary",
-};
+const arrowBase = "absolute w-0 h-0 border-4";
+type Position = "top" | "bottom" | "left" | "right";
+const tooltipId = `tooltip-${Math.random().toString(36).slice(2, 10)}`;
+
+function getArrowClasses(pos: Position) {
+  const map: Record<Position, string> = {
+    top: "top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-background-secondary",
+    bottom:
+      "bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-background-secondary",
+    left: "left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-background-secondary",
+    right:
+      "right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-background-secondary",
+  };
+  return `${arrowBase} ${map[pos]}`;
+}
 ---
 
-<span class:list={["relative inline-block", className]} data-tooltip>
+<span class:list={["relative inline-block group", className]} data-tooltip tabindex="0" aria-describedby={tooltipId}>
   <slot />
   <div 
     class:list={[
-      "absolute z-50 px-3 py-2 text-xs text-background-primary bg-foreground-primary rounded-md shadow-lg opacity-0 pointer-events-none transition-opacity duration-200 whitespace-nowrap max-w-xs",
+      "absolute z-50 px-3 py-2 text-[0.8125rem] sm:text-xs text-foreground-primary bg-background-secondary rounded-md shadow-lg opacity-0 invisible pointer-events-none transition-opacity duration-200 motion-reduce:transition-none whitespace-normal break-words max-w-[80vw] sm:max-w-xs group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
       positionClasses[position]
     ]}
     data-tooltip-content
+    id={tooltipId}
     role="tooltip"
   >
     {text}
     <div 
-      class:list={[
-        "absolute w-0 h-0 border-4",
-        arrowClasses[position]
-      ]}
+      class:list={[ getArrowClasses(position) ]}
+      aria-hidden="true"
     ></div>
   </div>
 </span>
 
-<script>
-  // Add tooltip functionality
-  document.addEventListener('DOMContentLoaded', () => {
-    const tooltips = document.querySelectorAll('[data-tooltip]');
-    
-    tooltips.forEach(tooltip => {
-      const content = tooltip.querySelector('[data-tooltip-content]') as HTMLElement;
-      
-      tooltip.addEventListener('mouseenter', () => {
-        content.classList.remove('opacity-0', 'pointer-events-none');
-        content.classList.add('opacity-100');
-      });
-      
-      tooltip.addEventListener('mouseleave', () => {
-        content.classList.add('opacity-0', 'pointer-events-none');
-        content.classList.remove('opacity-100');
-      });
-      
-      // Keyboard accessibility
-      tooltip.addEventListener('focus', () => {
-        content.classList.remove('opacity-0', 'pointer-events-none');
-        content.classList.add('opacity-100');
-      });
-      
-      tooltip.addEventListener('blur', () => {
-        content.classList.add('opacity-0', 'pointer-events-none');
-        content.classList.remove('opacity-100');
-      });
-    });
-  });
-</script>
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    [data-tooltip-content] {
+      transition: none !important;
+    }
+  }
+</style>

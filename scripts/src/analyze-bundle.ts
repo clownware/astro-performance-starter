@@ -6,8 +6,8 @@ import { extname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { gzipSync } from "node:zlib";
 
-const __dirname = fileURLToPath(new URL(".", import.meta.url));
-const distPath = join(__dirname, "../../dist");
+const dirname = fileURLToPath(new URL(".", import.meta.url));
+const distPath = join(dirname, "../../dist");
 
 interface FileInfo {
   path: string;

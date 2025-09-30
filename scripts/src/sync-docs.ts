@@ -13,10 +13,10 @@ interface SyncOptions {
   verbose?: boolean;
 }
 
-const DOCS_REPO_URL = "https://github.com/clownware/astro-starter-docs";
-const DOCS_REPO_RAW_URL = "https://raw.githubusercontent.com/clownware/astro-starter-docs";
-const LOCAL_DOCS_PATH = join(process.cwd(), "docs");
-const VERSIONS_JSON_PATH = join(process.cwd(), "versions.json");
+const docsRepoUrl = "https://github.com/clownware/astro-starter-docs";
+const docsRepoRawUrl = "https://raw.githubusercontent.com/clownware/astro-starter-docs";
+const localDocsPath = join(process.cwd(), "docs");
+const versionsJsonPath = join(process.cwd(), "versions.json");
 
 // === VERSION DETECTION ===
 
@@ -97,8 +97,8 @@ async function downloadDocs(branch: string, options: SyncOptions): Promise<void>
   console.log(`📥 Downloading docs from branch: ${branch}`);
 
   if (options.verbose) {
-    console.log(`Source: ${DOCS_REPO_RAW_URL}/${branch}/`);
-    console.log(`Target: ${LOCAL_DOCS_PATH}`);
+    console.log(`Source: ${docsRepoRawUrl}/${branch}/`);
+    console.log(`Target: ${localDocsPath}`);
   }
 
   // This will download docs files from the specified branch
@@ -142,7 +142,7 @@ async function syncDocs(options: SyncOptions = {}): Promise<void> {
   if (!repoInfo.available) {
     console.log("⏳ Docs sync is not available yet.");
     console.log("This feature will be enabled when both repositories are public at launch.\n");
-    console.log("📍 Docs repo:", DOCS_REPO_URL);
+    console.log("📍 Docs repo:", docsRepoUrl);
     console.log("📍 Current status: Private (will be public at launch)\n");
     console.log("🔧 For now, use the existing docs/ directory for AI context.");
     return;
@@ -168,7 +168,7 @@ async function syncDocs(options: SyncOptions = {}): Promise<void> {
       await processDocsWithVersions(versions, options);
 
       // Save versions.json for reference
-      writeFileSync(VERSIONS_JSON_PATH, JSON.stringify(versions, null, 2));
+      writeFileSync(versionsJsonPath, JSON.stringify(versions, null, 2));
       console.log("💾 Saved versions.json");
     }
 

@@ -1,11 +1,43 @@
 ---
 // An accessible skip link component that becomes visible on focus.
 // It uses the sr-only class from Tailwind CSS for the base styles.
+interface Props {
+  /** The id of the element to skip to (without the #). Defaults to 'main-content'. */
+  targetId?: string;
+  /** Optional extra classes to merge */
+  class?: string;
+}
+const { targetId = "main-content", class: className = "" } = Astro.props as Props;
 ---
 
 <a
-  href="#main-content"
-  class="sr-only left-4 top-4 z-[999] rounded-md bg-background px-4 py-2 text-foreground transition focus:not-sr-only"
+  href={`#${targetId}`}
+  role="link"
+  aria-controls={targetId}
+  data-skiplink
+  class={`sr-only fixed left-4 top-4 z-[999] rounded-md bg-background-primary px-[1rem] py-[0.5rem] text-foreground-primary motion-safe:transition-colors motion-reduce:transition-none focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-primary-500 hover:bg-background-secondary ${className}`}
 >
-  Skip to content
+  <slot>Skip to content</slot>
 </a>
+
+<script is:inline>
+  // Minimal progressive enhancement: validate target from the link's href
+  (() => {
+    try {
+      const skip = document.querySelector('[data-skiplink]');
+      if (!(skip instanceof HTMLAnchorElement)) return;
+      const hash = skip.getAttribute('href') || '';
+      const id = hash.startsWith('#') ? hash.slice(1) : '';
+      if (!id) return;
+      const target = document.getElementById(id);
+      if (!target) {
+        console.warn(`SkipLink target element with id "${id}" not found.`);
+        skip.setAttribute('aria-disabled', 'true');
+        skip.setAttribute('tabindex', '-1');
+        skip.href = '#';
+      }
+    } catch {
+      // no-op: ensure skip link doesn't break rendering
+    }
+  })();
+</script>

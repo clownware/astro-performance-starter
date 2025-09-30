@@ -1,59 +1,82 @@
 ---
 // src/components/mdx/Callout.astro
 export interface Props {
-  type?: "note" | "warning" | "danger" | "info" | "success";
+  type: "note" | "warning" | "danger" | "info" | "success";
   title?: string;
   icon?: boolean;
-  class?: string;
+  className?: string;
+  useSprite?: boolean;
+  spritePath?: string; // e.g., "/icons.svg"
+  padding?: string; // e.g., "1rem"
+  margin?: string; // e.g., "1.5rem"
+  borderWidth?: string; // e.g., "4px"
+  borderRadius?: string; // e.g., "0.375rem"
 }
 const {
   type = "note",
-  title: _title,
-  icon: _icon = true,
-  class: _className,
+  title,
+  icon = true,
+  className,
+  useSprite = false,
+  spritePath = "/icons.svg",
+  padding = "1rem",
+  margin = "1.5rem",
+  borderWidth = "4px",
+  borderRadius = "0.375rem",
 } = Astro.props as Props;
 
-// Base styling for all callouts
-const _baseClasses = "border-l-4 p-4 my-6 rounded-r-md shadow";
+// Base styling for all callouts (CSS vars for composability)
+const baseClasses =
+  "border-l-[var(--callout-border-width)] p-[var(--callout-padding)] my-[var(--callout-margin)] rounded-r-[var(--callout-border-radius)] shadow-sm";
+const styleAttr = `--callout-padding: ${padding}; --callout-margin: ${margin}; --callout-border-width: ${borderWidth}; --callout-border-radius: ${borderRadius};`;
 // Type-specific styling options
-const typeStyles = {
+const typeStyles: Record<
+  Props["type"],
+  { border: string; background: string; text: string; defaultTitle: string }
+> = {
   note: {
     border: "border-primary-500",
-    bg: "bg-primary-100",
+    background: "bg-primary-100",
     text: "text-primary-800",
     defaultTitle: "Note",
   },
   info: {
     border: "border-primary-400",
-    bg: "bg-primary-50",
+    background: "bg-primary-50",
     text: "text-primary-700",
     defaultTitle: "Information",
   },
   warning: {
     border: "border-secondary-500",
-    bg: "bg-secondary-100",
+    background: "bg-secondary-100",
     text: "text-secondary-800",
     defaultTitle: "Warning",
   },
   danger: {
     border: "border-secondary-600",
-    bg: "bg-secondary-100",
+    background: "bg-secondary-100",
     text: "text-secondary-800",
     defaultTitle: "Danger",
   },
   success: {
     border: "border-primary-600",
-    bg: "bg-primary-100",
+    background: "bg-primary-100",
     text: "text-primary-800",
     defaultTitle: "Success",
   },
 };
 
-const currentStyle = typeStyles[type] || typeStyles.note;
-const _displayTitle = _title === undefined ? currentStyle.defaultTitle : _title;
+const currentStyle = typeStyles[type];
+const displayTitle = title === undefined ? currentStyle.defaultTitle : title;
+
+// Accessibility: role + labeling for region/alert, title id for aria-labelledby
+const role = type === "warning" || type === "danger" ? "alert" : "region";
+const hasTitle = Boolean(displayTitle);
+const titleId = hasTitle ? `callout-${type}-${Math.random().toString(36).slice(2, 8)}` : undefined;
+const ariaLabel = hasTitle ? undefined : currentStyle.defaultTitle;
 
 // SVG path data for icons
-const _iconPaths = {
+const iconPaths: Record<Props["type"], string> = {
   note: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
   info: "M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z",
   warning:
@@ -61,20 +84,37 @@ const _iconPaths = {
   danger: "M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z",
   success: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
 };
+const iconPath = iconPaths[type] || iconPaths.note;
+
+// Back-compat: accept legacy `class` prop if provided
+const legacyClass = (Astro.props as any).class as string | undefined;
+const mergedClassName = className ?? legacyClass;
 ---
 
-<div class:list={[_baseClasses, currentStyle.border, currentStyle.bg, currentStyle.text, _className]}>
+<div role={role} aria-labelledby={titleId} aria-label={ariaLabel} style={styleAttr} class:list={[baseClasses, currentStyle.border, currentStyle.background, currentStyle.text, mergedClassName]}>
   <div class="flex items-start">
-    {_icon && (
-      <svg class="w-5 h-5 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={_iconPaths[type]} />
+    {icon && (
+      <svg
+        class="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        aria-hidden="true"
+        focusable="false"
+      >
+        <title>{`${currentStyle.defaultTitle} icon`}</title>
+        {useSprite ? (
+          <use href={`${spritePath}#${type}`} />
+        ) : (
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={iconPath} />
+        )}
       </svg>
     )}
     <div class="flex-1">
-      {_displayTitle && (
-        <div class="font-semibold mb-1">{_displayTitle}</div>
+      {displayTitle && (
+        <h3 id={titleId} class="font-semibold mb-1">{displayTitle}</h3>
       )}
-      <div class="prose prose-sm max-w-none">
+      <div class="text-sm leading-6">
         <slot />
       </div>
     </div>

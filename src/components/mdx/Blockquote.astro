@@ -9,14 +9,16 @@ export interface Props extends HTMLAttributes<"blockquote"> {
 }
 
 const { author, source, cite, class: className, ...blockquoteAttrs } = Astro.props;
+const citeId = `quote-cite-${crypto.randomUUID()}`;
 ---
 
 <blockquote
   class:list={[
-    "relative border-l-4 border-primary-500 bg-primary-50 dark:bg-primary-950 px-6 py-4 my-6 italic text-foreground-primary",
+    "border-l-4 border-primary-500 bg-primary-50 dark:bg-primary-950 px-6 py-4 my-6 text-foreground-primary",
     className,
   ]}
   cite={cite}
+  aria-describedby={(author || source) ? citeId : undefined}
   {...blockquoteAttrs}
 >
   <div class="flex items-start gap-4">
@@ -32,14 +34,16 @@ const { author, source, cite, class: className, ...blockquoteAttrs } = Astro.pro
     
     <div class="flex-grow">
       <!-- Quote content -->
-      <div class="text-lg leading-relaxed">
+      <div class="text-lg leading-relaxed italic">
         <slot />
       </div>
       
       <!-- Attribution -->
       {(author || source) && (
-        <footer class="mt-4 text-sm text-foreground-secondary not-italic">
-          <cite class="font-medium text-foreground-primary">
+        <footer
+          class="mt-4 text-sm text-foreground-secondary not-italic"
+        >
+          <cite id={citeId} class="font-medium text-foreground-primary">
             {author && <span>— {author}</span>}
             {author && source && <span>, </span>}
             {source && <span>{source}</span>}

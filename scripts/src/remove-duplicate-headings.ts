@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
 
-const DOCS_DIR = path.join(process.cwd(), "docs");
+const docsDir = path.join(process.cwd(), "docs");
 
 async function getMarkdownFiles(dir: string): Promise<string[]> {
   const dirents = await fs.readdir(dir, { withFileTypes: true });
@@ -46,7 +46,7 @@ async function processFile(filePath: string) {
 
 async function main() {
   console.log("🔍 Starting to scan for duplicate headings in the /docs directory...");
-  const files = await getMarkdownFiles(DOCS_DIR);
+  const files = await getMarkdownFiles(docsDir);
   await Promise.all(files.map(processFile));
   console.log("✨ Scan complete. All duplicate headings have been removed.");
 }

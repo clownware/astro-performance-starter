@@ -4,40 +4,67 @@ interface Props {
   size?: "sm" | "md" | "lg";
   class?: string;
   href?: string;
+  disabled?: boolean;
   [key: string]: any;
 }
 
-const { variant = "primary", size = "md", class: className, href, ...rest } = Astro.props as Props;
+const {
+  variant = "primary",
+  size = "md",
+  class: className,
+  href,
+  disabled = false,
+  ...rest
+} = Astro.props as Props;
 
 const baseStyles =
-  "inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center rounded-lg font-semibold transition-colors duration-200 motion-reduce:transition-none focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
 
-const variantStyles = {
-  primary:
-    "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus:ring-primary-500 shadow-sm hover:shadow-md",
-  secondary:
-    "bg-background-secondary text-foreground-primary border border-primary hover:bg-background-primary active:bg-background-primary focus:ring-primary-500 shadow-sm hover:shadow",
-  ghost:
-    "text-foreground-secondary hover:bg-background-secondary hover:text-foreground-primary active:bg-background-secondary focus:ring-primary-500",
-};
+function getVariantStyles(v: Props["variant"]) {
+  switch (v) {
+    case "secondary":
+      return "bg-background-secondary text-foreground-primary border border-border-primary hover:bg-background-primary active:bg-background-primary focus:ring-primary-500 shadow-sm hover:shadow";
+    case "ghost":
+      // Subtle default border for high-contrast support
+      return "text-foreground-secondary border border-border-primary/40 hover:border-border-primary hover:bg-background-secondary hover:text-foreground-primary active:bg-background-secondary focus:ring-primary-500";
+    default:
+      return "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus:ring-primary-500 shadow-sm hover:shadow-md";
+  }
+}
 
-const sizeStyles = {
-  sm: "text-xs h-8 px-3 py-1.5",
-  md: "text-sm h-10 px-4 py-2",
-  lg: "text-base h-12 px-6 py-3",
-};
+function getSizeStyles(s: Props["size"]) {
+  // Remove fixed heights to avoid clipping; rely on padding for accessible hit areas
+  switch (s) {
+    case "sm":
+      return "text-xs px-3 py-1.5";
+    case "lg":
+      return "text-base px-6 py-3";
+    default:
+      return "text-sm px-4 py-2";
+  }
+}
 
-const Tag = href ? "a" : "button";
+// Render appropriate element without a dynamic uppercase variable to satisfy lint rules
+const classList = [baseStyles, getVariantStyles(variant), getSizeStyles(size), className];
 ---
-<Tag
-  class:list={[
-    baseStyles,
-    variantStyles[variant],
-    sizeStyles[size],
-    className,
-  ]}
-  href={href}
-  {...rest}
->
-  <slot />
-</Tag>
+{href ? (
+  <a
+    class:list={classList}
+    href={href}
+    aria-disabled={disabled}
+    tabindex={disabled ? -1 : undefined}
+    {...rest}
+  >
+    <slot />
+  </a>
+) : (
+  <button
+    class:list={classList}
+    type="button"
+    aria-disabled={disabled}
+    disabled={disabled}
+    {...rest}
+  >
+    <slot />
+  </button>
+)}
