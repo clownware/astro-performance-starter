@@ -15,9 +15,12 @@ interface PnpmAuditReport {
 }
 
 // Run pnpm audit and capture JSON output
-const result = spawnSync("pnpm", ["audit", "--prod", "--json"], {
+// Use pnpm.cmd on Windows for proper execution
+const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
+const result = spawnSync(pnpmCommand, ["audit", "--prod", "--json"], {
   encoding: "utf8",
   stdio: ["inherit", "pipe", "inherit"],
+  shell: true, // Use shell on Windows to resolve .cmd files
 });
 
 if (result.error) {
