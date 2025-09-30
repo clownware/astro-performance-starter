@@ -15,27 +15,118 @@ interface Props {
   densities?: number[];
   loading?: "lazy" | "eager";
   decoding?: "async" | "sync" | "auto";
+  /** Optional shadow/hover styles for performance modularity */
+  hasShadow?: boolean;
 }
 
 const props = Astro.props as Props;
-const { class: className, ...imageProps } = props;
+const {
+  src,
+  alt,
+  class: className,
+  format,
+  quality,
+  width,
+  height,
+  sizes,
+  widths: widthsProp,
+  densities: densitiesProp,
+  loading,
+  decoding,
+  hasShadow = false,
+} = props;
 
-// Default to AVIF format for best compression (with WebP fallback)
-const optimizedProps = {
-  format: "avif" as const,
-  quality: "high" as const,
-  loading: "lazy" as const,
-  decoding: "async" as const,
-  ...imageProps,
+// Normalize src to ImageMetadata when possible
+let resolvedSrc: ImageMetadata | null = null;
+if (typeof src === "string") {
+  resolvedSrc = null; // Fallback to native <img> below
+} else if (src && typeof (src as any).then === "function") {
+  const mod = await (src as Promise<{ default: ImageMetadata }>);
+  resolvedSrc = mod.default;
+} else {
+  resolvedSrc = src as ImageMetadata;
+}
+
+// Defaults optimized for responsive generation
+const defaultWidths = [320, 640, 1024] as const;
+const defaultDensities = [1.5, 2] as const;
+
+// Use fixed dimensions if provided; otherwise enable widths-based srcset.
+// When fixed dimensions are used, prefer densities-based srcset.
+const useFixedDimensions = typeof width === "number" || typeof height === "number";
+const effectiveWidths: number[] | undefined =
+  widthsProp ?? (useFixedDimensions ? undefined : [...defaultWidths]);
+const effectiveDensities: number[] | undefined =
+  densitiesProp ?? (useFixedDimensions ? [...defaultDensities] : undefined);
+
+// Normalize format and quality to match AstroImage prop types
+const normalizeFormat = (fmt: Props["format"]) => {
+  if (fmt === "jpg") {
+    return "jpeg" as const;
+  }
+  if (fmt === "svg" || fmt === "gif") {
+    // not processed by sharp; fallback to a processed format
+    return "png" as const;
+  }
+  return (fmt ?? "avif") as "avif" | "webp" | "png" | "jpeg";
 };
 
-const composedClass = [
-  "rounded-lg shadow-md transition-all duration-300 ease-in-out hover:shadow-xl",
-  className,
-]
-  .filter(Boolean)
-  .join(" ");
+const qualityMap = { low: 40, mid: 60, high: 75, max: 90 } as const;
+const normalizedQuality: number =
+  typeof quality === "number"
+    ? quality
+    : qualityMap[(quality ?? "high") as keyof typeof qualityMap];
+
+// Base defaults
+const baseDefaults = {
+  format: normalizeFormat(format),
+  quality: normalizedQuality,
+  loading: (loading ?? "lazy") as "lazy" | "eager",
+  decoding: (decoding ?? "async") as "async" | "sync" | "auto",
+};
+
+// Compose classes with optional shadow styles
+const baseClasses = ["rounded-lg", "transition-all", "duration-300", "ease-in-out"];
+const shadowClasses = hasShadow ? ["shadow-md", "hover:shadow-xl"] : [];
+const composedClass = [...baseClasses, ...shadowClasses, className].filter(Boolean).join(" ");
+
+// No object spread to satisfy AstroImage's discriminated union typing
 ---
 
-{/* @ts-ignore - Astro Image component type compatibility */}
-<AstroImage {...optimizedProps} class={composedClass} />
+{resolvedSrc ? (
+  useFixedDimensions ? (
+    <AstroImage
+      src={resolvedSrc as ImageMetadata}
+      alt={alt}
+      class={composedClass}
+      format={baseDefaults.format}
+      quality={baseDefaults.quality}
+      loading={baseDefaults.loading}
+      decoding={baseDefaults.decoding}
+      width={width}
+      height={height}
+      densities={effectiveDensities}
+    />
+  ) : (
+    <AstroImage
+      src={resolvedSrc as ImageMetadata}
+      alt={alt}
+      class={composedClass}
+      format={baseDefaults.format}
+      quality={baseDefaults.quality}
+      loading={baseDefaults.loading}
+      decoding={baseDefaults.decoding}
+      sizes={sizes ?? "100vw"}
+      widths={effectiveWidths ?? [320, 640, 1024]}
+    />
+  )
+) : (
+  // Fallback for string src paths – native <img>
+  <img
+    src={src as string}
+    alt={alt}
+    class={composedClass}
+    loading={baseDefaults.loading}
+    decoding={baseDefaults.decoding}
+  />
+)}

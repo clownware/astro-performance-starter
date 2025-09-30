@@ -4,28 +4,84 @@
 ---
 
 <script is:inline>
-  const applyTheme = () => {
-    const theme = (() => {
-      if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-        return localStorage.getItem('theme');
-      }
-      if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        return 'dark';
-      }
-      return 'light';
-    })();
+  (function () {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
 
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
+    // If already initialized on this navigation session, just re-apply and exit.
+    if (window.__themeSetupApply) {
+      try { window.__themeSetupApply(); } catch {}
+      return;
     }
-    document.documentElement.setAttribute('data-theme', theme);
-  };
 
-  // Run on initial page load
-  applyTheme();
+    const THEMES = ['light', 'dark']; // central source of truth
+    const DOC = document.documentElement;
 
-  // Run after every Astro View Transition
-  document.addEventListener('astro:after-swap', applyTheme);
+    const getStoredTheme = () => {
+      try {
+        return typeof localStorage !== 'undefined' ? localStorage.getItem('theme') : null;
+      } catch {
+        return null;
+      }
+    };
+
+    const prefersDarkMql = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)');
+    const reducedMotionMql = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)');
+
+    const disableTransitionsTemporarily = () => {
+      if (!reducedMotionMql || !reducedMotionMql.matches) return;
+      const style = document.createElement('style');
+      style.id = 'theme-no-transitions';
+      style.textContent = '*{transition:none !important}';
+      document.head.appendChild(style);
+      requestAnimationFrame(() => style.remove());
+    };
+
+    const setTheme = (theme) => {
+      // Remove any theme-specific classes first
+      THEMES.forEach((t) => DOC.classList.remove(t));
+      // Tailwind dark mode uses the `dark` class
+      if (theme === 'dark') DOC.classList.add('dark');
+      DOC.setAttribute('data-theme', theme);
+      try { DOC.style.colorScheme = theme; } catch {}
+    };
+
+    const getPreferredTheme = () => {
+      const fromStorage = getStoredTheme();
+      if (fromStorage) return fromStorage;
+      if (prefersDarkMql && prefersDarkMql.matches) return 'dark';
+      return 'light';
+    };
+
+    const applyTheme = () => {
+      disableTransitionsTemporarily();
+      setTheme(getPreferredTheme());
+    };
+
+    // expose a single re-apply hook for subsequent navigations
+    window.__themeSetupApply = applyTheme;
+
+    // Initial run
+    applyTheme();
+
+    // Re-apply after Astro View Transitions
+    document.addEventListener('astro:after-swap', applyTheme);
+
+    // Listen for system color scheme changes
+    if (prefersDarkMql) {
+      if (prefersDarkMql.addEventListener) {
+        prefersDarkMql.addEventListener('change', applyTheme);
+      } else {
+        // Safari <14 legacy fallback. Avoid direct reference to deprecated API in types.
+        const mqlAny = /** @type {any} */ (prefersDarkMql);
+        if (mqlAny && typeof mqlAny.addListener === 'function') {
+          mqlAny.addListener(applyTheme);
+        }
+      }
+    }
+
+    // React to theme changes from other tabs (localStorage sync)
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'theme') applyTheme();
+    });
+  })();
 </script>

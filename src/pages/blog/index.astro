@@ -15,7 +15,7 @@ type PostWithMetadata = CollectionEntry<"blog"> & {
 };
 
 // Pagination configuration
-const POSTS_PER_PAGE = 6;
+const postsPerPage = 6;
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
   // Get all published blog posts, sorted by date (newest first)
@@ -30,7 +30,7 @@ export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
 
   // Generate paginated routes
   return paginate(sortedPosts, {
-    pageSize: POSTS_PER_PAGE,
+    pageSize: postsPerPage,
   });
 };
 

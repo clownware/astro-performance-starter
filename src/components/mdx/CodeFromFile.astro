@@ -7,13 +7,13 @@ export interface Props {
   src: string;
   lang: string;
   title: string;
-  parentURL: string;
+  parentUrl: string;
 }
 
-const { src, lang, title, parentURL } = Astro.props;
+const { src, lang, title, parentUrl } = Astro.props;
 
 // Resolve the file path relative to the component that uses this one
-const resolvedPath = new URL(src, parentURL);
+const resolvedPath = new URL(src, parentUrl);
 const code = await readFile(fileURLToPath(resolvedPath), "utf-8");
 ---
 

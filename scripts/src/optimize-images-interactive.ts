@@ -7,12 +7,12 @@ import { fileURLToPath } from "node:url";
 import { glob } from "glob";
 import sharp from "sharp";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const projectRoot = path.resolve(__dirname, "../..");
+const filename = fileURLToPath(import.meta.url);
+const dirName = dirname(filename);
+const projectRoot = path.resolve(dirName, "../..");
 
 // Image category configurations
-const IMAGE_CATEGORIES = {
+const imageCategories = {
   thumbnail: { maxWidth: 400, maxHeight: 400, suggestedWidth: 200, suggestedHeight: 200 },
   content: { maxWidth: 1200, maxHeight: 900, suggestedWidth: 800, suggestedHeight: 600 },
   hero: { maxWidth: 1920, maxHeight: 1080, suggestedWidth: 1200, suggestedHeight: 675 },
@@ -23,7 +23,7 @@ const IMAGE_CATEGORIES = {
 };
 
 // File size efficiency thresholds (bytes per pixel)
-const COMPRESSION_THRESHOLDS = {
+const compressionThresholds = {
   // PNG efficiency thresholds (bytes per pixel)
   png: {
     excellent: 0.4, // <0.4 bytes/pixel = well optimized
@@ -45,7 +45,7 @@ interface ImageInfo {
   size: number;
   width: number;
   height: number;
-  category: keyof typeof IMAGE_CATEGORIES;
+  category: keyof typeof imageCategories;
   context: "static" | "content";
   needsOptimization: boolean;
   needsCompression: boolean;
@@ -84,7 +84,7 @@ function getImageContext(imagePath: string): "static" | "content" {
   return imagePath.startsWith("public/") ? "static" : "content";
 }
 
-function categorizeImage(imagePath: string): keyof typeof IMAGE_CATEGORIES {
+function categorizeImage(imagePath: string): keyof typeof imageCategories {
   const filename = path.basename(imagePath).toLowerCase();
   const dirPath = path.dirname(imagePath).toLowerCase();
 
@@ -113,18 +113,18 @@ function categorizeImage(imagePath: string): keyof typeof IMAGE_CATEGORIES {
 function shouldOptimizeImage(
   width: number,
   height: number,
-  category: keyof typeof IMAGE_CATEGORIES,
+  category: keyof typeof imageCategories,
 ): boolean {
-  const config = IMAGE_CATEGORIES[category];
+  const config = imageCategories[category];
   return width > config.maxWidth || height > config.maxHeight;
 }
 
 function calculateSuggestedDimensions(
   width: number,
   height: number,
-  category: keyof typeof IMAGE_CATEGORIES,
+  category: keyof typeof imageCategories,
 ): { width: number; height: number } {
-  const config = IMAGE_CATEGORIES[category];
+  const config = imageCategories[category];
   const aspectRatio = width / height;
 
   // If image is within acceptable range, don't change
@@ -153,8 +153,8 @@ function analyzeCompression(
 ): "excellent" | "good" | "poor" | "terrible" {
   const pixels = width * height;
   const bytesPerPixel = fileSize / pixels;
-  const formatKey = format.toLowerCase() as keyof typeof COMPRESSION_THRESHOLDS;
-  const thresholds = COMPRESSION_THRESHOLDS[formatKey] || COMPRESSION_THRESHOLDS.png;
+  const formatKey = format.toLowerCase() as keyof typeof compressionThresholds;
+  const thresholds = compressionThresholds[formatKey] || compressionThresholds.png;
 
   if (bytesPerPixel < thresholds.excellent) {
     return "excellent";
@@ -173,7 +173,7 @@ function shouldCompressImage(
   width: number,
   height: number,
   format: string,
-  category: keyof typeof IMAGE_CATEGORIES,
+  category: keyof typeof imageCategories,
 ): boolean {
   // Updated thresholds to match analysis script and reflect realistic optimization targets
 

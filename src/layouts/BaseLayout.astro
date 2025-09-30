@@ -16,7 +16,7 @@ export interface Props {
   title: string;
   description: string;
   image?: string;
-  canonicalURL?: URL;
+  canonicalUrl?: URL;
   noindex?: boolean;
 }
 
@@ -24,11 +24,11 @@ const {
   title,
   description,
   image = "/og-default.jpg",
-  canonicalURL = new URL(Astro.url.pathname, Astro.site),
+  canonicalUrl = new URL(Astro.url.pathname, Astro.site),
   noindex = false,
 } = Astro.props;
 // Prevent Biome false positives for unused variables in Astro templates
-void { title, description, image, canonicalURL, noindex };
+void { title, description, image, canonicalUrl, noindex };
 
 const siteTitle = siteMetadata.title;
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
@@ -50,13 +50,13 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     <title>{fullTitle}</title>
     <meta name="title" content={fullTitle} />
     <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalURL.href} />
+    <link rel="canonical" href={canonicalUrl.href} />
 
     {noindex && <meta name="robots" content="noindex, nofollow" />}
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL.href} />
+    <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={new URL(image, Astro.site)} />
@@ -64,7 +64,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL.href} />
+    <meta property="twitter:url" content={canonicalUrl.href} />
     <meta property="twitter:title" content={fullTitle} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />

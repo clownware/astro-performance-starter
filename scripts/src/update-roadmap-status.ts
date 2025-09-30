@@ -4,10 +4,10 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 // --- CONFIGURATION ---
-const DOCS_DIR = join(process.cwd(), "src", "content", "docs");
-const GUIDES_DIR = join(DOCS_DIR, "implementation-guides");
-const README_PATH = join(DOCS_DIR, "README.md");
-const PHASES = [
+const docsDir = join(process.cwd(), "src", "content", "docs");
+const guidesDir = join(docsDir, "implementation-guides");
+const readmePath = join(docsDir, "README.md");
+const phases = [
   { id: 0, name: "Foundation", pathMatcher: /phase-0-foundation\.md$/i },
   { id: 1, name: "Content Architecture", pathMatcher: /phase-1-content-arch\.md$/i },
   { id: 2, name: "Design System", pathMatcher: /phase-2-design-system\.md$/i },
@@ -36,7 +36,7 @@ function findPhaseFile(phase: Phase): Promise<string | null> {
     const fs = require("node:fs");
     const path = require("node:path");
     fs.readdir(
-      GUIDES_DIR,
+      guidesDir,
       { withFileTypes: true },
       (err: NodeJS.ErrnoException | null, directories: any[]) => {
         if (err) {
@@ -44,7 +44,7 @@ function findPhaseFile(phase: Phase): Promise<string | null> {
         } else {
           for (const dirent of directories) {
             if (dirent.isDirectory()) {
-              const subDir = path.join(GUIDES_DIR, dirent.name);
+              const subDir = path.join(guidesDir, dirent.name);
               fs.readdir(subDir, (err: NodeJS.ErrnoException | null, files: string[]) => {
                 if (err) {
                   resolve(null);
@@ -89,7 +89,7 @@ function getPhaseStatus(phase: Phase): Promise<Phase> {
 
 async function main() {
   console.log("Starting roadmap status update...");
-  const phaseStatuses = await Promise.all(PHASES.map(getPhaseStatus));
+  const phaseStatuses = await Promise.all(phases.map(getPhaseStatus));
 
   let checklistMarkdown = "";
   for (const phase of phaseStatuses) {
@@ -99,7 +99,7 @@ async function main() {
   }
 
   try {
-    let readmeContent = readFileSync(README_PATH, "utf-8");
+    let readmeContent = readFileSync(readmePath, "utf-8");
     const startMarker = "<!-- ROADMAP_STATUS_START -->";
     const endMarker = "<!-- ROADMAP_STATUS_END -->";
 
@@ -117,7 +117,7 @@ async function main() {
 
     readmeContent = `${contentBefore}\n<!-- The script will automatically update this section. Do not manually edit. -->\n${checklistMarkdown.trim()}\n${contentAfter}`;
 
-    writeFileSync(README_PATH, readmeContent, "utf-8");
+    writeFileSync(readmePath, readmeContent, "utf-8");
     console.log("Successfully updated roadmap status in docs/README.md");
   } catch (error) {
     console.error("Error updating docs/README.md:", error);

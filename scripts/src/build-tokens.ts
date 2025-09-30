@@ -26,10 +26,10 @@ interface SemanticTokens {
   semantic?: TokenGroup;
 }
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const filename = fileURLToPath(import.meta.url);
+const dirName = dirname(filename);
 
-const tokensDir = join(__dirname, "..", "..", "tokens");
+const tokensDir = join(dirName, "..", "..", "tokens");
 const distDir = join(tokensDir, "dist");
 
 // Ensure dist directory exists
@@ -39,26 +39,89 @@ mkdirSync(distDir, { recursive: true });
 const baseTokenPath = join(tokensDir, "base.json");
 const baseTokens = JSON.parse(readFileSync(baseTokenPath, "utf-8")) as BaseTokens;
 
-const tailwindTokens: Record<string, TokenGroup> = {};
+// Helper: deep merge for plain objects
+const deepMerge = (target: Record<string, unknown>, source: Record<string, unknown>) => {
+  for (const [k, v] of Object.entries(source)) {
+    if (
+      v &&
+      typeof v === "object" &&
+      !Array.isArray(v) &&
+      target[k] &&
+      typeof target[k] === "object" &&
+      !Array.isArray(target[k])
+    ) {
+      // @ts-ignore safe merge for plain objects
+      target[k] = deepMerge(target[k] as Record<string, unknown>, v as Record<string, unknown>);
+    } else {
+      // @ts-ignore assign leaf
+      target[k] = v;
+    }
+  }
+  return target;
+};
 
-// Conditionally add token categories only if they exist in the base tokens
+// Extract raw values from token groups (non-colors)
+const extractValues = (group: TokenGroup): Record<string, unknown> => {
+  const out: Record<string, unknown> = {};
+  for (const [key, val] of Object.entries(group)) {
+    if (val && typeof val === "object") {
+      if ("value" in val) {
+        out[key] = (val as Token).value;
+      } else {
+        out[key] = extractValues(val as TokenGroup);
+      }
+    }
+  }
+  return out;
+};
+
+// Build color map using CSS variables for dark-mode switching
+const toKebabCaseLocal = (str: string) =>
+  str.replace(/([a-z0-9]|(?<=[a-z0-9]))([A-Z])/g, "$1-$2").toLowerCase();
+
+const buildColorVars = (
+  group: TokenGroup,
+  path: string[] = [],
+  varPrefix = "color",
+): Record<string, unknown> => {
+  const out: Record<string, unknown> = {};
+  for (const [key, val] of Object.entries(group)) {
+    const nextPath = [...path, toKebabCaseLocal(key)];
+    if (val && typeof val === "object") {
+      if ("value" in val) {
+        // Reference the CSS var built by the CSS generator
+        const parts = varPrefix ? [varPrefix, ...nextPath] : [...nextPath];
+        const varName = `--${parts.join("-")}`;
+        out[key] = `hsl(var(${varName}) / <alpha-value>)`;
+      } else {
+        out[key] = buildColorVars(val as TokenGroup, nextPath, varPrefix);
+      }
+    }
+  }
+  return out;
+};
+
+const tailwindTokens: Record<string, unknown> = {};
+
+// Colors -> hsl(var(--color-...)/<alpha-value>)
 if (baseTokens.color) {
-  tailwindTokens.colors = baseTokens.color;
+  tailwindTokens.colors = buildColorVars(baseTokens.color, [], "color");
 }
+// Others -> raw extracted values
 if (baseTokens.spacing) {
-  tailwindTokens.spacing = baseTokens.spacing;
+  tailwindTokens.spacing = extractValues(baseTokens.spacing);
 }
 if (baseTokens.fontSize) {
-  tailwindTokens.fontSize = baseTokens.fontSize;
+  tailwindTokens.fontSize = extractValues(baseTokens.fontSize);
 }
 if (baseTokens.borderRadius) {
-  tailwindTokens.borderRadius = baseTokens.borderRadius;
+  tailwindTokens.borderRadius = extractValues(baseTokens.borderRadius);
 }
 if (baseTokens.shadow) {
-  tailwindTokens.shadow = baseTokens.shadow;
+  tailwindTokens.shadow = extractValues(baseTokens.shadow);
 }
 if (baseTokens.motion) {
-  tailwindTokens.motion = baseTokens.motion;
+  tailwindTokens.motion = extractValues(baseTokens.motion);
 }
 
 // --- Load semantic tokens early --- //
@@ -153,30 +216,17 @@ function resolveTokenReferences(obj: TokenGroup, context: BaseTokens): TokenGrou
 if (semanticTokens.semantic) {
   // Merge semantic color tokens into colors object
   if (!tailwindTokens.colors) {
-    tailwindTokens.colors = {};
+    tailwindTokens.colors = {} as Record<string, unknown>;
   }
 
   // Resolve token references using base tokens as context
   const resolvedSemantic = resolveTokenReferences(semanticTokens.semantic, baseTokens);
-
-  // Add primary and secondary color scales from semantic tokens
-  if (resolvedSemantic.primary) {
-    tailwindTokens.colors.primary = resolvedSemantic.primary;
-  }
-  if (resolvedSemantic.secondary) {
-    tailwindTokens.colors.secondary = resolvedSemantic.secondary;
-  }
-
-  // Add other semantic colors if needed
-  if (resolvedSemantic.background) {
-    tailwindTokens.colors.background = resolvedSemantic.background;
-  }
-  if (resolvedSemantic.foreground) {
-    tailwindTokens.colors.foreground = resolvedSemantic.foreground;
-  }
-  if (resolvedSemantic.border) {
-    tailwindTokens.colors.border = resolvedSemantic.border;
-  }
+  // Convert resolved semantic tokens into CSS var references and deep-merge
+  const semanticColorVars = buildColorVars(resolvedSemantic, [], "");
+  tailwindTokens.colors = deepMerge(
+    tailwindTokens.colors as Record<string, unknown>,
+    semanticColorVars as Record<string, unknown>,
+  );
 }
 
 const tailwindTokenPath = join(distDir, "tailwind-tokens.json");

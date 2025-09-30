@@ -27,9 +27,9 @@ function loadVersions(rootDir) {
 }
 
 /**
- * Vite plugin to inject version placeholders ({{versions.*}}) in *any* text-based
- * asset. This ensures that front-matter strings processed by Starlight (such as
- * banner.content) also get replaced—something remark/rehype plugins cannot see.
+ * Vite plugin to inject version placeholders ({{versions.*}}) in any text-based asset.
+ * This runs early in the pipeline so even front-matter or non-Markdown files are covered,
+ * which remark/rehype plugins may not see.
  * @param {{ rootDir?: string }} opts
  * @returns {import('vite').Plugin}
  */

@@ -10,7 +10,7 @@ export interface Props {
   title: string;
   description: string;
   image?: string;
-  canonicalURL?: URL;
+  canonicalUrl?: URL;
   // Project-specific props
   project: {
     title: string;
@@ -32,7 +32,7 @@ export interface Props {
   };
 }
 
-const { title, description, image, canonicalURL, project } = Astro.props;
+const { title, description, image, canonicalUrl, project } = Astro.props;
 
 // Format dates if provided
 const publishedDate = project.date ? formatDate(project.date, "full") : null;
@@ -42,7 +42,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
   title={title}
   description={description}
   image={image}
-  canonicalURL={canonicalURL}
+  canonicalUrl={canonicalUrl}
 >
   <article class="project-article">
     <!-- Project Hero Section -->

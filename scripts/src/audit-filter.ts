@@ -3,6 +3,7 @@ import { spawnSync } from "node:child_process";
 
 // Define types for the pnpm audit report structure
 interface Advisory {
+  // biome-ignore lint/style/useNamingConvention: external JSON key from pnpm audit output
   module_name: string;
   severity: "low" | "moderate" | "high" | "critical";
   title: string;

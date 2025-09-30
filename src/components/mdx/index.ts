@@ -1,30 +1,37 @@
 // src/components/mdx/index.ts
 
 // Dynamic import wrapper to avoid loading .astro during Node evaluation
-let Callout: unknown;
+let callout: unknown;
 try {
   // @ts-ignore
-  Callout = (await import("./Callout.astro")).default;
+  callout = (await import("./Callout.astro")).default;
 } catch {
-  Callout = () => null;
+  callout = () => null;
 }
 // Astro components
-let Figure: unknown;
+let figure: unknown;
 try {
   // @ts-ignore
-  Figure = (await import("./Figure.astro")).default;
+  figure = (await import("./Figure.astro")).default;
 } catch {
-  Figure = ({ children }: { children: unknown }): unknown => children;
+  figure = ({ children }: { children: unknown }): unknown => children;
 }
-let Grid: unknown;
+let grid: unknown;
 try {
   // @ts-ignore
-  Grid = (await import("./Grid.astro")).default;
+  grid = (await import("./Grid.astro")).default;
 } catch {
-  Grid = ({ children }: { children: unknown }): unknown => children;
+  grid = ({ children }: { children: unknown }): unknown => children;
+}
+// Register Blockquote.astro for MDX <blockquote>
+let blockquote: unknown;
+try {
+  // @ts-ignore
+  blockquote = (await import("./Blockquote.astro")).default;
+} catch {
+  blockquote = ({ children }: { children: unknown }): unknown => children;
 }
 
-import Blockquote from "./Blockquote";
 // Preact components (ensure .tsx files are processed by Preact integration)
 import Link from "./Link";
 
@@ -39,15 +46,18 @@ import Link from "./Link";
 export const components = {
   // Custom Astro components. These are referenced by their tag name in MDX.
   // e.g., <Figure src="..." alt="..." />
-  Figure,
-  Grid,
-  Callout,
+  // biome-ignore lint/style/useNamingConvention: MDX component tag mapping requires PascalCase keys
+  Figure: figure,
+  // biome-ignore lint/style/useNamingConvention: MDX component tag mapping requires PascalCase keys
+  Grid: grid,
+  // biome-ignore lint/style/useNamingConvention: MDX component tag mapping requires PascalCase keys
+  Callout: callout,
 
   // Override default HTML tags with custom components.
   // `a` tags in MDX will be rendered by `Link.tsx`.
-  // `blockquote` tags will be rendered by `Blockquote.tsx`.
+  // `blockquote` tags will be rendered by `Blockquote.astro`.
   a: Link,
-  blockquote: Blockquote,
+  blockquote: blockquote,
 
   // Example of how you might map `img` if you needed to customize it further,
   // but usually Astro's default handling is preferred.

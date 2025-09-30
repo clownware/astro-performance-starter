@@ -14,7 +14,7 @@ import { spawn } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 
-const DEFAULT_URL = "http://localhost:4321";
+const defaultUrl = "http://localhost:4321";
 
 interface Args {
   url: string;
@@ -27,7 +27,7 @@ function parseArgs(): Args {
   const outArg = process.argv.find((a) => a.startsWith("--out="));
   const deviceArg = process.argv.find((a) => a.startsWith("--device="));
   return {
-    url: urlArg ? urlArg.split("=")[1] : DEFAULT_URL,
+    url: urlArg ? urlArg.split("=")[1] : defaultUrl,
     out: outArg ? outArg.split("=")[1] : "performance-baseline.json",
     device: (deviceArg ? deviceArg.split("=")[1] : "desktop") as "desktop" | "mobile",
   };

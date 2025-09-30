@@ -16,8 +16,8 @@
     "docs:components": "astrobook dev",
     "docs:components:build": "astrobook build",
     "preview": "astro preview",
-    "clean": "rm -rf dist .astro",
-    "clean:all": "rm -rf dist .astro node_modules/.cache",
+    "clean": "rm -rf dist .astro tokens/dist",
+    "clean:all": "rm -rf dist .astro tokens/dist node_modules/.cache",
     "format": "biome format . --write",
     "format:check": "biome format .",
     "lint": "biome check .",
@@ -48,6 +48,7 @@
   "dependencies": {
     "@astrojs/mdx": "^4.0.1",
     "@astrojs/preact": "^4.0.0",
+    "@astrojs/prefetch": "^0.4.1",
     "@astrojs/sitemap": "^3.4.1",
     "@astrojs/tailwind": "^6.0.0",
     "@fontsource-variable/inter": "^5.1.0",

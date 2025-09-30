@@ -4,14 +4,14 @@ import { readdir, stat } from "node:fs/promises";
 import { extname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
-const __dirname = fileURLToPath(new URL(".", import.meta.url));
-const rootDir = join(__dirname, "../..");
+const dirname = fileURLToPath(new URL(".", import.meta.url));
+const rootDir = join(dirname, "../..");
 
 interface ImageInfo {
   path: string;
   size: number;
-  sizeKB: number;
-  sizeMB: number;
+  sizeKb: number;
+  sizeMb: number;
   extension: string;
   category: "hero" | "content" | "thumbnail" | "avatar" | "icon" | "logo" | "other";
   context: "static" | "content";
@@ -21,7 +21,7 @@ interface ImageInfo {
 }
 
 // Recommended dimensions for different image types
-const DIMENSION_GUIDELINES = {
+const dimensionGuidelines = {
   hero: {
     max: 1920,
     recommended: "1200-1920px wide for hero images",
@@ -97,8 +97,8 @@ async function findImages(dir: string, images: ImageInfo[] = []): Promise<ImageI
         const imageInfo: ImageInfo = {
           path: relativePath,
           size: stats.size,
-          sizeKB: Math.round(stats.size / 1024),
-          sizeMB: Math.round((stats.size / 1024 / 1024) * 100) / 100,
+          sizeKb: Math.round(stats.size / 1024),
+          sizeMb: Math.round((stats.size / 1024 / 1024) * 100) / 100,
           extension: ext,
           category: categorizeImage(relativePath),
           context: getImageContext(relativePath),
@@ -168,46 +168,46 @@ function categorizeImage(path: string): ImageInfo["category"] {
 
 function generateInsights(image: ImageInfo): string[] {
   const insights: string[] = [];
-  const guidelines = DIMENSION_GUIDELINES[image.category];
+  const guidelines = dimensionGuidelines[image.category];
 
   // Context-specific insights
   if (image.context === "static") {
     insights.push(`🔧 Static asset - served as-is, should be pre-optimized`);
   } else {
     // Format optimization insights for content images
-    if (image.extension === ".png" && image.sizeKB > 50) {
+    if (image.extension === ".png" && image.sizeKb > 50) {
       insights.push(`✨ Will be optimized to AVIF format (expect 60-80% size reduction)`);
     }
   }
 
   // More aggressive size-based insights with lower thresholds
-  if (image.category === "hero" && image.sizeKB > 200) {
+  if (image.category === "hero" && image.sizeKb > 200) {
     insights.push(
-      `🖼️ Large hero image - consider reducing source size (current: ${image.sizeKB}KB)`,
+      `🖼️ Large hero image - consider reducing source size (current: ${image.sizeKb}KB)`,
     );
   }
 
-  if (image.category === "logo" && image.sizeKB > 100) {
+  if (image.category === "logo" && image.sizeKb > 100) {
     insights.push(
-      `🏷️ Large logo image - consider optimizing (current: ${image.sizeKB}KB, target: <50KB)`,
+      `🏷️ Large logo image - consider optimizing (current: ${image.sizeKb}KB, target: <50KB)`,
     );
   }
 
-  if (image.category === "thumbnail" && image.sizeKB > 100) {
+  if (image.category === "thumbnail" && image.sizeKb > 100) {
     insights.push(
-      `📏 Large thumbnail - consider reducing source dimensions (current: ${image.sizeKB}KB)`,
+      `📏 Large thumbnail - consider reducing source dimensions (current: ${image.sizeKb}KB)`,
     );
   }
 
-  if (image.category === "icon" && image.sizeKB > 32) {
+  if (image.category === "icon" && image.sizeKb > 32) {
     insights.push(
-      `🎯 Large icon - touch icons should be <32KB for optimal performance (current: ${image.sizeKB}KB)`,
+      `🎯 Large icon - touch icons should be <32KB for optimal performance (current: ${image.sizeKb}KB)`,
     );
   }
 
-  if (image.category === "content" && image.sizeKB > 150) {
+  if (image.category === "content" && image.sizeKb > 150) {
     insights.push(
-      `📄 Large content image - consider optimization (current: ${image.sizeKB}KB, target: <100KB)`,
+      `📄 Large content image - consider optimization (current: ${image.sizeKb}KB, target: <100KB)`,
     );
   }
 
@@ -293,7 +293,7 @@ async function analyzeImages() {
   // Display results by category
   for (const [category, categoryImages] of Object.entries(categories)) {
     const categorySize = categoryImages.reduce((sum, img) => sum + img.size, 0);
-    const guidelines = DIMENSION_GUIDELINES[category as keyof typeof DIMENSION_GUIDELINES];
+    const guidelines = dimensionGuidelines[category as keyof typeof dimensionGuidelines];
 
     console.log(`\n📁 **${category.toUpperCase()} Images** (${guidelines.recommended})`);
     console.log(`   Total: ${categoryImages.length} images, ${formatBytes(categorySize)}`);
@@ -301,7 +301,7 @@ async function analyzeImages() {
     for (const image of categoryImages) {
       const contextIcon = image.context === "static" ? "🔧" : "📁";
       console.log(`   ${contextIcon} ${image.path}`);
-      console.log(`      Size: ${formatBytes(image.size)} (${image.sizeKB}KB)`);
+      console.log(`      Size: ${formatBytes(image.size)} (${image.sizeKb}KB)`);
 
       for (const insight of image.insights) {
         console.log(`      ${insight}`);
@@ -311,7 +311,7 @@ async function analyzeImages() {
 
   // Check if any images need dimension optimization
   const oversizedImages = images.filter((img) => {
-    const guidelines = DIMENSION_GUIDELINES[img.category];
+    const guidelines = dimensionGuidelines[img.category];
     return (
       img.width &&
       img.height &&
@@ -324,7 +324,7 @@ async function analyzeImages() {
     console.log(`${oversizedImages.length} images could benefit from dimension optimization:`);
 
     for (const img of oversizedImages) {
-      const guidelines = DIMENSION_GUIDELINES[img.category];
+      const guidelines = dimensionGuidelines[img.category];
       const contextNote = img.context === "static" ? " (static asset)" : " (content image)";
       console.log(`\n   🖼️  ${img.path}${contextNote}`);
       console.log(`      Current: ${img.width}x${img.height}px`);
@@ -337,34 +337,34 @@ async function analyzeImages() {
   // Check for images that could benefit from optimization
   const needsOptimization = images.filter((img) => {
     // Check if image is large enough to benefit from optimization
-    if (img.category === "hero" && img.sizeKB > 50) {
+    if (img.category === "hero" && img.sizeKb > 50) {
       return true;
     }
-    if (img.category === "logo" && img.sizeKB > 50) {
+    if (img.category === "logo" && img.sizeKb > 50) {
       return true;
     }
-    if (img.category === "content" && img.sizeKB > 75) {
+    if (img.category === "content" && img.sizeKb > 75) {
       return true;
     }
-    if (img.category === "thumbnail" && img.sizeKB > 25) {
+    if (img.category === "thumbnail" && img.sizeKb > 25) {
       return true;
     }
-    if (img.category === "avatar" && img.sizeKB > 15) {
+    if (img.category === "avatar" && img.sizeKb > 15) {
       return true;
     }
-    if (img.category === "icon" && img.sizeKB > 20) {
+    if (img.category === "icon" && img.sizeKb > 20) {
       return true;
     }
-    if (img.category === "other" && img.sizeKB > 50) {
+    if (img.category === "other" && img.sizeKb > 50) {
       return true;
     }
     return false;
   });
 
   // Performance insights
-  const largeImages = images.filter((img) => img.sizeKB > 1000);
+  const largeImages = images.filter((img) => img.sizeKb > 1000);
   const pngImages = images.filter((img) => img.extension === ".png");
-  const largeStaticImages = staticImages.filter((img) => img.sizeKB > 100);
+  const largeStaticImages = staticImages.filter((img) => img.sizeKb > 100);
 
   console.log(`\n🎯 **Performance Insights**`);
   console.log(`Large images (>1MB): ${largeImages.length}/${images.length}`);

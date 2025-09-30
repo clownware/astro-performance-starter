@@ -8,7 +8,6 @@
   "files": {
     "includes": [
       "src/**/*.{astro,ts,tsx,js,jsx,md,mdx}",
-      "src/content/docs/**/*.{md,mdx}",
       "docs/**/*.{md,mdx}",
       "scripts/**/*.{ts,js,mjs}",
       "*.{md,mdx,ts,js,mjs}"
@@ -36,6 +35,11 @@
       "quoteStyle": "double"
     }
   },
+  "css": {
+    "formatter": {
+      "enabled": true
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -46,25 +50,44 @@
         "noUselessTypeConstraint": "error"
       },
       "correctness": {
-        "noUnusedVariables": "warn",
-        "useExhaustiveDependencies": "warn"
+        "noUnusedVariables": "error",
+        "useExhaustiveDependencies": "error"
       },
       "suspicious": {
-        "noExplicitAny": "warn",
+        "noExplicitAny": "error",
         "noImplicitAnyLet": "error"
+      },
+      "a11y": {
+        "recommended": true
       },
       "style": {
         "noNonNullAssertion": "warn",
-        "useAsConstAssertion": "error",
-        "useBlockStatements": "error",
-        "noParameterAssign": "error",
-        "useDefaultParameterLast": "error",
-        "useEnumInitializers": "error",
-        "useSelfClosingElements": "error",
-        "useSingleVarDeclarator": "error",
-        "useNumberNamespace": "error",
-        "noInferrableTypes": "error",
-        "noUselessElse": "error"
+        "useAsConstAssertion": "warn",
+        "useBlockStatements": "warn",
+        "noParameterAssign": "warn",
+        "useDefaultParameterLast": "warn",
+        "useEnumInitializers": "warn",
+        "useSelfClosingElements": "warn",
+        "useSingleVarDeclarator": "warn",
+        "useNumberNamespace": "warn",
+        "noInferrableTypes": "warn",
+        "noUselessElse": "warn",
+        "useNamingConvention": {
+          "level": "error",
+          "options": {
+            "requireAscii": false,
+            "conventions": [
+              {
+                "selector": { "kind": "variable" },
+                "formats": ["camelCase"]
+              },
+              {
+                "selector": { "kind": "typeLike" },
+                "formats": ["PascalCase"]
+              }
+            ]
+          }
+        }
       }
     }
   },
@@ -96,7 +119,8 @@
             "noExplicitAny": "off"
           },
           "style": {
-            "useNodejsImportProtocol": "error"
+            "useNodejsImportProtocol": "error",
+            "useNamingConvention": "warn"
           }
         }
       }
@@ -112,6 +136,25 @@
             "noUnusedVariables": "off",
             "noUnusedImports": "off"
           },
+          "suspicious": {
+            "noExplicitAny": "off"
+          }
+        }
+      }
+    },
+    {
+      "includes": ["**/*.css"],
+      "linter": {
+        "enabled": false
+      },
+      "formatter": {
+        "enabled": true
+      }
+    },
+    {
+      "includes": ["**/*.test.{ts,js}"],
+      "linter": {
+        "rules": {
           "suspicious": {
             "noExplicitAny": "off"
           }

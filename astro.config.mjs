@@ -1,6 +1,7 @@
 import { fileURLToPath } from "node:url";
 import mdx from "@astrojs/mdx";
 import preact from "@astrojs/preact";
+import prefetch from "@astrojs/prefetch";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
@@ -18,7 +19,10 @@ const rootDir = fileURLToPath(new URL(".", import.meta.url));
 // - `undefined` (or any other value): Builds for root deployment (e.g., Cloudflare Pages).
 const isGhPages = process.env.DEPLOY_TARGET === "gh-pages";
 
-const site = isGhPages ? "https://clownware.github.io" : "https://your-production-domain.com"; // TODO: Update with your production domain
+// Prefer environment-provided site for production builds to avoid placeholder canonicals
+// Use SITE_URL or PUBLIC_SITE_URL; fall back to GH Pages domain when not provided
+const envSite = process.env.SITE_URL || process.env.PUBLIC_SITE_URL;
+const site = isGhPages ? "https://clownware.github.io" : (envSite ?? "https://clownware.github.io");
 
 const base = isGhPages ? "/astro-starter-template" : "/";
 
@@ -34,16 +38,21 @@ export default defineConfig({
     mdx({
       components: mdxComponents,
     }),
-    // Main site Tailwind with strict isolation
+    prefetch(),
+    // Main site Tailwind configuration
     tailwind({
       configFile: "./tailwind.config.ts",
-      applyBaseStyles: true, // Important for isolation from Starlight
+      applyBaseStyles: true,
     }),
     sitemap(),
     preact(), // Ensure Preact is available for .tsx MDX components
   ],
 
   markdown: {
+    syntaxHighlight: "shiki",
+    shikiConfig: {
+      theme: "dark-plus",
+    },
     remarkPlugins: [
       [
         remarkValidateLinks,
@@ -62,7 +71,6 @@ export default defineConfig({
       ],
     ],
     rehypePlugins: [],
-    mdxComponents,
   },
 
   // Enhanced build configuration
@@ -75,6 +83,8 @@ export default defineConfig({
 
   build: {
     inlineStylesheets: "auto",
+    // biome-ignore lint/style/useNamingConvention: Astro requires the exact key `compressHTML`
+    compressHTML: true,
   },
 
   // Image optimization configuration using Sharp
@@ -84,6 +94,10 @@ export default defineConfig({
       config: {
         limitInputPixels: 268402689, // ~16K x 16K pixels max
       },
+    },
+    responsive: {
+      globalStyles: true,
+      layout: "constrained",
     },
     domains: [],
     remotePatterns: [],
