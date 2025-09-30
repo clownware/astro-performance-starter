@@ -89,8 +89,10 @@ Legacy browser support can be added via Astro's built-in polyfills if needed.
 The template includes a complete design token system:
 
 1. **Edit** `tokens/base.json` and `tokens/semantic.json`
-2. **Run** `pnpm run build:tokens` to regenerate CSS variables
+2. **Save the file** - tokens auto-compile during `dev` or `build`
 3. **Tokens automatically integrate** with Tailwind CSS classes
+
+Manual compilation (rarely needed): `pnpm run build:tokens`
 
 This approach ensures consistent spacing, colors, and typography across your site.
 

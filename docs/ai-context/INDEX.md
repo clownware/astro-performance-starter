@@ -170,7 +170,7 @@ This value is updated automatically by CI on pull request merges.
 ### Before Making Changes
 
 1. Run `pnpm run check` - Ensure types are correct
-2. Run `pnpm run build:tokens` - If design tokens changed
+2. Save token files - Auto-compile during dev/build (manual: `pnpm run build:tokens`)
 3. Check current Git branch - Follow branch strategy
 
 ### While Developing

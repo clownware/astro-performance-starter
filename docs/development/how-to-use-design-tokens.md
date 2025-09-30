@@ -17,10 +17,12 @@ Token sources live in `tokens/`:
 | `semantic.json` | Light/dark *semantic* aliases (background, border, etc.) |
 | `dist/` | Build output – **do not edit directly** |
 
-The build script (`pnpm run build:tokens`) generates:
+The build process automatically generates:
 
 - `tokens/dist/tailwind-tokens.json` – imported by `tailwind.config.ts`.
 - `tokens/dist/tokens.css` – CSS variables (light + `.dark`).
+
+Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual compilation (rarely needed): `pnpm run build:tokens`.
 
 ## 2. In templates/components
 
@@ -52,8 +54,10 @@ The build script (`pnpm run build:tokens`) generates:
 ## 3. Adding / updating tokens
 
 1. Edit `tokens/base.json` or `tokens/semantic.json`.
-2. Run `pnpm run build:tokens` to regenerate outputs.
+2. Save the file – tokens auto-compile during `dev` or `build`.
 3. Commit both source and *dist* files.
+
+Manual compilation (if needed): `pnpm run build:tokens`
 
 > **Tip:** keep scales consistent (increments of `4px` for spacing, `8ms` for durations, etc.).
 

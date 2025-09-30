@@ -259,7 +259,7 @@ const analytics = await getAnalytics({
     </svg>
   </button>
   
-  <div id="feedback-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50">
+  <div id="feedback-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-black bg-opacity-50">
     <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full">
       <h3 class="text-lg font-semibold mb-4">Send Feedback</h3>
       

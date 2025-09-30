@@ -1,0 +1,96 @@
+name: Sync Docs to Starlight
+
+on:
+  push:
+    branches: [master, main]
+    paths:
+      - 'docs/**'
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout template repo
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "Astro Starter Bot"
+          git config --global user.email "bot@clownware.dev"
+
+      - name: Clone Starlight docs repo
+        env:
+          STARLIGHT_REPO_PAT: ${{ secrets.STARLIGHT_REPO_PAT }}
+        run: |
+          git clone https://x-access-token:${STARLIGHT_REPO_PAT}@github.com/clownware/astro-starter-docs.git ../starlight-repo
+          cd ../starlight-repo
+          git checkout main
+
+      - name: Copy docs files
+        run: |
+          # Remove existing docs in Starlight repo (except .git)
+          find ../starlight-repo -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
+          
+          # Copy all docs from template repo to Starlight repo
+          rsync -av --exclude='.git' ./docs/ ../starlight-repo/
+
+      - name: Commit changes if any
+        id: commit
+        working-directory: ../starlight-repo
+        run: |
+          git add .
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            COMMIT_MSG="docs: sync from template repo"
+            TEMPLATE_COMMIT=$(cd ../astro-starter-template && git log -1 --pretty=format:"%h - %s")
+            git commit -m "${COMMIT_MSG}" -m "Source commit: ${TEMPLATE_COMMIT}"
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Push to sync branch
+        if: steps.commit.outputs.has_changes == 'true'
+        working-directory: ../starlight-repo
+        env:
+          STARLIGHT_REPO_PAT: ${{ secrets.STARLIGHT_REPO_PAT }}
+        run: |
+          BRANCH_NAME="sync-docs-$(date +%Y%m%d-%H%M%S)"
+          git checkout -b ${BRANCH_NAME}
+          git push origin ${BRANCH_NAME}
+          echo "branch_name=${BRANCH_NAME}" >> $GITHUB_OUTPUT
+        id: push
+
+      - name: Create Pull Request
+        if: steps.commit.outputs.has_changes == 'true'
+        env:
+          STARLIGHT_REPO_PAT: ${{ secrets.STARLIGHT_REPO_PAT }}
+          GH_TOKEN: ${{ secrets.STARLIGHT_REPO_PAT }}
+        run: |
+          cd ../starlight-repo
+          TEMPLATE_COMMIT=$(cd ../astro-starter-template && git log -1 --pretty=format:"%h - %s")
+          TEMPLATE_URL="https://github.com/${{ github.repository }}/commit/${{ github.sha }}"
+          
+          gh pr create \
+            --title "docs: sync from template repo" \
+            --body "**Automated documentation sync from template repository**
+
+          Source commit: [${TEMPLATE_COMMIT}](${TEMPLATE_URL})
+          
+          This PR contains documentation updates from the Astro Starter Template repository.
+          
+          **Review checklist:**
+          - [ ] Verify all file paths are correct
+          - [ ] Check for any Starlight-specific frontmatter requirements
+          - [ ] Ensure navigation/sidebar updates if needed
+          - [ ] Preview the changes in the Starlight build
+          
+          ---
+          *This PR was automatically created by the [sync-docs-to-starlight workflow](https://github.com/${{ github.repository }}/actions/workflows/sync-docs-to-starlight.yml)*" \
+            --base main \
+            --head ${{ steps.push.outputs.branch_name }}
