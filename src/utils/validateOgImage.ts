@@ -4,9 +4,8 @@ import { fileURLToPath } from "node:url";
 
 /**
  * Validates that an OG image path exists in the public directory.
- * Only runs during development to warn about missing images.
  *
- * @param imagePath - Relative path to the image (e.g., "/og-default.jpg") or ImageMetadata object
+ * @param imagePath - Relative path to the image (e.g., "/og-default.svg") or ImageMetadata object
  * @returns true if valid, false if missing (with console warning)
  */
 export function validateOgImage(imagePath: string | { src: string }): boolean {
@@ -18,6 +17,11 @@ export function validateOgImage(imagePath: string | { src: string }): boolean {
   // Ensure we have a string at this point
   if (typeof imagePath !== "string") {
     return true; // Skip validation for unexpected types
+  }
+
+  // Skip validation for Astro-processed images (contain special dev server paths)
+  if (imagePath.includes("/@fs/") || imagePath.includes("?origWidth=")) {
+    return true; // These are Astro ImageMetadata .src strings in dev mode
   }
 
   // Skip validation for absolute URLs (external images)

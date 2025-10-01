@@ -24,9 +24,9 @@ export interface Props {
   description: string;
   /**
    * Open Graph image for social media previews.
-   * Can be a relative path (e.g., "/og-default.jpg") or absolute URL.
+   * Can be a relative path (e.g., "/og-default.svg") or absolute URL.
    * Relative paths are automatically converted to absolute URLs using Astro.site.
-   * @default "/og-default.jpg"
+   * @default "/og-default.svg"
    */
   image?: string;
   /**
@@ -58,7 +58,7 @@ export interface Props {
 const {
   title,
   description,
-  image = "/og-default.jpg",
+  image = "/og-default.svg",
   canonicalUrl = new URL(Astro.url.pathname, Astro.site),
   noindex = false,
   ogType = "website",
