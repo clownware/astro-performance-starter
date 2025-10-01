@@ -6,14 +6,16 @@ import Image from "@components/atoms/Image.astro";
 import SocialLink from "@components/atoms/SocialLink.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { formatPostMetadata } from "@utils/formatDate";
+import { generateAllShareUrls } from "@utils/socialShare";
 
 export interface Props {
   post: CollectionEntry<"blog">;
-  prevPost?: CollectionEntry<"blog">;
-  nextPost?: CollectionEntry<"blog">;
+  prevPost?: CollectionEntry<"blog"> | null;
+  nextPost?: CollectionEntry<"blog"> | null;
+  headings: { depth: number; slug: string; text: string }[];
 }
 
-const { post, prevPost, nextPost } = Astro.props;
+const { post, prevPost, nextPost, headings } = Astro.props;
 const { title, description, cover, coverAlt, tags, author, date, updated } = post.data;
 
 // Format post metadata
@@ -23,26 +25,26 @@ const { publishedDate, updatedDate, readingTime, isRecent } = formatPostMetadata
   updated,
 );
 
-// Generate table of contents from headings
-const { headings } = await post.render();
-
 // Social sharing URLs
 const currentUrl = new URL(Astro.url.pathname, Astro.site).href;
-const encodedTitle = encodeURIComponent(title);
-const encodedUrl = encodeURIComponent(currentUrl);
-
-const shareUrls = {
-  twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-  facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-  reddit: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
-};
+const shareUrls = generateAllShareUrls({
+  url: currentUrl,
+  title,
+  description,
+});
 ---
 
 <BaseLayout
   title={title}
   description={description}
   image={cover ? cover.src : "/og-blog.svg"}
+  ogType="article"
+  ogArticle={{
+    publishedTime: date.toISOString(),
+    modifiedTime: updated?.toISOString(),
+    author,
+    tags,
+  }}
 >
   <article class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 bg-background-default">
     <!-- Article Header -->
@@ -134,6 +136,7 @@ const shareUrls = {
             class="w-full rounded-lg"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, 1024px"
             loading="eager"
+            decoding="async"
           />
         </div>
       )}

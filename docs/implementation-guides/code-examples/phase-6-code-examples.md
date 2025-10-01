@@ -1693,27 +1693,35 @@ const shareUrls = {
 
 ```astro
 ---
-// src/pages/blog/[...slug].astro
+// src/pages/blog/[slug].astro
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BlogLayout from '@/layouts/BlogLayout.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
-  return posts.map((post, index) => ({
+  
+  // Sort posts once for all pages (performance optimization)
+  const sortedPosts = posts.sort(
+    (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+  );
+  
+  return sortedPosts.map((post, index) => ({
     params: { slug: post.slug },
     props: {
       post,
-      prevPost: posts[index - 1],
-      nextPost: posts[index + 1],
+      prevPost: index > 0 ? sortedPosts[index - 1] : null,
+      nextPost: index < sortedPosts.length - 1 ? sortedPosts[index + 1] : null,
     },
   }));
 }
 
 const { post, prevPost, nextPost } = Astro.props;
-const { Content } = await post.render();
+
+// Render once to avoid double parsing (pass headings to layout)
+const { Content, headings } = await post.render();
 ---
 
-<BlogLayout post={post} prevPost={prevPost} nextPost={nextPost}>
+<BlogLayout post={post} prevPost={prevPost} nextPost={nextPost} headings={headings}>
   <Content />
 </BlogLayout>
 ```
