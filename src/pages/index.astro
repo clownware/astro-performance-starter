@@ -1,15 +1,29 @@
 ---
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
+import Icon from "@/components/atoms/Icon.astro";
 
 import Card from "@/components/molecules/Card.astro";
 import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
+import SectionSeparator from "@/components/molecules/SectionSeparator.astro";
 import Container from "@/components/structural/Container.astro";
 import Grid from "@/components/structural/Grid.astro";
 import Section from "@/components/structural/Section.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-const features = [
+import type {
+  Feature,
+  LighthouseMetric,
+  StackRationale,
+  TechStackItem,
+  TechTerms,
+} from "@/types/content";
+
+/**
+ * Homepage feature cards showcasing template capabilities.
+ * Each feature includes expandable details for comprehensive information.
+ */
+const features: Feature[] = [
   {
     icon: "🚀",
     title: "Performance-First Architecture",
@@ -96,8 +110,11 @@ const features = [
   },
 ];
 
-// Technical term definitions for tooltips
-const techTerms: Record<string, string> = {
+/**
+ * Technical term definitions for tooltips and glossary.
+ * Provides context-aware explanations for AI-assisted development.
+ */
+const techTerms: TechTerms = {
   // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
   Biome:
     "A fast, all-in-one toolchain that replaces ESLint and Prettier with 20x better performance",
@@ -126,14 +143,22 @@ const techTerms: Record<string, string> = {
     "The site works perfectly without JavaScript, then progressively enhances with interactivity",
 };
 
-const metrics = [
+/**
+ * Lighthouse performance metrics for the starter template.
+ * Reflects ideal conditions with empty starter content.
+ */
+const metrics: LighthouseMetric[] = [
   { label: "Performance", score: "95+", icon: "🚀" },
   { label: "Accessibility", score: "100", icon: "♿" },
   { label: "Best Practices", score: "100", icon: "🛡️" },
   { label: "SEO", score: "100", icon: "🔍" },
 ];
 
-const techStack = [
+/**
+ * Technology stack with versions, descriptions, and benefits.
+ * Organized by category for clear understanding of architecture.
+ */
+const techStack: TechStackItem[] = [
   {
     name: "Astro",
     version: "v5.x",
@@ -192,7 +217,11 @@ const techStack = [
   },
 ];
 
-const stackRationale = {
+/**
+ * Rationale for technology stack choices.
+ * Explains the "why" behind each architectural decision.
+ */
+const stackRationale: StackRationale = {
   performance:
     "Every tool chosen prioritizes speed and efficiency, from Astro's zero-JS baseline to Biome's 20x faster linting.",
   developerExperience:
@@ -238,9 +267,7 @@ const stackRationale = {
         
         <div class="mt-4 sm:mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
           <Button href="https://github.com/clownware/astro-starter-template" variant="primary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6">
-            <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
+            <Icon name="github" class="w-4 h-4 sm:w-5 sm:h-5 mr-2" decorative />
             View on GitHub
           </Button>
           <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6">
@@ -257,17 +284,14 @@ const stackRationale = {
     <div class="absolute inset-x-0 bottom-4 flex flex-col items-center">
       <a href="#performance" class="group flex flex-col items-center text-foreground-secondary hover:text-primary-600 transition-colors" aria-label="Scroll to next section">
         <span class="text-xs sm:text-sm font-medium mb-1 sm:mb-2 opacity-75 group-hover:opacity-100 transition-opacity">Explore below</span>
-        <svg class="w-5 h-5 sm:w-6 sm:h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-        </svg>
+        <Icon name="arrow-down" class="w-5 h-5 sm:w-6 sm:h-6 animate-bounce" decorative />
       </a>
     </div>
   </Section>
 
   <!-- Lighthouse Metrics Showcase -->
   <Section id="performance" ariaLabel="Performance metrics section" class="relative bg-background-secondary">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="text-center">
         <h2 class="text-3xl font-bold text-foreground-primary">
@@ -298,8 +322,7 @@ const stackRationale = {
 
   <!-- Key Features -->
   <Section id="features" ariaLabel="Key features section" class="relative">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl">
@@ -326,8 +349,7 @@ const stackRationale = {
 
   <!-- Tech Stack -->
   <Section id="tech-stack" ariaLabel="Technology stack section" class="bg-background-secondary relative">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold text-foreground-primary">
@@ -408,8 +430,7 @@ const stackRationale = {
 
   <!-- Implementation Tracks -->
   <Section id="implementation" ariaLabel="Implementation tracks section" class="relative">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-4xl">
         <div class="text-center mb-12">
@@ -470,8 +491,7 @@ const stackRationale = {
 
   <!-- CTA Section -->
   <Section ariaLabel="Call to action section" class="relative bg-foreground-primary">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold text-background-primary">
