@@ -24,6 +24,28 @@ interface ProjectItem {
   tags: string[];
 }
 
+/**
+ * Helper function to resolve project image source
+ * Handles both string paths and ImageMetadata objects
+ * Falls back to logo.svg if no image is provided
+ */
+function getProjectImageSrc(entry: CollectionEntry<"projects">): string {
+  // Try cardImage first (preferred for cards)
+  if (entry.data.cardImage) {
+    return typeof entry.data.cardImage === "string"
+      ? entry.data.cardImage
+      : entry.data.cardImage.src;
+  }
+
+  // Fall back to cover image
+  if (entry.data.cover) {
+    return typeof entry.data.cover === "string" ? entry.data.cover : entry.data.cover.src;
+  }
+
+  // Default fallback
+  return "/logo.svg";
+}
+
 // Transform to simple objects for UI
 const projects: ProjectItem[] = entries
   .sort(
@@ -33,15 +55,7 @@ const projects: ProjectItem[] = entries
   .map((entry: CollectionEntry<"projects">) => ({
     title: entry.data.title,
     description: entry.data.description,
-    image: entry.data.cardImage
-      ? typeof entry.data.cardImage === "string"
-        ? entry.data.cardImage
-        : entry.data.cardImage.src
-      : entry.data.cover
-        ? typeof entry.data.cover === "string"
-          ? entry.data.cover
-          : entry.data.cover.src
-        : "/logo.svg",
+    image: getProjectImageSrc(entry),
     techStack: entry.data.technologies ?? [],
     demoUrl: entry.data.externalUrl ?? undefined,
     githubUrl: entry.data.githubUrl ?? undefined,
@@ -50,7 +64,14 @@ const projects: ProjectItem[] = entries
     tags: entry.data.tags ?? [],
   }));
 
-// Pagination configuration
+/**
+ * Pagination configuration
+ * Shows first 6 projects on initial load, with "Load More" for remaining.
+ *
+ * NOTE: If project count exceeds 20, consider switching to Astro's built-in
+ * paginate() for server-side pagination with URL-based pages.
+ * See ADR-015 for pagination strategy details.
+ */
 const projectsPerPage = 6;
 const hasMoreProjects = projects.length > projectsPerPage;
 const displayedProjects = projects.slice(0, projectsPerPage);
@@ -172,7 +193,15 @@ const pageDescription =
 </BaseLayout>
 
 <script lang="js" is:inline>
-  // Client-side filtering and load more functionality
+  /**
+   * Client-side filtering and load more functionality
+   * 
+   * Uses vanilla JavaScript instead of Preact island per ADR-001:
+   * - Simple DOM manipulation without complex state management
+   * - No need for reactive framework overhead
+   * - Keeps bundle size minimal (~80 lines)
+   * - Progressive enhancement: filtering works, load more is optional
+   */
   document.addEventListener('DOMContentLoaded', () => {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const filterBadges = document.querySelectorAll('.filter-badge');
