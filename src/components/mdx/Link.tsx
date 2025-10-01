@@ -1,9 +1,11 @@
 // src/components/mdx/Link.tsx
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren } from "preact";
 
-interface LinkProps extends JSX.HTMLAttributes<HTMLAnchorElement> {
+interface LinkProps {
   children: ComponentChildren;
   href?: string;
+  class?: string;
+  [key: string]: unknown;
 }
 
 export default function Link({ children, href, class: className, ...props }: LinkProps) {

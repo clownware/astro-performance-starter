@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@10.13.1",
   "scripts": {
     "dev": "astro dev",
     "dev:host": "astro dev --host",
@@ -105,7 +105,7 @@
     "*.{md,mdx}": "markdownlint-cli2 --fix"
   },
   "engines": {
-    "node": ">=22.0.0",
-    "pnpm": ">=9.0.0"
+    "node": ">=24.0.0",
+    "pnpm": ">=10.0.0"
   }
 }
