@@ -5,6 +5,7 @@ import Footer from "@/components/structural/Footer.astro";
 import Header from "@/components/structural/Header.astro";
 import ThemeSetup from "@/components/ThemeSetup.astro";
 import { siteMetadata } from "@/config";
+import { validateOgImage } from "@/utils/validateOgImage";
 
 import "@fontsource-variable/inter";
 import "@/styles/global.css";
@@ -13,12 +14,39 @@ import "@/styles/global.css";
 import interVarUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 
 export interface Props {
+  /**
+   * Page title. Will be combined with site title unless it already includes it.
+   */
   title: string;
+  /**
+   * Page description for meta tags and social sharing.
+   */
   description: string;
+  /**
+   * Open Graph image for social media previews.
+   * Can be a relative path (e.g., "/og-default.jpg") or absolute URL.
+   * Relative paths are automatically converted to absolute URLs using Astro.site.
+   * @default "/og-default.jpg"
+   */
   image?: string;
+  /**
+   * Canonical URL for this page. Defaults to current page URL.
+   */
   canonicalUrl?: URL;
+  /**
+   * If true, adds noindex/nofollow meta tags to prevent search engine indexing.
+   * @default false
+   */
   noindex?: boolean;
+  /**
+   * Open Graph type. Use "article" for blog posts, "website" for other pages.
+   * @default "website"
+   */
   ogType?: "website" | "article";
+  /**
+   * Additional Open Graph metadata for articles (blog posts).
+   * Only used when ogType is "article".
+   */
   ogArticle?: {
     publishedTime?: string;
     modifiedTime?: string;
@@ -38,6 +66,9 @@ const {
 } = Astro.props;
 // Prevent Biome false positives for unused variables in Astro templates
 void { title, description, image, canonicalUrl, noindex, ogType, ogArticle };
+
+// Validate OG image exists (dev only, warns if missing)
+validateOgImage(image);
 
 const siteTitle = siteMetadata.title;
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
@@ -68,6 +99,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
+    <!-- Image path is converted to absolute URL for social media crawlers -->
     <meta property="og:image" content={new URL(image, Astro.site)} />
     <meta property="og:site_name" content={siteTitle} />
 

@@ -1,0 +1,15 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad-about" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ec4899;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f43f5e;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#grad-about)"/>
+  <circle cx="600" cy="220" r="80" fill="white" opacity="0.2"/>
+  <circle cx="600" cy="200" r="40" fill="white" opacity="0.3"/>
+  <path d="M 600 240 Q 550 280 550 320 L 650 320 Q 650 280 600 240" fill="white" opacity="0.3"/>
+  <text x="600" y="380" font-family="Arial, sans-serif" font-size="72" font-weight="bold" fill="white" text-anchor="middle">About</text>
+  <text x="600" y="450" font-family="Arial, sans-serif" font-size="32" fill="white" text-anchor="middle" opacity="0.9">Learn More About Us</text>
+  <text x="600" y="520" font-family="Arial, sans-serif" font-size="24" fill="white" text-anchor="middle" opacity="0.7">Astro Starter Template</text>
+</svg>
