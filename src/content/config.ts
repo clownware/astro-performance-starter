@@ -100,9 +100,27 @@ const bioCollection = defineCollection({
     }),
 });
 
+// Experience/Work History Collection
+const experienceCollection = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    company: z.string(),
+    location: z.string().optional(),
+    startDate: z.date(),
+    endDate: z.date().optional(), // Optional for current positions
+    current: z.boolean().default(false),
+    description: z.string(),
+    highlights: z.array(z.string()).optional(),
+    technologies: z.array(z.string()).optional(),
+    order: z.number().default(0), // For manual ordering
+  }),
+});
+
 export const collections = {
   projects: projectsCollection,
   blog: blogCollection,
   navigation: navigationCollection,
   bio: bioCollection,
+  experience: experienceCollection,
 };

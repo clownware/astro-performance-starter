@@ -1,5 +1,6 @@
 ---
 
+import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Image from "@/components/atoms/Image.astro";
 import SocialLink from "@/components/atoms/SocialLink.astro";
@@ -121,8 +122,10 @@ const experiences = [
         <div class="mx-auto max-w-4xl">
           <ul class="flex flex-wrap justify-center gap-4" role="list" aria-label="Technical skills">
             {skills.map((skill) => (
-              <li class="rounded-full bg-primary-100 px-4 py-2 text-sm font-semibold text-primary-800 transition-transform duration-200 hover:scale-105">
-                {skill}
+              <li class="transition-transform duration-200 hover:scale-105">
+                <Badge variant="primary" size="sm">
+                  {skill}
+                </Badge>
               </li>
             ))}
           </ul>
@@ -214,6 +217,7 @@ const experiences = [
               variant="primary" 
               size="lg"
               class="inline-flex items-center"
+              data-astro-prefetch
             >
               Get In Touch
             </Button>

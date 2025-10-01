@@ -65,6 +65,8 @@ astro-performance-starter/
 │   │   ├── bio/                     # Author bio collection
 │   │   ├── blog/                    # Blog posts collection
 │   │   │   └── *.mdx                # MDX blog posts
+│   │   ├── experience/              # Work experience collection
+│   │   │   └── *.mdx                # MDX experience entries
 │   │   ├── navigation/              # Navigation config
 │   │   └── projects/                # Projects collection
 │   │       └── *.mdx                # MDX project pages
