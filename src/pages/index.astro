@@ -275,9 +275,22 @@ const stackRationale: StackRationale = {
           </Button>
         </div>
         
-        <div class="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground-subtle">
-          ✓ TypeScript strict mode • ✓ Biome 20x faster linting • ✓ WCAG AA compliant
-        </div>
+        <ul class="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground-subtle flex flex-wrap items-center justify-center gap-x-4 gap-y-1" role="list" aria-label="Key features">
+          <li class="flex items-center gap-1">
+            <span aria-hidden="true">✓</span>
+            <span>TypeScript strict mode</span>
+          </li>
+          <li class="flex items-center gap-1" aria-hidden="true">•</li>
+          <li class="flex items-center gap-1">
+            <span aria-hidden="true">✓</span>
+            <span>Biome 20x faster linting</span>
+          </li>
+          <li class="flex items-center gap-1" aria-hidden="true">•</li>
+          <li class="flex items-center gap-1">
+            <span aria-hidden="true">✓</span>
+            <span>WCAG AA compliant</span>
+          </li>
+        </ul>
       </div>
     </Container>
     <!-- Scroll Indicator -->
@@ -302,15 +315,19 @@ const stackRationale: StackRationale = {
         </p>
       </div>
       
-      <div class="mt-4 sm:mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <ul class="mt-4 sm:mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 list-none" role="list" aria-label="Lighthouse performance metrics">
         {metrics.map((metric) => (
-          <Card class="border-2 border-primary-300 bg-background-secondary p-6 text-center">
-            <div class="text-3xl font-bold text-primary-600">{metric.score}</div>
-            <div class="mt-1 text-sm font-medium text-foreground-secondary">{metric.label}</div>
-
-          </Card>
+          <li>
+            <Card class="border-2 border-primary-300 bg-background-secondary p-6 text-center h-full">
+              <div class="text-3xl font-bold text-primary-600" aria-label={`${metric.label} score: ${metric.score}`}>
+                <span aria-hidden="true">{metric.icon}</span>
+                {metric.score}
+              </div>
+              <div class="mt-1 text-sm font-medium text-foreground-secondary">{metric.label}</div>
+            </Card>
+          </li>
         ))}
-      </div>
+      </ul>
       
       <div class="mt-8 text-center">
         <p class="text-sm text-foreground-subtle">
@@ -453,11 +470,23 @@ const stackRationale: StackRationale = {
             <p class="text-primary-700 mb-6">
               Launch a minimum viable product with essential features and performance optimization.
             </p>
-            <ul class="text-sm text-primary-600 space-y-2 mb-6">
-              <li>✓ Core pages and navigation</li>
-              <li>✓ Performance optimization</li>
-              <li>✓ SEO and accessibility</li>
-              <li>✓ Basic deployment</li>
+            <ul class="text-sm text-primary-600 space-y-2 mb-6" role="list">
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span>Core pages and navigation</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span>Performance optimization</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span>SEO and accessibility</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span>Basic deployment</span>
+              </li>
             </ul>
             <Button href="https://astro.clownware.org/tracks/mvp-track-guide" variant="primary" class="w-full">
               Start MVP Track →
@@ -474,11 +503,23 @@ const stackRationale: StackRationale = {
             <p class="text-secondary-700 mb-6">
               Build a portfolio-worthy project with advanced features and comprehensive documentation.
             </p>
-            <ul class="text-sm text-secondary-600 space-y-2 mb-6">
-              <li>✓ Advanced animations</li>
-              <li>✓ Complex interactions</li>
-              <li>✓ Content management</li>
-              <li>✓ Advanced deployment</li>
+            <ul class="text-sm text-secondary-600 space-y-2 mb-6" role="list">
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span>Advanced animations</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span>Complex interactions</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span>Content management</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span>Advanced deployment</span>
+              </li>
             </ul>
             <Button href="https://astro.clownware.org/tracks/showcase-track-guide" variant="primary" class="w-full">
               Start Showcase Track →

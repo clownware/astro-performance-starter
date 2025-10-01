@@ -35,7 +35,13 @@ Tests for the homepage (`src/pages/index.astro`):
 - ✅ CTA section with action buttons
 - ✅ Real-world results disclaimer
 - ✅ Scroll indicator
-- ✅ Accessibility requirements (`@a11y` tag)
+- ✅ Accessibility requirements (`@a11y` tag):
+  - ✅ Lang attribute validation
+  - ✅ Semantic lists with proper ARIA labels
+  - ✅ Lighthouse metrics with ARIA labels
+  - ✅ Expandable cards with `aria-label` and `role="region"`
+  - ✅ Keyboard navigation on expandable cards
+  - ✅ Decorative icons marked `aria-hidden="true"`
 - ✅ Semantic HTML structure
 
 #### `/e2e/blog.spec.ts`
