@@ -5,6 +5,133 @@ import SocialLink from "@/components/atoms/SocialLink.astro";
 import Card from "@/components/molecules/Card.astro";
 import ContactForm from "@/components/molecules/ContactForm.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+
+// Contact information from environment variables
+const contactEmail = import.meta.env.PUBLIC_CONTACT_EMAIL || "hello@example.com";
+const contactPhone = import.meta.env.PUBLIC_CONTACT_PHONE || "+1234567890";
+const contactPhoneDisplay = import.meta.env.PUBLIC_CONTACT_PHONE_DISPLAY || "+1 (234) 567-890";
+const contactLocation = import.meta.env.PUBLIC_CONTACT_LOCATION || "San Francisco, CA";
+const contactTimezone = import.meta.env.PUBLIC_CONTACT_TIMEZONE || "Mon-Fri, 9AM-6PM PST";
+const contactChatHours = import.meta.env.PUBLIC_CONTACT_CHAT_HOURS || "Mon-Fri, 9AM-5PM EST";
+
+// Social media links from environment variables
+const socialGithub = import.meta.env.PUBLIC_SOCIAL_GITHUB || "https://github.com/example";
+const socialLinkedIn =
+  import.meta.env.PUBLIC_SOCIAL_LINKEDIN || "https://linkedin.com/company/example";
+const socialTwitter = import.meta.env.PUBLIC_SOCIAL_TWITTER || "https://twitter.com/example";
+
+// Declarative contact methods data structure
+interface ContactMethod {
+  icon: string;
+  iconLabel: string;
+  title: string;
+  description: string;
+  action?: {
+    href: string;
+    label: string;
+  };
+  badge?: {
+    text: string;
+    role: "status" | "presentation";
+    additionalInfo?: string;
+  };
+}
+
+const contactMethods: ContactMethod[] = [
+  {
+    icon: "📧",
+    iconLabel: "Email icon",
+    title: "Email",
+    description: "For detailed inquiries or project discussions",
+    action: {
+      href: `mailto:${contactEmail}`,
+      label: contactEmail,
+    },
+  },
+  {
+    icon: "💬",
+    iconLabel: "Chat icon",
+    title: "Live Chat",
+    description: "Quick questions? Chat with us in real-time",
+    badge: {
+      text: "Online now",
+      role: "status",
+      additionalInfo: contactChatHours,
+    },
+  },
+  {
+    icon: "📞",
+    iconLabel: "Phone icon",
+    title: "Phone",
+    description: "Prefer to talk? Schedule a call with our team",
+    action: {
+      href: `tel:${contactPhone}`,
+      label: contactPhoneDisplay,
+    },
+  },
+];
+
+// Location and availability data structure
+interface LocationInfo {
+  icon: string;
+  iconLabel: string;
+  text: string;
+  badge: string;
+}
+
+const locationInfo: LocationInfo[] = [
+  {
+    icon: "📍",
+    iconLabel: "Location pin",
+    text: contactLocation,
+    badge: "Remote-friendly",
+  },
+  {
+    icon: "🕒",
+    iconLabel: "Clock",
+    text: contactTimezone,
+    badge: "Quick response",
+  },
+  {
+    icon: "🌍",
+    iconLabel: "Globe",
+    text: "Serving clients worldwide",
+    badge: "Global reach",
+  },
+];
+
+// Response expectations data structure
+interface ResponseExpectation {
+  icon: string;
+  iconLabel: string;
+  bgClass: string;
+  title: string;
+  description: string;
+}
+
+const responseExpectations: ResponseExpectation[] = [
+  {
+    icon: "⚡",
+    iconLabel: "Lightning bolt",
+    bgClass: "bg-surface-subtle",
+    title: "Quick Response",
+    description: "We'll acknowledge your message within 2 hours during business hours",
+  },
+  {
+    icon: "🎯",
+    iconLabel: "Target",
+    bgClass: "bg-secondary-100 dark:bg-secondary-900",
+    title: "Detailed Follow-up",
+    description: "Within 24 hours, we'll provide a comprehensive response to your inquiry",
+  },
+  {
+    icon: "🤝",
+    iconLabel: "Handshake",
+    bgClass: "bg-accent-100 dark:bg-accent-900",
+    title: "Next Steps",
+    description: "We'll schedule a call or meeting to discuss your project in detail",
+  },
+];
 ---
 
 <BaseLayout
@@ -70,69 +197,42 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
               </p>
             </div>
 
-            <!-- Contact Methods using Card components -->
+            <!-- Contact Methods using Card components with declarative mapping -->
             <div class="space-y-6">
-              <Card class="p-6">
-                <div class="flex items-start space-x-4">
-                  <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
-                    <span class="text-2xl" aria-hidden="true">📧</span>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-foreground-default mb-2">Email</h3>
-                    <p class="text-foreground-subtle mb-3">
-                      For detailed inquiries or project discussions
-                    </p>
-                    <Button 
-                      href="mailto:hello@example.com" 
-                      variant="secondary" 
-                      size="sm"
-                    >
-                      hello@example.com
-                    </Button>
-                  </div>
-                </div>
-              </Card>
-
-              <Card class="p-6">
-                <div class="flex items-start space-x-4">
-                  <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
-                    <span class="text-2xl" aria-hidden="true">💬</span>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-foreground-default mb-2">Live Chat</h3>
-                    <p class="text-foreground-subtle mb-3">
-                      Quick questions? Chat with us in real-time
-                    </p>
-                    <div class="flex items-center space-x-2">
-                      <Badge role="status">Online now</Badge>
-                      <span class="text-sm text-foreground-subtle">
-                        Mon-Fri, 9AM-5PM EST
-                      </span>
+              {contactMethods.map((method) => (
+                <Card class="p-6">
+                  <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
+                      <span class="text-2xl" aria-hidden="true" aria-label={method.iconLabel}>{method.icon}</span>
+                    </div>
+                    <div class="flex-1">
+                      <h3 class="text-lg font-semibold text-foreground-default mb-2">{method.title}</h3>
+                      <p class="text-foreground-subtle mb-3">
+                        {method.description}
+                      </p>
+                      {method.action && (
+                        <Button 
+                          href={method.action.href}
+                          variant="secondary" 
+                          size="sm"
+                        >
+                          {method.action.label}
+                        </Button>
+                      )}
+                      {method.badge && (
+                        <div class="flex items-center space-x-2">
+                          <Badge role={method.badge.role}>{method.badge.text}</Badge>
+                          {method.badge.additionalInfo && (
+                            <span class="text-sm text-foreground-subtle">
+                              {method.badge.additionalInfo}
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                   </div>
-                </div>
-              </Card>
-
-              <Card class="p-6">
-                <div class="flex items-start space-x-4">
-                  <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
-                    <span class="text-2xl" aria-hidden="true">📞</span>
-                  </div>
-                  <div class="flex-1">
-                    <h3 class="text-lg font-semibold text-foreground-default mb-2">Phone</h3>
-                    <p class="text-foreground-subtle mb-3">
-                      Prefer to talk? Schedule a call with our team
-                    </p>
-                    <Button 
-                      href="tel:+1234567890" 
-                      variant="secondary" 
-                      size="sm"
-                    >
-                      +1 (234) 567-890
-                    </Button>
-                  </div>
-                </div>
-              </Card>
+                </Card>
+              ))}
             </div>
 
             <!-- Social Media Links -->
@@ -143,17 +243,17 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
               <div class="flex space-x-4">
                 <SocialLink 
                   platform="github" 
-                  href="https://github.com/example" 
+                  href={socialGithub}
                   showIcon={true}
                 />
                 <SocialLink 
                   platform="linkedin" 
-                  href="https://linkedin.com/company/example" 
+                  href={socialLinkedIn}
                   showIcon={true}
                 />
                 <SocialLink 
                   platform="twitter" 
-                  href="https://twitter.com/example" 
+                  href={socialTwitter}
                   showIcon={true}
                 />
               </div>
@@ -165,21 +265,13 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
                 Location & Availability
               </h3>
               <div class="space-y-4">
-                <div class="flex items-center space-x-3">
-                  <span class="text-foreground-subtle" aria-hidden="true">📍</span>
-                  <span class="text-foreground-default">San Francisco, CA</span>
-                  <Badge role="presentation">Remote-friendly</Badge>
-                </div>
-                <div class="flex items-center space-x-3">
-                  <span class="text-foreground-subtle" aria-hidden="true">🕒</span>
-                  <span class="text-foreground-default">Mon-Fri, 9AM-6PM PST</span>
-                  <Badge role="presentation">Quick response</Badge>
-                </div>
-                <div class="flex items-center space-x-3">
-                  <span class="text-foreground-subtle" aria-hidden="true">🌍</span>
-                  <span class="text-foreground-default">Serving clients worldwide</span>
-                  <Badge role="presentation">Global reach</Badge>
-                </div>
+                {locationInfo.map((info) => (
+                  <div class="flex items-center space-x-3">
+                    <span class="text-foreground-subtle" aria-hidden="true" aria-label={info.iconLabel}>{info.icon}</span>
+                    <span class="text-foreground-default">{info.text}</span>
+                    <Badge role="presentation">{info.badge}</Badge>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -196,39 +288,19 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
             What to expect after reaching out
           </h2>
           <div class="grid md:grid-cols-3 gap-8">
-            <div class="space-y-4">
-              <div class="w-16 h-16 bg-surface-subtle rounded-full flex items-center justify-center mx-auto">
-                <span class="text-2xl" aria-hidden="true">⚡</span>
+            {responseExpectations.map((expectation) => (
+              <div class="space-y-4">
+                <div class={`w-16 h-16 ${expectation.bgClass} rounded-full flex items-center justify-center mx-auto`}>
+                  <span class="text-2xl" aria-hidden="true" aria-label={expectation.iconLabel}>{expectation.icon}</span>
+                </div>
+                <h3 class="text-xl font-semibold text-foreground-default">
+                  {expectation.title}
+                </h3>
+                <p class="text-foreground-subtle">
+                  {expectation.description}
+                </p>
               </div>
-              <h3 class="text-xl font-semibold text-foreground-default">
-                Quick Response
-              </h3>
-              <p class="text-foreground-subtle">
-                We'll acknowledge your message within 2 hours during business hours
-              </p>
-            </div>
-            <div class="space-y-4">
-              <div class="w-16 h-16 bg-secondary-100 dark:bg-secondary-900 rounded-full flex items-center justify-center mx-auto">
-                <span class="text-2xl" aria-hidden="true">🎯</span>
-              </div>
-              <h3 class="text-xl font-semibold text-foreground-default">
-                Detailed Follow-up
-              </h3>
-              <p class="text-foreground-subtle">
-                Within 24 hours, we'll provide a comprehensive response to your inquiry
-              </p>
-            </div>
-            <div class="space-y-4">
-              <div class="w-16 h-16 bg-accent-100 dark:bg-accent-900 rounded-full flex items-center justify-center mx-auto">
-                <span class="text-2xl" aria-hidden="true">🤝</span>
-              </div>
-              <h3 class="text-xl font-semibold text-foreground-default">
-                Next Steps
-              </h3>
-              <p class="text-foreground-subtle">
-                We'll schedule a call or meeting to discuss your project in detail
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </div>
