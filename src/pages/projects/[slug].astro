@@ -120,45 +120,51 @@ const projectWithSlug = { ...project, slug: entry.slug };
     <!-- Related Projects -->
     <div class="related-projects mt-12">
       <h3 class="text-xl font-semibold text-foreground-primary mb-6">More Projects</h3>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {allProjects
-          .filter(p => p.slug !== project.slug)
-          .slice(0, 2)
-          .map((relatedProject) => (
-            <article class="related-project-card bg-background-surface border border-border-default rounded-lg p-6 hover:border-border-hover transition-colors duration-200">
-              <h4 class="text-lg font-semibold text-foreground-primary mb-2">
-                <a href={`/projects/${relatedProject.slug}`} class="hover:text-primary-600 transition-colors duration-200">
-                  {relatedProject.title}
-                </a>
-              </h4>
-              <p class="text-foreground-secondary text-sm mb-4 line-clamp-2">
-                {relatedProject.description}
-              </p>
-              <div class="flex flex-wrap gap-2">
-                {(relatedProject.technologies ?? [])
-                  .slice(0, 3)
-                  .map((tech: string) => (
-                    <Badge class="text-xs">
-                      {tech}
-                    </Badge>
-                  ))}
-                {(relatedProject.technologies?.length ?? 0) > 3 && (
-                  <span class="text-xs text-foreground-secondary">
-                    +{(relatedProject.technologies?.length ?? 0) - 3} more
-                  </span>
-                )}
-              </div>
-            </article>
-          ))
-        }
-      </div>
+      {allProjects.filter(p => p.slug !== entry.slug).length > 0 ? (
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {allProjects
+            .filter(p => p.slug !== entry.slug)
+            .slice(0, 2)
+            .map((relatedProject) => (
+              <article class="related-project-card bg-background-surface border border-border-default rounded-lg p-6 hover:border-border-hover transition-colors duration-200">
+                <h4 class="text-lg font-semibold text-foreground-primary mb-2">
+                  <a href={`/projects/${relatedProject.slug}`} class="hover:text-primary-600 transition-colors duration-200">
+                    {relatedProject.title}
+                  </a>
+                </h4>
+                <p class="text-foreground-secondary text-sm mb-4 line-clamp-2">
+                  {relatedProject.description}
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  {(relatedProject.technologies ?? [])
+                    .slice(0, 3)
+                    .map((tech: string) => (
+                      <Badge class="text-xs">
+                        {tech}
+                      </Badge>
+                    ))}
+                  {(relatedProject.technologies?.length ?? 0) > 3 && (
+                    <span class="text-xs text-foreground-secondary">
+                      +{(relatedProject.technologies?.length ?? 0) - 3} more
+                    </span>
+                  )}
+                </div>
+              </article>
+            ))
+          }
+        </div>
+      ) : (
+        <p class="text-foreground-secondary text-center py-8 bg-background-surface border border-border-default rounded-lg">
+          No related projects available yet. Check back soon for more work!
+        </p>
+      )}
     </div>
   </div>
 </ProjectLayout>
 
 <style>
   .project-stats {
-    background: linear-gradient(135deg, rgba(var(--color-primary-500), 0.05) 0%, rgba(var(--color-primary-600), 0.1) 100%);
+    background: linear-gradient(135deg, hsl(var(--color-primary-500) / 0.05) 0%, hsl(var(--color-primary-600) / 0.1) 100%);
   }
 
   .timeline-items {
@@ -172,11 +178,7 @@ const projectWithSlug = { ...project, slug: entry.slug };
     top: 12px;
     bottom: 12px;
     width: 2px;
-    background: linear-gradient(to bottom, 
-      theme('colors.primary.600'), 
-      theme('colors.primary.600'), 
-      theme('colors.primary.600')
-    );
+    background: hsl(var(--color-primary-600));
   }
 
   .timeline-item {
@@ -186,7 +188,7 @@ const projectWithSlug = { ...project, slug: entry.slug };
 
   .related-project-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px hsl(var(--color-foreground-primary) / 0.1);
   }
 
   .line-clamp-2 {

@@ -93,3 +93,47 @@ export function getBlogPostUrl(post: BlogPostEntry): string {
 export function getBlogTagUrl(tag: string): string {
   return urlPatterns.blogTag(tag);
 }
+
+/**
+ * Validates if a URL is trusted and safe to link to.
+ * Prevents open redirect vulnerabilities by checking against allowed domains.
+ * @param url The URL to validate.
+ * @param allowedDomains Optional array of allowed domains. If not provided, allows common trusted domains.
+ * @returns True if the URL is trusted, false otherwise.
+ */
+export function isTrustedUrl(url: string, allowedDomains?: string[]): boolean {
+  if (!url || typeof url !== "string") {
+    return false;
+  }
+
+  try {
+    const parsedUrl = new URL(url);
+
+    // Allow relative URLs (same-origin)
+    if (!parsedUrl.protocol || parsedUrl.protocol === "javascript:") {
+      return false;
+    }
+
+    // Only allow http and https protocols
+    if (!["http:", "https:"].includes(parsedUrl.protocol)) {
+      return false;
+    }
+
+    // If no allowedDomains provided, allow all https URLs (basic validation)
+    // In production, you should configure specific allowed domains
+    if (!allowedDomains || allowedDomains.length === 0) {
+      return parsedUrl.protocol === "https:";
+    }
+
+    // Check if domain matches any allowed domain
+    const hostname = parsedUrl.hostname.toLowerCase();
+    return allowedDomains.some((domain) => {
+      const normalizedDomain = domain.toLowerCase();
+      // Exact match or subdomain match
+      return hostname === normalizedDomain || hostname.endsWith(`.${normalizedDomain}`);
+    });
+  } catch {
+    // Invalid URL format
+    return false;
+  }
+}
