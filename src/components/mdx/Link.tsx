@@ -19,7 +19,7 @@ export default function Link({ children, href, class: className, ...props }: Lin
       <a
         href={href}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="nofollow noopener noreferrer"
         class={`${defaultClasses} ${className ?? ""}`}
         {...props}
       >
