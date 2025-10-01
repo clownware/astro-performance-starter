@@ -2,10 +2,8 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection } from "astro:content";
 import type { GetStaticPaths, Page } from "astro";
-import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
-import Image from "@/components/atoms/Image.astro";
-import Card from "@/components/molecules/Card.astro";
+import PostCard from "@/components/molecules/PostCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { formatPostMetadata } from "@/utils/formatDate";
 
@@ -125,60 +123,11 @@ const pageDescription =
         </h2>
         <div class="flex flex-wrap justify-center gap-8">
           {featuredPostsWithMetadata.map((post: PostWithMetadata) => (
-            <Card class="group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]">
-              <div class="aspect-video overflow-hidden">
-                {(() => {
-                  const img = post.data.cardImage ?? post.data.cover;
-                  if (!img) return null;
-                  return typeof img === "string" ? (
-                    <img
-                      src={img}
-                      alt={post.data.coverAlt || `Image for ${post.data.title}`}
-                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  ) : (
-                    <Image
-                      src={img}
-                      alt={post.data.coverAlt || `Image for ${post.data.title}`}
-                      class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      loading="eager"
-                    />
-                  );
-                })()}
-                {post.metadata.isRecent && (
-                  <div class="absolute left-3 top-3">
-                    <Badge>New</Badge>
-                  </div>
-                )}
-              </div>
-
-              <div class="p-6">
-                <div class="mb-3 flex flex-wrap gap-2">
-                  {post.data.tags?.slice(0, 3).map((tag: string) => (
-                    <Badge>{tag}</Badge>
-                  ))}
-                </div>
-
-                <h3 class="mb-3 text-xl font-semibold text-foreground-default">
-                  <a
-                    href={`/blog/${post.slug}/`}
-                    class="stretched-link hover:text-accent-600 transition-colors"
-                  >
-                    {post.data.title}
-                  </a>
-                </h3>
-
-                <p class="mb-4 text-foreground-subtle line-clamp-3">
-                  {post.data.description}
-                </p>
-
-                <div class="flex items-center justify-between text-sm text-foreground-subtle">
-                  <span>{post.metadata.publishedDate}</span>
-                  <span>{post.metadata.readingTime}</span>
-                </div>
-              </div>
-            </Card>
+            <PostCard
+              post={post}
+              featured={true}
+              class="md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]"
+            />
           ))}
         </div>
       </section>
@@ -202,56 +151,10 @@ const pageDescription =
           <!-- Posts Grid -->
           <div class="flex flex-wrap justify-center gap-8">
             {postsWithMetadata.map((post: PostWithMetadata) => (
-              <Card class="group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]">
-                <div class="aspect-video overflow-hidden">
-                  {(() => {
-                    const img = post.data.cardImage ?? post.data.cover;
-                    if (!img) return null;
-                    return typeof img === "string" ? (
-                      <img
-                        src={img}
-                        alt={post.data.coverAlt || post.data.title}
-                        class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                      />
-                    ) : (
-                      <Image
-                        src={img}
-                        alt={post.data.coverAlt || post.data.title}
-                        class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
-                        loading="lazy"
-                      />
-                    );
-                  })()}
-                  {post.metadata.isRecent && (
-                    <div class="absolute left-3 top-3">
-                      <Badge>New</Badge>
-                    </div>
-                  )}
-                </div>
-
-                <div class="p-6">
-                  <div class="mb-3 flex flex-wrap gap-2">
-                    {post.data.tags?.map((tag: string) => (
-                      <Badge>{tag}</Badge>
-                    ))}
-                  </div>
-
-                  <h3 class="mb-3 text-xl font-semibold text-foreground-default group-hover:text-accent-600 transition-colors">
-                    <a href={`/blog/${post.slug}/`} class="after:absolute after:inset-0">
-                      {post.data.title}
-                    </a>
-                  </h3>
-
-                  <p class="mb-4 text-foreground-subtle line-clamp-3">
-                    {post.data.description}
-                  </p>
-
-                  <div class="flex items-center justify-between text-sm text-foreground-subtle">
-                    <span>{post.metadata.publishedDate}</span>
-                    <span>{post.metadata.readingTime}</span>
-                  </div>
-                </div>
-              </Card>
+              <PostCard
+                post={post}
+                class="md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]"
+              />
             ))}
           </div>
 
@@ -356,22 +259,3 @@ const pageDescription =
     </section>
   </div>
 </BaseLayout>
-
-<style>
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .stretched-link::after {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 1;
-    content: "";
-  }
-</style>

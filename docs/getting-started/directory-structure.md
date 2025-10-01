@@ -39,10 +39,11 @@ astro-performance-starter/
 │   │   │   ├── Image.astro
 │   │   │   ├── SocialLink.astro
 │   │   │   └── Tooltip.astro
-│   │   ├── molecules/               # Molecule components (4)
+│   │   ├── molecules/               # Molecule components (5)
 │   │   │   ├── Card.astro
 │   │   │   ├── ContactForm.astro
 │   │   │   ├── ExpandableFeatureCard.astro
+│   │   │   ├── PostCard.astro
 │   │   │   └── ProjectCard.astro
 │   │   ├── structural/              # Structural components (5)
 │   │   │   ├── Container.astro
@@ -130,7 +131,7 @@ astro-performance-starter/
 
 ## Component Organization
 
-**23 production-ready components** organized by atomic design principles:
+**24 production-ready components** organized by atomic design principles:
 
 ### Accessibility (1)
 
@@ -144,11 +145,12 @@ astro-performance-starter/
 - `SocialLink.astro` - Social media links
 - `Tooltip.astro` - Pure CSS tooltips
 
-### Molecules (4)
+### Molecules (5)
 
 - `Card.astro` - Content cards
 - `ContactForm.astro` - Form with validation
 - `ExpandableFeatureCard.astro` - Interactive feature cards
+- `PostCard.astro` - Blog post cards with metadata
 - `ProjectCard.astro` - Project showcase cards
 
 ### Structural (5)
