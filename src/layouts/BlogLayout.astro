@@ -6,14 +6,16 @@ import Image from "@components/atoms/Image.astro";
 import SocialLink from "@components/atoms/SocialLink.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { formatPostMetadata } from "@utils/formatDate";
+import { generateAllShareUrls } from "@utils/socialShare";
 
 export interface Props {
   post: CollectionEntry<"blog">;
-  prevPost?: CollectionEntry<"blog">;
-  nextPost?: CollectionEntry<"blog">;
+  prevPost?: CollectionEntry<"blog"> | null;
+  nextPost?: CollectionEntry<"blog"> | null;
+  headings: { depth: number; slug: string; text: string }[];
 }
 
-const { post, prevPost, nextPost } = Astro.props;
+const { post, prevPost, nextPost, headings } = Astro.props;
 const { title, description, cover, coverAlt, tags, author, date, updated } = post.data;
 
 // Format post metadata
@@ -23,26 +25,26 @@ const { publishedDate, updatedDate, readingTime, isRecent } = formatPostMetadata
   updated,
 );
 
-// Generate table of contents from headings
-const { headings } = await post.render();
-
 // Social sharing URLs
 const currentUrl = new URL(Astro.url.pathname, Astro.site).href;
-const encodedTitle = encodeURIComponent(title);
-const encodedUrl = encodeURIComponent(currentUrl);
-
-const shareUrls = {
-  twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
-  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
-  facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-  reddit: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
-};
+const shareUrls = generateAllShareUrls({
+  url: currentUrl,
+  title,
+  description,
+});
 ---
 
 <BaseLayout
   title={title}
   description={description}
-  image={cover ? cover.src : "/og-blog.jpg"}
+  image={cover ? cover.src : "/og-blog.svg"}
+  ogType="article"
+  ogArticle={{
+    publishedTime: date.toISOString(),
+    modifiedTime: updated?.toISOString(),
+    author,
+    tags,
+  }}
 >
   <article class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 bg-background-default">
     <!-- Article Header -->
@@ -56,7 +58,7 @@ const shareUrls = {
             </a>
           </li>
           <li>
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
@@ -66,7 +68,7 @@ const shareUrls = {
             </a>
           </li>
           <li>
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
@@ -84,27 +86,27 @@ const shareUrls = {
       <!-- Article Meta -->
       <div class="mb-8 flex flex-wrap items-center gap-4 text-sm text-foreground-secondary">
         <div class="flex items-center">
-          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
           </svg>
           <span>{author}</span>
         </div>
         <div class="flex items-center">
-          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
           </svg>
           <time datetime={date.toISOString()}>{publishedDate}</time>
         </div>
         {updatedDate && (
           <div class="flex items-center">
-            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
             </svg>
             <span>Updated {updatedDate}</span>
           </div>
         )}
         <div class="flex items-center">
-          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
           <span>{readingTime}</span>
@@ -134,6 +136,7 @@ const shareUrls = {
             class="w-full rounded-lg"
             sizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, 1024px"
             loading="eager"
+            decoding="async"
           />
         </div>
       )}
@@ -153,7 +156,7 @@ const shareUrls = {
         <div class="sticky top-8 space-y-8">
           <!-- Table of Contents -->
           {headings.length > 0 && (
-            <nav class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6 shadow-lg">
+            <nav class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6 shadow-lg" role="navigation" aria-label="Table of contents">
               <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
                 Table of Contents
               </h3>
@@ -202,7 +205,7 @@ const shareUrls = {
               >
                 <div>
                   <div class="flex items-center text-sm text-foreground-secondary mb-1">
-                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                     Previous
@@ -225,7 +228,7 @@ const shareUrls = {
                 <div>
                   <div class="flex items-center justify-end text-sm text-foreground-secondary mb-1">
                     Next
-                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                   </div>

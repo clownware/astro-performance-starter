@@ -51,6 +51,7 @@ Open **<http://localhost:4321/>** – you're up and running.
 Everything you need to customize and extend:
 
 - **[Onboarding Guide](./ONBOARDING.md)** – Detailed setup and concepts
+- **[Recommended Extensions](./docs/development/recommended-extensions.md)** – Essential VS Code extensions
 - **[Implementation Roadmap](./docs/README.md#implementation-roadmap)** – Phased development guide
 - **[Component System](./docs/implementation-guides/)** – Building with atomic design
 - **[AI Context Guides](./docs/ai-context/)** – Optimized for AI assistants

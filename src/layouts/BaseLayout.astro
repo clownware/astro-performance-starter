@@ -1,83 +1,61 @@
 ---
 import { ClientRouter } from "astro:transitions";
 import SkipLink from "@/components/a11y/SkipLink.astro";
+import Head from "@/components/molecules/Head.astro";
 import Footer from "@/components/structural/Footer.astro";
 import Header from "@/components/structural/Header.astro";
 import ThemeSetup from "@/components/ThemeSetup.astro";
-import { siteMetadata } from "@/config";
 
 import "@fontsource-variable/inter";
 import "@/styles/global.css";
 
-// Font asset URLs for proper hashed filenames in production
-import interVarUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
-
 export interface Props {
+  /**
+   * Page title. Will be combined with site title unless it already includes it.
+   */
   title: string;
+  /**
+   * Page description for meta tags and social sharing.
+   */
   description: string;
+  /**
+   * Open Graph image for social media previews.
+   * Can be a relative path (e.g., "/og-default.svg") or absolute URL.
+   * Relative paths are automatically converted to absolute URLs using Astro.site.
+   * @default "/og-default.svg"
+   */
   image?: string;
+  /**
+   * Canonical URL for this page. Defaults to current page URL.
+   */
   canonicalUrl?: URL;
+  /**
+   * If true, adds noindex/nofollow meta tags to prevent search engine indexing.
+   * @default false
+   */
   noindex?: boolean;
+  /**
+   * Open Graph type. Use "article" for blog posts, "website" for other pages.
+   * @default "website"
+   */
+  ogType?: "website" | "article";
+  /**
+   * Additional Open Graph metadata for articles (blog posts).
+   * Only used when ogType is "article".
+   */
+  ogArticle?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    tags?: string[];
+  };
 }
-
-const {
-  title,
-  description,
-  image = "/og-default.jpg",
-  canonicalUrl = new URL(Astro.url.pathname, Astro.site),
-  noindex = false,
-} = Astro.props;
-// Prevent Biome false positives for unused variables in Astro templates
-void { title, description, image, canonicalUrl, noindex };
-
-const siteTitle = siteMetadata.title;
-const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 ---
 
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="generator" content={Astro.generator} />
-
-    <!-- Favicons -->
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-
-    <!-- Primary Meta Tags -->
-    <title>{fullTitle}</title>
-    <meta name="title" content={fullTitle} />
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonicalUrl.href} />
-
-    {noindex && <meta name="robots" content="noindex, nofollow" />}
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalUrl.href} />
-    <meta property="og:title" content={fullTitle} />
-    <meta property="og:description" content={description} />
-    <meta property="og:image" content={new URL(image, Astro.site)} />
-    <meta property="og:site_name" content={siteTitle} />
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalUrl.href} />
-    <meta property="twitter:title" content={fullTitle} />
-    <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={new URL(image, Astro.site)} />
-
-    <!-- Font Preloading (hashed URLs injected by Vite) -->
-    <link
-      rel="preload"
-      href={interVarUrl}
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
-
+    <Head {...Astro.props} />
     <ClientRouter />
   </head>
   <body class="flex min-h-screen flex-col bg-background-primary text-foreground-primary antialiased">
@@ -85,7 +63,12 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     <ThemeSetup />
     <SkipLink />
     <Header />
-    <main id="main-content" class="flex-1 snap-y snap-mandatory overflow-y-auto">
+    <main 
+      id="main-content" 
+      class="flex-1 snap-y snap-mandatory overflow-y-auto"
+      aria-label="Main content with scroll snap navigation"
+      role="main"
+    >
       <slot />
     </main>
     <Footer />

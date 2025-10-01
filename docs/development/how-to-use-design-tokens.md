@@ -29,27 +29,29 @@ Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual c
 ### Tailwind utilities
 
 ```astro
-<div class="bg-background-default text-foreground-default p-4 rounded-lg shadow-md transition-base duration-fast">
+<div class="bg-background-primary text-foreground-primary p-4 rounded-lg shadow-md">
   …
 </div>
 ```
 
-- `bg-background-default` – maps to `semantic.background.default`.
-- `shadow-md` – from `shadow` scale.
-- `transition-base` & `duration-fast` – motion tokens.
+- `bg-background-primary` – maps to `semantic.background.primary` (uses `--color-background-primary`).
+- `text-foreground-primary` – semantic text color with automatic dark mode.
+- `shadow-md` – from `shadow` scale in base tokens.
+- All color tokens use the `--color-` prefix for consistency.
 
 ### CSS/SCSS
 
 ```css
 .card {
-  background-color: hsl(var(--semantic-background-default));
-  color: hsl(var(--semantic-foreground-default));
+  background-color: hsl(var(--color-background-primary));
+  color: hsl(var(--color-foreground-primary));
   border-radius: var(--border-radius-lg);
 }
 ```
 
-- Access any token via CSS custom property – **wrap HSL tokens with `hsl()`**.
-- Dark-mode handled automatically via `.dark` variables.
+- Access any token via CSS custom property – **wrap color tokens with `hsl()`**.
+- All color variables use the `--color-` prefix (e.g., `--color-primary-500`, `--color-background-primary`).
+- Dark-mode handled automatically via `.dark` class overrides.
 
 ## 3. Adding / updating tokens
 
@@ -61,10 +63,24 @@ Manual compilation (if needed): `pnpm run build:tokens`
 
 > **Tip:** keep scales consistent (increments of `4px` for spacing, `8ms` for durations, etc.).
 
-## 4. Naming rules
+## 4. Naming conventions
 
-- **Atomic tokens**: lowercase camelCase (`borderRadius.lg`).
-- **Semantic tokens**: cascade from purpose → state (`background.default`).
+### JSON tokens (source)
+
+- **Base tokens**: camelCase in JSON (`borderRadius.lg`, `color.moonstone.500`).
+- **Semantic tokens**: purpose-based naming (`background.primary`, `foreground.secondary`).
+
+### CSS variables (generated)
+
+- **All color tokens**: `--color-` prefix for consistency.
+  - Base: `--color-gray-500`, `--color-moonstone-600`
+  - Semantic: `--color-primary-500`, `--color-background-primary`
+- **Non-color tokens**: category prefix (`--spacing-4`, `--border-radius-lg`).
+
+### Tailwind utilities
+
+- Match CSS variable names: `bg-primary-500`, `text-foreground-primary`.
+- Dark mode: handled automatically via `.dark` class (no manual `dark:` variants needed for semantic tokens).
 
 ## 5. Dark mode strategies
 

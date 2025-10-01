@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial project structure and documentation.
+- **Blog Performance Optimizations:**
+  - Moved post sorting to `getStaticPaths` to eliminate redundant O(n log n) operations per page (99% reduction for 100 posts)
+  - Consolidated `post.render()` calls to avoid double markdown parsing (50% reduction)
+  - Added explicit `decoding="async"` to cover images for improved LCP scores
+  - Documented optimizations in ADR 012 with scalability considerations
+- **Error Handling for Dynamic Routes:**
+  - Added defensive error handling in `/src/pages/blog/[slug].astro` to redirect to 404 if post is undefined or slug mismatch occurs
+  - Documented error handling pattern in ADR 011 for consistent application across dynamic routes
 - **Content Model Definition (Phase 1):**
   - Established core content collections in `src/content/config.ts`:
     - `blog`: For blog posts, articles, and tutorials. Includes fields for title, description, dates, author, tags, category, featured image, and draft status. Supports MDX.

@@ -16,7 +16,7 @@ Before you begin, ensure you have:
 - **Node.js** 22.x or later ([install](https://nodejs.org/))
 - **pnpm** 9.x or later (`npm install -g pnpm`)
 - **Git** for version control
-- **VS Code** (recommended) with the Astro extension
+- **VS Code** (recommended) - see [Recommended Extensions](./docs/development/recommended-extensions.md)
 
 ## Quick Start
 

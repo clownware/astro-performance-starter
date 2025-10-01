@@ -38,41 +38,19 @@ function transformTokens<T = Record<string, unknown>>(
 }
 
 const config: Config = {
-  content: ["./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}", "!./src/content/docs/**/*"],
+  content: [
+    "./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}",
+    "./src/content/**/*.mdx",
+    "!./src/content/docs/**/*",
+  ],
   darkMode: "class",
   theme: {
     extend: {
       // Design tokens -> Tailwind colors
-      // Existing palette tokens are transformed above. Add semantic aliases so
-      // utilities like `text-foreground-primary` work out-of-the-box.
+      // All semantic tokens now use consistent 'color-' prefix following industry standards
+      // (Tailwind CSS, Radix UI, shadcn/ui conventions)
       colors: {
         ...transformTokens(tokens.colors),
-        foreground: {
-          primary: "hsl(var(--color-foreground-primary) / <alpha-value>)",
-          secondary: "hsl(var(--color-foreground-secondary) / <alpha-value>)",
-        },
-        background: {
-          primary: "hsl(var(--color-background-primary) / <alpha-value>)",
-          secondary: "hsl(var(--color-background-secondary) / <alpha-value>)",
-        },
-        border: {
-          primary: "hsl(var(--color-border-primary) / <alpha-value>)",
-        },
-        success: {
-          100: "hsl(var(--success-100) / <alpha-value>)",
-          600: "hsl(var(--success-600) / <alpha-value>)",
-          700: "hsl(var(--success-700) / <alpha-value>)",
-        },
-        warning: {
-          100: "hsl(var(--warning-100) / <alpha-value>)",
-          600: "hsl(var(--warning-600) / <alpha-value>)",
-          700: "hsl(var(--warning-700) / <alpha-value>)",
-        },
-        error: {
-          100: "hsl(var(--error-100) / <alpha-value>)",
-          600: "hsl(var(--error-600) / <alpha-value>)",
-          700: "hsl(var(--error-700) / <alpha-value>)",
-        },
       },
       spacing: transformTokens(tokens.spacing),
       fontSize: transformTokens(tokens.fontSize),

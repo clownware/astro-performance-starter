@@ -3,9 +3,10 @@ interface Props {
   class?: string;
   id?: string;
   fullHeight?: boolean; // Optional: allow disabling full viewport height when needed
+  ariaLabel?: string; // Optional: ARIA label for screen readers (recommended for snap sections)
 }
 
-const { class: className, id, fullHeight = true } = Astro.props as Props;
+const { class: className, id, fullHeight = true, ariaLabel } = Astro.props as Props;
 ---
 
 <section
@@ -15,6 +16,7 @@ const { class: className, id, fullHeight = true } = Astro.props as Props;
     fullHeight && "min-h-screen flex flex-col justify-center snap-start",
     className,
   ]}
+  aria-label={ariaLabel}
 >
   <slot />
 </section>
