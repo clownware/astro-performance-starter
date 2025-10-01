@@ -94,7 +94,13 @@ const pageDescription =
           All Projects
         </Button>
         {allTechStack.map((tech) => (
-          <Badge class="cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors duration-200 filter-badge" data-filter={tech.toLowerCase()}>
+          <Badge 
+            class="cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors duration-200 filter-badge" 
+            data-filter={tech.toLowerCase()}
+            role="button"
+            tabindex="0"
+            aria-pressed="false"
+          >
             {tech}
           </Badge>
         ))}
@@ -104,7 +110,7 @@ const pageDescription =
     <!-- Projects Grid -->
     <section class="text-center" aria-labelledby="projects-heading">
       <h2 id="projects-heading" class="mb-8 text-center text-2xl font-bold text-foreground-default">All Projects</h2>
-      <div id="projects-grid" class="flex flex-wrap justify-center gap-8">
+      <div id="projects-grid" class="flex flex-wrap justify-center gap-8" aria-live="polite" aria-atomic="false">
         {displayedProjects.map((project) => (
           <ProjectCard
             class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] project-card-item"
@@ -259,7 +265,10 @@ const pageDescription =
       }
 
       filterButtons.forEach((btn) => btn.classList.remove('active'));
-      filterBadges.forEach((badge) => badge.classList.remove('active'));
+      filterBadges.forEach((badge) => {
+        badge.classList.remove('active');
+        badge.setAttribute('aria-pressed', 'false');
+      });
     };
 
     filterButtons.forEach((button) => {
@@ -271,10 +280,22 @@ const pageDescription =
     });
 
     filterBadges.forEach((badge) => {
-      badge.addEventListener('click', () => {
+      // Click handler
+      const handleActivate = () => {
         const filterValue = badge.getAttribute('data-filter') ?? 'all';
         filterProjects(filterValue);
         badge.classList.add('active');
+        badge.setAttribute('aria-pressed', 'true');
+      };
+
+      badge.addEventListener('click', handleActivate);
+      
+      // Keyboard handler (Enter or Space)
+      badge.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          handleActivate();
+        }
       });
     });
 
@@ -295,8 +316,14 @@ const pageDescription =
   .filter-btn.active {
     @apply bg-primary-600 text-white;
   }
+  .filter-btn:focus-visible {
+    @apply ring-2 ring-primary-500 ring-offset-2;
+  }
   .filter-badge.active {
     @apply bg-primary-600 text-white;
+  }
+  .filter-badge:focus-visible {
+    @apply ring-2 ring-primary-500 ring-offset-2 outline-none;
   }
   [data-tech-stack] {
     transition: opacity 0.3s ease, transform 0.3s ease;
