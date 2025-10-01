@@ -201,7 +201,9 @@ const { post, headings } = Astro.props;
 ## Related Files
 
 - `src/pages/blog/[slug].astro` - Primary optimizations
+- `src/pages/blog/index.astro` - Uses centralized blog utilities
 - `src/layouts/BlogLayout.astro` - Receives headings as prop
+- `src/utils/blog.ts` - Centralized blog post queries and sorting (eliminates duplication)
 - `src/utils/formatDate.ts` - Reading time calculation (future optimization)
 
 ## Future Considerations

@@ -89,7 +89,11 @@ astro-performance-starter/
 │   ├── types/
 │   │   └── navigation.ts            # Type definitions
 │   └── utils/
-│       └── formatDate.ts            # Utility functions
+│       ├── blog.ts                  # Blog post queries and sorting
+│       ├── formatDate.ts            # Date formatting and reading time
+│       ├── socialShare.ts           # Social media share URLs
+│       ├── url-utils.ts             # URL helpers
+│       └── validateOgImage.ts       # OG image validation
 │
 ├── public/                          # Static assets
 │   ├── _headers                     # Security headers

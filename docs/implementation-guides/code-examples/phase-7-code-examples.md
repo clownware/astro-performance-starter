@@ -1375,34 +1375,35 @@ Blog listing page with featured posts, pagination, and filtering capabilities.
 
 ```astro
 ---
-import { getCollection } from "astro:content";
 import type { GetStaticPaths, Page } from "astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import Card from "@/components/molecules/Card.astro";
-import Badge from "@/components/atoms/Badge.astro";
+import PostCard from "@/components/molecules/PostCard.astro";
 import Button from "@/components/atoms/Button.astro";
 import { formatPostMetadata } from "@/utils/formatDate";
+import { getPublishedPosts, getFeaturedPosts } from "@/utils/blog";
 
 const postsPerPage = 6;
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
-  const allPosts = await getCollection("blog", ({ data }) => !data.draft);
-  const sortedPosts = allPosts.sort((a, b) => 
-    b.data.date.getTime() - a.data.date.getTime()
-  );
+  // Use centralized blog utilities (eliminates duplicate sorting)
+  const sortedPosts = await getPublishedPosts();
   return paginate(sortedPosts, { pageSize: postsPerPage });
 };
 
 const { page } = Astro.props;
 const posts = page.data;
 
-// Get featured posts (first page only)
+// Get featured posts (first page only, limit to 3)
 const featuredPosts = page.currentPage === 1
-  ? await getCollection("blog", ({ data }) => !data.draft && data.featured)
-      .then(posts => posts.slice(0, 3))
+  ? await getFeaturedPosts(3)
   : [];
 
 const postsWithMetadata = posts.map(post => ({
+  ...post,
+  metadata: formatPostMetadata(post.data.date, post.body),
+}));
+
+const featuredPostsWithMetadata = featuredPosts.map(post => ({
   ...post,
   metadata: formatPostMetadata(post.data.date, post.body),
 }));
