@@ -1,8 +1,9 @@
 {
-    "extends": "../tsconfig.json",
-    "compilerOptions": {
-      "noEmit": true
-    },
-    "include": ["src/**/*.ts"],
-    "exclude": ["../node_modules", "../dist"]
-  }
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": ["./**/*.ts", "./**/*.mjs"],
+  "exclude": ["../node_modules", "../dist"]
+}

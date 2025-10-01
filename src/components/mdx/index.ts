@@ -3,6 +3,8 @@
 // Dynamic import wrapper to avoid loading .astro during Node evaluation
 let callout: unknown;
 try {
+  // biome-ignore lint/suspicious/noExplicitAny: Astro component dynamic imports require type suppression
+  // @ts-expect-error - Astro component imports lack TypeScript declarations; runtime handles this
   callout = (await import("./Callout.astro")).default;
 } catch {
   callout = () => null;
@@ -10,12 +12,16 @@ try {
 // Astro components
 let figure: unknown;
 try {
+  // biome-ignore lint/suspicious/noExplicitAny: Astro component dynamic imports require type suppression
+  // @ts-expect-error - Astro component imports lack TypeScript declarations; runtime handles this
   figure = (await import("./Figure.astro")).default;
 } catch {
   figure = ({ children }: { children: unknown }): unknown => children;
 }
 let grid: unknown;
 try {
+  // biome-ignore lint/suspicious/noExplicitAny: Astro component dynamic imports require type suppression
+  // @ts-expect-error - Astro component imports lack TypeScript declarations; runtime handles this
   grid = (await import("./Grid.astro")).default;
 } catch {
   grid = ({ children }: { children: unknown }): unknown => children;
@@ -23,6 +29,8 @@ try {
 // Register Blockquote.astro for MDX <blockquote>
 let blockquote: unknown;
 try {
+  // biome-ignore lint/suspicious/noExplicitAny: Astro component dynamic imports require type suppression
+  // @ts-expect-error - Astro component imports lack TypeScript declarations; runtime handles this
   blockquote = (await import("./Blockquote.astro")).default;
 } catch {
   blockquote = ({ children }: { children: unknown }): unknown => children;

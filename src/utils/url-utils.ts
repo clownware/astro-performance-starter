@@ -20,6 +20,7 @@ export const urlPatterns = {
 
 /**
  * Generates a URL-friendly slug from a given string (e.g., a title).
+ * Preserves accented characters for better internationalization (RFC 3987 - IRIs).
  * @param title The string to slugify.
  * @returns A URL-friendly slug.
  */
@@ -29,7 +30,7 @@ export function generateSlug(title: string): string {
   }
   return title
     .toLowerCase()
-    .replace(/[^\w\s-]/g, "") // Remove special characters except word chars, spaces, and hyphens
+    .replace(/[^\p{L}\p{N}\s-]/gu, "") // Remove special chars, preserve letters (including accented) and numbers
     .replace(/\s+/g, "-") // Replace spaces with hyphens
     .replace(/-+/g, "-") // Replace multiple hyphens with a single hyphen
     .trim(); // Trim leading/trailing hyphens (if any after replacements)
