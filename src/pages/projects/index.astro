@@ -50,6 +50,11 @@ const projects: ProjectItem[] = entries
     tags: entry.data.tags ?? [],
   }));
 
+// Pagination configuration
+const projectsPerPage = 6;
+const hasMoreProjects = projects.length > projectsPerPage;
+const displayedProjects = projects.slice(0, projectsPerPage);
+
 // Extract unique tech stack items for filtering
 const allTechStack = [
   ...new Set(projects.flatMap((project: ProjectItem) => project.techStack)),
@@ -99,10 +104,10 @@ const pageDescription =
     <!-- Projects Grid -->
     <section class="text-center" aria-labelledby="projects-heading">
       <h2 id="projects-heading" class="mb-8 text-center text-2xl font-bold text-foreground-default">All Projects</h2>
-      <div class="flex flex-wrap justify-center gap-8">
-        {projects.map((project) => (
+      <div id="projects-grid" class="flex flex-wrap justify-center gap-8">
+        {displayedProjects.map((project) => (
           <ProjectCard
-            class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]"
+            class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] project-card-item"
             title={project.title}
             description={project.description}
             image={project.image}
@@ -136,45 +141,113 @@ const pageDescription =
       </Button>
     </div>
 
-    <!-- Load More Section -->
-    <section class="text-center mt-12">
-      <p class="text-foreground-secondary mb-6">
-        Want to see more projects? Check out our complete portfolio.
-      </p>
-      <Button 
-        variant="secondary" 
-        size="lg"
-        href="#"
-        class="inline-flex items-center"
-      >
-        <span class="mr-2" aria-hidden="true">📂</span>
-        View All Projects
-      </Button>
-    </section>
+    <!-- Load More Section (only shown when there are more projects) -->
+    {hasMoreProjects && (
+      <section class="text-center mt-12" id="load-more-section">
+        <p class="text-foreground-secondary mb-6">
+          Showing <span id="shown-count">{displayedProjects.length}</span> of {projects.length} projects
+        </p>
+        <Button 
+          variant="secondary" 
+          size="lg"
+          class="inline-flex items-center load-more-btn"
+        >
+          <span class="mr-2" aria-hidden="true">📂</span>
+          Load More Projects
+        </Button>
+      </section>
+    )}
+    
+    <!-- Hidden projects data for client-side loading -->
+    {hasMoreProjects && (
+      <script type="application/json" id="remaining-projects" is:inline set:html={JSON.stringify(projects.slice(projectsPerPage))} />
+    )}
   </div>
 </BaseLayout>
 
 <script lang="js" is:inline>
-  // Client-side filtering functionality
+  // Client-side filtering and load more functionality
   document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll(
-      '.filter-btn'
-    );
-    const filterBadges = document.querySelectorAll(
-      '.filter-badge'
-    );
-    const projectCards = document.querySelectorAll(
-      '[data-tech-stack]'
-    );
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const filterBadges = document.querySelectorAll('.filter-badge');
+    const projectCards = document.querySelectorAll('[data-tech-stack]');
     const emptyState = document.getElementById('empty-state');
-    const resetButton = document.querySelector(
-      '.reset-filter-btn'
-    );
+    const resetButton = document.querySelector('.reset-filter-btn');
+    const loadMoreBtn = document.querySelector('.load-more-btn');
+    const projectsGrid = document.getElementById('projects-grid');
+    const shownCount = document.getElementById('shown-count');
+    const loadMoreSection = document.getElementById('load-more-section');
 
+    // Load more functionality
+    if (loadMoreBtn) {
+      loadMoreBtn.addEventListener('click', () => {
+        const remainingProjectsScript = document.getElementById('remaining-projects');
+        if (!remainingProjectsScript) return;
+
+        const remainingProjects = JSON.parse(remainingProjectsScript.textContent);
+        
+        // Create project card HTML for remaining projects
+        remainingProjects.forEach((project) => {
+          const cardWrapper = document.createElement('a');
+          cardWrapper.href = project.href;
+          cardWrapper.className = 'block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] project-card-item';
+          
+          const techStackAttr = project.techStack.map(t => t.toLowerCase()).join(' ');
+          cardWrapper.setAttribute('data-tech-stack', techStackAttr);
+          
+          // Simplified card HTML (matches ProjectCard structure)
+          cardWrapper.innerHTML = `
+            <article class="w-full project-card bg-background-secondary border border-primary rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary-300 focus-within:ring-2 focus-within:ring-primary-500">
+              <div class="project-card__image-container relative overflow-hidden">
+                <img src="${project.image}" alt="Screenshot of ${project.title} project" class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105" loading="lazy" decoding="async" />
+              </div>
+              <div class="project-card__content p-6">
+                <header class="project-card__header mb-4">
+                  <h3 class="project-card__title text-xl font-semibold text-foreground-primary mb-2">${project.title}</h3>
+                  <p class="project-card__description text-foreground-secondary leading-relaxed">${project.description}</p>
+                </header>
+                ${project.tags && project.tags.length > 0 ? `
+                  <div class="project-card__tags mb-4">
+                    <div class="flex items-center gap-2 mb-2">
+                      <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Categories</span>
+                    </div>
+                    <ul class="flex flex-wrap gap-2" role="list">
+                      ${project.tags.map(tag => `<li><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">${tag}</span></li>`).join('')}
+                    </ul>
+                  </div>
+                ` : ''}
+                <div class="project-card__tech-stack mb-6">
+                  <div class="flex items-center gap-2 mb-2">
+                    <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Technologies</span>
+                  </div>
+                  <ul class="flex flex-wrap gap-2" role="list">
+                    ${project.techStack.map(tech => `<li><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">${tech}</span></li>`).join('')}
+                  </ul>
+                </div>
+              </div>
+            </article>
+          `;
+          
+          projectsGrid.appendChild(cardWrapper);
+        });
+
+        // Update count and hide load more button
+        if (shownCount) {
+          const totalCards = document.querySelectorAll('.project-card-item').length;
+          shownCount.textContent = totalCards;
+        }
+        if (loadMoreSection) {
+          loadMoreSection.style.display = 'none';
+        }
+      });
+    }
+
+    // Filter functionality
     const filterProjects = (filterValue) => {
       let visibleCount = 0;
+      const allCards = document.querySelectorAll('[data-tech-stack]');
 
-      projectCards.forEach((card) => {
+      allCards.forEach((card) => {
         const techStack = card.getAttribute('data-tech-stack') || '';
         const shouldShow = filterValue === 'all' || techStack.includes(filterValue);
         card.style.display = shouldShow ? 'block' : 'none';
