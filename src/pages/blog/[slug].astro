@@ -17,6 +17,11 @@ interface Props {
 
 const { post } = Astro.props;
 
+// Error handling: Redirect to 404 if post is undefined
+if (!post) {
+  return Astro.redirect("/404");
+}
+
 // Get all posts sorted by date for navigation
 const allPosts = (await getCollection("blog")).sort(
   (a: CollectionEntry<"blog">, b: CollectionEntry<"blog">) =>
@@ -26,7 +31,12 @@ const allPosts = (await getCollection("blog")).sort(
 // Find current post index for navigation
 const currentIndex = allPosts.findIndex((p: CollectionEntry<"blog">) => p.slug === post.slug);
 
-// Get previous and next posts
+// Edge case: If slug mismatch (should not happen with static paths, but defensive)
+if (currentIndex === -1) {
+  return Astro.redirect("/404");
+}
+
+// Get previous and next posts (null if at boundaries)
 const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
 const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
 
