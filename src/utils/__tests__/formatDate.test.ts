@@ -146,7 +146,7 @@ describe("formatDate utilities", () => {
     });
 
     it("handles HTML content by stripping tags", () => {
-      const html = "<p>" + "word ".repeat(200) + "</p>";
+      const html = `<p>${"word ".repeat(200)}</p>`;
       const result = estimateReadingTime(html);
       expect(result).toBe(1);
     });
