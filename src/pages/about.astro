@@ -119,13 +119,13 @@ const experiences = [
           </p>
         </div>
         <div class="mx-auto max-w-4xl">
-          <div class="flex flex-wrap justify-center gap-4">
+          <ul class="flex flex-wrap justify-center gap-4" role="list" aria-label="Technical skills">
             {skills.map((skill) => (
-              <div class="rounded-full bg-primary-100 px-4 py-2 text-sm font-semibold text-primary-800 transition-transform duration-200 hover:scale-105">
+              <li class="rounded-full bg-primary-100 px-4 py-2 text-sm font-semibold text-primary-800 transition-transform duration-200 hover:scale-105">
                 {skill}
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </div>
     </section>
@@ -137,10 +137,11 @@ const experiences = [
           <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-12">
             Experience
           </h2>
-          <div class="space-y-8">
+          <ol class="space-y-8" role="list" aria-label="Work experience timeline">
             {experiences.map((exp) => (
-              <article class="relative pl-8 pb-8 border-l-2 border-border-primary last:border-l-0 last:pb-0">
-                <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-primary-600 ring-4 ring-background-primary"></div>
+              <li class="relative pl-8 pb-8 border-l-2 border-border-primary last:border-l-0 last:pb-0">
+                <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-primary-600 ring-4 ring-background-primary" aria-hidden="true"></div>
+                <article>
                 <div class="space-y-2">
                   <h3 class="text-xl font-semibold text-foreground-primary">
                     {exp.title}
@@ -156,10 +157,10 @@ const experiences = [
                   <p class="text-foreground-secondary leading-relaxed">
                     {exp.description}
                   </p>
-                </div>
-              </article>
+                </article>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </div>
     </section>
