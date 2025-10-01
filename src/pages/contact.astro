@@ -24,9 +24,9 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
             we're here to help. Choose the method that works best for you.
           </p>
           <div class="flex flex-wrap justify-center gap-3">
-            <Badge>Available for new projects</Badge>
-            <Badge>Remote-friendly</Badge>
-            <Badge>Quick response time</Badge>
+            <Badge role="presentation">Available for new projects</Badge>
+            <Badge role="presentation">Remote-friendly</Badge>
+            <Badge role="presentation">Quick response time</Badge>
           </div>
         </div>
       </div>
@@ -75,7 +75,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
               <Card class="p-6">
                 <div class="flex items-start space-x-4">
                   <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
-                    <span class="text-2xl">📧</span>
+                    <span class="text-2xl" aria-hidden="true">📧</span>
                   </div>
                   <div class="flex-1">
                     <h3 class="text-lg font-semibold text-foreground-default mb-2">Email</h3>
@@ -96,7 +96,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
               <Card class="p-6">
                 <div class="flex items-start space-x-4">
                   <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
-                    <span class="text-2xl">💬</span>
+                    <span class="text-2xl" aria-hidden="true">💬</span>
                   </div>
                   <div class="flex-1">
                     <h3 class="text-lg font-semibold text-foreground-default mb-2">Live Chat</h3>
@@ -104,7 +104,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
                       Quick questions? Chat with us in real-time
                     </p>
                     <div class="flex items-center space-x-2">
-                      <Badge>Online now</Badge>
+                      <Badge role="status">Online now</Badge>
                       <span class="text-sm text-foreground-subtle">
                         Mon-Fri, 9AM-5PM EST
                       </span>
@@ -116,7 +116,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
               <Card class="p-6">
                 <div class="flex items-start space-x-4">
                   <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
-                    <span class="text-2xl">📞</span>
+                    <span class="text-2xl" aria-hidden="true">📞</span>
                   </div>
                   <div class="flex-1">
                     <h3 class="text-lg font-semibold text-foreground-default mb-2">Phone</h3>
@@ -166,19 +166,19 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
               </h3>
               <div class="space-y-4">
                 <div class="flex items-center space-x-3">
-                  <span class="text-foreground-subtle">📍</span>
+                  <span class="text-foreground-subtle" aria-hidden="true">📍</span>
                   <span class="text-foreground-default">San Francisco, CA</span>
-                  <Badge>Remote-friendly</Badge>
+                  <Badge role="presentation">Remote-friendly</Badge>
                 </div>
                 <div class="flex items-center space-x-3">
-                  <span class="text-foreground-subtle">🕒</span>
+                  <span class="text-foreground-subtle" aria-hidden="true">🕒</span>
                   <span class="text-foreground-default">Mon-Fri, 9AM-6PM PST</span>
-                  <Badge>Quick response</Badge>
+                  <Badge role="presentation">Quick response</Badge>
                 </div>
                 <div class="flex items-center space-x-3">
-                  <span class="text-foreground-subtle">🌍</span>
+                  <span class="text-foreground-subtle" aria-hidden="true">🌍</span>
                   <span class="text-foreground-default">Serving clients worldwide</span>
-                  <Badge>Global reach</Badge>
+                  <Badge role="presentation">Global reach</Badge>
                 </div>
               </div>
             </div>
@@ -188,6 +188,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
     </section>
 
     <!-- Response Expectations -->
+    <!-- Focus order: Grid flows naturally left-to-right, top-to-bottom for keyboard navigation -->
     <section class="py-16 bg-background-surface">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto text-center">
@@ -197,7 +198,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
           <div class="grid md:grid-cols-3 gap-8">
             <div class="space-y-4">
               <div class="w-16 h-16 bg-surface-subtle rounded-full flex items-center justify-center mx-auto">
-                <span class="text-2xl">⚡</span>
+                <span class="text-2xl" aria-hidden="true">⚡</span>
               </div>
               <h3 class="text-xl font-semibold text-foreground-default">
                 Quick Response
@@ -208,7 +209,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
             </div>
             <div class="space-y-4">
               <div class="w-16 h-16 bg-secondary-100 dark:bg-secondary-900 rounded-full flex items-center justify-center mx-auto">
-                <span class="text-2xl">🎯</span>
+                <span class="text-2xl" aria-hidden="true">🎯</span>
               </div>
               <h3 class="text-xl font-semibold text-foreground-default">
                 Detailed Follow-up
@@ -219,7 +220,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
             </div>
             <div class="space-y-4">
               <div class="w-16 h-16 bg-accent-100 dark:bg-accent-900 rounded-full flex items-center justify-center mx-auto">
-                <span class="text-2xl">🤝</span>
+                <span class="text-2xl" aria-hidden="true">🤝</span>
               </div>
               <h3 class="text-xl font-semibold text-foreground-default">
                 Next Steps
