@@ -63,7 +63,12 @@ export interface Props {
     <ThemeSetup />
     <SkipLink />
     <Header />
-    <main id="main-content" class="flex-1 snap-y snap-mandatory overflow-y-auto">
+    <main 
+      id="main-content" 
+      class="flex-1 snap-y snap-mandatory overflow-y-auto"
+      aria-label="Main content with scroll snap navigation"
+      role="main"
+    >
       <slot />
     </main>
     <Footer />
