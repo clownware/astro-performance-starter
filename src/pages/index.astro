@@ -251,7 +251,7 @@ const stackRationale: StackRationale = {
     <Container>
       <div class="mx-auto max-w-4xl text-center">
         <Badge class="mb-4 sm:mb-6 bg-primary-100 text-primary-800 text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2">
-          🎆 Production-Ready Astro Template
+          <span aria-hidden="true">🎆</span> Production-Ready Astro Template
         </Badge>
         
         <h1 class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-foreground-primary">
@@ -272,24 +272,24 @@ const stackRationale: StackRationale = {
             View on GitHub
           </Button>
           <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" data-astro-prefetch>
-            📖 View Documentation →
+            <span aria-hidden="true">📖</span> View Documentation →
           </Button>
         </div>
         
         <ul class="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground-subtle flex flex-wrap items-center justify-center gap-x-4 gap-y-1" role="list" aria-label="Key features">
           <li class="flex items-center gap-1">
             <span aria-hidden="true">✓</span>
-            <span>TypeScript strict mode</span>
+            <span><span class="sr-only">Included: </span>TypeScript strict mode</span>
           </li>
           <li class="flex items-center gap-1" aria-hidden="true">•</li>
           <li class="flex items-center gap-1">
             <span aria-hidden="true">✓</span>
-            <span>Biome 20x faster linting</span>
+            <span><span class="sr-only">Included: </span>Biome 20x faster linting</span>
           </li>
           <li class="flex items-center gap-1" aria-hidden="true">•</li>
           <li class="flex items-center gap-1">
             <span aria-hidden="true">✓</span>
-            <span>WCAG AA compliant</span>
+            <span><span class="sr-only">Included: </span>WCAG AA compliant</span>
           </li>
         </ul>
       </div>
@@ -309,7 +309,7 @@ const stackRationale: StackRationale = {
     <Container>
       <div class="text-center">
         <h2 class="text-3xl font-bold text-foreground-primary">
-          🎯 Lighthouse Performance Scores
+          <span aria-hidden="true">🎯</span> Lighthouse Performance Scores
         </h2>
         <p class="mt-4 text-lg text-foreground-secondary">
           Optimized for Core Web Vitals and search engine performance
@@ -371,7 +371,7 @@ const stackRationale: StackRationale = {
     <Container>
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold text-foreground-primary">
-          🛠️ Modern Tech Stack
+          <span aria-hidden="true">🛠️</span> Modern Tech Stack
         </h2>
         <p class="mt-4 text-lg text-foreground-secondary">
           Carefully selected tools for optimal developer experience
@@ -401,14 +401,14 @@ const stackRationale: StackRationale = {
       <div class="mt-12 mx-auto max-w-4xl">
         <div class="text-center mb-8">
           <h3 class="text-2xl font-bold text-foreground-primary mb-4">
-            🤔 Why This Stack?
+            <span aria-hidden="true">🤔</span> Why This Stack?
           </h3>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card class="p-6">
             <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
-              ⚡ Performance First
+              <span aria-hidden="true">⚡</span> Performance First
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.performance}
@@ -417,7 +417,7 @@ const stackRationale: StackRationale = {
           
           <Card class="p-6">
             <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
-              🎯 Developer Experience
+              <span aria-hidden="true">🎯</span> Developer Experience
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.developerExperience}
@@ -426,7 +426,7 @@ const stackRationale: StackRationale = {
           
           <Card class="p-6">
             <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
-              🏭 Production Ready
+              <span aria-hidden="true">🏭</span> Production Ready
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.productionReady}
@@ -435,7 +435,7 @@ const stackRationale: StackRationale = {
           
           <Card class="p-6">
             <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
-              🔮 Future Proof
+              <span aria-hidden="true">🔮</span> Future Proof
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.futureProof}
@@ -453,7 +453,7 @@ const stackRationale: StackRationale = {
       <div class="mx-auto max-w-4xl">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold text-foreground-primary">
-            🛤️ Choose Your Implementation Track
+            <span aria-hidden="true">🛤️</span> Choose Your Implementation Track
           </h2>
           <p class="mt-4 text-lg text-foreground-secondary">
             Structured paths based on your timeline and goals
@@ -465,28 +465,28 @@ const stackRationale: StackRationale = {
           <Card class="p-6 bg-primary-50 border-2 border-primary-200">
             <div class="mb-4">
               <h3 class="text-xl font-bold text-primary-800">
-                ⚡ MVP Track
+                <span aria-hidden="true">⚡</span> MVP Track
               </h3>
             </div>
             <p class="text-primary-700 mb-6">
               Launch a minimum viable product with essential features and performance optimization.
             </p>
-            <ul class="text-sm text-primary-600 space-y-2 mb-6" role="list">
+            <ul class="text-sm text-primary-600 space-y-2 mb-6" role="list" aria-label="MVP Track features">
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span>Core pages and navigation</span>
+                <span><span class="sr-only">Included: </span>Core pages and navigation</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span>Performance optimization</span>
+                <span><span class="sr-only">Included: </span>Performance optimization</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span>SEO and accessibility</span>
+                <span><span class="sr-only">Included: </span>SEO and accessibility</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span>Basic deployment</span>
+                <span><span class="sr-only">Included: </span>Basic deployment</span>
               </li>
             </ul>
             <Button href="https://astro.clownware.org/tracks/mvp-track-guide" variant="primary" class="w-full" data-astro-prefetch>
@@ -498,28 +498,28 @@ const stackRationale: StackRationale = {
           <Card class="p-6 bg-secondary-50 border-2 border-secondary-200">
             <div class="mb-4">
               <h3 class="text-xl font-bold text-secondary-800">
-                🏆 Showcase Track
+                <span aria-hidden="true">🏆</span> Showcase Track
               </h3>
             </div>
             <p class="text-secondary-700 mb-6">
               Build a portfolio-worthy project with advanced features and comprehensive documentation.
             </p>
-            <ul class="text-sm text-secondary-600 space-y-2 mb-6" role="list">
+            <ul class="text-sm text-secondary-600 space-y-2 mb-6" role="list" aria-label="Showcase Track features">
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span>Advanced animations</span>
+                <span><span class="sr-only">Included: </span>Advanced animations</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span>Complex interactions</span>
+                <span><span class="sr-only">Included: </span>Complex interactions</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span>Content management</span>
+                <span><span class="sr-only">Included: </span>Content management</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span>Advanced deployment</span>
+                <span><span class="sr-only">Included: </span>Advanced deployment</span>
               </li>
             </ul>
             <Button href="https://astro.clownware.org/tracks/showcase-track-guide" variant="primary" class="w-full">
@@ -545,15 +545,15 @@ const stackRationale: StackRationale = {
         
         <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
           <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="primary" size="lg" data-astro-prefetch>
-            🚀 Get Started Now
+            <span aria-hidden="true">🚀</span> Get Started Now
           </Button>
           <Button href="https://github.com/clownware/astro-starter-template" variant="secondary" size="lg" rel="noopener noreferrer" target="_blank">
-            🐈 View on GitHub
+            <span aria-hidden="true">🐈</span> View on GitHub
           </Button>
         </div>
         
         <div class="mt-8 text-sm text-background-secondary">
-          🔒 MIT Licensed • 🎆 Production Ready • 🤖 AI Optimized
+          <span aria-hidden="true">🔒</span> MIT Licensed <span aria-hidden="true">•</span> <span aria-hidden="true">🎆</span> Production Ready <span aria-hidden="true">•</span> <span aria-hidden="true">🤖</span> AI Optimized
         </div>
       </div>
     </Container>
