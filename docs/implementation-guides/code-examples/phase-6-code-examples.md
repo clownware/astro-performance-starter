@@ -1239,3 +1239,836 @@ const sectionId = `section-${Math.random().toString(36).slice(2)}`;
   </script>
 )}
 ```
+
+---
+
+## Layout Components
+
+Layouts provide the structural foundation for pages, handling SEO, navigation, and consistent page structure.
+
+### BaseLayout
+
+The foundational layout that all other layouts extend. Handles HTML structure, SEO meta tags, fonts, and global components.
+
+**File**: `src/layouts/BaseLayout.astro`
+
+```astro
+---
+import { ClientRouter } from "astro:transitions";
+import SkipLink from "@/components/a11y/SkipLink.astro";
+import Footer from "@/components/structural/Footer.astro";
+import Header from "@/components/structural/Header.astro";
+import ThemeSetup from "@/components/ThemeSetup.astro";
+import { siteMetadata } from "@/config";
+
+import "@fontsource-variable/inter";
+import "@/styles/global.css";
+
+// Font asset URLs for proper hashed filenames in production
+import interVarUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalUrl?: URL;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  image = "/og-default.jpg",
+  canonicalUrl = new URL(Astro.url.pathname, Astro.site),
+  noindex = false,
+} = Astro.props;
+
+const siteTitle = siteMetadata.title;
+const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl.href} />
+
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalUrl.href} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(image, Astro.site)} />
+    <meta property="og:site_name" content={siteTitle} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalUrl.href} />
+    <meta property="twitter:title" content={fullTitle} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={new URL(image, Astro.site)} />
+
+    <!-- Font Preloading (hashed URLs injected by Vite) -->
+    <link
+      rel="preload"
+      href={interVarUrl}
+      as="font"
+      type="font/woff2"
+      crossorigin="anonymous"
+    />
+
+    <ClientRouter />
+  </head>
+  <body class="flex min-h-screen flex-col bg-background-primary text-foreground-primary antialiased">
+    <!-- Theme Detection & Setup -->
+    <ThemeSetup />
+    <SkipLink />
+    <Header />
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+```
+
+**Usage Example:**
+
+```astro
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+---
+
+<BaseLayout 
+  title="About" 
+  description="Learn more about our company"
+  image="/og-about.jpg"
+>
+  <section class="py-16">
+    <div class="container mx-auto px-4">
+      <h1>About Us</h1>
+      <p>Your content here...</p>
+    </div>
+  </section>
+</BaseLayout>
+```
+
+**Key Features:**
+
+- Complete HTML5 document structure
+- SEO meta tags (Open Graph, Twitter Cards)
+- Canonical URL management
+- Font preloading for performance
+- Astro View Transitions support
+- Accessibility components (SkipLink)
+- Theme setup and detection
+- Responsive viewport configuration
+
+---
+
+### BlogLayout
+
+Specialized layout for blog posts with rich metadata, table of contents, social sharing, and post navigation.
+
+**File**: `src/layouts/BlogLayout.astro`
+
+```astro
+---
+import type { CollectionEntry } from "astro:content";
+import Badge from "@components/atoms/Badge.astro";
+import Button from "@components/atoms/Button.astro";
+import Image from "@components/atoms/Image.astro";
+import SocialLink from "@components/atoms/SocialLink.astro";
+import BaseLayout from "@layouts/BaseLayout.astro";
+import { formatPostMetadata } from "@utils/formatDate";
+
+export interface Props {
+  post: CollectionEntry<"blog">;
+  prevPost?: CollectionEntry<"blog">;
+  nextPost?: CollectionEntry<"blog">;
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const { title, description, cover, coverAlt, tags, author, date, updated } = post.data;
+
+// Format post metadata
+const { publishedDate, updatedDate, readingTime, isRecent } = formatPostMetadata(
+  date,
+  post.body,
+  updated,
+);
+
+// Generate table of contents from headings
+const { headings } = await post.render();
+
+// Social sharing URLs
+const currentUrl = new URL(Astro.url.pathname, Astro.site).href;
+const encodedTitle = encodeURIComponent(title);
+const encodedUrl = encodeURIComponent(currentUrl);
+
+const shareUrls = {
+  twitter: `https://twitter.com/intent/tweet?text=${encodedTitle}&url=${encodedUrl}`,
+  linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+  facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+  reddit: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
+};
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={cover ? cover.src : "/og-blog.jpg"}
+>
+  <article class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <!-- Article Header -->
+    <header class="mb-12">
+      <!-- Breadcrumb -->
+      <nav class="mb-6 text-sm" aria-label="Breadcrumb">
+        <ol class="flex items-center space-x-2 text-foreground-secondary">
+          <li>
+            <a href="/" class="hover:text-foreground-primary transition-colors">
+              Home
+            </a>
+          </li>
+          <li>
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+          </li>
+          <li>
+            <a href="/blog/" class="hover:text-foreground-primary transition-colors">
+              Blog
+            </a>
+          </li>
+          <li>
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+            </svg>
+          </li>
+          <li class="text-foreground-primary" aria-current="page">
+            {title}
+          </li>
+        </ol>
+      </nav>
+
+      <!-- Article Title -->
+      <h1 class="mb-6 text-4xl font-bold tracking-tight text-foreground-primary sm:text-5xl lg:text-6xl">
+        {title}
+      </h1>
+
+      <!-- Article Meta -->
+      <div class="mb-8 flex flex-wrap items-center gap-4 text-sm text-foreground-secondary">
+        <div class="flex items-center">
+          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+          </svg>
+          <span>{author}</span>
+        </div>
+        <div class="flex items-center">
+          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          <time datetime={date.toISOString()}>{publishedDate}</time>
+        </div>
+        {updatedDate && (
+          <div class="flex items-center">
+            <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            <span>Updated {updatedDate}</span>
+          </div>
+        )}
+        <div class="flex items-center">
+          <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span>{readingTime}</span>
+        </div>
+        {isRecent && (
+          <Badge class="bg-secondary-600 text-white">New</Badge>
+        )}
+      </div>
+
+      <!-- Tags -->
+      {tags.length > 0 && (
+        <div class="mb-8">
+          <div class="flex flex-wrap gap-2">
+            {tags.map((tag: string) => (
+              <Badge>{tag}</Badge>
+            ))}
+          </div>
+        </div>
+      )}
+
+      <!-- Featured Image -->
+      {cover && (
+        <div class="mb-8">
+          <Image
+            src={cover}
+            alt={coverAlt || `Cover image for ${title}`}
+            class="w-full rounded-lg"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 768px, 1024px"
+            loading="eager"
+          />
+        </div>
+      )}
+    </header>
+
+    <!-- Article Content with Sidebar -->
+    <div class="lg:grid lg:grid-cols-4 lg:gap-12">
+      <!-- Main Content -->
+      <div class="lg:col-span-3">
+        <div class="prose prose-lg prose-slate dark:prose-invert max-w-none">
+          <slot />
+        </div>
+      </div>
+
+      <!-- Sidebar -->
+      <aside class="lg:col-span-1">
+        <div class="sticky top-8 space-y-8">
+          <!-- Table of Contents -->
+          {headings.length > 0 && (
+            <nav class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6">
+              <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
+                Table of Contents
+              </h3>
+              <ul class="space-y-2 text-sm">
+                {headings.map((heading: any) => (
+                  <li style={`margin-left: ${(heading.depth - 1) * 12}px`}>
+                    <a
+                      href={`#${heading.slug}`}
+                      class="text-foreground-secondary hover:text-primary-600 transition-colors"
+                    >
+                      {heading.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          )}
+
+          <!-- Social Sharing -->
+          <div class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6">
+            <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
+              Share this post
+            </h3>
+            <div class="flex flex-col space-y-3">
+              <SocialLink platform="twitter" href={shareUrls.twitter} />
+              <SocialLink platform="linkedin" href={shareUrls.linkedin} />
+              <SocialLink platform="facebook" href={shareUrls.facebook} />
+              <SocialLink platform="reddit" href={shareUrls.reddit} />
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Previous/Next Navigation -->
+    {(prevPost || nextPost) && (
+      <nav class="mt-16 border-t border-default pt-8" aria-label="Post navigation">
+        <div class="grid gap-8 md:grid-cols-2">
+          {prevPost && (
+            <div class="group">
+              <p class="mb-2 text-sm font-medium text-foreground-secondary">Previous Post</p>
+              <Button
+                href={`/blog/${prevPost.slug}/`}
+                variant="ghost"
+                class="h-auto p-4 text-left justify-start group-hover:bg-background-secondary"
+              >
+                <div>
+                  <div class="flex items-center text-sm text-foreground-secondary mb-1">
+                    <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                    </svg>
+                    Previous
+                  </div>
+                  <div class="text-base font-medium text-foreground-primary group-hover:text-primary-600">
+                    {prevPost.data.title}
+                  </div>
+                </div>
+              </Button>
+            </div>
+          )}
+          {nextPost && (
+            <div class="group md:text-right">
+              <p class="mb-2 text-sm font-medium text-foreground-secondary">Next Post</p>
+              <Button
+                href={`/blog/${nextPost.slug}/`}
+                variant="ghost"
+                class="h-auto p-4 text-right justify-end group-hover:bg-background-secondary"
+              >
+                <div>
+                  <div class="flex items-center justify-end text-sm text-foreground-secondary mb-1">
+                    Next
+                    <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                    </svg>
+                  </div>
+                  <div class="text-base font-medium text-foreground-primary group-hover:text-primary-600">
+                    {nextPost.data.title}
+                  </div>
+                </div>
+              </Button>
+            </div>
+          )}
+        </div>
+      </nav>
+    )}
+  </article>
+</BaseLayout>
+
+<style>
+  /* Enhanced prose styling for blog content */
+  .prose {
+    @apply text-foreground-primary;
+  }
+  
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4,
+  .prose h5,
+  .prose h6 {
+    @apply text-foreground-primary font-bold;
+  }
+  
+  .prose h2 {
+    @apply text-2xl mt-12 mb-6;
+  }
+  
+  .prose h3 {
+    @apply text-xl mt-8 mb-4;
+  }
+  
+  .prose p {
+    @apply mb-6 leading-relaxed;
+  }
+  
+  .prose a {
+    @apply text-primary-600 hover:text-primary-700;
+  }
+  
+  .prose code {
+    @apply bg-background-secondary px-1.5 py-0.5 rounded text-sm;
+  }
+  
+  .prose pre {
+    @apply bg-background-secondary rounded-lg p-4 overflow-x-auto;
+  }
+  
+  .prose pre code {
+    @apply bg-transparent p-0;
+  }
+  
+  .prose blockquote {
+    @apply border-l-4 border-primary-500 pl-6 italic;
+  }
+  
+  .prose ul,
+  .prose ol {
+    @apply mb-6;
+  }
+  
+  .prose li {
+    @apply mb-2;
+  }
+</style>
+```
+
+**Usage Example:**
+
+```astro
+---
+// src/pages/blog/[...slug].astro
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BlogLayout from '@/layouts/BlogLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post, index) => ({
+    params: { slug: post.slug },
+    props: {
+      post,
+      prevPost: posts[index - 1],
+      nextPost: posts[index + 1],
+    },
+  }));
+}
+
+const { post, prevPost, nextPost } = Astro.props;
+const { Content } = await post.render();
+---
+
+<BlogLayout post={post} prevPost={prevPost} nextPost={nextPost}>
+  <Content />
+</BlogLayout>
+```
+
+**Key Features:**
+
+- Breadcrumb navigation
+- Rich metadata display (author, date, reading time)
+- Featured image support
+- Tag display
+- Automatic table of contents generation
+- Social sharing buttons
+- Previous/Next post navigation
+- Sticky sidebar on desktop
+- Responsive prose styling
+- "New" badge for recent posts
+
+---
+
+### ProjectLayout
+
+Specialized layout for project showcase pages with hero section, tech stack display, and project metadata.
+
+**File**: `src/layouts/ProjectLayout.astro`
+
+```astro
+---
+import type { ImageMetadata } from "astro";
+import Badge from "@/components/atoms/Badge.astro";
+import Button from "@/components/atoms/Button.astro";
+import Image from "@/components/atoms/Image.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatDate } from "@/utils/formatDate";
+
+export interface Props {
+  title: string;
+  description: string;
+  image?: string;
+  canonicalUrl?: URL;
+  // Project-specific props
+  project: {
+    title: string;
+    description: string;
+    cover: ImageMetadata | string;
+    coverAlt: string;
+    technologies: string[];
+    date?: Date | string;
+    client?: string;
+    duration?: string;
+    role?: string;
+    tags?: string[];
+    externalUrl?: string;
+  };
+}
+
+const { title, description, image, canonicalUrl, project } = Astro.props;
+
+// Format dates if provided
+const publishedDate = project.date ? formatDate(project.date, "full") : null;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  canonicalUrl={canonicalUrl}
+>
+  <article class="project-article">
+    <!-- Project Hero Section -->
+    <header class="project-hero relative overflow-hidden bg-gradient-to-br from-background-primary to-background-secondary">
+      <div class="mx-auto max-w-4xl px-4 py-12 lg:py-20 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <!-- Project Info -->
+          <div class="project-info">
+            <!-- Breadcrumb Navigation -->
+            <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
+              <ol class="flex items-center space-x-2 text-sm text-foreground-secondary">
+                <li>
+                  <a 
+                    href="/projects/" 
+                    class="hover:text-foreground-primary transition-colors duration-200"
+                    aria-label="Back to projects"
+                  >
+                    Projects
+                  </a>
+                </li>
+                <li class="flex items-center">
+                  <span class="mx-2" aria-hidden="true">→</span>
+                  <span class="text-foreground-primary font-medium">{project.title}</span>
+                </li>
+              </ol>
+            </nav>
+
+            <!-- Project Title -->
+            <h1 class="project-title text-4xl lg:text-5xl font-bold text-foreground-primary mb-4 leading-tight">
+              {project.title}
+            </h1>
+
+            <!-- Project Description -->
+            <p class="project-description text-lg text-foreground-secondary mb-6 leading-relaxed">
+              {project.description}
+            </p>
+
+            <!-- Project Meta -->
+            <div class="project-meta flex flex-wrap items-center gap-4 mb-8">
+              {project.client && (
+                <Badge class="text-sm">
+                  {project.client}
+                </Badge>
+              )}
+              {project.role && (
+                <span class="text-sm text-foreground-secondary">
+                  {project.role}
+                </span>
+              )}
+              {publishedDate && (
+                <span class="text-sm text-foreground-secondary">
+                  <time datetime={project.date?.toString()}>
+                    {publishedDate}
+                  </time>
+                </span>
+              )}
+              {project.duration && (
+                <span class="text-sm text-foreground-secondary">
+                  {project.duration}
+                </span>
+              )}
+            </div>
+
+            <!-- Call-to-Action Buttons -->
+            <div class="project-actions flex flex-wrap gap-4">
+              {project.externalUrl && (
+                <Button 
+                  variant="primary" 
+                  size="lg"
+                  href={project.externalUrl}
+                  class="inline-flex items-center"
+                >
+                  <span class="mr-2" aria-hidden="true">🚀</span>
+                  View Project
+                </Button>
+              )}
+              <Button 
+                variant="secondary" 
+                size="lg"
+                href="/projects/"
+                class="inline-flex items-center"
+              >
+                <span class="mr-2" aria-hidden="true">←</span>
+                Back to Projects
+              </Button>
+            </div>
+          </div>
+
+          <!-- Hero Image -->
+          <div class="project-hero-image">
+            <div class="relative rounded-xl overflow-hidden shadow-2xl">
+              {project.cover && (
+                <Image
+                  src={project.cover}
+                  alt={project.coverAlt || project.title}
+                  class="w-full h-auto"
+                  format="avif"
+                  quality="high"
+                  loading="eager"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  widths={[400, 600, 800, 1200]}
+                />
+              )}
+              <div class="absolute inset-0 bg-gradient-to-t from-foreground-primary/20 to-transparent pointer-events-none"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="project-content mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+      <!-- Tech Stack Section -->
+      <section class="tech-stack-section mb-12" aria-labelledby="tech-stack-heading">
+        <h2 id="tech-stack-heading" class="text-2xl font-bold text-foreground-primary mb-6">
+          Tech Stack
+        </h2>
+        <div class="tech-stack-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {(project.technologies ?? []).map((tech: string) => (
+             <div class="tech-item text-center p-4 bg-background-secondary border border-primary rounded-lg hover:border-primary-300 transition-colors duration-200">
+               <Badge class="w-full justify-center text-sm font-medium">
+                 {tech}
+               </Badge>
+             </div>
+           ))}
+        </div>
+      </section>
+
+      <!-- Project Details -->
+      <section class="project-details mb-12" aria-labelledby="details-heading">
+        <h2 id="details-heading" class="text-2xl font-bold text-foreground-primary mb-6">
+          Project Details
+        </h2>
+        <div class="prose prose-lg max-w-none text-foreground-secondary">
+          <!-- Slot for additional content -->
+          <slot />
+        </div>
+      </section>
+
+      <!-- Back to Projects -->
+      <section class="back-navigation text-center">
+        <Button 
+          variant="ghost" 
+          size="lg"
+          href="/projects"
+          class="inline-flex items-center"
+        >
+          <span class="mr-2" aria-hidden="true">←</span>
+          Back to Projects
+        </Button>
+      </section>
+    </main>
+  </article>
+</BaseLayout>
+
+<style>
+  .project-hero {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--color-primary-300) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--color-secondary-300) / 0.1) 0%, transparent 50%);
+  }
+
+  .tech-stack-grid .tech-item {
+    transition: all 0.2s ease;
+  }
+
+  .tech-stack-grid .tech-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px hsl(var(--color-foreground-primary) / 0.1);
+  }
+
+  .prose {
+    @apply text-foreground-primary;
+    line-height: 1.7;
+  }
+
+  .prose h2 {
+    @apply text-2xl font-bold text-foreground-primary mt-10 mb-5;
+  }
+
+  .prose h3 {
+    @apply text-xl font-semibold text-foreground-primary mt-8 mb-4;
+  }
+
+  .prose p {
+    @apply mb-6 leading-relaxed text-foreground-secondary;
+  }
+
+  .prose ul, .prose ol {
+    @apply mb-6 pl-6 space-y-2;
+  }
+
+  .prose code {
+    @apply bg-background-secondary px-1.5 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose blockquote {
+    @apply border-l-4 border-primary-500 pl-4 italic my-6;
+  }
+</style>
+```
+
+**Usage Example:**
+
+```astro
+---
+// src/pages/projects/[...slug].astro
+import { getCollection } from 'astro:content';
+import ProjectLayout from '@/layouts/ProjectLayout.astro';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<ProjectLayout
+  title={project.data.title}
+  description={project.data.description}
+  image={project.data.cover.src}
+  project={project.data}
+>
+  <Content />
+</ProjectLayout>
+```
+
+**Key Features:**
+
+- Hero section with gradient background
+- Two-column layout (info + image)
+- Breadcrumb navigation
+- Project metadata display (client, role, date, duration)
+- Tech stack grid with hover effects
+- Call-to-action buttons
+- Responsive image optimization
+- Prose styling for content
+- Back navigation
+- Design token integration
+
+---
+
+## Layout Best Practices
+
+### 1. Layout Hierarchy
+
+```
+BaseLayout (foundation)
+  ├── BlogLayout (extends BaseLayout)
+  ├── ProjectLayout (extends BaseLayout)
+  └── CustomLayout (extends BaseLayout)
+```
+
+### 2. SEO Optimization
+
+All layouts include:
+
+- Proper meta tags (Open Graph, Twitter Cards)
+- Canonical URLs
+- Structured data ready
+- Image optimization
+- Font preloading
+
+### 3. Accessibility
+
+- Semantic HTML5 structure
+- Skip links for keyboard navigation
+- Proper heading hierarchy
+- ARIA labels and landmarks
+- Focus management
+
+### 4. Performance
+
+- Font preloading
+- Image optimization
+- Minimal JavaScript
+- CSS inlining for critical styles
+- View Transitions support
+
+---
+
+## Related Documentation
+
+- [Component Patterns](/patterns/component-patterns) - Component design patterns
+- [Content Collections](/implementation-guides/07-content/01-content-collections) - Using layouts with content
+- [SEO Guide](/patterns/seo) - SEO best practices
+- [Accessibility](/patterns/accessibility) - WCAG compliance
