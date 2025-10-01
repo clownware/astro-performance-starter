@@ -99,6 +99,7 @@ graph TD
 - [Components Guide](/implementation-guides/guides/components-guide/) - Component architecture best practices  
 - [Content Model Guide](/implementation-guides/guides/content-model-guide/) - Content Collections patterns
 - [Image Optimization Guide](/implementation-guides/guides/image-optimization-guide/) - Performance-first image strategies
+- [Responsive Design Guide](/implementation-guides/guides/responsive-design-guide/) - Mobile-first patterns and breakpoint usage
 - [Testing Strategy Guide](/implementation-guides/guides/testing-strategy-guide/) - QA and testing approaches
 - [Rollback Strategies Guide](/implementation-guides/guides/rollback-strategies-guide/) - Deployment safety patterns
 
