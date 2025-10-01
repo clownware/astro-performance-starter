@@ -1,9 +1,11 @@
 # ADR 012: Blog Performance Optimizations
 
-**Status:** Accepted  
+**Status:** Accepted (Implementation Example)  
 **Date:** 2025-09-30  
 **Deciders:** Development Team  
 **Related:** Blog Layout, Static Site Generation, Performance
+
+> **Note**: This ADR documents the implementation of patterns defined in [ADR 020: Page Performance Patterns](./020-page-performance-patterns.md). Refer to ADR 020 for comprehensive performance guidelines.
 
 ## Context
 

@@ -6,7 +6,10 @@ description: >-
 lastUpdated: true
 tableOfContents: true
 pagefind: true
+status: 'Accepted (Implementation Example)'
 ---
+
+> **Note**: This ADR documents the implementation of patterns defined in [ADR 020: Page Performance Patterns](./020-page-performance-patterns.md). Refer to ADR 020 for comprehensive performance guidelines.
 
 ## Context and Problem Statement
 
