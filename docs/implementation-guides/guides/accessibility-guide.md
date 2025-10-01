@@ -883,3 +883,92 @@ Design tokens ensure theme-aware contrast:
 - `leading-relaxed` for improved readability
 
 **Recommendation**: Run WAVE or axe DevTools to verify 4.5:1 contrast ratio across all color combinations.
+
+### Decorative Icons and Emojis (WCAG 1.1.1)
+
+#### Emoji Best Practices
+
+All decorative emojis should be wrapped with `aria-hidden="true"` to prevent screen readers from announcing them:
+
+```astro
+<!-- ✅ Correct: Decorative emoji hidden from screen readers -->
+<h2>
+  <span aria-hidden="true">🎯</span> Lighthouse Performance Scores
+</h2>
+
+<!-- ✅ Correct: Emoji in button -->
+<Button>
+  <span aria-hidden="true">🚀</span> Get Started Now
+</Button>
+
+<!-- ❌ Incorrect: Emoji without aria-hidden -->
+<h2>🎯 Lighthouse Performance Scores</h2>
+```
+
+#### Checkmark Lists with Screen Reader Context
+
+When using visual checkmarks (✓) in lists, provide context for screen readers using the `.sr-only` utility class:
+
+```astro
+<ul role="list" aria-label="Key features">
+  <li class="flex items-center gap-1">
+    <span aria-hidden="true">✓</span>
+    <span><span class="sr-only">Included: </span>TypeScript strict mode</span>
+  </li>
+  <li class="flex items-center gap-1">
+    <span aria-hidden="true">✓</span>
+    <span><span class="sr-only">Included: </span>WCAG AA compliant</span>
+  </li>
+</ul>
+```
+
+**Screen reader output**: "Included: TypeScript strict mode" instead of just "TypeScript strict mode"
+
+#### Icon Component Pattern
+
+The `Icon.astro` component provides proper accessibility support:
+
+```astro
+<!-- Decorative icon (hidden from screen readers) -->
+<Icon name="github" class="w-5 h-5" decorative />
+
+<!-- Semantic icon (announced to screen readers) -->
+<Icon name="arrow-down" class="w-6 h-6" ariaLabel="Scroll down" />
+```
+
+Implementation:
+
+```astro
+<svg
+  class:list={[className]}
+  aria-hidden={decorative ? "true" : undefined}
+  aria-label={ariaLabel}
+  role={!decorative && ariaLabel ? "img" : undefined}
+>
+  <!-- SVG content -->
+</svg>
+```
+
+### Screen Reader Only Content
+
+The `.sr-only` utility class hides content visually while keeping it accessible to screen readers:
+
+```css
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+```
+
+**Use cases**:
+
+- Adding context to visual indicators (checkmarks, icons)
+- Providing additional information for screen reader users
+- Labeling form fields when visual labels aren't appropriate

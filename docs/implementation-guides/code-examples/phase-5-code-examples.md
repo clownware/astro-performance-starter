@@ -1164,6 +1164,157 @@ import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.
 
 ---
 
+### PostCard Component
+
+A reusable blog post card component with image, metadata, tags, and reading time. Supports both featured and regular variants with optimized loading strategies.
+
+```astro
+---
+// src/components/molecules/PostCard.astro
+import type { CollectionEntry } from "astro:content";
+import Badge from "@/components/atoms/Badge.astro";
+import Image from "@/components/atoms/Image.astro";
+import Card from "@/components/molecules/Card.astro";
+
+interface Props {
+  post: CollectionEntry<"blog"> & {
+    metadata: {
+      publishedDate: string;
+      readingTime: string;
+      isRecent: boolean;
+    };
+  };
+  featured?: boolean;
+  class?: string;
+}
+
+const { post, featured = false, class: className } = Astro.props;
+const img = post.data.cardImage ?? post.data.cover;
+---
+
+<Card class:list={["group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg", className]}>
+  <div class="aspect-video overflow-hidden">
+    {img && (
+      typeof img === "string" ? (
+        <img
+          src={img}
+          alt={post.data.coverAlt || `Image for ${post.data.title}`}
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+      ) : (
+        <Image
+          src={img}
+          alt={post.data.coverAlt || `Image for ${post.data.title}`}
+          class="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+          sizes={featured ? "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" : undefined}
+          loading={featured ? "eager" : "lazy"}
+        />
+      )
+    )}
+    {post.metadata.isRecent && (
+      <div class="absolute left-3 top-3">
+        <Badge>New</Badge>
+      </div>
+    )}
+  </div>
+
+  <div class="p-6">
+    <div class="mb-3 flex flex-wrap gap-2">
+      {featured
+        ? post.data.tags?.slice(0, 3).map((tag: string) => <Badge>{tag}</Badge>)
+        : post.data.tags?.map((tag: string) => <Badge>{tag}</Badge>)
+      }
+    </div>
+
+    <h3 class="mb-3 text-xl font-semibold text-foreground-default">
+      <a
+        href={`/blog/${post.slug}/`}
+        class:list={[
+          "transition-colors",
+          featured ? "stretched-link hover:text-accent-600" : "after:absolute after:inset-0 group-hover:text-accent-600"
+        ]}
+      >
+        {post.data.title}
+      </a>
+    </h3>
+
+    <p class="mb-4 text-foreground-subtle line-clamp-3">
+      {post.data.description}
+    </p>
+
+    <div class="flex items-center justify-between text-sm text-foreground-subtle">
+      <span>{post.metadata.publishedDate}</span>
+      <span>{post.metadata.readingTime}</span>
+    </div>
+  </div>
+</Card>
+
+<style>
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .stretched-link::after {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    content: "";
+  }
+</style>
+```
+
+**Usage Example:**
+
+```astro
+---
+import { getCollection } from "astro:content";
+import PostCard from "@/components/molecules/PostCard.astro";
+import { formatPostMetadata } from "@/utils/formatDate";
+
+// Get featured posts
+const featuredPosts = await getCollection("blog", ({ data }) => 
+  data.featured && !data.draft
+);
+
+// Add metadata
+const postsWithMetadata = featuredPosts.map((post) => ({
+  ...post,
+  metadata: formatPostMetadata(post.data.date, post.body),
+}));
+---
+
+<div class="flex flex-wrap justify-center gap-8">
+  {postsWithMetadata.map((post) => (
+    <PostCard
+      post={post}
+      featured={true}
+      class="md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]"
+    />
+  ))}
+</div>
+```
+
+**Key Features:**
+
+- Accepts `CollectionEntry<"blog">` with pre-computed metadata
+- `featured` prop controls loading strategy (eager vs lazy) and tag display (3 vs all)
+- Supports both string URLs and Astro Image assets
+- "New" badge for recent posts (controlled by `metadata.isRecent`)
+- Responsive image with hover zoom effect
+- Line-clamped description (3 lines max)
+- Reading time and publish date display
+- Stretched link pattern for entire card clickability (featured) or pseudo-element (regular)
+- Fully accessible with semantic HTML
+- Composable with responsive grid layouts
+
+---
+
 ### ProjectCard Component
 
 A comprehensive project showcase card with metadata, tech stack display, and action buttons for demos and source code.

@@ -1,15 +1,29 @@
 ---
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
+import Icon from "@/components/atoms/Icon.astro";
 
 import Card from "@/components/molecules/Card.astro";
 import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
+import SectionSeparator from "@/components/molecules/SectionSeparator.astro";
 import Container from "@/components/structural/Container.astro";
 import Grid from "@/components/structural/Grid.astro";
 import Section from "@/components/structural/Section.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-const features = [
+import type {
+  Feature,
+  LighthouseMetric,
+  StackRationale,
+  TechStackItem,
+  TechTerms,
+} from "@/types/content";
+
+/**
+ * Homepage feature cards showcasing template capabilities.
+ * Each feature includes expandable details for comprehensive information.
+ */
+const features: Feature[] = [
   {
     icon: "🚀",
     title: "Performance-First Architecture",
@@ -96,8 +110,11 @@ const features = [
   },
 ];
 
-// Technical term definitions for tooltips
-const techTerms: Record<string, string> = {
+/**
+ * Technical term definitions for tooltips and glossary.
+ * Provides context-aware explanations for AI-assisted development.
+ */
+const techTerms: TechTerms = {
   // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
   Biome:
     "A fast, all-in-one toolchain that replaces ESLint and Prettier with 20x better performance",
@@ -126,14 +143,22 @@ const techTerms: Record<string, string> = {
     "The site works perfectly without JavaScript, then progressively enhances with interactivity",
 };
 
-const metrics = [
+/**
+ * Lighthouse performance metrics for the starter template.
+ * Reflects ideal conditions with empty starter content.
+ */
+const metrics: LighthouseMetric[] = [
   { label: "Performance", score: "95+", icon: "🚀" },
   { label: "Accessibility", score: "100", icon: "♿" },
   { label: "Best Practices", score: "100", icon: "🛡️" },
   { label: "SEO", score: "100", icon: "🔍" },
 ];
 
-const techStack = [
+/**
+ * Technology stack with versions, descriptions, and benefits.
+ * Organized by category for clear understanding of architecture.
+ */
+const techStack: TechStackItem[] = [
   {
     name: "Astro",
     version: "v5.x",
@@ -143,7 +168,7 @@ const techStack = [
   },
   {
     name: "TypeScript",
-    version: "v5.8.3",
+    version: "v5.9.2",
     description: "Type-safe JavaScript with strict mode",
     benefit: "Catch errors early, better DX",
     category: "Language",
@@ -157,7 +182,7 @@ const techStack = [
   },
   {
     name: "Biome",
-    version: "v2.0.6",
+    version: "v2.2.4",
     description: "All-in-one toolchain for web projects",
     benefit: "20x faster than ESLint + Prettier combined",
     category: "Tooling",
@@ -185,14 +210,18 @@ const techStack = [
   },
   {
     name: "Sharp",
-    version: "v0.x",
+    version: "v0.34.x",
     description: "High-performance image processing",
     benefit: "Automatic conversion, responsive images",
     category: "Image Processing",
   },
 ];
 
-const stackRationale = {
+/**
+ * Rationale for technology stack choices.
+ * Explains the "why" behind each architectural decision.
+ */
+const stackRationale: StackRationale = {
   performance:
     "Every tool chosen prioritizes speed and efficiency, from Astro's zero-JS baseline to Biome's 20x faster linting.",
   developerExperience:
@@ -207,6 +236,7 @@ const stackRationale = {
 <BaseLayout
   title="Astro Performance Starter | Production-Ready Template for AI-Assisted Development"
   description="Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 100/100 Lighthouse scores, and AI-optimized documentation for rapid development."
+  preconnectDomains={["https://github.com", "https://astro.clownware.org"]}
 >
   <!-- Hero Section -->
   <Section ariaLabel="Hero section" class="relative overflow-hidden flex flex-col items-center justify-center text-center min-h-[calc(100vh-4rem)]">
@@ -221,7 +251,7 @@ const stackRationale = {
     <Container>
       <div class="mx-auto max-w-4xl text-center">
         <Badge class="mb-4 sm:mb-6 bg-primary-100 text-primary-800 text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2">
-          🎆 Production-Ready Astro Template
+          <span aria-hidden="true">🎆</span> Production-Ready Astro Template
         </Badge>
         
         <h1 class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-foreground-primary">
@@ -237,56 +267,68 @@ const stackRationale = {
         </p>
         
         <div class="mt-4 sm:mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
-          <Button href="https://github.com/clownware/astro-starter-template" variant="primary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6">
-            <svg class="w-4 h-4 sm:w-5 sm:h-5 mr-2" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.30.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-            </svg>
+          <Button href="https://github.com/clownware/astro-starter-template" variant="primary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" rel="noopener noreferrer" target="_blank">
+            <Icon name="github" class="w-4 h-4 sm:w-5 sm:h-5 mr-2" decorative />
             View on GitHub
           </Button>
-          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6">
-            📖 View Documentation →
+          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" data-astro-prefetch>
+            <span aria-hidden="true">📖</span> View Documentation →
           </Button>
         </div>
         
-        <div class="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground-subtle">
-          ✓ TypeScript strict mode • ✓ Biome 20x faster linting • ✓ WCAG AA compliant
-        </div>
+        <ul class="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground-subtle flex flex-wrap items-center justify-center gap-x-4 gap-y-1" role="list" aria-label="Key features">
+          <li class="flex items-center gap-1">
+            <span aria-hidden="true">✓</span>
+            <span><span class="sr-only">Included: </span>TypeScript strict mode</span>
+          </li>
+          <li class="flex items-center gap-1" aria-hidden="true">•</li>
+          <li class="flex items-center gap-1">
+            <span aria-hidden="true">✓</span>
+            <span><span class="sr-only">Included: </span>Biome 20x faster linting</span>
+          </li>
+          <li class="flex items-center gap-1" aria-hidden="true">•</li>
+          <li class="flex items-center gap-1">
+            <span aria-hidden="true">✓</span>
+            <span><span class="sr-only">Included: </span>WCAG AA compliant</span>
+          </li>
+        </ul>
       </div>
     </Container>
     <!-- Scroll Indicator -->
     <div class="absolute inset-x-0 bottom-4 flex flex-col items-center">
       <a href="#performance" class="group flex flex-col items-center text-foreground-secondary hover:text-primary-600 transition-colors" aria-label="Scroll to next section">
         <span class="text-xs sm:text-sm font-medium mb-1 sm:mb-2 opacity-75 group-hover:opacity-100 transition-opacity">Explore below</span>
-        <svg class="w-5 h-5 sm:w-6 sm:h-6 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-        </svg>
+        <Icon name="arrow-down" class="w-5 h-5 sm:w-6 sm:h-6 animate-bounce" decorative />
       </a>
     </div>
   </Section>
 
   <!-- Lighthouse Metrics Showcase -->
   <Section id="performance" ariaLabel="Performance metrics section" class="relative bg-background-secondary">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="text-center">
         <h2 class="text-3xl font-bold text-foreground-primary">
-          🎯 Lighthouse Performance Scores
+          <span aria-hidden="true">🎯</span> Lighthouse Performance Scores
         </h2>
         <p class="mt-4 text-lg text-foreground-secondary">
           Optimized for Core Web Vitals and search engine performance
         </p>
       </div>
       
-      <div class="mt-4 sm:mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
+      <ul class="mt-4 sm:mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 list-none" role="list" aria-label="Lighthouse performance metrics">
         {metrics.map((metric) => (
-          <Card class="border-2 border-primary-300 bg-background-secondary p-6 text-center">
-            <div class="text-3xl font-bold text-primary-600">{metric.score}</div>
-            <div class="mt-1 text-sm font-medium text-foreground-secondary">{metric.label}</div>
-
-          </Card>
+          <li>
+            <Card class="border-2 border-primary-300 bg-background-secondary p-6 text-center h-full">
+              <div class="text-3xl font-bold text-primary-600" aria-label={`${metric.label} score: ${metric.score}`}>
+                <span aria-hidden="true">{metric.icon}</span>
+                {metric.score}
+              </div>
+              <div class="mt-1 text-sm font-medium text-foreground-secondary">{metric.label}</div>
+            </Card>
+          </li>
         ))}
-      </div>
+      </ul>
       
       <div class="mt-8 text-center">
         <p class="text-sm text-foreground-subtle">
@@ -298,8 +340,7 @@ const stackRationale = {
 
   <!-- Key Features -->
   <Section id="features" ariaLabel="Key features section" class="relative">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl">
@@ -326,12 +367,11 @@ const stackRationale = {
 
   <!-- Tech Stack -->
   <Section id="tech-stack" ariaLabel="Technology stack section" class="bg-background-secondary relative">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold text-foreground-primary">
-          🛠️ Modern Tech Stack
+          <span aria-hidden="true">🛠️</span> Modern Tech Stack
         </h2>
         <p class="mt-4 text-lg text-foreground-secondary">
           Carefully selected tools for optimal developer experience
@@ -361,14 +401,14 @@ const stackRationale = {
       <div class="mt-12 mx-auto max-w-4xl">
         <div class="text-center mb-8">
           <h3 class="text-2xl font-bold text-foreground-primary mb-4">
-            🤔 Why This Stack?
+            <span aria-hidden="true">🤔</span> Why This Stack?
           </h3>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card class="p-6">
             <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
-              ⚡ Performance First
+              <span aria-hidden="true">⚡</span> Performance First
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.performance}
@@ -377,7 +417,7 @@ const stackRationale = {
           
           <Card class="p-6">
             <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
-              🎯 Developer Experience
+              <span aria-hidden="true">🎯</span> Developer Experience
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.developerExperience}
@@ -386,7 +426,7 @@ const stackRationale = {
           
           <Card class="p-6">
             <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
-              🏭 Production Ready
+              <span aria-hidden="true">🏭</span> Production Ready
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.productionReady}
@@ -395,7 +435,7 @@ const stackRationale = {
           
           <Card class="p-6">
             <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
-              🔮 Future Proof
+              <span aria-hidden="true">🔮</span> Future Proof
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.futureProof}
@@ -408,13 +448,12 @@ const stackRationale = {
 
   <!-- Implementation Tracks -->
   <Section id="implementation" ariaLabel="Implementation tracks section" class="relative">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-4xl">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold text-foreground-primary">
-            🛤️ Choose Your Implementation Track
+            <span aria-hidden="true">🛤️</span> Choose Your Implementation Track
           </h2>
           <p class="mt-4 text-lg text-foreground-secondary">
             Structured paths based on your timeline and goals
@@ -426,19 +465,31 @@ const stackRationale = {
           <Card class="p-6 bg-primary-50 border-2 border-primary-200">
             <div class="mb-4">
               <h3 class="text-xl font-bold text-primary-800">
-                ⚡ MVP Track
+                <span aria-hidden="true">⚡</span> MVP Track
               </h3>
             </div>
             <p class="text-primary-700 mb-6">
               Launch a minimum viable product with essential features and performance optimization.
             </p>
-            <ul class="text-sm text-primary-600 space-y-2 mb-6">
-              <li>✓ Core pages and navigation</li>
-              <li>✓ Performance optimization</li>
-              <li>✓ SEO and accessibility</li>
-              <li>✓ Basic deployment</li>
+            <ul class="text-sm text-primary-600 space-y-2 mb-6" role="list" aria-label="MVP Track features">
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Core pages and navigation</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Performance optimization</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>SEO and accessibility</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Basic deployment</span>
+              </li>
             </ul>
-            <Button href="https://astro.clownware.org/tracks/mvp-track-guide" variant="primary" class="w-full">
+            <Button href="https://astro.clownware.org/tracks/mvp-track-guide" variant="primary" class="w-full" data-astro-prefetch>
               Start MVP Track →
             </Button>
           </Card>
@@ -447,17 +498,29 @@ const stackRationale = {
           <Card class="p-6 bg-secondary-50 border-2 border-secondary-200">
             <div class="mb-4">
               <h3 class="text-xl font-bold text-secondary-800">
-                🏆 Showcase Track
+                <span aria-hidden="true">🏆</span> Showcase Track
               </h3>
             </div>
             <p class="text-secondary-700 mb-6">
               Build a portfolio-worthy project with advanced features and comprehensive documentation.
             </p>
-            <ul class="text-sm text-secondary-600 space-y-2 mb-6">
-              <li>✓ Advanced animations</li>
-              <li>✓ Complex interactions</li>
-              <li>✓ Content management</li>
-              <li>✓ Advanced deployment</li>
+            <ul class="text-sm text-secondary-600 space-y-2 mb-6" role="list" aria-label="Showcase Track features">
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Advanced animations</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Complex interactions</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Content management</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Advanced deployment</span>
+              </li>
             </ul>
             <Button href="https://astro.clownware.org/tracks/showcase-track-guide" variant="primary" class="w-full">
               Start Showcase Track →
@@ -470,8 +533,7 @@ const stackRationale = {
 
   <!-- CTA Section -->
   <Section ariaLabel="Call to action section" class="relative bg-foreground-primary">
-    <!-- Section separator -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent opacity-50"></div>
+    <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold text-background-primary">
@@ -482,16 +544,16 @@ const stackRationale = {
         </p>
         
         <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
-          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="primary" size="lg">
-            🚀 Get Started Now
+          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="primary" size="lg" data-astro-prefetch>
+            <span aria-hidden="true">🚀</span> Get Started Now
           </Button>
-          <Button href="https://github.com/clownware/astro-starter-template" variant="secondary" size="lg">
-            🐈 View on GitHub
+          <Button href="https://github.com/clownware/astro-starter-template" variant="secondary" size="lg" rel="noopener noreferrer" target="_blank">
+            <span aria-hidden="true">🐈</span> View on GitHub
           </Button>
         </div>
         
         <div class="mt-8 text-sm text-background-secondary">
-          🔒 MIT Licensed • 🎆 Production Ready • 🤖 AI Optimized
+          <span aria-hidden="true">🔒</span> MIT Licensed <span aria-hidden="true">•</span> <span aria-hidden="true">🎆</span> Production Ready <span aria-hidden="true">•</span> <span aria-hidden="true">🤖</span> AI Optimized
         </div>
       </div>
     </Container>

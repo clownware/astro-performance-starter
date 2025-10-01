@@ -45,7 +45,7 @@ const blogCollection = defineCollection({
       draft: z.boolean().default(false),
       featured: z.boolean().default(false),
       cover: image().optional(),
-      coverAlt: z.string().optional(),
+      coverAlt: z.string(), // Required for accessibility when cover image is used
       cardImage: image().optional(),
       tags: z.array(z.string()).default([]),
       technologies: z.array(z.string()).default([]),
@@ -100,9 +100,27 @@ const bioCollection = defineCollection({
     }),
 });
 
+// Experience/Work History Collection
+const experienceCollection = defineCollection({
+  type: "content",
+  schema: z.object({
+    title: z.string(),
+    company: z.string(),
+    location: z.string().optional(),
+    startDate: z.date(),
+    endDate: z.date().optional(), // Optional for current positions
+    current: z.boolean().default(false),
+    description: z.string(),
+    highlights: z.array(z.string()).optional(),
+    technologies: z.array(z.string()).optional(),
+    order: z.number().default(0), // For manual ordering
+  }),
+});
+
 export const collections = {
   projects: projectsCollection,
   blog: blogCollection,
   navigation: navigationCollection,
   bio: bioCollection,
+  experience: experienceCollection,
 };

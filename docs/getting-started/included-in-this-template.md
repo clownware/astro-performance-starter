@@ -38,8 +38,11 @@ The *Astro Performance Starter* gives you a production-ready foundation focused 
 |-----------|------|----------|
 | Button | `src/components/atoms/Button.astro` | Versatile button with size/variant props. Primary foundation for interactions. |
 | Badge | `src/components/atoms/Badge.astro` | Non-interactive labels for status, metrics, or categories. |
+| Icon | `src/components/atoms/Icon.astro` | Reusable SVG icons (github, arrows) with accessibility support. |
 | Image | `src/components/atoms/Image.astro` | Wrapper around Astro's Image with project defaults (AVIF, optimized sizing). |
 | Card | `src/components/molecules/Card.astro` | Flexible content container with consistent spacing and styling. |
+| PostCard | `src/components/molecules/PostCard.astro` | Blog post card with image, metadata, tags, and reading time. Supports featured/regular variants. |
+| SectionSeparator | `src/components/molecules/SectionSeparator.astro` | Gradient divider for visual section separation. |
 | Container | `src/components/structural/Container.astro` | Manages horizontal width and centers content across breakpoints. |
 | Section | `src/components/structural/Section.astro` | Controls vertical rhythm and spacing for page sections. |
 | Grid | `src/components/structural/Grid.astro` | Responsive CSS Grid with consistent gaps and breakpoint behavior. |

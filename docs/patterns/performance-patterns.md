@@ -457,39 +457,39 @@ const { loadWhen, mediaQuery = '(min-width: 768px)' } = Astro.props;
 
 ### 2. Resource Hints
 
+The template includes built-in support for DNS prefetch and preconnect via the `preconnectDomains` prop:
+
 ```astro
+<!-- In your page (e.g., index.astro) -->
+<BaseLayout
+  title="Page Title"
+  description="Page description"
+  preconnectDomains={["https://github.com", "https://api.example.com"]}
+>
+  <!-- Page content -->
+</BaseLayout>
+```
 
+This generates optimized resource hints in the `<head>`:
 
-***
+```html
+<!-- DNS prefetch for faster domain resolution -->
+<link rel="dns-prefetch" href="https://github.com" />
+<link rel="preconnect" href="https://github.com" crossorigin />
+<link rel="dns-prefetch" href="https://api.example.com" />
+<link rel="preconnect" href="https://api.example.com" crossorigin />
+```
 
+For internal navigation, use `data-astro-prefetch` (via `@astrojs/prefetch` integration):
 
-// ResourceHints.astro
-// Use in your BaseLayout.astro
+```astro
+<!-- Prefetches page on hover or viewport visibility -->
+<a href="/about" data-astro-prefetch>About</a>
 
-// Example hints object
-const hints = {
-  preload: ['/images/hero.webp'],
-  prefetch: ['/about'],
-  preconnect: ['https://api.example.com']
-};
-
-
-***
-
-
-
-<!-- Preload critical resources for this route -->
-{hints.preload.map(resource => (
-  <link rel="preload" href={resource} as="image" />
-))}
-
-<!-- Prefetch likely next navigations -->
-{hints.prefetch.map(url => (
-  <link rel="prefetch" href={url} />
-))}
-
-<!-- DNS prefetch for external resources -->
-<link rel="dns-prefetch" href="https://cdn.example.com" />
+<!-- Or with Button component -->
+<Button href="/docs" data-astro-prefetch>
+  View Docs
+</Button>
 ```
 
 ## Bundle Size Optimization

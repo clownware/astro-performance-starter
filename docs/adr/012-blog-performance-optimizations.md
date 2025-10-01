@@ -1,9 +1,11 @@
 # ADR 012: Blog Performance Optimizations
 
-**Status:** Accepted  
+**Status:** Accepted (Implementation Example)  
 **Date:** 2025-09-30  
 **Deciders:** Development Team  
 **Related:** Blog Layout, Static Site Generation, Performance
+
+> **Note**: This ADR documents the implementation of patterns defined in [ADR 020: Page Performance Patterns](./020-page-performance-patterns.md). Refer to ADR 020 for comprehensive performance guidelines.
 
 ## Context
 
@@ -201,7 +203,9 @@ const { post, headings } = Astro.props;
 ## Related Files
 
 - `src/pages/blog/[slug].astro` - Primary optimizations
+- `src/pages/blog/index.astro` - Uses centralized blog utilities
 - `src/layouts/BlogLayout.astro` - Receives headings as prop
+- `src/utils/blog.ts` - Centralized blog post queries and sorting (eliminates duplication)
 - `src/utils/formatDate.ts` - Reading time calculation (future optimization)
 
 ## Future Considerations
