@@ -155,7 +155,7 @@ const pageDescription =
 
               <div class="p-6">
                 <div class="mb-3 flex flex-wrap gap-2">
-                  {post.data.tags.slice(0, 3).map((tag: string) => (
+                  {post.data.tags?.slice(0, 3).map((tag: string) => (
                     <Badge>{tag}</Badge>
                   ))}
                 </div>
