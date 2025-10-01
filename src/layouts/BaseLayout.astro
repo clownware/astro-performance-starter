@@ -49,6 +49,11 @@ export interface Props {
     author?: string;
     tags?: string[];
   };
+  /**
+   * External domains to preconnect for performance optimization.
+   * @default []
+   */
+  preconnectDomains?: string[];
 }
 ---
 

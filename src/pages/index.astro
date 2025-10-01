@@ -236,6 +236,7 @@ const stackRationale: StackRationale = {
 <BaseLayout
   title="Astro Performance Starter | Production-Ready Template for AI-Assisted Development"
   description="Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 100/100 Lighthouse scores, and AI-optimized documentation for rapid development."
+  preconnectDomains={["https://github.com", "https://astro.clownware.org"]}
 >
   <!-- Hero Section -->
   <Section ariaLabel="Hero section" class="relative overflow-hidden flex flex-col items-center justify-center text-center min-h-[calc(100vh-4rem)]">
@@ -266,11 +267,11 @@ const stackRationale: StackRationale = {
         </p>
         
         <div class="mt-4 sm:mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
-          <Button href="https://github.com/clownware/astro-starter-template" variant="primary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6">
+          <Button href="https://github.com/clownware/astro-starter-template" variant="primary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" rel="noopener noreferrer" target="_blank">
             <Icon name="github" class="w-4 h-4 sm:w-5 sm:h-5 mr-2" decorative />
             View on GitHub
           </Button>
-          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6">
+          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" data-astro-prefetch>
             📖 View Documentation →
           </Button>
         </div>
@@ -488,7 +489,7 @@ const stackRationale: StackRationale = {
                 <span>Basic deployment</span>
               </li>
             </ul>
-            <Button href="https://astro.clownware.org/tracks/mvp-track-guide" variant="primary" class="w-full">
+            <Button href="https://astro.clownware.org/tracks/mvp-track-guide" variant="primary" class="w-full" data-astro-prefetch>
               Start MVP Track →
             </Button>
           </Card>
@@ -543,10 +544,10 @@ const stackRationale: StackRationale = {
         </p>
         
         <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
-          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="primary" size="lg">
+          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="primary" size="lg" data-astro-prefetch>
             🚀 Get Started Now
           </Button>
-          <Button href="https://github.com/clownware/astro-starter-template" variant="secondary" size="lg">
+          <Button href="https://github.com/clownware/astro-starter-template" variant="secondary" size="lg" rel="noopener noreferrer" target="_blank">
             🐈 View on GitHub
           </Button>
         </div>

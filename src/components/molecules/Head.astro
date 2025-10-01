@@ -44,6 +44,11 @@ export interface Props {
     author?: string;
     tags?: string[];
   };
+  /**
+   * External domains to preconnect for performance optimization.
+   * @default []
+   */
+  preconnectDomains?: string[];
 }
 
 const {
@@ -54,6 +59,7 @@ const {
   noindex = false,
   ogType = "website",
   ogArticle,
+  preconnectDomains = [],
 } = Astro.props;
 
 // Validate OG image exists (dev only, warns if missing)
@@ -121,3 +127,11 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
   type="font/woff2"
   crossorigin="anonymous"
 />
+
+<!-- External Domain Performance Hints -->
+{preconnectDomains.map((domain) => (
+  <>
+    <link rel="dns-prefetch" href={domain} />
+    <link rel="preconnect" href={domain} crossorigin />
+  </>
+))}
