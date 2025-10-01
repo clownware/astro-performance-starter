@@ -1,9 +1,11 @@
 # ADR 018: Contact Page Accessibility Enhancements
 
-**Status**: Accepted  
+**Status**: Accepted (Implementation Example)  
 **Date**: 2025-10-01  
 **Deciders**: Development Team  
-**Tags**: accessibility, wcag-aa, contact-page, emojis, aria
+**Tags**: accessibility, wcag-aa, contact-page, emojis, aria, implementation
+
+> **Note**: This ADR documents the implementation of patterns defined in [ADR 019: Accessibility Patterns & Standards](./019-accessibility-patterns-standards.md). Refer to ADR 019 for comprehensive accessibility guidelines.
 
 ## Context
 
@@ -142,8 +144,9 @@ Is the badge announcing a live status change?
 
 ## Related ADRs
 
-- ADR 000: Starter Decisions (WCAG AA compliance requirement)
-- ADR 016: Badge Component (Atomic design pattern)
+- [ADR 000: Starter Decisions](./000-starter-decisions.md) - WCAG AA compliance requirement
+- [ADR 016: Badge Component](./016-badge-component.md) - Atomic design pattern (if exists)
+- [ADR 019: Accessibility Patterns & Standards](./019-accessibility-patterns-standards.md) - Consolidated accessibility guidelines
 
 ## References
 
