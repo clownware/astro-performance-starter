@@ -229,7 +229,7 @@ describe("formatDate utilities", () => {
       expect(result.publishedDate).toContain("ago");
       expect(result.readingTime).toBe("2 min read");
       expect(result.isRecent).toBe(true);
-      expect(result.updatedDate).toBeUndefined();
+      expect(result.updatedDate).toBeNull();
     });
 
     it("includes updated date when provided", () => {
