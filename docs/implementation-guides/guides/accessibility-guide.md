@@ -754,3 +754,132 @@ test.describe('Automated Accessibility Tests', () => {
     expect(images).toHaveLength(0);
   });
 });
+```
+
+## Real-World Implementation: BlogLayout
+
+The `BlogLayout.astro` component demonstrates production-ready WCAG 2.1 AA compliance:
+
+### Decorative SVGs (WCAG 1.1.1)
+
+All decorative icons include `aria-hidden="true"` to prevent verbose screen reader output:
+
+```astro
+<!-- Breadcrumb chevron -->
+<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+  <path fill-rule="evenodd" d="..." />
+</svg>
+
+<!-- Meta icons (author, date, reading time) -->
+<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="..." />
+</svg>
+```
+
+### Semantic Navigation (WCAG 2.4.1, 4.1.2)
+
+Table of Contents uses explicit ARIA landmarks:
+
+```astro
+<nav 
+  class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6 shadow-lg" 
+  role="navigation" 
+  aria-label="Table of contents"
+>
+  <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
+    Table of Contents
+  </h3>
+  <ul class="space-y-2 text-sm">
+    {headings.map((heading) => (
+      <li style={`margin-left: ${(heading.depth - 1) * 12}px`}>
+        <a href={`#${heading.slug}`} class="text-foreground-secondary hover:text-primary-600">
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+```
+
+**Note**: Astro automatically generates unique `id` attributes for markdown headings via `post.render()`, ensuring ToC links work correctly.
+
+### Focus Indicators (WCAG 2.4.7)
+
+The `Button` component includes visible focus states:
+
+```astro
+<!-- Ghost variant with clear border states -->
+<Button
+  href={`/blog/${prevPost.slug}/`}
+  variant="ghost"
+  class="h-auto p-4 text-left justify-start group-hover:bg-background-secondary"
+>
+  <!-- Button content -->
+</Button>
+```
+
+Focus styles defined in component:
+
+```css
+.inline-flex {
+  /* ... */
+  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500;
+}
+```
+
+### External Links (Security & A11y)
+
+The `SocialLink` component implements best practices:
+
+```astro
+<a 
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={`Visit my ${linkText} (opens in new tab)`}
+>
+  <!-- Link content with aria-hidden icons -->
+</a>
+```
+
+### Breadcrumb Navigation
+
+Proper semantic structure with `aria-current`:
+
+```astro
+<nav class="mb-6 text-sm" aria-label="Breadcrumb">
+  <ol class="flex items-center space-x-2 text-foreground-secondary">
+    <li>
+      <a href="/" class="hover:text-foreground-primary transition-colors">Home</a>
+    </li>
+    <li>
+      <svg aria-hidden="true"><!-- chevron --></svg>
+    </li>
+    <li>
+      <a href="/blog/" class="hover:text-foreground-primary transition-colors">Blog</a>
+    </li>
+    <li>
+      <svg aria-hidden="true"><!-- chevron --></svg>
+    </li>
+    <li class="text-foreground-primary" aria-current="page">
+      {title}
+    </li>
+  </ol>
+</nav>
+```
+
+### Contrast & Readability (WCAG 1.4.3)
+
+Design tokens ensure theme-aware contrast:
+
+```astro
+<div class="prose prose-lg prose-slate dark:prose-invert max-w-none">
+  <slot />
+</div>
+```
+
+- Uses semantic color variables (`text-foreground-primary`, `bg-background-secondary`)
+- `prose-invert` for dark mode
+- `leading-relaxed` for improved readability
+
+**Recommendation**: Run WAVE or axe DevTools to verify 4.5:1 contrast ratio across all color combinations.
