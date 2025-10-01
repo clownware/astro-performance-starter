@@ -1,6 +1,6 @@
 ---
 title: 'ADR 015: Projects Page Pagination Strategy'
-description: "**Status**: Accepted\r **Date**: 2025-10-01"
+description: "**Status**: Accepted\r **Date**: 2025-10-01 | **Updated**: 2025-10-01"
 lastUpdated: true
 tableOfContents: true
 pagefind: true
@@ -8,7 +8,8 @@ pagefind: true
 # ADR 015: Projects Page Pagination Strategy
 
 **Status**: Accepted  
-**Date**: 2025-10-01
+**Date**: 2025-10-01  
+**Updated**: 2025-10-01 (Script optimization)
 
 ## Context
 
@@ -149,3 +150,41 @@ If the project count exceeds 20-30 projects:
 - ✅ **Accessibility**: WCAG 2.1 AA compliant
 - ✅ **Progressive Enhancement**: Works without JS
 - ⚠️ **Zero-JS Ideal**: Deviates for UX benefit (justified)
+
+## Performance Optimizations (2025-10-01)
+
+### Script Loading Strategy
+
+**Change**: Removed `is:inline` directive from client-side script to enable Astro's automatic optimizations.
+
+**Benefits**:
+
+- **Automatic deferral**: Script no longer blocks page rendering
+- **Better caching**: Bundled script gets content-hashed filename
+- **Type safety**: TypeScript types added for DOM manipulation
+- **Smaller bundle**: Astro's minification and tree-shaking applied
+
+**Before**:
+
+```astro
+<script lang="js" is:inline>
+  // Inline script, blocks parsing
+</script>
+```
+
+**After**:
+
+```astro
+<script>
+  // Automatically bundled, deferred, and cached
+  interface ProjectData { /* ... */ }
+  // TypeScript-typed DOM manipulation
+</script>
+```
+
+**Impact**:
+
+- No framework overhead (still vanilla JS per ADR-001)
+- Improved First Contentful Paint (FCP)
+- Better Long Task avoidance
+- Maintains progressive enhancement

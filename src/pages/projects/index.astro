@@ -192,7 +192,7 @@ const pageDescription =
   </div>
 </BaseLayout>
 
-<script lang="js" is:inline>
+<script>
   /**
    * Client-side filtering and load more functionality
    * 
@@ -201,33 +201,46 @@ const pageDescription =
    * - No need for reactive framework overhead
    * - Keeps bundle size minimal (~80 lines)
    * - Progressive enhancement: filtering works, load more is optional
+   * 
+   * Performance: Script is automatically deferred by Astro's build process
+   * and will not block page rendering.
    */
+  
+  interface ProjectData {
+    title: string;
+    description: string;
+    image: string;
+    techStack: string[];
+    tags?: string[];
+    href: string;
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const filterBadges = document.querySelectorAll('.filter-badge');
-    const projectCards = document.querySelectorAll('[data-tech-stack]');
+    const filterButtons = document.querySelectorAll<HTMLElement>('.filter-btn');
+    const filterBadges = document.querySelectorAll<HTMLElement>('.filter-badge');
+    const projectCards = document.querySelectorAll<HTMLElement>('[data-tech-stack]');
     const emptyState = document.getElementById('empty-state');
-    const resetButton = document.querySelector('.reset-filter-btn');
-    const loadMoreBtn = document.querySelector('.load-more-btn');
+    const resetButton = document.querySelector<HTMLElement>('.reset-filter-btn');
+    const loadMoreBtn = document.querySelector<HTMLElement>('.load-more-btn');
     const projectsGrid = document.getElementById('projects-grid');
     const shownCount = document.getElementById('shown-count');
     const loadMoreSection = document.getElementById('load-more-section');
 
     // Load more functionality
-    if (loadMoreBtn) {
+    if (loadMoreBtn && projectsGrid) {
       loadMoreBtn.addEventListener('click', () => {
         const remainingProjectsScript = document.getElementById('remaining-projects');
-        if (!remainingProjectsScript) return;
+        if (!remainingProjectsScript || !remainingProjectsScript.textContent) return;
 
-        const remainingProjects = JSON.parse(remainingProjectsScript.textContent);
+        const remainingProjects = JSON.parse(remainingProjectsScript.textContent) as ProjectData[];
         
         // Create project card HTML for remaining projects
-        remainingProjects.forEach((project) => {
+        remainingProjects.forEach((project: ProjectData) => {
           const cardWrapper = document.createElement('a');
           cardWrapper.href = project.href;
           cardWrapper.className = 'block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] project-card-item';
           
-          const techStackAttr = project.techStack.map(t => t.toLowerCase()).join(' ');
+          const techStackAttr = project.techStack.map((t: string) => t.toLowerCase()).join(' ');
           cardWrapper.setAttribute('data-tech-stack', techStackAttr);
           
           // Simplified card HTML (matches ProjectCard structure)
@@ -247,7 +260,7 @@ const pageDescription =
                       <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Categories</span>
                     </div>
                     <ul class="flex flex-wrap gap-2" role="list">
-                      ${project.tags.map(tag => `<li><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">${tag}</span></li>`).join('')}
+                      ${project.tags.map((tag: string) => `<li><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">${tag}</span></li>`).join('')}
                     </ul>
                   </div>
                 ` : ''}
@@ -256,7 +269,7 @@ const pageDescription =
                     <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Technologies</span>
                   </div>
                   <ul class="flex flex-wrap gap-2" role="list">
-                    ${project.techStack.map(tech => `<li><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">${tech}</span></li>`).join('')}
+                    ${project.techStack.map((tech: string) => `<li><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">${tech}</span></li>`).join('')}
                   </ul>
                 </div>
               </div>
@@ -269,7 +282,7 @@ const pageDescription =
         // Update count and hide load more button
         if (shownCount) {
           const totalCards = document.querySelectorAll('.project-card-item').length;
-          shownCount.textContent = totalCards;
+          shownCount.textContent = String(totalCards);
         }
         if (loadMoreSection) {
           loadMoreSection.style.display = 'none';
@@ -278,11 +291,11 @@ const pageDescription =
     }
 
     // Filter functionality
-    const filterProjects = (filterValue) => {
+    const filterProjects = (filterValue: string) => {
       let visibleCount = 0;
-      const allCards = document.querySelectorAll('[data-tech-stack]');
+      const allCards = document.querySelectorAll<HTMLElement>('[data-tech-stack]');
 
-      allCards.forEach((card) => {
+      allCards.forEach((card: HTMLElement) => {
         const techStack = card.getAttribute('data-tech-stack') || '';
         const shouldShow = filterValue === 'all' || techStack.includes(filterValue);
         card.style.display = shouldShow ? 'block' : 'none';
@@ -320,7 +333,7 @@ const pageDescription =
       badge.addEventListener('click', handleActivate);
       
       // Keyboard handler (Enter or Space)
-      badge.addEventListener('keydown', (e) => {
+      badge.addEventListener('keydown', (e: KeyboardEvent) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           handleActivate();
