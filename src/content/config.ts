@@ -45,7 +45,7 @@ const blogCollection = defineCollection({
       draft: z.boolean().default(false),
       featured: z.boolean().default(false),
       cover: image().optional(),
-      coverAlt: z.string().optional(),
+      coverAlt: z.string(), // Required for accessibility when cover image is used
       cardImage: image().optional(),
       tags: z.array(z.string()).default([]),
       technologies: z.array(z.string()).default([]),
