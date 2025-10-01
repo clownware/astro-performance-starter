@@ -233,6 +233,48 @@ const metrics: LighthouseMetric[] = [
 - Type safety achieved via `src/types/content.ts`
 - No query overhead
 
+### 5. Implement Prefetch/Preconnect for External Links
+
+**Rationale:**
+
+- External links to GitHub and documentation domains benefit from DNS prefetch
+- Internal documentation links benefit from Astro's prefetch integration
+- Reduces latency by 100-300ms for external link clicks
+- Enables instant navigation for internal links
+
+**Implementation:**
+
+```astro
+<!-- index.astro -->
+<BaseLayout
+  title="..."
+  description="..."
+  preconnectDomains={["https://github.com", "https://astro.clownware.org"]}
+>
+  <!-- Internal links with prefetch -->
+  <Button href="/docs/getting-started" data-astro-prefetch>
+    View Documentation
+  </Button>
+  
+  <!-- External links with security attributes -->
+  <Button href="https://github.com/..." rel="noopener noreferrer" target="_blank">
+    View on GitHub
+  </Button>
+</BaseLayout>
+```
+
+**Generated HTML:**
+
+```html
+<head>
+  <!-- DNS prefetch for faster domain resolution -->
+  <link rel="dns-prefetch" href="https://github.com" />
+  <link rel="preconnect" href="https://github.com" crossorigin />
+  <link rel="dns-prefetch" href="https://astro.clownware.org" />
+  <link rel="preconnect" href="https://astro.clownware.org" crossorigin />
+</head>
+```
+
 ## Performance Budget Compliance
 
 **Current homepage metrics:**
