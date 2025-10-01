@@ -89,11 +89,11 @@ const projectWithSlug = { ...project, slug: entry.slug };
     </div>
 
     <!-- Project Timeline -->
-    <div class="project-timeline mt-12 p-6 bg-background-surface rounded-lg border border-border-default">
-      <h3 class="text-xl font-semibold text-foreground-primary mb-4">Project Timeline</h3>
-      <div class="timeline-items space-y-4">
-        <div class="timeline-item flex items-center gap-4">
-          <div class="timeline-marker w-3 h-3 bg-primary-600 rounded-full flex-shrink-0"></div>
+    <section class="project-timeline mt-12 p-6 bg-background-surface rounded-lg border border-border-default" aria-labelledby="timeline-heading">
+      <h3 id="timeline-heading" class="text-xl font-semibold text-foreground-primary mb-4">Project Timeline</h3>
+      <ol role="list" class="timeline-items space-y-4">
+        <li class="timeline-item flex items-center gap-4">
+          <div class="timeline-marker w-3 h-3 bg-primary-600 rounded-full flex-shrink-0" aria-hidden="true"></div>
           <div class="timeline-content">
             <div class="timeline-date text-sm text-foreground-secondary">
               {formatDate(project.date, 'full')}
@@ -102,9 +102,9 @@ const projectWithSlug = { ...project, slug: entry.slug };
               Project Started
             </div>
           </div>
-        </div>
-        <div class="timeline-item flex items-center gap-4">
-          <div class="timeline-marker w-3 h-3 bg-primary-600 rounded-full flex-shrink-0"></div>
+        </li>
+        <li class="timeline-item flex items-center gap-4">
+          <div class="timeline-marker w-3 h-3 bg-primary-600 rounded-full flex-shrink-0" aria-hidden="true"></div>
           <div class="timeline-content">
             <div class="timeline-date text-sm text-foreground-secondary">
               {project.duration || 'Ongoing'}
@@ -113,9 +113,9 @@ const projectWithSlug = { ...project, slug: entry.slug };
               Project Duration
             </div>
           </div>
-        </div>
-      </div>
-    </div>
+        </li>
+      </ol>
+    </section>
 
     <!-- Related Projects -->
     <div class="related-projects mt-12">
@@ -169,6 +169,8 @@ const projectWithSlug = { ...project, slug: entry.slug };
 
   .timeline-items {
     position: relative;
+    list-style: none;
+    padding-left: 0;
   }
 
   .timeline-items::before {
