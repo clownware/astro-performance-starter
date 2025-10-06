@@ -38,16 +38,6 @@ importers:
       tailwindcss:
         specifier: 3.4.17
         version: 3.4.17
-    optionalDependencies:
-      '@axe-core/playwright':
-        specifier: ^4.10.2
-        version: 4.10.2(playwright-core@1.55.1)
-      style-dictionary:
-        specifier: ^5.0.4
-        version: 5.0.4
-      tailwindcss-themer:
-        specifier: ^4.1.1
-        version: 4.1.1(tailwindcss@3.4.17)
     devDependencies:
       '@astrojs/check':
         specifier: ^0.9.4
@@ -95,8 +85,8 @@ importers:
         specifier: ^11.0.3
         version: 11.0.3
       globby:
-        specifier: ^14.1.0
-        version: 14.1.0
+        specifier: ^15.0.0
+        version: 15.0.0
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -154,6 +144,16 @@ importers:
       vitest:
         specifier: ^2.1.9
         version: 2.1.9(@types/node@24.6.0)(jsdom@27.0.0(postcss@8.5.6))(lightningcss@1.29.3)(terser@5.39.0)
+    optionalDependencies:
+      '@axe-core/playwright':
+        specifier: ^4.10.2
+        version: 4.10.2(playwright-core@1.55.1)
+      style-dictionary:
+        specifier: ^5.0.4
+        version: 5.0.4
+      tailwindcss-themer:
+        specifier: ^4.1.1
+        version: 4.1.1(tailwindcss@3.4.17)
 
 packages:
 
@@ -1619,6 +1619,10 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
+  '@sindresorhus/merge-streams@4.0.0':
+    resolution: {integrity: sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==}
+    engines: {node: '>=18'}
+
   '@sveltejs/acorn-typescript@1.0.6':
     resolution: {integrity: sha512-4awhxtMh4cx9blePWl10HRHj8Iivtqj+2QdDCSMDzxG+XKa9+VCNupQuCuvzEhYPzZSrX+0gC+0lHA/0fFKKQQ==}
     peerDependencies:
@@ -2344,6 +2348,10 @@ packages:
     resolution: {integrity: sha512-ecqj/sy1jcK1uWrwpR67UhYrIFQ+5WlGxth34WquCbamhFA6hkkwiu37o6J5xCHdo1oixJRfVRw+ywV+Hq/0Aw==}
     engines: {node: '>=8'}
 
+  detect-libc@2.1.2:
+    resolution: {integrity: sha512-Btj2BOOO83o3WyH59e8MgXsxEQVcarkUOpEYrubB0urwnN10yQ364rsiByU11nZlqWYZm05i/of7io4mzihBtQ==}
+    engines: {node: '>=8'}
+
   deterministic-object-hash@2.0.2:
     resolution: {integrity: sha512-KxektNH63SrbfUyDiwXqRb1rLwKt33AmMv+5Nhsw1kqZ13SJBRTgZHtGbE+hH3a1mVW1cz+4pqSWVPAtLVXTzQ==}
     engines: {node: '>=18'}
@@ -2718,6 +2726,10 @@ packages:
   globby@14.1.0:
     resolution: {integrity: sha512-0Ia46fDOaT7k4og1PDW4YbodWWr3scS2vAr2lTbsplOt2WkKp0vQbkI9wKis/T5LV/dqPjO3bpS/z6GTJB82LA==}
     engines: {node: '>=18'}
+
+  globby@15.0.0:
+    resolution: {integrity: sha512-oB4vkQGqlMl682wL1IlWd02tXCbquGWM4voPEI85QmNKCaw8zGTm1f1rubFgkg3Eli2PtKlFgrnmUqasbQWlkw==}
+    engines: {node: '>=20'}
 
   gopd@1.2.0:
     resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
@@ -6634,6 +6646,8 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
+  '@sindresorhus/merge-streams@4.0.0': {}
+
   '@sveltejs/acorn-typescript@1.0.6(acorn@8.15.0)':
     dependencies:
       acorn: 8.15.0
@@ -7473,6 +7487,9 @@ snapshots:
 
   detect-libc@2.1.1: {}
 
+  detect-libc@2.1.2:
+    optional: true
+
   deterministic-object-hash@2.0.2:
     dependencies:
       base-64: 1.0.0
@@ -7924,6 +7941,15 @@ snapshots:
   globby@14.1.0:
     dependencies:
       '@sindresorhus/merge-streams': 2.3.0
+      fast-glob: 3.3.3
+      ignore: 7.0.5
+      path-type: 6.0.0
+      slash: 5.1.0
+      unicorn-magic: 0.3.0
+
+  globby@15.0.0:
+    dependencies:
+      '@sindresorhus/merge-streams': 4.0.0
       fast-glob: 3.3.3
       ignore: 7.0.5
       path-type: 6.0.0
@@ -8482,7 +8508,7 @@ snapshots:
 
   lightningcss@1.29.3:
     dependencies:
-      detect-libc: 2.1.1
+      detect-libc: 2.1.2
     optionalDependencies:
       lightningcss-darwin-arm64: 1.29.3
       lightningcss-darwin-x64: 1.29.3
