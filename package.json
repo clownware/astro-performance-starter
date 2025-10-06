@@ -89,7 +89,7 @@
     "sharp-cli": "^5.2.0",
     "to-vfile": "^8.0.0",
     "tsx": "^4.20.6",
-    "typescript": "^5.9.2",
+    "typescript": "^5.9.3",
     "unified": "^11.0.5",
     "unist-util-visit": "^5.0.0",
     "vfile-reporter": "^8.1.1",
