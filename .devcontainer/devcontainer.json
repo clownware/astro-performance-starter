@@ -28,8 +28,9 @@
 
   // Runs commands when a file in the workspace changes (e.g., git pull).
   "updateContentCommand": "pnpm install --frozen-lockfile --ignore-scripts",
-
-  "forwardPorts": [4321],
+  "forwardPorts": [3000, 4321, 5173, 24678],
+  "postStartCommand": "bash -lc 'for p in 3000 4321 5173 24678; do fuser -k ${p}/tcp || true; done'",
+  "shutdownAction": "stopContainer",
   "portsAttributes": {
     "4321": {
       "label": "Astro dev server",

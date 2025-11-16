@@ -6,6 +6,7 @@
 # Node.js & Package Managers
 # ---------------------------------------------
 node_modules/
+.pnpm-store/
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -21,6 +22,10 @@ yarn.lock
 # ---------------------------------------------
 dist/
 .astro/
+.next/
+out/
+.vercel/
+.vite/
 
 # Design Tokens (generated)
 tokens/dist/
