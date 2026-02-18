@@ -7,7 +7,6 @@
   // corepack + nvm handle the actual runtime version.
 
   "features": {
-    "ghcr.io/devcontainers-contrib/features/pnpm:1": { "version": "10" }, // pnpm 10 to match packageManager field
     "ghcr.io/devcontainers/features/common-utils:2": {
       // Common utilities, version pinned
       "installZsh": true,
