@@ -98,7 +98,7 @@ We will use:
 
 ### Neutral
 
-- Requires Node.js 22.x+ (LTS version)
+- Requires Node.js 24.x+ (current version)
 - Opinionated choices may not suit all projects
 - Focus on static/SSG over SSR capabilities
 
