@@ -2,6 +2,8 @@
 
 **Zero-JS baseline • 97+ Lighthouse scores • Built for speed**
 
+[![Lighthouse Score](https://img.shields.io/badge/Lighthouse-95%2B-success?logo=lighthouse&logoColor=white)](https://pagespeed.web.dev/analysis?url=https://clownware.github.io/astro-starter-template/)
+
 [Live Demo](https://clownware.github.io/astro-starter-template/examples/landing) • [Documentation](https://aps.docs.clownware.org) • [Quick Start](#-quick-start)
 
 ---
