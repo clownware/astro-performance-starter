@@ -1,9 +1,16 @@
-# ADR 021: Contact Page Structure & Progressive Enhancement
+---
+title: 'ADR-021: Contact Form Progressive Enhancement'
+lastUpdated: 2025-10-01T00:00:00.000Z
+description: >-
+  Progressive enhancement strategy for the contact form, deferring validation
+  JavaScript from inline script to module for build-time optimization
+tableOfContents: true
+pagefind: true
+---
 
-**Status**: Accepted  
-**Date**: 2025-10-01  
-**Deciders**: Development Team  
-**Tags**: performance, progressive-enhancement, forms, contact-page, data-structures
+## Status
+
+Accepted
 
 ## Context
 

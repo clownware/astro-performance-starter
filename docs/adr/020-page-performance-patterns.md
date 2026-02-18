@@ -1,9 +1,16 @@
-# ADR 020: Page Performance Patterns
+---
+title: 'ADR-020: Page Performance Patterns'
+lastUpdated: 2025-10-01T00:00:00.000Z
+description: >-
+  Consolidated page performance patterns targeting 95+ Lighthouse scores
+  with minimal JavaScript, covering static pages, blog, and interactive features
+tableOfContents: true
+pagefind: true
+---
 
-**Status**: Accepted  
-**Date**: 2025-10-01  
-**Deciders**: Development Team  
-**Tags**: performance, optimization, lighthouse, core-web-vitals
+## Status
+
+Accepted
 
 ## Context
 

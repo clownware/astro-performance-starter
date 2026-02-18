@@ -3,15 +3,18 @@ title: 'ADR-014: Index Page Performance Strategy'
 description: >-
   Performance analysis and optimization decisions for the homepage,
   including JS hydration strategy, lazy loading, and metric generation.
-lastUpdated: true
+lastUpdated: 2025-10-01T00:00:00.000Z
 tableOfContents: true
 pagefind: true
-status: 'Accepted (Implementation Example)'
 ---
+
+## Status
+
+Accepted
 
 > **Note**: This ADR documents the implementation of patterns defined in [ADR 020: Page Performance Patterns](./020-page-performance-patterns.md). Refer to ADR 020 for comprehensive performance guidelines.
 
-## Context and Problem Statement
+## Context
 
 The `index.astro` homepage uses several components and data structures that could impact performance. Key concerns raised:
 

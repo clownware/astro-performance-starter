@@ -1,11 +1,12 @@
 ---
-title: ClientRouter and View Transitions API Usage
-lastUpdated: 2025-09-30T23:12:00.000Z
-description: Decision to use Astro's ClientRouter for View Transitions API in BaseLayout
+title: 'ADR-009: ClientRouter and View Transitions API Usage'
+lastUpdated: 2025-09-30T00:00:00.000Z
+description: >-
+  Decision to use Astro's ClientRouter for View Transitions API in BaseLayout,
+  justifying the ~2-3KB JavaScript addition against zero-JS philosophy
 tableOfContents: true
 pagefind: true
 ---
-# ADR-009: ClientRouter and View Transitions API Usage
 
 ## Status
 

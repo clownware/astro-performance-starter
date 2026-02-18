@@ -1,14 +1,15 @@
 ---
-title: 'ADR 008: Documentation Sync Strategy'
-description: "**Status**: Accepted\r **Date**: 2025-09-30"
-lastUpdated: true
+title: 'ADR-008: Documentation Sync Strategy'
+description: >-
+  Automated documentation sync from the template repository to a Starlight-based
+  documentation site using GitHub Actions with PR-based review workflow
+lastUpdated: 2025-09-30T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
-# ADR 008: Documentation Sync Strategy
+## Status
 
-**Status**: Accepted  
-**Date**: 2025-09-30
+Accepted
 
 ## Context
 
@@ -28,13 +29,84 @@ To make this documentation publicly accessible and searchable, we need to publis
 - The sync process should be automated to minimize manual intervention
 - The solution should handle file additions, modifications, and deletions
 
-### Alternatives Considered
+## Decision Drivers
 
-1. **Git Submodules**: Couples repositories tightly; doesn't support different structures between template and Starlight
-2. **Git Subtree**: Better for mirroring but requires manual pushes; lacks automated review workflow
-3. **Manual Copy/Paste**: Error-prone, time-consuming, doesn't scale with multiple contributors
-4. **Monorepo**: Would require significant restructuring; doesn't align with separate hosting preferences
-5. **GitHub Actions with Automated PR**: Provides automation, maintains review workflow, allows structural differences
+- **Single Source of Truth**: Documentation must live in one place to prevent drift
+- **Automation**: Manual syncing does not scale and is error-prone
+- **Review Workflow**: Changes should be reviewable before going live
+- **Structural Flexibility**: Template and Starlight repos may have different directory structures
+- **Security**: Authentication must follow least-privilege principles
+
+## Considered Options
+
+### Option 1: Git Submodules
+
+**Description**: Link the docs directory as a Git submodule in the Starlight repo
+
+**Pros**:
+
+- Native Git feature, no external tooling
+
+**Cons**:
+
+- Couples repositories tightly
+- Doesn't support different structures between template and Starlight
+
+### Option 2: Git Subtree
+
+**Description**: Mirror docs directory using Git subtree pushes
+
+**Pros**:
+
+- Better for mirroring than submodules
+- No special tooling needed for consumers
+
+**Cons**:
+
+- Requires manual pushes
+- Lacks automated review workflow
+
+### Option 3: Manual Copy/Paste
+
+**Description**: Manually copy documentation between repositories
+
+**Pros**:
+
+- No setup required
+
+**Cons**:
+
+- Error-prone, time-consuming, doesn't scale with multiple contributors
+
+### Option 4: Monorepo
+
+**Description**: Combine both projects into a single repository
+
+**Pros**:
+
+- Single repository simplifies management
+
+**Cons**:
+
+- Would require significant restructuring
+- Doesn't align with separate hosting preferences
+
+### Option 5: GitHub Actions with Automated PR
+
+**Description**: Automated workflow that syncs docs and opens PRs in the Starlight repo
+
+**Pros**:
+
+- Full automation with minimal manual intervention
+- Maintains review workflow via PRs
+- Allows structural differences between repos
+- Clear audit trail
+
+**Cons**:
+
+- Requires PAT management and periodic rotation
+- GitHub Actions quota consumption
+- PR review adds latency before docs go live
 
 ## Decision
 
@@ -70,7 +142,7 @@ Template Repo (docs/ changes)
 
 ## Consequences
 
-### Benefits
+### Positive
 
 - **Automation**: Eliminates manual copying and reduces human error
 - **Review Workflow**: PRs allow verification before changes go live
@@ -79,35 +151,18 @@ Template Repo (docs/ changes)
 - **Scalability**: Handles multiple contributors without coordination overhead
 - **Single Source of Truth**: Template repo remains authoritative for documentation
 
-### Potential Downsides
+### Negative
 
 - **Token Management**: Requires PAT creation and periodic rotation (security overhead)
 - **Merge Conflicts**: Can occur if changes are made directly in Starlight repo
 - **Latency**: Documentation updates require PR review before going live (not instant)
 - **GitHub Actions Quota**: Consumes Actions minutes (minimal impact for docs-only changes)
 
-### Mitigation Strategies
+### Neutral
 
-1. **Token Security**:
-   - Use minimum required scopes (`repo`, `workflow`)
-   - Rotate tokens every 90 days
-   - Store only as encrypted repository secret
-   - Document token management in setup guide
-
-2. **Conflict Prevention**:
-   - Establish template repo as single source of truth
-   - Discourage direct edits in Starlight repo
-   - Document proper workflow in both repositories
-
-3. **Review Efficiency**:
-   - Automated PR includes review checklist
-   - Clear commit messages with source references
-   - Batch related documentation changes when possible
-
-4. **Monitoring**:
-   - GitHub Actions provides workflow run history
-   - Failed workflows trigger notifications
-   - Regular review of sync PR patterns
+- Token security requires minimum scopes (`repo`, `workflow`) and 90-day rotation
+- Template repo must be established as single source of truth to prevent conflicts
+- Automated PR includes review checklist and source references to streamline review
 
 ## Scope
 
@@ -123,16 +178,29 @@ This does NOT apply to:
 - Draft branches or feature branches
 - README.md or other root-level documentation files (unless explicitly added to workflow)
 
-## Related Documentation
+## Validation
+
+- **Sync Success Rate**: All docs changes on main/master trigger a sync PR within 5 minutes
+- **PR Quality**: Sync PRs include source commit reference and review checklist
+- **No Manual Drift**: Zero documentation-only edits made directly in the Starlight repo
+
+## References
 
 - [Documentation Sync Setup Guide](../development/docs-sync-setup.md)
 - [GitHub Actions Workflow](.github/workflows/sync-docs-to-starlight.yml)
 - [Starlight Documentation Repository](https://github.com/clownware/astro-starter-docs)
 
-## Future Considerations
+## Notes
+
+Future considerations:
 
 1. **Bidirectional Sync**: If Starlight-specific changes become common, consider reverse sync workflow
 2. **Path Mapping**: If Starlight requires different directory structure, add transformation step
 3. **Frontmatter Processing**: If Starlight needs specific frontmatter fields, add preprocessing
 4. **GitHub App**: For production at scale, consider GitHub App instead of PAT for better security
 5. **Notification Integration**: Add Slack/Discord webhooks for sync PR notifications
+
+---
+**Date**: 2025-09-30\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

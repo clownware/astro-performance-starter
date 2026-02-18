@@ -1,15 +1,16 @@
 ---
-title: 'ADR 015: Projects Page Pagination Strategy'
-description: "**Status**: Accepted\r **Date**: 2025-10-01 | **Updated**: 2025-10-01"
-lastUpdated: true
+title: 'ADR-015: Projects Page Pagination Strategy'
+description: >-
+  Hybrid pagination approach combining SSR initial load with client-side
+  Load More for optimal UX, SEO, and progressive enhancement
+lastUpdated: 2025-10-01T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
-# ADR 015: Projects Page Pagination Strategy
 
-**Status**: Accepted  
-**Date**: 2025-10-01  
-**Updated**: 2025-10-01 (Script optimization)
+## Status
+
+Accepted
 
 ## Context
 

@@ -1,9 +1,16 @@
-# ADR 012: Blog Performance Optimizations
+---
+title: 'ADR-012: Blog Performance Optimizations'
+lastUpdated: 2025-09-30T00:00:00.000Z
+description: >-
+  Build-time performance optimizations for blog pages including single-pass
+  sorting, single-render markdown, and async image decoding
+tableOfContents: true
+pagefind: true
+---
 
-**Status:** Accepted (Implementation Example)  
-**Date:** 2025-09-30  
-**Deciders:** Development Team  
-**Related:** Blog Layout, Static Site Generation, Performance
+## Status
+
+Accepted
 
 > **Note**: This ADR documents the implementation of patterns defined in [ADR 020: Page Performance Patterns](./020-page-performance-patterns.md). Refer to ADR 020 for comprehensive performance guidelines.
 

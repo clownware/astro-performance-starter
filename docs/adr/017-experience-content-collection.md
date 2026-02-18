@@ -1,9 +1,16 @@
-# ADR 017: Experience Content Collection
+---
+title: 'ADR-017: Experience Content Collection'
+lastUpdated: 2025-10-01T00:00:00.000Z
+description: >-
+  Create an experience content collection to manage work history data with
+  type-safe Zod schemas and MDX support for rich descriptions
+tableOfContents: true
+pagefind: true
+---
 
-**Status**: Accepted  
-**Date**: 2025-10-01  
-**Deciders**: Development Team  
-**Tags**: content-collections, structure, about-page
+## Status
+
+Accepted
 
 ## Context
 

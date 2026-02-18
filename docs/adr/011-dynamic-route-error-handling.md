@@ -1,9 +1,16 @@
-# ADR 011: Dynamic Route Error Handling
+---
+title: 'ADR-011: Dynamic Route Error Handling'
+lastUpdated: 2025-09-30T00:00:00.000Z
+description: >-
+  Defensive error handling in all dynamic route files with 404 redirects
+  for undefined props and slug mismatches
+tableOfContents: true
+pagefind: true
+---
 
-**Status:** Accepted  
-**Date:** 2025-09-30  
-**Deciders:** Development Team  
-**Related:** Blog Layout, Static Site Generation, Error Handling
+## Status
+
+Accepted
 
 ## Context
 

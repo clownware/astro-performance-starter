@@ -1,9 +1,16 @@
-# ADR 010: Social Share URL Generation Utility
+---
+title: 'ADR-010: Social Share URL Generation Utility'
+lastUpdated: 2025-09-30T00:00:00.000Z
+description: >-
+  Extract social share URL generation into a dedicated utility module for
+  type safety, reusability, and consistent encoding across pages
+tableOfContents: true
+pagefind: true
+---
 
-**Status:** Accepted  
-**Date:** 2025-09-30  
-**Deciders:** Development Team  
-**Related:** Blog Layout Enhancements, DRY Principle
+## Status
+
+Accepted
 
 ## Context
 

@@ -1,16 +1,16 @@
 ---
 title: 'ADR-005: Link Validation Strategy'
-description: "✅ **ACCEPTED** - Implemented in build pipeline\r"
+description: >-
+  Build-time link validation using a custom remark plugin to catch broken
+  internal links before deployment with zero runtime overhead
 lastUpdated: 2025-06-10T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
 
-# ADR-005: Link Validation Strategy
-
 ## Status
 
-✅ **ACCEPTED** - Implemented in build pipeline
+Accepted
 
 ## Context
 
@@ -36,6 +36,14 @@ Hard-coded relative links create fragile documentation that breaks silently:
 - Fail fast with clear error messages
 - Prepare for Content Collections migration
 - Zero runtime performance impact
+
+## Decision Drivers
+
+- **Documentation Reliability**: Broken links erode trust and waste developer time
+- **Build-time Safety**: Catching errors before deployment is cheaper than fixing production 404s
+- **Migration Readiness**: Future Content Collections migration will require systematic link updates
+- **Zero Runtime Cost**: Validation must not impact end-user performance
+- **Developer Experience**: Clear error messages with file paths and line numbers accelerate fixes
 
 ## Decision
 
@@ -105,7 +113,7 @@ graph TD
 
 ## Consequences
 
-### Positive ✅
+### Positive
 
 - **Build-time validation** - Catch broken links before deployment
 - **Clear error messages** - Know exactly which links are broken and where
@@ -113,20 +121,20 @@ graph TD
 - **Zero runtime overhead** - Validation only during build
 - **Gradual migration path** - Existing relative links continue working
 
-### Negative ❌
+### Negative
 
 - **Build time increase** - Additional processing during build (minimal impact)
 - **New dependency** - Requires `unist-util-visit` package
 - **Learning curve** - Team needs to understand new link formats
 
-### Neutral 🔄
+### Neutral
 
 - **Link format flexibility** - Support both relative and absolute during transition
 - **Configuration required** - Need to specify base paths for validation
 
 ## Implementation Plan
 
-### Phase 1: Foundation ✅
+### Phase 1: Foundation (Complete)
 
 - \[x] Create remark plugin for link validation
 - \[x] Integrate with Astro config (MDX + markdown)
@@ -179,10 +187,15 @@ All existing relative links continue working without the plugin.
 
 - [ADR-000: Starter Template Architecture](/adr/000-starter-decisions/) - Foundation
 - [ADR-001: Preact Island Usage Policy](/adr/001-preact-island-usage-policy/) - Component architecture
-- [ADR-002: Performance Budget Strategy](/adr/002-performance-budget-strategy/) - Quality gates
+- [ADR-002: Future CSS Tooling Considerations](/adr/002-future-css-tooling-considerations/) - Tooling decisions
 
 ## References
 
 - [Remark Plugin Documentation](https://unifiedjs.com/learn/guide/create-a-plugin/)
 - [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
 - [Unified AST Explorer](https://unifiedjs.com/explore/)
+
+---
+**Date**: 2025-06-10\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

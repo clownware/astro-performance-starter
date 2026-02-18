@@ -6,8 +6,6 @@ tableOfContents: true
 pagefind: true
 ---
 
-# ADR-023: Testing Strategy and Coverage Targets
-
 ## Status
 
 Proposed

@@ -1,9 +1,16 @@
-# ADR 018: Contact Page Accessibility Enhancements
+---
+title: 'ADR-018: Contact Page Accessibility Enhancements'
+lastUpdated: 2025-10-01T00:00:00.000Z
+description: >-
+  Accessibility enhancements for the contact page including decorative emoji
+  hiding, Badge ARIA role corrections, and focus order documentation
+tableOfContents: true
+pagefind: true
+---
 
-**Status**: Accepted (Implementation Example)  
-**Date**: 2025-10-01  
-**Deciders**: Development Team  
-**Tags**: accessibility, wcag-aa, contact-page, emojis, aria, implementation
+## Status
+
+Accepted
 
 > **Note**: This ADR documents the implementation of patterns defined in [ADR 019: Accessibility Patterns & Standards](./019-accessibility-patterns-standards.md). Refer to ADR 019 for comprehensive accessibility guidelines.
 

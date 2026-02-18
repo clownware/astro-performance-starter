@@ -4,12 +4,16 @@ description: >-
   Defines the approach for handling hero and CTA sections in BaseLayout,
   choosing single default slot over named slots for maximum flexibility
   and minimal layout coupling.
-lastUpdated: true
+lastUpdated: 2025-10-01T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
 
-## Context and Problem Statement
+## Status
+
+Accepted
+
+## Context
 
 The `BaseLayout.astro` component currently uses a single default `<slot />` for page content. A suggestion was raised to add named slots for hero and CTA sections to provide more structured extensibility. However, this raises questions about:
 

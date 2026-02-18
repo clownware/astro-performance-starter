@@ -1,13 +1,16 @@
 ---
-title: "ADR 022: Live Quality Badges for Performance Transparency"
-description: "Implementation of live Lighthouse score badges to surface CI results and prove performance claims"
-lastUpdated: 2025-10-01
+title: 'ADR-024: Live Quality Badges for Performance Transparency'
+description: >-
+  Implementation of live Lighthouse score badges to surface CI results and
+  prove performance claims with zero JavaScript overhead
+lastUpdated: 2025-10-01T00:00:00.000Z
+tableOfContents: true
 pagefind: true
 ---
 
 ## Status
 
-**Accepted** – Implemented 2025-10-01
+Accepted
 
 ## Context
 

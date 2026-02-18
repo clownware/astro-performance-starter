@@ -1,9 +1,16 @@
-# ADR 019: Accessibility Patterns & Standards
+---
+title: 'ADR-019: Accessibility Patterns and Standards'
+lastUpdated: 2025-10-01T00:00:00.000Z
+description: >-
+  Consolidated reference for WCAG 2.1 Level AA accessibility patterns including
+  decorative content, focus management, ARIA usage, and color contrast
+tableOfContents: true
+pagefind: true
+---
 
-**Status**: Accepted  
-**Date**: 2025-10-01  
-**Deciders**: Development Team  
-**Tags**: accessibility, wcag-aa, patterns, standards
+## Status
+
+Accepted
 
 ## Context
 

@@ -1,33 +1,31 @@
 ---
 title: 'ADR-016: Reserved'
 lastUpdated: 2025-11-15T00:00:00.000Z
-description: Reserved ADR number for future use
-tableOfContents: true
-pagefind: true
+description: >-
+  Placeholder preserving ADR numbering sequence. This number was skipped during
+  initial ADR creation and is reserved for future use.
+tableOfContents: false
+pagefind: false
 ---
-
-# ADR-016: Reserved
 
 ## Status
 
-Reserved
+Withdrawn
 
 ## Context
 
-This ADR number was reserved during the initial ADR sequence but was not used. It is being documented to maintain continuity in the ADR numbering scheme.
+ADR-016 was skipped during the initial creation of the ADR sequence. This stub preserves the numbering audit trail per ADR best practices — gaps in numbering should be documented rather than silently ignored.
 
 ## Decision
 
-This ADR number is reserved for future use. If a decision needs to be documented that logically fits between ADR-015 and ADR-017, this number should be used.
+This number is reserved. If a decision needs to be documented that logically fits between ADR-015 and ADR-017, this number should be used.
 
-## Notes
+## References
 
-- ADR-015: Projects Pagination Strategy
-- ADR-017: Experience Content Collection
-
-If this number is not needed, it should remain as a placeholder to avoid confusion in the ADR sequence.
+- [ADR-015: Projects Page Pagination Strategy](/adr/015-projects-pagination-strategy/)
+- [ADR-017: Experience Content Collection](/adr/017-experience-content-collection/)
 
 ---
-
-**Date**: 2025-11-15  
-**Status**: Reserved
+**Date**: 2025-11-15\
+**Participants**: Template maintainers\
+**Outcome**: Withdrawn (number reserved)

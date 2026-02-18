@@ -6,8 +6,6 @@ tableOfContents: true
 pagefind: true
 ---
 
-# ADR-022: Error Handling and Logging Strategy
-
 ## Status
 
 Proposed
