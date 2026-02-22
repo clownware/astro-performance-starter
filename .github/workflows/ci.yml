@@ -82,3 +82,18 @@ jobs:
         continue-on-error: true
         with:
           sarif_file: 'trivy-results.sarif'
+
+  link-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Check markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.markdown-link-check.json'
+          folder-path: 'docs/'
+          file-extension: '.md'
