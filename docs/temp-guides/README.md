@@ -12,6 +12,7 @@ but may still contain useful context for debugging recurring issues.
 | `FORCED_REFLOW_FIX.md` | Root cleanup (ADR-035) | Archived — resolved issue |
 | `PERFORMANCE_ANALYSIS.md` | Root cleanup (ADR-035) | Archived — resolved issue |
 | `PERFORMANCE_REGRESSION_FIX.md` | Root cleanup (ADR-035) | Archived — resolved issue |
+| `CHANGELOG.md` | Root cleanup (ADR-035) | Archived — not actively maintained; use GitHub Releases |
 
 ## Policy
 
