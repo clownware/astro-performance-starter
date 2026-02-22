@@ -271,7 +271,7 @@ const stackRationale: StackRationale = {
             <Icon name="github" class="w-4 h-4 sm:w-5 sm:h-5 mr-2" decorative />
             View on GitHub
           </Button>
-          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" data-astro-prefetch>
+          <Button href="https://astro.clownware.org/getting-started/" variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" data-astro-prefetch>
             <span aria-hidden="true">📖</span> View Documentation →
           </Button>
         </div>
@@ -469,86 +469,122 @@ const stackRationale: StackRationale = {
     </Container>
   </Section>
 
-  <!-- Implementation Tracks -->
-  <Section id="implementation" ariaLabel="Implementation tracks section" class="relative">
+  <!-- Implementation Tiers (ADR-033) -->
+  <Section id="implementation" ariaLabel="Implementation tiers section" class="relative">
     <SectionSeparator />
     <Container>
-      <div class="mx-auto max-w-4xl">
+      <div class="mx-auto max-w-5xl">
         <div class="text-center mb-12">
           <h2 class="text-3xl font-bold text-foreground-primary">
-            <span aria-hidden="true">🛤️</span> Choose Your Implementation Track
+            <span aria-hidden="true">🛤️</span> Progressive Implementation
           </h2>
           <p class="mt-4 text-lg text-foreground-secondary">
-            Structured paths based on your timeline and goals
+            One path, three natural stopping points. Go as far as your project needs.
           </p>
         </div>
         
-        <div class="grid grid-cols-1 gap-8 lg:grid-cols-2">
-          <!-- MVP Track -->
-          <Card class="p-6 bg-primary-50 border-2 border-primary-200">
+        <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
+          <!-- Foundation Tier -->
+          <Card class="p-6 bg-red-50 border-2 border-red-200">
             <div class="mb-4">
-              <h3 class="text-xl font-bold text-primary-800">
-                <span aria-hidden="true">⚡</span> MVP Track
+              <Badge class="bg-red-100 text-red-800 text-xs">Phases 0–4</Badge>
+              <h3 class="mt-3 text-xl font-bold text-red-800">
+                <span aria-hidden="true">🏗️</span> Foundation
               </h3>
             </div>
-            <p class="text-primary-700 mb-6">
-              Launch a minimum viable product with essential features and performance optimization.
+            <p class="text-red-700 mb-6">
+              Working site skeleton with design system, content schemas, and build pipeline.
             </p>
-            <ul class="text-sm text-primary-600 space-y-2 mb-6" role="list" aria-label="MVP Track features">
+            <ul class="text-sm text-red-600 space-y-2 mb-6" role="list" aria-label="Foundation tier features">
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Core pages and navigation</span>
+                <span><span class="sr-only">Included: </span>Astro + TypeScript + Tailwind + Biome</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Performance optimization</span>
+                <span><span class="sr-only">Included: </span>Content Collections schemas</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>SEO and accessibility</span>
+                <span><span class="sr-only">Included: </span>Design tokens system</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Basic deployment</span>
+                <span><span class="sr-only">Included: </span>CI pipeline</span>
               </li>
             </ul>
-            <Button href="https://astro.clownware.org/tracks/mvp-track-guide" variant="primary" class="w-full" data-astro-prefetch>
-              Start MVP Track →
-            </Button>
+            <p class="text-xs text-red-500 italic">Everyone does these — pre-configured in template.</p>
           </Card>
           
-          <!-- Showcase Track -->
-          <Card class="p-6 bg-secondary-50 border-2 border-secondary-200">
+          <!-- Build Tier -->
+          <Card class="p-6 bg-amber-50 border-2 border-amber-200">
             <div class="mb-4">
-              <h3 class="text-xl font-bold text-secondary-800">
-                <span aria-hidden="true">🏆</span> Showcase Track
+              <Badge class="bg-amber-100 text-amber-800 text-xs">Phases 5–8</Badge>
+              <h3 class="mt-3 text-xl font-bold text-amber-800">
+                <span aria-hidden="true">⚡</span> Build
               </h3>
             </div>
-            <p class="text-secondary-700 mb-6">
-              Build a portfolio-worthy project with advanced features and comprehensive documentation.
+            <p class="text-amber-700 mb-6">
+              Complete site with components, pages, content, and quality assurance.
             </p>
-            <ul class="text-sm text-secondary-600 space-y-2 mb-6" role="list" aria-label="Showcase Track features">
+            <ul class="text-sm text-amber-600 space-y-2 mb-6" role="list" aria-label="Build tier features">
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Advanced animations</span>
+                <span><span class="sr-only">Included: </span>UI components (scope to your needs)</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Complex interactions</span>
+                <span><span class="sr-only">Included: </span>Page sections and layouts</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Content management</span>
+                <span><span class="sr-only">Included: </span>Content creation</span>
               </li>
               <li class="flex items-start gap-2">
                 <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Advanced deployment</span>
+                <span><span class="sr-only">Included: </span>Quality assurance</span>
               </li>
             </ul>
-            <Button href="https://astro.clownware.org/tracks/showcase-track-guide" variant="primary" class="w-full">
-              Start Showcase Track →
-            </Button>
+            <p class="text-xs text-amber-500 italic">Make it yours — scope each phase to your goals.</p>
           </Card>
+          
+          <!-- Polish Tier -->
+          <Card class="p-6 bg-emerald-50 border-2 border-emerald-200">
+            <div class="mb-4">
+              <Badge class="bg-emerald-100 text-emerald-800 text-xs">Phases 9–12</Badge>
+              <h3 class="mt-3 text-xl font-bold text-emerald-800">
+                <span aria-hidden="true">🏆</span> Polish
+              </h3>
+            </div>
+            <p class="text-emerald-700 mb-6">
+              Production-hardened site with performance optimization and monitoring.
+            </p>
+            <ul class="text-sm text-emerald-600 space-y-2 mb-6" role="list" aria-label="Polish tier features">
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Performance budget enforcement</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Deployment configuration</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Documentation and AI context</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Post-launch monitoring</span>
+              </li>
+            </ul>
+            <p class="text-xs text-emerald-500 italic">Production-harden — stop when goals are met.</p>
+          </Card>
+        </div>
+        
+        <div class="mt-8 text-center">
+          <Button href="https://astro.clownware.org/getting-started/" variant="primary" data-astro-prefetch>
+            View Implementation Guide →
+          </Button>
         </div>
       </div>
     </Container>
@@ -567,7 +603,7 @@ const stackRationale: StackRationale = {
         </p>
         
         <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
-          <Button href="https://astro.clownware.org/getting-started/quick-track-deploy" variant="primary" size="lg" data-astro-prefetch>
+          <Button href="https://astro.clownware.org/getting-started/" variant="primary" size="lg" data-astro-prefetch>
             <span aria-hidden="true">🚀</span> Get Started Now
           </Button>
           <Button href="https://github.com/clownware/astro-starter-template" variant="secondary" size="lg" rel="noopener noreferrer" target="_blank">
