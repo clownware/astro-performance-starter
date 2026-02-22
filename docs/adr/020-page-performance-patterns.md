@@ -28,7 +28,7 @@ The Astro Performance Starter targets **95+ Lighthouse scores** with minimal Jav
 
 **Bundle Budgets**:
 
-- **JavaScript**: < 160KB gzipped (max budget for Full Path with interactivity)
+- **JavaScript**: < 160KB gzipped
 - **CSS**: < 50KB uncompressed
 - **Default starter**: ~90KB JS, ~15KB CSS (gzipped)
 
@@ -495,7 +495,7 @@ pnpm run perf:lighthouse:ci
 - **Static pages**: 0-10KB (forms only)
 - **Dynamic routes**: 10-30KB (navigation, TOC)
 - **Index/landing**: 30-90KB (interactive components)
-- **Maximum**: 160KB (Full Path with all features)
+- **Maximum**: 160KB (with all interactive features)
 
 ### CSS Budget
 
