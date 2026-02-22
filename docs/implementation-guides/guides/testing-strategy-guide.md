@@ -1,30 +1,30 @@
 ---
 title: Testing Strategy Guide
-description: '> **Purpose**: Comprehensive testing approach for MVP and Showcase tracks'
+description: '> **Purpose**: Comprehensive testing approach with Essential, Recommended, and Advanced scope guidance'
 lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 # Testing Strategy Guide
 
-> **Purpose**: Comprehensive testing approach for MVP and Showcase tracks
+> **Purpose**: Comprehensive testing approach with Essential, Recommended, and Advanced scope guidance
 
 ## Overview
 
-This guide outlines testing strategies tailored to each implementation track. MVP focuses on essential quality checks with manual testing, while Showcase implements comprehensive automated testing.
+This guide outlines testing strategies using the Essential / Recommended / Advanced scope model. Start with Essential testing for all projects; add Recommended and Advanced testing as your project's quality requirements grow.
 
-## Track Comparison
+## Scope Comparison
 
-| Aspect | MVP Track | Showcase Track |
-|--------|-----------|----------------|
-| **Approach** | Manual checklists | Automated suites |
-| **Coverage** | Critical paths only | Comprehensive |
-| **Time Investment** | 1-2 days | 3-5 days |
-| **Maintenance** | Minimal | Ongoing |
-| **Tools** | Browser DevTools | Playwright, Vitest {{versions.vitest}}, Percy |
-| **CI Integration** | Basic checks | Full test suite |
+| Aspect | Essential | Recommended | Advanced |
+|--------|-----------|-------------|----------|
+| **Approach** | Manual checklists | Playwright critical paths | Full automated suites |
+| **Coverage** | Critical paths only | Key user flows | Comprehensive |
+| **Time Investment** | 1-2 days | 2-3 days | 3-5 days |
+| **Maintenance** | Minimal | Moderate | Ongoing |
+| **Tools** | Browser DevTools | Playwright, axe-core | Playwright, Vitest {{versions.vitest}}, Percy |
+| **CI Integration** | Basic checks | E2E on critical paths | Full test suite |
 
-## MVP Track Testing
+## Essential Testing
 
 ### Philosophy
 
@@ -99,7 +99,7 @@ Before each deployment:
 # Quick smoke test script
 #!/bin/bash
 
-echo "Running MVP smoke tests..."
+echo "Running smoke tests..."
 
 # Build the site
 npm run build || exit 1
@@ -134,11 +134,11 @@ done
 echo "All smoke tests passed!"
 ```
 
-## Showcase Track Testing
+## Recommended / Advanced Testing
 
 ### Philosophy
 
-Implement comprehensive automated testing with continuous integration to catch regressions early.
+Implement automated testing with continuous integration to catch regressions early. Recommended scope covers critical paths; Advanced scope adds full coverage, visual regression, and cross-browser testing.
 
 ### 1. Testing Stack
 
@@ -455,11 +455,11 @@ test('no draft content in production build', async () => {
 
 ## CI/CD Integration
 
-### GitHub Actions for MVP
+### GitHub Actions — Essential
 
 ```yaml
-# .github/workflows/test-mvp.yml
-name: MVP Tests
+# .github/workflows/test-essential.yml
+name: Essential Tests
 
 on: [push, pull_request]
 
@@ -504,11 +504,11 @@ jobs:
           temporaryPublicStorage: true
 ```
 
-### GitHub Actions for Showcase
+### GitHub Actions — Advanced
 
 ```yaml
-# .github/workflows/test-showcase.yml
-name: Showcase Tests
+# .github/workflows/test-advanced.yml
+name: Advanced Tests
 
 on: [push, pull_request]
 
@@ -609,11 +609,11 @@ tests/
 ```json
 {
   "scripts": {
-    // MVP Scripts
+    // Essential Scripts
     "test:smoke": "./scripts/smoke-test.sh",
     "test:manual": "echo 'Follow manual testing checklist'",
     
-    // Showcase Scripts
+    // Advanced Scripts
     "test": "vitest",
     "test:unit": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration",
@@ -841,13 +841,13 @@ Keep tests fast by:
 
 ### 1. Over-Testing
 
-**MVP**: Don't automate everything
+**Essential**: Don't automate everything
 
 - Focus on critical paths
 - Manual testing is often faster
 - Maintain cost/benefit balance
 
-**Showcase**: Don't test implementation details
+**Advanced**: Don't test implementation details
 
 - Test behavior, not structure
 - Avoid brittle selectors
@@ -855,13 +855,13 @@ Keep tests fast by:
 
 ### 2. Under-Testing
 
-**MVP**: Don't skip accessibility
+**Essential**: Don't skip accessibility
 
 - Basic keyboard navigation
 - Color contrast
 - Screen reader basics
 
-**Showcase**: Don't ignore edge cases
+**Advanced**: Don't ignore edge cases
 
 - Error states
 - Loading states
@@ -879,7 +879,7 @@ Keep tests fast by:
 
 ### Coverage Goals
 
-| Metric | MVP | Showcase |
+| Metric | Essential | Advanced |
 |--------|-----|----------|
 | **Critical Paths** | 100% manual | 100% automated |
 | **Code Coverage** | N/A | 80%+ |
@@ -902,7 +902,7 @@ Keep tests fast by:
 
 Choose your testing strategy based on project needs:
 
-- **MVP**: Quick, focused manual testing
-- **Showcase**: Comprehensive automated testing
+- **Essential**: Quick, focused manual testing
+- **Advanced**: Comprehensive automated testing
 
 Remember: The best test suite is one that gets maintained and provides value, not one that aims for 100% coverage at all costs.

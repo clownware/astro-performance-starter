@@ -28,7 +28,7 @@ Snippets are embedded using a shortcode syntax. The example below uses different
 | `git-hooks` | Husky + lint-staged setup | Phase 0, Phase 3, Tech Stack |
 | `biome-config` | Complete Biome configuration | Phase 0, Phase 3, Tech Stack |
 | `package-scripts` | Standard npm scripts configuration | Phase 0, Phase 3 |
-| `mvp-scripts` | Minimal MVP package.json scripts section | MVP Track Guide |
+| `essential-scripts` | Minimal package.json scripts section | Phase 0, Phase 3 |
 | `tsconfig-paths` | TypeScript path mapping setup | Phase 0, Tech Stack |
 | `adr-template` | Standard ADR structure template | Phase 0, ADR Template |
 | `lint-staged-config` | Lint-staged configuration | Phase 3, Git Workflow |

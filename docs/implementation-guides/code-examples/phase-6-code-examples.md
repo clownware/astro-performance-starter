@@ -9,7 +9,7 @@ pagefind: true
 
 ## Code Examples
 
-### Hero Section (MVP)
+### Hero Section (Essential)
 
 ```astro
 
@@ -287,7 +287,7 @@ const {
 </Section>
 ```
 
-### Showcase: Animated Hero
+### Advanced: Animated Hero
 
 ```astro
 
@@ -465,7 +465,7 @@ const titleWords = title.split(' ');
 </style>
 ```
 
-### Showcase: Testimonials Section
+### Advanced: Testimonials Section
 
 ```astro
 
@@ -584,7 +584,7 @@ const {
 </style>
 ```
 
-### Showcase: Stats Section
+### Advanced: Stats Section
 
 ```astro
 
