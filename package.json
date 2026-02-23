@@ -63,7 +63,7 @@
     "@astrojs/ts-plugin": "^1.10.4",
     "@biomejs/biome": "^2.2.4",
     "@commitlint/cli": "^19.8.1",
-    "@commitlint/config-conventional": "^19.8.1",
+    "@commitlint/config-conventional": "^20.4.2",
     "@playwright/test": "^1.55.1",
     "@tailwindcss/typography": "^0.5.19",
     "@types/glob": "^8.1.0",
