@@ -17,7 +17,7 @@ Accepted
 
 The project includes extensive documentation in the repository (`docs/` directory) that serves two distinct audiences simultaneously:
 
-1. **Human developers** reading the rendered Starlight documentation site at aps.docs.clownware.org
+1. **Human developers** reading the rendered Starlight documentation site (if deployed separately)
 2. **AI coding assistants** reading files directly from the filesystem during agentic development in IDEs like Windsurf, Cursor, or VS Code with Copilot
 
 This dual-purpose approach is a deliberate, differentiating feature — not accidental complexity. No other Astro starter template provides structured AI-readable context alongside its documentation. However, the current implementation has gaps:
@@ -186,7 +186,7 @@ A new or updated `docs/README.md` will include:
 
 This directory contains reference documentation that serves two purposes:
 
-1. **Rendered documentation** at aps.docs.clownware.org via Starlight
+1. **Rendered documentation** via Starlight (if you deploy a separate docs site)
 2. **AI assistant context** read directly from the filesystem by IDE-integrated AI tools
 
 ## For Template Users

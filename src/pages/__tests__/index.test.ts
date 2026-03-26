@@ -88,19 +88,15 @@ describe("index.astro page structure", () => {
   });
 
   it("should validate external links structure", () => {
+    // External links are now driven by src/config.ts (siteLinks)
     const externalLinks = [
       {
-        url: "https://github.com/clownware/astro-starter-template",
+        url: "https://github.com/clownware/astro-performance-starter",
         text: "View on GitHub",
-      },
-      {
-        url: "https://astro.clownware.org/getting-started/quick-track-deploy",
-        text: "View Documentation",
       },
     ];
 
     expect(externalLinks[0].url).toMatch(/^https:\/\//);
-    expect(externalLinks[1].url).toMatch(/^https:\/\//);
   });
 
   it("should have disclaimer about real-world results", () => {

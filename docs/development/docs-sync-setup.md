@@ -4,7 +4,7 @@ This guide explains how to set up the automated documentation synchronization be
 
 ## Overview
 
-The template repository uses a GitHub Actions workflow to automatically detect changes in the `docs/` folder and create pull requests in the [astro-starter-docs](https://github.com/clownware/astro-starter-docs) repository.
+The template repository uses a GitHub Actions workflow to automatically detect changes in the `docs/` folder and create pull requests in your configured Starlight documentation repository.
 
 ## Prerequisites
 
@@ -42,7 +42,7 @@ The workflow file is located at `.github/workflows/sync-docs-to-starlight.yml` a
 
 - **Trigger**: On push to `master` or `main` branches
 - **Path filter**: Only when files in `docs/**` change
-- **Target repo**: `clownware/astro-starter-docs`
+- **Target repo**: Configured via `STARLIGHT_REPO` secret (e.g., `your-org/your-docs-site`)
 - **Target branch**: `main`
 
 ### 4. Test the Workflow

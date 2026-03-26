@@ -24,7 +24,7 @@ test.describe("Homepage (index.astro)", () => {
 		await expect(githubLink).toBeVisible();
 		await expect(githubLink).toHaveAttribute(
 			"href",
-			"https://github.com/clownware/astro-starter-template",
+			/github\.com/,
 		);
 
 		// Documentation link
@@ -74,15 +74,16 @@ test.describe("Homepage (index.astro)", () => {
 		await expect(page.getByText("Biome")).toBeVisible();
 	});
 
-	test("should display implementation tracks section", async ({ page }) => {
-		const tracksHeading = page.getByRole("heading", {
-			name: /Choose Your Implementation Track/,
+	test("should display implementation tiers section", async ({ page }) => {
+		const tiersHeading = page.getByRole("heading", {
+			name: /Progressive Implementation/,
 		});
-		await expect(tracksHeading).toBeVisible();
+		await expect(tiersHeading).toBeVisible();
 
-		// Check for MVP and Showcase tracks
-		await expect(page.getByText("MVP Track")).toBeVisible();
-		await expect(page.getByText("Showcase Track")).toBeVisible();
+		// Check for Foundation, Build, and Polish tiers
+		await expect(page.getByText("Foundation").first()).toBeVisible();
+		await expect(page.getByText("Build").first()).toBeVisible();
+		await expect(page.getByText("Polish").first()).toBeVisible();
 	});
 
 	test("should have CTA section with action buttons", async ({ page }) => {

@@ -11,7 +11,7 @@
   "astro-mdx": "4.x",
   "astro-tailwind": "6.x",
   "astro-sitemap": "4.x",
-  "astro-check": "0.9.4",
+  "astro-check": "0.9.8",
   "playwright": "1.53.2",
   "vitest": "2.x",
   "lighthouse-ci": "0.14.x",

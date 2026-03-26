@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 import { spawnSync } from "node:child_process";
+import { existsSync, readFileSync } from "node:fs";
+import { join } from "node:path";
 
 // Define types for the pnpm audit report structure
 interface Advisory {
@@ -13,6 +15,40 @@ interface Advisory {
 interface PnpmAuditReport {
   advisories: Record<string, Advisory>;
 }
+
+interface AllowlistEntry {
+  module: string;
+  reason: string;
+  expires?: string;
+}
+
+// Load allowlist from budget-overrides.json if it contains an "audit-allowlist" key,
+// or from a dedicated .audit-allowlist.json file.
+function loadAllowlist(): AllowlistEntry[] {
+  const allowlistPath = join(process.cwd(), ".audit-allowlist.json");
+  if (existsSync(allowlistPath)) {
+    try {
+      const raw = readFileSync(allowlistPath, "utf8");
+      const entries: AllowlistEntry[] = JSON.parse(raw);
+      const now = new Date();
+      return entries.filter((entry) => {
+        if (entry.expires && new Date(entry.expires) < now) {
+          console.warn(
+            `\u26a0\ufe0f  Allowlist entry for ${entry.module} expired on ${entry.expires}`,
+          );
+          return false;
+        }
+        return true;
+      });
+    } catch {
+      console.warn("\u26a0\ufe0f  Could not parse .audit-allowlist.json, ignoring allowlist.");
+    }
+  }
+  return [];
+}
+
+const allowlist = loadAllowlist();
+const allowedModules = new Set(allowlist.map((e) => e.module));
 
 // Run pnpm audit and capture JSON output
 // Use pnpm.cmd on Windows for proper execution
@@ -51,16 +87,33 @@ const seriousAdvisories = advisories.filter((advisory) =>
   ["high", "critical"].includes(advisory.severity),
 );
 
-if (seriousAdvisories.length > 0) {
-  console.error(`\u274c Found ${seriousAdvisories.length} High/Critical vulnerabilities:`);
-  for (const advisory of seriousAdvisories) {
+const allowedAdvisories = seriousAdvisories.filter((a) => allowedModules.has(a.module_name));
+const blockingAdvisories = seriousAdvisories.filter((a) => !allowedModules.has(a.module_name));
+
+if (allowedAdvisories.length > 0) {
+  console.warn(
+    `\u26a0\ufe0f  ${allowedAdvisories.length} High/Critical vulnerabilities allowed by .audit-allowlist.json:`,
+  );
+  for (const advisory of allowedAdvisories) {
+    const finding = advisory.findings[0];
+    const entry = allowlist.find((e) => e.module === advisory.module_name);
+    console.warn(
+      `  - ${advisory.module_name}@${finding?.version ?? "unknown"} – ${advisory.severity} – ${advisory.title} (reason: ${entry?.reason ?? "unspecified"})`,
+    );
+  }
+}
+
+if (blockingAdvisories.length > 0) {
+  console.error(`\u274c Found ${blockingAdvisories.length} High/Critical vulnerabilities:`);
+  for (const advisory of blockingAdvisories) {
     const finding = advisory.findings[0];
     console.error(
       `- ${advisory.module_name}@${finding?.version ?? "unknown"} – ${advisory.severity} – ${advisory.title}`,
     );
   }
+  console.error("\nTo allowlist a transitive dependency, add it to .audit-allowlist.json");
   process.exit(1);
 }
 
-console.log("✅ No high-severity vulnerabilities found");
+console.log("\u2705 No unallowed high-severity vulnerabilities found");
 process.exit(0);

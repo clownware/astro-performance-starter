@@ -8,6 +8,9 @@
     },
     {
       "pattern": "^/"
+    },
+    {
+      "pattern": "YOUR_USERNAME"
     }
   ],
   "timeout": "10s",

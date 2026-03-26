@@ -21,9 +21,11 @@ const isGhPages = process.env.DEPLOY_TARGET === "gh-pages";
 // Prefer environment-provided site for production builds to avoid placeholder canonicals
 // Use SITE_URL or PUBLIC_SITE_URL; fall back to GH Pages domain when not provided
 const envSite = process.env.SITE_URL || process.env.PUBLIC_SITE_URL;
-const site = isGhPages ? "https://clownware.github.io" : (envSite ?? "https://clownware.github.io");
+const site = isGhPages
+  ? (envSite ?? "https://clownware.github.io")
+  : (envSite ?? "https://clownware.github.io");
 
-const base = isGhPages ? "/astro-starter-template" : "/";
+const base = isGhPages ? "/astro-performance-starter" : "/";
 
 export default defineConfig({
   site,

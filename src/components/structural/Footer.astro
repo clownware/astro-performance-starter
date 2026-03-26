@@ -1,5 +1,6 @@
 ---
 import Container from "@/components/structural/Container.astro";
+import { siteLinks, siteMetadata } from "@/config";
 
 const currentYear = new Date().getFullYear();
 void currentYear;
@@ -12,21 +13,20 @@ const footerLinks = [
   { label: "Contact", href: "/contact/" },
 ];
 
-const docsLinks = [
-  {
-    label: "Getting Started",
-    href: "https://astro.clownware.org/getting-started/",
-  },
-  { label: "Implementation Guides", href: "https://astro.clownware.org/implementation-guides/" },
-  {
-    label: "Directory Structure",
-    href: "https://astro.clownware.org/getting-started/directory-structure/",
-  },
-  { label: "Architecture Decisions", href: "https://astro.clownware.org/adr/" },
-];
+const docsLinks = siteLinks.docs
+  ? [
+      { label: "Getting Started", href: `${siteLinks.docs}/getting-started/` },
+      { label: "Implementation Guides", href: `${siteLinks.docs}/implementation-guides/` },
+      {
+        label: "Directory Structure",
+        href: `${siteLinks.docs}/getting-started/directory-structure/`,
+      },
+      { label: "Architecture Decisions", href: `${siteLinks.docs}/adr/` },
+    ]
+  : [];
 
-const socialLinks = [
-  { label: "GitHub", href: "https://github.com/clownware/astro-starter-template", icon: "🐈" },
+const externalLinks = [
+  ...(siteLinks.github ? [{ label: "GitHub", href: siteLinks.github, icon: "🐈" }] : []),
 ];
 ---
 
@@ -37,8 +37,8 @@ const socialLinks = [
       <div class="lg:col-span-1">
         <div class="mb-6">
           <img 
-            src="/cw-wordmark.svg" 
-            alt="Clownware" 
+            src="/logo.svg" 
+            alt={siteMetadata.title} 
             class="h-10 w-auto" 
             width="220" 
             height="60"
@@ -67,6 +67,7 @@ const socialLinks = [
       </div>
 
       <!-- Docs Links -->
+      {docsLinks.length > 0 && (
       <div class="lg:col-span-1">
         <h3 class="text-sm font-semibold text-foreground-primary mb-6 uppercase tracking-wide">Docs</h3>
         <ul class="space-y-4">
@@ -87,12 +88,13 @@ const socialLinks = [
           ))}
         </ul>
       </div>
+      )}
 
       <!-- Social Links -->
       <div class="lg:col-span-1">
         <h3 class="text-sm font-semibold text-foreground-primary mb-6 uppercase tracking-wide">Connect</h3>
         <ul class="space-y-4">
-          {socialLinks.map((link) => (
+          {externalLinks.map((link) => (
             <li>
               <a 
                 href={link.href} 
@@ -113,7 +115,7 @@ const socialLinks = [
     <div class="border-t border-default mt-16 pt-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <p class="text-sm text-foreground-secondary">
-          &copy; {currentYear} Clownware. All rights reserved.
+          &copy; {currentYear} {siteMetadata.author}. All rights reserved.
         </p>
         <div class="flex flex-wrap items-center gap-4 text-xs">
           <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800">
@@ -125,8 +127,9 @@ const socialLinks = [
           <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800">
             🤖 AI Optimized
           </span>
+          {siteLinks.pagespeed ? (
           <a 
-            href="https://pagespeed.web.dev/analysis?url=https://clownware.github.io/astro-starter-template/"
+            href={siteLinks.pagespeed}
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800 hover:bg-primary-200 transition-colors"
@@ -134,6 +137,11 @@ const socialLinks = [
           >
             🎯 95+ Lighthouse
           </a>
+          ) : (
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800">
+            🎯 95+ Lighthouse
+          </span>
+          )}
         </div>
       </div>
     </div>

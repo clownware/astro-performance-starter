@@ -10,7 +10,7 @@ alpinejs: 3.14.x
 astro-mdx: 4.x
 astro-tailwind: 6.x
 astro-sitemap: 3.x
-astro-check: 0.9.4
+astro-check: 0.9.8
 playwright: 1.x
 vitest: 2.x
 lighthouse-ci: 12.x

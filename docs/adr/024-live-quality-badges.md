@@ -69,7 +69,7 @@ Added to footer badges row:
 Added Shields.io badge at top:
 
 ```markdown
-[![Lighthouse Score](https://img.shields.io/badge/Lighthouse-95%2B-success?logo=lighthouse&logoColor=white)](https://pagespeed.web.dev/analysis?url=https://clownware.github.io/astro-starter-template/)
+[![Lighthouse Score](https://img.shields.io/badge/Lighthouse-95%2B-success?logo=lighthouse&logoColor=white)](https://pagespeed.web.dev/analysis?url=https://clownware.github.io/astro-performance-starter/)
 ```
 
 - Shows up in GitHub repo
@@ -84,7 +84,7 @@ Added Shields.io badge at top:
 <!-- Live Quality Badge -->
 <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
   <a 
-    href="https://pagespeed.web.dev/analysis?url=https://clownware.github.io/astro-starter-template/"
+    href={siteLinks.pagespeed}
     target="_blank"
     rel="noopener noreferrer"
     class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-100 hover:bg-primary-200 text-primary-800 transition-colors group"
@@ -107,7 +107,7 @@ Added Shields.io badge at top:
 
 ```astro
 <a 
-  href="https://pagespeed.web.dev/analysis?url=https://clownware.github.io/astro-starter-template/"
+  href={siteLinks.pagespeed}
   target="_blank"
   rel="noopener noreferrer"
   class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800 hover:bg-primary-200 transition-colors"

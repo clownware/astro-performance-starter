@@ -174,8 +174,8 @@ pnpm run test:a11y
 
 2. **External Links**
 
-   - GitHub links: `https://github.com/clownware/astro-starter-template`
-   - Documentation links: `https://aps.docs.clownware.org/*`
+   - GitHub links: configured via `src/config.ts` → `siteLinks.github`
+   - Documentation links: configured via `src/config.ts` → `siteLinks.docs`
    - Social links with proper security attributes where needed
 
 ## Accessibility Testing

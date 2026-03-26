@@ -13,8 +13,10 @@ interface SyncOptions {
   verbose?: boolean;
 }
 
-const docsRepoUrl = "https://github.com/clownware/astro-starter-docs";
-const docsRepoRawUrl = "https://raw.githubusercontent.com/clownware/astro-starter-docs";
+// Configure these if you have a separate docs repository
+const docsRepoUrl = process.env.DOCS_REPO_URL || "https://github.com/clownware/astro-starter-docs";
+const docsRepoRawUrl =
+  process.env.DOCS_REPO_RAW_URL || "https://raw.githubusercontent.com/clownware/astro-starter-docs";
 const localDocsPath = join(process.cwd(), "docs");
 const versionsJsonPath = join(process.cwd(), "versions.json");
 

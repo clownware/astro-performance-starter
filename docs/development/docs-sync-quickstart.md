@@ -1,6 +1,6 @@
 # Documentation Sync Quick Start
 
-This repository automatically syncs documentation changes to the [Starlight docs repository](https://github.com/clownware/astro-starter-docs).
+This repository automatically syncs documentation changes to a separate Starlight docs repository (configured via the `STARLIGHT_REPO` secret).
 
 ## 🚀 Quick Setup (5 minutes)
 
@@ -32,7 +32,7 @@ git commit -m "docs: test sync workflow"
 git push origin main
 ```
 
-Check the **Actions** tab to see the workflow run. A PR should appear in the [Starlight docs repo](https://github.com/clownware/astro-starter-docs/pulls).
+Check the **Actions** tab to see the workflow run. A PR should appear in your configured Starlight docs repo.
 
 ## 📋 How It Works
 

@@ -11,7 +11,7 @@ pagefind: false
 
 📍 **This page has moved!**
 
-Please see the main **[CONTRIBUTING.md](https://github.com/clownware/astro-starter-template/blob/main/CONTRIBUTING.md)** file in the repository root for:
+Please see the main **[CONTRIBUTING.md](../../CONTRIBUTING.md)** file in the repository root for:
 
 - Complete contribution workflow
 - Code standards and guidelines  

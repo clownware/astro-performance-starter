@@ -64,7 +64,7 @@ git --version   # Should show 2.30.x or higher
 
 ```bash
 # Create from template (uses latest Astro CLI v5.x)
-pnpm create astro@latest my-site --template clownware/astro-starter-template
+pnpm create astro@latest my-site --template clownware/astro-performance-starter
 
 # Navigate into project
 cd my-site
@@ -73,7 +73,7 @@ cd my-site
 :::note[Template Name]
 Replace `my-site` with your preferred project name. This is just a local folder name—you can change it anytime.
 
-**Pinning to a specific version?** Use `--template clownware/astro-starter-template@<tag>` to lock to a release tag.
+**Pinning to a specific version?** Use `--template clownware/astro-performance-starter@<tag>` to lock to a release tag.
 :::
 
 ### Step 2: Install & Start Dev Server (3-5 min)
@@ -341,8 +341,8 @@ pnpm run check
 
 1. **Check FAQ**: [Getting Started FAQ](./faq/)
 2. **Review Phase 4**: [Skeleton Implementation Guide](../implementation-guides/completed/phase-4-skeleton/)
-3. **Search Issues**: [GitHub Issues](https://github.com/clownware/astro-starter-template/issues)
-4. **Ask for Help**: [GitHub Discussions](https://github.com/clownware/astro-starter-template/discussions)
+3. **Search Issues**: [GitHub Issues](https://github.com/clownware/astro-performance-starter/issues)
+4. **Ask for Help**: [GitHub Discussions](https://github.com/clownware/astro-performance-starter/discussions)
 
 ## 💡 Pro Tips
 

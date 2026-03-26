@@ -3,13 +3,13 @@ updates:
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "daily"
-    target-branch: "develop"
+      interval: "weekly"
+    target-branch: "master"
     rebase-strategy: "auto"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    target-branch: "develop"
+    target-branch: "master"
     registries: []
     rebase-strategy: "auto"

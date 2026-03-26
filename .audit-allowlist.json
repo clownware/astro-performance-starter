@@ -1,0 +1,7 @@
+[
+  {
+    "module": "example-transitive-dep",
+    "reason": "Transitive dependency via sharp; no direct exposure. Tracked in #123.",
+    "expires": "2026-06-30"
+  }
+]

@@ -1135,8 +1135,8 @@ Ensure font files are in `public/fonts/` directory.
 1. **Check build logs** on your platform dashboard for detailed error messages
 2. **Review deployment guide**: [Phase 10: Deployment](../implementation-guides/active-phases/phase-10-deployment/)
 3. **Common issues**: [FAQ](./faq/)
-4. **Search existing issues**: [GitHub Issues](https://github.com/clownware/astro-starter-template/issues)
-5. **Ask for help**: [GitHub Discussions](https://github.com/clownware/astro-starter-template/discussions)
+4. **Search existing issues**: [GitHub Issues](https://github.com/clownware/astro-performance-starter/issues)
+5. **Ask for help**: [GitHub Discussions](https://github.com/clownware/astro-performance-starter/discussions)
 
 ## 🎓 What's Next?
 
@@ -1211,8 +1211,7 @@ Your site is now live! You've successfully:
 
 We'd love to see what you've built:
 
-- **Twitter/X** - Tag [@clownware](https://twitter.com/clownware)
-- **GitHub** - Open a [Show & Tell discussion](https://github.com/clownware/astro-starter-template/discussions)
+- **GitHub** - Open a [Show & Tell discussion](https://github.com/clownware/astro-performance-starter/discussions)
 - **Discord** - Share in [Astro Discord](https://discord.gg/astro)
 
 ### Keep Building

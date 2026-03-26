@@ -67,7 +67,6 @@ jobs:
           echo "✅ Bundle size within limit."
 
       - name: Security audit (high severity)
-        continue-on-error: true
         run: pnpm run audit:ci
 
       - name: Trivy SBOM scan
@@ -86,8 +85,6 @@ jobs:
 
   link-check:
     runs-on: ubuntu-latest
-    # Non-blocking: docs use Starlight-style URLs that aren't resolvable as raw file paths
-    continue-on-error: true
 
     steps:
       - name: Checkout
@@ -97,6 +94,7 @@ jobs:
         uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
           use-quiet-mode: 'yes'
+          use-verbose-mode: 'no'
           config-file: '.markdown-link-check.json'
           folder-path: 'docs/'
           file-extension: '.md'

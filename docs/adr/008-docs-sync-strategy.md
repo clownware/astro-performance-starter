@@ -19,7 +19,7 @@ The Astro Performance Starter Template maintains comprehensive documentation in 
 2. **AI Context**: Provides structured information for AI-assisted development
 3. **Public Documentation**: Should be accessible via a dedicated documentation site
 
-To make this documentation publicly accessible and searchable, we need to publish it to a separate Starlight-based documentation site at [github.com/clownware/astro-starter-docs](https://github.com/clownware/astro-starter-docs). However, maintaining documentation in two places manually is error-prone and creates synchronization challenges.
+To make this documentation publicly accessible and searchable, we need to publish it to a separate Starlight-based documentation site. However, maintaining documentation in two places manually is error-prone and creates synchronization challenges.
 
 ### Requirements
 
@@ -169,7 +169,7 @@ Template Repo (docs/ changes)
 This strategy applies to:
 
 - All files within the `docs/` directory of the template repository
-- Synchronization to the `clownware/astro-starter-docs` repository
+- Synchronization to the configured Starlight documentation repository
 - Changes pushed to `master` or `main` branches only
 
 This does NOT apply to:
@@ -188,7 +188,7 @@ This does NOT apply to:
 
 - [Documentation Sync Setup Guide](../development/docs-sync-setup.md)
 - [GitHub Actions Workflow](.github/workflows/sync-docs-to-starlight.yml)
-- [Starlight Documentation Repository](https://github.com/clownware/astro-starter-docs)
+- Starlight Documentation Repository (configured via `STARLIGHT_REPO` secret)
 
 ## Notes
 

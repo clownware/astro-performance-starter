@@ -179,7 +179,7 @@ We follow a **progressive testing approach**:
 - **Component Changes**: Add unit tests for new components
 - **Page Changes**: Add E2E tests for new pages or critical paths
 - **Before PR**: Run full test suite to catch regressions
-- **Pre-Launch**: Comprehensive testing per track (MVP vs Showcase)
+- **Pre-Launch**: Comprehensive testing per implementation tier
 
 See [Testing Strategy Guide](docs/implementation-guides/guides/testing-strategy-guide.md) for details.
 
@@ -258,8 +258,8 @@ Closes #123
 
 ## 💡 Getting Help
 
-- **Questions**: Open a [Discussion](https://github.com/yourusername/astro-performance-starter/discussions)
-- **Bugs**: Open an [Issue](https://github.com/yourusername/astro-performance-starter/issues)
+- **Questions**: Open a [Discussion](https://github.com/clownware/astro-performance-starter/discussions)
+- **Bugs**: Open an [Issue](https://github.com/clownware/astro-performance-starter/issues)
 - **Ideas**: Share in Discussions first
 - **Chat**: Join us in the Astro Discord
 

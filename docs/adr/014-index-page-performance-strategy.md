@@ -255,7 +255,7 @@ const metrics: LighthouseMetric[] = [
 <BaseLayout
   title="..."
   description="..."
-  preconnectDomains={["https://github.com", "https://aps.docs.clownware.org"]}
+  preconnectDomains={["https://github.com"]}
 >
   <!-- Internal links with prefetch -->
   <Button href="/docs/getting-started" data-astro-prefetch>
@@ -276,8 +276,9 @@ const metrics: LighthouseMetric[] = [
   <!-- DNS prefetch for faster domain resolution -->
   <link rel="dns-prefetch" href="https://github.com" />
   <link rel="preconnect" href="https://github.com" crossorigin />
-  <link rel="dns-prefetch" href="https://aps.docs.clownware.org" />
-  <link rel="preconnect" href="https://aps.docs.clownware.org" crossorigin />
+  <!-- Add preconnect for your docs domain if hosted externally -->
+  <!-- <link rel="dns-prefetch" href="https://your-docs-site.example.com" /> -->
+  <!-- <link rel="preconnect" href="https://your-docs-site.example.com" crossorigin /> -->
 </head>
 ```
 

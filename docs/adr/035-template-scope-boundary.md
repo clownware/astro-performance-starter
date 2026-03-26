@@ -122,7 +122,7 @@ These items live exclusively on the docs site, in separate repositories, or are 
 | Item | Where It Lives Instead |
 |------|----------------------|
 | Deployment-specific workflows (Vercel, Netlify, AWS) | Documented as recipes in `docs/implementation-guides/` |
-| Extended tutorials and walkthroughs | Docs site only (aps.docs.clownware.org) |
+| Extended tutorials and walkthroughs | Docs site only (if deployed separately) |
 | Comparison content (vs other starters) | Docs site or marketing material |
 | Marketing and promotional content | Docs site landing page |
 | Maintenance artifacts and one-off fix docs | Remove or archive after resolution |
@@ -198,7 +198,7 @@ This guidance should be reflected in `.windsurfrules` and `docs/ai-context/INDEX
 
 ### Neutral
 
-- This policy applies to the template repository specifically. The rendered docs site at aps.docs.clownware.org can include any content regardless of this policy.
+- This policy applies to the template repository specifically. A rendered docs site (if deployed separately) can include any content regardless of this policy.
 - The policy doesn't change what content exists — only where it lives and how it's categorized
 - `docs/temp-guides/` already exists and can serve as the landing spot for relocated maintenance artifacts pending further cleanup
 

@@ -4,6 +4,7 @@ import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Image from "@/components/atoms/Image.astro";
 import SocialLink from "@/components/atoms/SocialLink.astro";
+import { socialLinks as configSocialLinks } from "@/config";
 // Import the avatar image
 import avatarImage from "@/images/avatar-placeholder.png";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -180,21 +181,27 @@ const experiences = [
             Find me on these platforms or reach out directly
           </p>
           <div class="flex justify-center gap-6">
+            {configSocialLinks.github && (
             <SocialLink 
               platform="github" 
-              href="https://github.com/clownware"
+              href={configSocialLinks.github}
               class="text-lg"
             />
+            )}
+            {configSocialLinks.linkedin && (
             <SocialLink 
               platform="linkedin" 
-              href="https://linkedin.com/company/clownware"
+              href={configSocialLinks.linkedin}
               class="text-lg"
             />
+            )}
+            {configSocialLinks.twitter && (
             <SocialLink 
               platform="twitter" 
-              href="https://twitter.com/clownware_dev"
+              href={configSocialLinks.twitter}
               class="text-lg"
             />
+            )}
           </div>
         </div>
       </div>

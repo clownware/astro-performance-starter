@@ -10,7 +10,7 @@ pagefind: true
 
 This directory contains reference documentation that serves two purposes:
 
-1. **Rendered documentation** at [aps.docs.clownware.org](https://aps.docs.clownware.org) via Starlight
+1. **Rendered documentation** via Starlight (if you deploy a separate docs site)
 2. **AI assistant context** read directly from the filesystem by IDE-integrated AI tools (Windsurf, Cursor, VS Code Copilot)
 
 See [ADR-034](/adr/034-dual-purpose-docs-strategy/) for the rationale behind this dual-purpose approach.
@@ -44,8 +44,7 @@ Start with `docs/ai-context/INDEX.md` for the full project context contract.
 | `docs/patterns/` | Component, performance, accessibility patterns | High — conventions AI must follow |
 | `docs/development/` | Development workflows, setup guides | Low — primarily human-facing |
 | `docs/getting-started/` | Onboarding documentation | Low — primarily human-facing |
-| `docs/snippets/` | Reusable code snippet documentation | Medium — code examples |
-| `docs/temp-guides/` | Temporary implementation plans | Low — delete when resolved |
+| `docs/snippets/` | Reusable code snippet includes | Medium — code examples |
 
 ## Implementation Roadmap
 
@@ -158,4 +157,4 @@ Documenting important technical decisions:
 - Consequences
 
 ---
-*Questions? Open a [Discussion](https://github.com/clownware/astro-starter-template/discussions)*
+*Questions? Open a [Discussion](https://github.com/clownware/astro-performance-starter/discussions)*

@@ -1,0 +1,18 @@
+# Default owners for everything in the repo
+* @chrispezza
+
+# Documentation changes can be reviewed by docs maintainers
+/docs/ @chrispezza
+
+# CI/CD and workflow changes require careful review
+/.github/ @chrispezza
+
+# Design tokens and styling
+/tokens/ @chrispezza
+/tailwind.config.ts @chrispezza
+
+# Core configuration
+/astro.config.mjs @chrispezza
+/tsconfig.json @chrispezza
+/biome.json @chrispezza
+/package.json @chrispezza
