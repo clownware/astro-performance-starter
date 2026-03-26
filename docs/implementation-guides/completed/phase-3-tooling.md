@@ -3,7 +3,7 @@ title: Phase 3 - Essential Tooling & Quality Gates
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details linting setup, formatting configuration, CI pipeline, and quality
-  gates for both tracks
+  gates — Foundation tier, essential for all projects
 tableOfContents: true
 pagefind: true
 ---
@@ -11,7 +11,7 @@ pagefind: true
 
 ## Overview
 
-- **Track**: Both (MVP & Showcase)
+- **Tier**: Foundation (Phase 3 of 12)
 - **Duration**: 1 day
 - **Dependencies**: Phase 0-2 completed
 - **Deliverables**: Linting setup, formatting config, CI pipeline, quality gates
@@ -25,22 +25,22 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 3.01 | Install Biome | ✅ | ✅ | Replaces ESLint + Prettier |
-| 3.02 | Configure Biome rules | ✅ | ✅ | Astro-friendly settings |
-| 3.03 | Set up format command | ✅ | ✅ | Format on save |
-| 3.04 | Configure lint command | ✅ | ✅ | Type-aware linting |
-| 3.05 | Set up pre-commit hook | ✅ | ✅ | Husky + lint-staged |
-| 3.06 | Set up commit-msg hook | ✅ | ✅ | Husky + commitlint |
-| 3.07 | Create CI workflow | ✅ | ✅ | GitHub Actions |
-| 3.08 | Add type checking | ✅ | ✅ | tsc + astro check |
-| 3.09 | Configure build checks | ✅ | ✅ | Token validation (script to check all semantic color token pairs for WCAG AA contrast) |
-| 3.10 | Set up branch protection | ✅ | ✅ | Require CI pass |
-| 3.11 | Add dependency audit                     | ✅ | ✅ | Security scanning                         |
-| 3.12 | Set up unit testing for utilities        | ✅ | ✅ | Vitest for core helpers/utils             |
-| 3.13 | Create quality reports (e.g., coverage)  | ❌ | ✅ | Broader test coverage, complexity reports |
-| 3.14 | Document standards                       | ✅ | ✅ | Contributing guide                        |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 3.01 | Install Biome | Essential | Replaces ESLint + Prettier |
+| 3.02 | Configure Biome rules | Essential | Astro-friendly settings |
+| 3.03 | Set up format command | Essential | Format on save |
+| 3.04 | Configure lint command | Essential | Type-aware linting |
+| 3.05 | Set up pre-commit hook | Essential | Husky + lint-staged |
+| 3.06 | Set up commit-msg hook | Essential | Husky + commitlint |
+| 3.07 | Create CI workflow | Essential | GitHub Actions |
+| 3.08 | Add type checking | Essential | tsc + astro check |
+| 3.09 | Configure build checks | Essential | Token validation (script to check all semantic color token pairs for WCAG AA contrast) |
+| 3.10 | Set up branch protection | Essential | Require CI pass |
+| 3.11 | Add dependency audit | Essential | Security scanning |
+| 3.12 | Set up unit testing for utilities | Essential | Vitest for core helpers/utils |
+| 3.13 | Create quality reports (e.g., coverage) | Recommended | Broader test coverage, complexity reports |
+| 3.14 | Document standards | Essential | Contributing guide |
 
 ### Why Biome over ESLint + Prettier?
 

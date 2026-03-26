@@ -50,10 +50,8 @@ const deepMerge = (target: Record<string, unknown>, source: Record<string, unkno
       typeof target[k] === "object" &&
       !Array.isArray(target[k])
     ) {
-      // @ts-expect-error safe merge for plain objects
       target[k] = deepMerge(target[k] as Record<string, unknown>, v as Record<string, unknown>);
     } else {
-      // @ts-expect-error assign leaf
       target[k] = v;
     }
   }
@@ -221,8 +219,8 @@ if (semanticTokens.semantic) {
 
   // Resolve token references using base tokens as context
   const resolvedSemantic = resolveTokenReferences(semanticTokens.semantic, baseTokens);
-  // Convert resolved semantic tokens into CSS var references and deep-merge
-  const semanticColorVars = buildColorVars(resolvedSemantic, [], "");
+  // Convert resolved semantic tokens into CSS var references with 'color-' prefix for consistency
+  const semanticColorVars = buildColorVars(resolvedSemantic, [], "color");
   tailwindTokens.colors = deepMerge(
     tailwindTokens.colors as Record<string, unknown>,
     semanticColorVars as Record<string, unknown>,
@@ -298,7 +296,8 @@ const resolvedSemanticForCss = resolveTokenReferences(semanticTokens.semantic ??
 
 const allVars = {
   ...flattenTokens(baseTokens as TokenGroup),
-  ...flattenTokens(resolvedSemanticForCss),
+  // Add 'color-' prefix to semantic tokens for consistent naming convention
+  ...flattenTokens(resolvedSemanticForCss, ["color"]),
 };
 
 const cssTokenPath = join(distDir, "tokens.css");

@@ -211,7 +211,7 @@ jobs:
 
 ### Branch Protection Rules (3.10)
 
-Implementing branch protection ensures that your `master` branch always stays in a releasable state. The rules below apply to **both MVP and Showcase tracks**.
+Implementing branch protection ensures that your `main` branch always stays in a releasable state.
 
 1. **Create a protection rule**
    - Navigate to **Repository → Settings → Branches → Branch protection rules**.
@@ -296,3 +296,4 @@ Implementing branch protection ensures that your `master` branch always stays in
         ```bash
         pnpm run dev
         ```
+```

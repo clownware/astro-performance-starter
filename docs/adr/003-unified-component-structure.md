@@ -1,15 +1,18 @@
 ---
-title: ' ADR-003: Unified Component Structure and Atomic Design Adherence'
+title: 'ADR-003: Unified Component Structure and Atomic Design Adherence'
 description: >-
-  The current `docs/implementation-guides/00-overview/directory-structure.md`
-  defines a clear Atomic Design methodology for organizing components within the
-  `src/
-lastUpdated: true
+  Enforces strict Atomic Design hierarchy for all UI components, preventing
+  ad-hoc directory proliferation and maintaining a single organizational system
+lastUpdated: 2025-06-10T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
 
-## Context and Problem Statement
+## Status
+
+Accepted
+
+## Context
 
 The current `docs/implementation-guides/00-overview/directory-structure.md` defines a clear Atomic Design methodology for organizing components within the `src/components/` directory. This structure includes subdirectories such as `atoms/`, `molecules/`, `organisms/`, `structural/`, and `mdx/`.
 
@@ -60,14 +63,22 @@ No new top-level component categorization folders (e.g., `src/components/ui/`, `
 
 ## Consequences
 
-- **Positive**:
-  - Maintains a clear, consistent, and predictable component architecture.
-  - Reduces the likelihood of duplicated or misplaced components.
-  - Strengthens the adoption and understanding of Atomic Design across the development team.
-- **Neutral/To Address**:
-  - Developers must be familiar with Atomic Design principles to correctly categorize new components.
-  - Any future documentation for phases that introduce UI components (e.g., "Phase 5 UI Components") must explicitly instruct developers to follow this established Atomic Design structure.
-  - The `docs/implementation-guides/00-overview/directory-structure.md` should be considered the primary source of truth for component organization and may need minor clarifications to reinforce this decision if any ambiguity is found.
+### Positive
+
+- Maintains a clear, consistent, and predictable component architecture
+- Reduces the likelihood of duplicated or misplaced components
+- Strengthens the adoption and understanding of Atomic Design across the development team
+
+### Negative
+
+- Requires developers to consciously apply Atomic Design principles when adding any new component
+- May require judgment calls on borderline atom/molecule/organism classification
+
+### Neutral
+
+- Developers must be familiar with Atomic Design principles to correctly categorize new components
+- Any future documentation for phases that introduce UI components (e.g., "Phase 5 UI Components") must explicitly instruct developers to follow this established Atomic Design structure
+- The `docs/implementation-guides/00-overview/directory-structure.md` should be considered the primary source of truth for component organization and may need minor clarifications to reinforce this decision if any ambiguity is found
 
 ## Validation
 
@@ -79,3 +90,8 @@ No new top-level component categorization folders (e.g., `src/components/ui/`, `
 
 - [Atomic Design by Brad Frost](https://atomicdesign.bradfrost.com/)
 - Internal: `docs/implementation-guides/00-overview/directory-structure.md`
+
+---
+**Date**: 2025-06-10\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

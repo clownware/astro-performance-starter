@@ -548,7 +548,7 @@ import Footer from './Footer.astro';
   <FilterIsland client:visible />
   <ProductGrid />
 </div>
-<CartIsland client:load />
+<CartIsland client:idle />
 <Footer />
 ```
 

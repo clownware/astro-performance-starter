@@ -3,13 +3,13 @@ title: Phase 9 - Performance & SEO
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers site optimization, performance reports, SEO implementation, and
-  monitoring setup for both tracks
+  monitoring setup with Essential, Recommended, and Advanced scope guidance
 tableOfContents: true
 pagefind: true
 ---
 ## Overview
 
-- **Track**: Both (MVP & Showcase)
+- **Tier**: Polish (Phase 9 of 12)
 - **Duration**: 1-2 days
 - **Dependencies**: Phase 0-8 completed
 - **Deliverables**: Optimized site, performance reports, SEO implementation, monitoring setup
@@ -23,20 +23,20 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 9.01 | Audit current performance | ✅ | ✅ | Baseline metrics |
-| 9.02 | Optimize critical path | ✅ | ✅ | CSS, fonts, scripts |
-| 9.03 | Implement caching strategy | ✅ | ✅ | Headers, service worker |
-| 9.04 | Minify and compress | ✅ | ✅ | HTML, CSS, JS |
-| 9.05 | Set up CDN | ✅ | ✅ | Static assets |
-| 9.06 | Optimize web fonts | ✅ | ✅ | Subset, preload |
-| 9.07 | Technical SEO audit | ✅ | ✅ | Crawlability, indexing |
-| 9.08 | Schema markup | ✅ | ✅ | Structured data |
-| 9.09 | Generate sitemap | ✅ | ✅ | XML sitemap |
-| 9.10 | Submit to search engines | ✅ | ✅ | Google, Bing |
-| 9.11 | Performance monitoring | ❌ | ✅ | RUM setup |
-| 9.12 | Create performance budget CI | ❌ | ✅ | Automated checks |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 9.01 | Audit current performance | Essential | Baseline metrics |
+| 9.02 | Optimize critical path | Essential | CSS, fonts, scripts |
+| 9.03 | Implement caching strategy | Essential | Headers via `public/_headers` |
+| 9.04 | Minify and compress | Essential | Handled by Astro build |
+| 9.05 | Set up CDN | Essential | Cloudflare Pages default |
+| 9.06 | Optimize web fonts | Essential | Subset, preload |
+| 9.07 | Technical SEO audit | Essential | Crawlability, indexing |
+| 9.08 | Schema markup | Essential | Structured data |
+| 9.09 | Generate sitemap | Essential | XML sitemap |
+| 9.10 | Submit to search engines | Essential | Google, Bing |
+| 9.11 | Performance monitoring | Recommended | RUM setup |
+| 9.12 | Create performance budget CI | Recommended | Lighthouse CI automated checks |
 
 ## Common Pitfalls
 
@@ -57,18 +57,27 @@ pagefind: true
 
 ## Exit Criteria
 
-- [ ] Lighthouse scores meet targets (97+ performance)
+### Essential (all projects)
+
+- [ ] Lighthouse scores meet targets (95+ performance)
 - [ ] Core Web Vitals pass (LCP < 2.5s, FID < 100ms, CLS < 0.1)
 - [ ] All images optimized with modern formats
-- [ ] Critical CSS inlined, non-critical deferred
 - [ ] Fonts subsetted and preloaded
-- [ ] Caching strategy implemented
-- [ ] Service worker active (Showcase)
+- [ ] Caching strategy implemented via `public/_headers`
 - [ ] SEO audit passes
 - [ ] Schema markup implemented
 - [ ] Sitemap generated and submitted
-- [ ] Performance monitoring active (Showcase)
-- [ ] Bundle sizes within budget
+- [ ] Bundle sizes within budget (JS < 160KB, CSS < 50KB)
+
+### Recommended (most projects)
+
+- [ ] Performance monitoring active (RUM)
+- [ ] Lighthouse CI integrated in GitHub Actions
+
+### Advanced (portfolio/enterprise)
+
+- [ ] Service worker active for offline support
+- [ ] Performance dashboards configured
 
 ## Rollback Strategy
 

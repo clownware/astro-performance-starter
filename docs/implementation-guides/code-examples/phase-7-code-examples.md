@@ -1193,7 +1193,7 @@ const popularPages = [
 </BaseLayout>
 ```
 
-## Microcopy Guidelines (Showcase)
+## Microcopy Guidelines (Advanced)
 
 ### UI Text Patterns
 
@@ -1245,3 +1245,534 @@ export const microcopy = {
   }
 };
 ```
+
+---
+
+## Real Page Implementations
+
+Complete page examples showing how components, layouts, and content work together.
+
+### Homepage Implementation
+
+Full-featured homepage with hero, features, metrics, tech stack, and CTA sections.
+
+**File**: `src/pages/index.astro`
+
+**Key Features:**
+
+- Hero section with gradient background and scroll indicator
+- Lighthouse metrics showcase
+- Expandable feature cards with synchronized expansion
+- Tech stack grid with category badges
+- Implementation tier overview
+- Call-to-action section
+
+**Pattern**: Section-based composition with reusable components
+
+```astro
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import Section from "@/components/structural/Section.astro";
+import Container from "@/components/structural/Container.astro";
+import Button from "@/components/atoms/Button.astro";
+import Badge from "@/components/atoms/Badge.astro";
+import Card from "@/components/molecules/Card.astro";
+import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
+
+// Data structures
+const features = [
+  {
+    icon: "🚀",
+    title: "Performance-First Architecture",
+    description: "Zero-JS baseline with islands architecture...",
+    metric: "95+ Lighthouse",
+    expandedDetails: [/* ... */],
+  },
+  // ... more features
+];
+
+const metrics = [
+  { label: "Performance", score: "95+", icon: "🚀" },
+  { label: "Accessibility", score: "100", icon: "♿" },
+  // ... more metrics
+];
+---
+
+<BaseLayout title="..." description="...">
+  <!-- Hero Section -->
+  <Section class="min-h-[calc(100vh-4rem)]">
+    <Container>
+      <Badge>🎆 Production-Ready Template</Badge>
+      <h1>Astro Performance Starter</h1>
+      <p>Build blazing-fast websites...</p>
+      <Button href="..." variant="primary">Get Started</Button>
+    </Container>
+  </Section>
+
+  <!-- Metrics Section -->
+  <Section class="bg-background-secondary">
+    <Container>
+      <h2>Lighthouse Performance Scores</h2>
+      <div class="grid grid-cols-4 gap-4">
+        {metrics.map((metric) => (
+          <Card>
+            <div class="text-3xl font-bold">{metric.score}</div>
+            <div>{metric.label}</div>
+          </Card>
+        ))}
+      </div>
+    </Container>
+  </Section>
+
+  <!-- Features Section -->
+  <Section>
+    <Container>
+      <h2>Why Choose This Template?</h2>
+      <Grid>
+        {features.map((feature) => (
+          <ExpandableFeatureCard {...feature} />
+        ))}
+      </Grid>
+    </Container>
+  </Section>
+
+  <!-- CTA Section -->
+  <Section class="bg-foreground-primary">
+    <Container>
+      <h2 class="text-background-primary">Ready to Build?</h2>
+      <Button href="..." variant="primary" size="lg">Get Started</Button>
+    </Container>
+  </Section>
+</BaseLayout>
+```
+
+**Best Practices:**
+
+- Separate data from presentation
+- Use semantic section IDs for anchor links
+- Implement scroll indicators for long pages
+- Provide clear CTAs throughout
+- Use gradient backgrounds sparingly
+
+---
+
+### Blog Index with Pagination
+
+Blog listing page with featured posts, pagination, and filtering capabilities.
+
+**File**: `src/pages/blog/index.astro`
+
+**Key Features:**
+
+- Featured posts section (first page only)
+- Paginated post grid
+- Reading time and date metadata
+- "New" badge for recent posts
+- Responsive card layouts
+- Empty state handling
+
+**Pattern**: Content Collections with Astro pagination
+
+```astro
+---
+import type { GetStaticPaths, Page } from "astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/molecules/PostCard.astro";
+import Button from "@/components/atoms/Button.astro";
+import { formatPostMetadata } from "@/utils/formatDate";
+import { getPublishedPosts, getFeaturedPosts } from "@/utils/blog";
+
+const postsPerPage = 6;
+
+export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
+  // Use centralized blog utilities (eliminates duplicate sorting)
+  const sortedPosts = await getPublishedPosts();
+  return paginate(sortedPosts, { pageSize: postsPerPage });
+};
+
+const { page } = Astro.props;
+const posts = page.data;
+
+// Get featured posts (first page only, limit to 3)
+const featuredPosts = page.currentPage === 1
+  ? await getFeaturedPosts(3)
+  : [];
+
+const postsWithMetadata = posts.map(post => ({
+  ...post,
+  metadata: formatPostMetadata(post.data.date, post.body),
+}));
+
+const featuredPostsWithMetadata = featuredPosts.map(post => ({
+  ...post,
+  metadata: formatPostMetadata(post.data.date, post.body),
+}));
+---
+
+<BaseLayout title={`Blog - Page ${page.currentPage}`} description="...">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <!-- Header -->
+    <h1 class="text-4xl font-bold text-center mb-12">Blog</h1>
+
+    <!-- Featured Posts (first page only) -->
+    {page.currentPage === 1 && featuredPosts.length > 0 && (
+      <section class="mb-16">
+        <h2 class="text-2xl font-bold mb-8">Featured Posts</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+          {featuredPosts.map(post => (
+            <Card class="group">
+              <div class="aspect-video overflow-hidden">
+                <img src={post.data.cover} alt={post.data.coverAlt} 
+                     class="group-hover:scale-105 transition-transform" />
+              </div>
+              <div class="p-6">
+                <div class="flex gap-2 mb-3">
+                  {post.data.tags.slice(0, 3).map(tag => (
+                    <Badge>{tag}</Badge>
+                  ))}
+                </div>
+                <h3 class="text-xl font-semibold mb-3">
+                  <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
+                </h3>
+                <p class="text-foreground-secondary mb-4">
+                  {post.data.description}
+                </p>
+                <div class="flex justify-between text-sm">
+                  <span>{formatPostMetadata(post.data.date).publishedDate}</span>
+                  <span>{formatPostMetadata(post.data.date, post.body).readingTime}</span>
+                </div>
+              </div>
+            </Card>
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- All Posts Grid -->
+    <section>
+      <h2 class="text-2xl font-bold mb-8">
+        {page.currentPage === 1 ? "All Posts" : `Posts - Page ${page.currentPage}`}
+      </h2>
+      
+      {posts.length === 0 ? (
+        <div class="text-center py-16">
+          <p class="text-lg text-foreground-secondary">No blog posts found.</p>
+          <Button href="/" variant="secondary" class="mt-4">Back to Home</Button>
+        </div>
+      ) : (
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {postsWithMetadata.map(post => (
+            <Card class="group">
+              {/* Same card structure as featured posts */}
+            </Card>
+          ))}
+        </div>
+      )}
+
+      <!-- Pagination -->
+      {page.lastPage > 1 && (
+        <nav class="mt-12 flex justify-center" aria-label="Blog pagination">
+          <div class="flex items-center space-x-2">
+            {page.url.prev && (
+              <Button href={page.url.prev} variant="secondary" size="sm">
+                Previous
+              </Button>
+            )}
+            
+            <div class="hidden sm:flex space-x-1">
+              {Array.from({ length: page.lastPage }, (_, i) => i + 1).map(pageNum => {
+                const href = pageNum === 1 ? '/blog/' : `/blog/${pageNum}/`;
+                return pageNum === page.currentPage ? (
+                  <span class="px-3 py-2 bg-primary-100 text-primary-600 rounded">
+                    {pageNum}
+                  </span>
+                ) : (
+                  <Button href={href} variant="ghost" size="sm">{pageNum}</Button>
+                );
+              })}
+            </div>
+            
+            {page.url.next && (
+              <Button href={page.url.next} variant="secondary" size="sm">
+                Next
+              </Button>
+            )}
+          </div>
+        </nav>
+      )}
+    </section>
+  </div>
+</BaseLayout>
+```
+
+**Best Practices:**
+
+- Use Astro's built-in pagination
+- Show featured content on first page only
+- Implement empty states
+- Provide clear pagination controls
+- Add mobile-friendly page indicators
+- Use `line-clamp` for consistent card heights
+
+---
+
+### Projects Index with Filtering
+
+Projects portfolio page with client-side filtering by technology.
+
+**File**: `src/pages/projects/index.astro`
+
+**Key Features:**
+
+- Client-side technology filtering
+- Dynamic filter badges
+- Empty state with reset button
+- Project cards with metadata
+- Responsive grid layout
+
+**Pattern**: Static generation with progressive enhancement
+
+```astro
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ProjectCard from "@/components/molecules/ProjectCard.astro";
+import Button from "@/components/atoms/Button.astro";
+import Badge from "@/components/atoms/Badge.astro";
+
+const entries = await getCollection("projects", ({ data }) => !data.draft);
+
+const projects = entries
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .map(entry => ({
+    title: entry.data.title,
+    description: entry.data.description,
+    image: entry.data.cover.src,
+    techStack: entry.data.technologies,
+    demoUrl: entry.data.externalUrl,
+    githubUrl: entry.data.githubUrl,
+    href: `/projects/${entry.slug}/`,
+    date: entry.data.date,
+    tags: entry.data.tags,
+  }));
+
+// Extract unique technologies for filters
+const allTechStack = [...new Set(projects.flatMap(p => p.techStack))].sort();
+---
+
+<BaseLayout title="Projects" description="...">
+  <div class="max-w-7xl mx-auto px-4 py-12">
+    <h1 class="text-4xl font-bold text-center mb-12">Projects</h1>
+
+    <!-- Filter Controls -->
+    <section class="mb-12">
+      <h2 class="text-xl font-bold text-center mb-4">Filter by Technology</h2>
+      <div class="flex flex-wrap justify-center gap-3">
+        <Button 
+          variant="ghost" 
+          size="sm"
+          class="filter-btn active"
+          data-filter="all"
+        >
+          All Projects
+        </Button>
+        {allTechStack.map(tech => (
+          <Badge 
+            class="cursor-pointer hover:bg-primary-200 filter-badge" 
+            data-filter={tech.toLowerCase()}
+          >
+            {tech}
+          </Badge>
+        ))}
+      </div>
+    </section>
+
+    <!-- Projects Grid -->
+    <section>
+      <h2 class="text-2xl font-bold text-center mb-8">All Projects</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map(project => (
+          <ProjectCard
+            {...project}
+            data-tech-stack={project.techStack.map(t => t.toLowerCase()).join(' ')}
+          />
+        ))}
+      </div>
+    </section>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-12">
+      <div class="text-6xl mb-4">🔍</div>
+      <h3 class="text-xl font-semibold mb-2">No projects found</h3>
+      <p class="text-foreground-secondary mb-6">
+        Try selecting a different technology filter.
+      </p>
+      <Button variant="primary" class="reset-filter-btn">
+        Show All Projects
+      </Button>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterButtons = document.querySelectorAll('.filter-btn, .filter-badge');
+    const projectCards = document.querySelectorAll('[data-tech-stack]');
+    const emptyState = document.getElementById('empty-state');
+    const resetButton = document.querySelector('.reset-filter-btn');
+
+    const filterProjects = (filterValue) => {
+      let visibleCount = 0;
+
+      projectCards.forEach(card => {
+        const techStack = card.getAttribute('data-tech-stack') || '';
+        const shouldShow = filterValue === 'all' || techStack.includes(filterValue);
+        card.style.display = shouldShow ? 'block' : 'none';
+        if (shouldShow) visibleCount++;
+      });
+
+      emptyState?.classList.toggle('hidden', visibleCount > 0);
+      
+      filterButtons.forEach(btn => btn.classList.remove('active'));
+    };
+
+    filterButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const filterValue = button.getAttribute('data-filter') || 'all';
+        filterProjects(filterValue);
+        button.classList.add('active');
+      });
+    });
+
+    resetButton?.addEventListener('click', () => filterProjects('all'));
+  });
+</script>
+
+<style>
+  .filter-btn.active,
+  .filter-badge.active {
+    @apply bg-primary-600 text-white;
+  }
+  
+  [data-tech-stack] {
+    transition: opacity 0.3s ease;
+  }
+  
+  [data-tech-stack][style*="display: none"] {
+    opacity: 0;
+  }
+</style>
+```
+
+**Best Practices:**
+
+- Generate filters from actual data
+- Use `data-*` attributes for filtering
+- Implement smooth transitions
+- Show empty states
+- Provide reset functionality
+- Keep JavaScript minimal and progressive
+
+---
+
+### Contact Page with Form
+
+Contact page with integrated ContactForm component.
+
+**File**: `src/pages/contact.astro`
+
+```astro
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import ContactForm from "@/components/molecules/ContactForm.astro";
+import Section from "@/components/structural/Section.astro";
+import Container from "@/components/structural/Container.astro";
+---
+
+<BaseLayout 
+  title="Contact" 
+  description="Get in touch with us"
+>
+  <Section>
+    <Container size="md">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl font-bold mb-4">Get In Touch</h1>
+        <p class="text-lg text-foreground-secondary">
+          Have a question or want to work together? Send us a message.
+        </p>
+      </div>
+
+      <ContactForm action="/api/contact" />
+
+      <div class="mt-12 text-center text-sm text-foreground-secondary">
+        <p>Or email us directly at: <a href="mailto:hello@example.com" class="text-primary-600 hover:underline">hello@example.com</a></p>
+      </div>
+    </Container>
+  </Section>
+</BaseLayout>
+```
+
+---
+
+## Page Patterns Summary
+
+### 1. Section-Based Composition
+
+```astro
+<BaseLayout>
+  <Section id="hero">...</Section>
+  <Section id="features" class="bg-background-secondary">...</Section>
+  <Section id="cta">...</Section>
+</BaseLayout>
+```
+
+### 2. Content Collections Integration
+
+```astro
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.date - a.data.date);
+```
+
+### 3. Progressive Enhancement
+
+```astro
+<!-- Works without JavaScript -->
+<div class="grid">
+  {items.map(item => <Card {...item} />)}
+</div>
+
+<!-- Enhanced with JavaScript -->
+<script>
+  // Add filtering, sorting, etc.
+</script>
+```
+
+### 4. Responsive Layouts
+
+```astro
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+  {items.map(item => <Card {...item} />)}
+</div>
+```
+
+### 5. Empty States
+
+```astro
+{items.length === 0 ? (
+  <div class="text-center py-16">
+    <p>No items found.</p>
+    <Button href="/">Go Home</Button>
+  </div>
+) : (
+  <div class="grid">{/* items */}</div>
+)}
+```
+
+---
+
+## Related Documentation
+
+- [Layout Components](/implementation-guides/code-examples/phase-6-code-examples#layout-components) - Layout examples
+- [Component Patterns](/patterns/component-patterns) - Component design patterns
+- [Content Collections](/implementation-guides/07-content/01-content-collections) - Content management
+- [Performance](/patterns/performance) - Optimization strategies

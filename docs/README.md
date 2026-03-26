@@ -1,85 +1,83 @@
 ---
-title: Docs README
-lastUpdated: 2025-06-10T00:00:00.000Z
-description: Central hub for all documentation related to the Astro Performance Starter
+title: Documentation — Reference & AI Context
+lastUpdated: 2026-02-22T00:00:00.000Z
+description: >-
+  Reference documentation and AI assistant context for the Astro Performance
+  Starter. Serves both Starlight rendering and filesystem-based AI context.
 tableOfContents: true
 pagefind: true
 ---
 
-> **Note**: These markdown files are bundled *only* for local reference and to give AI coding assistants rich context while you work. The live documentation site is hosted separately at [aps.docs.clownware.org](https://aps.docs.clownware.org).
+This directory contains reference documentation that serves two purposes:
 
-For a deep dive into phase-by-phase guides, browse the `implementation-guides/` directory.
+1. **Rendered documentation** at [aps.docs.clownware.org](https://aps.docs.clownware.org) via Starlight
+2. **AI assistant context** read directly from the filesystem by IDE-integrated AI tools (Windsurf, Cursor, VS Code Copilot)
 
-> Your guide to understanding and extending the Astro Performance Starter
+See [ADR-034](/adr/034-dual-purpose-docs-strategy/) for the rationale behind this dual-purpose approach.
 
-## Quick Navigation
+## For Template Users
 
-### 🚀 Getting Started
+You don't need to modify these files to use the template. They provide architectural context and implementation guidance. If you're customizing the template for your own project, you may want to:
 
-- **[Onboarding Guide](./onboarding/)** - Start here if you're new
-- **[Quick Track: Deploy Your First Site](./quick-track-deploy/)** - The fastest path to a live, personalized site (minimal changes needed!)
-- **[Track Comparison](./implementation-guides/tracks/track-comparison/)** - MVP vs Showcase decision guide
+- Update ADRs to reflect your own architectural decisions
+- Modify implementation guides to match your project scope
+- Keep the AI context index current for your AI-assisted workflow
 
-### 📖 Implementation Guides
+## For Contributors
 
-## 🗺️ Implementation Roadmap
+- **ADRs** go in `docs/adr/` following the template in `docs/adr/template.md`
+- **Implementation guides** go in `docs/implementation-guides/`
+- **AI-specific context** goes in `docs/ai-context/`
+- **Pattern documentation** goes in `docs/patterns/`
 
-> **Quick Navigation**: Direct links to each implementation phase in order
+## For AI Assistants
 
-### Foundation (Days 1-4)
+Start with `docs/ai-context/INDEX.md` for the full project context contract.
 
-These phases establish immutable decisions that are costly to change later.
+## Documentation Zone Map
 
-1. **[Phase 0: Foundation](./implementation-guides/01-foundation-phase-0-foundation/)** ⏱️ 1 day\
-   Set up repository, choose core technologies, establish development environment
+| Directory | Content | AI Relevance |
+|-----------|---------|--------------|
+| `docs/adr/` | Architectural Decision Records | High — constraints AI must respect |
+| `docs/ai-context/` | AI-specific guidance, prompt libraries | Critical — primary AI entry point |
+| `docs/implementation-guides/` | Phase guides, code examples, reference | Medium — implementation context |
+| `docs/patterns/` | Component, performance, accessibility patterns | High — conventions AI must follow |
+| `docs/development/` | Development workflows, setup guides | Low — primarily human-facing |
+| `docs/getting-started/` | Onboarding documentation | Low — primarily human-facing |
+| `docs/snippets/` | Reusable code snippet documentation | Medium — code examples |
+| `docs/temp-guides/` | Temporary implementation plans | Low — delete when resolved |
 
-2. **[Phase 1: Content Architecture](./implementation-guides/01-foundation-phase-1-content-arch/)** ⏱️ 1-2 days\
-   Design content schema, URL structure, establish TypeScript types
+## Implementation Roadmap
 
-3. **[Phase 2: Design System](./implementation-guides/01-foundation-phase-2-design-system/)** ⏱️ 1-2 days\
-   Create design tokens, configure Tailwind, set up dark mode
+Work through phases sequentially and stop when you've reached your goals. See [Implementation Guide Master Index](/implementation-guides/) for the full guide.
 
-4. **[Phase 3: Tooling](./implementation-guides/01-foundation-phase-3-tooling/)** ⏱️ 1 day\
-   Configure linting, formatting, CI pipeline, quality gates
+### 🔴 Foundation (Phases 0–4) — Everyone does these
 
-### Structure (Days 5-10)
+| Phase | Name | Effort |
+|-------|------|--------|
+| 0 | [Foundation Decisions](/implementation-guides/completed/phase-0-foundation/) | 1 day |
+| 1 | [Content Architecture](/implementation-guides/completed/phase-1-content-arch/) | 1-2 days |
+| 2 | [Design System](/implementation-guides/completed/phase-2-design-system/) | 1-2 days |
+| 3 | [Tooling](/implementation-guides/completed/phase-3-tooling/) | 1 day |
+| 4 | [Skeleton Layout](/implementation-guides/completed/phase-4-skeleton/) | 2-3 days |
 
-Build the application skeleton and component library.
+### 🟡 Build (Phases 5–8) — Make it yours
 
-1. **[Phase 4: Skeleton](./implementation-guides/02-structure-phase-4-skeleton/)** ⏱️ 2-3 days\
-   Create layouts, routing, navigation, SEO metadata
+| Phase | Name | Effort |
+|-------|------|--------|
+| 5 | [Components](/implementation-guides/active-phases/phase-5-components/) | 2-4 days |
+| 6 | [Sections](/implementation-guides/active-phases/phase-6-sections/) | 2-3 days |
+| 7 | [Content](/implementation-guides/active-phases/phase-7-content/) | 3-5 days |
+| 8 | [QA](/implementation-guides/active-phases/phase-8-qa/) | 1-3 days |
 
-2. **[Phase 5: Components](./implementation-guides/02-structure-phase-5-components/)** ⏱️ 2-4 days\
-   Build UI component library (MVP: essential only, Showcase: full library)
+### 🟢 Polish (Phases 9–12) — Production-harden
 
-3. **[Phase 6: Sections](./implementation-guides/02-structure-phase-6-sections/)** ⏱️ 2-3 days\
-   Compose page sections from components
-
-### Implementation (Days 11-15)
-
-Create content and ensure quality.
-
-1. **[Phase 7: Content](./implementation-guides/03-content-phase-7-content/)** ⏱️ 3-5 days\
-   Author content, optimize images, populate site
-
-2. **[Phase 8: QA](./implementation-guides/04-quality-phase-8-qa/)** ⏱️ 1-3 days\
-   Test functionality, accessibility, cross-browser
-
-3. **[Phase 9: Performance](./implementation-guides/04-quality-phase-9-performance/)** ⏱️ 1-2 days\
-   Optimize for Core Web Vitals, enforce budgets
-
-### Deployment (Days 16-18)
-
-Ship to production and establish maintenance.
-
-1. **[Phase 10: Deployment](./implementation-guides/05-deployment-phase-10-deployment/)** ⏱️ 1 day\
-   Deploy to hosting, configure CDN, set up monitoring
-
-2. **[Phase 11: Documentation](./implementation-guides/05-deployment-phase-11-documentation/)** ⏱️ 1-2 days\
-   Document architecture, components, maintenance procedures
-
-3. **[Phase 12: Post-Launch](./implementation-guides/05-deployment-phase-12-post-launch/)** ⏱️ 1 day\
-   Establish monitoring, feedback loops, iteration plan
+| Phase | Name | Effort |
+|-------|------|--------|
+| 9 | [Performance](/implementation-guides/active-phases/phase-9-performance/) | 1-2 days |
+| 10 | [Deployment](/implementation-guides/active-phases/phase-10-deployment/) | 1 day |
+| 11 | [Documentation](/implementation-guides/active-phases/phase-11-documentation/) | 1-2 days |
+| 12 | [Post-Launch](/implementation-guides/active-phases/phase-12-post-launch/) | 1 day |
 
 ### Progress Tracking
 
@@ -89,11 +87,11 @@ Ship to production and establish maintenance.
 
 <!-- The script will automatically update this section. Do not manually edit. -->
 
-- \[ ] Phase 0: Foundation
-- \[ ] Phase 1: Content Architecture
-- \[ ] Phase 2: Design System
-- \[ ] Phase 3: Tooling
-- \[ ] Phase 4: Skeleton
+- \[x] Phase 0: Foundation
+- \[x] Phase 1: Content Architecture
+- \[x] Phase 2: Design System
+- \[x] Phase 3: Tooling
+- \[x] Phase 4: Skeleton
 - \[ ] Phase 5: Components
 - \[ ] Phase 6: Sections
 - \[ ] Phase 7: Content
@@ -105,46 +103,37 @@ Ship to production and establish maintenance.
 
 <!-- ROADMAP_STATUS_END -->
 
-### 🏗️ Architecture & Patterns
+## Architecture & Patterns
 
-#### Core Documentation
+### Core Reference
 
-- **[Technology Stack](./implementation-guides/00-overview/tech-stack/)** - Why we chose these tools
-- **[Performance Budgets](./implementation-guides/00-overview/budgets-guardrails/)** - Quality gates and metrics
-- **[Directory Structure](./implementation-guides/00-overview/directory-structure/)** - Project organization
+- **[Technology Stack](/implementation-guides/reference/tech-stack/)** - Why we chose these tools
+- **[Performance Budgets](/implementation-guides/reference/budgets-guardrails/)** - Quality gates and metrics
+- **[Directory Structure](/implementation-guides/reference/directory-structure/)** - Project organization
+- **[Portfolio Checklist](/implementation-guides/reference/portfolio-checklist/)** - Curated scope items for portfolio-quality sites
 
-#### Design Patterns
+### Design Patterns
 
-- **[Islands Architecture](./implementation-guides/patterns/islands-architecture/)** - When to add JavaScript
-- **[Component Patterns](./implementation-guides/patterns/component-patterns/)** - Reusable UI patterns
-- **[Performance Patterns](./implementation-guides/patterns/performance-patterns/)** - Optimization techniques
-- **[Content Collections](./implementation-guides/patterns/content-collections/)** - Advanced content patterns
+- **[Islands Architecture](/implementation-guides/patterns/islands-architecture/)** - When to add JavaScript
+- **[Component Patterns](/implementation-guides/patterns/component-patterns/)** - Reusable UI patterns
+- **[Performance Patterns](/implementation-guides/patterns/performance-patterns/)** - Optimization techniques
+- **[Content Collections](/implementation-guides/patterns/content-collections/)** - Advanced content patterns
 
-### 🤖 AI & Automation
+### Architecture Decisions
 
-- **[AI Context Index](./implementation-guides/ai-context/)** - For AI assistants
-- **[Prompt Templates](./implementation-guides/ai-context/prompt-templates/)** - Common AI prompts
-- **[Context Maintenance](./implementation-guides/ai-context/context-updates/)** - Keeping AI context current
-
-### 📋 Architecture Decisions
-
-- **[ADR Template](./adr/template/)** - How to document decisions
-- **[ADR-000: Starter Decisions](./adr/000-starter-decisions/)** - Initial architecture choices
-- **[ADR-005: Link Validation Strategy](./adr/005-link-validation-strategy/)** - Build-time link validation
-- **[ADR-006: Documentation Review Cadence](./adr/006-documentation-review-cadence/)** - Automated review date tracking
-
-### 🔗 Migration Guides
-
-- **[Link Migration Guide](./link-migration-guide/)** - Converting relative links to validated references
-- **[Documentation Review Cadence](./documentation-review-cadence/)** - Review date system and CI enforcement
+- **[ADR Template](/adr/template/)** - How to document decisions
+- **[ADR-000: Starter Decisions](/adr/000-starter-decisions/)** - Initial architecture choices
+- **[ADR-033: Track Consolidation](/adr/033-track-consolidation/)** - Progressive tier model
+- **[ADR-034: Dual-Purpose Docs](/adr/034-dual-purpose-docs-strategy/)** - AI Context Layer strategy
+- **[ADR-035: Template Scope Boundary](/adr/035-template-scope-boundary/)** - What ships in the template
 
 ## Document Types
 
 ### Implementation Guides
 
-Step-by-step instructions for building each phase of the project. Each guide includes:
+Step-by-step instructions for building each phase. Each guide includes:
 
-- Overview and dependencies
+- Tier and scope (Essential / Recommended / Advanced)
 - Entry/exit criteria
 - Code examples
 - Common pitfalls
@@ -168,64 +157,5 @@ Documenting important technical decisions:
 - Decision and rationale
 - Consequences
 
-## How to Use This Documentation
-
-This documentation is structured in two layers to cater to different needs:
-
-- **Quick Track**: For users who want to deploy a personalized site as quickly as possible with minimal changes, start with the **[Quick Track: Deploy Your First Site](./quick-track-deploy/)** guide.
-- **Comprehensive Guides**: For a deep understanding, feature-rich customization, or contributing to the starter's development, follow the detailed phase guides listed in the Implementation Roadmap section above.
-
-### For New Projects
-
-1. Start with the [Onboarding Guide](./onboarding/)
-2. Choose your track (MVP or Showcase)
-3. Follow the phase-by-phase guides in the Implementation Roadmap section
-4. Reference pattern guides as needed
-
-### For Existing Projects
-
-1. Find your current phase in the roadmap
-2. Use relevant pattern guides for specific features
-3. Check ADRs for architectural guidance
-4. Update documentation as you make changes
-
-### For AI Assistants
-
-1. Start with the [AI Context Index](./implementation-guides/ai-context/)
-2. Reference specific phase guides as needed
-3. Use prompt templates for consistency
-4. Keep context updated with changes
-
-## Contributing to Documentation
-
-See our [Contributing Guide](./contributing/) for:
-
-- Documentation standards
-- How to add new patterns
-- Creating ADRs
-- Updating AI context
-
-## Quick Reference
-
-### File Naming Conventions
-
-- `phase-X-name.md` - Implementation phases
-- `pattern-name.md` - Reusable patterns
-- `ADR-XXX-title.md` - Architecture decisions
-- `README.md` - Section overviews
-
-### Markdown Standards
-
-- Use ATX headings (`#` not underlines)
-- Include code examples with language tags
-- Add tables for comparisons
-- Use task lists for checklists
-
-### Cross-References
-
-- Use relative links between documents
-- Include section anchors for deep linking
-- Maintain link integrity when moving files
-
 ---
-*Questions? Check our [FAQ](./faq/) or open a [Discussion](https://github.com/clownware/astro-starter-template/discussions)*
+*Questions? Open a [Discussion](https://github.com/clownware/astro-starter-template/discussions)*

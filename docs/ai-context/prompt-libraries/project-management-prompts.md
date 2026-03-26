@@ -116,7 +116,7 @@ Document [Component] following our standards:
 - Performance considerations
 - Common pitfalls
 - Related components
-- Add to Astrobook stories (Showcase only)
+- Add to Astrobook stories (Advanced scope only)
 
 Follow documentation pattern from phase-5-components.md
 ```

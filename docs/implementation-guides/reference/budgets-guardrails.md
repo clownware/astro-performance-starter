@@ -24,8 +24,8 @@ pagefind: true
 
 ### Lighthouse Score Requirements
 
-| Category | MVP Minimum | Showcase Target | Non-negotiable |
-|----------|-------------|-----------------|----------------|
+| Category | Essential Minimum | Advanced Target | Non-negotiable |
+|----------|-------------------|-----------------|----------------|
 | **Performance** | 95 | 97+ | 90 |
 | **Accessibility** | 98 | 100 | 95 |
 | **Best Practices** | 100 | 100 | 95 |
@@ -38,9 +38,8 @@ JavaScript:
   total_gzipped: 160KB maximum
   breakdown:
     - Framework (Preact): ~10KB
-    - Alpine.js: ~15KB
     - Custom code: ~20KB
-    - Third-party: ~115KB
+    - Third-party: ~130KB
   
   per_route_budget:
     - Home: 50KB
@@ -156,13 +155,13 @@ Dependencies:
 
 ## Testing Coverage
 
-| Type | MVP | Showcase |
-|------|-----|----------|
-| **Lighthouse CI** | Manual | Every commit |
-| **Accessibility** | Browser tools | Automated axe-core |
-| **Visual Regression** | None | Astrobook snapshots |
-| **E2E Critical Paths** | Manual checklist | Playwright automated |
-| **Performance** | Local only | CI + monitoring |
+| Type | Essential | Recommended | Advanced |
+|------|-----------|-------------|----------|
+| **Lighthouse CI** | Manual | Every commit | Every commit + RUM |
+| **Accessibility** | Browser tools | Automated axe-core | Automated axe-core |
+| **Visual Regression** | None | None | Astrobook snapshots |
+| **E2E Critical Paths** | Manual checklist | Playwright automated | Playwright automated |
+| **Performance** | Local only | CI | CI + monitoring |
 
 ## Monitoring Thresholds
 
@@ -193,9 +192,9 @@ Tracking:
    - CSS animations/transitions
 
 2. **Tier 1: Minimal Enhancement** (< 20KB)
-   - Alpine.js for simple state
    - View Transitions API
    - Progressive form enhancement
+   - Vanilla JS for simple state
 
 3. **Tier 2: Interactive Islands** (< 50KB per island)
    - Preact components

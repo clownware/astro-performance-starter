@@ -23,8 +23,8 @@ Framework:
 
 Build:
   bundler: Vite 6.x
-  runtime: Node.js 22.x LTS
-  package_manager: pnpm 9.x (required)
+  runtime: Node.js 24.x LTS
+  package_manager: pnpm 10.x (required)
   typescript: ^5.8.3
 ```
 
@@ -32,7 +32,7 @@ Build:
 
 ```yaml
 CSS:
-  framework: Tailwind CSS v3.4.4
+  framework: Tailwind CSS v3.x
   approach: Utility-first with design tokens
   features:
     - CSS Variables for theming
@@ -74,8 +74,7 @@ Assets:
 Progressive_Enhancement:
   1. CSS-only solutions (preferred)
   2. View Transitions API (SPA-like navigation)
-  3. Alpine.js (simple state)
-  4. Preact Islands (complex state)
+  3. Preact Islands (complex state)
 
 View_Transitions_vs_Islands:
   View_Transitions: For page-level animations and maintaining state across navigation (e.g., persistent audio player). Manages the "frame" of the app.
@@ -114,14 +113,14 @@ Git_Hooks:
     - Format with Biome
     - Type check changed files
   commit-msg:
-    - Conventional commits (basic for MVP)
+    - Conventional commits (enforced)
 ```
 
 ### Testing Strategy
 
-| Type | MVP | Showcase | Tool |
-|------|-----|----------|------|
-| Unit | ❌ | If needed | Vitest |
+| Type | Essential | Recommended | Tool |
+|------|-----------|-------------|------|
+| Unit | If needed | If needed | Vitest |
 | Component | ❌ | ✅ | Astrobook visual tests |
 | E2E | Manual | ✅ | Playwright |
 | A11y | Dev tools | ✅ | axe-core + Playwright |
@@ -173,12 +172,12 @@ Build_Time:
   - Compression (Brotli/Gzip)
 
 Runtime:
-  MVP:
+  Essential:
     - Cloudflare Web Analytics
     - Uptime monitoring
     - Basic error logging
 
-  Showcase:
+  Advanced:
     - Real User Monitoring (RUM)
     - Core Web Vitals tracking
     - Error tracking with source maps
@@ -199,7 +198,7 @@ Runtime:
     "@fontsource-variable/inter": "^5.1.0",
     "astro": "^5.0.0",
     "preact": "^10.24.3",
-    "tailwindcss": "^3.4.4"
+    "tailwindcss": "3.4.17"
   }
 }
 ```
@@ -210,16 +209,15 @@ Runtime:
 {
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
-    "build": "astro build",
+    "build": "pnpm run tokens:build && astro build",
     "preview": "astro preview",
+    "preview:build": "pnpm run build && astro preview",
     "check": "astro check",
-    "format": "biome format --write .",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint --apply .",
-    "build:tokens": "tsx scripts/src/build-tokens.ts",
-    "validate:contrast": "tsx scripts/src/validate-contrast.ts",
-    "baseline:performance": "tsx scripts/src/baseline-performance.ts",
+    "format": "biome format . --write",
+    "lint": "biome check .",
+    "tokens:build": "tsx scripts/src/build-tokens.ts",
+    "design:validate": "tsx scripts/src/validate-contrast.ts",
+    "perf:baseline": "tsx scripts/src/baseline-performance.ts",
     "prepare": "husky install"
   }
 }
@@ -232,7 +230,7 @@ Runtime:
   "devDependencies": {
     "@astrojs/check": "^0.9.4",
     "@axe-core/playwright": "^4.10.0",
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.2.4",
     "@playwright/test": "^1.49.0",
     "astrobook": "^0.5.0",
     "husky": "^9.1.0",
@@ -246,7 +244,7 @@ Runtime:
     "vitest": "^2.1.0"
   },
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.0.0"
   }
 }
 ```
@@ -256,7 +254,7 @@ Runtime:
 ### Why These Choices?
 
 1. **Astro 5.0**: Best-in-class static site generator with minimal JavaScript
-2. **Tailwind v4**: Modern utility CSS with better performance
+2. **Tailwind v3**: Stable utility CSS with design token integration (v4 migration tracked separately)
 3. **Biome**: Massive speed improvement over ESLint/Prettier
 4. **Preact**: Smaller than React for islands that need state
 5. **Cloudflare Pages**: Fast global CDN with great free tier

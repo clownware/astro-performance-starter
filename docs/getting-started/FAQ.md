@@ -20,7 +20,7 @@ This project is released under the **MIT License**, which means you can use it f
 Perfect! This template is designed for AI-assisted development. Here's your quickstart:
 
 1. **Point your AI agent at Phase 5** to conduct an analysis and create a development plan
-2. **Use the [Quick Track Deploy](./quick-track-deploy.md)** guide for immediate deployment
+2. **Use the [Getting Started](https://aps.docs.clownware.org/getting-started/)** guide for immediate deployment
 3. **Progress through other phases** as your AI agent identifies needs
 
 The documentation structure is optimized for AI context, so your agent can efficiently parse implementation guides and provide accurate assistance.
@@ -29,10 +29,10 @@ The documentation structure is optimized for AI context, so your agent can effic
 
 This is a **production-ready foundation** with:
 
-- Complete Astro {{versions.astro}} setup with zero JavaScript by default
-- 7 essential UI components (MVP component library)
+- Complete Astro 5.x setup with zero JavaScript by default
+- 7 essential UI components (Essential component library)
 - Design token system with Tailwind CSS integration
-- Performance optimization (targets 100/100 Lighthouse scores)
+- Performance optimization (targets 95+ Lighthouse scores)
 - Accessibility compliance (WCAG AA)
 - TypeScript strict mode configuration
 
@@ -65,12 +65,12 @@ Contributions that improve performance, accessibility, or developer experience a
 
 ### What performance can I expect?
 
-The template targets **Lighthouse scores of 100/100** across all metrics:
+The template targets **95+ Lighthouse scores** across all metrics:
 
-- Performance: 100 (with CI enforcement at 95+ minimum)
-- Accessibility: 100
+- Performance: 95+ (CI enforced minimum)
+- Accessibility: 98+
 - Best Practices: 100
-- SEO: 100
+- SEO: 95+
 
 Actual scores may vary ±3 points depending on device and network conditions.
 
@@ -96,12 +96,15 @@ Manual compilation (rarely needed): `pnpm run build:tokens`
 
 This approach ensures consistent spacing, colors, and typography across your site.
 
-### What's the difference between MVP and Showcase tracks?
+### How do I decide how much to build?
 
-- **MVP Track (2-3 weeks)**: Minimal viable site with essential features
-- **Showcase Track (4-6 weeks)**: Advanced features, animations, and comprehensive testing
+Use the Essential / Recommended / Advanced scope labels in each phase guide:
 
-Most users should start with the MVP track and selectively add Showcase features as needed.
+- **Essential**: Core functionality every project needs — do these first
+- **Recommended**: Adds quality and polish for most projects
+- **Advanced**: Portfolio-grade or enterprise features — stop when your goals are met
+
+See [ADR-033](/adr/033-track-consolidation/) for the rationale behind this model.
 
 ### Is this production-ready?
 

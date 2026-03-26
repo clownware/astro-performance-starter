@@ -9,7 +9,7 @@ pagefind: true
 
 ## Overview
 
-- **Track**: Both (MVP & Showcase)
+- **Tier**: Build (Phase 7 of 12)
 - **Duration**: 3-5 days
 - **Dependencies**: Phase 0-6 completed
 - **Deliverables**: Written content, optimized images, meta descriptions, content fixtures
@@ -23,20 +23,20 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 7.01 | Write homepage content | ✅ | ✅ | Focus on clarity |
-| 7.02 | Create about content | ✅ | ✅ | Personal or company |
-| 7.03 | Write project case studies | ✅ | ✅ | 3-5 detailed examples |
-| 7.04 | Create blog posts | ✅ | ✅ | 3-5 starter posts |
-| 7.05 | Optimize all images | ✅ | ✅ | AVIF/WebP formats |
-| 7.06 | Write meta descriptions | ✅ | ✅ | SEO optimization |
-| 7.07 | Create navigation content | ✅ | ✅ | Menu items, footer |
-| 7.08 | Add legal pages | ✅ | ✅ | Privacy, terms |
-| 7.09 | Create 404 content | ✅ | ✅ | Helpful error page |
-| 7.10 | Generate OG images | ✅ | ✅ | Social sharing |
-| 7.11 | Write microcopy | ❌ | ✅ | UI text, tooltips |
-| 7.12 | Create email templates | ❌ | ✅ | Contact responses |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 7.01 | Write homepage content | Essential | Focus on clarity |
+| 7.02 | Create about content | Essential | Personal or company |
+| 7.03 | Write project case studies | Essential | 3-5 detailed examples |
+| 7.04 | Create blog posts | Essential | 3-5 starter posts |
+| 7.05 | Optimize all images | Essential | AVIF/WebP formats |
+| 7.06 | Write meta descriptions | Essential | SEO optimization |
+| 7.07 | Create navigation content | Essential | Menu items, footer |
+| 7.08 | Add legal pages | Essential | Privacy, terms |
+| 7.09 | Create 404 content | Essential | Helpful error page |
+| 7.10 | Generate OG images | Essential | Social sharing |
+| 7.11 | Write microcopy | Recommended | UI text, tooltips |
+| 7.12 | Create email templates | Advanced | Contact responses |
 
 ## Content Strategy
 
@@ -148,18 +148,24 @@ Remember: The fastest code is no code. Question every kilobyte.
 
 ## Exit Criteria
 
-- \[ ] Homepage content written and polished
-- \[ ] About page content complete
-- \[ ] 3-5 project case studies written
-- \[ ] 3-5 blog posts created
-- \[ ] All images optimized (AVIF/WebP)
-- \[ ] Meta descriptions for all pages
-- \[ ] Navigation structure finalized
-- \[ ] Legal pages created
-- \[ ] 404 page designed
-- \[ ] OG images generated
-- \[ ] Microcopy documented (Showcase)
-- \[ ] Email templates created (Showcase)
+### Essential (all projects)
+
+- [ ] Homepage, About, Project case studies, Blog posts written
+- [ ] All images optimized (AVIF/WebP)
+- [ ] Meta descriptions for all pages
+- [ ] Navigation structure finalized
+- [ ] Legal pages created (Privacy, Terms)
+- [ ] 404 page designed
+- [ ] OG images generated
+
+### Recommended (most projects)
+
+- [ ] Microcopy documented (UI text, tooltips, empty states)
+
+### Advanced (portfolio/enterprise)
+
+- [ ] Email response templates created
+- [ ] Content style guide documented
 
 ## Rollback Strategy
 

@@ -3,13 +3,13 @@ title: Phase 6 - Page Sections & Composition
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers composed page sections, hero components, feature grids, and
-  testimonials for Lite (MVP) and Full (Showcase) tracks
+  testimonials with Essential, Recommended, and Advanced scope guidance
 tableOfContents: true
 pagefind: true
 ---
 ## Overview
 
-- **Track**: Lite (MVP) / Full (Showcase)
+- **Tier**: Build (Phase 6 of 12)
 - **Duration**: 2-3 days
 - **Dependencies**: Phase 0-5 completed
 - **Deliverables**: Composed page sections, hero components, feature grids, testimonials
@@ -23,24 +23,24 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 6.01 | Build Hero section | ✅ | ✅ | Text-focused → Animated hero |
-| 6.02 | Create Features grid | ✅ | ✅ | Static 3-column → Enhanced animations |
-| 6.03 | Add CTA section | ✅ | ✅ | Simple banner → Advanced styling |
-| 6.04 | Build Footer section | ✅ | ✅ | Links and copyright |
-| 6.05 | Create About section | ✅ | ✅ | Text and image → Enhanced layout |
-| 6.06 | Add Contact section | ✅ | ✅ | Form or contact info → Advanced form |
-| 6.07 | Build Blog listing | ✅ | ✅ | Card-based layout → Enhanced cards |
-| 6.08 | Create Project grid | ✅ | ✅ | Portfolio showcase → Advanced grid |
-| 6.09 | Create Testimonials | ❌ | ✅ | Carousel or grid |
-| 6.10 | Build Stats section | ❌ | ✅ | Animated numbers |
-| 6.11 | Add Timeline | ❌ | ✅ | Project/career history |
-| 6.12 | Create FAQ section | ❌ | ✅ | Accordion pattern |
-| 6.13 | Build Newsletter | ❌ | ✅ | Form with validation |
-| 6.14 | Add Team section | ❌ | ✅ | Member cards |
-| 6.15 | Create Pricing table | ❌ | ✅ | Comparison layout |
-| 6.16 | Build Process section | ❌ | ✅ | Step-by-step visual |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 6.01 | Build Hero section | Essential | Text-focused; add animations as Advanced |
+| 6.02 | Create Features grid | Essential | Static 3-column; enhanced animations are Advanced |
+| 6.03 | Add CTA section | Essential | Simple banner; advanced styling is Recommended |
+| 6.04 | Build Footer section | Essential | Links and copyright |
+| 6.05 | Create About section | Essential | Text and image; enhanced layout is Recommended |
+| 6.06 | Add Contact section | Essential | Form or contact info; advanced form is Recommended |
+| 6.07 | Build Blog listing | Essential | Card-based layout |
+| 6.08 | Create Project grid | Essential | Portfolio showcase |
+| 6.09 | Create Testimonials | Recommended | Carousel or grid |
+| 6.10 | Build Stats section | Recommended | Animated numbers via Preact island |
+| 6.11 | Add Timeline | Recommended | Project/career history |
+| 6.12 | Create FAQ section | Recommended | Accordion pattern |
+| 6.13 | Build Newsletter | Advanced | Form with validation and API integration |
+| 6.14 | Add Team section | Recommended | Member cards |
+| 6.15 | Create Pricing table | Advanced | Comparison layout |
+| 6.16 | Build Process section | Recommended | Step-by-step visual |
 
 ## Lightweight Section Loading
 
@@ -71,19 +71,22 @@ pagefind: true
 
 ## Exit Criteria
 
-| Criteria | MVP | Showcase | Description |
-|----------|-----|----------|-------------|
-| Hero section with text focus | ✅ | ✅ | Clear messaging → Animated patterns |
-| Features grid (static) | ✅ | ✅ | Basic grid → Advanced layouts |
-| Simple CTA section | ✅ | ✅ | Basic styling → Enhanced design |
-| About section | ✅ | ✅ | Text and image → Enhanced layout |
-| Blog/Project listings | ✅ | ✅ | Card-based → Advanced grid |
-| All sections accessible | ✅ | ✅ | WCAG AA compliance |
-| Mobile responsive | ✅ | ✅ | All breakpoints tested |
-| Testimonials section | ❌ | ✅ | Carousel or grid layout |
-| Stats with animations | ❌ | ✅ | Animated number counters |
-| Smooth scroll interactions | ❌ | ✅ | CSS scroll-behavior |
-| Section transitions | ❌ | ✅ | View transitions |
+### Essential (all projects)
+
+- [ ] Hero, Features, CTA, Footer, About, Contact, Blog listing, Project grid built
+- [ ] All sections accessible (WCAG AA)
+- [ ] All sections mobile responsive (all breakpoints tested)
+
+### Recommended (most projects)
+
+- [ ] Testimonials, Stats, Timeline, FAQ, Team sections added where relevant
+- [ ] Smooth scroll interactions via CSS `scroll-behavior`
+
+### Advanced (portfolio/enterprise)
+
+- [ ] Animated hero and section transitions via View Transitions API
+- [ ] Stats section uses Preact island with `client:visible`
+- [ ] Newsletter section with API integration
 
 ## Rollback Strategy
 

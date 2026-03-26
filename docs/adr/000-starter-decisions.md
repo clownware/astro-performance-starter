@@ -18,19 +18,19 @@ This Astro performance starter template aims to provide a production-ready found
 
 ## Decision Drivers
 
-- **Performance**: Must achieve Lighthouse scores of 100 consistently
+- **Performance**: Must achieve Lighthouse scores of 95+ consistently (100 aspirational)
 - **Developer Experience**: Should be easy to understand and extend
 - **Maintainability**: Minimize tooling complexity and dependency sprawl
-- **Flexibility**: Support both minimal (MVP) and comprehensive (Showcase) implementations
+- **Flexibility**: Support progressive implementation through Foundation, Build, and Polish tiers
 - **Modern Standards**: Use current best practices and tools
 
 ## Considered Options
 
 ### Build Tool and Framework
 
-This starter template is specifically designed as an **Astro Performance Starter** to achieve 100/100 Lighthouse scores with zero JavaScript by default. The framework choice is Astro \{\{versions.astro}}, and the decisions below focus on optimal tooling choices within the Astro ecosystem.
+This starter template is specifically designed as an **Astro Performance Starter** to achieve 95+ Lighthouse scores (targeting 100) with zero JavaScript by default. The framework choice is Astro 5.x, and the decisions below focus on optimal tooling choices within the Astro ecosystem.
 
-#### Astro \{\{versions.astro}} + Vite Build System
+#### Astro 5.x + Vite Build System
 
 - **Pros**: Zero JS by default, excellent performance, built-in optimizations, perfect for static sites, islands architecture for selective hydration
 - **Rationale**: Astro is specifically chosen for performance-first static sites, making this the ideal foundation for a performance-focused starter template
@@ -50,7 +50,7 @@ This starter template is specifically designed as an **Astro Performance Starter
 
 ### CSS Framework
 
-#### Option 1: Tailwind CSS \{\{versions.tailwindcss}}
+#### Option 1: Tailwind CSS 3.x
 
 - **Pros**: Utility-first, tree-shakeable, design tokens support
 - **Cons**: Learning curve for newcomers
@@ -64,9 +64,9 @@ This starter template is specifically designed as an **Astro Performance Starter
 
 We will use:
 
-- **Astro \{\{versions.astro}} with Vite** for the build system
+- **Astro 5.x with Vite** for the build system
 - **Biome** for linting and formatting
-- **Tailwind CSS \{\{versions.tailwindcss}}** with design tokens
+- **Tailwind CSS 3.x** with design tokens
 - **TypeScript** in strict mode
 - **pnpm** as package manager
 
@@ -75,7 +75,7 @@ We will use:
 ```json
 {
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.0.0"
   }
 }
 ```
@@ -98,7 +98,7 @@ We will use:
 
 ### Neutral
 
-- Requires Node.js \{\{versions.node-current}}+ (LTS version)
+- Requires Node.js 24.x+ (current LTS)
 - Opinionated choices may not suit all projects
 - Focus on static/SSG over SSR capabilities
 
@@ -106,24 +106,24 @@ We will use:
 
 Success metrics:
 
-- **Lighthouse Performance**: Consistently ≥ 100
+- **Lighthouse Performance**: Consistently ≥ 95 (target 100)
 - **Build Time**: Under 2 minutes for typical site
 - **Developer Onboarding**: New devs productive within 1 hour
-- **Bundle Size**: JS \< 160KB, CSS \< 50KB
+- **Bundle Size**: JS < 160KB, CSS < 50KB
 - **Type Coverage**: 100% of components typed
 
 ## References
 
 - [Astro Documentation](https://docs.astro.build)
 - [Biome Benchmarks](https://biomejs.dev/blog/biome-wins-prettier-challenge)
-- [Tailwind CSS \{\{versions.tailwindcss}} Documentation](https://tailwindcss.com/docs)
+- [Tailwind CSS 3.x Documentation](https://tailwindcss.com/docs)
 - [Performance Budget Research](/implementation-guides/00-overview-budgets-guardrails/)
 
 ## Notes
 
 This ADR represents the initial decisions for v1.0 of the Astro performance starter template. As the ecosystem evolves, we may need to revisit these choices. Any changes should be documented in new ADRs that supersede this one.
 
-The dual-track approach (MVP vs Showcase) allows teams to choose their complexity level while maintaining the same foundational decisions.
+The dual-track approach (MVP vs Showcase) has been refined by ADR-033 into a progressive tier model (Foundation/Build/Polish) that better maps to how users actually consume the template. Teams work through phases sequentially and stop when they've reached their goals.
 
 ---
 **Date**: 2024-01-15\

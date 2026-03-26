@@ -9,13 +9,14 @@ pagefind: true
 
 ## Overview
 
-The *Astro Performance Starter* gives you a production-ready foundation focused on performance, accessibility, and DX. **Phase 5 ("UI Component Library - MVP") is now complete**, delivering essential UI components alongside the foundational site structure.
+The *Astro Performance Starter* gives you a production-ready foundation focused on performance, accessibility, and DX. **Phase 5 ("UI Component Library") is now complete**, delivering essential UI components alongside the foundational site structure.
 
 ## What’s included in this template
 
 | Feature | Path | Notes |
 |---------|------|-------|
-| Base layout | `src/layouts/BaseLayout.astro` | SEO props, OG/Twitter tags, font pre-loading, ViewTransitions, Header, Footer, SkipLink slots. |
+| Base layout | `src/layouts/BaseLayout.astro` | Main layout with ViewTransitions, Header, Footer, SkipLink. Uses Head molecule for meta tags. |
+| Head molecule | `src/components/molecules/Head.astro` | Reusable SEO component with OG/Twitter tags, font pre-loading, canonical URLs. |
 | Header | `src/components/structural/Header.astro` | Sticky, responsive shell with placeholder nav & logo. |
 | Footer | `src/components/structural/Footer.astro` | Dynamic copyright year. |
 | Skip link | `src/components/a11y/SkipLink.astro` | Keyboard-friendly “skip to content”. |
@@ -37,8 +38,11 @@ The *Astro Performance Starter* gives you a production-ready foundation focused 
 |-----------|------|----------|
 | Button | `src/components/atoms/Button.astro` | Versatile button with size/variant props. Primary foundation for interactions. |
 | Badge | `src/components/atoms/Badge.astro` | Non-interactive labels for status, metrics, or categories. |
+| Icon | `src/components/atoms/Icon.astro` | Reusable SVG icons (github, arrows) with accessibility support. |
 | Image | `src/components/atoms/Image.astro` | Wrapper around Astro's Image with project defaults (AVIF, optimized sizing). |
 | Card | `src/components/molecules/Card.astro` | Flexible content container with consistent spacing and styling. |
+| PostCard | `src/components/molecules/PostCard.astro` | Blog post card with image, metadata, tags, and reading time. Supports featured/regular variants. |
+| SectionSeparator | `src/components/molecules/SectionSeparator.astro` | Gradient divider for visual section separation. |
 | Container | `src/components/structural/Container.astro` | Manages horizontal width and centers content across breakpoints. |
 | Section | `src/components/structural/Section.astro` | Controls vertical rhythm and spacing for page sections. |
 | Grid | `src/components/structural/Grid.astro` | Responsive CSS Grid with consistent gaps and breakpoint behavior. |
@@ -102,6 +106,6 @@ pnpm dev       # start local dev server
 
 ## Next phases
 
-**Phase 5 is complete!** ✅ All MVP UI components are implemented and ready to use.
+**Phase 5 is complete!** ✅ All Essential UI components are implemented and ready to use.
 
 **Up next:** Phase 6 connects content collections for managing blog posts, projects, and structured data. Follow the [implementation guides](../implementation-guides/) for step-by-step progress on remaining phases.

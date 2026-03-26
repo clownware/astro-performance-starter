@@ -3,14 +3,14 @@ title: Phase 8 - Quality Assurance
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers test results, bug fixes, accessibility audit, and cross-browser
-  validation for Lite (MVP) and Full (Showcase) tracks
+  validation with Essential, Recommended, and Advanced scope guidance
 tableOfContents: true
 pagefind: true
 ---
 
 ## Overview
 
-- **Track**: Lite (MVP) / Full (Showcase)
+- **Tier**: Build (Phase 8 of 12)
 - **Effort**: Varies by scope and testing depth
 - **Dependencies**: Phase 0-7 completed
 - **Deliverables**: Test results, bug fixes, accessibility audit, cross-browser validation
@@ -24,29 +24,29 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 8.01 | Manual functionality test | ✅ | ✅ | All user flows |
-| 8.02 | Mobile device testing | ✅ | ✅ | Real devices preferred |
-| 8.03 | Cross-browser check | ✅ | ✅ | Chrome, Firefox, Safari |
-| 8.04 | Accessibility audit | ✅ | ✅ | Browser DevTools → axe-core automated |
-| 8.05 | Link validation | ✅ | ✅ | No broken links |
-| 8.06 | Form testing | ✅ | ✅ | All inputs/validations |
-| 8.07 | Performance check | ✅ | ✅ | Lighthouse audit |
-| 8.08 | Fix critical issues | ✅ | ✅ | P0 bugs only → All severity levels |
-| 8.09 | Automated E2E tests | ❌ | ✅ | Playwright suite |
-| 8.10 | Visual regression tests | ❌ | ✅ | Percy or similar |
-| 8.11 | Security audit | ❌ | ✅ | Headers, CSP, deps |
-| 8.12 | SEO validation | ❌ | ✅ | Technical SEO |
-| 8.13 | API testing | ❌ | ✅ | If applicable |
-| 8.14 | Load testing | ❌ | ✅ | Performance under load |
-| 8.15 | Error monitoring | ❌ | ✅ | Sentry integration |
-| 8.16 | Analytics validation | ❌ | ✅ | Tracking works |
-| 8.17 | Progressive enhancement | ❌ | ✅ | JS disabled testing |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 8.01 | Manual functionality test | Essential | All user flows |
+| 8.02 | Mobile device testing | Essential | Real devices preferred |
+| 8.03 | Cross-browser check | Essential | Chrome, Firefox, Safari |
+| 8.04 | Accessibility audit | Essential | Browser DevTools; axe-core automated is Recommended |
+| 8.05 | Link validation | Essential | No broken links |
+| 8.06 | Form testing | Essential | All inputs/validations |
+| 8.07 | Performance check | Essential | Lighthouse audit |
+| 8.08 | Fix critical issues | Essential | P0/P1 bugs; all severity levels for Advanced |
+| 8.09 | Automated E2E tests | Recommended | Playwright suite for critical paths |
+| 8.10 | Visual regression tests | Advanced | Percy or similar |
+| 8.11 | Security audit | Recommended | Headers, CSP, deps |
+| 8.12 | SEO validation | Recommended | Technical SEO |
+| 8.13 | API testing | Recommended | If applicable |
+| 8.14 | Load testing | Advanced | Performance under load |
+| 8.15 | Error monitoring | Advanced | Sentry integration |
+| 8.16 | Analytics validation | Recommended | Tracking works |
+| 8.17 | Progressive enhancement | Recommended | JS disabled testing |
 
 ## Testing Strategies
 
-### 1. Manual Test Checklist (MVP)
+### 1. Manual Test Checklist (Essential)
 
 ```markdown
 # Manual QA Checklist
@@ -183,21 +183,33 @@ pagefind: true
 
 ## Exit Criteria
 
-| Criteria | MVP | Showcase | Description |
-|----------|-----|----------|-------------|
-| Manual tests passed | ✅ | ✅ | All functionality verified |
-| Mobile testing complete | ✅ | ✅ | Real devices tested |
-| Cross-browser verified | ✅ | ✅ | Chrome, Firefox, Safari |
-| Accessibility checked | ✅ | ✅ | Basic → Automated tests |
-| Forms working correctly | ✅ | ✅ | All validations verified |
-| No broken links | ✅ | ✅ | All links validated |
-| Performance scores acceptable | ✅ | ✅ | Lighthouse thresholds met |
-| Critical bugs fixed | ✅ | ✅ | P0 → All severity levels |
-| E2E test suite passing | ❌ | ✅ | Automated test coverage |
-| Visual regression baseline | ❌ | ✅ | Screenshots established |
-| Security headers verified | ❌ | ✅ | CSP, HSTS configured |
-| Performance budgets met | ❌ | ✅ | CI enforcement active |
-| Error monitoring active | ❌ | ✅ | Sentry integration |
+### Essential (all projects)
+
+- [ ] Manual tests passed — all functionality verified
+- [ ] Mobile testing complete — real devices tested
+- [ ] Cross-browser verified (Chrome, Firefox, Safari)
+- [ ] Accessibility checked with browser DevTools
+- [ ] Forms working correctly — all validations verified
+- [ ] No broken links
+- [ ] Lighthouse scores meet thresholds (Performance 95+, Accessibility 98+)
+- [ ] P0/P1 bugs fixed
+
+### Recommended (most projects)
+
+- [ ] Automated E2E tests for critical paths (Playwright)
+- [ ] axe-core accessibility tests integrated
+- [ ] Security headers verified (CSP, HSTS)
+- [ ] SEO validation complete
+- [ ] Progressive enhancement tested (JS disabled)
+- [ ] Analytics validation complete
+
+### Advanced (portfolio/enterprise)
+
+- [ ] Visual regression baseline established
+- [ ] Performance budgets enforced in CI
+- [ ] Error monitoring active (Sentry or equivalent)
+- [ ] Load testing completed
+- [ ] All severity levels of bugs addressed
 
 ## Rollback Strategy
 

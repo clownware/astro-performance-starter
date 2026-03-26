@@ -1,0 +1,30 @@
+---
+/**
+ * SectionSeparator component for visual section dividers.
+ * Creates a gradient line separator positioned at the top of sections.
+ *
+ * @example
+ * <Section class="relative">
+ *   <SectionSeparator />
+ *   <!-- section content -->
+ * </Section>
+ */
+
+interface Props {
+  /** Additional CSS classes for customization */
+  class?: string;
+  /** Opacity level (0-100) */
+  opacity?: number;
+}
+
+const { class: className, opacity = 50 } = Astro.props;
+---
+
+<div
+  class:list={[
+    "absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary-300 to-transparent",
+    className,
+  ]}
+  style={`opacity: ${opacity / 100}`}
+  aria-hidden="true"
+/>

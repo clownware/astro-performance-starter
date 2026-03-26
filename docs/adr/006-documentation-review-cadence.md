@@ -1,12 +1,105 @@
 ---
 title: 'ADR-006: Documentation Review Cadence'
-description: "**Date**: 2025-06-19  \r **Status**: Accepted  \r **Context**: Documentation governance and maintenance automation  \r **Supersedes**: None  \r **Review**: 2025-12-"
+description: >-
+  Architectural Decision Record for automated documentation review cadence
+  using frontmatter-based review dates and CI enforcement
 lastUpdated: 2025-06-19T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
 
-### Automatic Detection Criteria
+## Status
+
+Accepted
+
+## Context
+
+Documentation in this project serves multiple audiences: contributors, users of the template, and AI-assisted development tools. Without a systematic review process, documentation drifts out of date — budget thresholds become stale, technology version references lag behind, and security guidance loses relevance. The project needed an automated, enforceable mechanism to ensure critical documents are reviewed on a predictable cadence.
+
+## Decision Drivers
+
+- **Documentation Accuracy**: Stale docs erode trust and cause incorrect development decisions
+- **Automation**: Manual review tracking is consistently ignored across teams
+- **CI Integration**: Enforcement must be automated to be effective
+- **Developer Experience**: The system must use familiar patterns (frontmatter, scripts) and not add friction
+- **Flexibility**: Different document types have different staleness risk profiles
+
+## Considered Options
+
+### Option 1: Manual Review Tracking
+
+**Description**: Spreadsheet or issue-based tracking
+
+**Pros**:
+
+- No tooling required
+
+**Cons**:
+
+- Manual systems are ignored, no automation, easy to forget
+
+### Option 2: External Documentation Tools
+
+**Description**: Use GitBook, Notion with built-in review features
+
+**Pros**:
+
+- Built-in review workflows
+
+**Cons**:
+
+- Adds complexity, breaks local-first development, vendor lock-in
+
+### Option 3: Git-based Review Tracking
+
+**Description**: Use Git hooks or commit messages for review tracking
+
+**Pros**:
+
+- Leverages existing Git infrastructure
+
+**Cons**:
+
+- Doesn't integrate with frontmatter, harder to query, not visible in docs
+
+### Option 4: Calendar-based Reviews
+
+**Description**: Schedule reviews in team calendar
+
+**Pros**:
+
+- Familiar process for teams
+
+**Cons**:
+
+- No connection to actual documents, easy to skip, no enforcement
+
+### Option 5: Frontmatter-based Review Dates with CI Enforcement
+
+**Description**: Add `review:` field to document frontmatter, with a CI script that detects overdue reviews and fails the build
+
+**Pros**:
+
+- Automated enforcement via CI
+- Uses familiar frontmatter patterns
+- Different cadences for different document categories
+- Clear audit trail in Git
+
+**Cons**:
+
+- Initial setup overhead for adding review dates
+- Requires CI pipeline to be effective
+- May produce false positives
+
+## Decision
+
+We will go with **Option 5** — frontmatter-based review dates with CI enforcement.
+
+### Implementation Details
+
+A Node.js script (`scripts/check-review-dates.mjs`) scans documentation files for `review:` frontmatter fields and reports overdue or missing review dates. The script integrates with CI to block deployment when reviews are overdue.
+
+#### Automatic Detection Criteria
 
 **File Pattern Matching:**
 
@@ -21,16 +114,7 @@ pagefind: true
 - Performance targets: `/lighthouse.*\d+|core.*web.*vitals/i`
 - Technology requirements: `/node.*\d+|astro.*\d+/i`
 
-### CI Integration
-
-```bash
-- name: Check documentation review dates
-  run: pnpm run check:reviews
-```
-
-Exits with error code 1 if any reviews are overdue.
-
-### Review Cadence Categories
+#### Review Cadence Categories
 
 | Category | Documents | Schedule | Frontmatter |
 |----------|-----------|----------|-------------|
@@ -38,53 +122,52 @@ Exits with error code 1 if any reviews are overdue.
 | **Important** | ADRs, security, performance patterns | Quarterly | `review: "2025-09-30"` |
 | **Stable** | Implementation guides, tutorials | As-needed | No review date required |
 
-## Alternatives Considered
+#### CI Integration
 
-### 1. Manual Review Tracking
+```yaml
+- name: Check documentation review dates
+  run: pnpm run check:reviews
+```
 
-**Approach**: Spreadsheet or issue-based tracking  
-**Rejected**: Manual systems are ignored, no automation, easy to forget
+Exits with error code 1 if any reviews are overdue.
 
-### 2. External Documentation Tools
+#### Example Usage
 
-**Approach**: Use GitBook, Notion with built-in review features  
-**Rejected**: Adds complexity, breaks local-first development, vendor lock-in
+```bash
+# Check all documentation review dates
+pnpm run check:reviews
 
-### 3. Git-based Review Tracking
-
-**Approach**: Use Git hooks or commit messages for review tracking  
-**Rejected**: Doesn't integrate with frontmatter, harder to query, not visible in docs
-
-### 4. Calendar-based Reviews
-
-**Approach**: Schedule reviews in team calendar  
-**Rejected**: No connection to actual documents, easy to skip, no enforcement
+# Example output:
+# docs/tech-stack.md - Review scheduled in 195 days
+# docs/budgets-guardrails.md - Review overdue by 8 days
+# docs/performance-patterns.md - Should have review date
+```
 
 ## Consequences
 
 ### Positive
 
-✅ **Automated Enforcement**: CI blocks deployment on overdue reviews  
-✅ **Zero Maintenance**: Once configured, runs automatically  
-✅ **Clear Accountability**: Explicit dates for when reviews are due  
-✅ **Smart Detection**: Automatically identifies review-worthy documents  
-✅ **Flexible Cadence**: Different schedules for different document types  
-✅ **Developer-Friendly**: Uses familiar frontmatter, integrates with existing tools  
-✅ **Historical Tracking**: Clear record in Git of when documents were reviewed
+- **Automated Enforcement**: CI blocks deployment on overdue reviews
+- **Zero Maintenance**: Once configured, runs automatically
+- **Clear Accountability**: Explicit dates for when reviews are due
+- **Smart Detection**: Automatically identifies review-worthy documents
+- **Flexible Cadence**: Different schedules for different document types
+- **Developer-Friendly**: Uses familiar frontmatter, integrates with existing tools
+- **Historical Tracking**: Clear record in Git of when documents were reviewed
 
 ### Negative
 
-❌ **Initial Setup**: Requires adding review dates to existing documents  
-❌ **CI Dependency**: Requires CI pipeline to be effective  
-❌ **False Positives**: May flag documents that don't actually need review  
-❌ **Developer Overhead**: Must remember to update review dates when editing
+- **Initial Setup**: Requires adding review dates to existing documents
+- **CI Dependency**: Requires CI pipeline to be effective
+- **False Positives**: May flag documents that don't actually need review
+- **Developer Overhead**: Must remember to update review dates when editing
 
 ### Neutral
 
-⚪ **Frontmatter Dependency**: Relies on YAML frontmatter (already used extensively)  
-⚪ **Node.js Script**: Adds another script to the project (consistent with existing tooling)
+- **Frontmatter Dependency**: Relies on YAML frontmatter (already used extensively)
+- **Node.js Script**: Adds another script to the project (consistent with existing tooling)
 
-## Success Metrics
+## Validation
 
 ### Immediate (Within 3 months)
 
@@ -92,7 +175,7 @@ Exits with error code 1 if any reviews are overdue.
 - [ ] CI pipeline catches overdue reviews
 - [ ] Zero false positives in review detection
 
-### Medium-term (6 months)  
+### Medium-term (6 months)
 
 - [ ] Documentation review cadence consistently followed
 - [ ] Reduced incidents of stale documentation affecting development
@@ -106,13 +189,13 @@ Exits with error code 1 if any reviews are overdue.
 
 ## Implementation Plan
 
-### Phase 1: Core Implementation ✅
+### Phase 1: Core Implementation (Planned)
 
-- [x] Create review date detection script (`scripts/check-review-dates.mjs`)
-- [x] Add CI integration (`.github/workflows/ci.yml`)
-- [x] Add package.json script (`check:reviews`)
+- [ ] Create review date detection script (`scripts/check-review-dates.mjs`)
+- [ ] Add CI integration (`.github/workflows/ci.yml`)
+- [ ] Add package.json script (`check:reviews`)
 
-### Phase 2: Documentation Updates ✅
+### Phase 2: Documentation Updates (Complete)
 
 - [x] Add review dates to critical documents:
   - [x] `tech-stack.md` → `review: "2025-12-31"`
@@ -144,48 +227,13 @@ If the review system proves problematic:
 
 System is designed to gracefully handle missing review dates without breaking builds.
 
-## Related Decisions
+## References
 
 - **ADR-005**: Link Validation Strategy - Both systems ensure documentation quality
-- **Future ADR**: AI Context Maintenance Strategy - Will reference this review system
-
-## Configuration
-
-### Script Location
-
-`scripts/check-review-dates.mjs` - Standalone Node.js script
-
-### Package.json Integration
-
-```json
-{
-  "scripts": {
-    "check:reviews": "node scripts/check-review-dates.mjs"
-  }
-}
-```
-
-### CI Integration  
-
-```yaml
-- name: Check documentation review dates
-  run: pnpm run check:reviews
-```
-
-## Example Usage
-
-```bash
-# Check all documentation review dates
-pnpm run check:reviews
-
-# Example output:
-✅ docs/tech-stack.md - Review scheduled in 195 days
-❌ docs/budgets-guardrails.md - Review overdue by 8 days
-💡 docs/performance-patterns.md - Should have review date
-```
+- Internal: `scripts/check-review-dates.mjs`
+- Internal: `.github/workflows/ci.yml`
 
 ---
-**Authors**: AI Assistant (Cascade)  
-**Reviewers**: Development Team  
-**Implementation**: 2025-06-19  
-**Next Review**: 2025-12-31
+**Date**: 2025-06-19\
+**Participants**: AI Assistant (Cascade), Development Team\
+**Outcome**: Accepted

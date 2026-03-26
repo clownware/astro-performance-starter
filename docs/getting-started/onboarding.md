@@ -13,10 +13,10 @@ description: "Guide for developers to set up and start working with the Astro Pe
 
 Before you begin, ensure you have:
 
-- **Node.js** 22.x or later ([install](https://nodejs.org/))
-- **pnpm** 9.x or later (`npm install -g pnpm`)
+- **Node.js** 24.x or later ([install](https://nodejs.org/))
+- **pnpm** 10.x or later (`corepack enable && corepack prepare pnpm@latest --activate`)
 - **Git** for version control
-- **VS Code** (recommended) with the Astro extension
+- **VS Code** (recommended) - see [Recommended Extensions](./docs/development/recommended-extensions.md)
 
 ## Quick Start
 
@@ -54,7 +54,7 @@ Once you're up and running, consider these initial configuration steps:
 # Development
 pnpm run dev              # Start dev server with hot reload
 pnpm run build            # Build for production
-pnpm run preview          # Preview production build
+pnpm run preview          # Serve already-built dist/ locally
 
 # Code Quality (runs automatically on commit)
 pnpm run format           # Format code with Biome
@@ -63,8 +63,8 @@ pnpm run check            # Type checking
 pnpm run quality          # Run all checks
 
 # Design System
-pnpm run build:tokens     # Rebuild design tokens
-pnpm run validate:contrast # Check WCAG compliance
+pnpm run tokens:build     # Rebuild design tokens
+pnpm run design:validate  # Check WCAG compliance
 ```
 
 ## Project Structure at a Glance
@@ -163,7 +163,7 @@ This supports **markdown** and components.
 
 - **Framework Guide**: See [Implementation Overview](./src/content/docs/implementation-guides/README.md)
 - **Tech Stack**: Review [Technology Choices](./src/content/docs/implementation-guides/reference/tech-stack.md)
-- **Component Docs**: Run `pnpm run astrobook` (Showcase track only)
+- **Component Docs**: Run `pnpm run astrobook` (Advanced scope — optional)
 - **Team Chat**: [Link to Team Chat] <!-- TODO: Update Slack/Discord link -->
 
 ## Next Steps

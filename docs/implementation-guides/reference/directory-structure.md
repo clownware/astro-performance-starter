@@ -58,13 +58,10 @@ astro-performance-starter/
 │   │   │   ├── component-patterns/
 │   │   │   ├── content-collections/
 │   │   │   └── performance-patterns/
-│   │   ├── reference/                # Technical reference
-│   │   │   ├── tech-stack.md
-│   │   │   ├── directory-structure.md
-│   │   │   └── budgets-guardrails.md
-│   │   └── tracks/                   # Implementation tracks
-│   │       ├── mvp-track.md
-│   │       └── showcase-track.md
+│   │   └── reference/                # Technical reference
+│   │       ├── tech-stack.md
+│   │       ├── directory-structure.md
+│   │       └── budgets-guardrails.md
 │   └── adr/
 │       ├── template.md
 │       └── 001-starter-decisions.md
@@ -89,19 +86,20 @@ astro-performance-starter/
 │   │   └── partials/
 │   │       ├── Header.astro
 │   │       └── Footer.astro
-│   ├── pages/
 │   │   ├── index.astro              # Minimal homepage
 │   │   └── 404.astro
 │   ├── styles/
 │   │   └── global.css               # With token integration
 │   ├── types/
 │   │   ├── astro-content.d.ts       # Generated types
-│   │   └── navigation.ts            # Navigation types
+│   │   ├── navigation.ts            # Navigation types
+│   │   └── content.ts               # Shared content schemas
 │   └── utils/
 │       └── url-utils.ts             # Example utility
 │
 ├── public/
 │   ├── _headers                     # Security headers
+{{ ... }}
 │   ├── favicon.svg
 │   └── robots.txt
 │
@@ -134,7 +132,6 @@ astro-performance-starter/
 ├── .windsurfrules                   # Windsurf AI rules
 ├── CHANGELOG.md                     # Release notes
 ├── CONTRIBUTING.md                  # Contribution guide
-├── ONBOARDING.md                    # Quick start guide
 ├── README.md                        # Project overview
 ├── LICENSE.txt                      # MIT license
 ├── airules.example                  # AI rules template
@@ -156,12 +153,14 @@ astro-performance-starter/
 src/components/
 ├── atoms/              # Basic UI building blocks
 │   ├── Button.astro    # Interactive elements
-│   ├── Input.astro     # Form controls
-│   ├── Icon.astro      # SVG icons
-│   └── Link.astro      # Navigation links
+│   ├── Badge.astro     # Status labels
+│   ├── Icon.astro      # SVG icons (github, arrows)
+│   ├── Image.astro     # Optimized images
+│   └── Input.astro     # Form controls
 │
 ├── molecules/          # Simple component combinations
 │   ├── Card.astro      # Content cards
+│   ├── SectionSeparator.astro # Gradient dividers
 │   ├── FormField.astro # Input + label + validation
 │   ├── Navigation.astro # Link lists
 │   └── SearchBox.astro # Input + button

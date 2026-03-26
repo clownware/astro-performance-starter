@@ -1,15 +1,18 @@
 ---
 title: 'ADR-004: Optional Design System Tooling for MVP Track'
 description: >-
-  The Astro starter template includes robust design system tooling, specifically
-  a script to build design tokens (`scripts/build-tokens.ts`) and a contrast
-  valida
-lastUpdated: true
+  Makes design token build and contrast validation steps optional via environment
+  variable to improve CI/CD performance and developer experience for MVP users
+lastUpdated: 2025-06-10T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
 
-## Context and Problem Statement
+## Status
+
+Superseded — the `build:mvp` script described in this ADR was never implemented. The MVP/Showcase track distinction was consolidated into a progressive tier model by [ADR-033: Track Consolidation](/adr/033-track-consolidation/). Design system tooling is now uniformly enabled with no skip mechanism needed.
+
+## Context
 
 The Astro starter template includes robust design system tooling, specifically a script to build design tokens (`scripts/build-tokens.ts`) and a contrast validator to ensure WCAG AA compliance for color combinations. These tools are highly beneficial for projects intending to deeply customize the design system or for teams adhering to strict design standards (i.e., the "Showcase" track).
 
@@ -54,8 +57,8 @@ This ADR proposes making these design system tooling steps optional to improve t
 - An environment variable, `SKIP_DESIGN_SYSTEM_TOOLING=true`, will be introduced.
 - Core scripts (e.g., the main build script, linting scripts, CI job steps) will be modified to check for this environment variable. If set to `true`, the design token build (`scripts/build-tokens.ts`) and the contrast validation steps will be skipped.
 - For ease of use, wrapper npm scripts can be added to `package.json`:
-  - `npm run build` (or `npm run build:showcase`): Runs all steps, including design system tooling.
-  - `npm run build:mvp`: Sets `SKIP_DESIGN_SYSTEM_TOOLING=true` and then runs the build process.
+  - `pnpm run build` (or `pnpm run build:showcase`): Runs all steps, including design system tooling.
+  - `pnpm run build:mvp`: Sets `SKIP_DESIGN_SYSTEM_TOOLING=true` and then runs the build process.
   - Similar pairs for `lint` or `test` if applicable.
 - The default CI configuration for a potential "MVP track" workflow will set `SKIP_DESIGN_SYSTEM_TOOLING=true`.
 
@@ -65,24 +68,35 @@ A CLI flag during project initialization (Option 3) is a desirable future enhanc
 
 ## Consequences
 
-- **Positive**:
-  - Faster CI/CD runs for MVP users or scenarios where design system customization is not a priority.
-  - Simpler local development setup for MVP users.
-  - Clearer distinction in tooling between MVP and Showcase tracks.
-- **To Address**:
-  - `package.json` scripts need to be updated.
-  - The token build script (`scripts/build-tokens.ts`) and the contrast validation logic need to be modified to respect the environment variable.
-  - CI workflow files (e.g., `.github/workflows/ci.yml`) need to be updated to set this variable for MVP-specific jobs or provide ways to trigger MVP builds.
-  - Documentation (the [Onboarding guide](../onboarding), the [Roadmap](../roadmap), relevant phase guides, and potentially a new "Customization" guide) must clearly explain this option, the environment variable, and the available npm scripts.
-  - If these tools are skipped, the project will rely on default/pre-built tokens. Users choosing the MVP path must be aware that direct token modification or extensive theme changes might require running the full tooling.
+### Positive
+
+- Faster CI/CD runs for MVP users or scenarios where design system customization is not a priority
+- Simpler local development setup for MVP users
+- Clearer distinction in tooling between MVP and Showcase tracks
+
+### Negative
+
+- `package.json` scripts need to be updated
+- The token build script (`scripts/build-tokens.ts`) and the contrast validation logic need to be modified to respect the environment variable
+- CI workflow files (e.g., `.github/workflows/ci.yml`) need to be updated to set this variable for MVP-specific jobs or provide ways to trigger MVP builds
+- If these tools are skipped, the project will rely on default/pre-built tokens; users choosing the MVP path must be aware that direct token modification or extensive theme changes might require running the full tooling
+
+### Neutral
+
+- Documentation (the onboarding guide, the roadmap, relevant phase guides, and potentially a new "Customization" guide) must clearly explain this option, the environment variable, and the available pnpm scripts
 
 ## Validation
 
 - CI jobs for the MVP track should demonstrate faster completion times.
-- Running `npm run build:mvp` (or equivalent) should result in a successful build without executing the token build and contrast validation steps.
+- Running `pnpm run build:mvp` (or equivalent) should result in a successful build without executing the token build and contrast validation steps.
 - Documentation clearly explains how to utilize this optional tooling.
 
 ## References
 
 - Internal: `docs/implementation-guides/01-foundation-phase-2-design-system.md` (mentions token build and WCAG checks)
 - Internal: `scripts/build-tokens.ts` (and the contrast validation script/logic)
+
+---
+**Date**: 2025-06-10\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

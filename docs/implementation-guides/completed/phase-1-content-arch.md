@@ -9,7 +9,7 @@ pagefind: true
 
 ## Overview
 
-- **Track**: Both (MVP & Showcase)
+- **Tier**: Foundation (Phase 1 of 12)
 - **Duration**: 1-2 days
 - **Dependencies**: Phase 0 (Foundation) completed
 - **Deliverables**: Content schema, TypeScript types, URL strategy, content fixtures
@@ -23,20 +23,20 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 1.01 | Inventory content types | ✅ | ✅ | List all content needs |
-| 1.02 | Design URL structure | ✅ | ✅ | SEO-friendly paths |
-| 1.03 | Create content collections | ✅ | ✅ | Define in config.ts |
-| 1.04 | Define collection schemas | ✅ | ✅ | Zod schemas |
-| 1.05 | Add draft mechanism | ✅ | ✅ | Boolean field |
-| 1.06 | Generate TypeScript types | ✅ | ✅ | Auto from schemas |
-| 1.07 | Create slug utilities | ✅ | ✅ | Consistent URL generation |
-| 1.08 | Set up MDX components | ✅ | ✅ | Custom elements |
-| 1.09 | Create content fixtures | ✅ | ✅ | One per type |
-| 1.10 | Add frontmatter validation | ✅ | ✅ | astro check |
-| 1.11 | Document content model | ✅ | ✅ | CHANGELOG.md |
-| 1.12 | Create content guidelines | ✅ | ✅ | For authors |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 1.01 | Inventory content types | Essential | List all content needs |
+| 1.02 | Design URL structure | Essential | SEO-friendly paths |
+| 1.03 | Create content collections | Essential | Define in config.ts |
+| 1.04 | Define collection schemas | Essential | Zod schemas |
+| 1.05 | Add draft mechanism | Essential | Boolean field |
+| 1.06 | Generate TypeScript types | Essential | Auto from schemas |
+| 1.07 | Create slug utilities | Essential | Consistent URL generation |
+| 1.08 | Set up MDX components | Essential | Custom elements |
+| 1.09 | Create content fixtures | Essential | One per type |
+| 1.10 | Add frontmatter validation | Essential | astro check |
+| 1.11 | Document content model | Essential | CHANGELOG.md |
+| 1.12 | Create content guidelines | Essential | For authors |
 
 ## Common Pitfalls
 

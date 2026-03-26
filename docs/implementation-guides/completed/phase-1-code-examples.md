@@ -50,7 +50,7 @@ const blogCollection = defineCollection({
     updated: z.date().optional(),
     draft: z.boolean().default(false),
     cover: image().optional(),
-    coverAlt: z.string().optional(),
+    coverAlt: z.string(), // Required for accessibility when cover image is used
     tags: z.array(z.string()).default([]),
     author: z.string().default('Your Name'),
     readingTime: z.number().optional(), // Will calculate

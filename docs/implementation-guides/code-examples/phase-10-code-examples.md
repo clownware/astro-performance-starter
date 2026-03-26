@@ -377,7 +377,7 @@ async function checkStorage() {
 }
 ```
 
-### 2. Error Tracking (Showcase)
+### 2. Error Tracking (Advanced)
 
 ```typescript
 // src/lib/error-tracking.ts
@@ -526,7 +526,7 @@ const { analyticsId, gtmId, enableAnalytics } = Astro.props;
 )}
 ```
 
-### 4. Performance Monitoring (Showcase)
+### 4. Performance Monitoring (Advanced)
 
 ```typescript
 // src/lib/rum.ts - Real User Monitoring

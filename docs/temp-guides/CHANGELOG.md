@@ -17,6 +17,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Initial project structure and documentation.
+- **Contact Page Structural Enhancements:**
+  - Extracted hardcoded contact information to environment variables for security and per-environment configuration
+  - Implemented declarative data structures for contact methods, location info, and response expectations
+  - Added semantic icon labels for accessibility compliance
+  - Reduced code duplication from 60+ lines to 30 lines using TypeScript interfaces and array mapping
+  - Added 9 new environment variables: `PUBLIC_CONTACT_EMAIL`, `PUBLIC_CONTACT_PHONE`, `PUBLIC_CONTACT_PHONE_DISPLAY`, `PUBLIC_CONTACT_LOCATION`, `PUBLIC_CONTACT_TIMEZONE`, `PUBLIC_CONTACT_CHAT_HOURS`, `PUBLIC_SOCIAL_GITHUB`, `PUBLIC_SOCIAL_LINKEDIN`, `PUBLIC_SOCIAL_TWITTER`
+  - Documented decisions in ADR 021 with pattern for future extensions
+- **Blog Performance Optimizations:**
+  - Moved post sorting to `getStaticPaths` to eliminate redundant O(n log n) operations per page (99% reduction for 100 posts)
+  - Consolidated `post.render()` calls to avoid double markdown parsing (50% reduction)
+  - Added explicit `decoding="async"` to cover images for improved LCP scores
+  - Documented optimizations in ADR 012 with scalability considerations
+- **Error Handling for Dynamic Routes:**
+  - Added defensive error handling in `/src/pages/blog/[slug].astro` to redirect to 404 if post is undefined or slug mismatch occurs
+  - Documented error handling pattern in ADR 011 for consistent application across dynamic routes
 - **Content Model Definition (Phase 1):**
   - Established core content collections in `src/content/config.ts`:
     - `blog`: For blog posts, articles, and tutorials. Includes fields for title, description, dates, author, tags, category, featured image, and draft status. Supports MDX.

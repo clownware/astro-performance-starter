@@ -11,9 +11,9 @@ Thank you for your interest in contributing! This project follows a structured a
 
 ## 📋 Prerequisites
 
-- Node.js 22.x or later
-- pnpm 9.x or later
-- Familiarity with our [Implementation Guides](docs/implementation-guides/00-overview/README.md)
+- Node.js 24.x or later
+- pnpm 10.x or later
+- Familiarity with our [Implementation Guides](docs/implementation-guides/README.md)
 
 ## 🎯 Ways to Contribute
 
@@ -67,8 +67,8 @@ git checkout -b feat/new-component-pattern
 
 Follow the appropriate phase guide:
 
-- Component changes: See [Phase 5](docs/implementation-guides/02-structure/phase-5-components.md)
-- Performance changes: See [Phase 9](docs/implementation-guides/04-quality/phase-9-performance.md)
+- Component changes: See [Phase 5](docs/implementation-guides/active-phases/phase-5-components.md)
+- Performance changes: See [Phase 9](docs/implementation-guides/active-phases/phase-9-performance.md)
 - Documentation: Match existing style and formatting
 
 ### 4. Validate Your Changes
@@ -171,11 +171,25 @@ This project uses a **centralized version injection system** to keep all documen
 
 ## 🧪 Testing Requirements
 
+### Testing Philosophy
+
+We follow a **progressive testing approach**:
+
+- **During Development**: Write tests alongside features (TDD encouraged)
+- **Component Changes**: Add unit tests for new components
+- **Page Changes**: Add E2E tests for new pages or critical paths
+- **Before PR**: Run full test suite to catch regressions
+- **Pre-Launch**: Comprehensive testing per track (MVP vs Showcase)
+
+See [Testing Strategy Guide](docs/implementation-guides/guides/testing-strategy-guide.md) for details.
+
 ### For Code Changes
 
 - [ ] Passes all quality checks (`pnpm run quality`)
-- [ ] Lighthouse scores remain 97+ for performance
-- [ ] No accessibility regressions
+- [ ] Unit tests added/updated (`pnpm run test:unit`)
+- [ ] E2E tests added for new pages/features (`pnpm run test:e2e`)
+- [ ] Lighthouse scores remain 95+ for performance
+- [ ] No accessibility regressions (`pnpm run test:a11y`)
 - [ ] Bundle size within budgets
 - [ ] Works without JavaScript enabled
 

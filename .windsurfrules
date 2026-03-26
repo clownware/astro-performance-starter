@@ -21,8 +21,8 @@ Astro Performance Starter Template - Production-ready GitHub template with compr
 ## Tech Stack
 
 - **Framework**: Astro v5.x with Vite 6.x bundler
-- **Package Manager**: pnpm 9.x (required - locked in package.json)
-- **Runtime**: Node.js 22.x LTS (specified in .nvmrc)
+- **Package Manager**: pnpm 10.x (required - locked in package.json)
+- **Runtime**: Node.js 24.x LTS (specified in .nvmrc)
 - **Styling**: Tailwind CSS v3.x with design tokens system
 - **Code Quality**: Biome 2.x (replaces ESLint + Prettier for 20x speed)
 - **Content**: MDX with Astro Content Collections API
@@ -114,11 +114,25 @@ Core dependencies can be found in package.json
 
 ## Documentation Rules
 
-- Docs are local only under /docs/
+- Docs are local only under /docs/ and serve dual purpose: Starlight rendering + AI filesystem context (ADR-034)
 - Always include a front-matter title, description, lastUpdated, pagefind
-- Keep the page’s first written heading at h2 or lower
+- Keep the page's first written heading at h2 or lower
 - Write call-outs with triple-colon asides
 - Fence code blocks and lean on Expressive Code
+
+## Scope Boundary (ADR-035)
+
+- **Modify freely (Category 1)**: `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `tailwind.config.ts`, `package.json`, `tokens/`, `public/`, `.github/workflows/`, `.windsurfrules`
+- **Read but don't modify (Category 2)**: `docs/` — unless explicitly asked to update documentation
+- **Don't create (Category 3)**: Maintenance artifacts, marketing content, deployment-specific workflows — suggest adding to docs site instead
+
+## Implementation Tiers (ADR-033)
+
+The project uses a progressive tier model — no MVP/Showcase tracks:
+
+- **Foundation (Phases 0–4)**: Everyone does these — pre-configured in template
+- **Build (Phases 5–8)**: Make it yours — scope each phase to Essential/Recommended/Advanced
+- **Polish (Phases 9–12)**: Production-harden — stop when goals are met
 
 ## Performance Requirements
 

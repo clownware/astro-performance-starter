@@ -33,6 +33,7 @@
     "border": {
       "primary": { "value": "{color.gray.300}", "dark": "{color.gray.700}" }
     },
+    "_comment_status_colors": "Status colors (success/warning/error) use limited scales (100/600/700) for semantic clarity - 100 for backgrounds, 600 for default state, 700 for hover/active states",
     "success": {
       "100": { "value": "{color.moonstone.100}" },
       "600": { "value": "{color.moonstone.600}" },

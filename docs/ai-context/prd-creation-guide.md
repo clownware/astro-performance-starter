@@ -6,6 +6,8 @@ tableOfContents: true
 pagefind: true
 ---
 
+<!-- Note: References to older track/model names retained as historical examples -->
+
 # Creating a Website PRD for AI Context
 
 > **Why PRDs Matter**: Transform vague project ideas into actionable development guidance for AI assistants

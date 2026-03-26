@@ -754,3 +754,221 @@ test.describe('Automated Accessibility Tests', () => {
     expect(images).toHaveLength(0);
   });
 });
+```
+
+## Real-World Implementation: BlogLayout
+
+The `BlogLayout.astro` component demonstrates production-ready WCAG 2.1 AA compliance:
+
+### Decorative SVGs (WCAG 1.1.1)
+
+All decorative icons include `aria-hidden="true"` to prevent verbose screen reader output:
+
+```astro
+<!-- Breadcrumb chevron -->
+<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+  <path fill-rule="evenodd" d="..." />
+</svg>
+
+<!-- Meta icons (author, date, reading time) -->
+<svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="..." />
+</svg>
+```
+
+### Semantic Navigation (WCAG 2.4.1, 4.1.2)
+
+Table of Contents uses explicit ARIA landmarks:
+
+```astro
+<nav 
+  class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6 shadow-lg" 
+  role="navigation" 
+  aria-label="Table of contents"
+>
+  <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
+    Table of Contents
+  </h3>
+  <ul class="space-y-2 text-sm">
+    {headings.map((heading) => (
+      <li style={`margin-left: ${(heading.depth - 1) * 12}px`}>
+        <a href={`#${heading.slug}`} class="text-foreground-secondary hover:text-primary-600">
+          {heading.text}
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+```
+
+**Note**: Astro automatically generates unique `id` attributes for markdown headings via `post.render()`, ensuring ToC links work correctly.
+
+### Focus Indicators (WCAG 2.4.7)
+
+The `Button` component includes visible focus states:
+
+```astro
+<!-- Ghost variant with clear border states -->
+<Button
+  href={`/blog/${prevPost.slug}/`}
+  variant="ghost"
+  class="h-auto p-4 text-left justify-start group-hover:bg-background-secondary"
+>
+  <!-- Button content -->
+</Button>
+```
+
+Focus styles defined in component:
+
+```css
+.inline-flex {
+  /* ... */
+  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500;
+}
+```
+
+### External Links (Security & A11y)
+
+The `SocialLink` component implements best practices:
+
+```astro
+<a 
+  href={href}
+  target="_blank"
+  rel="noopener noreferrer"
+  aria-label={`Visit my ${linkText} (opens in new tab)`}
+>
+  <!-- Link content with aria-hidden icons -->
+</a>
+```
+
+### Breadcrumb Navigation
+
+Proper semantic structure with `aria-current`:
+
+```astro
+<nav class="mb-6 text-sm" aria-label="Breadcrumb">
+  <ol class="flex items-center space-x-2 text-foreground-secondary">
+    <li>
+      <a href="/" class="hover:text-foreground-primary transition-colors">Home</a>
+    </li>
+    <li>
+      <svg aria-hidden="true"><!-- chevron --></svg>
+    </li>
+    <li>
+      <a href="/blog/" class="hover:text-foreground-primary transition-colors">Blog</a>
+    </li>
+    <li>
+      <svg aria-hidden="true"><!-- chevron --></svg>
+    </li>
+    <li class="text-foreground-primary" aria-current="page">
+      {title}
+    </li>
+  </ol>
+</nav>
+```
+
+### Contrast & Readability (WCAG 1.4.3)
+
+Design tokens ensure theme-aware contrast:
+
+```astro
+<div class="prose prose-lg prose-slate dark:prose-invert max-w-none">
+  <slot />
+</div>
+```
+
+- Uses semantic color variables (`text-foreground-primary`, `bg-background-secondary`)
+- `prose-invert` for dark mode
+- `leading-relaxed` for improved readability
+
+**Recommendation**: Run WAVE or axe DevTools to verify 4.5:1 contrast ratio across all color combinations.
+
+### Decorative Icons and Emojis (WCAG 1.1.1)
+
+#### Emoji Best Practices
+
+All decorative emojis should be wrapped with `aria-hidden="true"` to prevent screen readers from announcing them:
+
+```astro
+<!-- ✅ Correct: Decorative emoji hidden from screen readers -->
+<h2>
+  <span aria-hidden="true">🎯</span> Lighthouse Performance Scores
+</h2>
+
+<!-- ✅ Correct: Emoji in button -->
+<Button>
+  <span aria-hidden="true">🚀</span> Get Started Now
+</Button>
+
+<!-- ❌ Incorrect: Emoji without aria-hidden -->
+<h2>🎯 Lighthouse Performance Scores</h2>
+```
+
+#### Checkmark Lists with Screen Reader Context
+
+When using visual checkmarks (✓) in lists, provide context for screen readers using the `.sr-only` utility class:
+
+```astro
+<ul role="list" aria-label="Key features">
+  <li class="flex items-center gap-1">
+    <span aria-hidden="true">✓</span>
+    <span><span class="sr-only">Included: </span>TypeScript strict mode</span>
+  </li>
+  <li class="flex items-center gap-1">
+    <span aria-hidden="true">✓</span>
+    <span><span class="sr-only">Included: </span>WCAG AA compliant</span>
+  </li>
+</ul>
+```
+
+**Screen reader output**: "Included: TypeScript strict mode" instead of just "TypeScript strict mode"
+
+#### Icon Component Pattern
+
+The `Icon.astro` component provides proper accessibility support:
+
+```astro
+<!-- Decorative icon (hidden from screen readers) -->
+<Icon name="github" class="w-5 h-5" decorative />
+
+<!-- Semantic icon (announced to screen readers) -->
+<Icon name="arrow-down" class="w-6 h-6" ariaLabel="Scroll down" />
+```
+
+Implementation:
+
+```astro
+<svg
+  class:list={[className]}
+  aria-hidden={decorative ? "true" : undefined}
+  aria-label={ariaLabel}
+  role={!decorative && ariaLabel ? "img" : undefined}
+>
+  <!-- SVG content -->
+</svg>
+```
+
+### Screen Reader Only Content
+
+The `.sr-only` utility class hides content visually while keeping it accessible to screen readers:
+
+```css
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+```
+
+**Use cases**:
+
+- Adding context to visual indicators (checkmarks, icons)
+- Providing additional information for screen reader users
+- Labeling form fields when visual labels aren't appropriate
