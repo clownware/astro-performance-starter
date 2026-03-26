@@ -2,7 +2,7 @@ import { fileURLToPath } from "node:url";
 import mdx from "@astrojs/mdx";
 import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
-import tailwind from "@astrojs/tailwind";
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 import astroExpressiveCode from "astro-expressive-code";
 import { remarkSnippetIncludes } from "./scripts/src/remark-snippet-includes.mjs";
@@ -41,11 +41,6 @@ export default defineConfig({
     mdx({
       components: mdxComponents,
     }),
-    // Main site Tailwind configuration
-    tailwind({
-      configFile: "./tailwind.config.ts",
-      applyBaseStyles: true,
-    }),
     sitemap(),
     preact(), // Ensure Preact is available for .tsx MDX components
   ],
@@ -77,7 +72,7 @@ export default defineConfig({
 
   // Enhanced build configuration
   vite: {
-    plugins: [viteInjectVersions({ rootDir })],
+    plugins: [tailwindcss(), viteInjectVersions({ rootDir })],
   },
 
   // Performance optimizations
