@@ -224,4 +224,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   main().catch(console.error);
 }
 
-export { syncDocs, detectCurrentVersions, type SyncOptions };
+export { detectCurrentVersions, type SyncOptions, syncDocs };
