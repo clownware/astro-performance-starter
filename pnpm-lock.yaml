@@ -73,8 +73,8 @@ importers:
         specifier: ^5.14.1
         version: 5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3)
       astrobook:
-        specifier: ^0.8.10
-        version: 0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
+        specifier: ^0.12.4
+        version: 0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))(typescript@5.9.2)
       chalk:
         specifier: ^5.6.2
         version: 5.6.2
@@ -167,21 +167,26 @@ packages:
   '@asamuzakjp/nwsapi@2.3.9':
     resolution: {integrity: sha512-n8GuYSrI9bF7FFZ/SjhwevlHc8xaVlb/7HmHelnc/PZXBD2ZR49NnN9sMMuDdEGPeeRQ5d0hqlSlEpgCX3Wl0Q==}
 
-  '@astrobook/core@0.8.10':
-    resolution: {integrity: sha512-/HhDddV7L/FbDPaa/ivIkeT8svMEuyM4B4jhBxWYNfvIvZbyt9Mvw7uKlo4+f8uqW8JW2+QCXo1preY60J15ag==}
-
-  '@astrobook/types@0.8.10':
-    resolution: {integrity: sha512-SlSV+GWFMmMGzp0s/GMVBumwQlTO9CsHU1zYnjZoHit8Ca/fZT9sudZvTkwaqudBjOekvY07DapH1756af79mQ==}
+  '@astrobook/core@0.12.4':
+    resolution: {integrity: sha512-WyooiRbx9sZgv7l2EbZCm7KS0FWPRXrGJgaC5Yuthjn3kyGhhvyILx7rjcM1VWzeXDT1tDrxGKoLmrPNKRTYsw==}
     peerDependencies:
-      astro: '>=4.0.0'
+      astro: '>=5.0.0'
     peerDependenciesMeta:
       astro:
         optional: true
 
-  '@astrobook/ui@0.8.10':
-    resolution: {integrity: sha512-bzc6dt6NlzCUJ/uXYGb4IutsHeTINXRmxdzGt8yfgKiEHqmpQIX/R8gjFuiVN6ApEEqYYqf4Bkw1xSTKWrenEg==}
+  '@astrobook/types@0.12.4':
+    resolution: {integrity: sha512-HCwXGVA+DZVlbL+tWmWVuBblLWcFBVC2R/8Zyu+690kfjeFkLMlreOKG2xBStWjtxv2X/m5qWfu05KQNTeCDVA==}
     peerDependencies:
-      astro: '>=4.0.0'
+      astro: '>=5.0.0'
+    peerDependenciesMeta:
+      astro:
+        optional: true
+
+  '@astrobook/ui@0.12.4':
+    resolution: {integrity: sha512-+Rsb2/Hy/2efIqv+Zaf0Emz9BUkRthGy4GDWxNx/wBZosL2OVBFFymCg8io63mgxiMXz93GkXn5eSj9WZic15g==}
+    peerDependencies:
+      astro: '>=5.0.0'
     peerDependenciesMeta:
       astro:
         optional: true
@@ -1803,8 +1808,8 @@ packages:
     resolution: {integrity: sha512-LtoMMhxAlorcGhmFYI+LhPgbPZCkgP6ra1YL604EeF6U98pLlQ3iWIGMdWSC+vWmPBWBNgmDBAhnAobLROJmwg==}
     engines: {node: '>=18'}
 
-  '@sveltejs/acorn-typescript@1.0.6':
-    resolution: {integrity: sha512-4awhxtMh4cx9blePWl10HRHj8Iivtqj+2QdDCSMDzxG+XKa9+VCNupQuCuvzEhYPzZSrX+0gC+0lHA/0fFKKQQ==}
+  '@sveltejs/acorn-typescript@1.0.9':
+    resolution: {integrity: sha512-lVJX6qEgs/4DOcRTpo56tmKzVPtoWAaVbL4hfO7t7NVwl9AAXzQR6cihesW1BmNMPl+bK6dreu2sOKBP2Q9CIA==}
     peerDependencies:
       acorn: ^8.9.0
 
@@ -2077,18 +2082,18 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^5.0.0-beta || ^3.3.0 || ^6.0.0-beta
 
-  astro-theme-toggle@0.6.1:
-    resolution: {integrity: sha512-UkU3ycEHnyl6M39rL3xXXwHfJKEKU0eSQS5dKEL+GInr+JS3jwpt/CCrS3jjc3IN/qVM8lv/gYXZpQx/Bu1Rlw==}
+  astro-theme-toggle@0.8.0:
+    resolution: {integrity: sha512-7ngEKDfCLKoVbxX4yxrggtBr8i6W8eT0un0TpNKHUeOG/Pq2g7BrjH+etP/l/XQYYSWQmeOIAI02LvLXDMvOWw==}
 
   astro@5.14.1:
     resolution: {integrity: sha512-gPa8NY7/lP8j8g81iy8UwANF3+aukKRWS68IlthZQNgykpg80ne6lbHOp6FErYycxQ1TUhgEfkXVDQZAoJx8Bg==}
     engines: {node: 18.20.8 || ^20.3.0 || >=22.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
 
-  astrobook@0.8.10:
-    resolution: {integrity: sha512-wFX+cQmr2ETF5ZCR4RkSWYl2B7Fyt+7sHic61Xp9+LowwatNRajRYlfJ6x++t/Zp4IsnN+uHfMkEx5x33UVxCw==}
+  astrobook@0.12.4:
+    resolution: {integrity: sha512-O0YDUfuxDMxQQGuRWgnnqJPHnfLH/IDJv+qwNsuv50RCAUQJFRq6MSxAu9q052E7pjWkyDhl4162Vo7ml8lqBQ==}
     peerDependencies:
-      astro: '>=4.0.0'
+      astro: '>=5.0.0'
     peerDependenciesMeta:
       astro:
         optional: true
@@ -2188,6 +2193,7 @@ packages:
   basic-ftp@5.0.5:
     resolution: {integrity: sha512-4Bcg1P8xhUuqcii/S0Z9wiHIrQVPMermM1any+MX5GeGD7faD3/msQUDGLol9wOcz4/jbg/WJnGqoJF6LiBdtg==}
     engines: {node: '>=10.0.0'}
+    deprecated: Security vulnerability fixed in 5.2.0, please upgrade
 
   bcp-47-match@2.0.3:
     resolution: {integrity: sha512-JtTezzbAibu8G0R9op9zb3vcWZd9JF6M0xOYGPn0fNCd7wOpRB1mU2mH9T8gaBGbAAyIIVgB2G7xG0GP98zMAQ==}
@@ -2899,6 +2905,7 @@ packages:
   git-raw-commits@4.0.0:
     resolution: {integrity: sha512-ICsMM1Wk8xSGMowkOmPrzo2Fgmfo4bMHLNX6ytHjajRJUqvHOw/TFapQ+QG75c3X/tTDDhOSRPGC52dDbNM8FQ==}
     engines: {node: '>=16'}
+    deprecated: This package is no longer maintained. For the JavaScript API, please use @conventional-changelog/git-client instead.
     hasBin: true
 
   github-slugger@2.0.0:
@@ -2920,11 +2927,13 @@ packages:
 
   glob@10.4.5:
     resolution: {integrity: sha512-7Bv8RF0k6xjo7d4A/PxYLbUCfb6c+Vpd2/mB2yRDlew7Jb5hEXiCD9ibfO7wpk8i4sevK6DFny9h7EYbM3/sHg==}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@11.0.3:
     resolution: {integrity: sha512-2Nim7dha1KVkaiF4q6Dj+ngPPMdfvLJEOpZk/jKiUAkqKebpGAWQXAq9z1xu9HKu5lWfqw/FASuccEjyznjPaA==}
     engines: {node: 20 || >=22}
+    deprecated: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
     hasBin: true
 
   glob@13.0.6:
@@ -4027,8 +4036,16 @@ packages:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
 
+  picomatch@2.3.2:
+    resolution: {integrity: sha512-V7+vQEJ06Z+c5tSye8S+nHUfI51xoXIXjHQ99cQtKUkQqqO1kO/KCJUfZXuB47h/YBlDhah2H3hdUGXn8ie0oA==}
+    engines: {node: '>=8.6'}
+
   picomatch@4.0.3:
     resolution: {integrity: sha512-5gTmgEY/sqK6gFXLIsQNH19lWb4ebPDLA4SdLP7dsWkIXHWlG66oPuVvXSGFPppYZz8ZDZq0dYYrbHfBCVUb1Q==}
+    engines: {node: '>=12'}
+
+  picomatch@4.0.4:
+    resolution: {integrity: sha512-QP88BAKvMam/3NxH6vj2o21R6MjxZUAd6nlwAS/pnGvN9IVLocLHxGYIzFhg6fUQ+5th6P4dv4eW9jX3DSIj7A==}
     engines: {node: '>=12'}
 
   pidtree@0.6.0:
@@ -4923,6 +4940,14 @@ packages:
   util@0.12.5:
     resolution: {integrity: sha512-kZf/K6hEIrWHI6XqOFUiiMa+79wE/D8Q+NCNAWclkyg3b4d2k7s0QGepNjiABc+aR3N1PAyHL7p6UcLY6LmrnA==}
 
+  valibot@1.3.1:
+    resolution: {integrity: sha512-sfdRir/QFM0JaF22hqTroPc5xy4DimuGQVKFrzF1YfGwaS1nJot3Y8VqMdLO2Lg27fMzat2yD3pY5PbAYO39Gg==}
+    peerDependencies:
+      typescript: '>=5'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
   vfile-location@5.0.3:
     resolution: {integrity: sha512-5yXvWDEgqeiYiBe1lbxYF7UMAIm/IcopxMHrMQDq3nvKcjPKIhZklUKL+AE7J7uApI4kwe2snsK+eI6UTj9EHg==}
 
@@ -5167,6 +5192,7 @@ packages:
   whatwg-encoding@3.1.1:
     resolution: {integrity: sha512-6qN4hJdMwfYBtE3YBTTHhoeuUrDBPZmbQaxWAqSALV/MeEnR5z1xd8UKud2RAkFoPkmB+hli1TZSnyi84xz1vQ==}
     engines: {node: '>=18'}
+    deprecated: Use @exodus/bytes instead for a more spec-conformant and faster implementation
 
   whatwg-mimetype@4.0.0:
     resolution: {integrity: sha512-QaKxh0eNIi2mE9p2vEdzfagOKHCcj1pJ56EEHGQOVxp8r9/iszLUUV7v89x9O1p/T+NlTM5W7jW6+cz4Fq1YVg==}
@@ -5352,30 +5378,35 @@ snapshots:
 
   '@asamuzakjp/nwsapi@2.3.9': {}
 
-  '@astrobook/core@0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))':
+  '@astrobook/core@0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))(typescript@5.9.2)':
     dependencies:
-      '@astrobook/types': 0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
-      '@sveltejs/acorn-typescript': 1.0.6(acorn@8.15.0)
-      acorn: 8.15.0
-      fdir: 6.5.0(picomatch@4.0.3)
-      picomatch: 4.0.3
+      '@astrobook/types': 0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
+      '@sveltejs/acorn-typescript': 1.0.9(acorn@8.16.0)
+      acorn: 8.16.0
+      fdir: 6.5.0(picomatch@4.0.4)
+      picomatch: 4.0.4
       slash: 5.1.0
+      valibot: 1.3.1(typescript@5.9.2)
       yoctocolors: 2.1.2
+    optionalDependencies:
+      astro: 5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3)
     transitivePeerDependencies:
-      - astro
+      - typescript
 
-  '@astrobook/types@0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))':
+  '@astrobook/types@0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))':
     optionalDependencies:
       astro: 5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3)
 
-  '@astrobook/ui@0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))':
+  '@astrobook/ui@0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))(typescript@5.9.2)':
     dependencies:
-      '@astrobook/core': 0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
-      '@astrobook/types': 0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
-      astro-theme-toggle: 0.6.1
+      '@astrobook/core': 0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))(typescript@5.9.2)
+      '@astrobook/types': 0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
+      astro-theme-toggle: 0.8.0
       just-group-by: 2.2.0
     optionalDependencies:
       astro: 5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3)
+    transitivePeerDependencies:
+      - typescript
 
   '@astrojs/check@0.9.8(prettier@3.8.1)(typescript@5.9.2)':
     dependencies:
@@ -6807,7 +6838,7 @@ snapshots:
   '@rollup/pluginutils@4.2.1':
     dependencies:
       estree-walker: 2.0.2
-      picomatch: 2.3.1
+      picomatch: 2.3.2
 
   '@rollup/pluginutils@5.3.0(rollup@4.52.3)':
     dependencies:
@@ -7013,9 +7044,9 @@ snapshots:
 
   '@sindresorhus/merge-streams@2.3.0': {}
 
-  '@sveltejs/acorn-typescript@1.0.6(acorn@8.15.0)':
+  '@sveltejs/acorn-typescript@1.0.9(acorn@8.16.0)':
     dependencies:
-      acorn: 8.15.0
+      acorn: 8.16.0
 
   '@swc/helpers@0.5.17':
     dependencies:
@@ -7220,9 +7251,9 @@ snapshots:
       jsonparse: 1.3.1
       through: 2.3.8
 
-  acorn-import-attributes@1.9.5(acorn@8.15.0):
+  acorn-import-attributes@1.9.5(acorn@8.16.0):
     dependencies:
-      acorn: 8.15.0
+      acorn: 8.16.0
 
   acorn-jsx@5.3.2(acorn@8.15.0):
     dependencies:
@@ -7230,8 +7261,7 @@ snapshots:
 
   acorn@8.15.0: {}
 
-  acorn@8.16.0:
-    optional: true
+  acorn@8.16.0: {}
 
   agent-base@7.1.4: {}
 
@@ -7278,7 +7308,7 @@ snapshots:
   anymatch@3.1.3:
     dependencies:
       normalize-path: 3.0.0
-      picomatch: 2.3.1
+      picomatch: 2.3.2
 
   arg@5.0.2: {}
 
@@ -7316,7 +7346,7 @@ snapshots:
       astro: 5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3)
       rehype-expressive-code: 0.41.7
 
-  astro-theme-toggle@0.6.1: {}
+  astro-theme-toggle@0.8.0: {}
 
   astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3):
     dependencies:
@@ -7420,13 +7450,15 @@ snapshots:
       - uploadthing
       - yaml
 
-  astrobook@0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3)):
+  astrobook@0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))(typescript@5.9.2):
     dependencies:
-      '@astrobook/core': 0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
-      '@astrobook/types': 0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
-      '@astrobook/ui': 0.8.10(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
+      '@astrobook/core': 0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))(typescript@5.9.2)
+      '@astrobook/types': 0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))
+      '@astrobook/ui': 0.12.4(astro@5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3))(typescript@5.9.2)
     optionalDependencies:
       astro: 5.14.1(@types/node@24.6.0)(jiti@2.6.0)(lightningcss@1.29.3)(rollup@4.52.3)(terser@5.39.0)(tsx@4.21.0)(typescript@5.9.2)(yaml@2.8.3)
+    transitivePeerDependencies:
+      - typescript
 
   atomically@2.0.3:
     dependencies:
@@ -7996,7 +8028,7 @@ snapshots:
   esast-util-from-js@2.0.1:
     dependencies:
       '@types/estree-jsx': 1.0.5
-      acorn: 8.15.0
+      acorn: 8.16.0
       esast-util-from-estree: 2.0.0
       vfile-message: 4.0.3
 
@@ -8210,6 +8242,10 @@ snapshots:
   fdir@6.5.0(picomatch@4.0.3):
     optionalDependencies:
       picomatch: 4.0.3
+
+  fdir@6.5.0(picomatch@4.0.4):
+    optionalDependencies:
+      picomatch: 4.0.4
 
   fill-range@7.1.1:
     dependencies:
@@ -8616,8 +8652,8 @@ snapshots:
 
   import-in-the-middle@1.14.4:
     dependencies:
-      acorn: 8.15.0
-      acorn-import-attributes: 1.9.5(acorn@8.15.0)
+      acorn: 8.16.0
+      acorn-import-attributes: 1.9.5(acorn@8.16.0)
       cjs-module-lexer: 1.4.3
       module-details-from-path: 1.0.4
 
@@ -9875,7 +9911,11 @@ snapshots:
 
   picomatch@2.3.1: {}
 
+  picomatch@2.3.2: {}
+
   picomatch@4.0.3: {}
+
+  picomatch@4.0.4: {}
 
   pidtree@0.6.0: {}
 
@@ -10042,7 +10082,7 @@ snapshots:
 
   readdirp@3.6.0:
     dependencies:
-      picomatch: 2.3.1
+      picomatch: 2.3.2
 
   readdirp@4.1.2: {}
 
@@ -10952,6 +10992,10 @@ snapshots:
       is-typed-array: 1.1.15
       which-typed-array: 1.1.19
     optional: true
+
+  valibot@1.3.1(typescript@5.9.2):
+    optionalDependencies:
+      typescript: 5.9.2
 
   vfile-location@5.0.3:
     dependencies:
