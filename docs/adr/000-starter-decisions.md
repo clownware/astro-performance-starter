@@ -21,7 +21,7 @@ This Astro performance starter template aims to provide a production-ready found
 - **Performance**: Must achieve Lighthouse scores of 95+ consistently (100 aspirational)
 - **Developer Experience**: Should be easy to understand and extend
 - **Maintainability**: Minimize tooling complexity and dependency sprawl
-- **Flexibility**: Support both minimal (MVP) and comprehensive (Showcase) implementations
+- **Flexibility**: Support progressive implementation through Foundation, Build, and Polish tiers
 - **Modern Standards**: Use current best practices and tools
 
 ## Considered Options
@@ -75,7 +75,7 @@ We will use:
 ```json
 {
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=24.0.0"
   }
 }
 ```
@@ -98,7 +98,7 @@ We will use:
 
 ### Neutral
 
-- Requires Node.js 24.x+ (current version)
+- Requires Node.js 24.x+ (current LTS)
 - Opinionated choices may not suit all projects
 - Focus on static/SSG over SSR capabilities
 
@@ -123,7 +123,7 @@ Success metrics:
 
 This ADR represents the initial decisions for v1.0 of the Astro performance starter template. As the ecosystem evolves, we may need to revisit these choices. Any changes should be documented in new ADRs that supersede this one.
 
-The dual-track approach (MVP vs Showcase) allows teams to choose their complexity level while maintaining the same foundational decisions.
+The dual-track approach (MVP vs Showcase) has been refined by ADR-033 into a progressive tier model (Foundation/Build/Polish) that better maps to how users actually consume the template. Teams work through phases sequentially and stop when they've reached their goals.
 
 ---
 **Date**: 2024-01-15\

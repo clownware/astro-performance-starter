@@ -9,7 +9,7 @@ pagefind: true
 
 ## Overview
 
-The *Astro Performance Starter* gives you a production-ready foundation focused on performance, accessibility, and DX. **Phase 5 ("UI Component Library - MVP") is now complete**, delivering essential UI components alongside the foundational site structure.
+The *Astro Performance Starter* gives you a production-ready foundation focused on performance, accessibility, and DX. **Phase 5 ("UI Component Library") is now complete**, delivering essential UI components alongside the foundational site structure.
 
 ## What’s included in this template
 
@@ -106,6 +106,6 @@ pnpm dev       # start local dev server
 
 ## Next phases
 
-**Phase 5 is complete!** ✅ All MVP UI components are implemented and ready to use.
+**Phase 5 is complete!** ✅ All Essential UI components are implemented and ready to use.
 
 **Up next:** Phase 6 connects content collections for managing blog posts, projects, and structured data. Follow the [implementation guides](../implementation-guides/) for step-by-step progress on remaining phases.

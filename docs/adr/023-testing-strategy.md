@@ -8,7 +8,7 @@ pagefind: true
 
 ## Status
 
-Proposed
+Accepted
 
 ## Context
 
@@ -349,4 +349,4 @@ test:
 
 **Date**: 2025-11-15  
 **Participants**: Development Team  
-**Outcome**: Proposed
+**Outcome**: Accepted

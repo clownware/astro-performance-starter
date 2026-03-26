@@ -241,9 +241,6 @@ docs/
 │   │   ├── components-guide.md
 │   │   ├── accessibility.md
 │   │   └── testing.md
-│   └── tracks/                      # Implementation paths
-│       ├── mvp-track-guide.md       # Fast MVP path
-│       └── showcase-track-guide.md  # Full-featured path
 │
 ├── patterns/                        # Design patterns
 │   ├── component-patterns.md        # Component design
@@ -295,4 +292,4 @@ docs/
 - [Quick Start Guide](./quick-start.md) - Get up and running
 - [Tech Stack](../architecture/tech-stack.md) - Technology choices
 - [Component Patterns](../patterns/component-patterns.md) - Component design
-- [Implementation Tracks](../implementation-guides/tracks/) - MVP vs Showcase paths
+- [Implementation Guides](../implementation-guides/) - Phased development tiers

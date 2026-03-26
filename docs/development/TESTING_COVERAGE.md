@@ -31,7 +31,7 @@ Tests for the homepage (`src/pages/index.astro`):
 - ✅ Lighthouse metrics display
 - ✅ Key features section with expandable cards
 - ✅ Tech stack with accurate versions (including Sharp v0.34.x)
-- ✅ Implementation tracks (MVP & Showcase)
+- ✅ Implementation tiers (Essential / Recommended / Advanced)
 - ✅ CTA section with action buttons
 - ✅ Real-world results disclaimer
 - ✅ Scroll indicator
@@ -168,14 +168,14 @@ pnpm run test:a11y
 
 1. **Prefetch/Preload Performance**
 
-   - `@astrojs/prefetch` integration enabled globally
+   - Astro built-in prefetch enabled globally (`prefetch: true` in astro.config.mjs)
    - Internal links automatically prefetched
    - External links handled appropriately (can't be prefetched)
 
 2. **External Links**
 
    - GitHub links: `https://github.com/clownware/astro-starter-template`
-   - Documentation links: `https://astro.clownware.org/*`
+   - Documentation links: `https://aps.docs.clownware.org/*`
    - Social links with proper security attributes where needed
 
 ## Accessibility Testing

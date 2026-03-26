@@ -3,7 +3,7 @@ title: Phase 0 - Foundation Decisions
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers core architecture decisions, repository setup, and development
-  environment for both MVP and Showcase tracks
+  environment — Foundation tier, essential for all projects
 tableOfContents: true
 pagefind: true
 ---
@@ -11,7 +11,7 @@ pagefind: true
 
 ## Overview
 
-- **Track**: Both (MVP & Showcase)
+- **Tier**: Foundation (Phase 0 of 12)
 - **Effort**: Minimal, foundational setup
 - **Dependencies**: None
 - **Deliverables**: Core architecture decisions, repository setup, development environment
@@ -25,20 +25,20 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 0.01 | Initialize repository | ✅ | ✅ | Include .gitignore, README |
-| 0.02 | Choose package manager | ✅ | ✅ | pnpm recommended for speed |
-| 0.03 | Set up Node.js version | ✅ | ✅ | Use .nvmrc with Node {{versions.node-current}} LTS |
-| 0.04 | Select framework version | ✅ | ✅ | Astro {{versions.astro}} stable |
-| 0.05 | Configure TypeScript | ✅ | ✅ | Strict mode from start |
-| 0.05a | Configure Biome (lint/format) | ✅ | ✅ | Init @biomejs/biome & VSCode extension |
-| 0.06 | Initialize Astro project | ✅ | ✅ | Use create-astro CLI |
-| 0.07 | Set up Git hooks | ✅ | ✅ | Husky + lint-staged |
-| 0.08 | Create branch strategy | ✅ | ✅ | Document in README |
-| 0.09 | Configure environment vars | ✅ | ✅ | .env.example template |
-| 0.10 | Create ADR structure | ✅ | ✅ | docs/adr/template.md |
-| 0.11 | Document key decisions | ✅ | ✅ | First ADR entry |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 0.01 | Initialize repository | Essential | Include .gitignore, README |
+| 0.02 | Choose package manager | Essential | pnpm recommended for speed |
+| 0.03 | Set up Node.js version | Essential | Use .nvmrc with Node {{versions.node-current}} LTS |
+| 0.04 | Select framework version | Essential | Astro {{versions.astro}} stable |
+| 0.05 | Configure TypeScript | Essential | Strict mode from start |
+| 0.05a | Configure Biome (lint/format) | Essential | Init @biomejs/biome & VSCode extension |
+| 0.06 | Initialize Astro project | Essential | Use create-astro CLI |
+| 0.07 | Set up Git hooks | Essential | Husky + lint-staged |
+| 0.08 | Create branch strategy | Essential | Document in README |
+| 0.09 | Configure environment vars | Essential | .env.example template |
+| 0.10 | Create ADR structure | Essential | docs/adr/template.md |
+| 0.11 | Document key decisions | Essential | First ADR entry |
 
 ## Code Examples
 
@@ -129,7 +129,7 @@ trim_trailing_whitespace = true
 
 ### Main Branches
 - `main` - Production-ready code
-- `develop` - Integration branch (Showcase only)
+- `develop` - Integration branch (optional, for team projects)
 
 ### Feature Branches
 - `feature/*` - New features
@@ -140,7 +140,7 @@ trim_trailing_whitespace = true
 1. Create feature branch from main
 2. Make changes with conventional commits
 3. Open PR with description
-4. Merge after review (Showcase) or self-merge (MVP)
+4. Merge after review (team projects) or self-merge (solo)
 
 ### Commit Convention
 - `feat:` - New feature

@@ -11,9 +11,9 @@ Thank you for your interest in contributing! This project follows a structured a
 
 ## 📋 Prerequisites
 
-- Node.js 22.x or later
-- pnpm 9.x or later
-- Familiarity with our [Implementation Guides](docs/implementation-guides/00-overview/README.md)
+- Node.js 24.x or later
+- pnpm 10.x or later
+- Familiarity with our [Implementation Guides](docs/implementation-guides/README.md)
 
 ## 🎯 Ways to Contribute
 
@@ -67,8 +67,8 @@ git checkout -b feat/new-component-pattern
 
 Follow the appropriate phase guide:
 
-- Component changes: See [Phase 5](docs/implementation-guides/02-structure/phase-5-components.md)
-- Performance changes: See [Phase 9](docs/implementation-guides/04-quality/phase-9-performance.md)
+- Component changes: See [Phase 5](docs/implementation-guides/active-phases/phase-5-components.md)
+- Performance changes: See [Phase 9](docs/implementation-guides/active-phases/phase-9-performance.md)
 - Documentation: Match existing style and formatting
 
 ### 4. Validate Your Changes

@@ -58,13 +58,10 @@ astro-performance-starter/
 │   │   │   ├── component-patterns/
 │   │   │   ├── content-collections/
 │   │   │   └── performance-patterns/
-│   │   ├── reference/                # Technical reference
-│   │   │   ├── tech-stack.md
-│   │   │   ├── directory-structure.md
-│   │   │   └── budgets-guardrails.md
-│   │   └── tracks/                   # Implementation tracks
-│   │       ├── mvp-track.md
-│   │       └── showcase-track.md
+│   │   └── reference/                # Technical reference
+│   │       ├── tech-stack.md
+│   │       ├── directory-structure.md
+│   │       └── budgets-guardrails.md
 │   └── adr/
 │       ├── template.md
 │       └── 001-starter-decisions.md
@@ -135,7 +132,6 @@ astro-performance-starter/
 ├── .windsurfrules                   # Windsurf AI rules
 ├── CHANGELOG.md                     # Release notes
 ├── CONTRIBUTING.md                  # Contribution guide
-├── ONBOARDING.md                    # Quick start guide
 ├── README.md                        # Project overview
 ├── LICENSE.txt                      # MIT license
 ├── airules.example                  # AI rules template

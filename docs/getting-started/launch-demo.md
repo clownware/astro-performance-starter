@@ -201,15 +201,15 @@ my-site/
 ```bash
 pnpm run dev          # Start dev server (auto-compiles tokens first)
 pnpm run build        # Build for production (tokens + Astro - fully automated)
-pnpm run preview      # Build + serve production build locally
-pnpm run build:tokens # Compile design tokens only (manual - rarely needed)
+pnpm run preview      # Serve already-built dist/ locally (run build first)
+pnpm run tokens:build # Compile design tokens only (manual - rarely needed)
 pnpm run check        # Type-check TypeScript
 pnpm run format       # Format code with Biome
 pnpm run lint         # Lint code with Biome
 ```
 
-:::note[About build:full]
-You may see `pnpm run build:full` mentioned in older docs—it's an alias for `pnpm run build` and does the exact same thing. Use whichever you prefer, but `build` is simpler and recommended.
+:::note[About preview]
+`pnpm run preview` serves an already-built `dist/` folder. Always run `pnpm run build` first. Use `pnpm run preview:build` as a convenience alias that does both in sequence.
 :::
 
 ## 🎓 Next Steps
@@ -257,8 +257,7 @@ Choose your path based on your goals:
 
 **Want the complete guided experience?**
 
-→ [MVP Track Guide](../tracks/mvp-track-guide/) (2-3 weeks)  
-→ [Showcase Track Guide](../tracks/showcase-track-guide/) (4-6 weeks)
+→ [Implementation Guide Master Index](/implementation-guides/) — work through phases sequentially, stop when goals are met
 
 - Complete all 12 phases
 - Production-ready features

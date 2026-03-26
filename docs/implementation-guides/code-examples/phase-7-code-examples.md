@@ -1193,7 +1193,7 @@ const popularPages = [
 </BaseLayout>
 ```
 
-## Microcopy Guidelines (Showcase)
+## Microcopy Guidelines (Advanced)
 
 ### UI Text Patterns
 
@@ -1264,7 +1264,7 @@ Full-featured homepage with hero, features, metrics, tech stack, and CTA section
 - Lighthouse metrics showcase
 - Expandable feature cards with synchronized expansion
 - Tech stack grid with category badges
-- Implementation track comparison
+- Implementation tier overview
 - Call-to-action section
 
 **Pattern**: Section-based composition with reusable components

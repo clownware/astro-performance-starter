@@ -30,7 +30,7 @@ Reference our Button component pattern from phase-5-components.md
 Create an Astro component with optional interactivity:
 - Name: [ComponentName]
 - Static by default (zero JS)
-- Progressive enhancement with Alpine.js for: [interaction details]
+- Progressive enhancement with vanilla JS or Preact island for: [interaction details]
 - Use client:visible directive if needed
 - Follow islands architecture from patterns/islands-architecture.md
 - Maintain all functionality without JavaScript
@@ -125,7 +125,7 @@ See budgets-guardrails.md for limits
 ```text
 Improve Lighthouse scores for [Page]:
 - Current scores: [list scores]
-- Target: 97+ performance, 98+ accessibility
+- Target: 95+ performance, 98+ accessibility
 - Focus on: [specific metrics like LCP, CLS]
 - Check against our performance budgets
 - Implement resource hints
@@ -279,7 +279,7 @@ Document [Component] following our standards:
 - Performance considerations
 - Common pitfalls
 - Related components
-- Add to Astrobook stories (Showcase only)
+- Add to Astrobook stories (Advanced scope only)
 
 Follow documentation pattern from phase-5-components.md
 ```

@@ -2,12 +2,12 @@
 title: Performance Patterns
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
-  Proven techniques for achieving and maintaining high Lighthouse scores (97+)
+  Proven techniques for achieving and maintaining high Lighthouse scores (95+)
   in Astro projects
 tableOfContents: true
 pagefind: true
 ---
-> ⚡ **Purpose**: Proven techniques for achieving and maintaining 97+ Lighthouse scores
+> ⚡ **Purpose**: Proven techniques for achieving and maintaining 95+ Lighthouse scores
 
 ## Core Performance Principles
 
@@ -480,7 +480,7 @@ This generates optimized resource hints in the `<head>`:
 <link rel="preconnect" href="https://api.example.com" crossorigin />
 ```
 
-For internal navigation, use `data-astro-prefetch` (via `@astrojs/prefetch` integration):
+For internal navigation, use `data-astro-prefetch` (via Astro's built-in prefetch):
 
 ```astro
 <!-- Prefetches page on hover or viewport visibility -->
@@ -660,6 +660,6 @@ Before deploying, ensure:
 - [ ] No render-blocking scripts
 - [ ] Resource hints are configured
 - [ ] Caching headers are set
-- [ ] Lighthouse score is 97+
+- [ ] Lighthouse score is 95+
 - [ ] Core Web Vitals pass
 - [ ] Works without JavaScript

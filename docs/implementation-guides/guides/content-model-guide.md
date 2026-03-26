@@ -25,7 +25,7 @@ This guide covers best practices for designing content schemas in Astro using Co
 
 Create reusable base schemas for common fields:
 
-```typescript {{versions.typescript}}
+```typescript
 // src/content/config.ts
 import { z, defineCollection } from 'astro:content';
 
@@ -49,4 +49,4 @@ const authorSchema = z.object({
   }).optional(),
 });
 
-const
+```

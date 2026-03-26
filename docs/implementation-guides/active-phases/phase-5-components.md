@@ -3,14 +3,14 @@ title: Phase 5 - UI Component Library
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details development of reusable UI components, documentation, and
-  accessibility patterns for Lite (MVP) and Full (Showcase) tracks
+  accessibility patterns with Essential, Recommended, and Advanced scope guidance
 tableOfContents: true
 pagefind: true
 ---
 
 ## Overview
 
-- **Track**: Lite (MVP) / Full (Showcase)
+- **Tier**: Build (Phase 5 of 12)
 - **Duration**: 2-4 days
 - **Dependencies**: Phase 0-4 completed
 - **Deliverables**: Reusable UI components, component documentation, accessibility patterns
@@ -24,55 +24,49 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 5.01 | Build Button component | ✅ | ✅ | Primary, secondary, ghost variants |
-| 5.02 | Create Card component | ✅ | ✅ | For content display |
-| 5.03 | Build Section wrapper | ✅ | ✅ | Consistent spacing |
-| 5.04 | Create Container component | ✅ | ✅ | Responsive widths |
-| 5.05 | Document Link Component | ✅ | ✅ | Create tutorial guide |
-| 5.06 | Build Image component | ✅ | ✅ | Wrapper for Astro Image |
-| 5.07 | Create basic Badge | ✅ | ✅ | For tags/labels |
-| 5.08 | Add Grid component | ✅ | ✅ | Responsive layouts |
-| 5.09 | Set up Astrobook | ❌ | ✅ | Component documentation |
-| 5.10 | Create Input components | ❌ | ✅ | Forms, validation |
-| 5.11 | Build Modal component | ❌ | ✅ | Accessible dialogs |
-| 5.12 | Add Tooltip component | ❌ | ✅ | Hover information |
-| 5.13 | Create Tabs component | ❌ | ✅ | Content organization |
-| 5.14 | Build Accordion | ❌ | ✅ | Collapsible content |
-| 5.15 | Add Loading states | ❌ | ✅ | Skeletons, spinners |
-| 5.16 | Create Alert component | ❌ | ✅ | User feedback |
-| 5.17 | Build Pagination | ❌ | ✅ | List navigation |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 5.01 | Build Button component | Essential | Primary, secondary, ghost variants |
+| 5.02 | Create Card component | Essential | For content display |
+| 5.03 | Build Section wrapper | Essential | Consistent spacing |
+| 5.04 | Create Container component | Essential | Responsive widths |
+| 5.05 | Document Link Component | Essential | Create tutorial guide |
+| 5.06 | Build Image component | Essential | Wrapper for Astro Image |
+| 5.07 | Create basic Badge | Essential | For tags/labels |
+| 5.08 | Add Grid component | Essential | Responsive layouts |
+| 5.09 | Set up Astrobook | Advanced | Component documentation |
+| 5.10 | Create Input components | Recommended | Forms, validation |
+| 5.11 | Build Modal component | Recommended | Accessible dialogs |
+| 5.12 | Add Tooltip component | Advanced | Hover information |
+| 5.13 | Create Tabs component | Recommended | Content organization |
+| 5.14 | Build Accordion | Recommended | Collapsible content |
+| 5.15 | Add Loading states | Advanced | Skeletons, spinners |
+| 5.16 | Create Alert component | Recommended | User feedback |
+| 5.17 | Build Pagination | Recommended | List navigation |
 
 ## Component Management Strategy
 
-To prevent drift between the MVP and Showcase component sets, we will adopt a clear naming convention and maintain a component matrix.
+All components live in `src/components/ui/`. Build Essential components first; add Recommended and Advanced components as your project scope requires. There is no separate file per scope level — a single component file is extended with additional props and variants as needed.
 
-### Naming Convention
+### Component Scope Reference
 
-When a component has distinct MVP and Showcase versions, use a suffix to differentiate them:
-
-- **MVP**: `ComponentName.mvp.astro`
-- **Showcase**: `ComponentName.showcase.astro`
-
-If a component is identical across both tracks, no suffix is needed.
-
-### Component Matrix
-
-This table serves as the single source of truth for which component to use for each track.
-
-| Component | MVP Version | Showcase Version | Notes |
-|---|---|---|---|
-| Button | `Button.mvp.astro` | `Button.showcase.astro` | Showcase adds more variants and states. |
-| Card | `Card.astro` | `Card.astro` | Same component, extended with props. |
-| Section | `Section.astro` | `Section.astro` | Shared. |
-| Container | `Container.astro` | `Container.astro` | Shared. |
-| Link | N/A | N/A | Moved to a documentation guide. |
-| Image | `Image.astro` | `Image.astro` | Shared wrapper for Astro's Image. |
-| Badge | `Badge.mvp.astro` | `Badge.showcase.astro` | Showcase adds more color and style options. |
-| Grid | `Grid.astro` | `Grid.astro` | Shared. |
-| Input | N/A | `Input.showcase.astro` | Showcase only. |
-| Modal | N/A | `Modal.showcase.astro` | Showcase only. |
+| Component | Scope | Notes |
+|---|---|---|
+| Button | Essential | Start with primary/secondary; add ghost/destructive variants as needed |
+| Card | Essential | Extended with additional props for richer layouts |
+| Section | Essential | Shared spacing wrapper |
+| Container | Essential | Responsive width constraints |
+| Image | Essential | Wrapper for Astro's `<Image>` component |
+| Badge | Essential | Add color variants incrementally |
+| Grid | Essential | Responsive layout utility |
+| Input | Recommended | Add when contact form or search is needed |
+| Modal | Recommended | Accessible dialog with focus trap |
+| Accordion | Recommended | Collapsible content sections |
+| Tabs | Recommended | Content organization |
+| Alert | Recommended | User feedback messages |
+| Pagination | Recommended | List navigation for blog/projects |
+| Tooltip | Advanced | Add only if UX requires it |
+| Loading states | Advanced | Skeletons/spinners for island components |
 
 ## Common Pitfalls
 
@@ -90,21 +84,24 @@ This table serves as the single source of truth for which component to use for e
 
 ## Exit Criteria
 
-### MVP (Lite)
+### Essential (all projects)
 
-- [ ] Essential components built
-- [ ] All components accessible
-- [ ] TypeScript types complete
-- [ ] Basic documentation written
+- [ ] Core components built (Button, Card, Section, Container, Image, Badge, Grid)
+- [ ] All components accessible (keyboard nav, ARIA labels)
+- [ ] TypeScript interfaces defined for all props
+- [ ] Components render correctly at all breakpoints
 
-### Showcase (Full)
+### Recommended (most projects)
 
-- [ ] Complete component library
-- [ ] Astrobook configured
-- [ ] Visual testing active
-- [ ] Interactive components tested
-- [ ] Usage patterns documented
-- [ ] A11y thoroughly validated
+- [ ] Form input components built
+- [ ] Interactive components (Modal, Accordion, Tabs) implemented where needed
+- [ ] Component usage documented in phase guide or README
+
+### Advanced (portfolio/enterprise)
+
+- [ ] Astrobook configured for visual component documentation
+- [ ] Visual regression baseline established
+- [ ] All interactive components have automated accessibility tests
 
 ## Rollback Strategy
 

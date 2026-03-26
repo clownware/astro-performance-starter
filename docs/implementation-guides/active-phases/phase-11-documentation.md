@@ -1,8 +1,8 @@
 ---
 title: 'Phase 11 - Documentation'
 description: >-
-   Covers README, setup guides, component docs, and maintenance procedures for
-   Essential (MVP) and Comprehensive (Showcase) tracks
+   Covers README, setup guides, component docs, and maintenance procedures with
+   Essential, Recommended, and Advanced scope guidance
 lastUpdated: true
 tableOfContents: true
 pagefind: true
@@ -10,7 +10,7 @@ pagefind: true
 
 ## Overview
 
-- **Track**: Essential (MVP) / Comprehensive (Showcase)
+- **Tier**: Polish (Phase 11 of 12)
 - **Duration**: 1-2 days
 - **Dependencies**: Phase 0-10 completed
 - **Deliverables**: README, setup guides, component docs, maintenance procedures
@@ -24,25 +24,25 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 11.01 | Write README.md | ✅ | ✅ | Project overview, setup → Enhanced with architecture |
-| 11.02 | Document environment setup | ✅ | ✅ | Required variables → Comprehensive config |
-| 11.03 | Create quick start guide | ✅ | ✅ | Get running in 5 mins → Detailed onboarding |
-| 11.04 | List available scripts | ✅ | ✅ | Package.json commands → Full automation guide |
-| 11.05 | Basic troubleshooting | ✅ | ✅ | Common issues → Comprehensive debugging |
-| 11.06 | Deployment instructions | ✅ | ✅ | How to deploy → Multi-environment guide |
-| 11.07 | Content management guide | ✅ | ✅ | Adding/editing content → CMS integration |
-| 11.08 | License and credits | ✅ | ✅ | Open source attribution |
-| 11.09 | Architecture overview | ❌ | ✅ | System design docs |
-| 11.10 | Component documentation | ❌ | ✅ | Props, usage, examples |
-| 11.11 | API documentation | ❌ | ✅ | Endpoints, responses |
-| 11.12 | Performance guide | ❌ | ✅ | Optimization tips |
-| 11.13 | Security documentation | ❌ | ✅ | Best practices |
-| 11.14 | Testing guide | ❌ | ✅ | How to run tests |
-| 11.15 | Contributing guide | ❌ | ✅ | For open source |
-| 11.16 | Changelog | ❌ | ✅ | Version history |
-| 11.17 | Migration guides | ❌ | ✅ | Upgrading versions |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 11.01 | Write README.md | Essential | Project overview and setup |
+| 11.02 | Document environment setup | Essential | Required variables |
+| 11.03 | Create quick start guide | Essential | Get running in 5 mins |
+| 11.04 | List available scripts | Essential | Package.json commands |
+| 11.05 | Basic troubleshooting | Essential | Common issues |
+| 11.06 | Deployment instructions | Essential | How to deploy |
+| 11.07 | Content management guide | Essential | Adding/editing content |
+| 11.08 | License and credits | Essential | Open source attribution |
+| 11.09 | Architecture overview | Recommended | System design docs |
+| 11.10 | Component documentation | Recommended | Props, usage, examples |
+| 11.11 | API documentation | Recommended | Endpoints, responses |
+| 11.12 | Performance guide | Recommended | Optimization tips |
+| 11.13 | Security documentation | Recommended | Best practices |
+| 11.14 | Testing guide | Recommended | How to run tests |
+| 11.15 | Contributing guide | Advanced | For open source projects |
+| 11.16 | Changelog | Advanced | Version history |
+| 11.17 | Migration guides | Advanced | Upgrading versions |
 
 ## Documentation Structure
 
@@ -253,7 +253,7 @@ Footer.astro
 
 mermaid
 graph TD
-A\[Content Files] -->|Markdown/MDX| B\[Content Collections]
+A\[Content Files]-->|Markdown/MDX| B\[Content Collections]
 B -->|Type-safe schemas| C\[Page Components]
 C -->|Props| D\[UI Components]
 D -->|Slots| E\[Rendered HTML]
@@ -600,3 +600,4 @@ All errors follow this format:
     "details": {} // Optional additional info
   }
 }
+```

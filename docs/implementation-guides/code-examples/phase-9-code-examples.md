@@ -447,7 +447,7 @@ async function optimizeFonts() {
   Permissions-Policy: camera=(), microphone=(), geolocation=()
 ```
 
-### 6. Service Worker (Showcase)
+### 6. Service Worker (Advanced)
 
 ```javascript
 // public/sw.js

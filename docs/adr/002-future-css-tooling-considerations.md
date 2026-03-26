@@ -9,7 +9,7 @@ pagefind: true
 ---
 ## Status
 
-Proposed
+Superseded by [ADR-025: Tailwind CSS v4 Migration Strategy](./025-tailwind-v4-migration-strategy.md)
 
 ## Context
 
@@ -113,4 +113,4 @@ No immediate action. This ADR is recorded for the backlog to be revisited if the
 ---
 **Date**: 2025-06-10\
 **Participants**: Template maintainers\
-**Outcome**: Proposed (Backlog)
+**Outcome**: Superseded by ADR-025

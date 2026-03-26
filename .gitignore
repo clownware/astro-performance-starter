@@ -6,6 +6,7 @@
 # Node.js & Package Managers
 # ---------------------------------------------
 node_modules/
+.pnpm/
 .pnpm-store/
 *.log
 npm-debug.log*

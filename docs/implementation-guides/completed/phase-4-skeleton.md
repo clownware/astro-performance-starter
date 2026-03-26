@@ -2,14 +2,14 @@
 title: Phase 4 - Skeleton Layout & Routing
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
-  Covers base layout, routing structure, navigation, and metadata system for
-  both tracks
+  Covers base layout, routing structure, navigation, and metadata system —
+  Foundation tier, essential for all projects
 tableOfContents: true
 pagefind: true
 ---
 ## Overview
 
-- **Track**: Both (MVP & Showcase)
+- **Tier**: Foundation (Phase 4 of 12)
 - **Effort**: Moderate, depends on project complexity
 - **Dependencies**: Phase 0-3 completed
 - **Deliverables**: Base layout, routing structure, navigation, metadata system
@@ -23,20 +23,20 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 4.01 | Create base layout | ✅ | ✅ | HTML structure, metadata |
-| 4.02 | Build header component | ✅ | ✅ | Logo, nav, theme toggle |
-| 4.03 | Build footer component | ✅ | ✅ | Links, copyright |
-| 4.04 | Design mobile navigation | ✅ | ✅ | Responsive pattern |
-| 4.05 | Create minimal page routes | ✅ | ✅ | `index.astro` & `404.astro` only. See guide. |
-| 4.06 | Set up metadata system | ✅ | ✅ | SEO, OpenGraph |
-| 4.07 | Configure font loading | ✅ | ✅ | Preload, swap |
-| 4.08 | Add security headers | ✅ | ✅ | CSP, HSTS |
-| 4.09 | Set up skip links | ✅ | ✅ | Accessibility |
-| 4.10 | Create error pages | ✅ | ✅ | 404, 500 |
-| 4.11 | Review analytics options | ☑️ | ☑️ | Optional. See dedicated guide. |
-| 4.12 | Baseline performance | ✅ | ✅ | Initial metrics |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 4.01 | Create base layout | Essential | HTML structure, metadata |
+| 4.02 | Build header component | Essential | Logo, nav, theme toggle |
+| 4.03 | Build footer component | Essential | Links, copyright |
+| 4.04 | Design mobile navigation | Essential | Responsive pattern |
+| 4.05 | Create minimal page routes | Essential | `index.astro` & `404.astro` only. See guide. |
+| 4.06 | Set up metadata system | Essential | SEO, OpenGraph |
+| 4.07 | Configure font loading | Essential | Preload, swap |
+| 4.08 | Add security headers | Essential | CSP, HSTS |
+| 4.09 | Set up skip links | Essential | Accessibility |
+| 4.10 | Create error pages | Essential | 404, 500 |
+| 4.11 | Review analytics options | Recommended | Optional. See dedicated guide. |
+| 4.12 | Baseline performance | Essential | Initial metrics |
 
 ### Analytics Setup
 

@@ -6,6 +6,8 @@ tableOfContents: true
 pagefind: true
 ---
 
+<!-- Note: References to older track/model names retained as historical examples -->
+
 # Website PRD Template
 
 > **How to Use**: Copy this template, rename to `PRD-[project-name].md`, and fill in your specific requirements.
@@ -297,7 +299,7 @@ When making development choices:
 > **For AI Tools**: This PRD serves as your primary context for all development decisions. When making recommendations:
 >
 > 1. **Prioritize the Primary Objective** - Every suggestion should advance the main goal
-> 2. **Respect the Performance Targets** - Maintain 97+ Lighthouse scores
+> 2. **Respect the Performance Targets** - Maintain 95+ Lighthouse scores
 > 3. **Match the Brand Voice** - All copy should reflect the specified tone
 > 4. **Consider the Target Audience** - Features and content should serve their needs
 > 5. **Stay Within Implementation Track** - Don't suggest features outside the chosen scope

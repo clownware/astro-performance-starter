@@ -41,6 +41,7 @@
   // Ignore patterns
   "ignores": [
     "node_modules/**",
+    ".pnpm/**",
     "dist/**",
     ".astro/**",
     "CHANGELOG.md", // Often auto-generated

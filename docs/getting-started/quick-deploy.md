@@ -27,7 +27,7 @@ Before starting this guide, ensure you have:
 **Test your local build:**
 
 ```bash
-pnpm run preview  # Builds and serves production build locally
+pnpm run build && pnpm run preview  # Build then serve production build locally
 ```
 
 Open <http://localhost:4321> - if this works, you're ready to deploy.
@@ -102,11 +102,10 @@ The template's `build` script automatically runs `build:tokens` first, so you do
 **Available build commands:**
 
 ```bash
-pnpm run build       # Full build (tokens + Astro) - automated
-pnpm run preview     # Build + serve locally for testing
+pnpm run build          # Full build (tokens + Astro) - automated
+pnpm run preview        # Serve already-built dist/ locally
+pnpm run preview:build  # Build then serve (convenience alias)
 ```
-
-**Note:** `pnpm run build:full` exists as an explicit alias for `build`, but it's not necessary since token compilation is already automated in the main `build` script.
 
 :::
 
@@ -1180,10 +1179,9 @@ Now that you're deployed, choose your path based on your goals:
 
 **Best for**: Production-ready, feature-complete sites
 
-1. [MVP Track Guide](../tracks/mvp-track-guide/) (2-3 weeks)
-2. [Showcase Track Guide](../tracks/showcase-track-guide/) (4-6 weeks)
-3. Complete all 12 phases
-4. Production optimization
+1. [Implementation Guide Master Index](/implementation-guides/) — work through phases sequentially
+2. Complete all 12 phases
+3. Production optimization
 
 **Time**: 2-6 weeks depending on track
 

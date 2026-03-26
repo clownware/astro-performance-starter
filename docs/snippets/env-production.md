@@ -29,3 +29,4 @@ PUBLIC_ENABLE_NEWSLETTER=false
 
 # Development
 DEV_SERVER_PORT=4321
+```

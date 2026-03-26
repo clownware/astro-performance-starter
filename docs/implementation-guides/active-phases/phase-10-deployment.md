@@ -3,13 +3,13 @@ title: Phase 10 - Deployment & Monitoring
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers live site deployment, CI/CD pipeline, monitoring setup, and backup
-  strategy for both tracks
+  strategy with Essential, Recommended, and Advanced scope guidance
 tableOfContents: true
 pagefind: true
 ---
 ## Overview
 
-- **Track**: Both (MVP & Showcase)
+- **Tier**: Polish (Phase 10 of 12)
 - **Duration**: 1 day
 - **Dependencies**: Phase 0-9 completed
 - **Deliverables**: Live site, CI/CD pipeline, monitoring setup, backup strategy
@@ -23,20 +23,20 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 10.01 | Choose hosting platform | ✅ | ✅ | Cloudflare Pages recommended |
-| 10.02 | Configure build settings | ✅ | ✅ | Environment variables |
-| 10.03 | Set up CI/CD pipeline | ✅ | ✅ | Auto-deploy on push |
-| 10.04 | Configure custom domain | ✅ | ✅ | DNS settings |
-| 10.05 | SSL certificate setup | ✅ | ✅ | Auto-provisioned |
-| 10.06 | Deploy to staging | ✅ | ✅ | Preview environment |
-| 10.07 | Production deployment | ✅ | ✅ | Go live |
-| 10.08 | Set up monitoring | ✅ | ✅ | Uptime, basic metrics |
-| 10.09 | Configure backups | ✅ | ✅ | Code and content |
-| 10.10 | Error tracking | ❌ | ✅ | Sentry or similar |
-| 10.11 | Analytics setup | ✅ | ✅ | Privacy-focused |
-| 10.12 | Performance monitoring | ❌ | ✅ | RUM, dashboards |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 10.01 | Choose hosting platform | Essential | Cloudflare Pages recommended |
+| 10.02 | Configure build settings | Essential | Environment variables |
+| 10.03 | Set up CI/CD pipeline | Essential | Auto-deploy on push |
+| 10.04 | Configure custom domain | Essential | DNS settings |
+| 10.05 | SSL certificate setup | Essential | Auto-provisioned |
+| 10.06 | Deploy to staging | Essential | Preview environment |
+| 10.07 | Production deployment | Essential | Go live |
+| 10.08 | Set up monitoring | Essential | Uptime, basic metrics |
+| 10.09 | Configure backups | Essential | Code and content |
+| 10.10 | Error tracking | Recommended | Sentry or similar |
+| 10.11 | Analytics setup | Essential | Privacy-focused |
+| 10.12 | Performance monitoring | Advanced | RUM, dashboards |
 
 ## Security Checklist
 
@@ -99,18 +99,27 @@ pagefind: true
 
 ## Exit Criteria
 
+### Essential (all projects)
+
 - [ ] Site deployed to production
 - [ ] Custom domain configured
 - [ ] SSL certificate active
 - [ ] CI/CD pipeline functional
 - [ ] Preview deployments working
-- [ ] Monitoring active
+- [ ] Uptime monitoring active
 - [ ] Analytics configured
-- [ ] Error tracking enabled (Showcase)
 - [ ] Backups automated
 - [ ] Security headers verified
-- [ ] Performance monitoring live (Showcase)
+
+### Recommended (most projects)
+
+- [ ] Error tracking enabled (Sentry or equivalent)
 - [ ] Documentation updated
+
+### Advanced (portfolio/enterprise)
+
+- [ ] Performance monitoring live (RUM dashboards)
+- [ ] Alerting configured for error rate thresholds
 
 ## Rollback Strategy
 

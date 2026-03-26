@@ -6,6 +6,7 @@ description: >-
 lastUpdated: true
 tableOfContents: true
 pagefind: true
+current_phase: 5
 ---
 
 
@@ -16,29 +17,35 @@ pagefind: true
 This contract specifies what AI assistants can expect to find and where. Read this before making any changes.
 
 ### Entry Point
+
 - Start here: `docs/ai-context/INDEX.md` (this file)
 - This file provides project overview, constraints, and navigation
 
 ### Architectural Constraints
+
 - Location: `docs/adr/`
 - Contract: Every **Accepted** ADR represents a constraint AI must respect
 - Key ADRs: 001 (island policy), 023 (testing strategy), 033 (tier model), 034 (docs strategy), 035 (scope boundary)
 
 ### Performance Limits
+
 - Location: `docs/implementation-guides/reference/budgets-guardrails.md`
 - Contract: All changes must stay within documented budgets
-- Quick reference: JS < 160KB gzipped, CSS < 50KB, Images < 200KB each, Lighthouse 97+
+- Quick reference: JS < 160KB gzipped, CSS < 50KB, Images < 200KB each, Lighthouse 95+
 
 ### Component Conventions
+
 - Location: `docs/patterns/component-patterns.md`
 - Contract: New components must follow documented atomic design hierarchy
 
 ### Scope Boundary (ADR-035)
+
 - **Modify freely**: `src/`, config files (`astro.config.mjs`, `tsconfig.json`, `biome.json`, `tailwind.config.ts`, `package.json`), `public/`, `tokens/`
 - **Read but don't modify**: `docs/` (unless explicitly updating documentation)
 - **Don't create**: Files that belong in Category 3 per ADR-035 (maintenance artifacts, marketing content)
 
 ### Rules of Engagement
+
 1. Read `docs/adr/` before suggesting architectural changes
 2. Do not suggest `client:load` without referencing ADR-001
 3. Use design tokens from `tokens/` — never hardcode color/spacing values
@@ -61,10 +68,10 @@ When working on this project, follow this priority order:
 
 This is a modern Astro static site with:
 
-- **Framework**: Astro \{\{versions.astro}} with zero JavaScript by default
-- **Styling**: Tailwind CSS \{\{versions.tailwindcss}} with design tokens
+- **Framework**: Astro 5.x with zero JavaScript by default
+- **Styling**: Tailwind CSS 3.x with design tokens
 - **Content**: MDX with Astro Content Collections
-- **Performance**: Lighthouse 97+ target
+- **Performance**: Lighthouse 95+ target
 - **Deployment**: Cloudflare Pages
 
 ## Key Directories
@@ -106,7 +113,7 @@ This value is updated automatically by CI on pull request merges.
 - **JavaScript**: \< 160KB total (gzipped)
 - **CSS**: \< 50KB total
 - **Images**: \< 200KB each (after optimization)
-- **Lighthouse Scores**: Performance 97+, Accessibility 98+
+- **Lighthouse Scores**: Performance 95+, Accessibility 98+
 
 > **Note on Budget Strictness**: These budgets are intentionally strict to maintain excellent Core Web Vitals and ensure a high-quality user experience. For instance, the project's INP/FID goals (target \< 100ms) are more demanding than Google's 'good' threshold of 200ms. While this is beneficial for outcomes like a developer portfolio, it's important to communicate to stakeholders that CI may fail even on seemingly small regressions that exceed these tight budgets. This proactive communication helps manage expectations around development velocity and quality gates.
 
@@ -286,6 +293,8 @@ When any of the following occur, update this file immediately:
 
 ### Maintenance Commands
 
+<!-- TODO: These maintenance scripts are planned but not yet implemented.
+     See ADR-006 for the review cadence strategy.
 ```bash
 # After completing a phase
 pnpm run update:phase-status --phase=5 --status=complete
@@ -296,6 +305,7 @@ pnpm run update:ai-context --type=adr --file=docs/adr/006-new-decision.md
 # Validate AI context is current
 pnpm run validate:ai-context
 ```
+-->
 
 ### Review Schedule
 

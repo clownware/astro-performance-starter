@@ -7,7 +7,7 @@ tableOfContents: true
 pagefind: true
 ---
 
-### 2. Automated E2E Tests (Showcase)
+### 2. Automated E2E Tests (Advanced)
 
 ```typescript
 // tests/e2e/navigation.spec.ts
@@ -142,7 +142,7 @@ test.describe('Contact Form', () => {
 });
 ```
 
-### 3. Accessibility Testing (Showcase)
+### 3. Accessibility Testing (Advanced)
 
 ```typescript
 // tests/e2e/accessibility.spec.ts

@@ -189,11 +189,11 @@ pnpm run check:reviews
 
 ## Implementation Plan
 
-### Phase 1: Core Implementation (Complete)
+### Phase 1: Core Implementation (Planned)
 
-- [x] Create review date detection script (`scripts/check-review-dates.mjs`)
-- [x] Add CI integration (`.github/workflows/ci.yml`)
-- [x] Add package.json script (`check:reviews`)
+- [ ] Create review date detection script (`scripts/check-review-dates.mjs`)
+- [ ] Add CI integration (`.github/workflows/ci.yml`)
+- [ ] Add package.json script (`check:reviews`)
 
 ### Phase 2: Documentation Updates (Complete)
 

@@ -10,7 +10,7 @@ pagefind: true
 
 ## Status
 
-Accepted
+Superseded — the `build:mvp` script described in this ADR was never implemented. The MVP/Showcase track distinction was consolidated into a progressive tier model by [ADR-033: Track Consolidation](/adr/033-track-consolidation/). Design system tooling is now uniformly enabled with no skip mechanism needed.
 
 ## Context
 

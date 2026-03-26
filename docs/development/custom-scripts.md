@@ -24,6 +24,8 @@ This project uses a collection of custom scripts to automate common tasks, enfor
 | `build` | Build tokens then build site for production |
 | `build:ci` | Build for CI with verbose logging |
 | `tokens:build` | Compile design tokens to CSS variables and Tailwind config |
+| `preview` | Serve already-built `dist/` locally (run `build` first) |
+| `preview:build` | Build then serve locally (convenience alias) |
 
 ## Code Quality Scripts
 
@@ -34,8 +36,8 @@ This project uses a collection of custom scripts to automate common tasks, enfor
 | `lint` | Lint code with Biome |
 | `lint:md` | Lint Markdown files |
 | `lint:md:fix` | Fix Markdown linting issues |
-| `typecheck` | Run Astro type checking |
-| `typecheck:types` | Run TypeScript type checking only |
+| `check` | Run Astro type checking |
+| `check:types` | Run TypeScript type checking only |
 | `quality` | Run all quality checks (format, lint, markdown, types) |
 
 ## Testing Scripts

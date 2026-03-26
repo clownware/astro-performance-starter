@@ -369,7 +369,7 @@ const analytics = await getAnalytics({
 </script>
 ```
 
-### 2. A/B Testing Framework (Showcase)
+### 2. A/B Testing Framework (Advanced)
 
 ```typescript
 // src/lib/ab-testing.ts

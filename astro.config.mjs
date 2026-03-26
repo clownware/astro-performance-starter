@@ -1,7 +1,6 @@
 import { fileURLToPath } from "node:url";
 import mdx from "@astrojs/mdx";
 import preact from "@astrojs/preact";
-import prefetch from "@astrojs/prefetch";
 import sitemap from "@astrojs/sitemap";
 import tailwind from "@astrojs/tailwind";
 import { defineConfig } from "astro/config";
@@ -31,6 +30,8 @@ export default defineConfig({
   base,
   trailingSlash: "always",
 
+  prefetch: true,
+
   integrations: [
     astroExpressiveCode({
       themes: ["dark-plus", "light-plus"],
@@ -38,7 +39,6 @@ export default defineConfig({
     mdx({
       components: mdxComponents,
     }),
-    prefetch(),
     // Main site Tailwind configuration
     tailwind({
       configFile: "./tailwind.config.ts",

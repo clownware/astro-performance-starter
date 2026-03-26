@@ -15,7 +15,7 @@ Accepted
 
 This Astro starter template prioritizes performance and adheres to a "zero-JS by default" philosophy, as outlined in the Windsurf Project Rules (`docs/ai-context/INDEX.md`). Astro Islands allow for the integration of UI framework components (like Preact, Vue, Svelte) for interactive elements. However, introducing complex client-side JavaScript, especially from rich ecosystems like Preact 10.x, Preact Query, TanStack Router), can significantly impact bundle sizes and page performance if not managed carefully.
 
-The "Showcase" track of this starter template may require more complex, interactive UI components where leveraging the Preact ecosystem could offer development velocity or specific functionalities not easily replicated with vanilla JavaScript or simpler Astro components.
+The Advanced scope of this starter template may require more complex, interactive UI components where leveraging the Preact ecosystem could offer development velocity or specific functionalities not easily replicated with vanilla JavaScript or simpler Astro components.
 
 This ADR addresses the need for clear guidelines on when and how Preact components, particularly those relying on extensive client-side libraries, can be incorporated.
 
@@ -25,13 +25,13 @@ This ADR addresses the need for clear guidelines on when and how Preact componen
 - **Bundle Size**: Client-side libraries directly impact Lighthouse scores and Core Web Vitals
 - **Developer Velocity**: Some complex interactions are more efficiently built with framework ecosystems
 - **Maintainability**: Astro-native solutions are simpler to maintain long-term
-- **Track Differentiation**: Showcase track has different interactivity needs than MVP
+- **Scope Differentiation**: Advanced scope projects have different interactivity needs than Essential scope
 
 ## Decision
 
-1. **Default to Astro Components & Vanilla JS**: For both MVP and Showcase tracks, the primary approach for UI development remains Astro components with minimal, targeted client-side JavaScript for interactivity. This aligns with the "Zero-JS by default; Islands only when needed" rule.
+1. **Default to Astro Components & Vanilla JS**: The primary approach for UI development remains Astro components with minimal, targeted client-side JavaScript for interactivity. This aligns with the "Zero-JS by default; Islands only when needed" rule.
 
-2. **Preact Islands for Complex Interactivity (Primarily Showcase Track)**: The use of Preact components within Astro Islands is permissible, especially for the Showcase track, under the following conditions:
+2. **Preact Islands for Complex Interactivity (Recommended/Advanced Scope)**: The use of Preact components within Astro Islands is permissible, especially for Recommended and Advanced scope projects, under the following conditions:
     - The required functionality involves significant client-side state management, data fetching/caching, or complex UI interactions that are demonstrably more efficiently or robustly implemented with Preact and its ecosystem libraries (e.g., Preact Query for complex data synchronization, TanStack Router for intricate client-side navigation within an island).
     - A lightweight Astro-native or vanilla JavaScript alternative is not reasonably available or would lead to significantly more complex and less maintainable code.
     - The component is clearly an "island" of interactivity and not an attempt to build a full single-page application (SPA) experience within an Astro page.
@@ -46,7 +46,7 @@ This ADR addresses the need for clear guidelines on when and how Preact componen
 
 ### Positive
 
-- Allows the Showcase track to leverage powerful Preact ecosystem libraries for complex UIs where appropriate
+- Allows Recommended/Advanced scope projects to leverage powerful Preact ecosystem libraries for complex UIs where appropriate
 - Provides a structured way to deviate from the zero-JS default when necessary
 - Clear escalation path: Astro-native → vanilla JS → Preact island
 
@@ -58,8 +58,8 @@ This ADR addresses the need for clear guidelines on when and how Preact componen
 
 ### Neutral
 
-- These guidelines apply to all development, but are particularly relevant for the "Showcase" track
-- The "MVP" track should adhere even more strictly to minimal JavaScript and Astro-native components
+- These guidelines apply to all development, but are particularly relevant for the Advanced scope
+- The Essential scope should adhere even more strictly to minimal JavaScript and Astro-native components
 - Strict adherence to performance budgets and mandatory justification (ADR or documentation) for significant Preact dependencies or `client:load` usage mitigate the downsides
 
 ## Validation

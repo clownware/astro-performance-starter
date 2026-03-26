@@ -3,14 +3,14 @@ title: Phase 2 - Design System & Tokens
 lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers design tokens, Tailwind configuration, CSS architecture, and
-  accessibility primitives for both tracks
+  accessibility primitives — Foundation tier, essential for all projects
 tableOfContents: true
 pagefind: true
 ---
 
 ## Overview
 
-- **Track**: Both (MVP & Showcase)
+- **Tier**: Foundation (Phase 2 of 12)
 - **Duration**: 1-2 days
 - **Dependencies**: Phase 0-1 completed
 - **Deliverables**: Design tokens, Tailwind config, CSS architecture, accessibility primitives
@@ -24,20 +24,20 @@ pagefind: true
 
 ## Implementation Steps
 
-| Step | Task | MVP | Showcase | Notes |
-|------|------|-----|----------|-------|
-| 2.01 | Define color palette | ✅ | ✅ | HSL for flexibility |
-| 2.02 | Set up typography scale | ✅ | ✅ | Fluid type optional |
-| 2.03 | Create spacing system | ✅ | ✅ | Consistent scale |
-| 2.04 | Define radius tokens | ✅ | ✅ | Border radius system |
-| 2.05 | Add shadow system | ✅ | ✅ | Elevation tokens |
-| 2.06 | Create motion tokens | ✅ | ✅ | Transitions/animations (ensure surfaced in tailwind.config.ts for utility classes like transition-base, duration-fast, etc.) |
-| 2.07 | Set up dark mode | ✅ | ✅ | CSS variables approach |
-| 2.08 | Add a11y primitives | ✅ | ✅ | Focus, contrast |
-| 2.09 | Configure Tailwind | ✅ | ✅ | Extend with tokens |
-| 2.10 | Create token build | ✅ | ✅ | JSON to CSS/Tailwind |
-| 2.11 | Document usage | ✅ | ✅ | Guidelines for devs |
-| 2.12 | Add WCAG checks | ✅ | ✅ | Script to iterate all semantic text/background pairs for WCAG AA |
+| Step | Task | Scope | Notes |
+|------|------|-------|-------|
+| 2.01 | Define color palette | Essential | HSL for flexibility |
+| 2.02 | Set up typography scale | Essential | Fluid type optional |
+| 2.03 | Create spacing system | Essential | Consistent scale |
+| 2.04 | Define radius tokens | Essential | Border radius system |
+| 2.05 | Add shadow system | Essential | Elevation tokens |
+| 2.06 | Create motion tokens | Essential | Transitions/animations (ensure surfaced in tailwind.config.ts for utility classes like transition-base, duration-fast, etc.) |
+| 2.07 | Set up dark mode | Essential | CSS variables approach |
+| 2.08 | Add a11y primitives | Essential | Focus, contrast |
+| 2.09 | Configure Tailwind | Essential | Extend with tokens |
+| 2.10 | Create token build | Essential | JSON to CSS/Tailwind |
+| 2.11 | Document usage | Essential | Guidelines for devs |
+| 2.12 | Add WCAG checks | Essential | Script to iterate all semantic text/background pairs for WCAG AA |
 
 ### Tailwind CSS Considerations
 

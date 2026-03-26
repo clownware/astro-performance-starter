@@ -56,7 +56,7 @@ Implemented structural improvements to `about.astro` following atomic design pri
 **Benefits**:
 
 - Faster perceived navigation performance
-- Leverages `@astrojs/prefetch` integration (already installed)
+- Leverages Astro's built-in prefetch (`prefetch: true` in astro.config.mjs)
 - Preloads pages on hover/viewport intersection
 - Improves Core Web Vitals (FID/INP)
 

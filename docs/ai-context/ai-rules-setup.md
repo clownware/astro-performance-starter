@@ -62,7 +62,7 @@ The template includes pre-configured rules for:
 
 ### Performance Standards
 
-- Lighthouse 97+ targets
+- Lighthouse 95+ targets
 - JavaScript budget: <160KB
 - CSS budget: <50KB
 - Image optimization requirements

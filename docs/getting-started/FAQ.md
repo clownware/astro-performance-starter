@@ -20,7 +20,7 @@ This project is released under the **MIT License**, which means you can use it f
 Perfect! This template is designed for AI-assisted development. Here's your quickstart:
 
 1. **Point your AI agent at Phase 5** to conduct an analysis and create a development plan
-2. **Use the [Getting Started](https://astro.clownware.org/getting-started/)** guide for immediate deployment
+2. **Use the [Getting Started](https://aps.docs.clownware.org/getting-started/)** guide for immediate deployment
 3. **Progress through other phases** as your AI agent identifies needs
 
 The documentation structure is optimized for AI context, so your agent can efficiently parse implementation guides and provide accurate assistance.

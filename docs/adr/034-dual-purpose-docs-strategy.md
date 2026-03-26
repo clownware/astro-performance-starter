@@ -17,7 +17,7 @@ Accepted
 
 The project includes extensive documentation in the repository (`docs/` directory) that serves two distinct audiences simultaneously:
 
-1. **Human developers** reading the rendered Starlight documentation site at astro.clownware.org
+1. **Human developers** reading the rendered Starlight documentation site at aps.docs.clownware.org
 2. **AI coding assistants** reading files directly from the filesystem during agentic development in IDEs like Windsurf, Cursor, or VS Code with Copilot
 
 This dual-purpose approach is a deliberate, differentiating feature — not accidental complexity. No other Astro starter template provides structured AI-readable context alongside its documentation. However, the current implementation has gaps:
@@ -153,12 +153,12 @@ The AI Context Index (`docs/ai-context/INDEX.md`) will be updated to include a f
 ### Architectural Constraints
 - Location: `docs/adr/`
 - Contract: Every accepted ADR represents a constraint AI must respect
-- Key ADRs: 001 (island policy), 002 (performance budgets), 033 (tier model)
+- Key ADRs: 001 (island policy), 023 (testing strategy), 033 (tier model)
 
 ### Performance Limits
 - Location: `docs/implementation-guides/reference/budgets-guardrails.md`
 - Contract: All changes must stay within documented budgets
-- Quick reference: JS <160KB, CSS <50KB, Images <200KB, Lighthouse 97+
+- Quick reference: JS <160KB, CSS <50KB, Images <200KB, Lighthouse 95+
 
 ### Component Conventions
 - Location: `docs/patterns/component-patterns.md`
@@ -186,7 +186,7 @@ A new or updated `docs/README.md` will include:
 
 This directory contains reference documentation that serves two purposes:
 
-1. **Rendered documentation** at astro.clownware.org via Starlight
+1. **Rendered documentation** at aps.docs.clownware.org via Starlight
 2. **AI assistant context** read directly from the filesystem by IDE-integrated AI tools
 
 ## For Template Users

@@ -9,7 +9,7 @@ pagefind: true
 
 ## Code Examples
 
-### Button Component (MVP & Showcase)
+### Button Component (Essential)
 
 ```astro
 
@@ -1597,9 +1597,9 @@ import ProjectCard from "@/components/molecules/ProjectCard.astro";
 
 ---
 
-### Showcase Components
+### Advanced Components
 
-#### Modal Component (Showcase)
+#### Modal Component (Advanced)
 
 ```astro
 
@@ -1671,7 +1671,7 @@ const sizes = {
 </div>
 ```
 
-#### Tabs Component (Showcase)
+#### Tabs Component (Advanced)
 
 ```astro
 
@@ -1770,7 +1770,7 @@ const { items, defaultTab = items[0]?.id } = Astro.props;
 </style>
 ```
 
-### Astrobook Configuration (Showcase)
+### Astrobook Configuration (Advanced)
 
 ```typescript
 // astrobook.config.mjs
