@@ -117,7 +117,9 @@ To switch, replace `@astrojs/preact` with `@astrojs/react` in `astro.config.mjs`
 
 ## Planned Work
 
-Add a guide to `docs/patterns/` documenting how to configure `preact/compat` aliases and which popular React libraries have been tested. See [Planned Work in docs/README.md](../README.md#planned-work).
+Add a guide to `docs/patterns/` documenting how to configure `preact/compat` aliases and which popular React libraries have been tested.
+
+> **Status**: Not yet implemented. The `docs/patterns/` directory exists but does not yet contain a `preact/compat` guide.
 
 ## References
 

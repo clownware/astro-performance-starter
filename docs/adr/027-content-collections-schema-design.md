@@ -41,14 +41,19 @@ The schema design decisions are non-obvious and affect how users extend the temp
 |-------|------|-----------|
 | `title` | `string` | Required — used in `<title>`, OG tags, listing pages |
 | `description` | `string` | Required — used in meta description and post cards |
-| `publishDate` | `date` | Required — enables chronological sorting |
-| `updatedDate` | `date` (optional) | Shows "last updated" for evergreen content |
-| `author` | `string` (optional) | Defaults to site author from bio collection |
-| `tags` | `string[]` (optional) | Enables tag-based filtering |
-| `heroImage` | `image` (optional) | Astro image type — enables build-time optimisation |
+| `date` | `date` | Required — enables chronological sorting |
+| `updated` | `date` (optional) | Shows "last updated" for evergreen content |
+| `author` | `string` (default: "Your Name") | Defaults to placeholder — replace with your name |
+| `tags` | `string[]` (default: `[]`) | Enables tag-based filtering |
+| `technologies` | `string[]` (default: `[]`) | Tech stack used in post |
+| `cover` | `image` (optional) | Astro image type — enables build-time optimisation |
+| `coverAlt` | `string` | Required for accessibility when cover image is used |
+| `cardImage` | `image` (optional) | Separate thumbnail for listing cards |
+| `featured` | `boolean` (default: false) | Pins post to featured placement |
 | `draft` | `boolean` (default: false) | Excludes from production builds when true |
-
-**Why `publishDate` not `date`?** Unambiguous and consistent with the `updatedDate` sibling field.
+| `readingTime` | `number` (optional) | Can be calculated automatically |
+| `canonicalUrl` | `url` (optional) | For cross-posted content |
+| `relatedPosts` | `string[]` (optional) | Slugs of related posts |
 
 ### `projects` — MDX content
 
@@ -61,54 +66,61 @@ The schema design decisions are non-obvious and affect how users extend the temp
 | Field | Type | Rationale |
 |-------|------|-----------|
 | `title` | `string` | Required |
-| `description` | `string` | Required — used in project cards and meta |
-| `startDate` | `date` | Required — enables chronological ordering |
-| `endDate` | `date` (optional) | Null = ongoing project |
-| `tags` | `string[]` (optional) | Tech stack tags for filtering |
-| `repoUrl` | `url` (optional) | GitHub/GitLab link |
-| `demoUrl` | `url` (optional) | Live demo link |
-| `heroImage` | `image` (optional) | Project cover image |
-| `draft` | `boolean` (default: false) | |
+| `description` | `string` (max 160) | Required — used in project cards and meta description |
+| `date` | `date` | Required — enables chronological ordering |
+| `cover` | `image` | Required — project hero image |
+| `coverAlt` | `string` | Required for accessibility |
+| `tags` | `string[]` | Required — enables tag-based filtering |
+| `technologies` | `string[]` | Required — tech stack used |
+| `cardImage` | `image` (optional) | Separate thumbnail for listing cards |
+| `featured` | `boolean` (default: false) | Pins project to featured placement |
+| `draft` | `boolean` (default: false) | Excludes from production builds when true |
+| `client` | `string` (optional) | Client name for case studies |
+| `duration` | `string` (optional) | Project duration (e.g. "3 months") |
+| `role` | `string` (optional) | Your role on the project |
+| `outcomes` | `{metric, value, description?}[]` (optional) | Measurable results |
+| `externalUrl` | `url` (optional) | Live project or case study link |
+| `sortOrder` | `number` (default: 0) | Manual sort override |
 
-**Why not a `featured` field?** Ordering is handled by `startDate` sort. "Featured" is a display concern handled at the page level, not a content concern.
+### `bio` — MDX content
 
-### `bio` — JSON data
+**Purpose**: Author/about information — name, contact, social links, and biography prose
 
-**Purpose**: Author/about information — name, contact, social links, short and long bios
-
-**Format**: JSON (`.json`) — structured data with no narrative content; MDX would be overkill and harder to query programmatically
+**Format**: MDX (`.mdx`) — supports narrative bio content alongside structured data fields
 
 **Key schema decisions**:
 
 | Field | Type | Rationale |
 |-------|------|-----------|
 | `name` | `string` | Required |
-| `role` | `string` | Job title / professional descriptor |
-| `shortBio` | `string` | 1-2 sentence summary for cards and meta |
-| `avatar` | `image` (optional) | Astro image type for optimisation |
-| `social` | `object` | Typed social link map (twitter, github, linkedin, etc.) |
-| `email` | `string` (optional) | Contact email |
+| `title` | `string` | Job title / professional descriptor |
 | `location` | `string` (optional) | City/region — no more specific for privacy |
+| `avatar` | `image` | Astro image type for optimisation |
+| `social` | `object` (optional) | Typed social link map (github, linkedin, twitter, email) |
+| `skills` | `{category, items[]}[]` (optional) | Skill groups for about page display |
 
 **Why a collection not a config file?** Collections are type-safe and queryable via `getEntry()`. A plain config file would require a separate import pattern and has no Zod validation.
 
-### `experience` — JSON data
+### `experience` — MDX content
 
 **Purpose**: Work history / CV entries
 
-**Format**: JSON — structured, tabular data; no rich content needed
+**Format**: MDX (`.mdx`) — supports rich descriptions alongside structured fields
 
 **Key schema decisions**:
 
 | Field | Type | Rationale |
 |-------|------|-----------|
+| `title` | `string` | Required — job title |
 | `company` | `string` | Required |
-| `role` | `string` | Required |
+| `location` | `string` (optional) | Office location |
 | `startDate` | `date` | Required — enables chronological sort |
 | `endDate` | `date` (optional) | Null = current role |
+| `current` | `boolean` (default: false) | Flag for current position |
 | `description` | `string` | Brief summary of responsibilities |
 | `highlights` | `string[]` (optional) | Bullet-point achievements |
 | `technologies` | `string[]` (optional) | Tech stack used |
+| `order` | `number` (default: 0) | Manual sort override |
 
 ### `navigation` — JSON data
 
@@ -122,9 +134,11 @@ The schema design decisions are non-obvious and affect how users extend the temp
 
 | Field | Type | Rationale |
 |-------|------|-----------|
-| `text` | `string` | Link label |
+| `label` | `string` | Link label |
 | `href` | `string` | URL path or external URL |
-| `external` | `boolean` (default: false) | Adds `target="_blank"` and `rel` attributes |
+| `isExternal` | `boolean` (default: false) | Adds `target="_blank"` and `rel` attributes |
+| `icon` | `string` (optional) | Icon component name for navigation items |
+| `order` | `number` (default: 0) | Controls display order |
 
 ## Format Decision: MDX vs JSON
 
@@ -174,7 +188,10 @@ To add a new collection:
 - [Astro Content Collections Documentation](https://docs.astro.build/en/guides/content-collections/)
 - [Zod Documentation](https://zod.dev/)
 - `src/content/config.ts` — authoritative schema definitions
-- [ADR-017: Experience Content Collection](./017-experience-content-collection.md)
+- [ADR-017: Experience Content Collection](./017-experience-content-collection.md) — ADR-017 introduced the experience collection specifically; this ADR (027) supersedes it by providing the comprehensive schema design for all five collections, including experience
+
+---
+This ADR supersedes [ADR-017](./017-experience-content-collection.md) for the experience collection schema. ADR-017 provided the initial rationale for creating the collection; the schema details here are authoritative.
 
 ---
 **Date**: 2026-02-18\

@@ -10,7 +10,7 @@ pagefind: true
 
 ## Status
 
-Accepted
+Superseded by [ADR-027: Content Collections Schema Design](./027-content-collections-schema-design.md), which provides the comprehensive schema design for all five collections. This ADR remains the rationale for creating the experience collection.
 
 ## Context
 

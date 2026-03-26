@@ -6,8 +6,6 @@ tableOfContents: true
 pagefind: true
 ---
 
-<!-- Note: References to older track/model names retained as historical examples -->
-
 # Website PRD Template
 
 > **How to Use**: Copy this template, rename to `PRD-[project-name].md`, and fill in your specific requirements.
@@ -219,12 +217,15 @@ pagefind: true
 
 **Your Performance Goals**:
 
-## Implementation Track
+## Implementation Scope
 
-### Track Selection
+### Scope Selection
 
-- [ ] **MVP Track** (2-3 weeks): Essential pages, basic styling, core functionality
-- [ ] **Showcase Track** (4-6 weeks): Full design system, advanced features, comprehensive content
+Scope each phase to the level that matches your project goals (per ADR-033 progressive tier model):
+
+- [ ] **Essential** (2-3 weeks): Core pages, basic styling, core functionality
+- [ ] **Recommended** (3-4 weeks): Quality and polish for most projects
+- [ ] **Advanced** (4-6 weeks): Full design system, enterprise features, comprehensive content
 
 ### Timeline
 
@@ -235,7 +236,7 @@ pagefind: true
 - Week 1: [Milestone]
 - Week 2: [Milestone]
 - Week 3: [Milestone]
-- Week 4: [Milestone] (if Showcase track)
+- Week 4: [Milestone] (if Advanced scope)
 
 ### Resources
 
@@ -284,7 +285,7 @@ When making development choices:
 2. Will the primary persona find this valuable?
 3. Does this align with the defined brand voice?
 4. Will this impact performance negatively?
-5. Is this essential for MVP or can it wait?
+5. Is this Essential scope or can it wait for Recommended/Advanced?
 
 ---
 
@@ -302,7 +303,7 @@ When making development choices:
 > 2. **Respect the Performance Targets** - Maintain 95+ Lighthouse scores
 > 3. **Match the Brand Voice** - All copy should reflect the specified tone
 > 4. **Consider the Target Audience** - Features and content should serve their needs
-> 5. **Stay Within Implementation Track** - Don't suggest features outside the chosen scope
+> 5. **Stay Within Implementation Scope** - Don't suggest features outside the chosen Essential/Recommended/Advanced scope
 > 6. **Reference Success Metrics** - Recommend tracking and optimization for stated KPIs
 >
 > When unclear about requirements, refer back to this PRD and ask clarifying questions that help refine these specifications.

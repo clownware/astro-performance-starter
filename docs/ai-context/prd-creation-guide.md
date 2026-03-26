@@ -6,8 +6,6 @@ tableOfContents: true
 pagefind: true
 ---
 
-<!-- Note: References to older track/model names retained as historical examples -->
-
 # Creating a Website PRD for AI Context
 
 > **Why PRDs Matter**: Transform vague project ideas into actionable development guidance for AI assistants
@@ -71,10 +69,11 @@ A great PRD serves three audiences:
 - Third-party integrations (CRM, email, analytics)
 - Performance or security needs
 
-#### Implementation Track Selection (10 minutes)
+#### Implementation Scope Selection (10 minutes)
 
-- **MVP Track**: Launch quickly with basics (2-3 weeks)
-- **Showcase Track**: Full features and polish (4-6 weeks)
+- **Essential scope**: Launch with core pages and functionality (2-3 weeks)
+- **Recommended scope**: Add quality and polish for most projects (3-4 weeks)
+- **Advanced scope**: Full design system, enterprise features, comprehensive content (4-6 weeks)
 
 ## Using the PRD Template
 

@@ -99,4 +99,4 @@ A CLI flag during project initialization (Option 3) is a desirable future enhanc
 ---
 **Date**: 2025-06-10\
 **Participants**: Template maintainers\
-**Outcome**: Accepted
+**Outcome**: Superseded by ADR-033

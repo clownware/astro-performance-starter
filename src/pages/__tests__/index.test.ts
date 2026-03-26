@@ -121,7 +121,7 @@ describe("index.astro HTML structure", () => {
       "Performance metrics section",
       "Key features section",
       "Technology stack section",
-      "Implementation tracks section",
+      "Implementation tiers section",
       "Call to action section",
     ];
 
@@ -134,7 +134,7 @@ describe("index.astro HTML structure", () => {
       "Performance metrics section",
       "Key features section",
       "Technology stack section",
-      "Implementation tracks section",
+      "Implementation tiers section",
       "Call to action section",
     ];
 
