@@ -5,6 +5,9 @@
     },
     {
       "pattern": "^mailto:"
+    },
+    {
+      "pattern": "^/"
     }
   ],
   "timeout": "10s",
