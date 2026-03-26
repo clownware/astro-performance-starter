@@ -239,7 +239,7 @@ graph TD
 ## References
 
 - [ADR-000: Starter Template Architecture](/adr/000-starter-decisions/) — Original dual-track decision
-- [Track Comparison (to be removed)](/tracks/track-comparison/)
+- Track Comparison — removed per this ADR
 - [Implementation Guide Master Index](/implementation-guides/)
 
 ## Notes
