@@ -19,7 +19,7 @@ Token sources live in `tokens/`:
 
 The build process automatically generates:
 
-- `tokens/dist/tailwind-tokens.json` – imported by `tailwind.config.ts`.
+- `tokens/dist/tailwind-tokens.json` – retained for reference; token values are mapped to Tailwind utilities via `@theme inline` in `src/styles/global.css`.
 - `tokens/dist/tokens.css` – CSS variables (light + `.dark`).
 
 Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual compilation (rarely needed): `pnpm run build:tokens`.

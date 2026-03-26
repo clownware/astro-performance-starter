@@ -59,7 +59,7 @@ Fast formatter and linter that replaces ESLint + Prettier.
 - Linting for class names
 - Design token integration
 
-**Why it's essential:** Provides autocomplete for custom design tokens defined in `tailwind.config.ts`.
+**Why it's essential:** Provides autocomplete for custom design tokens defined via `@theme inline` in `src/styles/global.css`.
 
 ---
 
@@ -225,7 +225,7 @@ Consider adding these settings to `.vscode/settings.json` for optimal experience
   },
 
   // Tailwind CSS
-  "tailwindCSS.experimental.configFile": "tailwind.config.ts",
+  "tailwindCSS.experimental.configFile": "src/styles/global.css",
   "tailwindCSS.experimental.classRegex": [
     ["class:\\s*?[\"'`]([^\"'`]*).*?[\"'`]", "[\"'`]([^\"'`]*).*?[\"'`]"]
   ],
@@ -266,7 +266,7 @@ If VS Code doesn't prompt to install extensions:
 
 ### Tailwind Autocomplete Not Working
 
-1. Ensure `tailwind.config.ts` exists
+1. Ensure `src/styles/global.css` contains `@import 'tailwindcss'`
 2. Check that Tailwind CSS extension is enabled
 3. Run "Tailwind CSS: Show Output" to check for errors
 4. Restart TypeScript server: `Cmd/Ctrl + Shift + P` → "TypeScript: Restart TS Server"

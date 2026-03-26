@@ -68,7 +68,7 @@ The *Astro Performance Starter* gives you a production-ready foundation focused 
 |---------|------|----------|
 | Windsurf AI rules | `.windsurfrules` | AI assistant configuration for optimal development patterns. |
 | AI rules template | `airules.example` | Template for customizing AI development context. |
-| Comprehensive docs | `src/content/docs/` | Complete implementation guides, patterns, and ADRs for AI context. |
+| Comprehensive docs | `docs/` | Complete implementation guides, patterns, and ADRs for AI context. |
 
 ## Configuration Files
 
@@ -77,7 +77,7 @@ The *Astro Performance Starter* gives you a production-ready foundation focused 
 | `.editorconfig` | Consistent editor settings across team. |
 | `.commitlintrc.cjs` | Enforces conventional commit messages. |
 | `.lintstagedignore` | Files to skip during pre-commit linting. |
-| `tailwind.config.ts` | Tailwind with design token integration. |
+| `src/styles/global.css` | Tailwind v4 CSS-native config with `@theme inline` design token integration. |
 | `tsconfig.json` | Strict TypeScript configuration. |
 | `.nvmrc` | Node.js version specification. |
 
@@ -95,7 +95,7 @@ pnpm dev       # start local dev server
 1. **Branding:** update logo text in `Header.astro` and swap `public/favicon.svg`.
 2. **Navigation:** edit links in `Header.astro` and wire the mobile menu panel.
 3. **Pages:** start new pages under `src/pages/` or copy the demo landing page.
-4. **SEO defaults:** change `siteTitle` inside `BaseLayout.astro`.
+4. **SEO defaults:** change `siteTitle` and related fields in `src/config.ts`.
 
 ## Excluded by default
 

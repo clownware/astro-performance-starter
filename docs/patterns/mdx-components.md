@@ -71,7 +71,7 @@ const citeId = `quote-cite-${crypto.randomUUID()}`;
   <div class="flex items-start gap-4">
     <!-- Quote icon -->
     <svg
-      class="h-6 w-6 flex-shrink-0 text-primary-400 dark:text-primary-600 mt-1"
+      class="h-6 w-6 shrink-0 text-primary-400 dark:text-primary-600 mt-1"
       fill="currentColor"
       viewBox="0 0 24 24"
       aria-hidden="true"
@@ -79,7 +79,7 @@ const citeId = `quote-cite-${crypto.randomUUID()}`;
       <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
     </svg>
     
-    <div class="flex-grow">
+    <div class="grow">
       <!-- Quote content -->
       <div class="text-lg leading-relaxed italic">
         <slot />
@@ -165,7 +165,7 @@ const {
 } = Astro.props as Props;
 
 const baseClasses =
-  "border-l-[var(--callout-border-width)] p-[var(--callout-padding)] my-[var(--callout-margin)] rounded-r-[var(--callout-border-radius)] shadow-sm";
+  "border-l-(--callout-border-width) p-(--callout-padding) my-(--callout-margin) rounded-r-(--callout-border-radius) shadow-sm";
 const styleAttr = `--callout-padding: ${padding}; --callout-margin: ${margin}; --callout-border-width: ${borderWidth}; --callout-border-radius: ${borderRadius};`;
 
 const typeStyles: Record<
@@ -230,7 +230,7 @@ const mergedClassName = className ?? legacyClass;
   <div class="flex items-start">
     {icon && (
       <svg
-        class="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
+        class="w-5 h-5 mr-3 mt-0.5 shrink-0"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -511,14 +511,9 @@ const _colClasses = [
 
 **Important**: Ensure your Tailwind configuration includes the grid classes used:
 
-```javascript
-// tailwind.config.ts
-module.exports = {
-  safelist: [
-    { pattern: /grid-cols-\d+/ },
-    { pattern: /gap-\d+/ },
-  ],
-};
+```css
+/* In src/styles/global.css — use @source to safelist dynamic classes in v4 */
+@source "../components/mdx/Grid.astro";
 ```
 
 ---
@@ -542,7 +537,7 @@ export default function Link({ children, href, class: className, ...props }: Lin
   const isExternal = href && (href.startsWith("http://") || href.startsWith("https://"));
 
   const defaultClasses =
-    "text-primary-600 dark:text-primary-400 hover:underline focus:outline-none focus:ring-2 focus:ring-primary-500/50 rounded-sm";
+    "text-primary-600 dark:text-primary-400 hover:underline focus:outline-hidden focus:ring-2 focus:ring-primary-500/50 rounded-sm";
 
   if (isExternal) {
     return (

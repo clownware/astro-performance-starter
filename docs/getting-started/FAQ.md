@@ -29,7 +29,7 @@ The documentation structure is optimized for AI context, so your agent can effic
 
 This is a **production-ready foundation** with:
 
-- Complete Astro 5.x setup with zero JavaScript by default
+- Complete Astro 6.x setup with zero JavaScript by default
 - 7 essential UI components (Essential component library)
 - Design token system with Tailwind CSS integration
 - Performance optimization (targets 95+ Lighthouse scores)

@@ -269,7 +269,7 @@ const {
       </div>
       
       <div class={`relative ${imagePosition === 'left' ? 'lg:col-start-1' : ''}`}>
-        <div class="aspect-[4/3] overflow-hidden rounded-lg shadow-xl">
+        <div class="aspect-4/3 overflow-hidden rounded-lg shadow-xl">
           <Image 
             src={image} 
             alt={imageAlt}
@@ -822,7 +822,7 @@ const sortedProjects = projects.sort((a, b) =>
                 loading="lazy"
                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
               />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+              <div class="absolute inset-0 bg-linear-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
             </div>
             
             <div class="p-6">
@@ -1791,7 +1791,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 >
   <article class="project-article">
     <!-- Project Hero Section -->
-    <header class="project-hero relative overflow-hidden bg-gradient-to-br from-background-primary to-background-secondary">
+    <header class="project-hero relative overflow-hidden bg-linear-to-br from-background-primary to-background-secondary">
       <div class="mx-auto max-w-4xl px-4 py-12 lg:py-20 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <!-- Project Info -->
@@ -1891,7 +1891,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
                   widths={[400, 600, 800, 1200]}
                 />
               )}
-              <div class="absolute inset-0 bg-gradient-to-t from-foreground-primary/20 to-transparent pointer-events-none"></div>
+              <div class="absolute inset-0 bg-linear-to-t from-foreground-primary/20 to-transparent pointer-events-none"></div>
             </div>
           </div>
         </div>

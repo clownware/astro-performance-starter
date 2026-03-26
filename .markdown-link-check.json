@@ -8,6 +8,15 @@
     },
     {
       "pattern": "github\\.com/clownware/astro-performance-starter/discussions"
+    },
+    {
+      "pattern": "\\$\\{"
+    },
+    {
+      "pattern": "shields\\.io"
+    },
+    {
+      "pattern": "github\\.com/\\.\\.\\."
     }
   ],
   "aliveStatusCodes": [200, 206, 999],

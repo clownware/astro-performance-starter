@@ -88,7 +88,7 @@ These files ship in the template and users are expected to customize them for th
 | `astro.config.mjs` | Astro configuration |
 | `tsconfig.json` | TypeScript configuration |
 | `biome.json` | Linting and formatting rules |
-| `tailwind.config.ts` | Tailwind configuration with design tokens |
+| `src/styles/global.css` | Tailwind v4 CSS-native config with `@theme inline` design tokens |
 | `package.json` | Dependencies and scripts |
 | `tokens/` | Design token source files |
 | `public/` | Static assets (favicon, robots.txt, manifest) |

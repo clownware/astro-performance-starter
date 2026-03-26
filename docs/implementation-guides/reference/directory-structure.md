@@ -140,7 +140,7 @@ astro-performance-starter/
 ├── budget-overrides.json            # Example overrides
 ├── package.json                     # All deps, no fluff
 ├── pnpm-lock.yaml                   # Lockfile
-├── tailwind.config.ts               # Token integration
+├── src/styles/global.css            # Tailwind v4 config + @theme inline tokens
 ├── tsconfig.json                    # Strict mode
 └── vitest.config.ts                 # Testing config
 ```
@@ -362,10 +362,10 @@ Critical Files:
     - build settings
     - deployment config
     
-  tailwind.config.ts:   # Design system integration
-    - design token imports
-    - custom utilities
-    - component styles
+  src/styles/global.css:  # Tailwind v4 CSS-native config
+    - @theme inline design token mapping
+    - @variant dark (class-based dark mode)
+    - @utility custom utilities (focus-ring, sr-only)
     
   tsconfig.json:        # TypeScript configuration
     - strict mode enabled

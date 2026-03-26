@@ -122,7 +122,7 @@ astro-performance-starter/
 │
 ├── astro.config.mjs                 # Astro configuration
 ├── biome.json                       # Linting & formatting
-├── tailwind.config.ts               # Tailwind with tokens
+├── src/styles/global.css            # Tailwind v4 config with @theme inline tokens
 ├── tsconfig.json                    # TypeScript strict mode
 ├── vitest.config.ts                 # Testing configuration
 ├── package.json                     # Dependencies & scripts
@@ -267,7 +267,7 @@ docs/
 ### Configuration
 
 - `astro.config.mjs` - Astro, MDX, integrations
-- `tailwind.config.ts` - Design tokens integration
+- `src/styles/global.css` - Tailwind v4 CSS-native config with `@theme inline` design tokens
 - `biome.json` - Linting & formatting (20x faster than ESLint)
 - `tsconfig.json` - TypeScript strict mode
 

@@ -135,7 +135,7 @@ Three zones with clear ownership and purpose:
 
 **Audience**: Build systems and developers.
 
-**Files**: `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `tailwind.config.ts`, `.github/`, `.windsurfrules`
+**Files**: `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `.github/`, `.windsurfrules`
 
 **Rule**: AI assistants should read these for project configuration context. Users modify these as needed for their project.
 

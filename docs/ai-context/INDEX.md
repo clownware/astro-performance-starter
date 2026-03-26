@@ -6,7 +6,7 @@ description: >-
 lastUpdated: true
 tableOfContents: true
 pagefind: true
-current_phase: 5
+current_phase: 6
 ---
 
 
@@ -40,7 +40,7 @@ This contract specifies what AI assistants can expect to find and where. Read th
 
 ### Scope Boundary (ADR-035)
 
-- **Modify freely**: `src/`, config files (`astro.config.mjs`, `tsconfig.json`, `biome.json`, `tailwind.config.ts`, `package.json`), `public/`, `tokens/`
+- **Modify freely**: `src/`, config files (`astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`), `public/`, `tokens/`
 - **Read but don't modify**: `docs/` (unless explicitly updating documentation)
 - **Don't create**: Files that belong in Category 3 per ADR-035 (maintenance artifacts, marketing content)
 
@@ -68,8 +68,8 @@ When working on this project, follow this priority order:
 
 This is a modern Astro static site with:
 
-- **Framework**: Astro 5.x with zero JavaScript by default
-- **Styling**: Tailwind CSS 3.x with design tokens
+- **Framework**: Astro 6.x with zero JavaScript by default
+- **Styling**: Tailwind CSS 4.x with CSS-native `@theme` design tokens
 - **Content**: MDX with Astro Content Collections
 - **Performance**: Lighthouse 95+ target
 - **Deployment**: Cloudflare Pages
@@ -104,7 +104,7 @@ To determine the status of any phase:
    - If `phase_number == current_phase`, it is **Active**.
    - If `phase_number > current_phase`, it is **Pending**.
 
-This value is updated automatically by CI on pull request merges.
+Update this value manually when a phase is complete, then run `pnpm run roadmap:update` to sync the roadmap checkboxes in `docs/README.md`.
 
 ## Critical Constraints
 
@@ -162,7 +162,7 @@ This value is updated automatically by CI on pull request merges.
 ### Always Reference These
 
 1. `astro.config.mjs` - Astro configuration
-2. `tailwind.config.ts` - Tailwind with design tokens
+2. `src/styles/global.css` - Tailwind v4 CSS-native config with `@theme inline` design tokens
 3. `tsconfig.json` - TypeScript settings
 4. `biome.json` - Linting/formatting rules
 5. `src/content/config.ts` - Content schemas

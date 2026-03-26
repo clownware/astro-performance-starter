@@ -140,7 +140,7 @@ const responseExpectations: ResponseExpectation[] = [
 >
   <main class="min-h-screen bg-background-primary">
     <!-- Hero Section -->
-    <section class="bg-gradient-to-br from-primary-50 to-secondary-50 dark:from-primary-950 dark:to-secondary-950 py-16">
+    <section class="bg-linear-to-br from-primary-50 to-secondary-50 dark:from-primary-950 dark:to-secondary-950 py-16">
       <div class="container mx-auto px-4">
         <div class="max-w-3xl mx-auto text-center">
           <h1 class="text-4xl md:text-5xl font-bold text-foreground-default mb-6">
@@ -202,7 +202,7 @@ const responseExpectations: ResponseExpectation[] = [
               {contactMethods.map((method) => (
                 <Card class="p-6">
                   <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
+                    <div class="shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
                       <span class="text-2xl" aria-hidden="true" aria-label={method.iconLabel}>{method.icon}</span>
                     </div>
                     <div class="flex-1">

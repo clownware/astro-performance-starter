@@ -15,7 +15,7 @@ const { targetId = "main-content", class: className = "" } = Astro.props as Prop
   role="link"
   aria-controls={targetId}
   data-skiplink
-  class={`sr-only fixed left-4 top-4 z-[999] rounded-md bg-background-primary px-[1rem] py-[0.5rem] text-foreground-primary motion-safe:transition-colors motion-reduce:transition-none focus:not-sr-only focus:outline-none focus:ring-2 focus:ring-primary-500 hover:bg-background-secondary ${className}`}
+  class={`sr-only fixed left-4 top-4 z-999 rounded-md bg-background-primary px-[1rem] py-[0.5rem] text-foreground-primary motion-safe:transition-colors motion-reduce:transition-none focus:not-sr-only focus:outline-hidden focus:ring-2 focus:ring-primary-500 hover:bg-background-secondary ${className}`}
 >
   <slot>Skip to content</slot>
 </a>

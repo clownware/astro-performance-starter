@@ -28,9 +28,9 @@ This Astro performance starter template aims to provide a production-ready found
 
 ### Build Tool and Framework
 
-This starter template is specifically designed as an **Astro Performance Starter** to achieve 95+ Lighthouse scores (targeting 100) with zero JavaScript by default. The framework choice is Astro 5.x, and the decisions below focus on optimal tooling choices within the Astro ecosystem.
+This starter template is specifically designed as an **Astro Performance Starter** to achieve 95+ Lighthouse scores (targeting 100) with zero JavaScript by default. The framework choice is Astro 6.x, and the decisions below focus on optimal tooling choices within the Astro ecosystem.
 
-#### Astro 5.x + Vite Build System
+#### Astro 6.x + Vite Build System
 
 - **Pros**: Zero JS by default, excellent performance, built-in optimizations, perfect for static sites, islands architecture for selective hydration
 - **Rationale**: Astro is specifically chosen for performance-first static sites, making this the ideal foundation for a performance-focused starter template
@@ -64,9 +64,9 @@ This starter template is specifically designed as an **Astro Performance Starter
 
 We will use:
 
-- **Astro 5.x with Vite** for the build system
+- **Astro 6.x with Vite** for the build system
 - **Biome** for linting and formatting
-- **Tailwind CSS 3.x** with design tokens
+- **Tailwind CSS 4.x** with CSS-native `@theme` design tokens
 - **TypeScript** in strict mode
 - **pnpm** as package manager
 
@@ -116,7 +116,7 @@ Success metrics:
 
 - [Astro Documentation](https://docs.astro.build)
 - [Biome Benchmarks](https://biomejs.dev/blog/biome-wins-prettier-challenge)
-- [Tailwind CSS 3.x Documentation](https://tailwindcss.com/docs)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 - [Performance Budget Research](/implementation-guides/00-overview-budgets-guardrails/)
 
 ## Notes

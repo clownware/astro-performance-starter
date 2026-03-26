@@ -63,7 +63,7 @@ git --version   # Should show 2.30.x or higher
 ### Step 1: Create Your Project (2 min)
 
 ```bash
-# Create from template (uses latest Astro CLI v5.x)
+# Create from template (uses latest Astro CLI v6.x)
 pnpm create astro@latest my-site --template clownware/astro-performance-starter
 
 # Navigate into project
@@ -90,7 +90,7 @@ pnpm install && pnpm run dev
 **Expected Output:**
 
 ```text
-🚀 astro v5.x.x started in XXXms
+🚀 astro v6.x.x started in XXXms
 
   ┃ Local    http://localhost:4321/
   ┃ Network  use --host to expose
@@ -178,7 +178,7 @@ my-site/
 ├── public/             # Static assets (favicon, images)
 ├── tokens/             # Design tokens (colors, typography)
 ├── astro.config.mjs    # Astro configuration
-├── tailwind.config.mjs # Tailwind configuration
+├── src/styles/global.css # Tailwind v4 CSS config
 └── package.json        # Dependencies and scripts
 ```
 
@@ -357,7 +357,7 @@ pnpm run check
 
 **What requires restart:**
 
-- Config files (`astro.config.mjs`, `tailwind.config.mjs`)
+- Config files (`astro.config.mjs`, `src/styles/global.css`)
 - New dependencies
 
 ### Design Tokens

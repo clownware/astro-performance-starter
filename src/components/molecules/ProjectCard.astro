@@ -41,7 +41,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
 ---
 
 {href ? (
-  <a href={href} class="block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg">
+  <a href={href} class="block w-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg">
     <article 
       class:list={["w-full", 
         "project-card",
@@ -140,7 +140,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             {demoUrl && (
               <a 
                 href={demoUrl}
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`View live demo of ${title} project`}
@@ -152,7 +152,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             {githubUrl && (
               <a 
                 href={githubUrl}
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`View ${title} source code on GitHub`}
@@ -261,7 +261,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
           {demoUrl && (
             <a 
               href={demoUrl}
-              class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+              class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`View live demo of ${title} project`}
@@ -273,7 +273,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
           {githubUrl && (
             <a 
               href={githubUrl}
-              class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+              class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`View ${title} source code on GitHub`}

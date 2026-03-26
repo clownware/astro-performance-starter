@@ -363,7 +363,7 @@ astro <Badge variant="success">Active</Badge> <Badge variant="warning" size="sm"
 
 **Props:**
 
-- `variant`: 'default' | 'outline' | 'ghost'
+- `variant`: 'default' | 'outline-solid' | 'ghost'
 - `padding`: 'none' | 'sm' | 'md' | 'lg'
 - `hover?`: boolean
 - `as?`: HTML element tag name

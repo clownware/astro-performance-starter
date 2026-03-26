@@ -20,7 +20,7 @@ Tailwind CSS supports two dark mode strategies:
 - `darkMode: "media"` — uses the `prefers-color-scheme` CSS media query; purely CSS, zero JS
 - `darkMode: "class"` — applies dark styles when a `.dark` class is present on `<html>`; requires JS to toggle
 
-The starter uses `darkMode: "class"` in `tailwind.config.ts`. This is a deliberate departure from the zero-JS philosophy and requires justification.
+The starter uses class-based dark mode, configured via `@variant dark (&:where(.dark, .dark *))` in `src/styles/global.css`. This is a deliberate departure from the zero-JS philosophy and requires justification.
 
 ## Decision Drivers
 

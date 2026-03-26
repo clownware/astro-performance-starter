@@ -56,7 +56,7 @@ const sizes = {
 const classes = [
   'inline-flex items-center justify-center font-medium rounded-lg',
   'transition-colors duration-200',
-  'focus:outline-none focus:ring-2 focus:ring-offset-2',
+  'focus:outline-hidden focus:ring-2 focus:ring-offset-2',
   'disabled:opacity-50 disabled:cursor-not-allowed',
   variants[variant],
   sizes[size],
@@ -98,7 +98,7 @@ const linkProps = Tag === 'a' ? {
 
 // src/components/ui/Card.astro
 export interface Props {
-  variant?: 'default' | 'outline' | 'ghost';
+  variant?: 'default' | 'outline-solid' | 'ghost';
   padding?: 'none' | 'sm' | 'md' | 'lg';
   hover?: boolean;
   as?: keyof HTMLElementTagNameMap;
@@ -329,8 +329,8 @@ const {
 const aspects = {
   'square': 'aspect-square',
   '16/9': 'aspect-video',
-  '4/3': 'aspect-[4/3]',
-  '21/9': 'aspect-[21/9]',
+  '4/3': 'aspect-4/3',
+  '21/9': 'aspect-21/9',
 };
 
 const imageClass = [
@@ -476,7 +476,7 @@ const linkText = `${config.name} profile`;
     "border border-transparent",
     "rounded-md",
     "transition-colors duration-200 motion-safe:transition-transform",
-    "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500",
+    "focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500",
     // Semantic, accessible hover states
     "hover:text-foreground-primary hover:bg-background-secondary",
     // Respect reduced motion
@@ -595,7 +595,7 @@ function getArrowClasses(pos: Position) {
   <slot />
   <div 
     class:list={[
-      "absolute z-50 px-3 py-2 text-[0.8125rem] sm:text-xs text-foreground-primary bg-background-secondary rounded-md shadow-lg opacity-0 invisible pointer-events-none transition-opacity duration-200 motion-reduce:transition-none whitespace-normal break-words max-w-[80vw] sm:max-w-xs group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
+      "absolute z-50 px-3 py-2 text-[0.8125rem] sm:text-xs text-foreground-primary bg-background-secondary rounded-md shadow-lg opacity-0 invisible pointer-events-none transition-opacity duration-200 motion-reduce:transition-none whitespace-normal wrap-break-word max-w-[80vw] sm:max-w-xs group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
       positionClasses[position]
     ]}
     data-tooltip-content
@@ -705,7 +705,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       minlength="2"
       maxlength="100"
       autocomplete="name"
-      class="w-full px-3 py-2 border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+      class="w-full px-3 py-2 border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
       placeholder="Your full name"
       aria-describedby="name-error"
     />
@@ -726,7 +726,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       required
       maxlength="254"
       autocomplete="email"
-      class="w-full px-3 py-2 border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+      class="w-full px-3 py-2 border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
       placeholder="your.email@example.com"
       aria-describedby="email-error"
     />
@@ -745,7 +745,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       id="contact-subject"
       name="subject"
       maxlength="200"
-      class="w-full px-3 py-2 border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+      class="w-full px-3 py-2 border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
       placeholder="What's this about?"
       aria-describedby="subject-error"
     />
@@ -766,7 +766,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       minlength="10"
       maxlength="2000"
       rows="5"
-      class="w-full px-3 py-2 border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-vertical transition-colors duration-200"
+      class="w-full px-3 py-2 border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-vertical transition-colors duration-200"
       placeholder="Tell us more about your inquiry..."
       aria-describedby="message-error message-help"
     ></textarea>
@@ -779,7 +779,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   <div class="contact-form__actions">
     <button
       type="submit"
-      class="contact-form__submit w-full flex justify-center items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+      class="contact-form__submit w-full flex justify-center items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
       aria-describedby="submit-help"
     >
       <span class="contact-form__submit-text">Send Message</span>
@@ -1364,7 +1364,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
 ---
 
 {href ? (
-  <a href={href} class="block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg">
+  <a href={href} class="block w-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg">
     <article 
       class:list={["w-full", 
         "project-card",
@@ -1463,7 +1463,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             {demoUrl && (
               <a 
                 href={demoUrl}
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`View live demo of ${title} project`}
@@ -1475,7 +1475,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             {githubUrl && (
               <a 
                 href={githubUrl}
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`View ${title} source code on GitHub`}
@@ -1650,7 +1650,7 @@ const sizes = {
           </h3>
           <button
             type="button"
-            class="text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500"
+            class="text-gray-400 hover:text-gray-500 focus:outline-hidden focus:ring-2 focus:ring-primary-500"
             onclick={`document.getElementById('${id}').classList.add('hidden')`}
           >
             <span class="sr-only">Close</span>

@@ -520,9 +520,9 @@ Astro uses `site` for generating sitemaps, canonical URLs, and `og:image` paths.
 - CMS endpoints
 - Feature flags
 
-**Astro v5.x Type-Safe Environment Variables:**
+**Astro v6.x Type-Safe Environment Variables:**
 
-Astro v5 includes built-in type-safe environment variable handling via `astro:env`.
+Astro v6 includes built-in type-safe environment variable handling via `astro:env`.
 
 **1. Define in `astro.config.mjs`:**
 
@@ -952,7 +952,7 @@ Run a Lighthouse audit to verify performance:
 <details>
 <summary><strong>Staying Updated with Astro Releases</strong></summary>
 
-**Current version:** Astro v5.x (as of 2025)
+**Current version:** Astro v6.x (as of 2026)
 
 **Monitoring updates:**
 

@@ -9,7 +9,7 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
 ---
 
 <header
-  class="sticky top-0 z-50 w-full border-b border-primary bg-background-primary/95 supports-[backdrop-filter]:backdrop-blur supports-[backdrop-filter]:bg-background-primary/60"
+  class="sticky top-0 z-50 w-full border-b border-primary bg-background-primary/95 supports-backdrop-filter:backdrop-blur-sm supports-backdrop-filter:bg-background-primary/60"
 >
   <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href="/" class="flex items-center" aria-label="Homepage">
@@ -43,7 +43,7 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
         for="mobile-menu-toggle"
         role="button"
         aria-label="Toggle menu"
-        class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md border border-primary bg-background-primary/80 transition motion-safe:transition-colors motion-reduce:transition-none hover:bg-background-secondary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring md:hidden"
+        class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md border border-primary bg-background-primary/80 transition motion-safe:transition-colors motion-reduce:transition-none hover:bg-background-secondary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring md:hidden"
       >
         <span class="sr-only">Toggle menu</span>
         <!-- Hamburger icon -->

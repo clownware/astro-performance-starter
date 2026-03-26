@@ -18,7 +18,7 @@
 Most Astro templates sacrifice performance for features. This one delivers **95+ Lighthouse scores** without the bloat.
 
 - **Performance-first** — < 90KB JS, < 15KB CSS (gzipped) out of the box
-- **Modern stack** — Astro 5.x + TypeScript 5.x + Tailwind 3.x + Biome 2.x
+- **Modern stack** — Astro 6.x + TypeScript 5.x + Tailwind 4.x + Biome 2.x
 - **Accessible** — WCAG AA compliance via semantic HTML, ARIA labels, and validated contrast ratios
 - **Solo dev optimized** — Build portfolios and client sites fast
 - **AI-ready** — Rich context for AI coding assistants in `docs/ai-context/`
@@ -65,9 +65,9 @@ After cloning, update these files to make the template yours:
 
 ## ✨ What's Inside
 
-- **Astro** 5.x with zero-JS by default (islands when needed)
+- **Astro** 6.x with zero-JS by default (islands when needed)
 - **TypeScript** 5.x in strict mode for type safety
-- **Tailwind CSS** 3.x with design token system
+- **Tailwind CSS** 4.x with CSS-native `@theme` design token system
 - **Biome** 2.x for formatting and linting (20x faster than ESLint+Prettier)
 - **Node.js** 24.x (locked via `.nvmrc`)
 - **pnpm** 10.x (enforced via `engine-strict`)

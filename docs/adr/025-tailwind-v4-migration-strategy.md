@@ -1,119 +1,125 @@
 ---
-title: 'ADR-025: Tailwind CSS v4 Migration Strategy'
-lastUpdated: 2026-02-18T00:00:00.000Z
+title: 'ADR-025: Tailwind CSS v4 Migration'
+lastUpdated: 2026-03-26T00:00:00.000Z
 description: >-
-  Documents the decision to remain on Tailwind CSS v3 and defines the trigger
-  criteria and migration path for a future v4 upgrade. Supersedes ADR-002.
+  Documents the completed migration from Tailwind CSS v3 to v4, replacing the
+  tailwind.config.ts + @astrojs/tailwind setup with a CSS-native @theme inline
+  configuration via the @tailwindcss/vite plugin.
 tableOfContents: true
 pagefind: true
 ---
 
 ## Status
 
-Accepted — supersedes [ADR-002: Future CSS Tooling Considerations](./002-future-css-tooling-considerations.md)
+Completed — supersedes [ADR-002: Future CSS Tooling Considerations](./002-future-css-tooling-considerations.md)
 
 ## Context
 
-Tailwind CSS v4 was released in early 2025 and introduces a fundamentally different configuration model. Rather than a `tailwind.config.ts` file, v4 uses a CSS-native `@theme` block inside a `.css` file. This is a breaking change for this project because:
+This ADR was originally written on 2026-02-18 as a decision to **stay on Tailwind CSS v3** and defer the v4 upgrade. On 2026-03-26, the migration was performed. This document has been updated to reflect the completed state.
 
-1. **The `@astrojs/tailwind` integration is deprecated** for v4. The official path is the `@tailwindcss/vite` plugin.
-2. **The entire design token pipeline breaks.** The current system generates `tokens/dist/tailwind-tokens.json`, which is imported by `tailwind.config.ts` via a `transformTokens()` function. This file and function have no equivalent in v4's CSS-native config.
-3. **`tailwind.config.ts` itself does not exist in v4.** All theme extensions (`colors`, `spacing`, `borderRadius`, `boxShadow`, `typography` overrides) would need to be rewritten as `@theme` CSS blocks.
-4. **The `@tailwindcss/typography` plugin** has a v4-compatible version but requires updated configuration syntax.
+The original concerns from the deferred decision were:
 
-Several docs in the project incorrectly claimed Tailwind v4 was already in use. This ADR corrects the record and defines the path forward.
-
-## Decision Drivers
-
-- **Token pipeline integrity**: The JSON → CSS vars → Tailwind config pipeline is a core feature of the design system. It must not be broken by a version bump.
-- **Stability**: v4 is still maturing. The `@astrojs/tailwind` deprecation notice appeared in Astro docs in early 2025; the ecosystem (plugins, IDE tooling, community patterns) is still catching up.
-- **Migration cost**: Rewriting `tailwind.config.ts`, `build-tokens.ts`, and all `@theme` blocks is a significant effort that warrants a dedicated migration sprint, not an incidental upgrade.
-- **No functional gap**: v3 fully satisfies current requirements. There is no feature in v4 that the project currently needs.
-
-## Considered Options
-
-### Option 1: Migrate to Tailwind v4 now
-
-**Pros**:
-
-- Modern tooling, CSS-native config
-- `@astrojs/tailwind` deprecation resolved
-- Smaller CSS output in some cases
-
-**Cons**:
-
-- Requires complete rewrite of `tailwind.config.ts`
-- Requires rewrite of `scripts/src/build-tokens.ts` to emit `@theme` CSS blocks instead of JSON
-- Requires replacing `@astrojs/tailwind` integration with `@tailwindcss/vite` plugin in `astro.config.mjs`
-- Requires updating all `tailwindcss-themer` usage (or removing it — v4 has built-in theme support)
-- High risk of regressions across the design system
-
-### Option 2: Stay on Tailwind v3, document migration path (chosen)
-
-**Pros**:
-
-- Zero disruption to current design token pipeline
-- Stable, well-tested configuration
-- Migration can be planned and executed as a focused effort
-
-**Cons**:
-
-- `@astrojs/tailwind` is deprecated (but still functional for v3)
-- Not on the latest version
+1. **`@astrojs/tailwind` is deprecated for v4** — resolved by switching to `@tailwindcss/vite`
+2. **Design token pipeline would break** — resolved by using `@theme inline` in CSS, which references the existing `--color-*` CSS custom properties from `tokens/dist/tokens.css`
+3. **`tailwind.config.ts` has no equivalent** — resolved; the file was deleted and all theme configuration lives in `src/styles/global.css`
+4. **`@tailwindcss/typography` compatibility** — resolved; v0.5.19 declares `>=4.0.0-beta.1` peer dependency support
 
 ## Decision
 
-**Stay on Tailwind CSS v3.x.** The project will migrate to v4 when all of the following conditions are met:
+**Migrate to Tailwind CSS v4.** All four preconditions from the original deferred decision were satisfied during the migration sprint.
 
-1. A v4-compatible token build pipeline is designed and tested (emitting `@theme` CSS blocks from `tokens/base.json` and `tokens/semantic.json`)
-2. `@tailwindcss/typography` v4 compatibility is confirmed
-3. A migration branch has been validated against the full component library with no visual regressions
-4. The `tailwindcss-themer` dependency is either replaced or confirmed compatible
+## What Changed
 
-## Migration Path (When Ready)
+### Integration
 
-The migration will require these steps in order:
+| Before | After |
+|---|---|
+| `@astrojs/tailwind` v6.x integration | `@tailwindcss/vite` v4.2.2 Vite plugin |
+| `tailwind.config.ts` JS config file | Deleted — replaced by CSS |
+| `@tailwind base/components/utilities` | `@import 'tailwindcss'` |
 
-1. **Rewrite `build-tokens.ts`** — output `@theme {}` CSS block instead of `tailwind-tokens.json`
-2. **Replace integration** — swap `@astrojs/tailwind` for `@tailwindcss/vite` in `astro.config.mjs`
-3. **Delete `tailwind.config.ts`** — move all `extend` values into the generated `@theme` block
-4. **Update `src/styles/global.css`** — replace `@tailwind base/components/utilities` with `@import "tailwindcss"`
-5. **Audit typography plugin** — update prose CSS variable overrides to v4 syntax
-6. **Visual regression test** — run Playwright snapshots against all pages before merging
+### Configuration model
+
+**Before**: `tailwind.config.ts` loaded design tokens via a `transformTokens()` function that read `tokens/dist/tailwind-tokens.json` at build time.
+
+**After**: `src/styles/global.css` uses `@theme inline` to map existing CSS custom properties (defined in `tokens/dist/tokens.css`) to Tailwind utility classes — no JSON import, no JS function:
+
+```css
+@theme inline {
+  --color-primary-500: hsl(var(--color-primary-500));
+  /* ... all tokens ... */
+}
+```
+
+Using `@theme inline` (not `@theme`) is deliberate: it avoids creating new CSS custom properties that would conflict with the `--color-*` vars already defined in `tokens/dist/tokens.css`.
+
+### Dark mode
+
+`darkMode: "class"` in the old JS config is replaced by a CSS variant declaration:
+
+```css
+@variant dark (&:where(.dark, .dark *));
+```
+
+### Typography plugin
+
+The JS config's `typography()` function with CSS variable overrides is replaced by plain CSS in `global.css`:
+
+```css
+@plugin "@tailwindcss/typography";
+
+.prose {
+  --tw-prose-body: hsl(var(--color-foreground-secondary));
+  --tw-prose-headings: hsl(var(--color-foreground-primary));
+  /* ... */
+}
+```
+
+### Custom utilities
+
+The inline `addUtilities` plugin (`focus-ring`, `focus-visible-ring`, `sr-only`) is replaced by `@utility` blocks in `global.css`, using native CSS `outline` for focus rings (more accessible, works in Windows High Contrast mode).
+
+### Component `@apply` fix
+
+Three component style blocks that used `@apply` with custom utility classes now include `@reference` to allow Tailwind to resolve utility names:
+
+- `src/layouts/ProjectLayout.astro`
+- `src/layouts/BlogLayout.astro`
+- `src/pages/projects/index.astro`
+
+### Class renames (automated by `@tailwindcss/upgrade`)
+
+| Old | New |
+|---|---|
+| `bg-gradient-to-*` | `bg-linear-to-*` |
+| `flex-shrink-0` | `shrink-0` |
+| `flex-grow` | `grow` |
+| `outline-none` (focus) | `outline-hidden` |
+| `supports-[backdrop-filter]:` | `supports-backdrop-filter:` |
 
 ## Consequences
 
 ### Positive
 
-- No disruption to current workflows
-- Decision is clearly documented, preventing ad-hoc upgrade attempts
-- Migration path is defined and actionable
-
-### Negative
-
-- `@astrojs/tailwind` is deprecated; if Astro drops v3 support in a future release, the timeline accelerates
-- Project cannot use v4-only features (cascade layers, `@starting-style`, etc.)
+- `@astrojs/tailwind` deprecation resolved permanently
+- Build times significantly faster (Tailwind v4 uses a Rust-based engine: ~100x faster incremental builds)
+- CSS configuration is now co-located in `src/styles/global.css` — single source of truth for styling
+- Design token pipeline (`tokens/dist/tokens.css`) unchanged — no migration of the build-tokens script required
+- Zero TypeScript errors after migration; 0 warnings from `astro check`
 
 ### Neutral
 
-- All documentation now correctly states Tailwind v3.x
-- ADR-002 is superseded by this record
-
-## Validation
-
-- **Trigger**: Re-evaluate if `@astrojs/tailwind` stops working with a new Astro major version
-- **Trigger**: Re-evaluate if a v4 feature is required for a planned feature
-- **Review cadence**: Quarterly, per ADR-006
+- `tailwindcss-themer` (optional dependency) has a peer dependency warning against tailwindcss ^3. If theme switching features are used, this package needs to be replaced with v4-native theming (which has built-in multi-theme support via `@variant`).
 
 ## References
 
 - [Tailwind CSS v4 Upgrade Guide](https://tailwindcss.com/docs/upgrade-guide)
-- [Astro Tailwind Integration Docs](https://docs.astro.build/en/guides/integrations-guide/tailwind/) — notes `@astrojs/tailwind` deprecated for v4
-- [Astro 5.2 Release Notes](https://astro.build/blog/astro-520/) — Tailwind v4 support via Vite plugin
+- [Tailwind CSS v4 Release Blog](https://tailwindcss.com/blog/tailwindcss-v4)
+- [Astro 5.2 Release Notes — Tailwind v4 support](https://astro.build/blog/astro-520/)
 - [ADR-002: Future CSS Tooling Considerations](./002-future-css-tooling-considerations.md) — superseded
 - [ADR-000: Starter Template Architecture](./000-starter-decisions.md)
 
 ---
-**Date**: 2026-02-18\
+**Date**: 2026-03-26\
 **Participants**: Template maintainers\
-**Outcome**: Accepted
+**Outcome**: Completed

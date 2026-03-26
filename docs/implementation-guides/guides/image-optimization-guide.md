@@ -362,7 +362,7 @@ pnpm run optimize:images
   alt=""
   width={800}
   height={600}
-  class="aspect-[4/3]"
+  class="aspect-4/3"
 />
 ```
 

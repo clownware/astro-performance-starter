@@ -91,7 +91,7 @@ Work through phases sequentially and stop when you've reached your goals. See [I
 - \[x] Phase 2: Design System
 - \[x] Phase 3: Tooling
 - \[x] Phase 4: Skeleton
-- \[ ] Phase 5: Components
+- \[x] Phase 5: Components
 - \[ ] Phase 6: Sections
 - \[ ] Phase 7: Content
 - \[ ] Phase 8: QA
@@ -113,10 +113,10 @@ Work through phases sequentially and stop when you've reached your goals. See [I
 
 ### Design Patterns
 
-- **[Islands Architecture](/implementation-guides/patterns/islands-architecture/)** - When to add JavaScript
-- **[Component Patterns](/implementation-guides/patterns/component-patterns/)** - Reusable UI patterns
-- **[Performance Patterns](/implementation-guides/patterns/performance-patterns/)** - Optimization techniques
-- **[Content Collections](/implementation-guides/patterns/content-collections/)** - Advanced content patterns
+- **[Islands Architecture](/patterns/islands-architecture/)** - When to add JavaScript
+- **[Component Patterns](/patterns/component-patterns/)** - Reusable UI patterns
+- **[Performance Patterns](/patterns/performance-patterns/)** - Optimization techniques
+- **[Content Collections](/patterns/content-collections/)** - Advanced content patterns
 
 ### Architecture Decisions
 

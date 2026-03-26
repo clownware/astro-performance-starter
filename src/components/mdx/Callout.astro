@@ -27,7 +27,7 @@ const {
 
 // Base styling for all callouts (CSS vars for composability)
 const baseClasses =
-  "border-l-[var(--callout-border-width)] p-[var(--callout-padding)] my-[var(--callout-margin)] rounded-r-[var(--callout-border-radius)] shadow-sm motion-reduce:transition-none";
+  "border-l-(--callout-border-width) p-(--callout-padding) my-(--callout-margin) rounded-r-(--callout-border-radius) shadow-sm motion-reduce:transition-none";
 const styleAttr = `--callout-padding: ${padding}; --callout-margin: ${margin}; --callout-border-width: ${borderWidth}; --callout-border-radius: ${borderRadius};`;
 // Type-specific styling options with dark mode support
 const typeStyles: Record<
@@ -95,7 +95,7 @@ const mergedClassName = className ?? legacyClass;
   <div class="flex items-start">
     {icon && (
       <svg
-        class="w-5 h-5 mr-3 mt-0.5 flex-shrink-0"
+        class="w-5 h-5 mr-3 mt-0.5 shrink-0"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

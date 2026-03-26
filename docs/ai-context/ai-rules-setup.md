@@ -69,7 +69,7 @@ The template includes pre-configured rules for:
 
 ### Technical Patterns
 
-- Astro 5.x best practices
+- Astro 6.x best practices
 - Islands architecture guidance
 - TypeScript strict mode
 - Component hierarchy (atomic design)

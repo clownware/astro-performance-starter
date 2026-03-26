@@ -718,7 +718,7 @@ test.describe('Responsive Design', () => {
 1. Check class order: `base sm: md: lg:` (mobile-first)
 2. Verify no conflicting styles
 3. Inspect in DevTools to see computed styles
-4. Ensure Tailwind is processing the file (check `content` in `tailwind.config.ts`)
+4. Ensure Tailwind is processing the file (v4 auto-detects content via Vite dependency graph)
 
 ### Issue: Layout Shift on Resize
 

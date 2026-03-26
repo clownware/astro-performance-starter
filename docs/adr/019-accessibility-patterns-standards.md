@@ -250,11 +250,11 @@ Is the badge announcing a live status change?
 
 ```astro
 <!-- ✅ Tailwind focus utilities -->
-<button class="focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
+<button class="focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2">
   Click me
 </button>
 
-<!-- ✅ Custom focus-ring utility (from tailwind.config.ts) -->
+<!-- ✅ Custom focus-ring utility (from @utility in src/styles/global.css) -->
 <a href="/about" class="focus-ring">
   About
 </a>
@@ -263,7 +263,7 @@ Is the badge announcing a live status change?
 **Requirements**:
 
 - Focus indicators must have 3:1 contrast ratio with background
-- Never use `outline: none` without replacement
+- Never use `outline-solid: none` without replacement
 - Use `focus-visible:` for keyboard-only indicators
 - Test with keyboard navigation
 

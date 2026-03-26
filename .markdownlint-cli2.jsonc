@@ -15,7 +15,8 @@
     "MD040": false, // Language specification for code blocks - not always needed
     "MD051": false, // Link fragments - Astro handles these differently
     "MD053": false, // Link reference definitions - not always at end in MDX
-    
+    "MD060": false, // Table column style - compact separators (|---|---|) are standard GFM
+
     // Customize rules for better DX
     "MD003": { "style": "atx" }, // Use # style headers
     "MD004": { "style": "dash" }, // Use - for unordered lists

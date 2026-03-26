@@ -41,7 +41,7 @@ describe("index.astro page structure", () => {
       },
       {
         name: "TypeScript",
-        version: "v5.8.3",
+        version: "v5.9.3",
         description: "Type-safe JavaScript with strict mode",
         benefit: "Catch errors early, better DX",
         category: "Language",
@@ -53,7 +53,7 @@ describe("index.astro page structure", () => {
     expect(sharpTech?.version).not.toBe("v0.x");
 
     const typescriptTech = techStack.find((tech) => tech.name === "TypeScript");
-    expect(typescriptTech?.version).toBe("v5.8.3");
+    expect(typescriptTech?.version).toBe("v5.9.3");
   });
 
   it("should have correct Lighthouse metrics structure", () => {

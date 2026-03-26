@@ -161,28 +161,28 @@ const metrics: LighthouseMetric[] = [
 const techStack: TechStackItem[] = [
   {
     name: "Astro",
-    version: "v5.x",
+    version: "v6.x",
     description: "Static site generator with islands",
     benefit: "Zero-JS by default, blazing fast performance",
     category: "Framework",
   },
   {
     name: "TypeScript",
-    version: "v5.9.2",
+    version: "v5.9.3",
     description: "Type-safe JavaScript with strict mode",
     benefit: "Catch errors early, better DX",
     category: "Language",
   },
   {
     name: "Tailwind CSS",
-    version: "v3.4.4",
+    version: "v4.2.2",
     description: "Utility-first CSS framework",
     benefit: "Rapid styling, consistent design system",
     category: "Styling",
   },
   {
     name: "Biome",
-    version: "v2.2.4",
+    version: "v2.4.9",
     description: "All-in-one toolchain for web projects",
     benefit: "20x faster than ESLint + Prettier combined",
     category: "Tooling",
@@ -203,7 +203,7 @@ const techStack: TechStackItem[] = [
   },
   {
     name: "Vitest",
-    version: "v2.x",
+    version: "v4.x",
     description: "Fast unit testing powered by Vite",
     benefit: "Lightning-fast test execution and hot reload",
     category: "Unit Testing",
@@ -242,10 +242,10 @@ const stackRationale: StackRationale = {
   <Section ariaLabel="Hero section" class="relative overflow-hidden flex flex-col items-center justify-center text-center min-h-[calc(100vh-4rem)]">
     <!-- Background gradient -->
     <div
-      class="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
+      class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
       aria-hidden="true"
     >
-      <div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary-500 to-primary-700 opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div>
+      <div class="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-primary-500 to-primary-700 opacity-20 sm:left-[calc(50%-30rem)] sm:w-288.75"></div>
     </div>
     
     <Container>
@@ -257,7 +257,7 @@ const stackRationale: StackRationale = {
         <h1 class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-foreground-primary">
           Astro Performance Starter.
           <br>
-          <span class="bg-gradient-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+          <span class="bg-linear-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
            Just set your agent loose on the docs.
           </span>
         </h1>

@@ -7,7 +7,7 @@ tableOfContents: true
 pagefind: true
 ---
 
-### 2. Automated E2E Tests (Advanced)
+## 2. Automated E2E Tests (Advanced)
 
 ```typescript
 // tests/e2e/navigation.spec.ts

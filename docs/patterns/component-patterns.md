@@ -42,7 +42,7 @@ pagefind: true
 
 // Always define props interface
 export interface Props {
-  variant?: 'default' | 'outline';
+  variant?: 'default' | 'outline-solid';
   size?: 'sm' | 'md' | 'lg';
 }
 

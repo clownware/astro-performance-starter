@@ -410,7 +410,7 @@ const contactMethods: ContactMethod[] = [
 <!-- ❌ Repetitive -->
 <Card class="p-6">
   <div class="flex items-start space-x-4">
-    <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
+    <div class="shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
       <span class="text-2xl" aria-hidden="true">📧</span>
     </div>
     <div class="flex-1">
@@ -497,7 +497,7 @@ const contactMethods: ContactMethod[] = [
   {contactMethods.map((method) => (
     <Card class="p-6">
       <div class="flex items-start space-x-4">
-        <div class="flex-shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
+        <div class="shrink-0 w-12 h-12 bg-surface-subtle rounded-lg flex items-center justify-center">
           <span class="text-2xl" aria-hidden="true" aria-label={method.iconLabel}>{method.icon}</span>
         </div>
         <div class="flex-1">

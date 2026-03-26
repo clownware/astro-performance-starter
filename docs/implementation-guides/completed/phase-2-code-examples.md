@@ -162,7 +162,7 @@ pagefind: true
       }
     },
     "focus": {
-      "ring": {
+      "ring-3": {
         "value": "{color.primary.500}",
         "dark": "{color.primary.400}"
       }
@@ -255,10 +255,10 @@ export default {
     function({ addUtilities }) {
       addUtilities({
         '.focus-ring': {
-          '@apply focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2': {},
+          '@apply focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2': {},
         },
         '.focus-visible-ring': {
-          '@apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2': {},
+          '@apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2': {},
         },
         '.sr-only': {
           position: 'absolute',

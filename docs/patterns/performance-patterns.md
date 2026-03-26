@@ -101,10 +101,10 @@ import { Image } from 'astro:assets';
 export interface Props {
   src: ImageMetadata;
   alt: string;
-  placeholder?: 'blur' | 'dominant-color';
+  placeholder?: 'blur-sm' | 'dominant-color';
 }
 
-const { src, alt, placeholder = 'blur' } = Astro.props;
+const { src, alt, placeholder = 'blur-sm' } = Astro.props;
 
 // Generate a low-quality placeholder
 const placeholderSrc = await getImage({

@@ -23,7 +23,7 @@ Astro Performance Starter Template - Production-ready GitHub template with compr
 - **Framework**: Astro v5.x with Vite 6.x bundler
 - **Package Manager**: pnpm 10.x (required - locked in package.json)
 - **Runtime**: Node.js 24.x LTS (specified in .nvmrc)
-- **Styling**: Tailwind CSS v3.x with design tokens system
+- **Styling**: Tailwind CSS v4.x with CSS-native `@theme inline` design tokens
 - **Code Quality**: Biome 2.x (replaces ESLint + Prettier for 20x speed)
 - **Content**: MDX with Astro Content Collections API
 - **Images**: Astro Image component with Sharp processing (AVIF + WebP)
@@ -122,7 +122,7 @@ Core dependencies can be found in package.json
 
 ## Scope Boundary (ADR-035)
 
-- **Modify freely (Category 1)**: `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `tailwind.config.ts`, `package.json`, `tokens/`, `public/`, `.github/workflows/`, `.windsurfrules`
+- **Modify freely (Category 1)**: `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `tokens/`, `public/`, `.github/workflows/`, `.windsurfrules`
 - **Read but don't modify (Category 2)**: `docs/` — unless explicitly asked to update documentation
 - **Don't create (Category 3)**: Maintenance artifacts, marketing content, deployment-specific workflows — suggest adding to docs site instead
 

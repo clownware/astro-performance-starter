@@ -22,7 +22,7 @@ Framework:
     - Server Islands (experimental)
 
 Build:
-  bundler: Vite 6.x
+  bundler: Vite 7.x
   runtime: Node.js 24.x LTS
   package_manager: pnpm 10.x (required)
   typescript: ^5.8.3
@@ -32,19 +32,20 @@ Build:
 
 ```yaml
 CSS:
-  framework: Tailwind CSS v3.x
-  approach: Utility-first with design tokens
+  framework: Tailwind CSS v4.x
+  approach: Utility-first with CSS-native design tokens
   features:
     - CSS Variables for theming
     - Container queries support
-    - Built-in dark mode
-    - JIT compilation
+    - Built-in dark mode (class-based via @variant dark)
+    - Rust-based engine (100x faster incremental builds)
 
 Design_Tokens:
-  format: JSON → CSS Variables + Tailwind config
-  tools: 
+  format: JSON → CSS Variables → @theme inline (CSS)
+  tools:
     - style-dictionary (token generation)
-    - tailwindcss-themer (theme switching)
+    - tokens/dist/tokens.css (CSS custom properties)
+    - src/styles/global.css @theme inline block (Tailwind mapping)
 ```
 
 ### Content & Data
@@ -191,14 +192,14 @@ Runtime:
 ```json
 {
   "dependencies": {
-    "@astrojs/mdx": "^4.0.1",
-    "@astrojs/preact": "^3.5.3",
-    "@astrojs/sitemap": "^3.2.1",
-    "@astrojs/tailwind": "^6.0.0",
-    "@fontsource-variable/inter": "^5.1.0",
-    "astro": "^5.0.0",
-    "preact": "^10.24.3",
-    "tailwindcss": "3.4.17"
+    "@astrojs/mdx": "^5.0.0",
+    "@astrojs/preact": "^5.0.0",
+    "@astrojs/sitemap": "^3.7.0",
+    "@tailwindcss/vite": "^4.2.2",
+    "@fontsource-variable/inter": "^5.2.0",
+    "astro": "^6.0.0",
+    "preact": "^10.29.0",
+    "tailwindcss": "4.2.2"
   }
 }
 ```
@@ -238,7 +239,7 @@ Runtime:
     "lint-staged": "^15.2.0",
     "sharp": "^0.33.0",
     "style-dictionary": "^4.0.1",
-    "tailwindcss-themer": "^3.0.1",
+    "tailwindcss-themer": "^4.1.1",
     "tsx": "^4.7.0",
     "typescript": "^5.6.0",
     "vitest": "^2.1.0"
@@ -253,8 +254,8 @@ Runtime:
 
 ### Why These Choices?
 
-1. **Astro 5.0**: Best-in-class static site generator with minimal JavaScript
-2. **Tailwind v3**: Stable utility CSS with design token integration (v4 migration tracked separately)
+1. **Astro 6.0**: Best-in-class static site generator with minimal JavaScript
+2. **Tailwind v4**: CSS-native config with `@theme inline` design token integration, 100x faster incremental builds
 3. **Biome**: Massive speed improvement over ESLint/Prettier
 4. **Preact**: Smaller than React for islands that need state
 5. **Cloudflare Pages**: Fast global CDN with great free tier
