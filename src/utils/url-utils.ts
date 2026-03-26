@@ -46,22 +46,17 @@ interface ProjectEntryData {
 }
 
 interface ProjectEntry {
-  id: string; // e.g., 'example-project.mdx'
-  slug: string; // The actual slug used in the URL, derived from id or frontmatter
+  id: string; // URL-friendly id (acts as slug in Astro 6+)
   data: ProjectEntryData;
 }
 
 /**
  * Gets the canonical URL for a project.
- * Prefers a pre-defined slug in frontmatter, otherwise generates from title.
  * @param project A project content entry.
  * @returns The canonical URL string for the project.
  */
 export function getProjectUrl(project: ProjectEntry): string {
-  // In Astro, collection entry slugs are usually derived from file names or a 'slug' field in frontmatter.
-  // If you have a `slug` field in your schema that's manually set, use `project.data.slug`.
-  // If slugs are generated from file names, `project.slug` (provided by Astro) is the one to use.
-  return urlPatterns.project(project.slug);
+  return urlPatterns.project(project.id);
 }
 
 interface BlogPostEntryData {
@@ -71,8 +66,7 @@ interface BlogPostEntryData {
 }
 
 interface BlogPostEntry {
-  id: string;
-  slug: string;
+  id: string; // URL-friendly id (acts as slug in Astro 6+)
   data: BlogPostEntryData;
 }
 
@@ -82,7 +76,7 @@ interface BlogPostEntry {
  * @returns The canonical URL string for the blog post.
  */
 export function getBlogPostUrl(post: BlogPostEntry): string {
-  return urlPatterns.blogPost(post.slug);
+  return urlPatterns.blogPost(post.id);
 }
 
 /**

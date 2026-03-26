@@ -54,7 +54,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 >
   <article class="project-article">
     <!-- Project Hero Section -->
-    <header class="project-hero relative overflow-hidden bg-gradient-to-br from-background-primary to-background-secondary">
+    <header class="project-hero relative overflow-hidden bg-linear-to-br from-background-primary to-background-secondary">
       <div class="mx-auto max-w-4xl px-4 py-12 lg:py-20 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <!-- Project Info -->
@@ -156,7 +156,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
                   widths={[400, 600, 800, 1200]}
                 />
               )}
-              <div class="absolute inset-0 bg-gradient-to-t from-foreground-primary/20 to-transparent pointer-events-none"></div>
+              <div class="absolute inset-0 bg-linear-to-t from-foreground-primary/20 to-transparent pointer-events-none"></div>
             </div>
           </div>
         </div>
@@ -213,6 +213,8 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 </BaseLayout>
 
 <style>
+  @reference "../styles/global.css";
+
   .project-hero {
     background-image: 
       radial-gradient(circle at 25% 25%, hsl(var(--color-primary-300) / 0.1) 0%, transparent 50%),

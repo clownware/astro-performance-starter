@@ -199,7 +199,7 @@ const shareUrls = generateAllShareUrls({
             <div class="group">
               <p class="mb-2 text-sm font-medium text-foreground-secondary">Previous Post</p>
               <Button
-                href={`/blog/${prevPost.slug}/`}
+                href={`/blog/${prevPost.id}/`}
                 variant="ghost"
                 class="h-auto p-4 text-left justify-start group-hover:bg-background-secondary"
               >
@@ -221,7 +221,7 @@ const shareUrls = generateAllShareUrls({
             <div class="group md:text-right">
               <p class="mb-2 text-sm font-medium text-foreground-secondary">Next Post</p>
               <Button
-                href={`/blog/${nextPost.slug}/`}
+                href={`/blog/${nextPost.id}/`}
                 variant="ghost"
                 class="h-auto p-4 text-right justify-end group-hover:bg-background-secondary"
               >
@@ -246,6 +246,8 @@ const shareUrls = generateAllShareUrls({
 </BaseLayout>
 
 <style>
+  @reference "../styles/global.css";
+
   /* Enhanced prose styling for blog content */
   .prose {
     @apply text-foreground-primary;

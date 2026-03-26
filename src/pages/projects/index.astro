@@ -59,7 +59,7 @@ const projects: ProjectItem[] = entries
     techStack: entry.data.technologies ?? [],
     demoUrl: entry.data.externalUrl ?? undefined,
     githubUrl: entry.data.githubUrl ?? undefined,
-    href: `/projects/${entry.slug}/`,
+    href: `/projects/${entry.id}/`,
     date: entry.data.date,
     tags: entry.data.tags ?? [],
   }));
@@ -237,7 +237,7 @@ const pageDescription =
         remainingProjects.forEach((project: ProjectData) => {
           const cardWrapper = document.createElement('a');
           cardWrapper.href = project.href;
-          cardWrapper.className = 'block w-full focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] project-card-item';
+          cardWrapper.className = 'block w-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)] project-card-item';
           
           const techStackAttr = project.techStack.map((t: string) => t.toLowerCase()).join(' ');
           cardWrapper.setAttribute('data-tech-stack', techStackAttr);
@@ -354,6 +354,8 @@ const pageDescription =
 </script>
 
 <style>
+  @reference "../../styles/global.css";
+
   .filter-btn.active {
     @apply bg-primary-600 text-white;
   }
@@ -364,7 +366,7 @@ const pageDescription =
     @apply bg-primary-600 text-white;
   }
   .filter-badge:focus-visible {
-    @apply ring-2 ring-primary-500 ring-offset-2 outline-none;
+    @apply ring-2 ring-primary-500 ring-offset-2 outline-hidden;
   }
   [data-tech-stack] {
     transition: opacity 0.3s ease, transform 0.3s ease;

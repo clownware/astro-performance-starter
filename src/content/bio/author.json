@@ -2,7 +2,7 @@
   "name": "Jane Doe",
   "title": "Lead Developer & Content Strategist",
   "email": "jane.doe@example.com",
-  "avatar": "./placeholder-avatar.png",
+  "avatar": "../../images/avatar-placeholder.png",
   "social": {
     "github": "https://github.com/username",
     "linkedin": "https://linkedin.com/in/username",

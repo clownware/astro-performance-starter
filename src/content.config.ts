@@ -1,10 +1,12 @@
-// src/content/config.ts
-import { defineCollection, type ImageFunction, z } from "astro:content";
+// src/content.config.ts
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 // Portfolio/Case Studies Schema
 const projectsCollection = defineCollection({
-  type: "content",
-  schema: ({ image }: { image: ImageFunction }) =>
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/projects" }),
+  schema: ({ image }) =>
     z.object({
       title: z.string(),
       description: z.string().max(160), // SEO meta description
@@ -35,8 +37,8 @@ const projectsCollection = defineCollection({
 
 // Blog Posts Schema
 const blogCollection = defineCollection({
-  type: "content",
-  schema: ({ image }: { image: ImageFunction }) =>
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/blog" }),
+  schema: ({ image }) =>
     z.object({
       title: z.string(),
       description: z.string().max(160),
@@ -52,13 +54,13 @@ const blogCollection = defineCollection({
       author: z.string().default("Your Name"), // Default author
       readingTime: z.number().optional(), // Optional: can be calculated
       canonicalUrl: z.string().url().optional(),
-      relatedPosts: z.array(z.string()).optional(), // slugs of related posts
+      relatedPosts: z.array(z.string()).optional(), // ids of related posts
     }),
 });
 
 // Navigation/Site Data
 const navigationCollection = defineCollection({
-  type: "data", // 'data' for JSON/YAML files
+  loader: glob({ pattern: "**/*.{json,yaml,yml}", base: "./src/content/navigation" }),
   schema: z.object({
     items: z.array(
       z.object({
@@ -74,8 +76,8 @@ const navigationCollection = defineCollection({
 
 // Bio/About Content
 const bioCollection = defineCollection({
-  type: "content",
-  schema: ({ image }: { image: ImageFunction }) =>
+  loader: glob({ pattern: "**/[^_]*.{md,mdx,json}", base: "./src/content/bio" }),
+  schema: ({ image }) =>
     z.object({
       name: z.string(),
       title: z.string(),
@@ -86,7 +88,7 @@ const bioCollection = defineCollection({
           github: z.string().url().optional(),
           linkedin: z.string().url().optional(),
           twitter: z.string().url().optional(),
-          email: z.string().email().optional(),
+          email: z.email().optional(),
         })
         .optional(),
       skills: z
@@ -102,7 +104,7 @@ const bioCollection = defineCollection({
 
 // Experience/Work History Collection
 const experienceCollection = defineCollection({
-  type: "content",
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/experience" }),
   schema: z.object({
     title: z.string(),
     company: z.string(),

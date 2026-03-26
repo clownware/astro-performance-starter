@@ -1,6 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import BlogLayout from "@/layouts/BlogLayout.astro";
 
 export async function getStaticPaths() {
@@ -13,7 +13,7 @@ export async function getStaticPaths() {
   );
 
   return sortedPosts.map((post: CollectionEntry<"blog">, index: number) => ({
-    params: { slug: post.slug },
+    params: { slug: post.id },
     props: {
       post,
       prevPost: index > 0 ? sortedPosts[index - 1] : null,
@@ -36,7 +36,7 @@ if (!post) {
 }
 
 // Render the post content once (pass headings to layout to avoid double render)
-const { Content, headings } = await post.render();
+const { Content, headings } = await render(post);
 ---
 
 <BlogLayout post={post} prevPost={prevPost} nextPost={nextPost} headings={headings}>
