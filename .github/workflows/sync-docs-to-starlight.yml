@@ -39,7 +39,9 @@ jobs:
           git config --global user.email "bot@clownware.dev"
 
       - name: Clone Starlight docs repo
+        id: clone
         if: steps.check_secret.outputs.skip != 'true'
+        continue-on-error: true
         env:
           STARLIGHT_REPO_PAT: ${{ secrets.STARLIGHT_REPO_PAT }}
         run: |
@@ -48,7 +50,7 @@ jobs:
           git checkout main
 
       - name: Copy docs files
-        if: steps.check_secret.outputs.skip != 'true'
+        if: steps.check_secret.outputs.skip != 'true' && steps.clone.outcome == 'success'
         run: |
           # Remove existing docs in Starlight repo (except .git)
           find ../starlight-repo -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
@@ -57,7 +59,7 @@ jobs:
           rsync -av --exclude='.git' ./docs/ ../starlight-repo/
 
       - name: Commit changes if any
-        if: steps.check_secret.outputs.skip != 'true'
+        if: steps.check_secret.outputs.skip != 'true' && steps.clone.outcome == 'success'
         id: commit
         working-directory: ../starlight-repo
         run: |
@@ -73,7 +75,7 @@ jobs:
           fi
 
       - name: Push to sync branch
-        if: steps.check_secret.outputs.skip != 'true' && steps.commit.outputs.has_changes == 'true'
+        if: steps.clone.outcome == 'success' && steps.commit.outputs.has_changes == 'true'
         working-directory: ../starlight-repo
         env:
           STARLIGHT_REPO_PAT: ${{ secrets.STARLIGHT_REPO_PAT }}
@@ -85,7 +87,7 @@ jobs:
         id: push
 
       - name: Create Pull Request
-        if: steps.check_secret.outputs.skip != 'true' && steps.commit.outputs.has_changes == 'true'
+        if: steps.clone.outcome == 'success' && steps.commit.outputs.has_changes == 'true'
         env:
           STARLIGHT_REPO_PAT: ${{ secrets.STARLIGHT_REPO_PAT }}
           GH_TOKEN: ${{ secrets.STARLIGHT_REPO_PAT }}
