@@ -1,18 +1,16 @@
 {
   "ignorePatterns": [
     {
-      "pattern": "^https?://"
+      "pattern": "^(?!https?://)"
     },
     {
-      "pattern": "^mailto:"
+      "pattern": "github\\.com/clownware/astro-performance-starter/issues"
     },
     {
-      "pattern": "^/"
-    },
-    {
-      "pattern": "YOUR_USERNAME"
+      "pattern": "github\\.com/clownware/astro-performance-starter/discussions"
     }
   ],
+  "aliveStatusCodes": [200, 206, 999],
   "timeout": "10s",
   "retryOn429": true,
   "retryCount": 3,
