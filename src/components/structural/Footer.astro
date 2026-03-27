@@ -25,12 +25,10 @@ const docsLinks = siteLinks.docs
     ]
   : [];
 
-const externalLinks = [
-  ...(siteLinks.github ? [{ label: "GitHub", href: siteLinks.github, icon: "🐈" }] : []),
-];
+const externalLinks = [...(siteLinks.github ? [{ label: "GitHub", href: siteLinks.github }] : [])];
 ---
 
-<footer class="border-t border-default bg-background-default">
+<footer class="bg-background-default">
   <Container class="py-16 sm:py-20 lg:py-24">
     <div class="grid grid-cols-1 gap-8 sm:gap-12 lg:grid-cols-4 lg:gap-12">
       <!-- Brand Section -->
@@ -57,7 +55,7 @@ const externalLinks = [
             <li>
               <a 
                 href={link.href} 
-                class="text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 hover:translate-x-1 flex items-center min-h-[1.25rem]"
+                class="no-underline text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 hover:translate-x-1 flex items-center min-h-[2.75rem]"
               >
                 {link.label}
               </a>
@@ -77,7 +75,7 @@ const externalLinks = [
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 hover:translate-x-1 flex items-center gap-1 min-h-[1.25rem]"
+                class="no-underline text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 hover:translate-x-1 flex items-center gap-1 min-h-[2.75rem]"
               >
                 {link.label}
                 <svg class="size-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -100,10 +98,9 @@ const externalLinks = [
                 href={link.href} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                class="text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 flex items-center gap-3 group"
+                class="no-underline text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 inline-block group"
               >
-                <span class="text-lg group-hover:scale-110 transition-transform duration-200">{link.icon}</span>
-                <span class="group-hover:translate-x-1 transition-transform duration-200">{link.label}</span>
+                <span class="group-hover:translate-x-1 transition-transform duration-200 inline-block">{link.label}</span>
               </a>
             </li>
           ))}
@@ -115,31 +112,31 @@ const externalLinks = [
     <div class="border-t border-default mt-16 pt-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <p class="text-sm text-foreground-secondary">
-          &copy; {currentYear} {siteMetadata.author}. All rights reserved.
+          &copy; {currentYear} <a href="https://github.com/clownware" class="no-underline hover:text-primary-600 transition-colors" target="_blank" rel="noopener noreferrer">Clownware</a>. MIT Licensed starter template.
         </p>
         <div class="flex flex-wrap items-center gap-4 text-xs">
-          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800">
-            🔒 MIT Licensed
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">
+            <span aria-hidden="true">🔒</span> MIT Licensed
           </span>
-          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary-100 text-secondary-800">
-            🎆 Production Ready
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-secondary-100 text-secondary-800 dark:bg-secondary-900 dark:text-secondary-200">
+            <span aria-hidden="true">🎆</span> Production Ready
           </span>
-          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800">
-            🤖 AI Optimized
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">
+            <span aria-hidden="true">🤖</span> AI Optimized
           </span>
           {siteLinks.pagespeed ? (
           <a 
             href={siteLinks.pagespeed}
             target="_blank"
             rel="noopener noreferrer"
-            class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800 hover:bg-primary-200 transition-colors"
+            class="no-underline inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200 hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors"
             aria-label="View live Lighthouse scores"
           >
-            🎯 95+ Lighthouse
+            <span aria-hidden="true">🎯</span> 95+ Lighthouse
           </a>
           ) : (
-          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800">
-            🎯 95+ Lighthouse
+          <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">
+            <span aria-hidden="true">🎯</span> 95+ Lighthouse
           </span>
           )}
         </div>

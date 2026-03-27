@@ -9,16 +9,18 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
 ---
 
 <header
+  transition:persist
   class="sticky top-0 z-50 w-full border-b border-primary bg-background-primary/95 supports-backdrop-filter:backdrop-blur-sm supports-backdrop-filter:bg-background-primary/60"
 >
   <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href="/" class="flex items-center" aria-label="Homepage">
-      <img 
-        src="/logo.svg" 
-        alt="Home" 
-        class="h-8 w-auto" 
-        width="220" 
+      <img
+        src="/logo.svg"
+        alt="Astro Performance Starter"
+        class="h-8 w-auto"
+        width="220"
         height="60"
+        transition:name="site-logo"
       />
     </a>
 
@@ -26,7 +28,7 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
       {navItems.map((item: NavItem) => (
         <a
           href={item.href}
-          class="text-base font-medium text-foreground-secondary transition-all hover:text-foreground-primary hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-background-secondary"
+          class="no-underline text-base font-medium text-foreground-secondary transition-all hover:text-foreground-primary hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-background-secondary"
           aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
           target={item.isExternal ? '_blank' : undefined}
           rel={item.isExternal ? 'noopener noreferrer' : undefined}
@@ -41,7 +43,7 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
       <!-- CSS-only mobile menu toggle: hidden checkbox + label button -->
       <label
         for="mobile-menu-toggle"
-        role="button"
+        tabindex="0"
         aria-label="Toggle menu"
         class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md border border-primary bg-background-primary/80 transition motion-safe:transition-colors motion-reduce:transition-none hover:bg-background-secondary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring md:hidden"
       >
@@ -75,6 +77,31 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
     aria-label="Toggle main menu"
   />
 
+  <script>
+    document.addEventListener('keydown', (e: KeyboardEvent) => {
+      const toggle = document.getElementById('mobile-menu-toggle') as HTMLInputElement | null;
+      // Close mobile menu when Escape is pressed
+      if (e.key === 'Escape') {
+        if (toggle?.checked) {
+          toggle.checked = false;
+          toggle.dispatchEvent(new Event('change'));
+        }
+        return;
+      }
+      // Activate mobile menu toggle via keyboard when label is focused
+      const label = e.target as HTMLElement;
+      if (label.matches('label[for="mobile-menu-toggle"]')) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          if (toggle) {
+            toggle.checked = !toggle.checked;
+            toggle.dispatchEvent(new Event('change'));
+          }
+        }
+      }
+    });
+  </script>
+
   <nav
     id="mobile-menu"
     class="fixed inset-0 top-16 z-40 hidden flex-col gap-6 bg-background-primary p-6 opacity-0 pointer-events-none md:hidden motion-safe:transition-opacity motion-reduce:transition-none duration-200 peer-checked:flex peer-checked:opacity-100 peer-checked:pointer-events-auto"
@@ -84,7 +111,7 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
     {navItems.map((item: NavItem) => (
       <a
         href={item.href}
-        class="text-lg font-medium text-foreground-primary transition-colors hover:text-foreground-primary focus-visible-ring"
+        class="no-underline text-lg font-medium text-foreground-primary transition-colors hover:text-foreground-primary focus-visible-ring"
         target={item.isExternal ? '_blank' : undefined}
         rel={item.isExternal ? 'noopener noreferrer' : undefined}
       >
