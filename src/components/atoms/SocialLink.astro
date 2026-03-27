@@ -1,7 +1,6 @@
 ---
 import type { HTMLAttributes } from "astro/types";
-import externalIcon from "@/assets/icons/external-link.svg";
-import linkIcon from "@/assets/icons/link.svg";
+import Icon from "@/components/atoms/Icon.astro";
 
 type SocialPlatform = "github" | "linkedin" | "twitter" | "facebook" | "reddit";
 
@@ -13,14 +12,14 @@ interface Props extends HTMLAttributes<"a"> {
 
 const { platform, href, showIcon = true, class: className, ...attrs } = Astro.props;
 
-// Platform-specific configurations (names only; styling is semantic and shared)
+// Platform-specific configurations with icon names
 const platformConfig = {
-  github: { name: "GitHub" },
-  linkedin: { name: "LinkedIn" },
-  twitter: { name: "Twitter" },
-  facebook: { name: "Facebook" },
-  reddit: { name: "Reddit" },
-} satisfies Record<SocialPlatform, { name: string }>;
+  github: { name: "GitHub", icon: "github" },
+  linkedin: { name: "LinkedIn", icon: "linkedin" },
+  twitter: { name: "Twitter", icon: "twitter" },
+  facebook: { name: "Facebook", icon: "facebook" },
+  reddit: { name: "Reddit", icon: "message-circle" },
+} satisfies Record<SocialPlatform, { name: string; icon: string }>;
 
 const config = platformConfig[platform];
 const linkText = `${config.name} profile`;
@@ -51,15 +50,10 @@ const linkText = `${config.name} profile`;
   {...attrs}
 >
   {showIcon && (
-    <img
-      src={linkIcon.src}
-      alt=""
-      aria-hidden="true"
-      class="mr-2 h-4 w-4 shrink-0 motion-safe:group-hover:scale-110 motion-reduce:transform-none"
-      width="16"
-      height="16"
-      loading="lazy"
-      decoding="async"
+    <Icon
+      name={config.icon}
+      class="size-4 mr-2 shrink-0 motion-safe:group-hover:scale-110 motion-reduce:transform-none"
+      decorative
     />
   )}
   
@@ -68,16 +62,10 @@ const linkText = `${config.name} profile`;
   </span>
   
   <!-- External link indicator -->
-  <img
-    src={externalIcon.src}
-    alt=""
-    aria-hidden="true"
-    title="Opens in new tab"
-    class="ml-1 h-3 w-3 opacity-60 motion-safe:group-hover:translate-x-px motion-safe:group-hover:-translate-y-px motion-reduce:transform-none"
-    width="12"
-    height="12"
-    loading="lazy"
-    decoding="async"
+  <Icon
+    name="external-link"
+    class="size-3 ml-1 opacity-60 motion-safe:group-hover:translate-x-px motion-safe:group-hover:-translate-y-px motion-reduce:transform-none"
+    decorative
   />
   
   <!-- Screen reader only text for context -->

@@ -18,7 +18,7 @@ const {
 } = Astro.props as Props;
 
 const baseStyles =
-  "inline-flex items-center justify-center rounded-lg font-semibold transition-colors duration-200 motion-reduce:transition-none focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50";
+  "inline-flex items-center justify-center rounded-lg font-semibold no-underline transition-colors duration-200 motion-reduce:transition-none focus:outline-hidden focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 forced-colors:border forced-colors:text-[ButtonText]";
 
 function getVariantStyles(v: Props["variant"]) {
   switch (v) {
@@ -36,11 +36,11 @@ function getSizeStyles(s: Props["size"]) {
   // Remove fixed heights to avoid clipping; rely on padding for accessible hit areas
   switch (s) {
     case "sm":
-      return "text-xs px-3 py-1.5";
+      return "text-xs px-3 py-2 min-h-[2rem]";
     case "lg":
-      return "text-base px-6 py-3";
+      return "text-base px-6 py-3 min-h-[2.75rem]";
     default:
-      return "text-sm px-4 py-2";
+      return "text-sm px-4 py-2.5 min-h-[2.75rem]";
   }
 }
 
