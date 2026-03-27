@@ -7,17 +7,11 @@ interface Props extends Omit<HTMLAttributes<"span">, "class"> {
   size?: "xs" | "sm" | "md";
 }
 
-const {
-  class: className,
-  role = "status",
-  variant = "primary",
-  size = "sm",
-  ...rest
-} = Astro.props;
+const { class: className, role, variant = "primary", size = "sm", ...rest } = Astro.props;
 
 const variantClasses: Record<"primary" | "secondary" | "neutral", string> = {
-  primary: "bg-primary-100 text-primary-800",
-  secondary: "bg-secondary-100 text-secondary-800",
+  primary: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
+  secondary: "bg-secondary-100 text-secondary-800 dark:bg-secondary-900 dark:text-secondary-200",
   neutral: "bg-background-secondary text-foreground-primary",
 };
 

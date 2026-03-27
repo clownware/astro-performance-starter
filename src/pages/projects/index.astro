@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
+import type { ImageMetadata } from "astro";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import ProjectCard from "@/components/molecules/ProjectCard.astro";
@@ -15,7 +16,7 @@ const entries = await getCollection(
 interface ProjectItem {
   title: string;
   description: string;
-  image: string;
+  image: ImageMetadata | string;
   techStack: string[];
   demoUrl?: string;
   githubUrl?: string;
@@ -25,21 +26,19 @@ interface ProjectItem {
 }
 
 /**
- * Helper function to resolve project image source
- * Handles both string paths and ImageMetadata objects
- * Falls back to logo.svg if no image is provided
+ * Helper function to resolve project image
+ * Returns ImageMetadata when available (enables astro:assets optimization),
+ * falls back to string path for external URLs or missing images.
  */
-function getProjectImageSrc(entry: CollectionEntry<"projects">): string {
+function getProjectImage(entry: CollectionEntry<"projects">): ImageMetadata | string {
   // Try cardImage first (preferred for cards)
   if (entry.data.cardImage) {
-    return typeof entry.data.cardImage === "string"
-      ? entry.data.cardImage
-      : entry.data.cardImage.src;
+    return entry.data.cardImage;
   }
 
   // Fall back to cover image
   if (entry.data.cover) {
-    return typeof entry.data.cover === "string" ? entry.data.cover : entry.data.cover.src;
+    return entry.data.cover;
   }
 
   // Default fallback
@@ -55,7 +54,7 @@ const projects: ProjectItem[] = entries
   .map((entry: CollectionEntry<"projects">) => ({
     title: entry.data.title,
     description: entry.data.description,
-    image: getProjectImageSrc(entry),
+    image: getProjectImage(entry),
     techStack: entry.data.technologies ?? [],
     demoUrl: entry.data.externalUrl ?? undefined,
     githubUrl: entry.data.githubUrl ?? undefined,
@@ -187,7 +186,12 @@ const pageDescription =
     
     <!-- Hidden projects data for client-side loading -->
     {hasMoreProjects && (
-      <script type="application/json" id="remaining-projects" is:inline set:html={JSON.stringify(projects.slice(projectsPerPage))} />
+      <script type="application/json" id="remaining-projects" is:inline set:html={JSON.stringify(
+        projects.slice(projectsPerPage).map(p => ({
+          ...p,
+          image: typeof p.image === "string" ? p.image : p.image.src,
+        }))
+      )} />
     )}
   </div>
 </BaseLayout>

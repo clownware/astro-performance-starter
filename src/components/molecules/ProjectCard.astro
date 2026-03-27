@@ -1,12 +1,14 @@
 ---
+import type { ImageMetadata } from "astro";
 import type { HTMLAttributes } from "astro/types";
 import Badge from "@/components/atoms/Badge.astro";
+import Image from "@/components/atoms/Image.astro";
 import { formatDate } from "@/utils/formatDate";
 
 interface Props extends HTMLAttributes<"article"> {
   title: string;
   description: string;
-  image: string;
+  image: ImageMetadata | string;
   techStack: string[];
   demoUrl?: string;
   githubUrl?: string;
@@ -41,31 +43,40 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
 ---
 
 {href ? (
-  <a href={href} class="block w-full focus:outline-hidden focus-visible:ring-2 focus-visible:ring-primary-500 rounded-lg transition-shadow duration-300 hover:shadow-lg">
-    <article 
-      class:list={["w-full", 
-        "project-card",
-        "bg-background-secondary",
-        "border border-primary",
-        "rounded-lg",
-        "overflow-hidden",
-        "transition-all duration-300",
-        "hover:shadow-lg hover:border-primary-300",
-        "focus-within:ring-2 focus-within:ring-primary-500",
-        className
-      ]} 
-      {...attrs}
-    >
+  <article
+    class:list={["w-full",
+      "project-card",
+      "bg-background-secondary",
+      "border border-primary",
+      "rounded-lg",
+      "overflow-hidden",
+      "transition-all duration-300",
+      "hover:shadow-lg hover:border-primary-300",
+      "focus-within:ring-2 focus-within:ring-primary-500",
+      className
+    ]}
+    {...attrs}
+  >
       <div class="project-card__image-container relative overflow-hidden">
-        <img 
-          src={image} 
-          alt={`Screenshot of ${title} project`}
-          class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-          loading="lazy"
-          decoding="async"
-        />
+        {typeof image === "string" ? (
+          <img
+            src={image}
+            alt={`Screenshot of ${title} project`}
+            class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+            loading="lazy"
+            decoding="async"
+          />
+        ) : (
+          <Image
+            src={image}
+            alt={`Screenshot of ${title} project`}
+            class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+            loading="lazy"
+          />
+        )}
       </div>
-      
+
       <div class="project-card__content p-6">
         <header class="project-card__header mb-4">
           <div class="project-card__meta flex flex-wrap items-center gap-2 mb-3 text-sm text-foreground-secondary">
@@ -98,13 +109,15 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
           </div>
           
           <h3 class="project-card__title text-xl font-semibold text-foreground-primary mb-2">
-            {title}
+            <a href={href} class="project-card__title-link hover:text-primary-600 focus:outline-hidden">
+              {title}
+            </a>
           </h3>
           <p class="project-card__description text-foreground-secondary leading-relaxed">
             {description}
           </p>
         </header>
-        
+
         {tags.length > 0 && (
           <div class="project-card__tags mb-4">
             <div class="flex items-center gap-2 mb-2">
@@ -119,7 +132,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             </ul>
           </div>
         )}
-        
+
         <div class="project-card__tech-stack mb-6">
           <div class="flex items-center gap-2 mb-2">
             <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Technologies</span>
@@ -134,28 +147,28 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             ))}
           </ul>
         </div>
-        
+
         {(demoUrl || githubUrl) && (
           <footer class="project-card__actions flex gap-3">
             {demoUrl && (
-              <a 
+              <a
                 href={demoUrl}
                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`View live demo of ${title} project`}
+                aria-label={`View live demo of ${title} (opens in new tab)`}
               >
                 <span class="mr-2" aria-hidden="true">🚀</span>
                 Live Demo
               </a>
             )}
             {githubUrl && (
-              <a 
+              <a
                 href={githubUrl}
                 class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={`View ${title} source code on GitHub`}
+                aria-label={`View ${title} source code on GitHub (opens in new tab)`}
               >
                 <span class="mr-2" aria-hidden="true">📁</span>
                 Source Code
@@ -165,7 +178,6 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
         )}
       </div>
     </article>
-  </a>
 ) : (
   <article 
     class:list={["w-full", 
@@ -182,13 +194,23 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
     {...attrs}
   >
     <div class="project-card__image-container relative overflow-hidden">
-      <img 
-        src={image} 
-        alt={`Screenshot of ${title} project`}
-        class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
-        loading="lazy"
-        decoding="async"
-      />
+      {typeof image === "string" ? (
+        <img
+          src={image}
+          alt={`Screenshot of ${title} project`}
+          class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <Image
+          src={image}
+          alt={`Screenshot of ${title} project`}
+          class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          loading="lazy"
+        />
+      )}
     </div>
     
     <div class="project-card__content p-6">
@@ -302,8 +324,19 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
     flex-direction: column;
   }
   
+  /* Stretched link: title link covers the entire card surface */
+  .project-card__title-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  /* Action links sit above the stretched-link overlay */
   .project-card__actions {
     margin-top: auto;
+    position: relative;
+    z-index: 1;
   }
   
   .project-card__image-container::after {

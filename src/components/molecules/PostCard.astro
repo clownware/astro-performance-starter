@@ -54,12 +54,12 @@ const img = post.data.cardImage ?? post.data.cover;
       }
     </div>
 
-    <h3 class="mb-3 text-xl font-semibold text-foreground-default">
+    <h3 transition:name={"post-title-" + post.id} class="mb-3 text-xl font-semibold text-foreground-primary">
       <a
         href={`/blog/${post.id}/`}
         class:list={[
           "transition-colors",
-          featured ? "stretched-link hover:text-accent-600" : "after:absolute after:inset-0 group-hover:text-accent-600"
+          featured ? "stretched-link hover:text-primary-600" : "after:absolute after:inset-0 group-hover:text-primary-600"
         ]}
       >
         {post.data.title}
@@ -78,13 +78,6 @@ const img = post.data.cardImage ?? post.data.cover;
 </Card>
 
 <style>
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
   .stretched-link::after {
     position: absolute;
     top: 0;

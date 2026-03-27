@@ -12,18 +12,19 @@ export default function Link({ children, href, class: className, ...props }: Lin
   const isExternal = href && (href.startsWith("http://") || href.startsWith("https://"));
 
   const defaultClasses =
-    "text-primary-600 dark:text-primary-400 hover:underline focus:outline-hidden focus:ring-2 focus:ring-primary-500/50 rounded-sm";
+    "text-primary-600 dark:text-primary-600 hover:underline focus:outline-hidden focus:ring-2 focus:ring-primary-500/50 rounded-sm";
 
   if (isExternal) {
     return (
       <a
         href={href}
         target="_blank"
-        rel="nofollow noopener noreferrer"
+        rel="noopener noreferrer"
         class={`${defaultClasses} ${className ?? ""}`}
         {...props}
       >
         {children}
+        <span class="sr-only"> (opens in new tab)</span>
       </a>
     );
   }

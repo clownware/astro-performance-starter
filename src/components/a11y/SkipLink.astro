@@ -12,32 +12,43 @@ const { targetId = "main-content", class: className = "" } = Astro.props as Prop
 
 <a
   href={`#${targetId}`}
-  role="link"
   aria-controls={targetId}
   data-skiplink
-  class={`sr-only fixed left-4 top-4 z-999 rounded-md bg-background-primary px-[1rem] py-[0.5rem] text-foreground-primary motion-safe:transition-colors motion-reduce:transition-none focus:not-sr-only focus:outline-hidden focus:ring-2 focus:ring-primary-500 hover:bg-background-secondary ${className}`}
+  class={`sr-only fixed left-4 top-4 z-[999] rounded-md bg-background-primary px-[1rem] py-[0.5rem] text-foreground-primary motion-safe:transition-colors motion-reduce:transition-none focus:not-sr-only focus:outline-hidden focus:ring-2 focus:ring-primary-500 hover:bg-background-secondary ${className}`}
 >
   <slot>Skip to content</slot>
 </a>
 
 <script is:inline>
-  // Minimal progressive enhancement: validate target from the link's href
+  // Minimal progressive enhancement: validate target from the link's href.
+  // Deferred to after DOM is ready because SkipLink renders before <main>.
   (() => {
-    try {
-      const skip = document.querySelector('[data-skiplink]');
-      if (!(skip instanceof HTMLAnchorElement)) return;
-      const hash = skip.getAttribute('href') || '';
-      const id = hash.startsWith('#') ? hash.slice(1) : '';
-      if (!id) return;
-      const target = document.getElementById(id);
-      if (!target) {
-        console.warn(`SkipLink target element with id "${id}" not found.`);
-        skip.setAttribute('aria-disabled', 'true');
-        skip.setAttribute('tabindex', '-1');
-        skip.href = '#';
+    function validate() {
+      try {
+        const skip = document.querySelector('[data-skiplink]');
+        if (!(skip instanceof HTMLAnchorElement)) return;
+        const hash = skip.getAttribute('href') || '';
+        const id = hash.startsWith('#') ? hash.slice(1) : '';
+        if (!id) return;
+        const target = document.getElementById(id);
+        if (!target) {
+          console.warn(`SkipLink target element with id "${id}" not found.`);
+          skip.setAttribute('aria-disabled', 'true');
+          skip.setAttribute('tabindex', '-1');
+          skip.href = '#';
+        }
+      } catch {
+        // no-op: ensure skip link doesn't break rendering
       }
-    } catch {
-      // no-op: ensure skip link doesn't break rendering
     }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', validate);
+    } else {
+      validate();
+    }
+
+    // Re-validate after Astro ClientRouter view transitions
+    document.addEventListener('astro:page-load', validate);
   })();
 </script>

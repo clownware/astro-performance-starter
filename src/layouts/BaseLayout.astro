@@ -6,7 +6,6 @@ import Footer from "@/components/structural/Footer.astro";
 import Header from "@/components/structural/Header.astro";
 import ThemeSetup from "@/components/ThemeSetup.astro";
 
-import "@fontsource-variable/inter";
 import "@/styles/global.css";
 
 export interface Props {
@@ -60,18 +59,17 @@ export interface Props {
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
+    <ThemeSetup />
     <Head {...Astro.props} />
     <ClientRouter />
   </head>
   <body class="flex min-h-screen flex-col bg-background-primary text-foreground-primary antialiased">
-    <!-- Theme Detection & Setup -->
-    <ThemeSetup />
     <SkipLink />
     <Header />
-    <main 
-      id="main-content" 
-      class="flex-1 snap-y snap-mandatory overflow-y-auto"
-      aria-label="Main content with scroll snap navigation"
+    <main
+      id="main-content"
+      class="flex-1"
+      aria-label="Main content"
       role="main"
     >
       <slot />

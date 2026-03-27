@@ -6,7 +6,7 @@ interface Props {
   ariaLabel?: string; // Optional: ARIA label for screen readers (recommended for snap sections)
 }
 
-const { class: className, id, fullHeight = true, ariaLabel } = Astro.props as Props;
+const { class: className, id, fullHeight = false, ariaLabel } = Astro.props as Props;
 ---
 
 <section

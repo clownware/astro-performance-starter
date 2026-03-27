@@ -41,6 +41,7 @@ export function initContactForm() {
         statusContainer.classList.remove("hidden");
         successMessage.classList.remove("hidden");
         form.reset();
+        statusContainer.focus();
       } else {
         throw new Error("Network response was not ok");
       }
@@ -48,6 +49,7 @@ export function initContactForm() {
       // Error
       statusContainer.classList.remove("hidden");
       errorMessage.classList.remove("hidden");
+      statusContainer.focus();
     } finally {
       // Reset button state
       submitButton.disabled = false;

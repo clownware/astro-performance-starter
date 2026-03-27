@@ -120,6 +120,9 @@
   --color-foreground-primary: hsl(var(--color-foreground-primary));
   --color-foreground-secondary: hsl(var(--color-foreground-secondary));
   --color-border-primary: hsl(var(--color-border-primary));
+  --color-border-default: hsl(var(--color-border-primary));
+
+  --color-foreground-subtle: hsl(var(--color-gray-500));
 
   --color-success-100: hsl(var(--color-success-100));
   --color-success-600: hsl(var(--color-success-600));
@@ -222,12 +225,14 @@
 }
 
 /* Global link styles. Prefer component-level overrides when needed. */
+/* Note: underline is intentionally omitted — prose links are underlined via the
+   Typography plugin; nav/button/card links rely on color + interaction states. */
 @layer base {
   a {
-    @apply underline text-primary-600 hover:text-primary-700 focus:outline-hidden focus:ring-2 focus:ring-primary-500 rounded-sm;
+    @apply text-primary-600 hover:text-primary-700 focus:outline-hidden focus:ring-2 focus:ring-primary-500 rounded-sm;
   }
   .dark a {
-    @apply text-primary-400 hover:text-primary-300;
+    @apply text-primary-300 hover:text-primary-400;
   }
 }
 
@@ -257,6 +262,14 @@
 
 .prose a:hover {
   color: hsl(var(--color-primary-700));
+}
+
+.dark .prose {
+  --tw-prose-links: hsl(var(--color-primary-300));
+}
+
+.dark .prose a:hover {
+  color: hsl(var(--color-primary-400));
 }
 
 /* ============================================================
@@ -306,5 +319,38 @@
 @media (prefers-color-scheme: dark) {
   :root {
     color-scheme: dark;
+  }
+}
+
+/* ============================================================
+   FEATURE CARD (Preact island)
+   Styles for ExpandableFeatureCard.tsx — scoped styles cannot
+   be used in Preact components, so they live here instead.
+   ============================================================ */
+
+/* Remove native details/summary triangle marker */
+.feature-details summary::-webkit-details-marker {
+  display: none;
+}
+
+.feature-details summary::marker {
+  display: none;
+}
+
+/* Smooth expand animation — only when motion is not reduced */
+@media (prefers-reduced-motion: no-preference) {
+  .feature-details .expand-content {
+    animation: slideDown 0.3s ease-out;
+  }
+
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }
