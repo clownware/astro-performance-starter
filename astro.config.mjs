@@ -37,6 +37,9 @@ export default defineConfig({
   integrations: [
     astroExpressiveCode({
       themes: ["dark-plus", "light-plus"],
+      useDarkModeMediaQuery: false,
+      themeCssSelector: (theme) =>
+        theme.type === "dark" ? ".dark" : ":root:not(.dark)",
     }),
     mdx({
       components: mdxComponents,
@@ -73,13 +76,16 @@ export default defineConfig({
   // Enhanced build configuration
   vite: {
     plugins: [tailwindcss(), viteInjectVersions({ rootDir })],
+    build: {
+      cssMinify: "lightningcss",
+    },
   },
 
   // Performance optimizations
   output: "static",
 
   build: {
-    inlineStylesheets: "auto",
+    inlineStylesheets: "always",
     // biome-ignore lint/style/useNamingConvention: Astro requires the exact key `compressHTML`
     compressHTML: true,
   },
