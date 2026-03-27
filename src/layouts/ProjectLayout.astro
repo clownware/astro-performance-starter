@@ -2,6 +2,7 @@
 import type { ImageMetadata } from "astro";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
+import Icon from "@/components/atoms/Icon.astro";
 import Image from "@/components/atoms/Image.astro";
 import { siteMetadata } from "@/config";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -63,8 +64,8 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
             <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
               <ol class="flex items-center space-x-2 text-sm text-foreground-secondary">
                 <li>
-                  <a 
-                    href="/projects/" 
+                  <a
+                    href="/projects/"
                     class="hover:text-foreground-primary transition-colors duration-200"
                     aria-label="Back to projects"
                   >
@@ -116,28 +117,18 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 
             <!-- Call-to-Action Buttons -->
             <div class="project-actions flex flex-wrap gap-4">
-              {project.externalUrl && isTrustedUrl(project.externalUrl) && (
-                <Button 
-                  variant="primary" 
+              {project.externalUrl && (
+                <Button
+                  variant="primary"
                   size="lg"
                   href={project.externalUrl}
-                  class="inline-flex items-center"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                  <span class="mr-2" aria-hidden="true">🚀</span>
-                  View Project
+                  <Icon name="github" class="size-5 mr-2" decorative />
+                  Clone the Template
                 </Button>
               )}
-              <Button 
-                variant="secondary" 
-                size="lg"
-                href="/projects/"
-                class="inline-flex items-center"
-              >
-                <span class="mr-2" aria-hidden="true">←</span>
-                Back to Projects
-              </Button>
             </div>
           </div>
 
@@ -165,41 +156,61 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 
     <!-- Main Content -->
     <main class="project-content mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+
+      <!-- Outcomes / Key Metrics -->
+      {project.outcomes && project.outcomes.length > 0 && (
+        <section class="outcomes-section mb-12" aria-labelledby="outcomes-heading">
+          <h2 id="outcomes-heading" class="text-2xl font-bold text-foreground-primary mb-6">
+            Key Results
+          </h2>
+          <div class="outcomes-grid grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {project.outcomes.map((outcome) => (
+              <div class="outcome-card text-center p-8 bg-background-secondary border border-border-primary rounded-xl hover:shadow-lg transition-shadow">
+                <div class="outcome-value text-4xl font-bold text-primary-600 dark:text-primary-400 mb-3 leading-tight">
+                  {outcome.value}
+                </div>
+                <div class="outcome-metric text-sm font-semibold text-foreground-primary mb-2 uppercase tracking-wide">
+                  {outcome.metric}
+                </div>
+                {outcome.description && (
+                  <div class="outcome-description text-xs text-foreground-secondary leading-relaxed">
+                    {outcome.description}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       <!-- Tech Stack Section -->
       <section class="tech-stack-section mb-12" aria-labelledby="tech-stack-heading">
         <h2 id="tech-stack-heading" class="text-2xl font-bold text-foreground-primary mb-6">
           Tech Stack
         </h2>
-        <div role="list" class="tech-stack-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        <div role="list" class="flex flex-wrap gap-3">
           {(project.technologies ?? []).map((tech: string) => (
-             <div role="listitem" class="tech-item text-center p-4 bg-background-secondary border border-primary rounded-lg hover:border-primary-300 transition-colors duration-200">
-               <Badge class="w-full justify-center text-sm font-medium">
-                 {tech}
-               </Badge>
-             </div>
-           ))}
+            <div role="listitem">
+              <Badge size="md" class="font-medium">
+                {tech}
+              </Badge>
+            </div>
+          ))}
         </div>
       </section>
 
-      <!-- Project Details -->
+      <!-- Project Content (MDX slot) -->
       <section class="project-details mb-12" aria-labelledby="details-heading">
-        <h2 id="details-heading" class="text-2xl font-bold text-foreground-primary mb-6">
-          Project Details
-        </h2>
-        <div class="prose prose-lg max-w-none text-foreground-secondary">
-          <p class="text-lg leading-relaxed">{project.description}</p>
-          
-          <!-- Slot for additional content -->
-          <div class="additional-content mt-8">
-            <slot />
-          </div>
+        <h2 id="details-heading" class="sr-only">Project Details</h2>
+        <div class="prose prose-lg max-w-none">
+          <slot />
         </div>
       </section>
 
       <!-- Back to Projects -->
-      <section class="back-navigation text-center">
-        <Button 
-          variant="ghost" 
+      <section class="back-navigation text-center pt-8 border-t border-border-primary">
+        <Button
+          variant="ghost"
           size="lg"
           href="/projects"
           class="inline-flex items-center"
@@ -216,22 +227,18 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
   @reference "../styles/global.css";
 
   .project-hero {
-    background-image: 
+    background-image:
       radial-gradient(circle at 25% 25%, hsl(var(--color-primary-300) / 0.1) 0%, transparent 50%),
       radial-gradient(circle at 75% 75%, hsl(var(--color-secondary-300) / 0.1) 0%, transparent 50%);
   }
 
-  .tech-stack-grid .tech-item {
-    transition: all 0.2s ease;
+  .outcome-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .tech-stack-grid .tech-item:hover {
+  .outcome-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px hsl(var(--color-foreground-primary) / 0.1);
-  }
-
-  .gallery-grid .gallery-item {
-    break-inside: avoid;
   }
 
   .prose {
@@ -276,19 +283,23 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
   }
 
   .prose table {
-    @apply w-full border-collapse border border-gray-200 mb-6;
+    @apply w-full border-collapse mb-6;
+    border: 1px solid hsl(var(--color-border-primary));
   }
 
   .prose th {
-    @apply border border-gray-200 px-4 py-2 bg-background-secondary text-foreground-primary font-semibold text-left;
+    @apply px-4 py-2 bg-background-secondary text-foreground-primary font-semibold text-left;
+    border: 1px solid hsl(var(--color-border-primary));
   }
 
   .prose td {
-    @apply border border-gray-200 px-4 py-2 text-foreground-secondary;
+    @apply px-4 py-2 text-foreground-secondary;
+    border: 1px solid hsl(var(--color-border-primary));
   }
 
   .prose hr {
-    @apply border-gray-200 my-8;
+    @apply my-8;
+    border-color: hsl(var(--color-border-primary));
   }
 
   .prose code {

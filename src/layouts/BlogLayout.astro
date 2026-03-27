@@ -79,7 +79,10 @@ const shareUrls = generateAllShareUrls({
       </nav>
 
       <!-- Article Title -->
-      <h1 class="mb-6 text-4xl font-bold tracking-tight text-foreground-primary sm:text-5xl lg:text-6xl">
+      <h1
+        transition:name={"post-title-" + post.id}
+        class="mb-6 text-4xl font-bold tracking-tight text-foreground-primary sm:text-5xl lg:text-6xl"
+      >
         {title}
       </h1>
 
@@ -176,7 +179,7 @@ const shareUrls = generateAllShareUrls({
           )}
 
           <!-- Social Sharing -->
-          <div class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6 shadow-lg">
+          <div class="rounded-lg border border-default bg-background-secondary p-6 shadow-lg">
             <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
               Share this post
             </h3>
