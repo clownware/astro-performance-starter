@@ -4,7 +4,8 @@ import Button from "@/components/atoms/Button.astro";
 import Icon from "@/components/atoms/Icon.astro";
 
 import Card from "@/components/molecules/Card.astro";
-import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
+import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard";
+import PostCard from "@/components/molecules/PostCard.astro";
 import SectionSeparator from "@/components/molecules/SectionSeparator.astro";
 import Container from "@/components/structural/Container.astro";
 import Grid from "@/components/structural/Grid.astro";
@@ -18,6 +19,8 @@ import type {
   TechStackItem,
   TechTerms,
 } from "@/types/content";
+import { getPublishedPosts } from "@/utils/blog";
+import { formatPostMetadata } from "@/utils/formatDate";
 
 /**
  * Homepage feature cards showcasing template capabilities.
@@ -64,13 +67,14 @@ const features: Feature[] = [
       "Consistent spacing, typography, and color scales",
       "Automated design token generation from source files",
       "Theme switching with system preference detection",
+      "CSS @theme inline — tokens live in CSS, no JS config file",
     ],
   },
   {
     icon: "⚡",
     title: "Next-Gen Opinionated Toolchain",
     description:
-      "Biome replaces ESLint + Prettier with 20x speed. TypeScript strict mode and automated quality gates.",
+      "Biome replaces ESLint + Prettier with 20x speed. Tailwind v4 CSS-native config. TypeScript strict mode and automated quality gates.",
     metric: "20x Faster",
     expandedDetails: [
       "Biome replaces ESLint + Prettier with 20x performance improvement",
@@ -161,9 +165,9 @@ const metrics: LighthouseMetric[] = [
 const techStack: TechStackItem[] = [
   {
     name: "Astro",
-    version: "v6.x",
-    description: "Static site generator with islands",
-    benefit: "Zero-JS by default, blazing fast performance",
+    version: "v6.0.8",
+    description: "Content Layer API, View Transitions, Islands",
+    benefit: "Type-safe content, named view transitions, selective hydration",
     category: "Framework",
   },
   {
@@ -176,8 +180,8 @@ const techStack: TechStackItem[] = [
   {
     name: "Tailwind CSS",
     version: "v4.2.2",
-    description: "Utility-first CSS framework",
-    benefit: "Rapid styling, consistent design system",
+    description: "CSS-native config — no tailwind.config.js",
+    benefit: "@theme in CSS, Lightning CSS compiler, zero JS config overhead",
     category: "Styling",
   },
   {
@@ -189,21 +193,21 @@ const techStack: TechStackItem[] = [
   },
   {
     name: "Preact",
-    version: "v10.x",
+    version: "v10.29.0",
     description: "Lightweight React alternative",
     benefit: "3KB runtime, familiar React-like syntax",
     category: "Interactivity",
   },
   {
     name: "Playwright",
-    version: "v1.x",
+    version: "v1.58.2",
     description: "End-to-end testing",
     benefit: "Reliable cross-browser testing automation",
     category: "E2E Testing",
   },
   {
     name: "Vitest",
-    version: "v4.x",
+    version: "v4.1.1",
     description: "Fast unit testing powered by Vite",
     benefit: "Lightning-fast test execution and hot reload",
     category: "Unit Testing",
@@ -231,12 +235,17 @@ const stackRationale: StackRationale = {
   futureProof:
     "Latest versions of stable technologies that will continue to evolve with web standards.",
 };
+
+const latestPosts = (await getPublishedPosts()).slice(0, 3);
+const latestPostsWithMetadata = latestPosts.map((post) => ({
+  ...post,
+  metadata: formatPostMetadata(post.data.date, post.body),
+}));
 ---
 
 <BaseLayout
-  title="Astro Performance Starter | Production-Ready Template for AI-Assisted Development"
-  description="Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 100/100 Lighthouse scores, and AI-optimized documentation for rapid development."
-  preconnectDomains={["https://github.com"]}
+  title="Production-Ready Astro Template for AI-Assisted Development"
+  description="Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 95+ Lighthouse scores, and AI-optimized documentation for rapid development."
 >
   <!-- Hero Section -->
   <Section ariaLabel="Hero section" class="relative overflow-hidden flex flex-col items-center justify-center text-center min-h-[calc(100vh-4rem)]">
@@ -247,29 +256,30 @@ const stackRationale: StackRationale = {
     >
       <div class="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-primary-500 to-primary-700 opacity-20 sm:left-[calc(50%-30rem)] sm:w-288.75"></div>
     </div>
-    
+
     <Container>
       <div class="mx-auto max-w-4xl text-center">
-        <Badge class="mb-4 sm:mb-6 bg-primary-100 text-primary-800 text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2">
-          <span aria-hidden="true">🎆</span> Production-Ready Astro Template
+        <Badge transition:name="hero-badge" class="mb-4 sm:mb-6 bg-primary-100 text-primary-800 text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2">
+          Astro 6 + Tailwind v4 Starter
         </Badge>
-        
-        <h1 class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-foreground-primary">
+
+        <h1 transition:name="hero-heading" class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-foreground-primary">
           Astro Performance Starter.
-          <br>
-          <span class="bg-linear-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-           Just set your agent loose on the docs.
-          </span>
         </h1>
-        
-        <p class="mt-3 sm:mt-4 text-base sm:text-lg leading-6 sm:leading-7 text-foreground-secondary">
-          Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 100/100 Lighthouse scores, and AI-optimized documentation for rapid development.
+        <p class="mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
+          <span class="bg-linear-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+            Point your AI agent at the docs and ship.
+          </span>
         </p>
-        
+
+        <p class="mt-3 sm:mt-4 text-base sm:text-lg leading-relaxed text-foreground-secondary max-w-2xl mx-auto">
+          Build blazing-fast websites with Astro's zero-JS architecture — 95+ Lighthouse scores out of the box, with AI-optimized documentation so your agent can hit the ground running.
+        </p>
+
         <div class="mt-4 sm:mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
           <Button href={siteLinks.github} variant="primary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" rel="noopener noreferrer" target="_blank">
-            <Icon name="github" class="w-4 h-4 sm:w-5 sm:h-5 mr-2" decorative />
-            View on GitHub
+            <Icon name="github" class="size-4 sm:size-5 mr-2" decorative />
+            Clone the Template
           </Button>
           {siteLinks.docs && (
           <Button href={`${siteLinks.docs}/getting-started/`} variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" data-astro-prefetch>
@@ -277,7 +287,7 @@ const stackRationale: StackRationale = {
           </Button>
           )}
         </div>
-        
+
         <ul class="mt-3 sm:mt-4 text-xs sm:text-sm text-foreground-subtle flex flex-wrap items-center justify-center gap-x-4 gap-y-1" role="list" aria-label="Key features">
           <li class="flex items-center gap-1">
             <span aria-hidden="true">✓</span>
@@ -286,21 +296,21 @@ const stackRationale: StackRationale = {
           <li class="flex items-center gap-1" aria-hidden="true">•</li>
           <li class="flex items-center gap-1">
             <span aria-hidden="true">✓</span>
-            <span><span class="sr-only">Included: </span>Biome 20x faster linting</span>
+            <span><span class="sr-only">Included: </span>CSS-native Tailwind config</span>
           </li>
           <li class="flex items-center gap-1" aria-hidden="true">•</li>
           <li class="flex items-center gap-1">
             <span aria-hidden="true">✓</span>
-            <span><span class="sr-only">Included: </span>WCAG AA compliant</span>
+            <span><span class="sr-only">Included: </span>View Transitions built-in</span>
           </li>
         </ul>
       </div>
     </Container>
     <!-- Scroll Indicator -->
     <div class="absolute inset-x-0 bottom-4 flex flex-col items-center">
-      <a href="#performance" class="group flex flex-col items-center text-foreground-secondary hover:text-primary-600 transition-colors" aria-label="Scroll to next section">
+      <a href="#performance" class="no-underline group flex flex-col items-center text-foreground-secondary hover:text-primary-600 transition-colors" aria-label="Scroll to next section">
         <span class="text-xs sm:text-sm font-medium mb-1 sm:mb-2 opacity-75 group-hover:opacity-100 transition-opacity">Explore below</span>
-        <Icon name="arrow-down" class="w-5 h-5 sm:w-6 sm:h-6 animate-bounce" decorative />
+        <Icon name="arrow-down" class="size-5 sm:size-6 animate-bounce motion-reduce:animate-none" decorative />
       </a>
     </div>
   </Section>
@@ -310,19 +320,19 @@ const stackRationale: StackRationale = {
     <SectionSeparator />
     <Container>
       <div class="text-center">
-        <h2 class="text-3xl font-bold text-foreground-primary">
-          <span aria-hidden="true">🎯</span> Lighthouse Performance Scores
+        <h2 class="text-3xl font-bold text-foreground-primary text-balance">
+          <span aria-hidden="true" class="mr-1.5">🎯</span> Lighthouse Performance Scores
         </h2>
         <p class="mt-4 text-lg text-foreground-secondary">
           Optimized for Core Web Vitals and search engine performance
         </p>
       </div>
-      
+
       <ul class="mt-4 sm:mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 list-none" role="list" aria-label="Lighthouse performance metrics">
         {metrics.map((metric) => (
           <li>
             <Card class="border-2 border-primary-300 bg-background-secondary p-6 text-center h-full">
-              <div class="text-3xl font-bold text-primary-600" aria-label={`${metric.label} score: ${metric.score}`}>
+              <div class="text-3xl font-bold text-primary-600 dark:text-primary-300" aria-label={`${metric.label} score: ${metric.score}`}>
                 <span aria-hidden="true">{metric.icon}</span>
                 {metric.score}
               </div>
@@ -331,31 +341,31 @@ const stackRationale: StackRationale = {
           </li>
         ))}
       </ul>
-      
-      <div class="mt-8 text-center space-y-4">
+
+      <div class="mt-8 text-center flex flex-col gap-4">
         <p class="text-sm text-foreground-subtle">
           Scores reflect ideal conditions (empty starter). Real-world results may vary by deployment and content.
         </p>
-        
+
         <!-- Live Quality Badge -->
         <div class="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
           {siteLinks.pagespeed && (
-          <a 
+          <a
             href={siteLinks.pagespeed}
             target="_blank"
             rel="noopener noreferrer"
             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-100 hover:bg-primary-200 text-primary-800 transition-colors group"
             aria-label="View live Lighthouse scores on PageSpeed Insights"
           >
-            <span class="text-sm font-medium">🎯 View Live Scores</span>
-            <svg class="w-4 h-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span class="text-sm font-medium"><span aria-hidden="true">🎯</span> View Live Scores</span>
+            <svg class="size-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
           </a>
           )}
-          
+
           <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-100 text-secondary-800 text-xs font-medium">
-            <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+            <svg class="size-3" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
             Verified by CI
@@ -370,41 +380,71 @@ const stackRationale: StackRationale = {
     <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl">
+        <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl text-balance">
           Why Choose This Template?
         </h2>
-        <div class="mt-6 flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 text-sm text-foreground-subtle">
-        </div>
+        <p class="mt-4 text-base text-foreground-secondary max-w-xl mx-auto">
+          Six production-tested capabilities — from zero-JS performance to AI-ready documentation — ready to customise from day one.
+        </p>
       </div>
-      
+
       <Grid class="mt-12 gap-8">
         {features.map((feature) => (
           <ExpandableFeatureCard
+            client:visible
             icon={feature.icon}
             title={feature.title}
             description={feature.description}
             metric={feature.metric}
             expandedDetails={feature.expandedDetails}
-            techTerms={techTerms}
           />
         ))}
       </Grid>
     </Container>
   </Section>
 
+  <!-- Latest Posts -->
+  {latestPostsWithMetadata.length > 0 && (
+    <Section id="latest-posts" ariaLabel="Latest blog posts section" class="relative">
+      <SectionSeparator />
+      <Container>
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl text-balance">
+            From the Blog
+          </h2>
+          <p class="mt-4 text-lg text-foreground-secondary">
+            Latest thoughts on Astro, performance, and modern web development.
+          </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {latestPostsWithMetadata.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+
+        <div class="mt-10 text-center">
+          <Button href="/blog/" variant="secondary">
+            View all posts →
+          </Button>
+        </div>
+      </Container>
+    </Section>
+  )}
+
   <!-- Tech Stack -->
   <Section id="tech-stack" ariaLabel="Technology stack section" class="bg-background-secondary relative">
     <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-3xl font-bold text-foreground-primary">
-          <span aria-hidden="true">🛠️</span> Modern Tech Stack
+        <h2 class="text-3xl font-bold text-foreground-primary text-balance">
+          <span aria-hidden="true" class="mr-1.5">🛠️</span> Modern Tech Stack
         </h2>
         <p class="mt-4 text-lg text-foreground-secondary">
           Carefully selected tools for optimal developer experience
         </p>
       </div>
-      
+
       <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {techStack.map((tech) => (
           <Card class="p-6 text-center hover:shadow-lg transition-shadow group">
@@ -414,54 +454,55 @@ const stackRationale: StackRationale = {
               </Badge>
             </div>
             <h3 class="font-semibold text-foreground-primary text-lg mb-2">{tech.name}</h3>
-            <p class="text-sm text-primary-600 font-mono font-medium mb-3">{tech.version}</p>
+            <p class="text-sm text-primary-600 dark:text-primary-300 font-mono font-medium mb-3">{tech.version}</p>
             <p class="text-sm text-foreground-secondary mb-3 leading-relaxed">{tech.description}</p>
             <div class="mt-4 pt-4 border-t border-dashed border-border-default">
-              <p class="text-xs text-foreground-subtle italic group-hover:text-foreground-secondary transition-colors">
-                                {tech.benefit}              </p>
+              <p class="text-xs text-foreground-subtle group-hover:text-foreground-secondary transition-colors">
+                {tech.benefit}
+              </p>
             </div>
           </Card>
         ))}
       </div>
-      
+
       <!-- Why This Stack Section -->
       <div class="mt-12 mx-auto max-w-4xl">
         <div class="text-center mb-8">
           <h3 class="text-2xl font-bold text-foreground-primary mb-4">
-            <span aria-hidden="true">🤔</span> Why This Stack?
+            <span aria-hidden="true" class="mr-1.5">🤔</span> Why This Stack?
           </h3>
         </div>
-        
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card class="p-6">
-            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
               <span aria-hidden="true">⚡</span> Performance First
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.performance}
             </p>
           </Card>
-          
+
           <Card class="p-6">
-            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
               <span aria-hidden="true">🎯</span> Developer Experience
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.developerExperience}
             </p>
           </Card>
-          
+
           <Card class="p-6">
-            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
               <span aria-hidden="true">🏭</span> Production Ready
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
               {stackRationale.productionReady}
             </p>
           </Card>
-          
+
           <Card class="p-6">
-            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
               <span aria-hidden="true">🔮</span> Future Proof
             </h4>
             <p class="text-sm text-foreground-secondary leading-relaxed">
@@ -479,120 +520,120 @@ const stackRationale: StackRationale = {
     <Container>
       <div class="mx-auto max-w-5xl">
         <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-foreground-primary">
-            <span aria-hidden="true">🛤️</span> Progressive Implementation
+          <h2 class="text-3xl font-bold text-foreground-primary text-balance">
+            <span aria-hidden="true" class="mr-1.5">🛤️</span> Progressive Implementation
           </h2>
           <p class="mt-4 text-lg text-foreground-secondary">
             One path, three natural stopping points. Go as far as your project needs.
           </p>
         </div>
-        
+
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <!-- Foundation Tier -->
-          <Card class="p-6 bg-red-50 border-2 border-red-200">
+          <Card class="p-6 border-l-4 border-l-secondary-500">
             <div class="mb-4">
-              <Badge class="bg-red-100 text-red-800 text-xs">Phases 0–4</Badge>
-              <h3 class="mt-3 text-xl font-bold text-red-800">
+              <Badge variant="secondary" size="xs">Phases 0–4</Badge>
+              <h3 class="mt-3 text-xl font-bold text-foreground-primary flex items-center gap-2">
                 <span aria-hidden="true">🏗️</span> Foundation
               </h3>
             </div>
-            <p class="text-red-700 mb-6">
+            <p class="text-foreground-secondary mb-6">
               Working site skeleton with design system, content schemas, and build pipeline.
             </p>
-            <ul class="text-sm text-red-600 space-y-2 mb-6" role="list" aria-label="Foundation tier features">
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
+            <ul class="text-sm text-foreground-secondary flex flex-col gap-2 mb-6" role="list" aria-label="Foundation tier features">
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-secondary-500 mt-0.5" aria-hidden="true">✓</span>
                 <span><span class="sr-only">Included: </span>Astro + TypeScript + Tailwind + Biome</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-secondary-500 mt-0.5" aria-hidden="true">✓</span>
                 <span><span class="sr-only">Included: </span>Content Collections schemas</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-secondary-500 mt-0.5" aria-hidden="true">✓</span>
                 <span><span class="sr-only">Included: </span>Design tokens system</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-secondary-500 mt-0.5" aria-hidden="true">✓</span>
                 <span><span class="sr-only">Included: </span>CI pipeline</span>
               </li>
             </ul>
-            <p class="text-xs text-red-500 italic">Everyone does these — pre-configured in template.</p>
+            <p class="text-xs text-foreground-subtle italic">All pre-configured — skip the setup tax and start building immediately.</p>
           </Card>
-          
+
           <!-- Build Tier -->
-          <Card class="p-6 bg-amber-50 border-2 border-amber-200">
+          <Card class="p-6 border-l-4 border-l-warning-600">
             <div class="mb-4">
-              <Badge class="bg-amber-100 text-amber-800 text-xs">Phases 5–8</Badge>
-              <h3 class="mt-3 text-xl font-bold text-amber-800">
+              <Badge variant="neutral" size="xs">Phases 5–8</Badge>
+              <h3 class="mt-3 text-xl font-bold text-foreground-primary flex items-center gap-2">
                 <span aria-hidden="true">⚡</span> Build
               </h3>
             </div>
-            <p class="text-amber-700 mb-6">
+            <p class="text-foreground-secondary mb-6">
               Complete site with components, pages, content, and quality assurance.
             </p>
-            <ul class="text-sm text-amber-600 space-y-2 mb-6" role="list" aria-label="Build tier features">
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>UI components (scope to your needs)</span>
+            <ul class="text-sm text-foreground-secondary flex flex-col gap-2 mb-6" role="list" aria-label="Build tier features">
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-warning-600 mt-0.5" aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Atoms, molecules &amp; organism components</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Page sections and layouts</span>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-warning-600 mt-0.5" aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Page templates for every section</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Content creation</span>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-warning-600 mt-0.5" aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Blog, projects &amp; case study content</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Quality assurance</span>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-warning-600 mt-0.5" aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Automated tests &amp; CI quality gates</span>
               </li>
             </ul>
-            <p class="text-xs text-amber-500 italic">Make it yours — scope each phase to your goals.</p>
+            <p class="text-xs text-foreground-subtle italic">Scope each phase to your project — no phase is mandatory.</p>
           </Card>
-          
+
           <!-- Polish Tier -->
-          <Card class="p-6 bg-emerald-50 border-2 border-emerald-200">
+          <Card class="p-6 border-l-4 border-l-success-600">
             <div class="mb-4">
-              <Badge class="bg-emerald-100 text-emerald-800 text-xs">Phases 9–12</Badge>
-              <h3 class="mt-3 text-xl font-bold text-emerald-800">
+              <Badge variant="primary" size="xs">Phases 9–12</Badge>
+              <h3 class="mt-3 text-xl font-bold text-foreground-primary flex items-center gap-2">
                 <span aria-hidden="true">🏆</span> Polish
               </h3>
             </div>
-            <p class="text-emerald-700 mb-6">
+            <p class="text-foreground-secondary mb-6">
               Production-hardened site with performance optimization and monitoring.
             </p>
-            <ul class="text-sm text-emerald-600 space-y-2 mb-6" role="list" aria-label="Polish tier features">
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
+            <ul class="text-sm text-foreground-secondary flex flex-col gap-2 mb-6" role="list" aria-label="Polish tier features">
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-success-600 mt-0.5" aria-hidden="true">✓</span>
                 <span><span class="sr-only">Included: </span>Performance budget enforcement</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-success-600 mt-0.5" aria-hidden="true">✓</span>
                 <span><span class="sr-only">Included: </span>Deployment configuration</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-success-600 mt-0.5" aria-hidden="true">✓</span>
                 <span><span class="sr-only">Included: </span>Documentation and AI context</span>
               </li>
-              <li class="flex items-start gap-2">
-                <span aria-hidden="true">✓</span>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-success-600 mt-0.5" aria-hidden="true">✓</span>
                 <span><span class="sr-only">Included: </span>Post-launch monitoring</span>
               </li>
             </ul>
-            <p class="text-xs text-emerald-500 italic">Production-harden — stop when goals are met.</p>
+            <p class="text-xs text-foreground-subtle italic">Ship when it's ready — production hardening, not gold-plating.</p>
           </Card>
         </div>
-        
+
         <div class="mt-8 text-center">
           {siteLinks.docs ? (
           <Button href={`${siteLinks.docs}/getting-started/`} variant="primary" data-astro-prefetch>
             View Implementation Guide →
           </Button>
           ) : (
-          <Button href="/docs/README.md" variant="primary">
-            View Implementation Guide →
+          <Button href={siteLinks.github} variant="primary" rel="noopener noreferrer" target="_blank">
+            View on GitHub →
           </Button>
           )}
         </div>
@@ -601,34 +642,30 @@ const stackRationale: StackRationale = {
   </Section>
 
   <!-- CTA Section -->
-  <Section ariaLabel="Call to action section" class="relative bg-foreground-primary">
-    <SectionSeparator />
+  <Section ariaLabel="Call to action section" class="relative bg-linear-to-br from-primary-600 to-secondary-600">
     <Container>
       <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-3xl font-bold text-background-primary">
-          Ready to Build Something Amazing?
+        <h2 class="text-3xl font-bold text-white text-balance">
+          Clone it. Own it. Ship it.
         </h2>
-        <p class="mt-4 text-lg text-background-secondary">
-          Join developers using AI-assisted workflows to ship faster than ever
+        <p class="mt-4 text-lg text-white">
+          One clone. Astro 6, Tailwind v4, and a full AI-optimized doc system — ready to go.
         </p>
-        
+
         <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
-          {siteLinks.docs ? (
-          <Button href={`${siteLinks.docs}/getting-started/`} variant="primary" size="lg" data-astro-prefetch>
-            <span aria-hidden="true">🚀</span> Get Started Now
-          </Button>
-          ) : (
           <Button href={siteLinks.github} variant="primary" size="lg" rel="noopener noreferrer" target="_blank">
-            <span aria-hidden="true">🚀</span> Get Started Now
+            <Icon name="github" class="size-5 mr-2" decorative />
+            Clone the Template
+          </Button>
+          {siteLinks.docs && (
+          <Button href={`${siteLinks.docs}/getting-started/`} variant="secondary" size="lg" data-astro-prefetch>
+            Get Started Now →
           </Button>
           )}
-          <Button href={siteLinks.github} variant="secondary" size="lg" rel="noopener noreferrer" target="_blank">
-            <span aria-hidden="true">🐈</span> View on GitHub
-          </Button>
         </div>
-        
-        <div class="mt-8 text-sm text-background-secondary">
-          <span aria-hidden="true">🔒</span> MIT Licensed <span aria-hidden="true">•</span> <span aria-hidden="true">🎆</span> Production Ready <span aria-hidden="true">•</span> <span aria-hidden="true">🤖</span> AI Optimized
+
+        <div class="mt-8 text-sm text-white">
+          <span aria-hidden="true">🔒</span> MIT Licensed <span aria-hidden="true">•</span> <span aria-hidden="true">⚡</span> Astro 6 + Tailwind v4 <span aria-hidden="true">•</span> <span aria-hidden="true">🤖</span> AI Optimized
         </div>
       </div>
     </Container>
