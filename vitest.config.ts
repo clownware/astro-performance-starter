@@ -1,3 +1,4 @@
+import { resolve } from "path";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
@@ -25,6 +26,9 @@ export default defineConfig({
       "@types": "/src/types",
       "@content": "/src/content",
       "@assets": "/src/assets",
+      // astro:content is a virtual module — stub it so utilities that import
+      // from it (e.g. src/utils/blog.ts) can be unit-tested without Astro's runtime.
+      "astro:content": resolve(__dirname, "src/__mocks__/astro-content.ts"),
     },
   },
 });
