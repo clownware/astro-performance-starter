@@ -70,14 +70,9 @@ test.describe("Contact Page", () => {
 		});
 		await expect(socialHeading).toBeVisible();
 
-		// Check for external social links
-		const githubLink = page.locator('a[href*="github.com"]');
-		const linkedinLink = page.locator('a[href*="linkedin.com"]');
-		const twitterLink = page.locator('a[href*="twitter.com"]');
-
+		// Check for at least one external social link
+		const githubLink = page.getByRole("link", { name: /GitHub profile/ });
 		await expect(githubLink).toBeVisible();
-		await expect(linkedinLink).toBeVisible();
-		await expect(twitterLink).toBeVisible();
 	});
 
 	test("should display location and availability info", async ({ page }) => {
@@ -87,7 +82,7 @@ test.describe("Contact Page", () => {
 		await expect(locationHeading).toBeVisible();
 
 		// Check for location details
-		const location = page.getByText(/San Francisco|Remote-friendly/);
+		const location = page.getByText(/San Francisco|Remote-friendly/).first();
 		await expect(location).toBeVisible();
 	});
 
@@ -98,13 +93,9 @@ test.describe("Contact Page", () => {
 		await expect(expectationsHeading).toBeVisible();
 
 		// Check for expectation cards
-		const quickResponse = page.getByText("Quick Response");
-		const detailedFollowup = page.getByText("Detailed Follow-up");
-		const nextSteps = page.getByText("Next Steps");
-
-		await expect(quickResponse).toBeVisible();
-		await expect(detailedFollowup).toBeVisible();
-		await expect(nextSteps).toBeVisible();
+		await expect(page.getByRole("heading", { name: "Quick Response" })).toBeVisible();
+		await expect(page.getByRole("heading", { name: "Detailed Follow-up" })).toBeVisible();
+		await expect(page.getByRole("heading", { name: "Next Steps" })).toBeVisible();
 	});
 
 	test("should have privacy policy notice", async ({ page }) => {

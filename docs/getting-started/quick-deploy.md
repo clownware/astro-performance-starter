@@ -966,7 +966,7 @@ Astro releases new versions regularly. Stay informed to benefit from improvement
    - [@astrodotbuild](https://twitter.com/astrodotbuild) on Twitter/X
 
 2. **Before upgrading:**
-   - Review [Astro upgrade guide](https://docs.astro.build/en/guides/upgrade-to/)
+   - Review [Astro upgrade guide](https://docs.astro.build/en/guides/upgrade-to/v5/)
    - Check for breaking changes in the changelog
    - Test in a separate branch first
 

@@ -164,7 +164,7 @@ Users who want a different font should:
 
 - [@fontsource documentation](https://fontsource.org/docs/getting-started)
 - [Inter typeface](https://rsms.me/inter/)
-- [Google Fonts privacy concerns (GDPR)](https://www.cookieyes.com/blog/google-fonts-gdpr/)
+- Google Fonts privacy concerns (GDPR) — self-hosting fonts avoids third-party requests
 - [ADR-000: Starter Template Architecture](./000-starter-decisions.md)
 - [ADR-020: Page Performance Patterns](./020-page-performance-patterns.md)
 

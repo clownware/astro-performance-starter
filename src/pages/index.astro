@@ -12,13 +12,7 @@ import Grid from "@/components/structural/Grid.astro";
 import Section from "@/components/structural/Section.astro";
 import { siteLinks } from "@/config";
 import BaseLayout from "@/layouts/BaseLayout.astro";
-import type {
-  Feature,
-  LighthouseMetric,
-  StackRationale,
-  TechStackItem,
-  TechTerms,
-} from "@/types/content";
+import type { Feature, LighthouseMetric, StackRationale, TechStackItem } from "@/types/content";
 import { getPublishedPosts } from "@/utils/blog";
 import { formatPostMetadata } from "@/utils/formatDate";
 
@@ -113,39 +107,6 @@ const features: Feature[] = [
     ],
   },
 ];
-
-/**
- * Technical term definitions for tooltips and glossary.
- * Provides context-aware explanations for AI-assisted development.
- */
-const techTerms: TechTerms = {
-  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
-  Biome:
-    "A fast, all-in-one toolchain that replaces ESLint and Prettier with 20x better performance",
-  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
-  Preact:
-    "A lightweight 3KB alternative to React with the same API, perfect for interactive components",
-  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
-  TypeScript:
-    "JavaScript with type safety that catches errors during development instead of production",
-  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
-  Astro:
-    "A modern web framework that delivers zero JavaScript by default with optional interactive islands",
-  "Tailwind CSS": "A utility-first CSS framework that lets you build designs directly in your HTML",
-  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
-  Sharp:
-    "High-performance image processing library that automatically optimizes images for the web",
-  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
-  Playwright: "Cross-browser testing framework that works with Chrome, Firefox, Safari, and Edge",
-  // biome-ignore lint/style/useNamingConvention: proper noun dictionary key
-  Vitest: "Lightning-fast unit testing framework built on Vite with hot module replacement",
-  "WCAG AA":
-    "Web Content Accessibility Guidelines level AA - the standard for accessible web content",
-  "Islands Architecture":
-    "A pattern where interactive components are isolated islands in a sea of static HTML",
-  "Zero-JS baseline":
-    "The site works perfectly without JavaScript, then progressively enhances with interactivity",
-};
 
 /**
  * Lighthouse performance metrics for the starter template.
