@@ -4,7 +4,7 @@ import Button from "@/components/atoms/Button.astro";
 import Icon from "@/components/atoms/Icon.astro";
 
 import Card from "@/components/molecules/Card.astro";
-import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard";
+import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
 import PostCard from "@/components/molecules/PostCard.astro";
 import SectionSeparator from "@/components/molecules/SectionSeparator.astro";
 import Container from "@/components/structural/Container.astro";
@@ -391,7 +391,6 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
       <Grid class="mt-12 gap-8">
         {features.map((feature) => (
           <ExpandableFeatureCard
-            client:visible
             icon={feature.icon}
             title={feature.title}
             description={feature.description}

@@ -85,7 +85,7 @@ export default defineConfig({
   output: "static",
 
   build: {
-    inlineStylesheets: "always",
+    inlineStylesheets: "auto",
     // biome-ignore lint/style/useNamingConvention: Astro requires the exact key `compressHTML`
     compressHTML: true,
   },
