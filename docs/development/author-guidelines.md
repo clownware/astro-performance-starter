@@ -11,7 +11,7 @@ This document provides guidelines for creating and managing content within proje
 
 - **Content Location**: All structured content uses Astro's Content Collections API in `src/content/`
 - **Validation**: Run `pnpm run check` to validate TypeScript and content schemas
-- **Configuration**: Content collection schemas are defined in `src/content/config.ts`
+- **Configuration**: Content collection schemas are defined in `src/content.config.ts`
 
 ## Content Collections Setup
 
@@ -20,7 +20,7 @@ The template includes a basic content collection structure that you can extend:
 ### Blog Collection Example
 
 ```typescript
-// src/content/config.ts
+// src/content.config.ts
 import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({
@@ -84,7 +84,7 @@ import myImage from '../assets/example.jpg';
 ## Content Workflow
 
 1. **Plan content structure** using Content Collections
-2. **Create schema** in `src/content/config.ts`
+2. **Create schema** in `src/content.config.ts`
 3. **Write content** in MDX format with proper frontmatter
 4. **Preview locally** with `pnpm dev`
 5. **Validate** with `pnpm run check`

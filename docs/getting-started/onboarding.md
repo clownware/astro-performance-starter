@@ -1,7 +1,7 @@
 ---
 title: "Developer Onboarding"
 version: "1.0.0"
-lastUpdated: "2025-06-10"
+lastUpdated: true
 description: "Guide for developers to set up and start working with the Astro Performance Starter project."
 ---
 
@@ -16,7 +16,7 @@ Before you begin, ensure you have:
 - **Node.js** 24.x or later ([install](https://nodejs.org/))
 - **pnpm** 10.x or later (`corepack enable && corepack prepare pnpm@latest --activate`)
 - **Git** for version control
-- **VS Code** (recommended) - see [Recommended Extensions](./docs/development/recommended-extensions.md)
+- **VS Code** (recommended) - see [Recommended Extensions](../development/recommended-extensions.md)
 
 ## Quick Start
 
@@ -30,13 +30,10 @@ cd <project-name>
 # 2. Install dependencies
 pnpm install
 
-# 3. Build design tokens (required first time)
-pnpm run build:tokens
-
-# 4. Start development server
+# 3. Start development server (tokens auto-compile via predev hook)
 pnpm run dev
 
-# 5. Open in browser
+# 4. Open in browser
 # → http://localhost:4321
 ```
 
@@ -46,7 +43,7 @@ Once you're up and running, consider these initial configuration steps:
 
 - [ ] **Configure Analytics**: This template is privacy-first. See our guide on [Adding Web Analytics](/implementation-guides/06-optional-features/01-analytics) to add Plausible or Fathom.
 - [ ] **Customize Content**: Edit the example blog post in `src/content/blog/` and update your site configuration in `.env`.
-- [ ] **Review the Guides**: The `src/content/docs/implementation-guides/active-phases/` contain current development phase instructions. Start with [Phase 5 Components](./src/content/docs/implementation-guides/active-phases/phase-5-components.md) which has optional elements you can customize.
+- [ ] **Review the Guides**: The `docs/implementation-guides/active-phases/` contain current development phase instructions. Start with [Phase 5 Components](../implementation-guides/active-phases/phase-5-components.md) which has optional elements you can customize.
 
 ## Essential Commands
 
@@ -161,17 +158,16 @@ This supports **markdown** and components.
 
 ## Getting Help
 
-- **Framework Guide**: See [Implementation Overview](./src/content/docs/implementation-guides/README.md)
-- **Tech Stack**: Review [Technology Choices](./src/content/docs/implementation-guides/reference/tech-stack.md)
-- **Component Docs**: Run `pnpm run astrobook` (Advanced scope — optional)
-- **Team Chat**: [Link to Team Chat] <!-- TODO: Update Slack/Discord link -->
+- **Framework Guide**: See [Implementation Overview](../implementation-guides/README.md)
+- **Component Docs**: Run `pnpm run docs:components` (Advanced scope — optional)
+- **GitHub Discussions**: [Community Support](https://github.com/clownware/astro-performance-starter/discussions)
 
 ## Next Steps
 
-1. ✅ Confirm dev server is running
-2. 📚 Read the [Implementation Overview](./src/content/docs/implementation-guides/README.md)
-3. 🎯 Start with [Phase 5 Components](./src/content/docs/implementation-guides/active-phases/phase-5-components.md) - optional elements you can customize
-4. 💪 Pick your first task!
+1. Confirm dev server is running
+2. Read the [Implementation Overview](../implementation-guides/README.md)
+3. Start with [Phase 5 Components](../implementation-guides/active-phases/phase-5-components.md) - optional elements you can customize
+4. Pick your first task!
 
 ---
 

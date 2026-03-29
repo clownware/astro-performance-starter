@@ -72,7 +72,7 @@ This is a modern Astro static site with:
 - **Styling**: Tailwind CSS 4.x with CSS-native `@theme` design tokens
 - **Content**: MDX with Astro Content Collections
 - **Performance**: Lighthouse 95+ target
-- **Deployment**: Cloudflare Pages
+- **Deployment**: GitHub Pages (CI default), Cloudflare Pages (recommended for production)
 
 ## Key Directories
 
@@ -165,13 +165,12 @@ Update this value manually when a phase is complete, then run `pnpm run roadmap:
 2. `src/styles/global.css` - Tailwind v4 CSS-native config with `@theme inline` design tokens
 3. `tsconfig.json` - TypeScript settings
 4. `biome.json` - Linting/formatting rules
-5. `src/content/config.ts` - Content schemas
+5. `src/content.config.ts` - Content schemas (Astro 6 Content Layer API)
 
 ### Performance Monitoring
 
-1. `perf-baseline/scores.json` - Target metrics
-2. `.lighthouserc.js` - Lighthouse CI config
-3. `public/_headers` - Security headers
+1. `budget-overrides.json` - Performance budget configuration
+2. `public/_headers` - Security headers
 
 ## Design System Reference
 
@@ -241,7 +240,7 @@ Update this value manually when a phase is complete, then run `pnpm run roadmap:
 
 ### Internal Documentation
 
-- **[Implementation Roadmap](/)** - Chronological build sequence.
+- **[Implementation Roadmap](../README.md)** - Chronological build sequence.
 - **Detailed Phase Guides**: `../implementation-guides/`
 - **Architecture Decisions**: `../adr/`
 - **Component Patterns**: `../patterns/`
@@ -291,22 +290,6 @@ When any of the following occur, update this file immediately:
    - \[ ] Update "Common AI Tasks" with new examples
    - \[ ] Create new pattern documents if needed
 
-### Maintenance Commands
-
-<!-- TODO: These maintenance scripts are planned but not yet implemented.
-     See ADR-006 for the review cadence strategy.
-```bash
-# After completing a phase
-pnpm run update:phase-status --phase=5 --status=complete
-
-# After adding new ADR
-pnpm run update:ai-context --type=adr --file=docs/adr/006-new-decision.md
-
-# Validate AI context is current
-pnpm run validate:ai-context
-```
--->
-
 ### Review Schedule
 
 - **Weekly**: Quick check during team sync
@@ -314,5 +297,5 @@ pnpm run validate:ai-context
 - **Monthly**: Comprehensive accuracy audit
 - **Quarterly**: Structure and organization review
 
-Last reviewed: 2026-02-22
-Next review due: 2026-05-22
+Last reviewed: 2026-03-29
+Next review due: 2026-06-29

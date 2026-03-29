@@ -91,7 +91,7 @@ If content architecture needs changes:
 
 ### Key Files to Reference
 
-- `src/content/config.ts` - Collection schemas
+- `src/content.config.ts` - Collection schemas
 - `src/utils/url-utils.ts` - URL patterns
 - `src/content/*/` - Content examples
 - Content model changelog

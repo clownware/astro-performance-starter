@@ -1,6 +1,6 @@
 {
   "name": "astro-performance-starter",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Production-ready Astro starter with zero-JS baseline, 95+ Lighthouse scores, design tokens, and AI-optimized documentation.",
   "private": true,
   "type": "module",
@@ -28,6 +28,7 @@
   ],
   "packageManager": "pnpm@10.13.1",
   "scripts": {
+    "predev": "pnpm run tokens:build",
     "dev": "astro dev",
     "dev:host": "astro dev --host",
     "dev:debug": "astro dev --verbose",

@@ -336,7 +336,7 @@ dist/                   # Generated at build time
 5. Add to component index if needed
 
 # New content workflow  
-1. Define schema in src/content/config.ts
+1. Define schema in src/content.config.ts
 2. Create collection directory: src/content/[collection]/
 3. Add content files with proper frontmatter
 4. Test with pnpm run check

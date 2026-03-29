@@ -68,7 +68,7 @@ tsc --noEmit # Shows numerous type errors
    
 2. If schema issues, restore types
    git checkout HEAD~1 -- src/env.d.ts
-   git checkout HEAD~1 -- src/content/config.ts
+   git checkout HEAD~1 -- src/content.config.ts
    
 3. Regenerate types
    pnpm run astro sync
@@ -165,7 +165,7 @@ astro check # Schema validation errors
 
 # Rollback Steps
 1. Identify breaking change
-   git diff HEAD~1 src/content/config.ts
+   git diff HEAD~1 src/content.config.ts
    
 2. For schema addition (safe)
    - Add default values
@@ -180,7 +180,7 @@ astro check # Schema validation errors
    cp -r src/content src/content.backup
    
    # Revert schema
-   git checkout HEAD~1 -- src/content/config.ts
+   git checkout HEAD~1 -- src/content.config.ts
    
    # Fix content files
    node scripts/fix-content-types.js
