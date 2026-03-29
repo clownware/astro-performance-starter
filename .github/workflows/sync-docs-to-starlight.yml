@@ -10,7 +10,7 @@ name: Sync Docs to Starlight
 
 on:
   push:
-    branches: [master, main]
+    branches: [main]
     paths:
       - 'docs/**'
 
