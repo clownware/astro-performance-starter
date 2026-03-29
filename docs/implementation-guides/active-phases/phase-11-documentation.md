@@ -82,8 +82,8 @@ bash
 
 # Clone the repository
 
-git clone <https://github.com/username/repo.git>
-cd repo
+git clone <https://github.com/clownware/astro-performance-starter.git>
+cd astro-performance-starter
 
 # Install dependencies
 

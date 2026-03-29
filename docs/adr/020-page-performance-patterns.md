@@ -546,7 +546,7 @@ pnpm run perf:lighthouse:ci
 
 ### Performance
 
-- [Astro Performance Guide](https://docs.astro.build/en/guides/performance/)
+- [Astro Performance Guide](https://docs.astro.build/en/guides/performance-optimization/)
 - [Web.dev Performance](https://web.dev/performance/)
 - [Core Web Vitals](https://web.dev/vitals/)
 

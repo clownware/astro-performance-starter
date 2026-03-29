@@ -1,6 +1,6 @@
 ---
 title: biome config
-description: "```json\r // biome.json\r {\r   \"$schema\": \"https://biomejs.dev/schemas/1.9.4/schema.json\",\r   \"vcs\": {\r     \"enabled\": true,\r     \"clientKind\": \"git\",\r     \"useIg"
+description: "```json\r // biome.json\r {\r   \"$schema\": \"https://biomejs.dev/schemas/2.4.9/schema.json\",\r   \"vcs\": {\r     \"enabled\": true,\r     \"clientKind\": \"git\",\r     \"useIg"
 lastUpdated: true
 tableOfContents: true
 pagefind: true
@@ -8,7 +8,7 @@ pagefind: true
 ```json
 // biome.json
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.4.9/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",

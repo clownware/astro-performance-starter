@@ -38,8 +38,7 @@ export default defineConfig({
     astroExpressiveCode({
       themes: ["dark-plus", "light-plus"],
       useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) =>
-        theme.type === "dark" ? ".dark" : ":root:not(.dark)",
+      themeCssSelector: (theme) => (theme.type === "dark" ? ".dark" : ":root:not(.dark)"),
     }),
     mdx({
       components: mdxComponents,

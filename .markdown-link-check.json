@@ -17,6 +17,9 @@
     },
     {
       "pattern": "github\\.com/\\.\\.\\."
+    },
+    {
+      "pattern": "github\\.com/username/"
     }
   ],
   "aliveStatusCodes": [200, 206, 999],
