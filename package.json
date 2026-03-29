@@ -31,8 +31,8 @@
     "dev": "astro dev",
     "dev:host": "astro dev --host",
     "dev:debug": "astro dev --verbose",
-    "build": "pnpm run tokens:build && astro build",
-    "build:ci": "pnpm run tokens:build && astro build --verbose",
+    "build": "pnpm run env:validate && pnpm run tokens:build && astro build",
+    "build:ci": "pnpm run env:validate && pnpm run tokens:build && astro build --verbose",
     "tokens:build": "tsx scripts/src/build-tokens.ts",
     "docs:sync": "tsx scripts/src/sync-docs.ts",
     "docs:update": "tsx scripts/src/sync-docs.ts --update-versions",
@@ -65,6 +65,7 @@
     "perf:lighthouse:ci": "lighthouse http://localhost:4321 --output=json --output-path=./lighthouse-report.json --chrome-flags=\"--headless\"",
     "design:validate": "tsx scripts/src/validate-contrast.ts",
     "budgets:validate": "tsx scripts/src/validate-budget-overrides.ts",
+    "env:validate": "tsx scripts/src/validate-env.ts",
     "audit": "pnpm audit --production",
     "audit:ci": "tsx scripts/src/audit-filter.ts",
     "prepare": "husky install"

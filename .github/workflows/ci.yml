@@ -42,6 +42,8 @@ jobs:
 
       - name: Build site
         run: pnpm run build
+        env:
+          SITE_URL: https://${{ github.repository_owner }}.github.io
 
       - name: Enforce JS bundle size budget (160 KB gzipped target)
         shell: bash
