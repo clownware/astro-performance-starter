@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+[compare changes](https://github.com/clownware/astro-performance-starter/compare/v0.2.0...HEAD)
+
+### 🚀 Enhancements
+
+- **config:** Optimize build with Lightning CSS and theme-aware code blocks ([e1f0a41](https://github.com/clownware/astro-performance-starter/commit/e1f0a41))
+- **design:** Update color scheme to white/charcoal with improved contrast ([f62d049](https://github.com/clownware/astro-performance-starter/commit/f62d049))
+- **homepage:** Refine hero messaging and update tech stack details ([5bda76e](https://github.com/clownware/astro-performance-starter/commit/5bda76e))
+- **about:** Make mock identity more playful and on-brand ([e64f850](https://github.com/clownware/astro-performance-starter/commit/e64f850))
+
+### 🩹 Fixes
+
+- **components:** Improve button contrast and social link icons ([bc1eee9](https://github.com/clownware/astro-performance-starter/commit/bc1eee9))
+- **contact:** Improve text contrast and icon consistency ([56480ff](https://github.com/clownware/astro-performance-starter/commit/56480ff))
+- **layouts:** Improve UX and consistency across blog and project layouts ([ec5a41f](https://github.com/clownware/astro-performance-starter/commit/ec5a41f))
+
+### 💅 Refactors
+
+- **footer:** Remove top border and emoji from GitHub link ([c0d1fae](https://github.com/clownware/astro-performance-starter/commit/c0d1fae))
+- **components:** Migrate ExpandableFeatureCard to Preact and robots.txt to dynamic ([f78a7d9](https://github.com/clownware/astro-performance-starter/commit/f78a7d9))
+
+### 📖 Documentation
+
+- **project:** Rewrite template case study with production focus ([8ecd240](https://github.com/clownware/astro-performance-starter/commit/8ecd240))
+- Full documentation review — sync with current repo state ([39ecec3](https://github.com/clownware/astro-performance-starter/commit/39ecec3))
+
+### 🏡 Chore
+
+- Update remaining component files for consistency ([cabf974](https://github.com/clownware/astro-performance-starter/commit/cabf974))
+- Added `changelogen` for automated changelog generation from conventional commits
+- Added `predev` script for automatic token compilation on `pnpm run dev`
+
 ## [0.2.0] - 2026-03-26
 
 ### Changed
