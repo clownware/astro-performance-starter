@@ -7,13 +7,7 @@
  * Usage: pnpm run env:validate (mapped in package.json)
  */
 
-const placeholderPatterns = [
-  "clownware",
-  "example.com",
-  "your-username",
-  "your-domain",
-  "localhost",
-];
+const placeholderPatterns = ["example.com", "your-username", "your-domain", "localhost"];
 
 const siteUrl = process.env.SITE_URL || process.env.PUBLIC_SITE_URL;
 
