@@ -50,50 +50,10 @@
   --color-gray-900: hsl(var(--color-gray-900));
   --color-gray-950: hsl(var(--color-gray-950));
 
-  /* --- Colors: Palette --- */
-  --color-imperial-red-100: hsl(var(--color-imperial-red-100));
-  --color-imperial-red-200: hsl(var(--color-imperial-red-200));
-  --color-imperial-red-300: hsl(var(--color-imperial-red-300));
-  --color-imperial-red-400: hsl(var(--color-imperial-red-400));
-  --color-imperial-red-500: hsl(var(--color-imperial-red-500));
-  --color-imperial-red-600: hsl(var(--color-imperial-red-600));
-  --color-imperial-red-700: hsl(var(--color-imperial-red-700));
-  --color-imperial-red-800: hsl(var(--color-imperial-red-800));
-  --color-imperial-red-900: hsl(var(--color-imperial-red-900));
-
-  --color-orange-web-100: hsl(var(--color-orange-web-100));
-  --color-orange-web-200: hsl(var(--color-orange-web-200));
-  --color-orange-web-300: hsl(var(--color-orange-web-300));
-  --color-orange-web-400: hsl(var(--color-orange-web-400));
-  --color-orange-web-500: hsl(var(--color-orange-web-500));
-  --color-orange-web-600: hsl(var(--color-orange-web-600));
-  --color-orange-web-700: hsl(var(--color-orange-web-700));
-  --color-orange-web-800: hsl(var(--color-orange-web-800));
-  --color-orange-web-900: hsl(var(--color-orange-web-900));
-
-  --color-moonstone-100: hsl(var(--color-moonstone-100));
-  --color-moonstone-200: hsl(var(--color-moonstone-200));
-  --color-moonstone-300: hsl(var(--color-moonstone-300));
-  --color-moonstone-400: hsl(var(--color-moonstone-400));
-  --color-moonstone-500: hsl(var(--color-moonstone-500));
-  --color-moonstone-600: hsl(var(--color-moonstone-600));
-  --color-moonstone-700: hsl(var(--color-moonstone-700));
-  --color-moonstone-800: hsl(var(--color-moonstone-800));
-  --color-moonstone-900: hsl(var(--color-moonstone-900));
-
-  --color-space-cadet-500: hsl(var(--color-space-cadet-500));
-
-  --color-pearl-100: hsl(var(--color-pearl-100));
-  --color-pearl-200: hsl(var(--color-pearl-200));
-  --color-pearl-300: hsl(var(--color-pearl-300));
-  --color-pearl-400: hsl(var(--color-pearl-400));
-  --color-pearl-500: hsl(var(--color-pearl-500));
-  --color-pearl-600: hsl(var(--color-pearl-600));
-  --color-pearl-700: hsl(var(--color-pearl-700));
-  --color-pearl-800: hsl(var(--color-pearl-800));
-  --color-pearl-900: hsl(var(--color-pearl-900));
-
   /* --- Colors: Semantic brand (primary / secondary) --- */
+  /* Raw palette colors (imperial-red, orange-web, moonstone, pearl, space-cadet)
+     are defined in tokens.css but not mapped to Tailwind utilities since only
+     semantic tokens (primary, secondary, etc.) are used in components. */
   --color-primary-100: hsl(var(--color-primary-100));
   --color-primary-200: hsl(var(--color-primary-200));
   --color-primary-300: hsl(var(--color-primary-300));
@@ -323,9 +283,8 @@
 }
 
 /* ============================================================
-   FEATURE CARD (Preact island)
-   Styles for ExpandableFeatureCard.tsx — scoped styles cannot
-   be used in Preact components, so they live here instead.
+   FEATURE CARD
+   Styles for ExpandableFeatureCard details/summary behavior.
    ============================================================ */
 
 /* Remove native details/summary triangle marker */
