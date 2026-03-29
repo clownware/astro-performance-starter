@@ -38,8 +38,7 @@ export default defineConfig({
     astroExpressiveCode({
       themes: ["dark-plus", "light-plus"],
       useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) =>
-        theme.type === "dark" ? ".dark" : ":root:not(.dark)",
+      themeCssSelector: (theme) => (theme.type === "dark" ? ".dark" : ":root:not(.dark)"),
     }),
     mdx({
       components: mdxComponents,
@@ -85,7 +84,7 @@ export default defineConfig({
   output: "static",
 
   build: {
-    inlineStylesheets: "always",
+    inlineStylesheets: "auto",
     // biome-ignore lint/style/useNamingConvention: Astro requires the exact key `compressHTML`
     compressHTML: true,
   },

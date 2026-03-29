@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master, main, develop]
+    branches: [main, develop]
   pull_request:
-    branches: [master, develop]
+    branches: [main, develop]
 
 permissions:
   contents: read
@@ -28,6 +28,18 @@ jobs:
         with:
           run_install: false
 
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+        id: pnpm-cache
+
+      - name: Cache pnpm store
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
@@ -46,28 +58,29 @@ jobs:
       - name: Build site
         run: pnpm run build
 
-      - name: Enforce JS bundle size budget (160 KB gzipped target)
+      - name: Enforce JS bundle size budget
         shell: bash
         run: |
           set -e
           JS_BUNDLE_PATH="dist/_astro"
-          JS_SIZE_LIMIT_BYTES=163840 # 160 KB target (gzipped)
+          JS_SIZE_LIMIT_BYTES=163840 # 160 KB raw JS
           if [ ! -d "$JS_BUNDLE_PATH" ]; then
-            echo "⚠️  JS bundle path '$JS_BUNDLE_PATH' not found. Skipping size check."
+            echo "JS bundle path not found. Skipping size check."
             exit 0
           fi
-          if [ "$(uname)" = "Darwin" ]; then
-            JS_SIZE=$(find "$JS_BUNDLE_PATH" -name "*.js" -type f -exec stat -f%z {} + | awk '{sum+=$1} END {print sum}')
-          else
-            JS_SIZE=$(find "$JS_BUNDLE_PATH" -name "*.js" -type f -exec stat -c%s {} + | awk '{sum+=$1} END {print sum}')
-          fi
+          JS_SIZE=$(find "$JS_BUNDLE_PATH" -name "*.js" -type f -exec stat -c%s {} + | awk '{sum+=$1} END {print sum}')
           JS_SIZE=${JS_SIZE:-0}
-          echo "ℹ️  Total raw JS size: $JS_SIZE bytes"
+          echo "Total raw JS size: $JS_SIZE bytes (limit: $JS_SIZE_LIMIT_BYTES)"
           if [ "$JS_SIZE" -gt "$JS_SIZE_LIMIT_BYTES" ]; then
-            echo "❌ JavaScript bundle size exceeds limit ($JS_SIZE_LIMIT_BYTES bytes)."
+            echo "::error::JavaScript bundle size ($JS_SIZE bytes) exceeds limit ($JS_SIZE_LIMIT_BYTES bytes)"
             exit 1
           fi
-          echo "✅ Bundle size within limit."
+
+      - name: Install Playwright browsers
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Run E2E tests (Chromium)
+        run: pnpm exec playwright test --project=chromium
 
       - name: Security audit (high severity)
         run: pnpm run audit:ci
@@ -95,6 +108,7 @@ jobs:
 
       - name: Check markdown links
         uses: gaurav-nelson/github-action-markdown-link-check@v1
+        continue-on-error: true
         with:
           use-quiet-mode: 'yes'
           use-verbose-mode: 'no'

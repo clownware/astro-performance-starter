@@ -4,12 +4,12 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    target-branch: "master"
+    target-branch: "main"
     rebase-strategy: "auto"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
       interval: "weekly"
-    target-branch: "master"
+    target-branch: "main"
     registries: []
     rebase-strategy: "auto"

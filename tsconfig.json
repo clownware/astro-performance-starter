@@ -20,7 +20,7 @@
     "plugins": [{ "name": "@astrojs/ts-plugin" }],
     "types": ["astro/client", "node"],
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "esModuleInterop": true
   },
   "include": [

@@ -50,6 +50,12 @@ Open **<http://localhost:4321/>** — you're up and running.
 >
 > **No pnpm?** Run `corepack enable` first, or see [troubleshooting](./docs/getting-started/onboarding.md#troubleshooting).
 
+### One-click deploy
+
+[![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/clownware/astro-performance-starter)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/clownware/astro-performance-starter)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/clownware/astro-performance-starter)
+
 ## 🛠️ Personalization
 
 After cloning, update these files to make the template yours:

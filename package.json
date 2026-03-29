@@ -73,6 +73,7 @@
   "dependencies": {
     "@astrojs/mdx": "^5.0.2",
     "@astrojs/preact": "^5.0.2",
+    "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.1",
     "@fontsource-variable/inter": "^5.2.8",
     "@tailwindcss/vite": "^4.2.2",

@@ -1,0 +1,86 @@
+---
+interface Props {
+  icon: string;
+  title: string;
+  description: string;
+  metric: string;
+  expandedDetails: string[];
+}
+
+const { icon, title, description, metric, expandedDetails } = Astro.props;
+---
+
+<div
+  class="overflow-hidden rounded-lg border border-border-primary bg-background-primary shadow-sm relative p-6 hover:border-primary-300 transition-colors group"
+>
+  <div class="flex items-start justify-between mb-4">
+    <div class="flex items-start gap-4 flex-1">
+      <div class="text-2xl" role="img" aria-label={`${title} icon`}>
+        {icon}
+      </div>
+      <div class="flex-1">
+        <h3 class="text-lg font-semibold text-foreground-primary pr-4">{title}</h3>
+      </div>
+    </div>
+    <span class="inline-flex items-center rounded-full font-medium bg-primary-100 text-primary-800 text-xs px-[0.5rem] py-0.5 shrink-0">
+      {metric}
+    </span>
+  </div>
+
+  <div class="pl-12">
+    <p class="text-foreground-secondary mb-4">{description}</p>
+
+    <details class="feature-details group/details">
+      <summary
+        class="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center gap-1 mb-3 transition-colors cursor-pointer list-none"
+        aria-label="Toggle feature details"
+      >
+        <span class="details-show">Show details</span>
+        <span class="details-hide">Hide details</span>
+        <svg
+          class="size-4 transform transition-transform duration-200 details-chevron"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </summary>
+
+      <section class="expand-content" aria-label="Feature details">
+        <ul class="flex flex-col gap-2 text-sm text-foreground-secondary">
+          {expandedDetails.map((detail) => (
+            <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+              <span class="text-primary-500 mt-1 text-xs" aria-hidden="true">
+                ▸
+              </span>
+              <span>{detail}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+    </details>
+  </div>
+</div>
+
+<style>
+  /* Toggle text visibility based on details open state */
+  .details-hide {
+    display: none;
+  }
+  details[open] .details-show {
+    display: none;
+  }
+  details[open] .details-hide {
+    display: inline;
+  }
+  details[open] .details-chevron {
+    transform: rotate(180deg);
+  }
+</style>

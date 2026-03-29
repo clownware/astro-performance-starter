@@ -1,6 +1,5 @@
 ---
 import { getCollection } from "astro:content";
-import ThemeSetup from "@/components/ThemeSetup.astro"; // Corrected path
 import type { NavItem } from "@/types/navigation"; // Import the new type
 
 const navigation = await getCollection("navigation");
@@ -39,7 +38,6 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
     </nav>
 
     <div class="flex items-center gap-2">
-      <ThemeSetup />
       <!-- CSS-only mobile menu toggle: hidden checkbox + label button -->
       <label
         for="mobile-menu-toggle"

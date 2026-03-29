@@ -13,13 +13,15 @@ interface Props extends HTMLAttributes<"a"> {
 const { platform, href, showIcon = true, class: className, ...attrs } = Astro.props;
 
 // Platform-specific configurations with icon names
+type IconName = "github" | "arrow-down" | "arrow-right" | "external-link" | "custom";
+
 const platformConfig = {
-  github: { name: "GitHub", icon: "github" },
-  linkedin: { name: "LinkedIn", icon: "linkedin" },
-  twitter: { name: "Twitter", icon: "twitter" },
-  facebook: { name: "Facebook", icon: "facebook" },
-  reddit: { name: "Reddit", icon: "message-circle" },
-} satisfies Record<SocialPlatform, { name: string; icon: string }>;
+  github: { name: "GitHub", icon: "github" as IconName },
+  linkedin: { name: "LinkedIn", icon: "custom" as IconName },
+  twitter: { name: "Twitter", icon: "custom" as IconName },
+  facebook: { name: "Facebook", icon: "custom" as IconName },
+  reddit: { name: "Reddit", icon: "custom" as IconName },
+} satisfies Record<SocialPlatform, { name: string; icon: IconName }>;
 
 const config = platformConfig[platform];
 const linkText = `${config.name} profile`;

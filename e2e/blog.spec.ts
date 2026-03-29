@@ -85,16 +85,11 @@ test.describe("Blog Index Page", () => {
 
 test.describe("Blog Post Layout", () => {
 	test("should have proper article structure", async ({ page }) => {
-		// This test assumes at least one blog post exists
-		// Navigate to blog index first
-		await page.goto("/blog/");
-
-		// Check if any posts exist
-		const firstPostLink = page.locator('a[href^="/blog/"]').first();
-		const hasPost = await firstPostLink.isVisible().catch(() => false);
+		// Navigate directly to a known blog post
+		await page.goto("/blog/embracing-astro/");
+		const hasPost = true;
 
 		if (hasPost) {
-			await firstPostLink.click();
 
 			// Verify article structure
 			const article = page.locator("article");
@@ -105,8 +100,8 @@ test.describe("Blog Post Layout", () => {
 			await expect(breadcrumb).toBeVisible();
 
 			// Verify breadcrumb links
-			await expect(page.getByRole("link", { name: "Home" })).toBeVisible();
-			await expect(page.getByRole("link", { name: "Blog" })).toBeVisible();
+			await expect(breadcrumb.getByRole("link", { name: "Home" })).toBeVisible();
+			await expect(breadcrumb.getByRole("link", { name: "Blog" })).toBeVisible();
 		}
 	});
 
@@ -156,13 +151,10 @@ test.describe("Blog Post Layout", () => {
 	});
 
 	test("should have post navigation (prev/next)", async ({ page }) => {
-		await page.goto("/blog/");
-
-		const firstPostLink = page.locator('a[href^="/blog/"]').first();
-		const hasPost = await firstPostLink.isVisible().catch(() => false);
+		await page.goto("/blog/embracing-astro/");
+		const hasPost = true;
 
 		if (hasPost) {
-			await firstPostLink.click();
 
 			// Check for post navigation
 			const postNav = page.locator('nav[aria-label="Post navigation"]');
@@ -175,13 +167,10 @@ test.describe("Blog Post Layout", () => {
 	});
 
 	test("should display post metadata correctly", async ({ page }) => {
-		await page.goto("/blog/");
-
-		const firstPostLink = page.locator('a[href^="/blog/"]').first();
-		const hasPost = await firstPostLink.isVisible().catch(() => false);
+		await page.goto("/blog/embracing-astro/");
+		const hasPost = true;
 
 		if (hasPost) {
-			await firstPostLink.click();
 
 			// Check for article title
 			const h1 = page.locator("article h1");
