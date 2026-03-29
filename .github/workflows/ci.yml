@@ -34,6 +34,9 @@ jobs:
       - name: Lint, format & type-check
         run: pnpm run quality
 
+      - name: Unit tests
+        run: pnpm run test:unit
+
       - name: Validate budget overrides
         run: pnpm run budgets:validate
 

@@ -52,6 +52,7 @@
     "quality": "pnpm run format && pnpm run lint && pnpm run lint:md && pnpm run check",
     "test": "vitest",
     "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:a11y": "playwright test --grep=\"@a11y\"",
