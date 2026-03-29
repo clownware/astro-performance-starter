@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import mdx from "@astrojs/mdx";
 import preact from "@astrojs/preact";
@@ -13,19 +14,28 @@ import { components as mdxComponents } from "./src/components/mdx/index.ts";
 const rootDir = fileURLToPath(new URL(".", import.meta.url));
 
 // --- Deployment Configuration ---
-// Determines config based on DEPLOY_TARGET environment variable.
-// - `gh-pages`: Builds for GitHub Pages with a base path.
-// - `undefined` (or any other value): Builds for root deployment (e.g., Cloudflare Pages).
+// Read package name to derive GitHub Pages base path automatically.
+// This eliminates hardcoded repo names that break when the template is cloned.
+const pkg = JSON.parse(
+  readFileSync(new URL("./package.json", import.meta.url), "utf-8"),
+);
+
 const isGhPages = process.env.DEPLOY_TARGET === "gh-pages";
 
-// Prefer environment-provided site for production builds to avoid placeholder canonicals
-// Use SITE_URL or PUBLIC_SITE_URL; fall back to GH Pages domain when not provided
+// Site URL: require explicit configuration for builds, default to localhost for dev.
+// The validate-env.ts prebuild script catches misconfiguration before we get here.
 const envSite = process.env.SITE_URL || process.env.PUBLIC_SITE_URL;
-const site = isGhPages
-  ? (envSite ?? "https://clownware.github.io")
-  : (envSite ?? "https://clownware.github.io");
+const isDev = process.argv.slice(2).includes("dev");
+const site = envSite || (isDev ? "http://localhost:4321" : undefined);
+if (!site) {
+  throw new Error(
+    "SITE_URL is required for production builds. " +
+      "Set SITE_URL or PUBLIC_SITE_URL in your environment or .env file.",
+  );
+}
 
-const base = isGhPages ? "/astro-performance-starter" : "/";
+// Base path: derive from package.json name for GH Pages, root for all others.
+const base = isGhPages ? `/${pkg.name}` : "/";
 
 export default defineConfig({
   site,

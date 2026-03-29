@@ -57,6 +57,8 @@ jobs:
 
       - name: Build site
         run: pnpm run build
+        env:
+          SITE_URL: https://${{ github.repository_owner }}.github.io
 
       - name: Enforce JS bundle size budget
         shell: bash
