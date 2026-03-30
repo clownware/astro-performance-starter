@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import type { NavItem } from "@/types/navigation"; // Import the new type
+import { withBase } from "@/utils/url-utils";
 
 const navigation = await getCollection("navigation");
 // Explicitly type navItems to ensure type safety in the template
@@ -12,9 +13,9 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
   class="sticky top-0 z-50 w-full border-b border-primary bg-background-primary/95 supports-backdrop-filter:backdrop-blur-sm supports-backdrop-filter:bg-background-primary/60"
 >
   <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
-    <a href="/" class="flex items-center" aria-label="Homepage">
+    <a href={withBase("/")} class="flex items-center" aria-label="Homepage">
       <img
-        src="/logo.svg"
+        src={withBase("/logo.svg")}
         alt="Astro Performance Starter"
         class="h-8 w-auto"
         width="220"
@@ -24,17 +25,20 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
     </a>
 
     <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
-      {navItems.map((item: NavItem) => (
-        <a
-          href={item.href}
-          class="no-underline text-base font-medium text-foreground-secondary transition-all hover:text-foreground-primary hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-background-secondary"
-          aria-current={Astro.url.pathname === item.href ? 'page' : undefined}
-          target={item.isExternal ? '_blank' : undefined}
-          rel={item.isExternal ? 'noopener noreferrer' : undefined}
-        >
-          {item.label}
-        </a>
-      ))}
+      {navItems.map((item: NavItem) => {
+        const href = item.isExternal ? item.href : withBase(item.href);
+        return (
+          <a
+            href={href}
+            class="no-underline text-base font-medium text-foreground-secondary transition-all hover:text-foreground-primary hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-background-secondary"
+            aria-current={Astro.url.pathname === href ? 'page' : undefined}
+            target={item.isExternal ? '_blank' : undefined}
+            rel={item.isExternal ? 'noopener noreferrer' : undefined}
+          >
+            {item.label}
+          </a>
+        );
+      })}
     </nav>
 
     <div class="flex items-center gap-2">
@@ -108,7 +112,7 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
   >
     {navItems.map((item: NavItem) => (
       <a
-        href={item.href}
+        href={item.isExternal ? item.href : withBase(item.href)}
         class="no-underline text-lg font-medium text-foreground-primary transition-colors hover:text-foreground-primary focus-visible-ring"
         target={item.isExternal ? '_blank' : undefined}
         rel={item.isExternal ? 'noopener noreferrer' : undefined}

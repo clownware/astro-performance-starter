@@ -8,6 +8,7 @@ import { socialLinks as configSocialLinks } from "@/config";
 // Import the avatar image
 import avatarImage from "@/images/avatar-placeholder.png";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/url-utils";
 
 // Skills data
 const skills = [
@@ -219,7 +220,7 @@ const experiences = [
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <Button 
-              href="/contact" 
+              href={withBase("/contact")}
               variant="primary" 
               size="lg"
               class="inline-flex items-center"
@@ -228,7 +229,7 @@ const experiences = [
               Get In Touch
             </Button>
             <Button 
-              href="/resume.pdf" 
+              href={withBase("/resume.pdf")}
               variant="secondary" 
               size="lg"
               class="inline-flex items-center"

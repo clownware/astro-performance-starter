@@ -1,16 +1,17 @@
 ---
 import Container from "@/components/structural/Container.astro";
 import { siteLinks, siteMetadata } from "@/config";
+import { withBase } from "@/utils/url-utils";
 
 const currentYear = new Date().getFullYear();
 void currentYear;
 
 const footerLinks = [
-  { label: "Home", href: "/" },
-  { label: "Blog", href: "/blog/" },
-  { label: "Projects", href: "/projects/" },
-  { label: "About", href: "/about/" },
-  { label: "Contact", href: "/contact/" },
+  { label: "Home", href: withBase("/") },
+  { label: "Blog", href: withBase("/blog/") },
+  { label: "Projects", href: withBase("/projects/") },
+  { label: "About", href: withBase("/about/") },
+  { label: "Contact", href: withBase("/contact/") },
 ];
 
 const docsLinks = siteLinks.docs
@@ -35,7 +36,7 @@ const externalLinks = [...(siteLinks.github ? [{ label: "GitHub", href: siteLink
       <div class="lg:col-span-1">
         <div class="mb-6">
           <img 
-            src="/logo.svg" 
+            src={withBase("/logo.svg")}
             alt={siteMetadata.title} 
             class="h-10 w-auto" 
             width="220" 

@@ -15,6 +15,7 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { Feature, LighthouseMetric, StackRationale, TechStackItem } from "@/types/content";
 import { getPublishedPosts } from "@/utils/blog";
 import { formatPostMetadata } from "@/utils/formatDate";
+import { withBase } from "@/utils/url-utils";
 
 /**
  * Homepage feature cards showcasing template capabilities.
@@ -384,7 +385,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
         </div>
 
         <div class="mt-10 text-center">
-          <Button href="/blog/" variant="secondary">
+          <Button href={withBase("/blog/")} variant="secondary">
             View all posts →
           </Button>
         </div>
