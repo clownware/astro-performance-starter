@@ -38,7 +38,7 @@ const shareUrls = generateAllShareUrls({
 <BaseLayout
   title={title}
   description={description}
-  image={cover ? cover.src : "/og-blog.svg"}
+  image={cover ? cover.src : withBase("/og-blog.svg")}
   ogType="article"
   ogArticle={{
     publishedTime: date.toISOString(),
@@ -54,7 +54,7 @@ const shareUrls = generateAllShareUrls({
       <nav class="mb-6 text-sm" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2 text-foreground-secondary">
           <li>
-            <a href="/" class="hover:text-foreground-primary transition-colors">
+            <a href={withBase("/")} class="hover:text-foreground-primary transition-colors">
               Home
             </a>
           </li>

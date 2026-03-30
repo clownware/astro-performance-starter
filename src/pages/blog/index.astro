@@ -174,7 +174,7 @@ const pageDescription =
                 <div class="hidden sm:flex items-center space-x-1">
                   {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => {
                     const isCurrentPage = pageNum === page.currentPage;
-                    const href = pageNum === 1 ? withBase('/blog/') : withBase(`/blog/${pageNum}/`);
+                    const href = pageNum === 1 ? '/blog/' : `/blog/${pageNum}/`;
                     
                     return isCurrentPage ? (
                       <span
