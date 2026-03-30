@@ -3,6 +3,7 @@ import { type CollectionEntry, getCollection, render } from "astro:content";
 import Badge from "@/components/atoms/Badge.astro";
 import ProjectLayout from "@/layouts/ProjectLayout.astro";
 import { formatDate, formatPostMetadata } from "@/utils/formatDate";
+import { withBase } from "@/utils/url-utils";
 
 // Generate static paths for all projects
 export async function getStaticPaths() {
@@ -106,7 +107,7 @@ const hasOutcomes = project.outcomes && project.outcomes.length > 0;
           .map((relatedProject) => (
             <article class="related-project-card bg-background-secondary border border-border-primary rounded-xl p-6 hover:border-primary-400 transition-colors duration-200">
               <h4 class="text-base font-semibold text-foreground-primary mb-2">
-                <a href={`/projects/${relatedProject.slug}`} class="hover:text-primary-300 dark:hover:text-primary-600 transition-colors duration-200 no-underline">
+                <a href={withBase(`/projects/${relatedProject.slug}`)} class="hover:text-primary-300 dark:hover:text-primary-600 transition-colors duration-200 no-underline">
                   {relatedProject.title}
                 </a>
               </h4>
