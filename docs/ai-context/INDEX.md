@@ -21,6 +21,14 @@ This contract specifies what AI assistants can expect to find and where. Read th
 - Start here: `docs/ai-context/INDEX.md` (this file)
 - This file provides project overview, constraints, and navigation
 
+### Tool-Specific Context Files
+
+- **Claude Code**: `CLAUDE.md` (project root) + `.claude/` directory (skills, agents, settings)
+- **Windsurf**: `.windsurfrules` (project root)
+- **Cursor**: `.cursorrules` (copy from `airules.example`)
+- **Cline**: `.clinerules` (copy from `airules.example`)
+- See `docs/ai-context/ai-rules-setup.md` for setup details
+
 ### Architectural Constraints
 
 - Location: `docs/adr/`

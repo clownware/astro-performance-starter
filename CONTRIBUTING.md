@@ -15,6 +15,16 @@ Thank you for your interest in contributing! This project follows a structured a
 - pnpm 10.x or later
 - Familiarity with our [Implementation Guides](docs/implementation-guides/README.md)
 
+## AI-Assisted Development
+
+This project ships with pre-configured AI assistant context for multiple tools:
+
+- **Claude Code:** `CLAUDE.md` + `.claude/` directory (skills, agents, settings) — auto-detected on session start
+- **Windsurf:** `.windsurfrules` — auto-detected at project root
+- **Cursor/Cline:** Copy `airules.example` to `.cursorrules` or `.clinerules`
+
+Claude Code includes project-specific skills (`/pr-description`, `/component-scaffold`) and a `code-reviewer` subagent that checks changes against the project's ADRs, performance budgets, and component patterns. See `docs/ai-context/ai-rules-setup.md` for full setup details.
+
 ## 🎯 Ways to Contribute
 
 ### 1. Documentation Improvements

@@ -32,7 +32,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Lint, format & type-check
-        run: pnpm run quality
+        run: pnpm run quality:ci
 
       - name: Validate budget overrides
         run: pnpm run budgets:validate

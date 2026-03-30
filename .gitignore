@@ -88,6 +88,13 @@ frontmatter-report.json
 *~
 
 # ---------------------------------------------
+# Claude Code (personal/ephemeral files)
+# ---------------------------------------------
+.claude/settings.local.json
+.claude/plans/
+.claude/worktrees/
+
+# ---------------------------------------------
 # Operating System Files
 # ---------------------------------------------
 # macOS

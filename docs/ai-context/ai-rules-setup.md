@@ -56,6 +56,14 @@ Every time you choose to apply a rule(s), explicitly state the rule(s) in the ou
 - Rules file: `.clinerules`
 - May need manual configuration in extension settings
 
+**For Claude Code:**
+
+- Project context: `CLAUDE.md` at project root (auto-detected on session start)
+- Skills: `.claude/skills/` directory (auto-detected, includes `pr-description` and `component-scaffold`)
+- Subagents: `.claude/agents/` directory (auto-detected, includes `code-reviewer`)
+- Settings: `.claude/settings.json` (tool permissions, committed to repo)
+- No additional configuration needed — restart Claude Code after cloning
+
 ## Astro-Specific Rules Included
 
 The template includes pre-configured rules for:
@@ -153,13 +161,16 @@ Performance-optimized e-commerce experience
 If using multiple AI assistants, maintain consistency:
 
 ```bash
-# Keep rules synchronized
+# Keep rules synchronized across AI tools
 cp .windsurfrules .cursorrules
 cp .windsurfrules .clinerules
 
 # Or use symbolic links (Unix/Mac)
 ln -s .windsurfrules .cursorrules
 ln -s .windsurfrules .clinerules
+
+# CLAUDE.md and .windsurfrules serve the same purpose for different tools
+# When updating standards, update both files
 ```
 
 ## Testing Your Configuration
