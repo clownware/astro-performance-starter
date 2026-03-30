@@ -1,18 +1,25 @@
+# Code Owners
+#
+# After using this template, uncomment and update the lines below
+# with your GitHub username(s). CODEOWNERS requires at least one
+# owner per pattern. See:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
 # Default owners for everything in the repo
-* @chrispezza
+# * @your-github-username
 
 # Documentation changes can be reviewed by docs maintainers
-/docs/ @chrispezza
+# /docs/ @your-github-username
 
 # CI/CD and workflow changes require careful review
-/.github/ @chrispezza
+# /.github/ @your-github-username
 
 # Design tokens and styling
-/tokens/ @chrispezza
-/tailwind.config.ts @chrispezza
+# /tokens/ @your-github-username
+# /tailwind.config.ts @your-github-username
 
 # Core configuration
-/astro.config.mjs @chrispezza
-/tsconfig.json @chrispezza
-/biome.json @chrispezza
-/package.json @chrispezza
+# /astro.config.mjs @your-github-username
+# /tsconfig.json @your-github-username
+# /biome.json @your-github-username
+# /package.json @your-github-username
