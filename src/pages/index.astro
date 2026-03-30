@@ -38,16 +38,16 @@ const features: Feature[] = [
   },
   {
     icon: "🤖",
-    title: "AI-Assisted Development",
+    title: "AI-Ready Development Workflows",
     description:
-      "Rich context documentation and prompt libraries that supercharge AI coding for 10x faster development.",
-    metric: "10x Faster",
+      "Ships CLAUDE.md, Claude Code skills, subagents, and multi-tool AI context. Your AI assistant is project-aware from the first clone.",
+    metric: "Zero Config",
     expandedDetails: [
-      "Structured documentation that AI assistants can understand and use effectively",
-      "Architectural Decision Records (ADRs) for tracking design choices",
-      "Phase-by-phase implementation guides with clear milestones",
-      "Pattern libraries with real-world examples and anti-patterns",
-      "Context-aware documentation that adapts to your project needs",
+      "CLAUDE.md project brain with priority-ordered conventions and progressive disclosure",
+      "Claude Code skills for component scaffolding and PR descriptions",
+      "Code reviewer subagent that checks against your ADRs and performance budgets",
+      "Parallel support for Windsurf, Cursor, and Cline via shared AI context docs",
+      "Single source of truth: update conventions once, all AI tools pick it up",
     ],
   },
   {
@@ -127,56 +127,56 @@ const metrics: LighthouseMetric[] = [
 const techStack: TechStackItem[] = [
   {
     name: "Astro",
-    version: "v6.0.8",
+    version: "v{{versions.astro}}",
     description: "Content Layer API, View Transitions, Islands",
     benefit: "Type-safe content, named view transitions, selective hydration",
     category: "Framework",
   },
   {
     name: "TypeScript",
-    version: "v5.9.3",
+    version: "v{{versions.typescript}}",
     description: "Type-safe JavaScript with strict mode",
     benefit: "Catch errors early, better DX",
     category: "Language",
   },
   {
     name: "Tailwind CSS",
-    version: "v4.2.2",
+    version: "v{{versions.tailwindcss}}",
     description: "CSS-native config — no tailwind.config.js",
     benefit: "@theme in CSS, Lightning CSS compiler, zero JS config overhead",
     category: "Styling",
   },
   {
     name: "Biome",
-    version: "v2.4.9",
+    version: "v{{versions.biome}}",
     description: "All-in-one toolchain for web projects",
     benefit: "20x faster than ESLint + Prettier combined",
     category: "Tooling",
   },
   {
     name: "Preact",
-    version: "v10.29.0",
+    version: "v{{versions.preact}}",
     description: "Lightweight React alternative",
     benefit: "3KB runtime, familiar React-like syntax",
     category: "Interactivity",
   },
   {
     name: "Playwright",
-    version: "v1.58.2",
+    version: "v{{versions.playwright}}",
     description: "End-to-end testing",
     benefit: "Reliable cross-browser testing automation",
     category: "E2E Testing",
   },
   {
     name: "Vitest",
-    version: "v4.1.1",
+    version: "v{{versions.vitest}}",
     description: "Fast unit testing powered by Vite",
     benefit: "Lightning-fast test execution and hot reload",
     category: "Unit Testing",
   },
   {
     name: "Sharp",
-    version: "v0.34.x",
+    version: "v{{versions.sharp}}",
     description: "High-performance image processing",
     benefit: "Automatic conversion, responsive images",
     category: "Image Processing",
@@ -207,7 +207,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
 
 <BaseLayout
   title="Production-Ready Astro Template for AI-Assisted Development"
-  description="Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 95+ Lighthouse scores, and AI-optimized documentation for rapid development."
+  description="Production-ready Astro 6 starter with 95+ Lighthouse scores, zero-JS baseline, and built-in AI development workflows. Clone it and ship."
 >
   <!-- Hero Section -->
   <Section ariaLabel="Hero section" class="relative overflow-hidden flex flex-col items-center justify-center text-center min-h-[calc(100vh-4rem)]">
@@ -230,12 +230,12 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
         </h1>
         <p class="mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
           <span class="bg-linear-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-            Point your AI agent at the docs and ship.
+            Clone it and your AI already knows the codebase.
           </span>
         </p>
 
         <p class="mt-3 sm:mt-4 text-base sm:text-lg leading-relaxed text-foreground-secondary max-w-2xl mx-auto">
-          Build blazing-fast websites with Astro's zero-JS architecture — 95+ Lighthouse scores out of the box, with AI-optimized documentation so your agent can hit the ground running.
+          Build blazing-fast websites with Astro's zero-JS architecture — 95+ Lighthouse scores out of the box, with AI development workflows so your agent can hit the ground running.
         </p>
 
         <div class="mt-4 sm:mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
@@ -610,7 +610,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           Clone it. Own it. Ship it.
         </h2>
         <p class="mt-4 text-lg text-white">
-          One clone. Astro 6, Tailwind v4, and a full AI-optimized doc system — ready to go.
+          One clone. Astro 6, Tailwind v4, and a working AI development workflow — ready to go.
         </p>
 
         <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">

@@ -18,10 +18,10 @@
 Most Astro templates sacrifice performance for features. This one delivers **95+ Lighthouse scores** without the bloat.
 
 - **Performance-first** — < 90KB JS, < 15KB CSS (gzipped) out of the box
+- **AI-ready from clone** — Ships CLAUDE.md, Claude Code skills + subagents, plus Windsurf/Cursor/Cline context. Your AI assistant knows the codebase on first session.
 - **Modern stack** — Astro 6.x + TypeScript 5.x + Tailwind 4.x + Biome 2.x
 - **Accessible** — WCAG AA compliance via semantic HTML, ARIA labels, and validated contrast ratios
 - **Solo dev optimized** — Build portfolios and client sites fast
-- **AI-ready** — Rich context for AI coding assistants in `docs/ai-context/`
 
 ## ⚡ Quick Start
 
@@ -110,14 +110,27 @@ One path, three natural stopping points:
 
 See the **[Implementation Guide](./docs/README.md#implementation-roadmap)** for details.
 
-## 🤖 AI Context Layer
+## 🤖 AI Development Workflows
 
-This template includes structured documentation designed for AI coding assistants. The `docs/` directory serves as both human-readable reference and filesystem-readable context for tools like Windsurf, Cursor, and GitHub Copilot.
+This template ships working AI context for multiple tools — not just documentation, but active skills, subagents, and project conventions that make your AI assistant productive from the first session.
+
+| Tool | File(s) | What it does |
+|------|---------|-------------|
+| Claude Code | `CLAUDE.md`, `.claude/` | Project brain + skills + code reviewer subagent |
+| Windsurf | `.windsurfrules` | Full project conventions |
+| Cursor / Cline | `airules.example` | Copy to `.cursorrules` or `.clinerules` |
+| All tools | `docs/ai-context/` | Canonical source of truth for all AI context |
+
+One set of conventions, multiple tool formats. Update `docs/ai-context/INDEX.md` and all AI tools pick up the changes.
+
+### AI Context Layer
 
 - **Entry point**: `docs/ai-context/INDEX.md` — project overview, constraints, and navigation
 - **Architectural constraints**: `docs/adr/` — every accepted ADR is a rule AI must respect
 - **Performance limits**: Budgets and guardrails checked before adding dependencies
 - **Zero config**: No MCP server, no API — just well-structured markdown that any AI can read
+
+See [AI Context Setup Guide](docs/ai-context/ai-rules-setup.md) for details.
 
 ## 🔧 Key Commands
 
