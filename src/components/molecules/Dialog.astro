@@ -1,0 +1,168 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  size?: "sm" | "md" | "lg";
+  class?: string;
+}
+
+const { id, title, size = "md", class: className } = Astro.props;
+
+const sizeClasses = {
+  sm: "max-w-sm",
+  md: "max-w-lg",
+  lg: "max-w-2xl",
+} as const;
+---
+
+{/*
+  Native <dialog> element. The browser provides focus trapping, backdrop rendering,
+  Escape-to-close, and proper stacking context — all of which previously required
+  JavaScript libraries like Floating UI, Radix, or HeadlessUI.
+  The only JS needed is showModal() and close(), via minimal inline onclick handlers.
+*/}
+<dialog
+  id={id}
+  class:list={[
+    "dialog",
+    sizeClasses[size],
+    className,
+  ]}
+  aria-labelledby={`${id}-title`}
+>
+  <div class="dialog__header">
+    <h2 id={`${id}-title`} class="text-lg font-semibold text-foreground-primary">
+      {title}
+    </h2>
+    <button
+      class="dialog__close"
+      aria-label="Close dialog"
+      onclick="this.closest('dialog').close()"
+    >
+      <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+  </div>
+
+  <div class="dialog__body">
+    <slot />
+  </div>
+
+  <div class="dialog__footer">
+    <slot name="footer">
+      <button
+        class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium bg-primary-600 text-white hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+        onclick="this.closest('dialog').close()"
+      >
+        Close
+      </button>
+    </slot>
+  </div>
+</dialog>
+
+<style>
+  .dialog {
+    width: calc(100% - 2rem);
+    padding: 0;
+    border: 1px solid hsl(var(--color-border-primary));
+    border-radius: 0.75rem;
+    background: hsl(var(--color-background-primary));
+    color: hsl(var(--color-foreground-primary));
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  /* Backdrop — browser-provided, styled with design tokens */
+  .dialog::backdrop {
+    background: hsl(var(--color-gray-900) / 0.6);
+    backdrop-filter: blur(4px);
+  }
+
+  /*
+   * @starting-style + transition-behavior: allow-discrete enables smooth
+   * open/close transitions on the dialog and backdrop — animating display: none
+   * to display: block, which was previously impossible without JavaScript.
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    .dialog {
+      opacity: 0;
+      transform: translateY(1rem) scale(0.95);
+      transition:
+        opacity 0.2s ease-out,
+        transform 0.2s ease-out,
+        overlay 0.2s ease-out allow-discrete,
+        display 0.2s ease-out allow-discrete;
+    }
+
+    .dialog[open] {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+
+    @starting-style {
+      .dialog[open] {
+        opacity: 0;
+        transform: translateY(1rem) scale(0.95);
+      }
+    }
+
+    .dialog::backdrop {
+      opacity: 0;
+      transition:
+        opacity 0.2s ease-out,
+        overlay 0.2s ease-out allow-discrete,
+        display 0.2s ease-out allow-discrete;
+    }
+
+    .dialog[open]::backdrop {
+      opacity: 1;
+    }
+
+    @starting-style {
+      .dialog[open]::backdrop {
+        opacity: 0;
+      }
+    }
+  }
+
+  .dialog__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid hsl(var(--color-border-primary));
+  }
+
+  .dialog__body {
+    padding: 1.5rem;
+  }
+
+  .dialog__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding: 1rem 1.5rem;
+    border-top: 1px solid hsl(var(--color-border-primary));
+  }
+
+  .dialog__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.375rem;
+    border-radius: 0.375rem;
+    color: hsl(var(--color-foreground-secondary));
+    transition: color 0.15s, background-color 0.15s;
+    cursor: pointer;
+  }
+
+  .dialog__close:hover {
+    color: hsl(var(--color-foreground-primary));
+    background-color: hsl(var(--color-background-secondary));
+  }
+
+  .dialog__close:focus {
+    outline: 2px solid hsl(var(--color-primary-500));
+    outline-offset: 2px;
+  }
+</style>

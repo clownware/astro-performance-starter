@@ -1,0 +1,241 @@
+---
+type FeatureTag =
+  | "zero-js"
+  | "css-only"
+  | "wcag-aa"
+  | "popover-api"
+  | "scroll-driven"
+  | "css-property"
+  | "starting-style"
+  | "dialog"
+  | "container-query"
+  | "preact-signals"
+  | "view-transitions"
+  | "progressive-enhancement";
+
+interface Props {
+  title: string;
+  description: string;
+  features?: FeatureTag[];
+  codeSnippet?: string;
+  class?: string;
+}
+
+const { title, description, features = [], codeSnippet, class: className } = Astro.props;
+
+const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
+  "zero-js": {
+    label: "Zero JS",
+    color: "bg-success-100 text-success-700 dark:bg-success-600/20 dark:text-success-100",
+  },
+  "css-only": {
+    label: "CSS Only",
+    color: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
+  },
+  "wcag-aa": {
+    label: "WCAG AA",
+    color: "bg-secondary-100 text-secondary-800 dark:bg-secondary-900 dark:text-secondary-200",
+  },
+  "popover-api": {
+    label: "Popover API",
+    color: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
+  },
+  "scroll-driven": {
+    label: "Scroll-Driven",
+    color: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
+  },
+  "css-property": {
+    label: "CSS @property",
+    color: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
+  },
+  "starting-style": {
+    label: "@starting-style",
+    color: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
+  },
+  dialog: {
+    label: "<dialog>",
+    color: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
+  },
+  "container-query": {
+    label: "Container Query",
+    color: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
+  },
+  "preact-signals": {
+    label: "Preact Signals",
+    color: "bg-warning-100 text-warning-700 dark:bg-warning-600/20 dark:text-warning-100",
+  },
+  "view-transitions": {
+    label: "View Transitions",
+    color: "bg-secondary-100 text-secondary-800 dark:bg-secondary-900 dark:text-secondary-200",
+  },
+  "progressive-enhancement": {
+    label: "Prog. Enhancement",
+    color: "bg-success-100 text-success-700 dark:bg-success-600/20 dark:text-success-100",
+  },
+};
+---
+
+<div class:list={["showcase-example", className]} id={title.toLowerCase().replace(/\s+/g, '-')}>
+  <div class="showcase-example__header">
+    <h3 class="text-lg font-semibold text-foreground-primary">{title}</h3>
+    {features.length > 0 && (
+      <div class="flex flex-wrap gap-1.5">
+        {features.map((feature) => {
+          const { label, color } = featureLabels[feature];
+          return (
+            <span class:list={["inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium", color]}>
+              {label}
+            </span>
+          );
+        })}
+      </div>
+    )}
+  </div>
+
+  <p class="text-sm text-foreground-secondary mb-4">{description}</p>
+
+  {/* Live demo area */}
+  <div class="showcase-example__demo">
+    <slot />
+  </div>
+
+  {/* Expandable code snippet — uses <details> pattern from ExpandableFeatureCard */}
+  {codeSnippet && (
+    <details class="showcase-example__code-details">
+      <summary class="showcase-example__code-toggle">
+        <span class="details-show">Show code</span>
+        <span class="details-hide">Hide code</span>
+        <svg
+          class="size-4 transform transition-transform duration-200 details-chevron"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M19 9l-7 7-7-7"
+          />
+        </svg>
+      </summary>
+      <div class="showcase-example__code">
+        <pre><code set:html={codeSnippet} /></pre>
+      </div>
+    </details>
+  )}
+</div>
+
+<style>
+  .showcase-example {
+    padding: 1.5rem;
+    border: 1px solid hsl(var(--color-border-primary));
+    border-radius: 0.75rem;
+    background: hsl(var(--color-background-primary));
+  }
+
+  .showcase-example__header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .showcase-example__demo {
+    padding: 1.5rem;
+    border: 1px dashed hsl(var(--color-border-primary));
+    border-radius: 0.5rem;
+    background: hsl(var(--color-background-secondary));
+    overflow: hidden;
+  }
+
+  .showcase-example__code-details {
+    margin-top: 1rem;
+  }
+
+  .showcase-example__code-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: hsl(var(--color-primary-600));
+    cursor: pointer;
+    list-style: none;
+    transition: color 0.15s;
+  }
+
+  .showcase-example__code-toggle:hover {
+    color: hsl(var(--color-primary-700));
+  }
+
+  :global(.dark) .showcase-example__code-toggle {
+    color: hsl(var(--color-primary-400));
+  }
+
+  :global(.dark) .showcase-example__code-toggle:hover {
+    color: hsl(var(--color-primary-300));
+  }
+
+  .showcase-example__code-toggle::-webkit-details-marker {
+    display: none;
+  }
+
+  .showcase-example__code-toggle::marker {
+    display: none;
+  }
+
+  /* Toggle text visibility */
+  .details-hide {
+    display: none;
+  }
+  details[open] .details-show {
+    display: none;
+  }
+  details[open] .details-hide {
+    display: inline;
+  }
+  details[open] .details-chevron {
+    transform: rotate(180deg);
+  }
+
+  .showcase-example__code {
+    margin-top: 0.75rem;
+    border-radius: 0.5rem;
+    overflow: auto;
+  }
+
+  .showcase-example__code pre {
+    padding: 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    background: hsl(var(--color-gray-900));
+    color: hsl(var(--color-gray-100));
+    border-radius: 0.5rem;
+    overflow-x: auto;
+  }
+
+  .showcase-example__code code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .showcase-example__code {
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-0.5rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+</style>

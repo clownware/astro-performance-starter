@@ -1,0 +1,79 @@
+---
+interface Props {
+  color?: "primary" | "secondary" | "gradient";
+  height?: "thin" | "default" | "thick";
+  class?: string;
+}
+
+const { color = "primary", height = "default", class: className } = Astro.props;
+
+const colorMap = {
+  primary: "hsl(var(--color-primary-600))",
+  secondary: "hsl(var(--color-secondary-600))",
+  gradient:
+    "linear-gradient(90deg, hsl(var(--color-primary-500)), hsl(var(--color-secondary-500)))",
+} as const;
+
+const heightMap = {
+  thin: "2px",
+  default: "3px",
+  thick: "4px",
+} as const;
+---
+
+{/*
+  Scroll-driven reading progress bar. Literally one <div> with CSS.
+  No Intersection Observer. No scroll event listener. No JavaScript at all.
+  Uses animation-timeline: scroll() to fill the bar as the user scrolls.
+*/}
+<div
+  class:list={["reading-progress", className]}
+  style={`--progress-color: ${colorMap[color]}; --progress-height: ${heightMap[height]}`}
+  role="progressbar"
+  aria-label="Reading progress"
+  aria-valuemin="0"
+  aria-valuemax="100"
+></div>
+
+<style>
+  .reading-progress {
+    --progress-color: hsl(var(--color-primary-600));
+    --progress-height: 3px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--progress-height);
+    z-index: 60; /* Above header z-50 */
+    pointer-events: none;
+    transform-origin: left;
+    transform: scaleX(0);
+    background: var(--progress-color);
+  }
+
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .reading-progress {
+        animation: progress-fill linear both;
+        animation-timeline: scroll();
+      }
+    }
+
+    /* When motion is reduced, show a static subtle bar instead of hiding entirely */
+    @media (prefers-reduced-motion: reduce) {
+      .reading-progress {
+        animation: progress-fill linear both;
+        animation-timeline: scroll();
+      }
+    }
+  }
+
+  @keyframes progress-fill {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+</style>

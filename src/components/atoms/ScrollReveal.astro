@@ -1,0 +1,128 @@
+---
+interface Props {
+  animation?: "fade-up" | "fade-in" | "slide-left" | "slide-right" | "scale";
+  delay?: "none" | "short" | "medium";
+  class?: string;
+}
+
+const { animation = "fade-up", delay = "none", class: className } = Astro.props;
+
+const delayMap = {
+  none: "0ms",
+  short: "100ms",
+  medium: "200ms",
+} as const;
+---
+
+<div
+  class:list={["scroll-reveal", `scroll-reveal--${animation}`, className]}
+  style={delay !== "none" ? `--reveal-delay: ${delayMap[delay]}` : undefined}
+>
+  <slot />
+</div>
+
+<style>
+  .scroll-reveal {
+    --reveal-delay: 0ms;
+  }
+
+  /*
+   * Scroll-driven reveal: animates children into view as they enter the viewport.
+   * Uses animation-timeline: view() — replaces AOS, ScrollMagic, GSAP ScrollTrigger
+   * with zero JavaScript.
+   *
+   * Progressive enhancement: @supports ensures unsupported browsers show content
+   * immediately. prefers-reduced-motion skips animation entirely.
+   */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .scroll-reveal--fade-up {
+        animation: reveal-fade-up linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 30%;
+        animation-delay: var(--reveal-delay);
+      }
+
+      .scroll-reveal--fade-in {
+        animation: reveal-fade-in linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 30%;
+        animation-delay: var(--reveal-delay);
+      }
+
+      .scroll-reveal--slide-left {
+        animation: reveal-slide-left linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 30%;
+        animation-delay: var(--reveal-delay);
+      }
+
+      .scroll-reveal--slide-right {
+        animation: reveal-slide-right linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 30%;
+        animation-delay: var(--reveal-delay);
+      }
+
+      .scroll-reveal--scale {
+        animation: reveal-scale linear both;
+        animation-timeline: view();
+        animation-range: entry 0% entry 30%;
+        animation-delay: var(--reveal-delay);
+      }
+    }
+  }
+
+  @keyframes reveal-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes reveal-fade-in {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes reveal-slide-left {
+    from {
+      opacity: 0;
+      transform: translateX(2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes reveal-slide-right {
+    from {
+      opacity: 0;
+      transform: translateX(-2rem);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes reveal-scale {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+</style>
