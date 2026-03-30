@@ -1,0 +1,163 @@
+---
+interface TabItem {
+  id: string;
+  label: string;
+}
+
+interface Props {
+  tabs: TabItem[];
+  defaultTab?: string;
+  class?: string;
+}
+
+const { tabs, defaultTab, class: className } = Astro.props;
+const groupId = Math.random().toString(36).slice(2, 8);
+const activeTab = defaultTab ?? tabs[0]?.id;
+---
+
+{/*
+  CSS-only tabs using the hidden radio-button pattern — the same technique as
+  the Header's checkbox mobile menu. Radio buttons manage exclusive-selection
+  state without JavaScript. Arrow key navigation uses a ~15 line inline script
+  (required by WCAG 2.1 keyboard navigation guidelines).
+*/}
+<div class:list={["tabs", className]} data-tabs>
+  <div class="tabs__list" role="tablist" aria-label="Tab navigation">
+    {tabs.map((tab) => (
+      <label class="tabs__tab" data-tab-label>
+        <input
+          type="radio"
+          name={`tabs-${groupId}`}
+          value={tab.id}
+          class="sr-only peer"
+          checked={tab.id === activeTab}
+          role="tab"
+          aria-selected={tab.id === activeTab ? "true" : "false"}
+          aria-controls={`panel-${groupId}-${tab.id}`}
+          id={`tab-${groupId}-${tab.id}`}
+          data-tab-radio
+        />
+        <span class="tabs__tab-label peer-checked:text-primary-600 peer-checked:border-primary-600 dark:peer-checked:text-primary-400 dark:peer-checked:border-primary-400 peer-focus-visible:ring-2 peer-focus-visible:ring-primary-500 peer-focus-visible:ring-offset-2">
+          {tab.label}
+        </span>
+      </label>
+    ))}
+  </div>
+
+  {/*
+    Panels are rendered via the default slot. Consumers wrap each panel in a
+    div with data-tab-panel="tabId" + role="tabpanel". The CSS :has() selectors
+    generated below handle show/hide based on which radio is checked.
+  */}
+  <div class="tabs__panels">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .tabs__list {
+    display: flex;
+    gap: 0;
+    border-bottom: 1px solid hsl(var(--color-border-primary));
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabs__tab {
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .tabs__tab-label {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: hsl(var(--color-foreground-secondary));
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+    min-height: 2.75rem;
+  }
+
+  .tabs__tab-label:hover {
+    color: hsl(var(--color-foreground-primary));
+  }
+
+  .tabs__panels {
+    position: relative;
+  }
+
+  .tabs__panel {
+    display: none;
+    padding: 1.5rem 0;
+  }
+
+  /*
+   * CSS-only panel switching: when a radio is checked, show its corresponding
+   * panel. Each radio's :checked state targets the panel via the general sibling
+   * combinator, scoped by the parent .tabs container.
+   */
+  :global(.tabs:has(input[value="__TAB_ID__"]:checked) [data-tab-panel="__TAB_ID__"]) {
+    /* This selector is generated dynamically below */
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .tabs__panel {
+      animation: tab-panel-enter 0.2s ease-out;
+    }
+
+    @keyframes tab-panel-enter {
+      from {
+        opacity: 0;
+        transform: translateY(4px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  }
+</style>
+
+{/* Dynamic CSS for panel switching — generates :has() selectors per tab */}
+<style set:html={tabs.map(tab =>
+  `.tabs:has(input[value="${tab.id}"]:checked) [data-tab-panel="${tab.id}"] { display: block; }`
+).join('\n')} />
+
+{/* Keyboard navigation — WCAG 2.1 requires arrow keys to move between tabs */}
+<script>
+  function initTabs() {
+    document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((tabGroup) => {
+      const radios = Array.from(tabGroup.querySelectorAll<HTMLInputElement>('[data-tab-radio]'));
+      tabGroup.addEventListener('keydown', (e) => {
+        const target = e.target as HTMLInputElement;
+        if (!target.matches('[data-tab-radio]')) return;
+
+        const idx = radios.indexOf(target);
+        let next = -1;
+
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+          next = (idx + 1) % radios.length;
+        } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+          next = (idx - 1 + radios.length) % radios.length;
+        } else if (e.key === 'Home') {
+          next = 0;
+        } else if (e.key === 'End') {
+          next = radios.length - 1;
+        }
+
+        if (next >= 0) {
+          e.preventDefault();
+          radios[next].checked = true;
+          radios[next].focus();
+          radios[next].dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+    });
+  }
+
+  initTabs();
+  document.addEventListener('astro:after-swap', initTabs);
+</script>

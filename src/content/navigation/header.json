@@ -26,11 +26,16 @@
       "order": 5
     },
     {
+      "label": "Showcase",
+      "href": "/showcase/",
+      "order": 6
+    },
+    {
       "label": "GitHub",
       "href": "",
       "isExternal": true,
       "icon": "github-logo",
-      "order": 6
+      "order": 7
     }
   ]
 }

@@ -10,7 +10,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: siteMetadata.title,
     description: siteMetadata.description,
-    site: context.site?.href,
+    site: context.site?.href ?? "",
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,
