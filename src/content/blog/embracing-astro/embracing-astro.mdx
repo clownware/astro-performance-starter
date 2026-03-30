@@ -1,101 +1,123 @@
 ---
-title: 'Embracing Astro'
+title: "Getting Started with This Starter"
 description: >-
-  Discovering the power and simplicity of Astro for building content-focused,
-  high-performance websites.
+  A quickstart guide to cloning, customizing, and deploying the Astro
+  Performance Starter — from first clone to production in under an hour.
 date: 2025-07-01
-slug: 'embracing-astro'
+slug: "getting-started"
 featured: true
-cover: './embracing-astro-hero.png'
-coverAlt: 'Hero image for Embracing Astro'
-cardImage: './embracing-astro-card.png'
-tags: ['Astro', 'Tailwind CSS']
-technologies: ['Astro', 'Tailwind CSS']
-
+cover: "./embracing-astro-hero.png"
+coverAlt: "Getting started with the Astro Performance Starter"
+cardImage: "./embracing-astro-card.png"
+tags: ["Astro", "Getting Started", "Tutorial"]
+technologies: ["Astro", "TypeScript", "Tailwind CSS", "Biome", "pnpm"]
 ---
 
-import Callout from '@/components/mdx/Callout.astro';
-import Blockquote from '@/components/mdx/Blockquote.astro';
+import Callout from "@/components/mdx/Callout.astro";
+import Blockquote from "@/components/mdx/Blockquote.astro";
 
+You just cloned a template that ships with 95+ Lighthouse scores, a semantic design token system, and working AI development workflows. Here's how to make it yours.
 
-Welcome to my first blog post! I'm excited to share my journey into the world of Astro and how it's changing the way I approach web development.
-
-<Callout type="note" title="What is Astro?">
-Astro is a web framework for building fast, content-focused websites. It renders your UI to HTML on the server, shipping zero JavaScript by default.
+<Callout type="note" title="Prerequisites">
+You'll need Node.js 24.x and pnpm. If you don't have pnpm, run `corepack enable` first — it's bundled with Node.js.
 </Callout>
 
-## Why Astro?
+## 1. Clone and Install
 
-I was looking for a tool that prioritized performance without sacrificing developer experience. Astro's island architecture immediately caught my attention.
-
-<Blockquote author="Astro Docs">
-  Astro Islands are interactive UI components that live on an otherwise static page of HTML. Multiple islands can exist on a page, and an island always renders in isolation.
-</Blockquote>
-
-This means pages load incredibly fast, and interactivity is added only where needed.
-
-### Getting Started
-
-Setting up a new Astro project is straightforward. You can learn more at the [official Astro website](https://astro.build).
-
-```astro title="src/components/Greeting.astro"
----
-// src/components/Greeting.astro
-export interface Props {
-  name: string;
-}
-
-const { name } = Astro.props;
----
-
-<div class="p-4 border border-dashed">
-  <h2 class="text-xl font-bold">Hello, {name}!</h2>
-  <p>This is an example of a simple Astro component.</p>
-</div>
+```bash
+# Use as a GitHub template, then:
+git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
+cd YOUR_REPO
+pnpm install
+pnpm run dev
 ```
 
+Open **<http://localhost:4321/>** — you should see the full demo site running locally.
 
-## Key Benefits I've Discovered
-
-### 1. **Performance by Default**
-
-- Zero JavaScript shipped by default
-- Automatic code splitting
-- Optimized asset loading
-
-### 2. **Developer Experience**
-
-- Familiar component syntax
-- TypeScript support out of the box
-- Excellent tooling and debugging
-
-### 3. **Flexibility**
-
-- Use any UI framework (React, Vue, Svelte)
-- Progressive enhancement approach
-- Static site generation with dynamic capabilities
-
-<Callout type="success" title="Pro Tip">
-Start with static HTML and CSS, then add JavaScript islands only where you need interactivity. This approach ensures optimal performance.
+<Callout type="success" title="First build?">
+Design tokens compile automatically on the first `dev` or `build` command. No manual setup needed.
 </Callout>
+
+## 2. Personalize the Basics
+
+Start with these three files to make the template yours:
+
+### `src/config.ts`
+
+Update the site title, author name, GitHub URL, and social links. Set any link to `""` to hide it from the UI.
+
+### `src/content/bio/default.mdx`
+
+Your name, title, location, skills, and social links. This file feeds the About page — change it once, and every surface updates.
+
+### `src/content/experience/*.mdx`
+
+Replace the demo entries with your actual work history. Each file is a separate job entry with title, company, dates, highlights, and technologies.
+
+## 3. Customize the Design
+
+The template uses semantic design tokens — no hardcoded colors anywhere.
+
+```
+tokens/base.json      → Brand colors (primary, secondary palettes)
+tokens/semantic.json   → Semantic mappings (foreground, background, border)
+tokens.css             → Generated CSS variables (auto-built)
+```
+
+Edit `tokens/base.json` to set your brand colors. Changes propagate automatically to all components, including dark mode.
+
+<Callout type="warning" title="Don't hardcode colors">
+Use semantic token classes like `text-foreground-primary` and `bg-background-secondary` — never `text-gray-600` or `bg-white`. This keeps dark mode and theming working correctly.
+</Callout>
+
+## 4. Add Your Content
+
+### Blog Posts
+
+Create a new directory under `src/content/blog/` with an MDX file inside:
+
+```
+src/content/blog/my-first-post/
+├── my-first-post.mdx    # Your post content
+├── hero.png              # Cover image (optional)
+└── card.png              # Card thumbnail (optional)
+```
+
+The blog schema supports tags, technologies, cover images, related posts, and more — check `src/content.config.ts` for the full Zod schema.
+
+### Projects
+
+Same pattern under `src/content/projects/`. Each project is a case study with outcomes, technologies, and rich MDX content.
+
+## 5. Deploy
+
+The template is pre-configured for Cloudflare Pages, but works with any static host.
+
+```bash
+pnpm run build          # Production build → dist/
+pnpm run preview        # Verify the build locally
+```
+
+One-click deploy buttons for Cloudflare, Netlify, and Vercel are in the README.
+
+## 6. Run Quality Checks
+
+Before shipping, verify everything passes:
+
+```bash
+pnpm run quality        # Format + lint + type-check
+pnpm run test:unit      # Vitest unit tests
+pnpm run test:e2e       # Playwright E2E tests
+```
+
+<Blockquote author="The Template Philosophy">
+Ship zero JavaScript by default. Add interactivity only where it genuinely improves the user experience. Enforce this with budgets, not willpower.
+</Blockquote>
 
 ## What's Next?
 
-I'll be sharing more tips and tutorials as I continue to explore Astro. Some upcoming topics include:
+- Explore `docs/` for detailed guides on components, testing, and AI context setup
+- Check `docs/adr/` for architectural decisions — these are constraints, not suggestions
+- Run `pnpm run perf:lighthouse` to generate a full performance report
 
-- Setting up a design system with Astro and Tailwind CSS
-- Building interactive components with islands architecture
-- Optimizing images and assets for performance
-- Deploying Astro sites to various platforms
-
-<Blockquote author="Me" source="Personal Experience">
-  The best part about Astro is that it makes you think about performance from the start, not as an afterthought.
-</Blockquote>
-
-Stay tuned for more content, and feel free to reach out if you have any questions about getting started with Astro!
-
-## Resources
-
-- [Astro Documentation](https://docs.astro.build)
-- [Astro Discord Community](https://astro.build/chat)
-- [Astro GitHub Repository](https://github.com/withastro/astro)
+The template is designed to grow with your project. Start with the Foundation tier (it's already configured), build what you need, and polish when you're ready to ship.

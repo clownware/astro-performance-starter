@@ -1,59 +1,43 @@
 ---
+import type { CollectionEntry } from "astro:content";
+import { getCollection, getEntry } from "astro:content";
 
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Image from "@/components/atoms/Image.astro";
 import SocialLink from "@/components/atoms/SocialLink.astro";
 import { socialLinks as configSocialLinks } from "@/config";
-// Import the avatar image
 import avatarImage from "@/images/avatar-placeholder.png";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
-// Skills data
-const skills = [
-  "TypeScript",
-  "Astro",
-  "React",
-  "Vue",
-  "Node.js",
-  "Python",
-  "Tailwind CSS",
-  "PostgreSQL",
-  "Docker",
-  "AWS",
-  "Git",
-  "Figma",
-];
+// Fetch bio data from content collection
+const bioEntry = await getEntry("bio", "default");
+const bioData = bioEntry?.data;
+const displayName = bioData?.name ?? "Your Name";
+const displayTitle = bioData?.title ?? "Developer";
 
-// Experience data
-const experiences = [
-  {
-    title: "Senior Full-Stack Developer",
-    company: "Tech Innovations Inc.",
-    period: "2022 - Present",
-    description:
-      "Leading development of modern web applications using Astro, React, and TypeScript. Architected scalable solutions serving 100K+ users.",
-  },
-  {
-    title: "Frontend Developer",
-    company: "Digital Solutions Co.",
-    period: "2020 - 2022",
-    description:
-      "Built responsive web applications with focus on performance and accessibility. Improved Core Web Vitals scores by 40%.",
-  },
-  {
-    title: "Junior Developer",
-    company: "StartupXYZ",
-    period: "2019 - 2020",
-    description:
-      "Developed features for SaaS platform using Vue.js and Node.js. Collaborated with design team to implement pixel-perfect UIs.",
-  },
-];
+// Fetch and sort experience entries from content collection
+const allExperiences: CollectionEntry<"experience">[] = await getCollection("experience");
+const sortedExperiences = allExperiences.sort((a, b) => a.data.order - b.data.order);
+
+// Typed alias for bio skills to avoid implicit-any in JSX map callbacks
+type SkillGroup = { category: string; items: string[] };
+const bioSkills: SkillGroup[] = bioData?.skills ?? [];
+
+// Format date range for experience entries
+function formatPeriod(startDate: Date, endDate?: Date, current?: boolean): string {
+  const start = startDate.getFullYear();
+  if (current) {
+    return `${start} - Present`;
+  }
+  const end = endDate?.getFullYear() ?? "Present";
+  return `${start} - ${end}`;
+}
 ---
 
 <BaseLayout
   title="About"
-  description="Learn about my journey as a full-stack developer, my skills, and experience building modern web applications."
+  description={`Learn about ${displayName}'s journey as a developer, skills, and experience building modern web applications.`}
   image="/og-about.svg"
 >
   <div>
@@ -72,10 +56,10 @@ const experiences = [
             />
           </div>
           <h1 class="text-4xl font-bold tracking-tight text-foreground-primary sm:text-6xl">
-            Hi, I'm Alex 👋
+            Hi, I'm {displayName}
           </h1>
           <p class="mt-6 text-lg leading-8 text-foreground-secondary">
-            I build blazing-fast websites that don't sacrifice beauty for performance. Zero-JS enthusiast, accessibility advocate, and professional yak-shaver.
+            {displayTitle}. I build fast, accessible websites using modern tooling — zero JavaScript by default, interactivity only where it matters.
           </p>
         </div>
       </div>
@@ -89,19 +73,23 @@ const experiences = [
             My Story
           </h2>
           <div class="prose prose-lg max-w-none">
+            <!-- CUSTOMIZE: Replace these paragraphs with your own story. -->
             <p class="leading-relaxed mb-6">
-              My journey into web development started during college when I built my first website using HTML and CSS. 
-              What began as curiosity quickly turned into a passion for creating digital experiences that make a difference.
+              I'm a developer focused on performance-first web architecture.
+              I believe the best websites ship zero JavaScript by default and
+              add interactivity only where it genuinely improves the user experience.
             </p>
             <p class="leading-relaxed mb-6">
-              Over the years, I've had the privilege of working with startups and established companies, 
-              helping them build scalable web applications that serve thousands of users. I'm particularly 
-              passionate about performance optimization, accessibility, and creating maintainable codebases.
+              Over the years, I've worked across the stack — from design systems
+              and component libraries to CI/CD pipelines and deployment infrastructure.
+              I'm particularly passionate about accessibility, automated testing,
+              and developer tooling that makes teams faster.
             </p>
             <p class="leading-relaxed">
-              When I'm not coding, you can find me contributing to open-source projects, writing technical 
-              articles, or exploring the latest web technologies. I believe in continuous learning and 
-              sharing knowledge with the developer community.
+              This portfolio was built with the Astro Performance Starter, a template
+              designed to deliver 95+ Lighthouse scores out of the box. It ships with
+              working AI development workflows, a semantic design token system, and
+              automated quality gates.
             </p>
           </div>
         </div>
@@ -109,6 +97,7 @@ const experiences = [
     </section>
 
     <!-- Skills Section -->
+    {bioSkills.length > 0 && (
     <section class="bg-background-secondary py-16 sm:py-24">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
@@ -120,20 +109,31 @@ const experiences = [
           </p>
         </div>
         <div class="mx-auto max-w-4xl">
-          <ul class="flex flex-wrap justify-center gap-4" role="list" aria-label="Technical skills">
-            {skills.map((skill) => (
-              <li class="transition-transform duration-200 hover:scale-105">
-                <Badge variant="primary" size="sm">
-                  {skill}
-                </Badge>
-              </li>
+          <div class="space-y-8">
+            {bioSkills.map((skillGroup: SkillGroup) => (
+              <div>
+                <h3 class="text-sm font-semibold text-foreground-secondary uppercase tracking-wider mb-3 text-center">
+                  {skillGroup.category}
+                </h3>
+                <ul class="flex flex-wrap justify-center gap-3" role="list" aria-label={`${skillGroup.category} skills`}>
+                  {skillGroup.items.map((skill: string) => (
+                    <li class="transition-transform duration-200 hover:scale-105">
+                      <Badge variant="primary" size="sm">
+                        {skill}
+                      </Badge>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             ))}
-          </ul>
+          </div>
         </div>
       </div>
     </section>
+    )}
 
     <!-- Experience Section -->
+    {sortedExperiences.length > 0 && (
     <section class="py-16 sm:py-24">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl">
@@ -141,25 +141,43 @@ const experiences = [
             Experience
           </h2>
           <ol class="space-y-8" role="list" aria-label="Work experience timeline">
-            {experiences.map((exp) => (
+            {sortedExperiences.map((exp: CollectionEntry<"experience">) => (
               <li class="relative pl-8 pb-8 border-l-2 border-border-primary last:border-l-0 last:pb-0">
                 <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-primary-600 ring-4 ring-background-primary" aria-hidden="true"></div>
                 <article>
                   <div class="space-y-2">
                     <h3 class="text-xl font-semibold text-foreground-primary">
-                      {exp.title}
+                      {exp.data.title}
                     </h3>
                     <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4">
                       <p class="text-primary-600 font-medium">
-                        {exp.company}
+                        {exp.data.company}
                       </p>
                       <p class="text-sm text-foreground-secondary">
-                        {exp.period}
+                        {formatPeriod(exp.data.startDate, exp.data.endDate, exp.data.current)}
                       </p>
+                      {exp.data.location && (
+                      <p class="text-sm text-foreground-subtle">
+                        {exp.data.location}
+                      </p>
+                      )}
                     </div>
                     <p class="text-foreground-secondary leading-relaxed">
-                      {exp.description}
+                      {exp.data.description}
                     </p>
+                    {exp.data.technologies && exp.data.technologies.length > 0 && (
+                    <div class="pt-2">
+                      <ul class="flex flex-wrap gap-2" role="list" aria-label={`Technologies used at ${exp.data.company}`}>
+                        {exp.data.technologies.map((tech: string) => (
+                          <li>
+                            <Badge variant="neutral" size="xs">
+                              {tech}
+                            </Badge>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    )}
                   </div>
                 </article>
               </li>
@@ -168,6 +186,7 @@ const experiences = [
         </div>
       </div>
     </section>
+    )}
 
     <!-- Social Links Section -->
     <section class="bg-background-secondary py-16 sm:py-24">
@@ -181,22 +200,22 @@ const experiences = [
           </p>
           <div class="flex justify-center gap-6">
             {configSocialLinks.github && (
-            <SocialLink 
-              platform="github" 
+            <SocialLink
+              platform="github"
               href={configSocialLinks.github}
               class="text-lg"
             />
             )}
             {configSocialLinks.linkedin && (
-            <SocialLink 
-              platform="linkedin" 
+            <SocialLink
+              platform="linkedin"
               href={configSocialLinks.linkedin}
               class="text-lg"
             />
             )}
             {configSocialLinks.twitter && (
-            <SocialLink 
-              platform="twitter" 
+            <SocialLink
+              platform="twitter"
               href={configSocialLinks.twitter}
               class="text-lg"
             />
@@ -214,28 +233,18 @@ const experiences = [
             Ready to Work Together?
           </h2>
           <p class="text-lg leading-8 text-foreground-secondary mb-8">
-            I'm always interested in new opportunities and exciting projects. 
+            I'm always interested in new opportunities and exciting projects.
             Let's discuss how we can bring your ideas to life.
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button 
-              href="/contact" 
-              variant="primary" 
+            <Button
+              href="/contact"
+              variant="primary"
               size="lg"
               class="inline-flex items-center"
               data-astro-prefetch
             >
               Get In Touch
-            </Button>
-            <Button 
-              href="/resume.pdf" 
-              variant="secondary" 
-              size="lg"
-              class="inline-flex items-center"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download Resume
             </Button>
           </div>
         </div>
