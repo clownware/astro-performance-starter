@@ -30,7 +30,7 @@ The documentation structure is optimized for AI context, so your agent can effic
 This is a **production-ready foundation** with:
 
 - Complete Astro 6.x setup with zero JavaScript by default
-- 7 essential UI components (Essential component library)
+- Essential UI component library (buttons, cards, grids, forms, and more)
 - Design token system with Tailwind CSS integration
 - Performance optimization (targets 95+ Lighthouse scores)
 - Accessibility compliance (WCAG AA)
@@ -40,15 +40,14 @@ For a complete inventory, see [What's Included in This Template](./included-in-t
 
 ### Why is deployment focused on Cloudflare Pages?
 
-This is an **opinionated template** that prioritizes performance and developer experience. Cloudflare Pages offers:
+This is an **opinionated template** that prioritizes performance and developer experience. The default CI/CD pipeline (`.github/workflows/deploy.yml`) targets **GitHub Pages**, while the [Quick Deploy guide](./quick-deploy.md) recommends **Cloudflare Pages** for production deployments due to:
 
 - Excellent performance with global edge deployment
 - Zero-config deployment for Astro sites
 - Generous free tier
 - Built-in analytics and performance monitoring
-- Seamless integration with other Cloudflare services
 
-You can deploy anywhere, but our guides and examples assume Cloudflare for consistency.
+You can deploy anywhere — the template includes guidance for Cloudflare Pages, Vercel, Netlify, and GitHub Pages.
 
 ### How can I contribute or sponsor this project?
 

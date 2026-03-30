@@ -75,12 +75,12 @@ We recommend Cloudflare Pages for optimal performance. For other platforms, see 
 
 ## 📦 Understanding Your Build
 
-When you run `pnpm run build` (or `pnpm run build:full`), here's what happens:
+When you run `pnpm run build`, here's what happens:
 
 1. **Token Compilation** (`build:tokens`)
    - Reads `tokens/base.json` and `tokens/semantic.json`
    - Generates CSS custom properties
-   - Outputs to `src/styles/tokens.css`
+   - Outputs to `tokens/dist/tokens.css`
 
 2. **Astro Build** (`astro build`)
    - Compiles `.astro` components to HTML
@@ -531,19 +531,17 @@ import { defineConfig, envField } from 'astro/config';
 
 export default defineConfig({
   site: import.meta.env.SITE_URL || 'https://example.com',
-  experimental: {
-    env: {
-      schema: {
-        SITE_URL: envField.string({
-          context: 'server',
-          access: 'public',
-          default: 'https://example.com',
-        }),
-        API_KEY: envField.string({
-          context: 'server',
-          access: 'secret',
-        }),
-      },
+  env: {
+    schema: {
+      SITE_URL: envField.string({
+        context: 'server',
+        access: 'public',
+        default: 'https://example.com',
+      }),
+      API_KEY: envField.string({
+        context: 'server',
+        access: 'secret',
+      }),
     },
   },
 });
@@ -653,7 +651,7 @@ See [Netlify Deployment Guide](../implementation-guides/active-phases/phase-10-d
          - uses: pnpm/action-setup@v3
          - uses: actions/setup-node@v4
            with:
-             node-version: '22'
+             node-version-file: '.nvmrc'
              cache: 'pnpm'
          - run: pnpm install --frozen-lockfile
       - run: pnpm run build
@@ -768,13 +766,11 @@ jobs:
       
       - name: Setup pnpm
         uses: pnpm/action-setup@v3
-        with:
-          version: 9
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version-file: '.nvmrc'
           cache: 'pnpm'
       
       - name: Install dependencies
@@ -819,8 +815,8 @@ Netlify also auto-deploys on push. Configure in `netlify.toml`:
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "22"
-  PNPM_VERSION = "9"
+  NODE_VERSION = "24"
+  PNPM_VERSION = "10"
 ```
 
 </details>
@@ -835,7 +831,6 @@ Visit your live site and verify:
 - [ ] **Correct title** in browser tab
 - [ ] **Correct favicon** displays
 - [ ] **Homepage** displays correctly
-- [ ] **Example landing page** works (`/examples/landing`)
 - [ ] **Dark mode** toggle works
 - [ ] **Mobile responsive** (test on phone or DevTools)
 - [ ] **No console errors** (F12 → Console)

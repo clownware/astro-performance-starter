@@ -26,7 +26,7 @@ This guide covers best practices for designing content schemas in Astro using Co
 Create reusable base schemas for common fields:
 
 ```typescript
-// src/content/config.ts
+// src/content.config.ts
 import { z, defineCollection } from 'astro:content';
 
 // Reusable schema components

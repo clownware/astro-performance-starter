@@ -1,7 +1,7 @@
 ---
 title: "Contributing to Astro Performance Starter"
 version: "1.0.0"
-lastUpdated: "2025-06-10"
+lastUpdated: "2026-03-29"
 description: "Guidelines and standards for contributing to the Astro Performance Starter project."
 ---
 
@@ -81,7 +81,7 @@ pnpm run quality
 pnpm run build
 
 # Check performance impact
-pnpm run lighthouse
+pnpm run perf:lighthouse
 ```
 
 ### 5. Commit Your Changes
@@ -148,7 +148,7 @@ git commit -m "feat(components): add skeleton loading pattern"
 
 This project uses a **centralized version injection system** to keep all documentation DRY:
 
-- **Single Source**: All versions managed in `docs/meta/versions.yml`
+- **Single Source**: All versions managed in `versions.yml`
 - **Placeholders**: Use `{{versions.astro}}`, `{{versions.tailwindcss}}`, etc. instead of hardcoded versions
 - **Auto-Update**: Run `pnpm tsx scripts/update-versions.ts` after dependency updates
 - **Never Hardcode**: Always use placeholders for version references in documentation
@@ -165,7 +165,7 @@ This project uses a **centralized version injection system** to keep all documen
 
 **Adding New Versions:**
 
-1. Add to `docs/meta/versions.yml`
+1. Add to `versions.yml`
 2. Use placeholder in docs: `{{versions.newtool}}`
 3. Run update script to sync versions
 

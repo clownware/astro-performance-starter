@@ -1,4 +1,4 @@
-template: v0.1.0
+template: v0.2.0
 astro: 6.x
 tailwindcss: 4.2.2
 node: 24.14.1
@@ -6,7 +6,6 @@ pnpm: 10.x
 biome: 2.x
 typescript: 5.x
 preact: 10.x
-alpinejs: 3.14.x
 astro-mdx: 5.x
 tailwindcss-vite: 4.x
 astro-sitemap: 3.x

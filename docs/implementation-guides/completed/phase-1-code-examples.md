@@ -11,7 +11,7 @@ pagefind: true
 ### Content Collections Configuration
 
 ```typescript
-// src/content/config.ts
+// src/content.config.ts
 import { defineCollection, z } from 'astro:content';
 
 // Portfolio/Case Studies Schema

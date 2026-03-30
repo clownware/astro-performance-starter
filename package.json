@@ -1,6 +1,6 @@
 {
   "name": "astro-performance-starter",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Production-ready Astro starter with zero-JS baseline, 95+ Lighthouse scores, design tokens, and AI-optimized documentation.",
   "private": true,
   "type": "module",
@@ -28,6 +28,7 @@
   ],
   "packageManager": "pnpm@10.13.1",
   "scripts": {
+    "predev": "pnpm run tokens:build",
     "dev": "astro dev",
     "dev:host": "astro dev --host",
     "dev:debug": "astro dev --verbose",
@@ -69,6 +70,8 @@
     "env:validate": "tsx scripts/src/validate-env.ts",
     "audit": "pnpm audit --production",
     "audit:ci": "tsx scripts/src/audit-filter.ts",
+    "release:changelog": "changelogen --output CHANGELOG.md",
+    "release:changelog:dry": "changelogen --dry",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -98,6 +101,7 @@
     "astro": "^6.0.8",
     "astrobook": "^0.12.4",
     "chalk": "^5.6.2",
+    "changelogen": "^0.6.2",
     "glob": "^11.0.3",
     "globby": "^14.1.0",
     "gray-matter": "^4.0.3",

@@ -32,7 +32,7 @@ node --version && pnpm --version && git --version
 
 **New to this?** You'll need three free tools:
 
-- **Node.js 22+** - JavaScript runtime (active LTS until April 2027) ([get it](https://nodejs.org))
+- **Node.js 24+** - JavaScript runtime ([get it](https://nodejs.org))
 - **pnpm 10+** - Fast package manager (install: `corepack enable && corepack prepare pnpm@latest --activate`)
 - **Git 2.30+** - Version control ([get it](https://git-scm.com))
 
@@ -42,7 +42,7 @@ node --version && pnpm --version && git --version
 All three installed? Run this to confirm:
 
 ```bash
-node --version  # Should show v22.x.x or higher (v24 LTS coming October 2025)
+node --version  # Should show v24.x.x or higher
 pnpm --version  # Should show 10.x.x or higher
 git --version   # Should show 2.30.x or higher
 ```
@@ -99,16 +99,15 @@ pnpm install && pnpm run dev
 :::tip[What's Happening?]
 
 - `pnpm install` - Downloads all dependencies (~2-3 minutes)
-- `pnpm run dev` - Compiles tokens + starts dev server with hot reload (~15 seconds)
+- `pnpm run dev` - Compiles design tokens via `predev` hook, then starts dev server with hot reload (~15 seconds)
 
-**Note:** The `dev` script automatically runs `build:tokens` first via a `predev` hook, so you don't need to run it manually.
 :::
 
 ### Step 3: Verify Installation (1 min)
 
 1. **Open browser** to `http://localhost:4321`
 2. **You'll see** the starter template homepage
-3. **Try the example** landing page: `http://localhost:4321/examples/landing`
+3. **Explore** the blog and projects pages from the navigation
 
 ✅ **Success!** You're locked in.
 

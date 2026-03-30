@@ -15,7 +15,7 @@ Accepted
 
 ## Context
 
-Astro's Content Collections API provides type-safe, schema-validated content management. The starter ships with five collections pre-configured in `src/content/config.ts`. These represent the most common content types for portfolio and small production sites — the primary audience for this template.
+Astro's Content Collections API provides type-safe, schema-validated content management. The starter ships with five collections pre-configured in `src/content.config.ts`. These represent the most common content types for portfolio and small production sites — the primary audience for this template.
 
 The schema design decisions are non-obvious and affect how users extend the template. Without documentation, users frequently ask: why these collections, why these fields, why JSON for some and MDX for others.
 
@@ -153,14 +153,14 @@ The schema design decisions are non-obvious and affect how users extend the temp
 
 To add a field to an existing collection:
 
-1. Add the Zod field to `src/content/config.ts`
+1. Add the Zod field to `src/content.config.ts`
 2. Make it optional with `.optional()` or provide a `.default()` to avoid breaking existing content files
 3. Run `pnpm run check` to validate
 4. Update existing content files if the field is required
 
 To add a new collection:
 
-1. Define the schema in `src/content/config.ts`
+1. Define the schema in `src/content.config.ts`
 2. Create the directory `src/content/<name>/`
 3. Add at least one content file
 4. Run `pnpm run check` to confirm type generation
@@ -187,7 +187,7 @@ To add a new collection:
 
 - [Astro Content Collections Documentation](https://docs.astro.build/en/guides/content-collections/)
 - [Zod Documentation](https://zod.dev/)
-- `src/content/config.ts` — authoritative schema definitions
+- `src/content.config.ts` — authoritative schema definitions
 - [ADR-017: Experience Content Collection](./017-experience-content-collection.md) — ADR-017 introduced the experience collection specifically; this ADR (027) supersedes it by providing the comprehensive schema design for all five collections, including experience
 
 ---

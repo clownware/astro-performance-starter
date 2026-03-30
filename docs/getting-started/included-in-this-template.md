@@ -21,12 +21,10 @@ The *Astro Performance Starter* gives you a production-ready foundation focused 
 | Footer | `src/components/structural/Footer.astro` | Dynamic copyright year. |
 | Skip link | `src/components/a11y/SkipLink.astro` | Keyboard-friendly “skip to content”. |
 | Error pages | `src/pages/404.astro`, `src/pages/500.astro` | Custom, accessible error templates. |
-| Demo landing page | `src/pages/examples/landing.astro` | Shows basic component usage. |
 | Global font setup | `@fontsource-variable/inter` | Preloaded WOFF2 assets & CSS vars. |
 | Security headers | `public/_headers` | CSP, HSTS, referrer-policy, etc. |
-| Robots rules | `public/robots.txt` | Default allow + sitemap reference. |
+| Robots rules | `src/pages/robots.txt.ts` | Dynamic robots.txt generation with sitemap reference. |
 | Favicon | `public/favicon.svg`, `public/favicon.ico`, `public/apple-touch-icon.png` | Replace with your own brand assets. |
-| Mobile menu island | `src/components/islands/MobileMenuToggle.tsx` | Progressive enhancement; header wiring next. |
 | TypeScript types | `src/types/` | Navigation types and auto-generated content types. |
 | Project assets | `src/assets/logo.svg` | Optimized logo asset for branding. |
 
@@ -106,6 +104,4 @@ pnpm dev       # start local dev server
 
 ## Next phases
 
-**Phase 5 is complete!** ✅ All Essential UI components are implemented and ready to use.
-
-**Up next:** Phase 6 connects content collections for managing blog posts, projects, and structured data. Follow the [implementation guides](../implementation-guides/) for step-by-step progress on remaining phases.
+**Phases 0-5 are complete.** Content collections for blog, projects, experience, and navigation are connected and working. Follow the [implementation guides](../implementation-guides/) for step-by-step progress on remaining phases.

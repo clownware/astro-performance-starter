@@ -88,7 +88,7 @@ After cloning, update these files to make the template yours:
 Everything you need to customize and extend lives in `docs/`:
 
 - **[Onboarding Guide](./docs/getting-started/onboarding.md)** — Detailed setup and concepts
-- **[Launch Demo](./docs/getting-started/launch-demo.md)** — Get running in 15 minutes
+- **[Launch Demo](./docs/getting-started/launch-demo.md)** — Get running in 5-10 minutes
 - **[Quick Deploy](./docs/getting-started/quick-deploy.md)** — Ship to production in under an hour
 - **[Implementation Roadmap](./docs/README.md#implementation-roadmap)** — Phased development guide
 - **[AI Context Guides](./docs/ai-context/)** — Optimized for AI assistants
@@ -148,4 +148,4 @@ Licensed under the [MIT License](./LICENSE.txt).
 
 ---
 
-**Status**: Active development • v0.1.0 • [Releases](https://github.com/clownware/astro-performance-starter/releases)
+**Status**: Active development • v0.2.0 • [Releases](https://github.com/clownware/astro-performance-starter/releases)

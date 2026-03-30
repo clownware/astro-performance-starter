@@ -64,7 +64,7 @@ Implemented structural improvements to `about.astro` following atomic design pri
 
 ### 3. ✅ Experience Content Collection
 
-**Created**: New `experience` collection in `src/content/config.ts`
+**Created**: New `experience` collection in `src/content.config.ts`
 
 ```typescript
 const experienceCollection = defineCollection({
@@ -109,7 +109,7 @@ const experienceCollection = defineCollection({
    - Replaced inline skill badges with Badge component
    - Added `data-astro-prefetch` to `/contact` link
 
-2. **`src/content/config.ts`**
+2. **`src/content.config.ts`**
    - Added `experienceCollection` schema
    - Exported in collections object
 

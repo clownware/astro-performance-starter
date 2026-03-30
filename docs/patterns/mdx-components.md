@@ -619,7 +619,7 @@ export default defineConfig({
 For Content Collections with MDX:
 
 ```typescript
-// src/content/config.ts
+// src/content.config.ts
 import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({

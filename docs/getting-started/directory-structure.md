@@ -33,18 +33,22 @@ astro-performance-starter/
 │   ├── components/
 │   │   ├── a11y/                    # Accessibility components (1)
 │   │   │   └── SkipLink.astro
-│   │   ├── atoms/                   # Atomic components (5)
+│   │   ├── atoms/                   # Atomic components (6)
 │   │   │   ├── Badge.astro
 │   │   │   ├── Button.astro
+│   │   │   ├── Icon.astro
 │   │   │   ├── Image.astro
 │   │   │   ├── SocialLink.astro
 │   │   │   └── Tooltip.astro
-│   │   ├── molecules/               # Molecule components (5)
+│   │   ├── molecules/               # Molecule components (8)
 │   │   │   ├── Card.astro
 │   │   │   ├── ContactForm.astro
-│   │   │   ├── ExpandableFeatureCard.astro
+│   │   │   ├── ContactFormScript.ts
+│   │   │   ├── ExpandableFeatureCard.tsx  # Preact component
+│   │   │   ├── Head.astro
 │   │   │   ├── PostCard.astro
-│   │   │   └── ProjectCard.astro
+│   │   │   ├── ProjectCard.astro
+│   │   │   └── SectionSeparator.astro
 │   │   ├── structural/              # Structural components (5)
 │   │   │   ├── Container.astro
 │   │   │   ├── Footer.astro
@@ -61,7 +65,6 @@ astro-performance-starter/
 │   │   │   └── index.ts             # Component registry
 │   │   └── ThemeSetup.astro         # Theme detection (1)
 │   ├── content/
-│   │   ├── config.ts                # Content Collections schema
 │   │   ├── bio/                     # Author bio collection
 │   │   ├── blog/                    # Blog posts collection
 │   │   │   └── *.mdx                # MDX blog posts
@@ -74,12 +77,13 @@ astro-performance-starter/
 │   │   ├── BaseLayout.astro         # Foundation layout
 │   │   ├── BlogLayout.astro         # Blog post layout
 │   │   └── ProjectLayout.astro      # Project showcase layout
-│   ├── pages/                       # Routes (9)
+│   ├── pages/                       # Routes (10)
 │   │   ├── index.astro              # Homepage
 │   │   ├── about.astro              # About page
 │   │   ├── contact.astro            # Contact page
 │   │   ├── 404.astro                # Not found
 │   │   ├── 500.astro                # Server error
+│   │   ├── robots.txt.ts            # Dynamic robots.txt generation
 │   │   ├── blog/
 │   │   │   ├── index.astro          # Blog index with pagination
 │   │   │   └── [slug].astro         # Dynamic blog post
@@ -90,17 +94,18 @@ astro-performance-starter/
 │   │   └── global.css               # Global styles with tokens
 │   ├── types/
 │   │   └── navigation.ts            # Type definitions
-│   └── utils/
-│       ├── blog.ts                  # Blog post queries and sorting
-│       ├── formatDate.ts            # Date formatting and reading time
-│       ├── socialShare.ts           # Social media share URLs
-│       ├── url-utils.ts             # URL helpers
-│       └── validateOgImage.ts       # OG image validation
+│   ├── utils/
+│   │   ├── blog.ts                  # Blog post queries and sorting
+│   │   ├── formatDate.ts            # Date formatting and reading time
+│   │   ├── socialShare.ts           # Social media share URLs
+│   │   ├── url-utils.ts             # URL helpers
+│   │   └── validateOgImage.ts       # OG image validation
+│   ├── config.ts                    # Site metadata and social links
+│   └── content.config.ts            # Content Collections schema (Astro 6 Content Layer API)
 │
 ├── public/                          # Static assets
 │   ├── _headers                     # Security headers
-│   ├── favicon.svg
-│   └── robots.txt
+│   └── favicon.svg
 │
 ├── tokens/                          # Design tokens
 │   ├── base.json                    # Base tokens
@@ -122,12 +127,11 @@ astro-performance-starter/
 │
 ├── astro.config.mjs                 # Astro configuration
 ├── biome.json                       # Linting & formatting
-├── src/styles/global.css            # Tailwind v4 config with @theme inline tokens
 ├── tsconfig.json                    # TypeScript strict mode
 ├── vitest.config.ts                 # Testing configuration
 ├── package.json                     # Dependencies & scripts
 ├── pnpm-lock.yaml                   # Lock file
-├── .nvmrc                           # Node version (22.x)
+├── .nvmrc                           # Node version (24.x)
 ├── .env.example                     # Environment template
 ├── README.md                        # Project overview
 └── LICENSE.txt                      # MIT license
@@ -137,27 +141,31 @@ astro-performance-starter/
 
 ## Component Organization
 
-**24 production-ready components** organized by atomic design principles:
+**28 production-ready component files** organized by atomic design principles:
 
 ### Accessibility (1)
 
 - `SkipLink.astro` - Keyboard navigation helper
 
-### Atoms (5)
+### Atoms (6)
 
 - `Badge.astro` - Labels and tags
 - `Button.astro` - Interactive buttons with variants
+- `Icon.astro` - Reusable SVG icons with accessibility support
 - `Image.astro` - Optimized image wrapper
 - `SocialLink.astro` - Social media links
 - `Tooltip.astro` - Pure CSS tooltips
 
-### Molecules (5)
+### Molecules (8)
 
 - `Card.astro` - Content cards
 - `ContactForm.astro` - Form with validation
-- `ExpandableFeatureCard.astro` - Interactive feature cards
+- `ContactFormScript.ts` - Form handling logic
+- `ExpandableFeatureCard.tsx` - Interactive feature cards (Preact)
+- `Head.astro` - Reusable SEO component with OG/Twitter tags
 - `PostCard.astro` - Blog post cards with metadata
 - `ProjectCard.astro` - Project showcase cards
+- `SectionSeparator.astro` - Gradient divider for visual section separation
 
 ### Structural (5)
 
@@ -215,46 +223,44 @@ Comprehensive guides organized for AI-assisted development:
 
 ```bash
 docs/
-├── getting-started/                 # Quick start
-│   ├── quick-start.md
+├── getting-started/                 # Onboarding & setup
+│   ├── onboarding.md               # Developer setup guide
+│   ├── launch-demo.md              # Get running in 5-10 minutes
+│   ├── quick-deploy.md             # Ship to production in under an hour
 │   ├── directory-structure.md       # ← You are here
-│   └── configuration.md
+│   ├── included-in-this-template.md # Feature inventory
+│   ├── creating-your-first-page.md  # Step-by-step page creation
+│   └── FAQ.md                       # Common questions
+│
+├── ai-context/                      # AI assistant entry point
+│   └── INDEX.md                     # Central context contract
 │
 ├── implementation-guides/           # Phase-by-phase guides
 │   ├── completed/                   # Foundation phases (0-4)
-│   │   ├── phase-0-foundation.md
-│   │   ├── phase-1-content.md
-│   │   ├── phase-2-design.md
-│   │   ├── phase-3-performance.md
-│   │   └── phase-4-quality.md
 │   ├── active-phases/               # Current development (5-12)
-│   │   ├── phase-5-components.md
-│   │   ├── phase-6-sections.md
-│   │   ├── phase-7-content.md
-│   │   └── ...
 │   ├── code-examples/               # Copy-paste examples
-│   │   ├── phase-4-code-examples.md # Layouts & structure
-│   │   ├── phase-5-code-examples.md # Components
-│   │   ├── phase-6-code-examples.md # Sections & layouts
-│   │   └── phase-7-code-examples.md # Pages & routes
 │   ├── guides/                      # Topic-specific guides
-│   │   ├── components-guide.md
-│   │   ├── accessibility.md
-│   │   └── testing.md
+│   └── reference/                   # Tech stack, budgets, checklist
+│
+├── development/                     # Dev workflow guides
+│   ├── recommended-extensions.md    # VS Code extensions
+│   ├── git-workflow.md              # Branching & commit conventions
+│   ├── author-guidelines.md         # Content authoring guide
+│   └── TESTING_COVERAGE.md          # Test strategy & coverage
 │
 ├── patterns/                        # Design patterns
 │   ├── component-patterns.md        # Component design
+│   ├── content-collections.md       # Advanced content patterns
+│   ├── islands-architecture.md      # Interactive components
 │   ├── mdx-components.md            # MDX usage
-│   └── islands-architecture.md      # Interactive components
+│   └── performance-patterns.md      # Optimization techniques
 │
-├── architecture/                    # System design
-│   ├── design-tokens.md
-│   ├── tech-stack.md
-│   └── performance-budgets.md
+├── snippets/                        # Reusable code snippets
 │
-└── adr/                            # Architectural Decision Records
+└── adr/                             # Architectural Decision Records (35+)
     ├── 000-starter-decisions.md
-    ├── 001-preact-island-usage.md
+    ├── 001-preact-island-usage-policy.md
+    ├── template.md
     └── ...
 ```
 
@@ -289,7 +295,6 @@ docs/
 
 ## Related Documentation
 
-- [Quick Start Guide](./quick-start.md) - Get up and running
-- [Tech Stack](../architecture/tech-stack.md) - Technology choices
+- [Launch Demo](./launch-demo.md) - Get up and running
 - [Component Patterns](../patterns/component-patterns.md) - Component design
 - [Implementation Guides](../implementation-guides/) - Phased development tiers

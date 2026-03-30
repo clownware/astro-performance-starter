@@ -188,7 +188,7 @@ Each active phase includes practical code examples:
 
 | Need | Essential | Recommended | Advanced |
 |------|-----------|-------------|----------|
-| Interactivity | Static HTML + CSS | Alpine.js for simple state | Preact islands where justified |
+| Interactivity | Static HTML + CSS | CSS + minimal JS for simple state | Preact islands where justified |
 | Testing | Manual checklist | Playwright critical paths | Full suite + visual regression |
 | Components | Core UI only | Extended component library | Astrobook + full documentation |
 | Documentation | README + basics | AI context updated | Comprehensive guides |
