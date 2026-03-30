@@ -30,7 +30,7 @@ const projectsCollection = defineCollection({
           }),
         )
         .optional(),
-      externalUrl: z.string().url().optional(),
+      externalUrl: z.url().optional(),
       sortOrder: z.number().default(0),
     }),
 });
@@ -53,7 +53,7 @@ const blogCollection = defineCollection({
       technologies: z.array(z.string()).default([]),
       author: z.string().default("Your Name"), // Default author
       readingTime: z.number().optional(), // Optional: can be calculated
-      canonicalUrl: z.string().url().optional(),
+      canonicalUrl: z.url().optional(),
       relatedPosts: z.array(z.string()).optional(), // ids of related posts
     }),
 });
@@ -85,9 +85,9 @@ const bioCollection = defineCollection({
       avatar: image(), // Astro's image schema helper
       social: z
         .object({
-          github: z.string().url().optional(),
-          linkedin: z.string().url().optional(),
-          twitter: z.string().url().optional(),
+          github: z.url().optional(),
+          linkedin: z.url().optional(),
+          twitter: z.url().optional(),
           email: z.email().optional(),
         })
         .optional(),

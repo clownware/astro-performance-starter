@@ -1,0 +1,159 @@
+---
+title: "Shipping AI Workflows, Not Just Rules Files"
+description: "How we built Claude Code skills, subagents, and project context that ship with the template — AI-optimized as a feature, not a claim."
+date: 2026-03-29
+slug: shipping-ai-workflows
+cover: './ai-workflows-hero.png'
+coverAlt: 'Architecture diagram of the .claude directory showing skills, subagents, and CLAUDE.md'
+cardImage: './ai-workflows-card.png'
+tags: ['AI', 'Developer Experience', 'Open Source', 'Claude Code']
+technologies: ['Claude Code', 'CLAUDE.md', 'MCP', 'Astro', 'TypeScript', 'Biome']
+client: 'Open Source'
+role: 'Developer & AI Workflow Architect'
+duration: '2 months'
+featured: true
+outcomes:
+  - metric: 'AI Workflow Files'
+    value: '8 files'
+    description: 'CLAUDE.md, 2 skills, 1 subagent, settings, AI rules, shared contract'
+  - metric: 'Zero-Config Setup'
+    value: '0 steps'
+    description: 'Clone → open Claude Code → project-aware instantly'
+  - metric: 'Convention Coverage'
+    value: '100%'
+    description: 'Every ADR and pattern doc referenced by AI workflows'
+externalUrl: 'https://github.com/clownware/astro-performance-starter'
+---
+import Callout from '@/components/mdx/Callout.astro';
+
+{/*TODO: Replace placeholder images. Hero (1536x1024) should be a clean diagram of the .claude/ file tree architecture. Card (600x600) should be a cropped/simplified version of the same.*/}
+
+## Project Overview
+
+Most starter templates that claim to be "AI-optimized" ship a rules file — a static document that tells an AI assistant what the project is. This project ships something different: active workflows that teach an AI assistant how to *work in* the project. Skills that scaffold components following the project's pattern doc. A subagent that reviews code against 35+ Architecture Decision Records. A context file that loads the right constraints at the right time without flooding the context window.
+
+The distinction matters. One approach ships documentation. The other ships a colleague who already knows the codebase.
+
+---
+
+## The Challenge
+
+Three problems kept surfacing across projects that used AI coding assistants:
+
+- **AI assistants start every session blank.** Templates ship linting configs, TypeScript strict mode, CI pipelines, and git hooks — all encoding conventions for human developers and automated tooling. The tool developers interact with most frequently — their AI coding assistant — gets nothing. Every session begins with the AI rediscovering project conventions from scratch.
+
+- **Rules files are passive context, not workflows.** A `.windsurfrules` or `.cursorrules` file tells the AI about the stack. It doesn't tell it *how* to review code against the project's ADRs, scaffold a component following the project's patterns doc, or write a PR description matching the project's template. There's a gap between knowing the rules and applying them.
+
+- **Convention drift between AI tools.** When conventions live in multiple tool-specific files — `.windsurfrules`, `airules.example`, `CLAUDE.md` — with no shared source of truth, they diverge. One file gets updated; the others don't. The AI tools that developers rely on give inconsistent guidance depending on which editor they open.
+
+---
+
+## Architecture
+
+### The File Tree
+
+Eight files ship with the template, organized by function:
+
+```
+.claude/
+├── settings.json                      # Tool permissions (pnpm, Biome)
+├── settings.local.json                # Local development overrides
+├── agents/
+│   └── code-reviewer.md               # Code review subagent
+└── skills/
+    ├── component-scaffold/
+    │   └── SKILL.md                   # Component scaffolder
+    └── pr-description/
+        └── SKILL.md                   # PR description generator
+
+CLAUDE.md                              # Project brain file (root)
+docs/ai-context/INDEX.md               # Canonical AI assistant contract
+.windsurfrules                         # Windsurf equivalent context
+```
+
+### CLAUDE.md Design Decisions
+
+The root `CLAUDE.md` is the first file Claude Code reads when entering the project. Three design decisions shaped its structure:
+
+**Priority ordering.** Critical constraints come first: check ADRs before suggesting architectural changes, no `client:load` without justification (ADR-001), use design tokens from `tokens/`. A developer who reads only the first ten lines still gets the most important rules.
+
+**Progressive disclosure.** Rather than inlining every convention, CLAUDE.md references deeper documentation by file path — `docs/patterns/component-patterns.md` for component conventions, `docs/adr/` for architectural decisions. This keeps the context lean for routine tasks while making detail available on demand.
+
+**Neutral tone.** CLAUDE.md ships to every fork. It contains project conventions only — no personal interaction preferences, no behavioral rules, no "be concise" instructions. Those belong in the developer's personal Claude configuration, not in a shared template.
+
+### Shared Source of Truth
+
+`docs/ai-context/INDEX.md` is the canonical contract that all AI context files derive from. When a convention changes — a new ADR is accepted, a performance budget is tightened, a naming convention evolves — one update to INDEX.md propagates to CLAUDE.md and `.windsurfrules`. This eliminates the drift problem where tool-specific files give conflicting guidance.
+
+### Skills vs. Subagents
+
+The distinction is functional. **Skills** are task-specific workflows invoked on demand — scaffold a component, write a PR description. They execute a defined sequence of steps and produce a specific output. **Subagents** are persistent reviewers with domain expertise — the code reviewer runs after significant changes and evaluates work against project standards. Skills build; subagents check.
+
+---
+
+## Key Features
+
+### Code Reviewer Subagent
+
+The code review subagent (`.claude/agents/code-reviewer.md`) loads project standards at runtime from `CLAUDE.md`, `biome.json`, and `tsconfig.json`, then evaluates changes against them. It checks ADR compliance — particularly ADR-001's `client:load` policy, ADR-023's testing requirements, and ADR-035's scope boundaries. It validates performance budgets (160KB JavaScript, 50KB CSS). It confirms component patterns follow the atomic design hierarchy and that design tokens are used instead of hardcoded values.
+
+What it *doesn't* do matters as much as what it does. Formatting is Biome's job — the reviewer ignores it. The reviewer never makes changes; it analyzes and reports. Output is structured into three severity levels: **Blocking** (security issues, ADR violations, budget breaches), **Suggestions** (pattern compliance, test coverage gaps), and **Nits** (naming, style preferences).
+
+### Component Scaffold Skill
+
+The component scaffold skill (`.claude/skills/component-scaffold/SKILL.md`) reads `docs/patterns/component-patterns.md` at invocation time — not at authoring time. When the patterns doc is updated, the skill automatically picks up the new conventions on its next run. It determines the correct atomic design tier (atom, molecule, structural), generates a TypeScript-first component with a `Props` interface, applies design tokens instead of hardcoded values, and chooses the appropriate client directive based on interactivity requirements.
+
+The pre-fetch pattern is key: the skill runs shell commands to inspect the existing component directory before generating anything, ensuring it places new components consistently with the established structure.
+
+### PR Description Skill
+
+The PR description skill (`.claude/skills/pr-description/SKILL.md`) reads `.github/PULL_REQUEST_TEMPLATE.md`, diffs the current branch against the base, and fills in every section — What changed, Why, How, Testing, and Checklist — with accurate descriptions drawn from the actual commits and file changes. It replaces the pattern where developers copy the PR template, leave half the sections as `<!-- TODO -->`, and submit.
+
+Like the component skill, it pre-fetches context using embedded shell commands: base branch detection, commit history, changed file list, and full diff. The output is raw markdown ready to paste — no wrapping, no code fences.
+
+---
+
+## Results
+
+### Deliverables
+
+| Deliverable | Purpose | Key Design Decision |
+|-------------|---------|-------------------|
+| **CLAUDE.md** | Project context for Claude Code | Priority-ordered, progressive disclosure |
+| **settings.json** | Tool permissions | Allowlist for pnpm scripts and Biome |
+| **Code Reviewer** | Automated code review | Runtime doc loading, three-tier severity |
+| **Component Scaffold** | Component generation | Pre-fetches patterns doc, atomic design placement |
+| **PR Description** | PR template automation | Pre-fetches branch context, fills real template |
+| **INDEX.md** | Canonical AI contract | Single source of truth for all tool configs |
+| **.windsurfrules** | Windsurf context | Derived from INDEX.md, feature parity |
+| **settings.local.json** | Local dev overrides | Restricted permissions for personal use |
+
+### Impact
+
+A developer cloning this template gets a project-aware AI assistant with zero configuration. There are no setup steps, no "copy this file and fill in your details" instructions, no environment variables to set. The `.claude/` directory is checked into the repo and activates automatically when Claude Code opens the project.
+
+Every ADR, pattern document, and performance budget referenced in the documentation is also referenced by at least one AI workflow file — ensuring the AI assistant enforces the same standards that the documentation describes.
+
+---
+
+## Lessons Learned
+
+### What Worked
+
+**Progressive disclosure in CLAUDE.md** kept the context window lean. Rather than inlining every convention, the file references documentation by path. Claude loads `docs/patterns/component-patterns.md` only when scaffolding a component — not on every interaction. This matters because context window space directly affects response quality; bloated context produces diluted answers.
+
+**Skills that read docs at runtime** instead of hardcoding rules solved the maintenance problem. When `docs/patterns/component-patterns.md` is updated, the component scaffold skill picks up the changes on its next invocation. No skill file needs editing. The documentation *is* the skill's knowledge base.
+
+**The shared source of truth** (`docs/ai-context/INDEX.md`) eliminated convention drift. Before this, updating a naming convention meant editing three files manually and hoping none were missed.
+
+### Challenges
+
+**Shipped conventions vs. personal preferences** created a tension. CLAUDE.md needs to be neutral — it ships to every fork. But developers have strong preferences about interaction style, verbosity, and workflow. The solution was a clean separation: project conventions live in CLAUDE.md (shipped), personal preferences live in `~/.claude/CLAUDE.md` (not shipped). The template doesn't touch the personal config.
+
+**Skill granularity** required iteration. Early attempts at a "general development" skill were too broad — effectively just another rules file with extra steps. Narrowing to specific tasks (scaffold *this* component, write *this* PR description) made each skill focused enough to be reliable and fast enough to be worth invoking.
+
+---
+
+<Callout type="success" title="Summary">
+This template doesn't just tell AI tools about the project — it teaches them how to work in it. Skills scaffold components following the pattern doc. A subagent reviews code against 35+ ADRs. A shared contract keeps every AI tool aligned. The result is a starter template where "AI-optimized" means the AI is productive from the first clone, not after a developer spends an hour writing a custom rules file.
+</Callout>
