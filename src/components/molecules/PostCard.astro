@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import Badge from "@/components/atoms/Badge.astro";
 import Image from "@/components/atoms/Image.astro";
 import Card from "@/components/molecules/Card.astro";
+import { withBase } from "@/utils/url-utils";
 
 interface Props {
   post: CollectionEntry<"blog"> & {
@@ -56,7 +57,7 @@ const img = post.data.cardImage ?? post.data.cover;
 
     <h3 transition:name={"post-title-" + post.id} class="mb-3 text-xl font-semibold text-foreground-primary">
       <a
-        href={`/blog/${post.id}/`}
+        href={withBase(`/blog/${post.id}/`)}
         class:list={[
           "transition-colors",
           featured ? "stretched-link hover:text-primary-600" : "after:absolute after:inset-0 group-hover:text-primary-600"

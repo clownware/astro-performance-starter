@@ -12,7 +12,9 @@ export const siteMetadata = {
   title: "Astro Performance Starter",
   /** Fallback description if a page does not provide its own. */
   description: "A production-ready Astro starter focused on performance, accessibility, and DX.",
-  /** Default author string for meta tags. CUSTOMIZE: Your full name. */
+  /**
+   * Default author string for meta tags.
+   */
   author: "Your Name",
 } as const;
 
@@ -21,9 +23,13 @@ export const siteMetadata = {
  * Update these values when you fork/clone the template for your own project.
  */
 export const siteLinks = {
-  /** GitHub repository URL. Used in header, footer, and CTA links. */
-  github: "https://github.com/clownware/astro-performance-starter",
-  /** Documentation site URL. Set to "" to hide docs links, or point to your own docs site. */
+  /**
+   * GitHub repository URL. Used in header, footer, and CTA links.
+   */
+  github: "",
+  /**
+   * Documentation site URL. Set to "" to hide docs links, or point to your own docs site.
+   */
   docs: "",
   /** URL for the live demo / GitHub Pages deployment. */
   demo: "",
@@ -36,7 +42,7 @@ export const siteLinks = {
  * Set to "" to hide the corresponding icon.
  */
 export const socialLinks = {
-  github: "https://github.com/yourusername",
+  github: "",
   linkedin: "",
   twitter: "",
 } as const;

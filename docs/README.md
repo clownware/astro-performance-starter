@@ -157,4 +157,4 @@ Documenting important technical decisions:
 - Consequences
 
 ---
-*Questions? Open a [Discussion](https://github.com/clownware/astro-performance-starter/discussions)*
+*Questions? Open a Discussion on GitHub*

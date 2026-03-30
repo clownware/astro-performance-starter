@@ -9,6 +9,7 @@ import SocialLink from "@/components/atoms/SocialLink.astro";
 import { socialLinks as configSocialLinks } from "@/config";
 import avatarImage from "@/images/avatar-placeholder.png";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/url-utils";
 
 // Fetch bio data from content collection
 const bioEntry = await getEntry("bio", "default");
@@ -238,13 +239,23 @@ function formatPeriod(startDate: Date, endDate?: Date, current?: boolean): strin
           </p>
           <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <Button
-              href="/contact"
+              href={withBase("/contact")}
               variant="primary"
               size="lg"
               class="inline-flex items-center"
               data-astro-prefetch
             >
               Get In Touch
+            </Button>
+            <Button
+              href={withBase("/resume.pdf")}
+              variant="secondary"
+              size="lg"
+              class="inline-flex items-center"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Download Resume
             </Button>
           </div>
         </div>

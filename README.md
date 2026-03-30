@@ -2,7 +2,7 @@
 
 **Zero-JS baseline • 95+ Lighthouse scores • Built for speed**
 
-[![CI](https://github.com/clownware/astro-performance-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/clownware/astro-performance-starter/actions/workflows/ci.yml)
+[![CI](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE.txt)
 [![Node.js](https://img.shields.io/badge/Node.js-24.x-green?logo=node.js)](https://nodejs.org/)
 [![Lighthouse Score](https://img.shields.io/badge/Lighthouse-95%2B-success?logo=lighthouse&logoColor=white)](#-performance-budgets)
@@ -39,7 +39,7 @@ pnpm run dev
 ### Or scaffold with the Astro CLI
 
 ```bash
-pnpm create astro@latest my-site -- --template clownware/astro-performance-starter
+pnpm create astro@latest my-site -- --template YOUR_ORG/YOUR_REPO
 cd my-site
 pnpm run dev
 ```
@@ -52,9 +52,9 @@ Open **<http://localhost:4321/>** — you're up and running.
 
 ### One-click deploy
 
-[![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/clownware/astro-performance-starter)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/clownware/astro-performance-starter)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/clownware/astro-performance-starter)
+[![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR_ORG/YOUR_REPO)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/YOUR_ORG/YOUR_REPO)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_ORG/YOUR_REPO)
 
 ## 🛠️ Personalization
 
@@ -63,11 +63,16 @@ After cloning, update these files to make the template yours:
 | File | What to change |
 |------|---------------|
 | `src/config.ts` | Site title, author, GitHub URL, docs URL, social links |
-| `astro.config.mjs` | `site` URL for your deployment |
+| `package.json` | `name`, `description`, `author`, `repository`, `homepage`, `bugs` |
+| `LICENSE.txt` | Copyright year and holder name |
 | `src/content/navigation/header.json` | Navigation links and GitHub URL |
+| `src/content/bio/default.mdx` | Name, title, social links, bio text |
 | `public/logo.svg` | Your logo / wordmark |
+| `public/favicon.svg` | Your favicon |
 | `tokens/base.json` | Brand colors |
-| `package.json` | `name`, `description`, `repository` |
+| `.github/CODEOWNERS` | Uncomment and set your GitHub username |
+| `CHANGELOG.md` | Start fresh for your project |
+| `README.md` | CI badge URL, deploy buttons, `--template` command |
 
 ## ✨ What's Inside
 
@@ -161,4 +166,4 @@ Licensed under the [MIT License](./LICENSE.txt).
 
 ---
 
-**Status**: Active development • v0.2.0 • [Releases](https://github.com/clownware/astro-performance-starter/releases)
+**Status**: Active development • v0.2.0

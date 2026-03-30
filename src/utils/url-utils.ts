@@ -1,22 +1,33 @@
 // src/utils/url-utils.ts
 
 /**
+ * Prepend the Astro base path to an internal URL.
+ * Handles trailing/leading slash deduplication so callers can pass
+ * paths with or without a leading slash.
+ */
+export function withBase(path: string): string {
+  const base = import.meta.env.BASE_URL;
+  // BASE_URL always ends with "/"; strip leading "/" from path to avoid "//"
+  return base + path.replace(/^\//, "");
+}
+
+/**
  * Defines the URL patterns for various parts of the site.
- * This provides a single source of truth for URL structures.
+ * All paths are run through `withBase()` so they respect the configured
+ * Astro `base` path (e.g. for GitHub Pages sub-path deployments).
  */
 export const urlPatterns = {
-  home: "/",
-  projects: "/projects",
-  project: (slug: string) => `/projects/${slug}`,
-  blog: "/blog",
-  blogPost: (slug: string) => `/blog/${slug}`,
-  blogTag: (tag: string) => `/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}`,
-  about: "/about",
-  contact: "/contact",
-  // Archive patterns for blog posts by year and optionally month
+  home: () => withBase("/"),
+  projects: () => withBase("/projects"),
+  project: (slug: string) => withBase(`/projects/${slug}`),
+  blog: () => withBase("/blog"),
+  blogPost: (slug: string) => withBase(`/blog/${slug}`),
+  blogTag: (tag: string) => withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}`),
+  about: () => withBase("/about"),
+  contact: () => withBase("/contact"),
   blogArchive: (year: number, month?: number) =>
-    month ? `/blog/${year}/${String(month).padStart(2, "0")}` : `/blog/${year}`,
-} as const;
+    withBase(month ? `/blog/${year}/${String(month).padStart(2, "0")}` : `/blog/${year}`),
+};
 
 /**
  * Generates a URL-friendly slug from a given string (e.g., a title).

@@ -5,6 +5,7 @@ import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import ProjectCard from "@/components/molecules/ProjectCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/url-utils";
 
 // Load project entries from content collection and sort by publishedDate (desc)
 const entries = await getCollection(
@@ -42,7 +43,7 @@ function getProjectImage(entry: CollectionEntry<"projects">): ImageMetadata | st
   }
 
   // Default fallback
-  return "/logo.svg";
+  return withBase("/logo.svg");
 }
 
 // Transform to simple objects for UI
@@ -58,7 +59,7 @@ const projects: ProjectItem[] = entries
     techStack: entry.data.technologies ?? [],
     demoUrl: entry.data.externalUrl ?? undefined,
     githubUrl: entry.data.githubUrl ?? undefined,
-    href: `/projects/${entry.id}/`,
+    href: withBase(`/projects/${entry.id}/`),
     date: entry.data.date,
     tags: entry.data.tags ?? [],
   }));
