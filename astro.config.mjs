@@ -16,9 +16,7 @@ const rootDir = fileURLToPath(new URL(".", import.meta.url));
 // --- Deployment Configuration ---
 // Read package name to derive GitHub Pages base path automatically.
 // This eliminates hardcoded repo names that break when the template is cloned.
-const pkg = JSON.parse(
-  readFileSync(new URL("./package.json", import.meta.url), "utf-8"),
-);
+const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), "utf-8"));
 
 const isGhPages = process.env.DEPLOY_TARGET === "gh-pages";
 
