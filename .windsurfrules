@@ -20,7 +20,7 @@ Astro Performance Starter Template - Production-ready GitHub template with compr
 
 ## Tech Stack
 
-- **Framework**: Astro v5.x with Vite 6.x bundler
+- **Framework**: Astro v6.x with Vite 6.x bundler
 - **Package Manager**: pnpm 10.x (required - locked in package.json)
 - **Runtime**: Node.js 24.x LTS (specified in .nvmrc)
 - **Styling**: Tailwind CSS v4.x with CSS-native `@theme inline` design tokens
@@ -172,7 +172,7 @@ Use exact scripts from package.json
 - Prefer composition over complex prop transformation
 - Document any TypeScript escape hatches with clear reasoning
 
-## Astro 5.0 Patterns
+## Astro 6.x Patterns
 
 - Use `ClientRouter` instead of deprecated `ViewTransitions`
 - Configure `disable404Route: true` in Starlight when using custom 404 pages
