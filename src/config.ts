@@ -10,7 +10,7 @@ export const siteMetadata = {
   /**
    * Default author string for meta tags.
    */
-  author: "Christopher Pezza",
+  author: "Your Name",
 } as const;
 
 /**
@@ -21,7 +21,7 @@ export const siteLinks = {
   /**
    * GitHub repository URL. Used in header, footer, and CTA links.
    */
-  github: "https://github.com/clownware/astro-performance-starter",
+  github: "",
   /**
    * Documentation site URL. Set to "" to hide docs links, or point to your own docs site.
    */
@@ -41,7 +41,7 @@ export const siteLinks = {
  * Remove or update these for your own profiles.
  */
 export const socialLinks = {
-  github: "https://github.com/chrispezza",
+  github: "",
   linkedin: "",
   twitter: "",
 } as const;
