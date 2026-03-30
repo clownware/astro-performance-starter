@@ -1,14 +1,22 @@
 // src/utils/url-utils.ts
 
 /**
+ * Pure base-path resolver, testable without Vite.
+ * Prepends the given base to a path, normalising slashes.
+ */
+export function resolveBasePath(base: string, path: string): string {
+  const normalizedBase = base.endsWith("/") ? base.slice(0, -1) : base;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${normalizedBase}${normalizedPath}`;
+}
+
+/**
  * Prepend the Astro base path to an internal URL.
  * Handles trailing/leading slash deduplication so callers can pass
  * paths with or without a leading slash.
  */
 export function withBase(path: string): string {
-  const base = import.meta.env.BASE_URL;
-  // BASE_URL always ends with "/"; strip leading "/" from path to avoid "//"
-  return base + path.replace(/^\//, "");
+  return resolveBasePath(import.meta.env.BASE_URL, path);
 }
 
 /**
@@ -18,16 +26,16 @@ export function withBase(path: string): string {
  */
 export const urlPatterns = {
   home: () => withBase("/"),
-  projects: () => withBase("/projects"),
-  project: (slug: string) => withBase(`/projects/${slug}`),
-  blog: () => withBase("/blog"),
-  blogPost: (slug: string) => withBase(`/blog/${slug}`),
-  blogTag: (tag: string) => withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}`),
-  about: () => withBase("/about"),
-  contact: () => withBase("/contact"),
+  projects: () => withBase("/projects/"),
+  project: (slug: string) => withBase(`/projects/${slug}/`),
+  blog: () => withBase("/blog/"),
+  blogPost: (slug: string) => withBase(`/blog/${slug}/`),
+  blogTag: (tag: string) => withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`),
+  about: () => withBase("/about/"),
+  contact: () => withBase("/contact/"),
   blogArchive: (year: number, month?: number) =>
-    withBase(month ? `/blog/${year}/${String(month).padStart(2, "0")}` : `/blog/${year}`),
-};
+    withBase(month ? `/blog/${year}/${String(month).padStart(2, "0")}/` : `/blog/${year}/`),
+} as const;
 
 /**
  * Generates a URL-friendly slug from a given string (e.g., a title).

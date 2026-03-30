@@ -26,12 +26,12 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
 
     <nav class="hidden md:flex items-center gap-8" aria-label="Main navigation">
       {navItems.map((item: NavItem) => {
-        const href = item.isExternal ? item.href : withBase(item.href);
+        const resolvedHref = item.isExternal ? item.href : withBase(item.href);
         return (
           <a
-            href={href}
+            href={resolvedHref}
             class="no-underline text-base font-medium text-foreground-secondary transition-all hover:text-foreground-primary hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-background-secondary"
-            aria-current={Astro.url.pathname === href ? 'page' : undefined}
+            aria-current={Astro.url.pathname === resolvedHref ? 'page' : undefined}
             target={item.isExternal ? '_blank' : undefined}
             rel={item.isExternal ? 'noopener noreferrer' : undefined}
           >
