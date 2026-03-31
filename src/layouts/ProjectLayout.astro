@@ -7,6 +7,7 @@ import Image from "@/components/atoms/Image.astro";
 import { siteMetadata } from "@/config";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { formatDate, formatDateIso } from "@/utils/formatDate";
+import { withBase } from "@/utils/url-utils";
 
 export interface Props {
   title: string;
@@ -64,7 +65,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
               <ol class="flex items-center space-x-2 text-sm text-foreground-secondary">
                 <li>
                   <a
-                    href="/projects/"
+                    href={withBase("/projects/")}
                     class="hover:text-foreground-primary transition-colors duration-200"
                     aria-label="Back to projects"
                   >
@@ -211,7 +212,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
         <Button
           variant="ghost"
           size="lg"
-          href="/projects"
+          href={withBase("/projects/")}
           class="inline-flex items-center"
         >
           <span class="mr-2" aria-hidden="true">←</span>

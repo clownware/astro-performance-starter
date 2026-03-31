@@ -7,6 +7,7 @@ import SocialLink from "@components/atoms/SocialLink.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { formatPostMetadata } from "@utils/formatDate";
 import { generateAllShareUrls } from "@utils/socialShare";
+import { withBase } from "@/utils/url-utils";
 
 export interface Props {
   post: CollectionEntry<"blog">;
@@ -37,7 +38,7 @@ const shareUrls = generateAllShareUrls({
 <BaseLayout
   title={title}
   description={description}
-  image={cover ? cover.src : "/og-blog.svg"}
+  image={cover ? cover.src : withBase("/og-blog.svg")}
   ogType="article"
   ogArticle={{
     publishedTime: date.toISOString(),
@@ -53,7 +54,7 @@ const shareUrls = generateAllShareUrls({
       <nav class="mb-6 text-sm" aria-label="Breadcrumb">
         <ol class="flex items-center space-x-2 text-foreground-secondary">
           <li>
-            <a href="/" class="hover:text-foreground-primary transition-colors">
+            <a href={withBase("/")} class="hover:text-foreground-primary transition-colors">
               Home
             </a>
           </li>
@@ -63,7 +64,7 @@ const shareUrls = generateAllShareUrls({
             </svg>
           </li>
           <li>
-            <a href="/blog/" class="hover:text-foreground-primary transition-colors">
+            <a href={withBase("/blog/")} class="hover:text-foreground-primary transition-colors">
               Blog
             </a>
           </li>
@@ -202,7 +203,7 @@ const shareUrls = generateAllShareUrls({
             <div class="group">
               <p class="mb-2 text-sm font-medium text-foreground-secondary">Previous Post</p>
               <Button
-                href={`/blog/${prevPost.id}/`}
+                href={withBase(`/blog/${prevPost.id}/`)}
                 variant="ghost"
                 class="h-auto p-4 text-left justify-start group-hover:bg-background-secondary"
               >
@@ -224,7 +225,7 @@ const shareUrls = generateAllShareUrls({
             <div class="group md:text-right">
               <p class="mb-2 text-sm font-medium text-foreground-secondary">Next Post</p>
               <Button
-                href={`/blog/${nextPost.id}/`}
+                href={withBase(`/blog/${nextPost.id}/`)}
                 variant="ghost"
                 class="h-auto p-4 text-right justify-end group-hover:bg-background-secondary"
               >

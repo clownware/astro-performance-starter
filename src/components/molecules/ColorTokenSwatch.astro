@@ -1,0 +1,63 @@
+---
+interface Props {
+  tokenName: string;
+  cssVar: string;
+  contrastRatio?: string;
+  class?: string;
+}
+
+const { tokenName, cssVar, contrastRatio, class: className } = Astro.props;
+---
+
+<div class:list={["color-swatch", className]}>
+  <div
+    class="color-swatch__preview"
+    style={`background-color: hsl(var(${cssVar}))`}
+    aria-hidden="true"
+  ></div>
+  <div class="color-swatch__info">
+    <span class="text-sm font-medium text-foreground-primary">{tokenName}</span>
+    <code class="text-xs text-foreground-secondary font-mono">{cssVar}</code>
+    {contrastRatio && (
+      <span class="text-xs text-foreground-secondary">
+        {contrastRatio}
+      </span>
+    )}
+  </div>
+</div>
+
+<style>
+  .color-swatch {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.15s;
+  }
+
+  .color-swatch:hover {
+    background-color: hsl(var(--color-background-secondary));
+  }
+
+  .color-swatch__preview {
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 0.5rem;
+    border: 1px solid hsl(var(--color-border-primary));
+    flex-shrink: 0;
+  }
+
+  .color-swatch__info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .color-swatch__info code {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

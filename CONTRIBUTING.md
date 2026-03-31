@@ -268,8 +268,8 @@ Closes #123
 
 ## 💡 Getting Help
 
-- **Questions**: Open a [Discussion](https://github.com/clownware/astro-performance-starter/discussions)
-- **Bugs**: Open an [Issue](https://github.com/clownware/astro-performance-starter/issues)
+- **Questions**: Open a Discussion on GitHub
+- **Bugs**: Open an Issue on GitHub
 - **Ideas**: Share in Discussions first
 - **Chat**: Join us in the Astro Discord
 

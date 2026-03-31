@@ -1,5 +1,34 @@
 import { describe, expect, it } from "vitest";
-import { generateSlug, isTrustedUrl } from "../url-utils";
+import { generateSlug, isTrustedUrl, resolveBasePath } from "../url-utils";
+
+describe("resolveBasePath", () => {
+  it("returns path unchanged when base is /", () => {
+    expect(resolveBasePath("/", "/")).toBe("/");
+    expect(resolveBasePath("/", "/blog/")).toBe("/blog/");
+    expect(resolveBasePath("/", "/logo.svg")).toBe("/logo.svg");
+  });
+
+  it("prepends base path for GH Pages", () => {
+    expect(resolveBasePath("/astro-performance-starter/", "/")).toBe("/astro-performance-starter/");
+    expect(resolveBasePath("/astro-performance-starter/", "/blog/")).toBe(
+      "/astro-performance-starter/blog/",
+    );
+    expect(resolveBasePath("/astro-performance-starter/", "/logo.svg")).toBe(
+      "/astro-performance-starter/logo.svg",
+    );
+  });
+
+  it("normalises base without trailing slash", () => {
+    expect(resolveBasePath("/astro-performance-starter", "/blog/")).toBe(
+      "/astro-performance-starter/blog/",
+    );
+  });
+
+  it("normalises path without leading slash", () => {
+    expect(resolveBasePath("/", "blog/")).toBe("/blog/");
+    expect(resolveBasePath("/base/", "logo.svg")).toBe("/base/logo.svg");
+  });
+});
 
 describe("generateSlug", () => {
   it("converts spaces to hyphens and lowercases", () => {

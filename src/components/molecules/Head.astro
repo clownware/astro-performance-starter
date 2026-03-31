@@ -2,6 +2,7 @@
 // Font asset URLs for proper hashed filenames in production
 import interVarUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
 import { siteMetadata } from "@/config";
+import { withBase } from "@/utils/url-utils";
 import { validateOgImage } from "@/utils/validateOgImage";
 
 export interface Props {
@@ -54,7 +55,7 @@ export interface Props {
 const {
   title,
   description,
-  image = "/og-default.svg",
+  image = withBase("/og-default.svg"),
   canonicalUrl = new URL(Astro.url.pathname, Astro.site),
   noindex = false,
   ogType = "website",
@@ -78,9 +79,9 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 <link rel="alternate" type="application/rss+xml" title={siteTitle} href={new URL("rss.xml", Astro.site).href} />
 
 <!-- Favicons -->
-<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-<link rel="icon" type="image/x-icon" href="/favicon.ico" />
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+<link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
+<link rel="icon" type="image/x-icon" href={withBase("/favicon.ico")} />
+<link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
 
 <!-- Primary Meta Tags -->
 <title>{fullTitle}</title>

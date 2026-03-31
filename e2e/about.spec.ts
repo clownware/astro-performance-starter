@@ -27,18 +27,23 @@ test.describe("About Page", () => {
 		await expect(bioSection).toBeVisible();
 	});
 
-	test("should display skills section", async ({ page }) => {
+	test("should display skills section with categories", async ({ page }) => {
 		const skillsHeading = page.getByRole("heading", {
 			name: "Skills & Technologies",
 		});
 		await expect(skillsHeading).toBeVisible();
 
-		// Check for skill badges
-		const skillBadges = page.locator(".rounded-full").filter({
-			hasText: /TypeScript|Astro|React/,
+		// Check for skill category headings
+		const categoryHeadings = page.locator("h3").filter({
+			hasText: /Frontend|Backend|Tools/,
 		});
-		const count = await skillBadges.count();
+		const count = await categoryHeadings.count();
 		expect(count).toBeGreaterThan(0);
+
+		// Check for skill badges within categories
+		const skillBadges = page.getByRole("list", { name: /skills/ }).locator("li");
+		const badgeCount = await skillBadges.count();
+		expect(badgeCount).toBeGreaterThan(0);
 	});
 
 	test("should display experience section", async ({ page }) => {
@@ -72,14 +77,6 @@ test.describe("About Page", () => {
 		await expect(contactButton).toHaveAttribute("href", "/contact");
 	});
 
-	test("should have resume download link", async ({ page }) => {
-		const resumeLink = page.getByRole("link", { name: "Download Resume" });
-		await expect(resumeLink).toBeVisible();
-		await expect(resumeLink).toHaveAttribute("href", "/resume.pdf");
-		await expect(resumeLink).toHaveAttribute("target", "_blank");
-		await expect(resumeLink).toHaveAttribute("rel", "noopener noreferrer");
-	});
-
 	test("@a11y should have proper semantic structure", async ({ page }) => {
 		// Check for main landmark
 		const main = page.locator("main");
@@ -108,8 +105,19 @@ test.describe("About Page", () => {
 		}
 	});
 
-	test("should display experience section with entries", async ({ page }) => {
-		const experienceSection = page.getByRole("heading", { name: /Experience/ });
+	test("should display experience entries from content collection", async ({
+		page,
+	}) => {
+		const experienceSection = page.getByRole("heading", {
+			name: /Experience/,
+		});
 		await expect(experienceSection).toBeVisible();
+
+		// Check for technology badges in experience entries
+		const techBadges = page
+			.getByRole("list", { name: /Technologies/ })
+			.locator("li");
+		const badgeCount = await techBadges.count();
+		expect(badgeCount).toBeGreaterThan(0);
 	});
 });

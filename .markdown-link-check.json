@@ -4,10 +4,10 @@
       "pattern": "^(?!https?://)"
     },
     {
-      "pattern": "github\\.com/clownware/astro-performance-starter/issues"
+      "pattern": "github\\.com/YOUR_ORG/YOUR_REPO/issues"
     },
     {
-      "pattern": "github\\.com/clownware/astro-performance-starter/discussions"
+      "pattern": "github\\.com/YOUR_ORG/YOUR_REPO/discussions"
     },
     {
       "pattern": "\\$\\{"

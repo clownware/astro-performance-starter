@@ -1,0 +1,77 @@
+---
+interface Props {
+  as?: "span" | "h1" | "h2" | "h3" | "p";
+  speed?: "slow" | "medium" | "fast";
+  class?: string;
+}
+
+const props = Astro.props;
+// biome-ignore lint/style/useNamingConvention: Astro requires PascalCase for dynamic HTML tag variables
+const Tag = props.as ?? "span";
+const speed = props.speed ?? "medium";
+const className = props.class;
+
+const speedMap = {
+  slow: "8s",
+  medium: "4s",
+  fast: "2s",
+} as const;
+---
+
+{/* @ts-ignore — Astro checker loses Props inference when `as` keyword is used as prop name */}
+<Tag
+  class:list={["animated-gradient-text", className]}
+  style={`--gradient-duration: ${speedMap[speed]}`}
+>
+  <slot />
+</Tag>
+
+<style>
+  /*
+   * Animated gradient text using CSS @property for type-safe custom property
+   * interpolation. Before @property, browsers could not animate gradients because
+   * they didn't know the type of the custom property. Registering --gradient-angle
+   * as <angle> enables smooth keyframe interpolation — previously impossible in CSS.
+   */
+  @property --gradient-angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+  }
+
+  .animated-gradient-text {
+    --gradient-duration: 4s;
+    background: linear-gradient(
+      var(--gradient-angle),
+      hsl(var(--color-primary-500)),
+      hsl(var(--color-secondary-500)),
+      hsl(var(--color-primary-600))
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
+
+  @supports (background-clip: text) {
+    @media (prefers-reduced-motion: no-preference) {
+      .animated-gradient-text {
+        animation: gradient-rotate var(--gradient-duration) linear infinite;
+      }
+    }
+  }
+
+  /* Fallback: if background-clip: text isn't supported, use primary color */
+  @supports not (background-clip: text) {
+    .animated-gradient-text {
+      color: hsl(var(--color-primary-600));
+      -webkit-text-fill-color: unset;
+    }
+  }
+
+  @keyframes gradient-rotate {
+    to {
+      --gradient-angle: 360deg;
+    }
+  }
+</style>

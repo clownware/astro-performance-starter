@@ -1,0 +1,135 @@
+---
+interface Props {
+  intensity?: "subtle" | "medium" | "dramatic";
+  class?: string;
+  ariaLabel?: string;
+}
+
+const { intensity = "subtle", class: className, ariaLabel } = Astro.props;
+
+const intensityMap = {
+  subtle: "50px",
+  medium: "100px",
+  dramatic: "200px",
+} as const;
+---
+
+{/*
+  CSS scroll-driven parallax. Zero JavaScript — the decorative background
+  elements move at a different rate than the content using animation-timeline: scroll().
+  This replaces libraries like Rellax, Locomotive Scroll, or GSAP ScrollTrigger.
+*/}
+<section
+  class:list={["parallax-section relative overflow-hidden", className]}
+  style={`--parallax-distance: ${intensityMap[intensity]}`}
+  aria-label={ariaLabel}
+>
+  {/* Decorative parallax layers */}
+  <div class="parallax-section__bg" aria-hidden="true">
+    <div class="parallax-section__shape parallax-section__shape--1"></div>
+    <div class="parallax-section__shape parallax-section__shape--2"></div>
+    <div class="parallax-section__shape parallax-section__shape--3"></div>
+  </div>
+
+  {/* Content sits above parallax layers */}
+  <div class="relative z-10">
+    <slot />
+  </div>
+</section>
+
+<style>
+  .parallax-section {
+    --parallax-distance: 50px;
+  }
+
+  .parallax-section__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .parallax-section__shape {
+    position: absolute;
+    border-radius: 50%;
+    opacity: 0.06;
+  }
+
+  .parallax-section__shape--1 {
+    width: 300px;
+    height: 300px;
+    background: hsl(var(--color-primary-500));
+    top: -5%;
+    right: -5%;
+  }
+
+  .parallax-section__shape--2 {
+    width: 200px;
+    height: 200px;
+    background: hsl(var(--color-secondary-500));
+    bottom: 10%;
+    left: -3%;
+  }
+
+  .parallax-section__shape--3 {
+    width: 150px;
+    height: 150px;
+    background: hsl(var(--color-primary-400));
+    top: 40%;
+    right: 20%;
+  }
+
+  :global(.dark) .parallax-section__shape {
+    opacity: 0.08;
+  }
+
+  /* Scroll-driven parallax — shapes move at different rates than content */
+  @supports (animation-timeline: scroll()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .parallax-section__shape--1 {
+        animation: parallax-up linear both;
+        animation-timeline: scroll();
+        animation-range: entry 0% exit 100%;
+      }
+
+      .parallax-section__shape--2 {
+        animation: parallax-down linear both;
+        animation-timeline: scroll();
+        animation-range: entry 0% exit 100%;
+      }
+
+      .parallax-section__shape--3 {
+        animation: parallax-up-slow linear both;
+        animation-timeline: scroll();
+        animation-range: entry 0% exit 100%;
+      }
+    }
+  }
+
+  @keyframes parallax-up {
+    from {
+      transform: translateY(var(--parallax-distance));
+    }
+    to {
+      transform: translateY(calc(var(--parallax-distance) * -1));
+    }
+  }
+
+  @keyframes parallax-down {
+    from {
+      transform: translateY(calc(var(--parallax-distance) * -0.5));
+    }
+    to {
+      transform: translateY(calc(var(--parallax-distance) * 0.5));
+    }
+  }
+
+  @keyframes parallax-up-slow {
+    from {
+      transform: translateY(calc(var(--parallax-distance) * 0.3));
+    }
+    to {
+      transform: translateY(calc(var(--parallax-distance) * -0.3));
+    }
+  }
+</style>

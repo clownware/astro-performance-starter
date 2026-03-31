@@ -1,0 +1,104 @@
+---
+interface Props {
+  value: number;
+  suffix?: string;
+  prefix?: string;
+  label: string;
+  class?: string;
+}
+
+const { value, suffix = "", prefix = "", label, class: className } = Astro.props;
+---
+
+{/*
+  CSS-only animated counter using @property with <integer> type.
+  The number counts up from 0 to the target value using pure CSS animation,
+  triggered by scroll-driven animation when supported. Uses counter-reset
+  and counter() to display the interpolated integer value.
+*/}
+<div class:list={["counter-badge", className]}>
+  <span
+    class="counter-badge__value"
+    style={`--counter-target: ${value}`}
+    aria-hidden="true"
+    data-prefix={prefix || undefined}
+    data-suffix={suffix || undefined}
+  ></span>
+  {/* Accessible fallback — screen readers see the final value */}
+  <span class="sr-only">{prefix}{value}{suffix}</span>
+  <span class="counter-badge__label">{label}</span>
+</div>
+
+<style>
+  @property --num {
+    syntax: "<integer>";
+    initial-value: 0;
+    inherits: false;
+  }
+
+  .counter-badge {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+
+  .counter-badge__value {
+    --counter-target: 0;
+    --num: 0;
+    font-size: 2.25rem;
+    font-weight: 700;
+    line-height: 1;
+    color: hsl(var(--color-primary-600));
+    font-variant-numeric: tabular-nums;
+  }
+
+  .counter-badge__value::before {
+    content: attr(data-prefix) counter(num) attr(data-suffix);
+    counter-reset: num var(--num);
+  }
+
+  /* Animate count-up when @property is supported */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .counter-badge__value {
+        animation: count-up 1s ease-out forwards;
+        animation-timeline: view();
+        animation-range: entry 0% entry 50%;
+      }
+    }
+  }
+
+  /* Fallback: if scroll-driven animations aren't supported, animate on load */
+  @supports not (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .counter-badge__value {
+        animation: count-up 1.5s ease-out forwards;
+      }
+    }
+  }
+
+  /* When motion is reduced, show the final value immediately */
+  @media (prefers-reduced-motion: reduce) {
+    .counter-badge__value {
+      --num: var(--counter-target);
+    }
+  }
+
+  @keyframes count-up {
+    to {
+      --num: var(--counter-target);
+    }
+  }
+
+  .counter-badge__label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: hsl(var(--color-foreground-secondary));
+    text-align: center;
+  }
+
+  :global(.dark) .counter-badge__value {
+    color: hsl(var(--color-primary-400));
+  }
+</style>
