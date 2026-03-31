@@ -97,7 +97,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 <meta property="og:title" content={fullTitle} />
 <meta property="og:description" content={description} />
 <!-- Image path is converted to absolute URL for social media crawlers -->
-<meta property="og:image" content={new URL(image, Astro.site)} />
+<meta property="og:image" content={new URL(withBase(image), Astro.site)} />
 <meta property="og:site_name" content={siteTitle} />
 
 {ogType === "article" && ogArticle && (
@@ -122,7 +122,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 <meta property="twitter:url" content={canonicalUrl.href} />
 <meta property="twitter:title" content={fullTitle} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image, Astro.site)} />
+<meta property="twitter:image" content={new URL(withBase(image), Astro.site)} />
 
 <!-- Font Preloading (hashed URLs injected by Vite) -->
 <link

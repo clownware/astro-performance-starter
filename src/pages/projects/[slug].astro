@@ -37,10 +37,11 @@ const { Content } = await render(entry);
 // Derive hero image fallback
 const heroImage = project.cover ?? withBase("/logo.svg");
 
-// SEO meta
+// SEO meta — extract .src from ImageMetadata for OG tags (matches BlogLayout pattern)
 const pageTitle = `${project.title} - Project Showcase`;
 const pageDescription = project.description;
-const pageImage = project.cardImage ?? heroImage;
+const heroSrc = typeof heroImage === "string" ? heroImage : heroImage.src;
+const pageImage = project.cardImage?.src ?? heroSrc;
 
 const projectMetadata = formatPostMetadata(project.date, project.description);
 

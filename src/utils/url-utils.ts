@@ -11,12 +11,33 @@ export function resolveBasePath(base: string, path: string): string {
 }
 
 /**
- * Prepend the Astro base path to an internal URL.
- * Handles trailing/leading slash deduplication so callers can pass
- * paths with or without a leading slash.
+ * Prepends the configured base path to an internal URL.
+ * No-op when base is "/" (root deployment). Safe to call on external URLs,
+ * anchors, and already-prefixed paths.
+ *
+ * @param path - The path to prefix (e.g., "/blog/", "/logo.svg")
+ * @param base - Defaults to import.meta.env.BASE_URL; pass explicitly in tests
  */
-export function withBase(path: string): string {
-  return resolveBasePath(import.meta.env.BASE_URL, path);
+export function withBase(path: string, base: string = import.meta.env.BASE_URL): string {
+  // Pass through empty, anchors, relative, protocol-relative, and external URLs
+  if (!path || !path.startsWith("/") || path.startsWith("//")) {
+    return path;
+  }
+
+  // Root deployment: no transformation needed
+  if (base === "/") {
+    return path;
+  }
+
+  // Normalize: strip trailing slash from base for clean joining
+  const normalizedBase = base.endsWith("/") ? base.slice(0, -1) : base;
+
+  // Idempotency: avoid double-prefixing
+  if (path.startsWith(`${normalizedBase}/`) || path === normalizedBase) {
+    return path;
+  }
+
+  return normalizedBase + path;
 }
 
 /**
