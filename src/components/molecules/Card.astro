@@ -1,11 +1,36 @@
 ---
 interface Props {
   class?: string;
+  animated?: boolean;
 }
 
-const { class: className } = Astro.props;
+const { class: className, animated = false } = Astro.props;
 ---
 
-<div class:list={["overflow-hidden rounded-lg border border-primary bg-background-secondary shadow-sm", className]}>
+<div class:list={[
+  "card overflow-hidden rounded-lg border border-primary bg-background-secondary shadow-sm",
+  animated && "card--animated",
+  className,
+]}>
   <slot />
 </div>
+
+<style>
+  /*
+   * @starting-style enables entry animations when the card first renders —
+   * particularly visible during View Transitions page navigation.
+   * Previously required JavaScript (requestAnimationFrame or Intersection Observer).
+   */
+  @media (prefers-reduced-motion: no-preference) {
+    .card--animated {
+      transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+    }
+
+    @starting-style {
+      .card--animated {
+        opacity: 0;
+        transform: translateY(0.5rem);
+      }
+    }
+  }
+</style>

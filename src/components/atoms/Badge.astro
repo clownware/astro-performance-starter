@@ -24,7 +24,7 @@ const sizeClasses: Record<"xs" | "sm" | "md", string> = {
 <span
   role={role}
   class:list={[
-    'inline-flex items-center rounded-full font-medium',
+    'badge inline-flex items-center rounded-full font-medium',
     variantClasses[variant],
     sizeClasses[size],
     className,
@@ -33,3 +33,17 @@ const sizeClasses: Record<"xs" | "sm" | "md", string> = {
 >
   <slot />
 </span>
+
+<style>
+  /*
+   * prefers-contrast: more — strengthens badge visibility for users who
+   * request higher contrast. Increases border weight, font weight, and
+   * ensures sufficient contrast ratios beyond WCAG AA minimums.
+   */
+  @media (prefers-contrast: more) {
+    .badge {
+      border: 2px solid currentColor;
+      font-weight: 700;
+    }
+  }
+</style>

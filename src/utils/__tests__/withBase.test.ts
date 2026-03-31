@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { withBase } from "../url-utils";
+import { resolveBasePath, withBase } from "../url-utils";
 
 describe("withBase", () => {
   describe("root base (no-op)", () => {
@@ -78,5 +78,19 @@ describe("withBase", () => {
     it("preserves no trailing slash on paths", () => {
       expect(withBase("/blog", "/my-repo/")).toBe("/my-repo/blog");
     });
+  });
+});
+
+describe("resolveBasePath", () => {
+  it("prepends base to absolute path", () => {
+    expect(resolveBasePath("/my-repo", "/blog/")).toBe("/my-repo/blog/");
+  });
+
+  it("adds leading slash to path without one", () => {
+    expect(resolveBasePath("/my-repo", "blog/")).toBe("/my-repo/blog/");
+  });
+
+  it("strips trailing slash from base before joining", () => {
+    expect(resolveBasePath("/my-repo/", "/blog/")).toBe("/my-repo/blog/");
   });
 });

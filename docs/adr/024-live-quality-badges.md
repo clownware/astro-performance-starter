@@ -69,7 +69,7 @@ Added to footer badges row:
 Added Shields.io badge at top:
 
 ```markdown
-[![Lighthouse Score](https://img.shields.io/badge/Lighthouse-95%2B-success?logo=lighthouse&logoColor=white)](https://pagespeed.web.dev/analysis?url=https://clownware.github.io/astro-performance-starter/)
+[![Lighthouse Score](https://img.shields.io/badge/Lighthouse-95%2B-success?logo=lighthouse&logoColor=white)](https://pagespeed.web.dev/analysis?url=https://YOUR_ORG.github.io/YOUR_REPO/)
 ```
 
 - Shows up in GitHub repo

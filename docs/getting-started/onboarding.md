@@ -160,7 +160,7 @@ This supports **markdown** and components.
 
 - **Framework Guide**: See [Implementation Overview](../implementation-guides/README.md)
 - **Component Docs**: Run `pnpm run docs:components` (Advanced scope — optional)
-- **GitHub Discussions**: [Community Support](https://github.com/clownware/astro-performance-starter/discussions)
+- **GitHub Discussions**: Community Support (open a Discussion on your repo)
 
 ## Next Steps
 

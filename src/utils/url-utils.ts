@@ -1,6 +1,16 @@
 // src/utils/url-utils.ts
 
 /**
+ * Pure base-path resolver, testable without Vite.
+ * Prepends the given base to a path, normalising slashes.
+ */
+export function resolveBasePath(base: string, path: string): string {
+  const normalizedBase = base.endsWith("/") ? base.slice(0, -1) : base;
+  const normalizedPath = path.startsWith("/") ? path : `/${path}`;
+  return `${normalizedBase}${normalizedPath}`;
+}
+
+/**
  * Prepends the configured base path to an internal URL.
  * No-op when base is "/" (root deployment). Safe to call on external URLs,
  * anchors, and already-prefixed paths.
@@ -32,21 +42,20 @@ export function withBase(path: string, base: string = import.meta.env.BASE_URL):
 
 /**
  * Defines the URL patterns for various parts of the site.
- * This provides a single source of truth for URL structures.
- * Patterns are base-agnostic — use withBase() when rendering hrefs.
+ * All paths are run through `withBase()` so they respect the configured
+ * Astro `base` path (e.g. for GitHub Pages sub-path deployments).
  */
 export const urlPatterns = {
-  home: "/",
-  projects: "/projects",
-  project: (slug: string) => `/projects/${slug}`,
-  blog: "/blog",
-  blogPost: (slug: string) => `/blog/${slug}`,
-  blogTag: (tag: string) => `/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}`,
-  about: "/about",
-  contact: "/contact",
-  // Archive patterns for blog posts by year and optionally month
+  home: () => withBase("/"),
+  projects: () => withBase("/projects/"),
+  project: (slug: string) => withBase(`/projects/${slug}/`),
+  blog: () => withBase("/blog/"),
+  blogPost: (slug: string) => withBase(`/blog/${slug}/`),
+  blogTag: (tag: string) => withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`),
+  about: () => withBase("/about/"),
+  contact: () => withBase("/contact/"),
   blogArchive: (year: number, month?: number) =>
-    month ? `/blog/${year}/${String(month).padStart(2, "0")}` : `/blog/${year}`,
+    withBase(month ? `/blog/${year}/${String(month).padStart(2, "0")}/` : `/blog/${year}/`),
 } as const;
 
 /**
@@ -87,7 +96,7 @@ interface ProjectEntry {
  * @returns The canonical URL string for the project.
  */
 export function getProjectUrl(project: ProjectEntry): string {
-  return withBase(urlPatterns.project(project.id));
+  return urlPatterns.project(project.id);
 }
 
 interface BlogPostEntryData {
@@ -107,7 +116,7 @@ interface BlogPostEntry {
  * @returns The canonical URL string for the blog post.
  */
 export function getBlogPostUrl(post: BlogPostEntry): string {
-  return withBase(urlPatterns.blogPost(post.id));
+  return urlPatterns.blogPost(post.id);
 }
 
 /**
@@ -116,7 +125,7 @@ export function getBlogPostUrl(post: BlogPostEntry): string {
  * @returns The URL string for the tag page.
  */
 export function getBlogTagUrl(tag: string): string {
-  return withBase(urlPatterns.blogTag(tag));
+  return urlPatterns.blogTag(tag);
 }
 
 /**

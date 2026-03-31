@@ -38,7 +38,7 @@ const shareUrls = generateAllShareUrls({
 <BaseLayout
   title={title}
   description={description}
-  image={cover ? cover.src : "/og-blog.svg"}
+  image={cover ? cover.src : withBase("/og-blog.svg")}
   ogType="article"
   ogArticle={{
     publishedTime: date.toISOString(),

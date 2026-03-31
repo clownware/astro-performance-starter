@@ -31,19 +31,26 @@ function getArrowClasses(pos: Position) {
 }
 ---
 
-<span class:list={["relative inline-block group", className]} data-tooltip tabindex="0" aria-describedby={tooltipId}>
+{/*
+  Tooltip with Popover API progressive enhancement.
+  Base: CSS group-hover/group-focus-within (works everywhere).
+  Enhancement: popover="hint" adds auto-dismiss, Escape-to-close, and proper
+  stacking context — replacing tippy.js/Floating UI with zero JavaScript.
+*/}
+<span class:list={["tooltip-trigger relative inline-block group", className]} data-tooltip tabindex="0" aria-describedby={tooltipId}>
   <slot />
-  <div 
+  <div
     class:list={[
-      "absolute z-50 px-3 py-2 text-[0.8125rem] sm:text-xs text-foreground-primary bg-background-secondary rounded-md shadow-lg opacity-0 invisible pointer-events-none transition-opacity duration-200 motion-reduce:transition-none whitespace-normal wrap-break-word max-w-[80vw] sm:max-w-xs group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
+      "tooltip-content absolute z-50 px-3 py-2 text-[0.8125rem] sm:text-xs text-foreground-primary bg-background-secondary rounded-md shadow-lg opacity-0 invisible pointer-events-none transition-opacity duration-200 motion-reduce:transition-none whitespace-normal wrap-break-word max-w-[80vw] sm:max-w-xs group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
       positionClasses[position]
     ]}
+    popover="hint"
     data-tooltip-content
     id={tooltipId}
     role="tooltip"
   >
     {text}
-    <div 
+    <div
       class:list={[ getArrowClasses(position) ]}
       aria-hidden="true"
     ></div>
@@ -54,6 +61,56 @@ function getArrowClasses(pos: Position) {
   @media (prefers-reduced-motion: reduce) {
     [data-tooltip-content] {
       transition: none !important;
+    }
+  }
+
+  /*
+   * Popover API enhancement: when supported, the browser manages show/hide
+   * via popover="hint", providing auto-dismiss and Escape-to-close behavior.
+   * The existing CSS hover/focus fallback remains for browsers without support.
+   */
+  @supports selector(:popover-open) {
+    .tooltip-content {
+      /* Reset absolute positioning — popover uses the top layer */
+      position: fixed;
+      inset: unset;
+      margin: 0;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      background: hsl(var(--color-background-secondary));
+      color: hsl(var(--color-foreground-primary));
+      border-radius: 0.375rem;
+      box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+      font-size: 0.8125rem;
+      max-width: min(80vw, 20rem);
+      white-space: normal;
+      overflow-wrap: break-word;
+    }
+
+    /* Hide the CSS-only arrow when using popover (top-layer positioning differs) */
+    .tooltip-content:popover-open [aria-hidden="true"] {
+      display: none;
+    }
+
+    .tooltip-content:popover-open {
+      opacity: 1;
+      visibility: visible;
+      pointer-events: auto;
+    }
+
+    @media (prefers-reduced-motion: no-preference) {
+      .tooltip-content {
+        transition:
+          opacity 0.15s ease-out,
+          display 0.15s ease-out allow-discrete,
+          overlay 0.15s ease-out allow-discrete;
+      }
+
+      @starting-style {
+        .tooltip-content:popover-open {
+          opacity: 0;
+        }
+      }
     }
   }
 </style>

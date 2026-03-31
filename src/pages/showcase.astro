@@ -1,0 +1,663 @@
+---
+import AnimatedGradientText from "@/components/atoms/AnimatedGradientText.astro";
+import Badge from "@/components/atoms/Badge.astro";
+import Button from "@/components/atoms/Button.astro";
+import CounterBadge from "@/components/atoms/CounterBadge.astro";
+import ReadingProgress from "@/components/atoms/ReadingProgress.astro";
+import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
+import Tooltip from "@/components/atoms/Tooltip.astro";
+import SignalsCounter from "@/components/islands/SignalsCounter.tsx";
+import Card from "@/components/molecules/Card.astro";
+import ColorTokenSwatch from "@/components/molecules/ColorTokenSwatch.astro";
+import Dialog from "@/components/molecules/Dialog.astro";
+import ScrollSpy from "@/components/molecules/ScrollSpy.astro";
+import SectionSeparator from "@/components/molecules/SectionSeparator.astro";
+import ShowcaseExample from "@/components/molecules/ShowcaseExample.astro";
+import Tabs from "@/components/molecules/Tabs.astro";
+import Container from "@/components/structural/Container.astro";
+import Grid from "@/components/structural/Grid.astro";
+import ParallaxSection from "@/components/structural/ParallaxSection.astro";
+import Section from "@/components/structural/Section.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+const spySections = [
+  { id: "hero", label: "Overview" },
+  { id: "design-tokens", label: "Design Tokens" },
+  { id: "atoms", label: "Atoms" },
+  { id: "molecules", label: "Molecules" },
+  { id: "structural", label: "Structural" },
+  { id: "modern-css", label: "Modern CSS" },
+  { id: "islands", label: "Islands" },
+  { id: "accessibility", label: "Accessibility" },
+];
+---
+
+<BaseLayout
+  title="Component Showcase"
+  description="Every component in the Astro Performance Starter, demonstrated live. Modern CSS features, zero JavaScript, full accessibility."
+>
+  <ReadingProgress color="gradient" />
+
+  <div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-8 max-w-7xl mx-auto px-4 sm:px-6">
+    {/* ScrollSpy sidebar — sticky on desktop, horizontal scroll on mobile */}
+    <aside class="hidden lg:block">
+      <div class="sticky top-24 py-8">
+        <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-3">
+          On this page
+        </p>
+        <ScrollSpy sections={spySections} />
+      </div>
+    </aside>
+
+    {/* Mobile ScrollSpy — horizontal */}
+    <div class="lg:hidden sticky top-16 z-40 bg-background-primary/95 backdrop-blur-sm border-b border-border-primary -mx-4 px-4 sm:-mx-6 sm:px-6">
+      <ScrollSpy sections={spySections} />
+    </div>
+
+    <div class="min-w-0">
+      {/* ================================================================
+          HERO SECTION
+          ================================================================ */}
+      <ParallaxSection intensity="subtle" ariaLabel="Component showcase hero">
+        <Section id="hero" class="pt-12 pb-16 sm:pt-16 sm:pb-20">
+          <div class="text-center max-w-3xl mx-auto">
+            <AnimatedGradientText as="h1" speed="slow" class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+              Component Showcase
+            </AnimatedGradientText>
+
+            <p class="text-lg sm:text-xl text-foreground-secondary mb-10 max-w-2xl mx-auto">
+              Every component in the starter, demonstrated live with code. Modern CSS features replacing JavaScript libraries — zero-JS by default, full accessibility.
+            </p>
+
+            {/* Stats row */}
+            <div class="flex flex-wrap justify-center gap-8 sm:gap-12">
+              <CounterBadge value={40} suffix="+" label="Components" />
+              <CounterBadge value={0} suffix=" KB" label="New JS Added" />
+              <CounterBadge value={95} suffix="+" label="Lighthouse" />
+            </div>
+          </div>
+        </Section>
+      </ParallaxSection>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          DESIGN TOKENS SECTION
+          ================================================================ */}
+      <Section id="design-tokens" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Design Tokens</h2>
+            <p class="text-foreground-secondary mb-8 max-w-2xl">
+              Single source of truth in <code class="text-sm bg-background-secondary px-1.5 py-0.5 rounded">tokens/</code>. Built to CSS custom properties, consumed via Tailwind utilities. Every color on this page comes from the token system.
+            </p>
+          </ScrollReveal>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <ScrollReveal delay="none">
+              <Card animated>
+                <div class="p-4">
+                  <h3 class="text-sm font-semibold text-foreground-primary mb-3">Primary</h3>
+                  <div class="flex flex-col gap-1">
+                    <ColorTokenSwatch tokenName="primary-500" cssVar="--color-primary-500" />
+                    <ColorTokenSwatch tokenName="primary-600" cssVar="--color-primary-600" />
+                    <ColorTokenSwatch tokenName="primary-700" cssVar="--color-primary-700" />
+                  </div>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="short">
+              <Card animated>
+                <div class="p-4">
+                  <h3 class="text-sm font-semibold text-foreground-primary mb-3">Secondary</h3>
+                  <div class="flex flex-col gap-1">
+                    <ColorTokenSwatch tokenName="secondary-500" cssVar="--color-secondary-500" />
+                    <ColorTokenSwatch tokenName="secondary-600" cssVar="--color-secondary-600" />
+                    <ColorTokenSwatch tokenName="secondary-700" cssVar="--color-secondary-700" />
+                  </div>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="medium">
+              <Card animated>
+                <div class="p-4">
+                  <h3 class="text-sm font-semibold text-foreground-primary mb-3">Surfaces</h3>
+                  <div class="flex flex-col gap-1">
+                    <ColorTokenSwatch tokenName="background-primary" cssVar="--color-background-primary" />
+                    <ColorTokenSwatch tokenName="background-secondary" cssVar="--color-background-secondary" />
+                    <ColorTokenSwatch tokenName="foreground-primary" cssVar="--color-foreground-primary" />
+                  </div>
+                </div>
+              </Card>
+            </ScrollReveal>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          ATOMS SECTION
+          ================================================================ */}
+      <Section id="atoms" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Atoms</h2>
+            <p class="text-foreground-secondary mb-8 max-w-2xl">
+              Primitive building blocks. Each is a single Astro component with TypeScript props, design token colors, and built-in accessibility.
+            </p>
+          </ScrollReveal>
+
+          <div class="flex flex-col gap-8">
+            {/* Badge */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Badge"
+                description="Inline label element with variant and size options. Enhanced with prefers-contrast support for users who request higher contrast."
+                features={["zero-js", "css-only", "wcag-aa"]}
+                codeSnippet={'&lt;Badge variant="primary" size="sm"&gt;Primary&lt;/Badge&gt;\n&lt;Badge variant="secondary"&gt;Secondary&lt;/Badge&gt;\n&lt;Badge variant="neutral"&gt;Neutral&lt;/Badge&gt;'}
+              >
+                <div class="flex flex-wrap gap-2 items-center">
+                  <Badge variant="primary" size="xs">Extra Small</Badge>
+                  <Badge variant="primary" size="sm">Primary</Badge>
+                  <Badge variant="primary" size="md">Medium</Badge>
+                  <Badge variant="secondary">Secondary</Badge>
+                  <Badge variant="neutral">Neutral</Badge>
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* Button */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Button"
+                description="Polymorphic button/link component. Renders as <a> when href is provided, <button> otherwise. Supports disabled state with proper aria."
+                features={["zero-js", "wcag-aa"]}
+                codeSnippet={'&lt;Button variant="primary"&gt;Primary&lt;/Button&gt;\n&lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;\n&lt;Button variant="ghost" size="sm"&gt;Ghost&lt;/Button&gt;'}
+              >
+                <div class="flex flex-wrap gap-3 items-center">
+                  <Button variant="primary">Primary</Button>
+                  <Button variant="secondary">Secondary</Button>
+                  <Button variant="ghost" size="sm">Ghost</Button>
+                  <Button variant="primary" disabled>Disabled</Button>
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* Tooltip with Popover API */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Tooltip"
+                description="Hover/focus tooltip upgraded with the Popover API. Browsers that support popover='hint' get auto-dismiss and Escape-to-close. Others fall back to CSS hover/focus."
+                features={["popover-api", "progressive-enhancement", "wcag-aa"]}
+                codeSnippet={'&lt;Tooltip text="Helpful information" position="top"&gt;\n  Hover me\n&lt;/Tooltip&gt;'}
+              >
+                <div class="flex flex-wrap gap-6 items-center">
+                  <Tooltip text="I appear above!" position="top">
+                    <span class="underline decoration-dashed decoration-foreground-secondary cursor-help">Hover (top)</span>
+                  </Tooltip>
+                  <Tooltip text="I appear below!" position="bottom">
+                    <span class="underline decoration-dashed decoration-foreground-secondary cursor-help">Hover (bottom)</span>
+                  </Tooltip>
+                  <Tooltip text="This tooltip uses the Popover API when supported, with @starting-style entry animation." position="right">
+                    <span class="underline decoration-dashed decoration-foreground-secondary cursor-help">Popover enhanced</span>
+                  </Tooltip>
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* AnimatedGradientText */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="AnimatedGradientText"
+                description="Smoothly animated gradient text using CSS @property. Before @property, browsers couldn't animate gradients because they didn't know the custom property type. Registering --gradient-angle as <angle> makes this possible — in pure CSS."
+                features={["css-property", "zero-js", "css-only"]}
+                codeSnippet={'&lt;AnimatedGradientText as="h2" speed="medium"&gt;\n  This text has an animated gradient\n&lt;/AnimatedGradientText&gt;'}
+              >
+                <div class="space-y-4">
+                  <AnimatedGradientText as="p" speed="slow" class="text-2xl font-bold">
+                    Slow gradient rotation
+                  </AnimatedGradientText>
+                  <AnimatedGradientText as="p" speed="medium" class="text-xl font-semibold">
+                    Medium speed — the default
+                  </AnimatedGradientText>
+                  <AnimatedGradientText as="p" speed="fast" class="text-lg font-medium">
+                    Fast rotation for emphasis
+                  </AnimatedGradientText>
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* ScrollReveal */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="ScrollReveal"
+                description="Scroll-driven reveal animations. Replaces AOS, ScrollMagic, and GSAP ScrollTrigger with zero JavaScript. Uses animation-timeline: view() — content animates in as it enters the viewport."
+                features={["scroll-driven", "zero-js", "css-only"]}
+                codeSnippet={'&lt;ScrollReveal animation="fade-up"&gt;\n  &lt;Card&gt;Content reveals on scroll&lt;/Card&gt;\n&lt;/ScrollReveal&gt;'}
+              >
+                <p class="text-sm text-foreground-secondary mb-4">Scroll down to see these cards reveal (they use the same ScrollReveal wrapping this entire page):</p>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <ScrollReveal animation="slide-right">
+                    <Card animated><div class="p-4 text-center text-sm">slide-right</div></Card>
+                  </ScrollReveal>
+                  <ScrollReveal animation="scale">
+                    <Card animated><div class="p-4 text-center text-sm">scale</div></Card>
+                  </ScrollReveal>
+                  <ScrollReveal animation="slide-left">
+                    <Card animated><div class="p-4 text-center text-sm">slide-left</div></Card>
+                  </ScrollReveal>
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* ReadingProgress */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="ReadingProgress"
+                description="The gradient bar at the very top of this page. A scroll-driven progress indicator that's literally one <div> with CSS. No Intersection Observer, no scroll event listener, no JavaScript."
+                features={["scroll-driven", "zero-js", "css-only"]}
+                codeSnippet={'&lt;ReadingProgress color="gradient" height="default" /&gt;'}
+              >
+                <p class="text-sm text-foreground-secondary">
+                  Look at the top of the page — the gradient bar filling as you scroll is this component. One <code class="text-xs bg-background-primary px-1 py-0.5 rounded">&lt;div&gt;</code>, three CSS properties.
+                </p>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* CounterBadge */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="CounterBadge"
+                description="Animated counter using CSS @property with <integer> type and counter(). Numbers count up from 0 when scrolled into view — entirely in CSS."
+                features={["css-property", "scroll-driven", "zero-js"]}
+                codeSnippet={'&lt;CounterBadge value={42} suffix="+" label="Components" /&gt;'}
+              >
+                <div class="flex justify-center gap-8">
+                  <CounterBadge value={42} label="Answer" />
+                  <CounterBadge value={100} suffix="%" label="CSS" />
+                  <CounterBadge value={0} suffix=" KB" label="JavaScript" />
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          MOLECULES SECTION
+          ================================================================ */}
+      <Section id="molecules" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Molecules</h2>
+            <p class="text-foreground-secondary mb-8 max-w-2xl">
+              Composite components built from atoms. Interactive patterns using native HTML elements — <code class="text-sm bg-background-secondary px-1.5 py-0.5 rounded">&lt;dialog&gt;</code>, <code class="text-sm bg-background-secondary px-1.5 py-0.5 rounded">&lt;details&gt;</code>, radio buttons — instead of JavaScript frameworks.
+            </p>
+          </ScrollReveal>
+
+          <div class="flex flex-col gap-8">
+            {/* Card */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Card"
+                description="Base container with optional @starting-style entry animation. When animated=true, the card fades and slides in on first render — visible during View Transitions navigation."
+                features={["starting-style", "zero-js", "view-transitions"]}
+                codeSnippet={'&lt;Card animated&gt;\n  &lt;div class="p-4"&gt;Content with entry animation&lt;/div&gt;\n&lt;/Card&gt;'}
+              >
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <Card><div class="p-4 text-sm">Standard card — no animation</div></Card>
+                  <Card animated><div class="p-4 text-sm">Animated card — @starting-style entry</div></Card>
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* Dialog */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Dialog"
+                description="Native <dialog> element with ::backdrop, focus trapping, and Escape-to-close — all browser-provided. Replaces Radix Dialog, HeadlessUI, or any modal library. Entry animation via @starting-style."
+                features={["dialog", "starting-style", "wcag-aa"]}
+                codeSnippet={'&lt;Dialog id="my-dialog" title="Dialog Title" size="md"&gt;\n  &lt;p&gt;Dialog content here&lt;/p&gt;\n&lt;/Dialog&gt;\n\n&lt;button onclick="document.getElementById(\'my-dialog\').showModal()"&gt;\n  Open Dialog\n&lt;/button&gt;'}
+              >
+                <div class="flex gap-3">
+                  <button
+                    class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium bg-primary-600 text-white hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+                    onclick="document.getElementById('showcase-dialog').showModal()"
+                  >
+                    Open Dialog
+                  </button>
+                  <button
+                    class="inline-flex items-center justify-center rounded-md px-4 py-2 text-sm font-medium border border-border-primary bg-background-primary text-foreground-primary hover:bg-background-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+                    onclick="document.getElementById('showcase-dialog-sm').showModal()"
+                  >
+                    Small Dialog
+                  </button>
+                </div>
+
+                <Dialog id="showcase-dialog" title="Native Dialog Element" size="md">
+                  <p class="text-foreground-secondary">
+                    This dialog uses the native <code class="text-sm">&lt;dialog&gt;</code> element. The browser provides focus trapping, backdrop, Escape-to-close, and proper stacking context.
+                  </p>
+                  <p class="text-foreground-secondary mt-3">
+                    The entry animation uses <code class="text-sm">@starting-style</code> and <code class="text-sm">transition-behavior: allow-discrete</code> to animate from <code class="text-sm">display: none</code>.
+                  </p>
+                </Dialog>
+
+                <Dialog id="showcase-dialog-sm" title="Small Dialog" size="sm">
+                  <p class="text-foreground-secondary">A compact dialog for confirmations or simple messages.</p>
+                </Dialog>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* Tabs */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Tabs"
+                description="CSS-only tab switching using hidden radio buttons — the same pattern as the Header's mobile menu checkbox. Arrow key navigation via ~15 lines of inline script (WCAG requirement)."
+                features={["css-only", "progressive-enhancement", "wcag-aa"]}
+                codeSnippet={'&lt;Tabs tabs={[{ id: "one", label: "Tab One" }, ...]}&gt;\n  &lt;div data-tab-panel="one" role="tabpanel"&gt;First panel&lt;/div&gt;\n  &lt;div data-tab-panel="two" role="tabpanel"&gt;Second panel&lt;/div&gt;\n&lt;/Tabs&gt;'}
+              >
+                <Tabs tabs={[
+                  { id: "overview", label: "Overview" },
+                  { id: "usage", label: "Usage" },
+                  { id: "a11y", label: "Accessibility" },
+                ]} defaultTab="overview">
+                  <div class="tabs__panel" data-tab-panel="overview" role="tabpanel">
+                    <p class="text-sm text-foreground-secondary">
+                      Panel switching is powered by CSS <code class="text-xs bg-background-primary px-1 py-0.5 rounded">:has()</code> selectors and the <code class="text-xs bg-background-primary px-1 py-0.5 rounded">peer-checked:</code> pattern. No framework state management needed.
+                    </p>
+                  </div>
+                  <div class="tabs__panel" data-tab-panel="usage" role="tabpanel">
+                    <p class="text-sm text-foreground-secondary">
+                      Pass an array of tab objects. Each panel is a child with <code class="text-xs bg-background-primary px-1 py-0.5 rounded">data-tab-panel</code> matching the tab ID. The <code class="text-xs bg-background-primary px-1 py-0.5 rounded">defaultTab</code> prop sets the initially active tab.
+                    </p>
+                  </div>
+                  <div class="tabs__panel" data-tab-panel="a11y" role="tabpanel">
+                    <p class="text-sm text-foreground-secondary">
+                      Full ARIA support: <code class="text-xs bg-background-primary px-1 py-0.5 rounded">role="tablist"</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">role="tab"</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">role="tabpanel"</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">aria-selected</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">aria-controls</code>. Arrow keys navigate between tabs.
+                    </p>
+                  </div>
+                </Tabs>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* SectionSeparator */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="SectionSeparator"
+                description="Gradient divider line between page sections. Uses design token colors for the gradient endpoints."
+                features={["zero-js", "css-only"]}
+              >
+                <div class="py-4">
+                  <SectionSeparator />
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          STRUCTURAL SECTION
+          ================================================================ */}
+      <Section id="structural" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Structural</h2>
+            <p class="text-foreground-secondary mb-8 max-w-2xl">
+              Layout components that form the page skeleton. The Grid component uses CSS Container Queries — responding to parent width instead of viewport width.
+            </p>
+          </ScrollReveal>
+
+          <div class="flex flex-col gap-8">
+            {/* Grid with Container Queries */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Grid (Container Queries)"
+                description="Responsive grid that uses @container queries instead of media queries. The grid responds to its parent container's width, not the viewport — making it truly reusable in any layout context."
+                features={["container-query", "zero-js", "css-only"]}
+                codeSnippet={'&lt;Grid cols={3} gap={4}&gt;\n  &lt;Card&gt;Item 1&lt;/Card&gt;\n  &lt;Card&gt;Item 2&lt;/Card&gt;\n  &lt;Card&gt;Item 3&lt;/Card&gt;\n&lt;/Grid&gt;'}
+              >
+                <Grid class="gap-4">
+                  <Card animated><div class="p-3 text-sm text-center">Column 1</div></Card>
+                  <Card animated><div class="p-3 text-sm text-center">Column 2</div></Card>
+                  <Card animated><div class="p-3 text-sm text-center">Column 3</div></Card>
+                </Grid>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* ParallaxSection */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="ParallaxSection"
+                description="CSS scroll-driven parallax. Decorative background shapes move at different rates than content using animation-timeline: scroll(). Replaces Rellax, Locomotive Scroll, or GSAP ScrollTrigger."
+                features={["scroll-driven", "zero-js", "css-only"]}
+                codeSnippet={'&lt;ParallaxSection intensity="subtle"&gt;\n  &lt;h2&gt;Content moves at normal speed&lt;/h2&gt;\n  &lt;p&gt;Background shapes drift with parallax&lt;/p&gt;\n&lt;/ParallaxSection&gt;'}
+              >
+                <p class="text-sm text-foreground-secondary">
+                  The hero section at the top of this page uses ParallaxSection. Scroll up to see the subtle background shape movement as you scroll past.
+                </p>
+              </ShowcaseExample>
+            </ScrollReveal>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          MODERN CSS FEATURES SECTION
+          ================================================================ */}
+      <Section id="modern-css" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Modern CSS Features</h2>
+            <p class="text-foreground-secondary mb-8 max-w-2xl">
+              The web platform has caught up to JavaScript frameworks. Every feature below replaces a JavaScript library with native CSS — zero bundle cost, zero runtime overhead.
+            </p>
+          </ScrollReveal>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-1">Scroll-Driven Animations</h3>
+                  <p class="text-sm text-foreground-secondary mb-3">
+                    <code class="text-xs bg-background-primary px-1 py-0.5 rounded">animation-timeline: view()</code> and <code class="text-xs bg-background-primary px-1 py-0.5 rounded">scroll()</code>
+                  </p>
+                  <p class="text-sm text-foreground-secondary mb-2">Replaces: AOS, ScrollMagic, GSAP ScrollTrigger</p>
+                  <div class="flex gap-1.5 flex-wrap">
+                    <Badge variant="primary" size="xs">Chrome 115+</Badge>
+                    <Badge variant="primary" size="xs">Firefox 135+</Badge>
+                    <Badge variant="neutral" size="xs">Safari 18.4+</Badge>
+                  </div>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-1">CSS @property</h3>
+                  <p class="text-sm text-foreground-secondary mb-3">
+                    Type-safe custom properties with <code class="text-xs bg-background-primary px-1 py-0.5 rounded">syntax</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">initial-value</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">inherits</code>
+                  </p>
+                  <p class="text-sm text-foreground-secondary mb-2">Enables: gradient animation, integer interpolation</p>
+                  <div class="flex gap-1.5 flex-wrap">
+                    <Badge variant="primary" size="xs">Chrome 85+</Badge>
+                    <Badge variant="primary" size="xs">Firefox 128+</Badge>
+                    <Badge variant="primary" size="xs">Safari 15.4+</Badge>
+                  </div>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-1">@starting-style</h3>
+                  <p class="text-sm text-foreground-secondary mb-3">
+                    Entry animations for elements appearing in the DOM
+                  </p>
+                  <p class="text-sm text-foreground-secondary mb-2">Replaces: requestAnimationFrame, Intersection Observer</p>
+                  <div class="flex gap-1.5 flex-wrap">
+                    <Badge variant="primary" size="xs">Chrome 117+</Badge>
+                    <Badge variant="primary" size="xs">Firefox 129+</Badge>
+                    <Badge variant="primary" size="xs">Safari 17.4+</Badge>
+                  </div>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-1">Popover API</h3>
+                  <p class="text-sm text-foreground-secondary mb-3">
+                    <code class="text-xs bg-background-primary px-1 py-0.5 rounded">popover="hint"</code> with auto-dismiss and Escape-to-close
+                  </p>
+                  <p class="text-sm text-foreground-secondary mb-2">Replaces: tippy.js, Floating UI, Popper.js</p>
+                  <div class="flex gap-1.5 flex-wrap">
+                    <Badge variant="primary" size="xs">Chrome 114+</Badge>
+                    <Badge variant="primary" size="xs">Firefox 125+</Badge>
+                    <Badge variant="primary" size="xs">Safari 17+</Badge>
+                  </div>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-1">Native &lt;dialog&gt;</h3>
+                  <p class="text-sm text-foreground-secondary mb-3">
+                    Focus trapping, backdrop, stacking context — all built-in
+                  </p>
+                  <p class="text-sm text-foreground-secondary mb-2">Replaces: Radix Dialog, HeadlessUI, React Modal</p>
+                  <div class="flex gap-1.5 flex-wrap">
+                    <Badge variant="primary" size="xs">Chrome 37+</Badge>
+                    <Badge variant="primary" size="xs">Firefox 98+</Badge>
+                    <Badge variant="primary" size="xs">Safari 15.4+</Badge>
+                  </div>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-1">Container Queries</h3>
+                  <p class="text-sm text-foreground-secondary mb-3">
+                    <code class="text-xs bg-background-primary px-1 py-0.5 rounded">@container</code> responsive to parent, not viewport
+                  </p>
+                  <p class="text-sm text-foreground-secondary mb-2">Enables: truly reusable responsive components</p>
+                  <div class="flex gap-1.5 flex-wrap">
+                    <Badge variant="primary" size="xs">Chrome 105+</Badge>
+                    <Badge variant="primary" size="xs">Firefox 110+</Badge>
+                    <Badge variant="primary" size="xs">Safari 16+</Badge>
+                  </div>
+                </div>
+              </Card>
+            </ScrollReveal>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          ISLANDS SECTION
+          ================================================================ */}
+      <Section id="islands" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Islands Architecture</h2>
+            <p class="text-foreground-secondary mb-8 max-w-2xl">
+              CSS handles presentation. JavaScript handles state — only when you genuinely need it. This is the one island component in the showcase: Preact Signals for fine-grained reactivity with zero VDOM diffing.
+            </p>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <ShowcaseExample
+              title="SignalsCounter"
+              description="Preact Signals reactive state demo. Uses client:visible for lazy hydration — zero JS cost until the component enters the viewport. Signal updates only re-render the text nodes that changed, not the entire component tree."
+              features={["preact-signals", "wcag-aa"]}
+              codeSnippet={'import SignalsCounter from "@/components/islands/SignalsCounter.tsx";\n\n&lt;SignalsCounter client:visible /&gt;'}
+            >
+              <SignalsCounter client:visible />
+            </ShowcaseExample>
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          ACCESSIBILITY SECTION
+          ================================================================ */}
+      <Section id="accessibility" class="py-16 pb-24">
+        <Container>
+          <ScrollReveal>
+            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Accessibility</h2>
+            <p class="text-foreground-secondary mb-8 max-w-2xl">
+              Every component is built accessibility-first. WCAG 2.1 AA as a floor, not a ceiling. Media queries respect user preferences; ARIA attributes are structural, not decorative.
+            </p>
+          </ScrollReveal>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-2">prefers-reduced-motion</h3>
+                  <p class="text-sm text-foreground-secondary">
+                    Every animation on this page is wrapped in a motion preference check. Users who prefer reduced motion see content immediately without transitions. The ScrollReveal, ParallaxSection, and AnimatedGradientText components all respect this.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-2">prefers-contrast</h3>
+                  <p class="text-sm text-foreground-secondary">
+                    Badge components gain heavier borders and font weights under <code class="text-xs bg-background-primary px-1 py-0.5 rounded">prefers-contrast: more</code>. No extra JavaScript — purely CSS media queries responding to OS-level accessibility settings.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-2">Keyboard Navigation</h3>
+                  <p class="text-sm text-foreground-secondary">
+                    Tab through this entire page. Every interactive element has visible focus rings using design tokens. The Tabs component supports arrow keys. Dialog traps focus. Skip link jumps to main content.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card animated>
+                <div class="p-5">
+                  <h3 class="font-semibold text-foreground-primary mb-2">Semantic HTML</h3>
+                  <p class="text-sm text-foreground-secondary">
+                    Native elements over ARIA roles: <code class="text-xs bg-background-primary px-1 py-0.5 rounded">&lt;dialog&gt;</code> not <code class="text-xs bg-background-primary px-1 py-0.5 rounded">role="dialog"</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">&lt;details&gt;</code> not custom accordions, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">popover</code> not tooltip libraries. The platform provides the accessibility for free.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+          </div>
+        </Container>
+      </Section>
+    </div>
+  </div>
+</BaseLayout>

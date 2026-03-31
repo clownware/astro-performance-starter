@@ -55,7 +55,7 @@ export interface Props {
 const {
   title,
   description,
-  image = "/og-default.svg",
+  image = withBase("/og-default.svg"),
   canonicalUrl = new URL(Astro.url.pathname, Astro.site),
   noindex = false,
   ogType = "website",
