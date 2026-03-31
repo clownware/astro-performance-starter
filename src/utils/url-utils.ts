@@ -1,8 +1,39 @@
 // src/utils/url-utils.ts
 
 /**
+ * Prepends the configured base path to an internal URL.
+ * No-op when base is "/" (root deployment). Safe to call on external URLs,
+ * anchors, and already-prefixed paths.
+ *
+ * @param path - The path to prefix (e.g., "/blog/", "/logo.svg")
+ * @param base - Defaults to import.meta.env.BASE_URL; pass explicitly in tests
+ */
+export function withBase(path: string, base: string = import.meta.env.BASE_URL): string {
+  // Pass through empty, anchors, relative, protocol-relative, and external URLs
+  if (!path || !path.startsWith("/") || path.startsWith("//")) {
+    return path;
+  }
+
+  // Root deployment: no transformation needed
+  if (base === "/") {
+    return path;
+  }
+
+  // Normalize: strip trailing slash from base for clean joining
+  const normalizedBase = base.endsWith("/") ? base.slice(0, -1) : base;
+
+  // Idempotency: avoid double-prefixing
+  if (path.startsWith(`${normalizedBase}/`) || path === normalizedBase) {
+    return path;
+  }
+
+  return normalizedBase + path;
+}
+
+/**
  * Defines the URL patterns for various parts of the site.
  * This provides a single source of truth for URL structures.
+ * Patterns are base-agnostic — use withBase() when rendering hrefs.
  */
 export const urlPatterns = {
   home: "/",
@@ -56,7 +87,7 @@ interface ProjectEntry {
  * @returns The canonical URL string for the project.
  */
 export function getProjectUrl(project: ProjectEntry): string {
-  return urlPatterns.project(project.id);
+  return withBase(urlPatterns.project(project.id));
 }
 
 interface BlogPostEntryData {
@@ -76,7 +107,7 @@ interface BlogPostEntry {
  * @returns The canonical URL string for the blog post.
  */
 export function getBlogPostUrl(post: BlogPostEntry): string {
-  return urlPatterns.blogPost(post.id);
+  return withBase(urlPatterns.blogPost(post.id));
 }
 
 /**
@@ -85,7 +116,7 @@ export function getBlogPostUrl(post: BlogPostEntry): string {
  * @returns The URL string for the tag page.
  */
 export function getBlogTagUrl(tag: string): string {
-  return urlPatterns.blogTag(tag);
+  return withBase(urlPatterns.blogTag(tag));
 }
 
 /**

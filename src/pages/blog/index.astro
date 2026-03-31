@@ -6,6 +6,7 @@ import PostCard from "@/components/molecules/PostCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getFeaturedPosts, getPublishedPosts } from "@/utils/blog";
 import { formatPostMetadata } from "@/utils/formatDate";
+import { withBase } from "@/utils/url-utils";
 
 // Type for posts with metadata
 type PostWithMetadata = CollectionEntry<"blog"> & {
@@ -120,7 +121,7 @@ const pageDescription =
       {postsWithMetadata.length === 0 ? (
         <div class="py-16 text-center">
           <p class="text-lg text-foreground-subtle">No blog posts found.</p>
-          <Button href="/" variant="secondary" class="mt-4">
+          <Button href={withBase("/")} variant="secondary" class="mt-4">
             Back to Home
           </Button>
         </div>
