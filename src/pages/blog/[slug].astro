@@ -2,7 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import BlogLayout from "@/layouts/BlogLayout.astro";
-import { withBase } from "@/utils/url-utils";
+import { withBase } from "@/utils/url-utils"; // Used in !post redirect guard (line 38)
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");

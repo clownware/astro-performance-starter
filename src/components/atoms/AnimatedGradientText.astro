@@ -5,7 +5,7 @@ interface Props {
   class?: string;
 }
 
-const props = Astro.props;
+const props: Props = Astro.props;
 // biome-ignore lint/style/useNamingConvention: Astro requires PascalCase for dynamic HTML tag variables
 const Tag = props.as ?? "span";
 const speed = props.speed ?? "medium";

@@ -85,24 +85,19 @@ test.describe("Blog Index Page", () => {
 
 test.describe("Blog Post Layout", () => {
 	test("should have proper article structure", async ({ page }) => {
-		// Navigate directly to a known blog post
-		await page.goto("/blog/embracing-astro/");
-		const hasPost = true;
+		await page.goto("/blog/why-astro-in-2026/");
 
-		if (hasPost) {
+		// Verify article structure
+		const article = page.locator("article");
+		await expect(article).toBeVisible();
 
-			// Verify article structure
-			const article = page.locator("article");
-			await expect(article).toBeVisible();
+		// Check for breadcrumb navigation
+		const breadcrumb = page.locator('nav[aria-label="Breadcrumb"]');
+		await expect(breadcrumb).toBeVisible();
 
-			// Check for breadcrumb navigation
-			const breadcrumb = page.locator('nav[aria-label="Breadcrumb"]');
-			await expect(breadcrumb).toBeVisible();
-
-			// Verify breadcrumb links
-			await expect(breadcrumb.getByRole("link", { name: "Home" })).toBeVisible();
-			await expect(breadcrumb.getByRole("link", { name: "Blog" })).toBeVisible();
-		}
+		// Verify breadcrumb links
+		await expect(breadcrumb.getByRole("link", { name: "Home" })).toBeVisible();
+		await expect(breadcrumb.getByRole("link", { name: "Blog" })).toBeVisible();
 	});
 
 	test("@a11y should have accessible table of contents", async ({ page }) => {
@@ -151,34 +146,26 @@ test.describe("Blog Post Layout", () => {
 	});
 
 	test("should have post navigation (prev/next)", async ({ page }) => {
-		await page.goto("/blog/embracing-astro/");
-		const hasPost = true;
+		await page.goto("/blog/why-astro-in-2026/");
 
-		if (hasPost) {
+		// Post navigation is optional — depends on whether adjacent posts exist
+		const postNav = page.locator('nav[aria-label="Post navigation"]');
+		const hasNav = await postNav.isVisible().catch(() => false);
 
-			// Check for post navigation
-			const postNav = page.locator('nav[aria-label="Post navigation"]');
-			const hasNav = await postNav.isVisible().catch(() => false);
-
-			if (hasNav) {
-				await expect(postNav).toBeVisible();
-			}
+		if (hasNav) {
+			await expect(postNav).toBeVisible();
 		}
 	});
 
 	test("should display post metadata correctly", async ({ page }) => {
-		await page.goto("/blog/embracing-astro/");
-		const hasPost = true;
+		await page.goto("/blog/why-astro-in-2026/");
 
-		if (hasPost) {
+		// Check for article title
+		const h1 = page.locator("article h1");
+		await expect(h1).toBeVisible();
 
-			// Check for article title
-			const h1 = page.locator("article h1");
-			await expect(h1).toBeVisible();
-
-			// Check for metadata elements (author, date, reading time)
-			const article = page.locator("article");
-			await expect(article).toBeVisible();
-		}
+		// Check for metadata elements (author, date, reading time)
+		const article = page.locator("article");
+		await expect(article).toBeVisible();
 	});
 });
