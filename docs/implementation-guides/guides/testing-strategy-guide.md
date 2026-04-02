@@ -476,7 +476,7 @@ jobs:
           
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: 'pnpm'
           
       - run: pnpm install
@@ -528,7 +528,7 @@ jobs:
           
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 24
           cache: 'pnpm'
           
       - run: pnpm install

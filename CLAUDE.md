@@ -22,7 +22,7 @@
 
 ## Tech Stack
 
-- **Framework:** Astro 6.x + Vite 6.x (zero JS by default)
+- **Framework:** Astro 6.x + Vite 7.x (zero JS by default)
 - **Package manager:** pnpm 10.x (engine-strict, locked in package.json)
 - **Runtime:** Node.js 24.x LTS (see `.nvmrc`)
 - **Styling:** Tailwind CSS v4.x with CSS-native `@theme inline` design tokens
