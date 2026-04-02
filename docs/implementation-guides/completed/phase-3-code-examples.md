@@ -44,8 +44,8 @@ on:
     branches: [master]
 
 env:
-  NODE_VERSION: '22'
-  PNPM_VERSION: '9'
+  NODE_VERSION: '24'
+  PNPM_VERSION: '10'
 
 jobs:
   quality:

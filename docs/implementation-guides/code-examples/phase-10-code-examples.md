@@ -49,7 +49,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           
       - name: Install pnpm
         uses: pnpm/action-setup@v2
@@ -168,7 +168,7 @@ Cache-Control = "public, max-age=31536000, immutable"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "22"
+  NODE_VERSION = "24"
 
 [[redirects]]
   from = "/old-path"

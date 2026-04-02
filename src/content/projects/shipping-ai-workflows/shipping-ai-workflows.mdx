@@ -26,8 +26,6 @@ externalUrl: 'https://github.com/clownware/astro-performance-starter'
 ---
 import Callout from '@/components/mdx/Callout.astro';
 
-{/*TODO: Replace placeholder images. Hero (1536x1024) should be a clean diagram of the .claude/ file tree architecture. Card (600x600) should be a cropped/simplified version of the same.*/}
-
 ## Project Overview
 
 Most starter templates that claim to be "AI-optimized" ship a rules file — a static document that tells an AI assistant what the project is. This project ships something different: active workflows that teach an AI assistant how to *work in* the project. Skills that scaffold components following the project's pattern doc. A subagent that reviews code against 35+ Architecture Decision Records. A context file that loads the right constraints at the right time without flooding the context window.
@@ -107,7 +105,7 @@ The pre-fetch pattern is key: the skill runs shell commands to inspect the exist
 
 ### PR Description Skill
 
-The PR description skill (`.claude/skills/pr-description/SKILL.md`) reads `.github/PULL_REQUEST_TEMPLATE.md`, diffs the current branch against the base, and fills in every section — What changed, Why, How, Testing, and Checklist — with accurate descriptions drawn from the actual commits and file changes. It replaces the pattern where developers copy the PR template, leave half the sections as `<!-- TODO -->`, and submit.
+The PR description skill (`.claude/skills/pr-description/SKILL.md`) reads `.github/PULL_REQUEST_TEMPLATE.md`, diffs the current branch against the base, and fills in every section — What changed, Why, How, Testing, and Checklist — with accurate descriptions drawn from the actual commits and file changes. It replaces the pattern where developers copy the PR template, leave half the sections as TODO placeholders, and submit.
 
 Like the component skill, it pre-fetches context using embedded shell commands: base branch detection, commit history, changed file list, and full diff. The output is raw markdown ready to paste — no wrapping, no code fences.
 

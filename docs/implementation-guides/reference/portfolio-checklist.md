@@ -14,7 +14,7 @@ This checklist distills the Recommended and Advanced scope items most relevant t
 
 All Foundation phases are Essential for every project. No optional items here.
 
-- [x] Repository initialized with pnpm, Node.js 22 LTS, TypeScript strict
+- [x] Repository initialized with pnpm, Node.js 24 LTS, TypeScript strict
 - [x] Content Collections schemas defined (blog, projects, pages)
 - [x] Design tokens system configured (colors, typography, spacing, motion)
 - [x] Dark mode via CSS variables with system preference detection

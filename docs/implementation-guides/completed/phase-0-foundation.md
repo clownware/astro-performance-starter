@@ -61,10 +61,10 @@ pnpm install
 ```json
 // package.json
 {
-  "packageManager": "pnpm@9.15.0",
+  "packageManager": "pnpm@10.13.1",
   "engines": {
-    "node": ">=22.0.0",
-    "pnpm": ">=9.0.0"
+    "node": ">=24.0.0",
+    "pnpm": ">=10.0.0"
   },
   "scripts": {
     "dev": "astro dev",

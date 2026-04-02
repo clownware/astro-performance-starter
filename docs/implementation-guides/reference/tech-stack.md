@@ -1,6 +1,6 @@
 ---
 title: Technology Stack
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: 2026-04-02T00:00:00.000Z
 description: Details the core technology stack used in the Astro Performance Starter
 tableOfContents: true
 pagefind: true
@@ -12,20 +12,20 @@ pagefind: true
 ```yaml
 Framework: 
   name: Astro
-  version: ^5.0.0
+  version: ^6.0.0
   features:
     - Static Site Generation (SSG) by default
     - Server-Side Rendering (SSR) optional
     - Zero JavaScript by default
-    - Content Collections API
-    - View Transitions API
-    - Server Islands (experimental)
+    - Content Layer API (glob loaders, Zod v4 schemas)
+    - View Transitions API (ClientRouter)
+    - Server Islands (stable)
 
 Build:
   bundler: Vite 7.x
   runtime: Node.js 24.x LTS
   package_manager: pnpm 10.x (required)
-  typescript: ^5.8.3
+  typescript: ^5.9.3
 ```
 
 ### Styling & Design
@@ -192,13 +192,16 @@ Runtime:
 ```json
 {
   "dependencies": {
-    "@astrojs/mdx": "^5.0.0",
-    "@astrojs/preact": "^5.0.0",
-    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/mdx": "^5.0.2",
+    "@astrojs/preact": "^5.0.2",
+    "@astrojs/rss": "^4.0.18",
+    "@astrojs/sitemap": "^3.7.1",
+    "@fontsource-variable/inter": "^5.2.8",
+    "@preact/signals": "^2.9.0",
     "@tailwindcss/vite": "^4.2.2",
-    "@fontsource-variable/inter": "^5.2.0",
-    "astro": "^6.0.0",
+    "astro-expressive-code": "^0.41.7",
     "preact": "^10.29.0",
+    "sharp": "^0.34.5",
     "tailwindcss": "4.2.2"
   }
 }
@@ -229,20 +232,21 @@ Runtime:
 ```json
 {
   "devDependencies": {
-    "@astrojs/check": "^0.9.4",
-    "@axe-core/playwright": "^4.10.0",
-    "@biomejs/biome": "^2.2.4",
-    "@playwright/test": "^1.49.0",
-    "astrobook": "^0.5.0",
-    "husky": "^9.1.0",
-    "lighthouse": "^12.0.0",
-    "lint-staged": "^15.2.0",
-    "sharp": "^0.33.0",
-    "style-dictionary": "^4.0.1",
-    "tailwindcss-themer": "^4.1.1",
-    "tsx": "^4.7.0",
-    "typescript": "^5.6.0",
-    "vitest": "^2.1.0"
+    "@astrojs/check": "^0.9.8",
+    "@biomejs/biome": "^2.4.9",
+    "@playwright/test": "^1.58.2",
+    "astrobook": "^0.12.4",
+    "husky": "^9.1.7",
+    "lighthouse": "^13.0.3",
+    "lint-staged": "^16.4.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.1"
+  },
+  "optionalDependencies": {
+    "@axe-core/playwright": "^4.11.1",
+    "style-dictionary": "^5.4.0",
+    "tailwindcss-themer": "^4.1.1"
   },
   "engines": {
     "node": ">=24.0.0"
@@ -254,7 +258,7 @@ Runtime:
 
 ### Why These Choices?
 
-1. **Astro 6.0**: Best-in-class static site generator with minimal JavaScript
+1. **Astro 6.x**: Best-in-class static site generator with minimal JavaScript
 2. **Tailwind v4**: CSS-native config with `@theme inline` design token integration, 100x faster incremental builds
 3. **Biome**: Massive speed improvement over ESLint/Prettier
 4. **Preact**: Smaller than React for islands that need state
@@ -274,7 +278,7 @@ Runtime:
 
 When updating from older versions:
 
-1. **Astro 4 → 5**: Check Content Collections API changes
-2. **Tailwind 3 → 4**: Review config migration guide
+1. **Astro 5 → 6**: Content Layer API stable, Zod v4, Node.js 24+ minimum
+2. **Tailwind 3 → 4**: CSS-native `@theme` config replaces `tailwind.config.js`
 3. **ESLint → Biome**: Run migration command: `npx @biomejs/biome migrate`
 4. **React → Preact**: Update imports in island components

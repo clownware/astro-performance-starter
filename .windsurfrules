@@ -20,7 +20,7 @@ Astro Performance Starter Template - Production-ready GitHub template with compr
 
 ## Tech Stack
 
-- **Framework**: Astro v6.x with Vite 6.x bundler
+- **Framework**: Astro v6.x with Vite 7.x bundler
 - **Package Manager**: pnpm 10.x (required - locked in package.json)
 - **Runtime**: Node.js 24.x LTS (specified in .nvmrc)
 - **Styling**: Tailwind CSS v4.x with CSS-native `@theme inline` design tokens
