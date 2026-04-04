@@ -28,8 +28,15 @@ jobs:
           HAS_REPO: ${{ secrets.STARLIGHT_REPO != '' }}
         run: |
           if [ "$HAS_PAT" != "true" ] || [ "$HAS_REPO" != "true" ]; then
-            echo "::notice::Docs sync skipped — STARLIGHT_REPO_PAT and/or STARLIGHT_REPO secrets are not configured."
+            echo "::warning::Docs sync skipped — STARLIGHT_REPO_PAT and/or STARLIGHT_REPO secrets are not configured."
             echo "skip=true" >> $GITHUB_OUTPUT
+            echo "## ⏭️ Docs Sync Skipped" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Required secrets are not configured:" >> $GITHUB_STEP_SUMMARY
+            echo "- \`STARLIGHT_REPO_PAT\`: $([ \"$HAS_PAT\" = \"true\" ] && echo '✅ Set' || echo '❌ Missing')" >> $GITHUB_STEP_SUMMARY
+            echo "- \`STARLIGHT_REPO\`: $([ \"$HAS_REPO\" = \"true\" ] && echo '✅ Set' || echo '❌ Missing')" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "See [setup guide](../docs/development/docs-sync-setup.md) for configuration instructions." >> $GITHUB_STEP_SUMMARY
             exit 0
           fi
 
@@ -48,17 +55,25 @@ jobs:
       - name: Clone Starlight docs repo
         id: clone
         if: steps.check_secret.outputs.skip != 'true'
-        continue-on-error: true
         env:
           STARLIGHT_REPO_PAT: ${{ secrets.STARLIGHT_REPO_PAT }}
           STARLIGHT_REPO: ${{ secrets.STARLIGHT_REPO }}
         run: |
-          git clone "https://x-access-token:${STARLIGHT_REPO_PAT}@github.com/${STARLIGHT_REPO}.git" ../starlight-repo
+          if ! git clone "https://x-access-token:${STARLIGHT_REPO_PAT}@github.com/${STARLIGHT_REPO}.git" ../starlight-repo 2>&1; then
+            echo "::error::Failed to clone Starlight repo. The PAT may be expired or the repo may not exist."
+            echo "## ❌ Docs Sync Failed" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Could not clone \`${STARLIGHT_REPO}\`. Possible causes:" >> $GITHUB_STEP_SUMMARY
+            echo "- \`STARLIGHT_REPO_PAT\` has expired — [regenerate it](https://github.com/settings/tokens)" >> $GITHUB_STEP_SUMMARY
+            echo "- \`STARLIGHT_REPO\` value is incorrect (expected \`owner/repo\` format)" >> $GITHUB_STEP_SUMMARY
+            echo "- The target repository has been deleted or made inaccessible" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
           cd ../starlight-repo
           git checkout main
 
       - name: Copy docs files
-        if: steps.check_secret.outputs.skip != 'true' && steps.clone.outcome == 'success'
+        if: steps.check_secret.outputs.skip != 'true'
         run: |
           # Remove existing docs in Starlight repo (except .git)
           find ../starlight-repo -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
@@ -67,7 +82,7 @@ jobs:
           rsync -av --exclude='.git' ./docs/ ../starlight-repo/
 
       - name: Commit changes if any
-        if: steps.check_secret.outputs.skip != 'true' && steps.clone.outcome == 'success'
+        if: steps.check_secret.outputs.skip != 'true'
         id: commit
         working-directory: ../starlight-repo
         run: |
@@ -83,7 +98,7 @@ jobs:
           fi
 
       - name: Push to sync branch
-        if: steps.clone.outcome == 'success' && steps.commit.outputs.has_changes == 'true'
+        if: steps.commit.outputs.has_changes == 'true'
         working-directory: ../starlight-repo
         env:
           STARLIGHT_REPO_PAT: ${{ secrets.STARLIGHT_REPO_PAT }}
@@ -95,7 +110,7 @@ jobs:
         id: push
 
       - name: Create Pull Request
-        if: steps.clone.outcome == 'success' && steps.commit.outputs.has_changes == 'true'
+        if: steps.commit.outputs.has_changes == 'true'
         env:
           STARLIGHT_REPO_PAT: ${{ secrets.STARLIGHT_REPO_PAT }}
           GH_TOKEN: ${{ secrets.STARLIGHT_REPO_PAT }}
