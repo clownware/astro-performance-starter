@@ -32,7 +32,7 @@ pagefind: true
 </Card>
 ```
 
-### 2. {{versions.typescript}}-First
+### 2. 5.9.3-First
 
 ```astro
 
@@ -306,7 +306,7 @@ Astro offers powerful tools for creating dynamic user experiences: View Transiti
 | Component needs to run JS immediately on page load    |                              |  ✅ (`client:load`)         | Use with caution due to performance impact. Ensure it's justified by the Preact Island Usage Policy ADR.                   |
 
 **Concluding Note:**
-This matrix provides general guidelines. Always consider the specific requirements of your feature, the desired user experience, performance implications (especially JavaScript bundle sizes and Core Web Vitals), and accessibility. Sometimes, a combination of both might be appropriate, but strive to avoid mixing metaphors in a way that complicates the codebase or degrades performance. Refer to the [Astro {{versions.astro}} View Transitions documentation](https://docs.astro.build/en/guides/view-transitions/) and [Island architecture concepts](https://docs.astro.build/en/concepts/islands/) for more details.
+This matrix provides general guidelines. Always consider the specific requirements of your feature, the desired user experience, performance implications (especially JavaScript bundle sizes and Core Web Vitals), and accessibility. Sometimes, a combination of both might be appropriate, but strive to avoid mixing metaphors in a way that complicates the codebase or degrades performance. Refer to the [Astro 6.0.8 View Transitions documentation](https://docs.astro.build/en/guides/view-transitions/) and [Island architecture concepts](https://docs.astro.build/en/concepts/islands/) for more details.
 
 ## Responsive Patterns
 

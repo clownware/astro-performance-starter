@@ -91,7 +91,7 @@ The template includes a complete design token system:
 2. **Save the file** - tokens auto-compile during `dev` or `build`
 3. **Tokens automatically integrate** with Tailwind CSS classes
 
-Manual compilation (rarely needed): `pnpm run build:tokens`
+Manual compilation (rarely needed): `pnpm run tokens:build`
 
 This approach ensures consistent spacing, colors, and typography across your site.
 

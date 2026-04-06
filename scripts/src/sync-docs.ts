@@ -1,6 +1,5 @@
 #!/usr/bin/env tsx
 import { execSync } from "node:child_process";
-import { writeFileSync } from "node:fs";
 import { join } from "node:path";
 
 interface Versions {
@@ -8,7 +7,6 @@ interface Versions {
 }
 
 interface SyncOptions {
-  updateVersions?: boolean;
   force?: boolean;
   verbose?: boolean;
 }
@@ -22,7 +20,6 @@ if (!docsRepoUrl || !docsRepoRawUrl) {
   process.exit(1);
 }
 const localDocsPath = join(process.cwd(), "docs");
-const versionsJsonPath = join(process.cwd(), "versions.json");
 
 // === VERSION DETECTION ===
 
@@ -111,31 +108,6 @@ async function downloadDocs(branch: string, options: SyncOptions): Promise<void>
   // and place them in the local docs directory
 }
 
-// === VERSION INJECTION ===
-
-function _injectVersionsIntoContent(content: string, versions: Versions): string {
-  let updatedContent = content;
-
-  for (const [key, version] of Object.entries(versions)) {
-    const placeholder = `{{versions.${key}}}`;
-    updatedContent = updatedContent.replaceAll(placeholder, version);
-  }
-
-  return updatedContent;
-}
-
-async function processDocsWithVersions(versions: Versions, options: SyncOptions): Promise<void> {
-  // TODO: Implement version injection into downloaded docs
-  console.log("🔄 Injecting current versions into docs...");
-
-  if (options.verbose) {
-    console.log("Versions to inject:", versions);
-  }
-
-  // This will scan downloaded docs and replace version placeholders
-  // with current template versions
-}
-
 // === MAIN FUNCTIONS ===
 
 async function syncDocs(options: SyncOptions = {}): Promise<void> {
@@ -169,15 +141,6 @@ async function syncDocs(options: SyncOptions = {}): Promise<void> {
     // Download docs from appropriate branch
     await downloadDocs(targetBranch, options);
 
-    // Inject current versions if requested
-    if (options.updateVersions) {
-      await processDocsWithVersions(versions, options);
-
-      // Save versions.json for reference
-      writeFileSync(versionsJsonPath, JSON.stringify(versions, null, 2));
-      console.log("💾 Saved versions.json");
-    }
-
     console.log("\n✅ Docs sync completed successfully!");
     console.log("🤖 AI agents now have access to current, version-matched documentation.");
   } catch (error) {
@@ -192,7 +155,6 @@ async function main() {
   const args = process.argv.slice(2);
 
   const options: SyncOptions = {
-    updateVersions: args.includes("--update-versions"),
     force: args.includes("--force"),
     verbose: args.includes("--verbose"),
   };
@@ -202,11 +164,10 @@ async function main() {
 🚀 Astro Starter Docs Sync
 
 USAGE:
-  pnpm run docs:sync                    # Sync docs only
-  pnpm run docs:update                  # Sync docs and inject versions
-  
+  pnpm run docs:sync                    # Sync docs from remote repo
+  pnpm run docs:update                  # Sync docs
+
 OPTIONS:
-  --update-versions    Inject current package versions into docs
   --force             Force sync even if docs exist
   --verbose           Show detailed output
   --help, -h          Show this help message
@@ -214,8 +175,7 @@ OPTIONS:
 EXAMPLES:
   pnpm run docs:sync                    # Basic sync
   pnpm run docs:sync --verbose          # Sync with detailed output
-  pnpm run docs:update                  # Sync and update versions
-  pnpm run docs:update --force          # Force update everything
+  pnpm run docs:sync --force            # Force sync everything
 
 NOTE: This feature will be available when repositories are public at launch.
 `);

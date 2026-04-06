@@ -167,7 +167,7 @@ my-site/
 │   ├── components/     # UI components (atoms, molecules, organisms)
 │   │   ├── atoms/      # Basic elements (Button, Input)
 │   │   ├── molecules/  # Simple combos (Card, FormField)
-│   │   ├── organisms/  # Complex sections (Header, Hero)
+│   │   ├── organisms/  # Complex sections (created when needed)
 │   │   └── structural/ # Layout components (Container, Section)
 │   ├── layouts/        # Page layouts (BaseLayout.astro)
 │   ├── pages/          # Routes (index.astro, 404.astro)
@@ -278,7 +278,7 @@ pnpm run dev -- --port 3000
 
 ```bash
 # Tokens auto-compile on dev start, but you can force it:
-pnpm run build:tokens
+pnpm run tokens:build
 pnpm run dev
 ```
 

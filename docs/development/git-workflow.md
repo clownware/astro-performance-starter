@@ -13,7 +13,7 @@ This document outlines the branching strategy, commit conventions, and pull requ
 
 ### Main Branches
 
-- `main` - Stable releases and production-ready code
+- `master` - Stable releases and production-ready code
 - `develop` - Active development and integration branch
 
 ### Feature Branches
@@ -30,13 +30,13 @@ This document outlines the branching strategy, commit conventions, and pull requ
 3. Test locally with `pnpm dev` and `pnpm build`
 4. Open PR to `develop` with clear description
 5. Merge after review and CI checks pass
-6. Periodic merges from `develop` to `main` for releases
+6. Periodic merges from `develop` to `master` for releases
 
 ### Workflow for Template Users
 
-- Fork or use the template from `main` branch
+- Fork or use the template from `master` branch
 - Adapt branching strategy to your project needs
-- Consider simplified workflow: `main` + feature branches
+- Consider simplified workflow: `master` + feature branches
 
 ## Commit Convention
 
@@ -61,5 +61,5 @@ This document outlines the branching strategy, commit conventions, and pull requ
 ### For Template Users
 
 - Adapt this process to your team's needs
-- Consider automated deployment from main branch
+- Consider automated deployment from master branch
 - Use the included CI pipeline as a starting point

@@ -22,7 +22,7 @@ The build process automatically generates:
 - `tokens/dist/tailwind-tokens.json` – retained for reference; token values are mapped to Tailwind utilities via `@theme inline` in `src/styles/global.css`.
 - `tokens/dist/tokens.css` – CSS variables (light + `.dark`).
 
-Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual compilation (rarely needed): `pnpm run build:tokens`.
+Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual compilation (rarely needed): `pnpm run tokens:build`.
 
 ## 2. In templates/components
 
@@ -59,7 +59,7 @@ Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual c
 2. Save the file – tokens auto-compile during `dev` or `build`.
 3. Commit both source and *dist* files.
 
-Manual compilation (if needed): `pnpm run build:tokens`
+Manual compilation (if needed): `pnpm run tokens:build`
 
 > **Tip:** keep scales consistent (increments of `4px` for spacing, `8ms` for durations, etc.).
 
@@ -98,7 +98,7 @@ useEffect(() => {
 
 ## 6. Lint & validation
 
-- `pnpm run validate:contrast` – ensures WCAG-AA contrast for semantic pairs.
+- `pnpm run design:validate` – ensures WCAG-AA contrast for semantic pairs.
 - CI fails if new tokens break contrast budgets.
 
-Need help? Check the [Design System implementation guide](/implementation-guides/01-foundation-phase-2-design-system/) or open an issue.
+Need help? Check the [Design System implementation guide](/implementation-guides/completed/phase-2-design-system/) or open an issue.

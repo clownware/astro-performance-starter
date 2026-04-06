@@ -329,10 +329,10 @@ pnpm run build
 ls -lh dist/_astro/*.js
 
 # Run Lighthouse
-pnpm run lighthouse
+pnpm run perf:lighthouse
 
 # Check performance budgets
-pnpm run budget:check
+pnpm run perf:budgets
 ```
 
 **Validation criteria:**

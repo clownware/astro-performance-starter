@@ -20,7 +20,7 @@ This guide covers image optimization strategies for Astro projects, focusing on 
 
 ```bash
 # Analyze all images in your project
-pnpm run analyze:images
+pnpm run images:analyze
 ```
 
 This command will:
@@ -34,7 +34,7 @@ This command will:
 
 ```bash
 # Optimize images interactively with safety features
-pnpm run optimize:images
+pnpm run images:optimize
 ```
 
 This command will:
@@ -220,10 +220,10 @@ const { images } = Astro.props;
 
 ### Analysis Script
 
-The `analyze:images` script provides comprehensive image analysis:
+The `images:analyze` script provides comprehensive image analysis:
 
 ```bash
-pnpm run analyze:images
+pnpm run images:analyze
 ```
 
 **Features:**
@@ -250,10 +250,10 @@ Total size: 6.8 MB
 
 ### Interactive Optimization Script
 
-The `optimize:images` script provides safe, interactive optimization:
+The `images:optimize` script provides safe, interactive optimization:
 
 ```bash
-pnpm run optimize:images
+pnpm run images:optimize
 ```
 
 **Safety Features:**
@@ -345,10 +345,10 @@ pnpm run optimize:images
 
 ```bash
 # Analyze current state
-pnpm run analyze:images
+pnpm run images:analyze
 
 # Optimize interactively
-pnpm run optimize:images
+pnpm run images:optimize
 ```
 
 ### 2. Cumulative Layout Shift (CLS)
@@ -398,7 +398,7 @@ pnpm run optimize:images
 ```yaml
 # .github/workflows/ci.yml
 - name: Analyze Images
-  run: pnpm run analyze:images
+  run: pnpm run images:analyze
 
 - name: Build with optimized images
   run: pnpm run build
@@ -419,11 +419,11 @@ pnpm run optimize:images
 - [ ] Implement responsive images with `sizes` attribute
 - [ ] Add proper loading strategies
 - [ ] Include descriptive alt text
-- [ ] Run `analyze:images` regularly
+- [ ] Run `images:analyze` regularly
 
 ### Pre-Deployment
 
-- [ ] Run `optimize:images` for final optimization
+- [ ] Run `images:optimize` for final optimization
 - [ ] Validate all images meet size budgets
 - [ ] Test Core Web Vitals impact
 - [ ] Verify backup creation

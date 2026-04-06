@@ -43,7 +43,7 @@ pagefind: true
 
 Tailwind CSS is now stable and provides significant improvements over v3, including better performance, enhanced design token integration, and improved developer experience.
 
-**Key v{{versions.tailwindcss}} Benefits:**
+**Key v4.2.2 Benefits:**
 
 - **Better Performance**: Faster build times and smaller CSS output
 - **Enhanced Design Tokens**: Native CSS variables support
@@ -51,7 +51,7 @@ Tailwind CSS is now stable and provides significant improvements over v3, includ
 - **Migration Path**: Clear upgrade path from v3 configurations
 
 **Current Implementation:**
-The project uses `tailwindcss: "^{{versions.tailwindcss}}"` which ensures you get the latest stable v4 patches while maintaining compatibility.
+The project uses `tailwindcss: "^4.2.2"` which ensures you get the latest stable v4 patches while maintaining compatibility.
 
 ### Image Optimization and Future Scalability
 
@@ -108,9 +108,9 @@ If design system needs major changes:
    # Keep old tokens
    cp tokens/base.json tokens/base.json.backup
    # Test new tokens
-   pnpm run build:tokens # Note: You'll need to create the './scripts/build-tokens.js' file as part of this phase.
+   pnpm run tokens:build # Note: You'll need to create the './scripts/build-tokens.js' file as part of this phase.
    # Validate contrast
-   pnpm run validate:contrast
+   pnpm run design:validate
    ```
 
 2. **Tailwind Config Issues**:

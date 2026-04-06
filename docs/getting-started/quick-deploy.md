@@ -77,7 +77,7 @@ We recommend Cloudflare Pages for optimal performance. For other platforms, see 
 
 When you run `pnpm run build`, here's what happens:
 
-1. **Token Compilation** (`build:tokens`)
+1. **Token Compilation** (`tokens:build`)
    - Reads `tokens/base.json` and `tokens/semantic.json`
    - Generates CSS custom properties
    - Outputs to `tokens/dist/tokens.css`
@@ -97,7 +97,7 @@ When you run `pnpm run build`, here's what happens:
 **The `dist/` folder is what gets deployed** - not your source code.
 
 :::tip[Automated Token Compilation]
-The template's `build` script automatically runs `build:tokens` first, so you don't need to chain commands manually.
+The template's `build` script automatically runs `tokens:build` first, so you don't need to chain commands manually.
 
 **Available build commands:**
 
@@ -338,7 +338,7 @@ Open `src/layouts/BaseLayout.astro` and add these lines in the `<head>` section 
 **Rebuild tokens:**
 
 ```bash
-pnpm run build:tokens  # Compile tokens only
+pnpm run tokens:build  # Compile tokens only
 # Or rebuild everything:
 pnpm run build
 ```
@@ -1011,7 +1011,7 @@ Or use npm instead:
 npm install && npm run build
 ```
 
-#### Error: `build:tokens failed`
+#### Error: `tokens:build failed`
 
 **Cause:** Missing token files in repository
 

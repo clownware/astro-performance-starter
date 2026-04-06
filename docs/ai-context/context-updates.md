@@ -165,7 +165,7 @@ if [ "$(git branch --show-current)" = "main" ]; then
   # Check for phase completion markers
   if git diff HEAD^ HEAD --name-only | grep -q "phase-.*-complete"; then
     echo "Phase completed! Remember to update AI context"
-    echo "Run: pnpm run update:ai-context"
+    echo "Run: pnpm run docs:update"
   fi
 fi
 ```
