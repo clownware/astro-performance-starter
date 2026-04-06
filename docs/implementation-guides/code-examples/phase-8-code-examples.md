@@ -554,6 +554,8 @@ test.describe('Progressive Enhancement', () => {
 
 ## CI Integration
 
+> **Note:** This workflow references proposed scripts (`test:a11y`, `test:visual`) that you would add to `package.json` when implementing the full testing strategy. See the [Testing Strategy Guide](/implementation-guides/guides/testing-strategy-guide/) for script definitions.
+
 ```yaml
 # .github/workflows/qa.yml
 name: Quality Assurance

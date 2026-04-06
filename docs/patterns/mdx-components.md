@@ -344,9 +344,9 @@ title: API Documentation
 Here's the complete implementation:
 
 <CodeFromFile 
-  src="../../../src/utils/api-client.ts" 
-  lang="typescript" 
-  title="src/utils/api-client.ts"
+  src="../../../src/utils/blog.ts"
+  lang="typescript"
+  title="src/utils/blog.ts"
   parentUrl={import.meta.url}
 />
 ```

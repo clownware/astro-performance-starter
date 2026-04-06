@@ -221,7 +221,7 @@ Update this value manually when a phase is complete, then run `pnpm run roadmap:
 ### Before Making Changes
 
 1. Run `pnpm run check` - Ensure types are correct
-2. Save token files - Auto-compile during dev/build (manual: `pnpm run build:tokens`)
+2. Save token files - Auto-compile during dev/build (manual: `pnpm run tokens:build`)
 3. Check current Git branch - Follow branch strategy
 
 ### While Developing

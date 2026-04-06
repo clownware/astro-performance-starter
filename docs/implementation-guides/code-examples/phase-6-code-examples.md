@@ -1129,6 +1129,8 @@ const sectionId = `lazy-${name}-${Math.random().toString(36).slice(2)}`;
 
 ### 2. Critical Sections
 
+<!-- Example implementation — create this file when building critical section prioritization -->
+
 ```typescript
 // src/utils/critical-sections.ts
 export const criticalSections = ['hero', 'features'];

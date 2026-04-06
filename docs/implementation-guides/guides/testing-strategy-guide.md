@@ -21,7 +21,7 @@ This guide outlines testing strategies using the Essential / Recommended / Advan
 | **Coverage** | Critical paths only | Key user flows | Comprehensive |
 | **Time Investment** | 1-2 days | 2-3 days | 3-5 days |
 | **Maintenance** | Minimal | Moderate | Ongoing |
-| **Tools** | Browser DevTools | Playwright, axe-core | Playwright, Vitest {{versions.vitest}}, Percy |
+| **Tools** | Browser DevTools | Playwright, axe-core | Playwright, Vitest 4.1.1, Percy |
 | **CI Integration** | Basic checks | E2E on critical paths | Full test suite |
 
 ## Essential Testing
@@ -145,9 +145,9 @@ Implement automated testing with continuous integration to catch regressions ear
 ```json
 {
   "devDependencies": {
-    "@playwright/test": "{{versions.playwright}}",
-    "vitest": "{{versions.vitest}}",
-    "@vitest/ui": "{{versions.vitest}}",
+    "@playwright/test": "1.58.2",
+    "vitest": "4.1.1",
+    "@vitest/ui": "4.1.1",
     "@percy/playwright": "^1.0.0",
     "axe-playwright": "^1.2.0",
     "@testing-library/preact": "^3.0.0"
@@ -457,6 +457,8 @@ test('no draft content in production build', async () => {
 
 ### GitHub Actions — Essential
 
+> **Note:** The CI workflows below reference scripts like `test:smoke` that are proposed additions to `package.json`. Add them as you implement each testing tier. The project ships with `check:types`, `test:unit`, `test:e2e`, and `test:a11y` — see the Test Scripts section below for the full proposed set.
+
 ```yaml
 # .github/workflows/test-essential.yml
 name: Essential Tests
@@ -482,14 +484,14 @@ jobs:
       - run: pnpm install
       
       - name: Type Check
-        run: pnpm run type-check
-        
+        run: pnpm run check:types
+
       - name: Lint
         run: pnpm run lint
-        
+
       - name: Build
         run: pnpm run build
-        
+
       - name: Smoke Tests
         run: pnpm run test:smoke
         
@@ -505,6 +507,8 @@ jobs:
 ```
 
 ### GitHub Actions — Advanced
+
+> **Note:** This workflow references proposed scripts (`test:visual`, `test:perf`) not yet in `package.json`. See the Test Scripts section below for definitions to add when implementing Advanced testing.
 
 ```yaml
 # .github/workflows/test-advanced.yml
@@ -533,15 +537,15 @@ jobs:
           
       - run: pnpm install
       
-      - name: Install Playwright {{versions.playwright}} Browsers
+      - name: Install Playwright 1.58.2 Browsers
         run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
         
       - name: Type Check
-        run: pnpm run type-check
-        
+        run: pnpm run check:types
+
       - name: Lint
         run: pnpm run lint
-        
+
       - name: Unit Tests
         run: pnpm run test:unit
         
@@ -606,14 +610,16 @@ tests/
 
 ### Test Scripts
 
+> **Note:** The scripts below are proposed additions to `package.json` for a comprehensive testing setup. The project currently ships with `test:unit`, `test:e2e`, and `test:a11y`. Add the others as you implement each testing tier.
+
 ```json
 {
   "scripts": {
-    // Essential Scripts
+    // Essential Scripts (proposed)
     "test:smoke": "./scripts/smoke-test.sh",
     "test:manual": "echo 'Follow manual testing checklist'",
-    
-    // Advanced Scripts
+
+    // Advanced Scripts (some proposed, some existing)
     "test": "vitest",
     "test:unit": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration",

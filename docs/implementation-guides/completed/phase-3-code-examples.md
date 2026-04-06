@@ -71,13 +71,13 @@ jobs:
         run: pnpm install --frozen-lockfile
         
       - name: Build tokens
-        run: pnpm run build:tokens # Note: The './scripts/build-tokens.js' file, executed by this command, will need to be created.
+        run: pnpm run tokens:build # Note: The './scripts/build-tokens.js' file, executed by this command, will need to be created.
         
       - name: Check token changes
         run: |
           if [[ -n $(git status --porcelain tokens/dist) ]]; then
             echo "❌ Uncommitted token changes detected"
-            echo "Run 'pnpm run build:tokens' and commit the changes"
+            echo "Run 'pnpm run tokens:build' and commit the changes"
             exit 1
           fi
           
@@ -91,10 +91,10 @@ jobs:
         run: pnpm run check:types
         
       - name: Astro check
-        run: pnpm run check:astro
+        run: pnpm run check
         
       - name: Validate contrast
-        run: pnpm run validate:contrast
+        run: pnpm run design:validate
 
   build:
     name: Build
@@ -288,7 +288,7 @@ Implementing branch protection ensures that your `main` branch always stays in a
 2.  Build design tokens:
 
         ```bash
-        pnpm run build:tokens # Note: You'll need to create the './scripts/build-tokens.js' file as part of implementing the design token system (Phase 2).
+        pnpm run tokens:build # Note: You'll need to create the './scripts/build-tokens.js' file as part of implementing the design token system (Phase 2).
         ```
 
 3.  Start development server:

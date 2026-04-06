@@ -61,7 +61,7 @@ All Foundation phases are Essential for every project. No optional items here.
 - [ ] Cross-browser check (Chrome, Firefox, Safari)
 - [ ] Accessibility audit with browser DevTools
 - [ ] Lighthouse scores: Performance 95+, Accessibility 98+, SEO 95+
-- [ ] No broken links (`pnpm run check:links`)
+- [ ] No broken links (`pnpm run check:links`) (proposed — not yet implemented)
 
 ## Polish (Phases 9–12)
 

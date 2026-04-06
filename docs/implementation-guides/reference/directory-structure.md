@@ -165,7 +165,7 @@ src/components/
 │   ├── Navigation.astro # Link lists
 │   └── SearchBox.astro # Input + button
 │
-├── organisms/          # Complex page sections
+├── organisms/          # Complex page sections (created when needed)
 │   ├── Header.astro    # Site header
 │   ├── Hero.astro      # Hero sections
 │   ├── ArticleList.astro # Content listings

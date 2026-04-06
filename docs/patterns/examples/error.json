@@ -1,0 +1,11 @@
+{
+  "status": "error",
+  "code": 422,
+  "message": "Validation failed",
+  "errors": [
+    {
+      "field": "email",
+      "message": "Invalid email format"
+    }
+  ]
+}

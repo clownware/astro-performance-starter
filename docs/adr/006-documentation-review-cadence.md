@@ -126,7 +126,7 @@ A Node.js script (`scripts/check-review-dates.mjs`) scans documentation files fo
 
 ```yaml
 - name: Check documentation review dates
-  run: pnpm run check:reviews
+  run: pnpm run check:reviews  # (proposed — not yet implemented)
 ```
 
 Exits with error code 1 if any reviews are overdue.
@@ -135,7 +135,7 @@ Exits with error code 1 if any reviews are overdue.
 
 ```bash
 # Check all documentation review dates
-pnpm run check:reviews
+pnpm run check:reviews  # (proposed — not yet implemented)
 
 # Example output:
 # docs/tech-stack.md - Review scheduled in 195 days
@@ -193,7 +193,7 @@ pnpm run check:reviews
 
 - [ ] Create review date detection script (`scripts/check-review-dates.mjs`)
 - [ ] Add CI integration (`.github/workflows/ci.yml`)
-- [ ] Add package.json script (`check:reviews`)
+- [ ] Add package.json script (`check:reviews`) (proposed — not yet implemented)
 
 ### Phase 2: Documentation Updates (Complete)
 

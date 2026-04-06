@@ -29,8 +29,8 @@ pagefind: true
 |------|------|-------|-------|
 | 0.01 | Initialize repository | Essential | Include .gitignore, README |
 | 0.02 | Choose package manager | Essential | pnpm recommended for speed |
-| 0.03 | Set up Node.js version | Essential | Use .nvmrc with Node {{versions.node-current}} LTS |
-| 0.04 | Select framework version | Essential | Astro {{versions.astro}} stable |
+| 0.03 | Set up Node.js version | Essential | Use .nvmrc with Node 24.14.1 LTS |
+| 0.04 | Select framework version | Essential | Astro 6.0.8 stable |
 | 0.05 | Configure TypeScript | Essential | Strict mode from start |
 | 0.05a | Configure Biome (lint/format) | Essential | Init @biomejs/biome & VSCode extension |
 | 0.06 | Initialize Astro project | Essential | Use create-astro CLI |
@@ -99,7 +99,7 @@ trim_trailing_whitespace = true
 
 ```bash
 # .nvmrc
-{{versions.node}}
+24.14.1
 ```
 
 ### TypeScript Configuration
@@ -210,11 +210,11 @@ If critical issues found after Phase 0:
 - `package.json` - Verify scripts and dependencies
 - `tsconfig.json` - TypeScript configuration
 - `.husky/pre-commit` - Git hooks
-- `docs/adr/001-foundation.md` - Key decisions
+- `docs/adr/001-preact-island-usage-policy.md` - Key decisions
 
 ### Common Prompts for This Phase
 
-- "Set up Astro {{versions.astro}} project with TypeScript strict mode"
+- "Set up Astro 6.0.8 project with TypeScript strict mode"
 - "Configure Biome for Astro project"
 - "Create Git hooks for code quality"
 - "Write ADR for foundation decisions"

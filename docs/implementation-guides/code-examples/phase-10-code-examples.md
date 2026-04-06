@@ -21,7 +21,7 @@ Cloudflare Pages is the recommended deployment platform for this project due to 
 
 **Watch-outs & Tweaks**:
 
-- **SSR Islands & Cloudflare Functions**: If using SSR for Astro {{versions.astro}} islands or implementing API routes via Cloudflare Functions (either through Pages Functions or dedicated Workers), be mindful of potential cold starts. These can impact the initial response time for dynamic parts of your site.
+- **SSR Islands & Cloudflare Functions**: If using SSR for Astro 6.0.8 islands or implementing API routes via Cloudflare Functions (either through Pages Functions or dedicated Workers), be mindful of potential cold starts. These can impact the initial response time for dynamic parts of your site.
 - **Performance Budgeting**: Factor in potential cold start times into your performance targets, especially for critical user interactions relying on server-side execution. Optimize functions for quick boot-up where possible.
 - **Configuration**: Ensure `wrangler.toml` is correctly configured for your project's needs, including environment variables, redirects, and custom headers.
 

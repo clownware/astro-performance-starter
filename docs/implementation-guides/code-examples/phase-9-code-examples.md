@@ -937,8 +937,7 @@ jobs:
       - name: Build site
         run: pnpm run build
         
-      - name: Run Lighthouse CI {{versions.lighthouse-ci}}
-        uses: treosh/lighthouse-ci-action@v10
+      - name: Run Lighthouse CI        uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
             http://localhost:3000/
