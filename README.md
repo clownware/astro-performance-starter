@@ -2,7 +2,7 @@
 
 **Zero-JS baseline • 95+ Lighthouse scores • Built for speed**
 
-[![CI](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_ORG/YOUR_REPO/actions/workflows/ci.yml)
+[![CI](https://github.com/clownware/starter-astro-performance/actions/workflows/ci.yml/badge.svg)](https://github.com/clownware/starter-astro-performance/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE.txt)
 [![Node.js](https://img.shields.io/badge/Node.js-24.x-green?logo=node.js)](https://nodejs.org/)
 [![Lighthouse Score](https://img.shields.io/badge/Lighthouse-95%2B-success?logo=lighthouse&logoColor=white)](#-performance-budgets)
@@ -30,8 +30,8 @@ Most Astro templates sacrifice performance for features. This one delivers **95+
 Click **Use this template** on GitHub, then:
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/YOUR_REPO.git
-cd YOUR_REPO
+git clone https://github.com/YOUR_USERNAME/your-site.git
+cd your-site
 pnpm install
 pnpm run dev
 ```
@@ -39,7 +39,7 @@ pnpm run dev
 ### Or scaffold with the Astro CLI
 
 ```bash
-pnpm create astro@latest my-site -- --template YOUR_ORG/YOUR_REPO
+pnpm create astro@latest my-site -- --template clownware/starter-astro-performance
 cd my-site
 pnpm run dev
 ```
@@ -52,9 +52,9 @@ Open **<http://localhost:4321/>** — you're up and running.
 
 ### One-click deploy
 
-[![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/YOUR_ORG/YOUR_REPO)
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/YOUR_ORG/YOUR_REPO)
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/YOUR_ORG/YOUR_REPO)
+[![Deploy to Cloudflare Pages](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/clownware/starter-astro-performance)
+[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/clownware/starter-astro-performance)
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/clownware/starter-astro-performance)
 
 ## 🛠️ Personalization
 
@@ -138,13 +138,81 @@ See [AI Context Setup Guide](docs/ai-context/ai-rules-setup.md) for details.
 pnpm run dev              # Start dev server
 pnpm run build            # Production build
 pnpm run preview          # Serve already-built dist/ locally
-pnpm run format           # Format with Biome
-pnpm run lint             # Lint with Biome
 pnpm run quality          # Full quality check (format + lint + type-check)
 pnpm run test:unit        # Unit tests (Vitest)
 pnpm run test:e2e         # E2E tests (Playwright)
+pnpm run test:a11y        # Accessibility tests (axe-core)
 pnpm run tokens:build     # Rebuild design tokens (rarely needed)
 ```
+
+<details>
+<summary><strong>All Scripts Reference</strong></summary>
+
+**Development**
+
+| Command | Description |
+|---------|-------------|
+| `pnpm run dev` | Start dev server on port 4321 |
+| `pnpm run dev:host` | Dev server exposed to LAN |
+| `pnpm run dev:debug` | Dev server with verbose logging |
+| `pnpm run preview` | Serve already-built `dist/` locally |
+| `pnpm run preview:build` | Build then preview |
+
+**Code Quality**
+
+| Command | Description |
+|---------|-------------|
+| `pnpm run quality` | Format + lint + markdown lint + type-check (auto-fixes format) |
+| `pnpm run quality:ci` | Same checks, no auto-fix (CI mode) |
+| `pnpm run format` | Format with Biome |
+| `pnpm run format:check` | Check formatting without writing |
+| `pnpm run lint` | Lint with Biome |
+| `pnpm run lint:md` | Lint markdown files |
+| `pnpm run check` | Astro diagnostics |
+| `pnpm run check:types` | TypeScript type-check |
+
+**Testing**
+
+| Command | Description |
+|---------|-------------|
+| `pnpm run test:unit` | Vitest (single run) |
+| `pnpm run test:coverage` | Vitest with coverage report |
+| `pnpm run test:e2e` | Playwright (all browsers) |
+| `pnpm run test:e2e:ui` | Playwright with interactive UI |
+| `pnpm run test:a11y` | Accessibility tests (axe-core via Playwright) |
+
+**Build & Deploy**
+
+| Command | Description |
+|---------|-------------|
+| `pnpm run build` | Validate env + build tokens + Astro build |
+| `pnpm run build:ci` | Same with verbose output |
+| `pnpm run tokens:build` | Compile design tokens from `tokens/` |
+| `pnpm run clean` | Remove `dist/`, `.astro/`, `tokens/dist/` |
+| `pnpm run clean:all` | Clean + clear `node_modules/.cache` |
+
+**Performance & Validation**
+
+| Command | Description |
+|---------|-------------|
+| `pnpm run perf:lighthouse` | Lighthouse HTML report (requires running dev server) |
+| `pnpm run perf:budgets` | Track JS/CSS budget violations |
+| `pnpm run perf:baseline` | Establish performance baseline |
+| `pnpm run bundle:analyze` | Build + analyze bundle composition |
+| `pnpm run design:validate` | Validate semantic color contrast ratios |
+| `pnpm run budgets:validate` | Validate budget override configuration |
+| `pnpm run images:analyze` | Analyze image sizes and formats |
+| `pnpm run images:optimize` | Interactive image optimization |
+
+**Release & Maintenance**
+
+| Command | Description |
+|---------|-------------|
+| `pnpm run release:changelog` | Generate CHANGELOG from commits |
+| `pnpm run audit` | pnpm audit (production deps) |
+| `pnpm run roadmap:update` | Update implementation roadmap status |
+
+</details>
 
 ## 🚀 Performance Budgets
 
