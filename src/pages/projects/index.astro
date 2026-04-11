@@ -247,38 +247,68 @@ const pageDescription =
           const techStackAttr = project.techStack.map((t: string) => t.toLowerCase()).join(' ');
           cardWrapper.setAttribute('data-tech-stack', techStackAttr);
           
-          // Simplified card HTML (matches ProjectCard structure)
-          cardWrapper.innerHTML = `
-            <article class="w-full project-card bg-background-secondary border border-primary rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary-300 focus-within:ring-2 focus-within:ring-primary-500">
-              <div class="project-card__image-container relative overflow-hidden">
-                <img src="${project.image}" alt="Screenshot of ${project.title} project" class="project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105" loading="lazy" decoding="async" />
-              </div>
-              <div class="project-card__content p-6">
-                <header class="project-card__header mb-4">
-                  <h3 class="project-card__title text-xl font-semibold text-foreground-primary mb-2">${project.title}</h3>
-                  <p class="project-card__description text-foreground-secondary leading-relaxed">${project.description}</p>
-                </header>
-                ${project.tags && project.tags.length > 0 ? `
-                  <div class="project-card__tags mb-4">
-                    <div class="flex items-center gap-2 mb-2">
-                      <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Categories</span>
-                    </div>
-                    <ul class="flex flex-wrap gap-2" role="list">
-                      ${project.tags.map((tag: string) => `<li><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800">${tag}</span></li>`).join('')}
-                    </ul>
-                  </div>
-                ` : ''}
-                <div class="project-card__tech-stack mb-6">
-                  <div class="flex items-center gap-2 mb-2">
-                    <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Technologies</span>
-                  </div>
-                  <ul class="flex flex-wrap gap-2" role="list">
-                    ${project.techStack.map((tech: string) => `<li><span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-secondary-100 text-secondary-800">${tech}</span></li>`).join('')}
-                  </ul>
-                </div>
-              </div>
-            </article>
-          `;
+          // Build card DOM safely — avoids innerHTML to prevent XSS if data source changes
+          const article = document.createElement('article');
+          article.className = 'w-full project-card bg-background-secondary border border-primary rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary-300 focus-within:ring-2 focus-within:ring-primary-500';
+
+          const imageContainer = document.createElement('div');
+          imageContainer.className = 'project-card__image-container relative overflow-hidden';
+          const img = document.createElement('img');
+          img.src = project.image;
+          img.alt = `Screenshot of ${project.title} project`;
+          img.className = 'project-card__image w-full h-48 object-cover transition-transform duration-300 hover:scale-105';
+          img.loading = 'lazy';
+          img.decoding = 'async';
+          imageContainer.appendChild(img);
+          article.appendChild(imageContainer);
+
+          const content = document.createElement('div');
+          content.className = 'project-card__content p-6';
+
+          const header = document.createElement('header');
+          header.className = 'project-card__header mb-4';
+          const h3 = document.createElement('h3');
+          h3.className = 'project-card__title text-xl font-semibold text-foreground-primary mb-2';
+          h3.textContent = project.title;
+          const desc = document.createElement('p');
+          desc.className = 'project-card__description text-foreground-secondary leading-relaxed';
+          desc.textContent = project.description;
+          header.appendChild(h3);
+          header.appendChild(desc);
+          content.appendChild(header);
+
+          const buildBadgeList = (items: string[], labelText: string, badgeClasses: string) => {
+            const wrapper = document.createElement('div');
+            wrapper.className = labelText === 'Categories' ? 'project-card__tags mb-4' : 'project-card__tech-stack mb-6';
+            const labelRow = document.createElement('div');
+            labelRow.className = 'flex items-center gap-2 mb-2';
+            const label = document.createElement('span');
+            label.className = 'text-xs font-medium text-foreground-secondary uppercase tracking-wide';
+            label.textContent = labelText;
+            labelRow.appendChild(label);
+            wrapper.appendChild(labelRow);
+            const ul = document.createElement('ul');
+            ul.className = 'flex flex-wrap gap-2';
+            ul.setAttribute('role', 'list');
+            items.forEach((item: string) => {
+              const li = document.createElement('li');
+              const span = document.createElement('span');
+              span.className = `inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${badgeClasses}`;
+              span.textContent = item;
+              li.appendChild(span);
+              ul.appendChild(li);
+            });
+            wrapper.appendChild(ul);
+            return wrapper;
+          };
+
+          if (project.tags && project.tags.length > 0) {
+            content.appendChild(buildBadgeList(project.tags, 'Categories', 'bg-primary-100 text-primary-800'));
+          }
+          content.appendChild(buildBadgeList(project.techStack, 'Technologies', 'bg-secondary-100 text-secondary-800'));
+
+          article.appendChild(content);
+          cardWrapper.appendChild(article);
           
           projectsGrid.appendChild(cardWrapper);
         });
