@@ -42,11 +42,20 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
     </nav>
 
     <div class="flex items-center gap-2">
-      <!-- CSS-only mobile menu toggle: hidden checkbox + label button -->
+      <!--
+        CSS-only mobile menu toggle: hidden checkbox + label button.
+        The label is keyboard-activated via the script below; aria-expanded
+        is updated on `change` to reflect the checkbox's :checked state, since
+        CSS alone cannot mutate DOM attributes.
+      -->
       <label
         for="mobile-menu-toggle"
         tabindex="0"
+        role="button"
         aria-label="Toggle menu"
+        aria-controls="mobile-menu"
+        aria-expanded="false"
+        data-mobile-menu-button
         class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md border border-primary bg-background-primary/80 transition motion-safe:transition-colors motion-reduce:transition-none hover:bg-background-secondary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring md:hidden"
       >
         <span class="sr-only">Toggle menu</span>
@@ -80,6 +89,25 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
   />
 
   <script>
+    function syncMobileMenuExpanded() {
+      const toggle = document.getElementById('mobile-menu-toggle') as HTMLInputElement | null;
+      const button = document.querySelector<HTMLElement>('[data-mobile-menu-button]');
+      if (toggle && button) {
+        button.setAttribute('aria-expanded', toggle.checked ? 'true' : 'false');
+      }
+    }
+
+    document.addEventListener('change', (e) => {
+      const target = e.target as HTMLElement;
+      if (target?.id === 'mobile-menu-toggle') {
+        syncMobileMenuExpanded();
+      }
+    });
+
+    // After Astro view transitions, the persisted header keeps its state but
+    // a freshly inserted toggle needs its expanded attribute synced.
+    document.addEventListener('astro:after-swap', syncMobileMenuExpanded);
+
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       const toggle = document.getElementById('mobile-menu-toggle') as HTMLInputElement | null;
       // Close mobile menu when Escape is pressed

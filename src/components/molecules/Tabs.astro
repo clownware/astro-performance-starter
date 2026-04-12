@@ -18,10 +18,11 @@ const activeTab = defaultTab ?? tabs[0]?.id;
 {/*
   CSS-only tabs using the hidden radio-button pattern — the same technique as
   the Header's checkbox mobile menu. Radio buttons manage exclusive-selection
-  state without JavaScript. Arrow key navigation uses a ~15 line inline script
-  (required by WCAG 2.1 keyboard navigation guidelines).
+  state without JavaScript. A small inline script (~25 lines) wires up arrow-key
+  navigation (WCAG 2.1) and assigns panel id/aria attributes that the static
+  template can't compute (panel ids depend on the runtime groupId).
 */}
-<div class:list={["tabs", className]} data-tabs>
+<div class:list={["tabs", className]} data-tabs data-tabs-group={groupId}>
   <div class="tabs__list" role="tablist" aria-label="Tab navigation">
     {tabs.map((tab) => (
       <label class="tabs__tab" data-tab-label>
@@ -32,6 +33,7 @@ const activeTab = defaultTab ?? tabs[0]?.id;
           class="sr-only peer"
           checked={tab.id === activeTab}
           role="tab"
+          aria-label={tab.label}
           aria-selected={tab.id === activeTab ? "true" : "false"}
           aria-controls={`panel-${groupId}-${tab.id}`}
           id={`tab-${groupId}-${tab.id}`}
@@ -46,8 +48,9 @@ const activeTab = defaultTab ?? tabs[0]?.id;
 
   {/*
     Panels are rendered via the default slot. Consumers wrap each panel in a
-    div with data-tab-panel="tabId" + role="tabpanel". The CSS :has() selectors
-    generated below handle show/hide based on which radio is checked.
+    <div data-tab-panel="tabId">. The CSS below (declared is:global because
+    slot content lives in the parent component's scope) handles show/hide
+    based on which radio is checked.
   */}
   <div class="tabs__panels">
     <slot />
@@ -88,23 +91,20 @@ const activeTab = defaultTab ?? tabs[0]?.id;
   .tabs__panels {
     position: relative;
   }
+</style>
 
-  .tabs__panel {
+{/*
+  Global panel rules — slot content lives in the consumer component's scope,
+  so these selectors must be is:global to cross the scoping boundary.
+*/}
+<style is:global>
+  [data-tabs] [data-tab-panel] {
     display: none;
     padding: 1.5rem 0;
   }
 
-  /*
-   * CSS-only panel switching: when a radio is checked, show its corresponding
-   * panel. Each radio's :checked state targets the panel via the general sibling
-   * combinator, scoped by the parent .tabs container.
-   */
-  :global(.tabs:has(input[value="__TAB_ID__"]:checked) [data-tab-panel="__TAB_ID__"]) {
-    /* This selector is generated dynamically below */
-  }
-
   @media (prefers-reduced-motion: no-preference) {
-    .tabs__panel {
+    [data-tabs] [data-tab-panel] {
       animation: tab-panel-enter 0.2s ease-out;
     }
 
@@ -122,15 +122,32 @@ const activeTab = defaultTab ?? tabs[0]?.id;
 </style>
 
 {/* Dynamic CSS for panel switching — generates :has() selectors per tab */}
-<style set:html={tabs.map(tab =>
-  `.tabs:has(input[value="${tab.id}"]:checked) [data-tab-panel="${tab.id}"] { display: block; }`
+<style is:global set:html={tabs.map(tab =>
+  `[data-tabs][data-tabs-group="${groupId}"]:has(input[value="${tab.id}"]:checked) [data-tab-panel="${tab.id}"] { display: block; }`
 ).join('\n')} />
 
-{/* Keyboard navigation — WCAG 2.1 requires arrow keys to move between tabs */}
+{/* Keyboard navigation + panel ARIA wiring */}
 <script>
   function initTabs() {
     document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((tabGroup) => {
       const radios = Array.from(tabGroup.querySelectorAll<HTMLInputElement>('[data-tab-radio]'));
+
+      // Wire up panels: assign id, role="tabpanel", aria-labelledby, tabindex.
+      // Panel ids depend on the runtime groupId, so they can't be set in the
+      // template by consumers — this script bridges that gap.
+      radios.forEach((radio) => {
+        const tabId = radio.value;
+        const panelId = radio.getAttribute('aria-controls');
+        if (!panelId) return;
+        const panel = tabGroup.querySelector<HTMLElement>(`[data-tab-panel="${tabId}"]`);
+        if (!panel) return;
+        if (!panel.id) panel.id = panelId;
+        if (!panel.getAttribute('role')) panel.setAttribute('role', 'tabpanel');
+        if (!panel.getAttribute('aria-labelledby')) panel.setAttribute('aria-labelledby', radio.id);
+        if (!panel.hasAttribute('tabindex')) panel.setAttribute('tabindex', '0');
+      });
+
+      // Arrow-key navigation between tabs (WCAG 2.1).
       tabGroup.addEventListener('keydown', (e) => {
         const target = e.target as HTMLInputElement;
         if (!target.matches('[data-tab-radio]')) return;
@@ -154,6 +171,15 @@ const activeTab = defaultTab ?? tabs[0]?.id;
           radios[next].focus();
           radios[next].dispatchEvent(new Event('change', { bubbles: true }));
         }
+      });
+
+      // Keep aria-selected in sync with checked state on change.
+      tabGroup.addEventListener('change', (e) => {
+        const target = e.target as HTMLInputElement;
+        if (!target.matches('[data-tab-radio]')) return;
+        radios.forEach((r) => {
+          r.setAttribute('aria-selected', r.checked ? 'true' : 'false');
+        });
       });
     });
   }
