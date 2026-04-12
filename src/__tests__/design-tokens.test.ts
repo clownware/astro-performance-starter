@@ -5,60 +5,63 @@ import { describe, expect, it } from "vitest";
 
 /**
  * Lightweight regression test for design tokens that components depend on.
- * Reads the generated `tokens/dist/tokens.css` and asserts that critical
- * tokens exist with the expected references. The full WCAG-AA contrast
- * sweep lives in `scripts/src/validate-contrast.ts` (run via
- * `pnpm design:validate`); this test only locks in the *presence* and
- * *resolution* of the new `border-emphasis` semantic so the Button
- * secondary variant doesn't silently regress to invisible borders.
+ * Reads the committed `tokens/semantic.json` directly (the source of truth)
+ * rather than `tokens/dist/tokens.css` (generated, not present until build).
+ *
+ * The full WCAG-AA contrast sweep lives in `scripts/src/validate-contrast.ts`
+ * (run via `pnpm design:validate`); this test only locks in the *presence*
+ * and *resolution* of the new `border-emphasis` semantic so the Button
+ * secondary variant can't silently regress to invisible borders.
  */
 
-const here = dirname(fileURLToPath(import.meta.url));
-const tokensCss = readFileSync(resolve(here, "../../tokens/dist/tokens.css"), "utf-8");
-
-const lightBlockMatch = tokensCss.match(/:root\s*{([^}]*)}/);
-const darkBlockMatch = tokensCss.match(/\.dark\s*{([^}]*)}/);
-const lightBlock = lightBlockMatch?.[1] ?? "";
-const darkBlock = darkBlockMatch?.[1] ?? "";
-
-function getVar(block: string, name: string): string | null {
-  const m = block.match(new RegExp(`--${name}:\\s*([^;]+);`));
-  return m ? m[1].trim() : null;
+interface TokenLeaf {
+  value: string;
+  dark?: string;
+}
+interface SemanticTokens {
+  semantic: {
+    border: {
+      primary: TokenLeaf;
+      emphasis: TokenLeaf;
+    };
+  };
 }
 
+const here = dirname(fileURLToPath(import.meta.url));
+const semantic: SemanticTokens = JSON.parse(
+  readFileSync(resolve(here, "../../tokens/semantic.json"), "utf-8"),
+);
+
 describe("design tokens — border.emphasis", () => {
-  it("is defined in :root (light mode)", () => {
-    expect(getVar(lightBlock, "color-border-emphasis")).not.toBeNull();
+  it("is defined in the semantic schema", () => {
+    expect(semantic.semantic.border.emphasis).toBeDefined();
+    expect(semantic.semantic.border.emphasis.value).toBeTruthy();
   });
 
-  it("is defined in .dark (dark mode override)", () => {
-    expect(getVar(darkBlock, "color-border-emphasis")).not.toBeNull();
+  it("has both light (value) and dark overrides", () => {
+    expect(semantic.semantic.border.emphasis.value).toBeTruthy();
+    expect(semantic.semantic.border.emphasis.dark).toBeTruthy();
   });
 
-  it("light mode resolves to gray-600 (semantic source of truth)", () => {
-    // The semantic.json maps border.emphasis → color.gray.600 for light
-    // mode. If this assertion fails, either the build script regressed or
-    // someone changed the semantic mapping without updating this guard.
-    const emphasis = getVar(lightBlock, "color-border-emphasis");
-    const gray600 = getVar(lightBlock, "color-gray-600");
-    expect(emphasis).toBe(gray600);
+  it("light value resolves to gray-600 (semantic source of truth)", () => {
+    // If this assertion fails, either someone changed the semantic
+    // mapping without updating this guard, or the gray scale was
+    // renumbered. Either way, the secondary button border contrast
+    // fix needs re-validation.
+    expect(semantic.semantic.border.emphasis.value).toBe("{color.gray.600}");
   });
 
-  it("dark mode resolves to gray-300", () => {
-    const emphasis = getVar(darkBlock, "color-border-emphasis");
-    const gray300 = getVar(lightBlock, "color-gray-300");
-    expect(emphasis).toBe(gray300);
+  it("dark value resolves to gray-300", () => {
+    expect(semantic.semantic.border.emphasis.dark).toBe("{color.gray.300}");
   });
 
   it("differs from border.primary (the lower-contrast variant)", () => {
     // border.primary is gray-300 light / gray-700 dark; border.emphasis is
-    // gray-600 / gray-300. They must not collapse to the same value or the
-    // Button secondary variant loses its contrast fix.
-    expect(getVar(lightBlock, "color-border-emphasis")).not.toBe(
-      getVar(lightBlock, "color-border-primary"),
+    // gray-600 / gray-300. They must not collapse to the same references
+    // or the Button secondary variant loses its contrast fix.
+    expect(semantic.semantic.border.emphasis.value).not.toBe(
+      semantic.semantic.border.primary.value,
     );
-    expect(getVar(darkBlock, "color-border-emphasis")).not.toBe(
-      getVar(darkBlock, "color-border-primary"),
-    );
+    expect(semantic.semantic.border.emphasis.dark).not.toBe(semantic.semantic.border.primary.dark);
   });
 });
