@@ -33,5 +33,15 @@
     "module": "picomatch",
     "reason": "Transitive dependency. ReDoS not exposed in build-time glob matching.",
     "expires": "2026-06-25"
+  },
+  {
+    "module": "vite",
+    "reason": "Transitive dependency via Astro. Both advisories (server.fs.deny bypass, dev server WebSocket file read) affect the dev server only. Production deploys are pre-rendered static files (output: 'static') with no Vite runtime exposure.",
+    "expires": "2026-06-25"
+  },
+  {
+    "module": "defu",
+    "reason": "Transitive dependency via astro -> unstorage -> h3 -> defu (h3 already allowlisted). Prototype pollution requires user-controlled input as the defaults argument; static build pipeline does not expose user input to defu.",
+    "expires": "2026-06-25"
   }
 ]

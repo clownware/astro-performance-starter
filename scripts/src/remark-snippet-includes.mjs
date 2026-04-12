@@ -3,6 +3,9 @@ import { join, resolve } from "node:path";
 // remark-snippet-includes.mjs
 import { visit } from "unist-util-visit";
 
+/** Validates snippet names to prevent path traversal (e.g. ../../etc/passwd) */
+const safeSnippetName = /^[a-zA-Z0-9_-]+$/;
+
 /**
  * Remark plugin to include code snippets using shortcode syntax
  *
@@ -35,6 +38,15 @@ export function remarkSnippetIncludes(options = {}) {
       let match = snippetRegex.exec(node.value);
       while (match !== null) {
         const [fullMatch, snippetName] = match;
+
+        if (!safeSnippetName.test(snippetName)) {
+          const error = `Invalid snippet name: "${snippetName}" — only alphanumeric, hyphens, and underscores are allowed`;
+          errors.push(error);
+          console.error(`❌ ${error} in ${file.path}`);
+          match = snippetRegex.exec(node.value);
+          continue;
+        }
+
         const snippetFile = join(snippetsPath, `${snippetName}.md`);
 
         if (!existsSync(snippetFile)) {
@@ -74,6 +86,15 @@ export function remarkSnippetIncludes(options = {}) {
       let match = snippetRegex.exec(node.value);
       while (match !== null) {
         const [fullMatch, snippetName] = match;
+
+        if (!safeSnippetName.test(snippetName)) {
+          const error = `Invalid snippet name: "${snippetName}" — only alphanumeric, hyphens, and underscores are allowed`;
+          errors.push(error);
+          console.error(`❌ ${error} in ${file.path}`);
+          match = snippetRegex.exec(node.value);
+          continue;
+        }
+
         const snippetFile = join(snippetsPath, `${snippetName}.md`);
 
         if (!existsSync(snippetFile)) {
