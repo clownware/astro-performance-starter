@@ -13,15 +13,37 @@ type FeatureTag =
   | "view-transitions"
   | "progressive-enhancement";
 
+type CodeLang = "astro" | "html" | "tsx" | "ts" | "css" | "json" | "bash" | "md";
+
 interface Props {
   title: string;
   description: string;
   features?: FeatureTag[];
   codeSnippet?: string;
+  /**
+   * Language of the code snippet for syntax-highlighting tooling. Rendered as
+   * `class="language-{codeLang}"` on the inner <code> element. Defaults to
+   * "astro" since most showcase samples are Astro markup.
+   */
+  codeLang?: CodeLang;
   class?: string;
+  /**
+   * Brief inline accessibility note rendered below the description (one line).
+   * Use to surface specific a11y guarantees that aren't obvious from the demo
+   * itself — keyboard support, focus management, motion preferences, etc.
+   */
+  a11yNote?: string;
 }
 
-const { title, description, features = [], codeSnippet, class: className } = Astro.props;
+const {
+  title,
+  description,
+  features = [],
+  codeSnippet,
+  codeLang = "astro",
+  class: className,
+  a11yNote,
+} = Astro.props;
 
 const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
   "zero-js": {
@@ -92,19 +114,28 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
     )}
   </div>
 
-  <p class="text-sm text-foreground-secondary mb-4">{description}</p>
+  <p class="text-sm text-foreground-secondary mb-2">{description}</p>
+
+  {a11yNote && (
+    <p class="showcase-example__a11y-note text-xs text-foreground-secondary mb-4">
+      <span class="showcase-example__a11y-icon" aria-hidden="true">a11y</span>
+      {a11yNote}
+    </p>
+  )}
 
   {/* Live demo area */}
   <div class="showcase-example__demo">
     <slot />
   </div>
 
-  {/* Expandable code snippet — uses <details> pattern from ExpandableFeatureCard */}
+  {/* Expandable code snippet — uses <details> pattern from ExpandableFeatureCard.
+      The toggle text includes the example title so screen-reader users navigating
+      by element can distinguish between multiple "Show code" controls on the page. */}
   {codeSnippet && (
     <details class="showcase-example__code-details">
       <summary class="showcase-example__code-toggle">
-        <span class="details-show">Show code</span>
-        <span class="details-hide">Hide code</span>
+        <span class="details-show">Show {title} code</span>
+        <span class="details-hide">Hide {title} code</span>
         <svg
           class="size-4 transform transition-transform duration-200 details-chevron"
           fill="none"
@@ -121,7 +152,7 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
         </svg>
       </summary>
       <div class="showcase-example__code">
-        <pre><code set:html={codeSnippet} /></pre>
+        <pre><code class={`language-${codeLang}`} set:html={codeSnippet} /></pre>
       </div>
     </details>
   )}
@@ -150,6 +181,37 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
     border-radius: 0.5rem;
     background: hsl(var(--color-background-secondary));
     overflow: hidden;
+  }
+
+  .showcase-example__a11y-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    background: hsl(var(--color-success-100));
+    color: hsl(var(--color-success-700));
+    font-style: italic;
+  }
+
+  .showcase-example__a11y-icon {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.625rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.0625rem 0.25rem;
+    border-radius: 0.1875rem;
+    background: hsl(var(--color-success-600) / 0.15);
+  }
+
+  :global(.dark) .showcase-example__a11y-note {
+    background: hsl(var(--color-success-600) / 0.15);
+    color: hsl(var(--color-success-100));
+  }
+
+  :global(.dark) .showcase-example__a11y-icon {
+    background: hsl(var(--color-success-600) / 0.25);
   }
 
   .showcase-example__code-details {

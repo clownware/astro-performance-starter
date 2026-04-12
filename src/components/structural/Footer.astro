@@ -1,6 +1,6 @@
 ---
 import Container from "@/components/structural/Container.astro";
-import { siteLinks, siteMetadata } from "@/config";
+import { siteLinks, siteMetadata, socialLinks } from "@/config";
 import { withBase } from "@/utils/url-utils";
 
 const currentYear = new Date().getFullYear();
@@ -26,7 +26,14 @@ const docsLinks = siteLinks.docs
     ]
   : [];
 
-const externalLinks = [...(siteLinks.github ? [{ label: "GitHub", href: siteLinks.github }] : [])];
+// Project repo + personal social profiles. Order: project repo first, then
+// social profiles in display order. Empty values are filtered out so the
+// section auto-hides when nothing is configured.
+const externalLinks = [
+  ...(siteLinks.github ? [{ label: "GitHub", href: siteLinks.github }] : []),
+  ...(socialLinks.linkedin ? [{ label: "LinkedIn", href: socialLinks.linkedin }] : []),
+  ...(socialLinks.twitter ? [{ label: "Twitter", href: socialLinks.twitter }] : []),
+];
 ---
 
 <footer class="bg-background-default">
@@ -90,14 +97,15 @@ const externalLinks = [...(siteLinks.github ? [{ label: "GitHub", href: siteLink
       )}
 
       <!-- Social Links -->
+      {externalLinks.length > 0 && (
       <div class="lg:col-span-1">
         <h3 class="text-sm font-semibold text-foreground-primary mb-6 uppercase tracking-wide">Connect</h3>
         <ul class="space-y-4">
           {externalLinks.map((link) => (
             <li>
-              <a 
-                href={link.href} 
-                target="_blank" 
+              <a
+                href={link.href}
+                target="_blank"
                 rel="noopener noreferrer"
                 class="no-underline text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 inline-block group"
               >
@@ -107,6 +115,7 @@ const externalLinks = [...(siteLinks.github ? [{ label: "GitHub", href: siteLink
           ))}
         </ul>
       </div>
+      )}
     </div>
 
     <!-- Copyright -->

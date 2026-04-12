@@ -43,11 +43,10 @@ export default defineConfig({
   prefetch: true,
 
   integrations: [
-    astroExpressiveCode({
-      themes: ["dark-plus", "light-plus"],
-      useDarkModeMediaQuery: false,
-      themeCssSelector: (theme) => (theme.type === "dark" ? ".dark" : ":root:not(.dark)"),
-    }),
+    // Options live in ec.config.mjs so the <Code> component can be used in
+    // .astro pages — inline non-serializable config (functions like
+    // themeCssSelector) breaks the prerender worker boundary.
+    astroExpressiveCode(),
     mdx({
       components: mdxComponents,
     }),

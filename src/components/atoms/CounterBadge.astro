@@ -8,15 +8,24 @@ interface Props {
 }
 
 const { value, suffix = "", prefix = "", label, class: className } = Astro.props;
+
+// Single accessible name for the whole badge — the visual children below are
+// decorative (animated counter) and hidden from assistive tech via aria-hidden.
+// Following ADR-019: meaningful aggregate content gets one role="img" + aria-label.
+const accessibleName = `${prefix}${value}${suffix} ${label}`;
 ---
 
 {/*
   CSS-only animated counter using @property with <integer> type.
   The number counts up from 0 to the target value using pure CSS animation,
-  triggered by scroll-driven animation when supported. Uses counter-reset
-  and counter() to display the interpolated integer value.
+  triggered by scroll-driven animation when supported. Falls back to a
+  time-based animation on browsers without scroll-driven support.
 */}
-<div class:list={["counter-badge", className]}>
+<div
+  class:list={["counter-badge", className]}
+  role="img"
+  aria-label={accessibleName}
+>
   <span
     class="counter-badge__value"
     style={`--counter-target: ${value}`}
@@ -24,9 +33,7 @@ const { value, suffix = "", prefix = "", label, class: className } = Astro.props
     data-prefix={prefix || undefined}
     data-suffix={suffix || undefined}
   ></span>
-  {/* Accessible fallback — screen readers see the final value */}
-  <span class="sr-only">{prefix}{value}{suffix}</span>
-  <span class="counter-badge__label">{label}</span>
+  <span class="counter-badge__label" aria-hidden="true">{label}</span>
 </div>
 
 <style>
@@ -51,34 +58,34 @@ const { value, suffix = "", prefix = "", label, class: className } = Astro.props
     line-height: 1;
     color: hsl(var(--color-primary-600));
     font-variant-numeric: tabular-nums;
+    counter-reset: num var(--num);
   }
 
   .counter-badge__value::before {
     content: attr(data-prefix) counter(num) attr(data-suffix);
-    counter-reset: num var(--num);
   }
 
-  /* Animate count-up when @property is supported */
+  /*
+    Time-based fallback: applies in every browser. Browsers that ignore
+    `animation-timeline` (Safari ≤ 18.3) keep the 1.5s on-load animation.
+    Browsers that support it override the timeline below.
+  */
+  @media (prefers-reduced-motion: no-preference) {
+    .counter-badge__value {
+      animation: count-up 1.5s ease-out forwards;
+    }
+  }
+
   @supports (animation-timeline: view()) {
     @media (prefers-reduced-motion: no-preference) {
       .counter-badge__value {
-        animation: count-up 1s ease-out forwards;
         animation-timeline: view();
-        animation-range: entry 0% entry 50%;
+        animation-range: entry 0% cover 30%;
       }
     }
   }
 
-  /* Fallback: if scroll-driven animations aren't supported, animate on load */
-  @supports not (animation-timeline: view()) {
-    @media (prefers-reduced-motion: no-preference) {
-      .counter-badge__value {
-        animation: count-up 1.5s ease-out forwards;
-      }
-    }
-  }
-
-  /* When motion is reduced, show the final value immediately */
+  /* When motion is reduced, jump straight to the final value (no animation). */
   @media (prefers-reduced-motion: reduce) {
     .counter-badge__value {
       --num: var(--counter-target);

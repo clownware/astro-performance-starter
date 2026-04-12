@@ -26,9 +26,8 @@ const spySections = [
   { id: "atoms", label: "Atoms" },
   { id: "molecules", label: "Molecules" },
   { id: "structural", label: "Structural" },
-  { id: "modern-css", label: "Modern CSS" },
   { id: "islands", label: "Islands" },
-  { id: "accessibility", label: "Accessibility" },
+  { id: "composition", label: "Composition" },
 ];
 ---
 
@@ -45,13 +44,13 @@ const spySections = [
         <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-3">
           On this page
         </p>
-        <ScrollSpy sections={spySections} />
+        <ScrollSpy sections={spySections} ariaLabel="Table of contents" />
       </div>
     </aside>
 
     {/* Mobile ScrollSpy — horizontal */}
     <div class="lg:hidden sticky top-16 z-40 bg-background-primary/95 backdrop-blur-sm border-b border-border-primary -mx-4 px-4 sm:-mx-6 sm:px-6">
-      <ScrollSpy sections={spySections} />
+      <ScrollSpy sections={spySections} ariaLabel="Section navigation" />
     </div>
 
     <div class="min-w-0">
@@ -89,7 +88,7 @@ const spySections = [
           <ScrollReveal>
             <h2 class="text-3xl font-bold text-foreground-primary mb-2">Design Tokens</h2>
             <p class="text-foreground-secondary mb-8 max-w-2xl">
-              Single source of truth in <code class="text-sm bg-background-secondary px-1.5 py-0.5 rounded">tokens/</code>. Built to CSS custom properties, consumed via Tailwind utilities. Every color on this page comes from the token system.
+              Single source of truth in <a href="https://github.com/Clownware/astro-performance-starter/tree/main/tokens" target="_blank" rel="noopener noreferrer" class="underline decoration-dotted underline-offset-2 hover:decoration-solid"><code class="text-sm bg-background-secondary px-1.5 py-0.5 rounded">tokens/</code></a>. Built to CSS custom properties, consumed via Tailwind utilities. Every color on this page comes from the token system.
             </p>
           </ScrollReveal>
 
@@ -157,6 +156,7 @@ const spySections = [
                 title="Badge"
                 description="Inline label element with variant and size options. Enhanced with prefers-contrast support for users who request higher contrast."
                 features={["zero-js", "css-only", "wcag-aa"]}
+                a11yNote="prefers-contrast: more — heavier borders and font weight"
                 codeSnippet={'&lt;Badge variant="primary" size="sm"&gt;Primary&lt;/Badge&gt;\n&lt;Badge variant="secondary"&gt;Secondary&lt;/Badge&gt;\n&lt;Badge variant="neutral"&gt;Neutral&lt;/Badge&gt;'}
               >
                 <div class="flex flex-wrap gap-2 items-center">
@@ -175,6 +175,7 @@ const spySections = [
                 title="Button"
                 description="Polymorphic button/link component. Renders as <a> when href is provided, <button> otherwise. Supports disabled state with proper aria."
                 features={["zero-js", "wcag-aa"]}
+                a11yNote="Disabled state uses aria-disabled and removes from tab order"
                 codeSnippet={'&lt;Button variant="primary"&gt;Primary&lt;/Button&gt;\n&lt;Button variant="secondary"&gt;Secondary&lt;/Button&gt;\n&lt;Button variant="ghost" size="sm"&gt;Ghost&lt;/Button&gt;'}
               >
                 <div class="flex flex-wrap gap-3 items-center">
@@ -192,6 +193,7 @@ const spySections = [
                 title="Tooltip"
                 description="Hover/focus tooltip upgraded with the Popover API. Browsers that support popover='hint' get auto-dismiss and Escape-to-close. Others fall back to CSS hover/focus."
                 features={["popover-api", "progressive-enhancement", "wcag-aa"]}
+                a11yNote="Visible on focus + hover; Escape-to-close (Popover API)"
                 codeSnippet={'&lt;Tooltip text="Helpful information" position="top"&gt;\n  Hover me\n&lt;/Tooltip&gt;'}
               >
                 <div class="flex flex-wrap gap-6 items-center">
@@ -208,34 +210,13 @@ const spySections = [
               </ShowcaseExample>
             </ScrollReveal>
 
-            {/* AnimatedGradientText */}
-            <ScrollReveal>
-              <ShowcaseExample
-                title="AnimatedGradientText"
-                description="Smoothly animated gradient text using CSS @property. Before @property, browsers couldn't animate gradients because they didn't know the custom property type. Registering --gradient-angle as <angle> makes this possible — in pure CSS."
-                features={["css-property", "zero-js", "css-only"]}
-                codeSnippet={'&lt;AnimatedGradientText as="h2" speed="medium"&gt;\n  This text has an animated gradient\n&lt;/AnimatedGradientText&gt;'}
-              >
-                <div class="space-y-4">
-                  <AnimatedGradientText as="p" speed="slow" class="text-2xl font-bold">
-                    Slow gradient rotation
-                  </AnimatedGradientText>
-                  <AnimatedGradientText as="p" speed="medium" class="text-xl font-semibold">
-                    Medium speed — the default
-                  </AnimatedGradientText>
-                  <AnimatedGradientText as="p" speed="fast" class="text-lg font-medium">
-                    Fast rotation for emphasis
-                  </AnimatedGradientText>
-                </div>
-              </ShowcaseExample>
-            </ScrollReveal>
-
             {/* ScrollReveal */}
             <ScrollReveal>
               <ShowcaseExample
                 title="ScrollReveal"
                 description="Scroll-driven reveal animations. Replaces AOS, ScrollMagic, and GSAP ScrollTrigger with zero JavaScript. Uses animation-timeline: view() — content animates in as it enters the viewport."
                 features={["scroll-driven", "zero-js", "css-only"]}
+                a11yNote="prefers-reduced-motion: respected — content visible immediately"
                 codeSnippet={'&lt;ScrollReveal animation="fade-up"&gt;\n  &lt;Card&gt;Content reveals on scroll&lt;/Card&gt;\n&lt;/ScrollReveal&gt;'}
               >
                 <p class="text-sm text-foreground-secondary mb-4">Scroll down to see these cards reveal (they use the same ScrollReveal wrapping this entire page):</p>
@@ -253,26 +234,13 @@ const spySections = [
               </ShowcaseExample>
             </ScrollReveal>
 
-            {/* ReadingProgress */}
-            <ScrollReveal>
-              <ShowcaseExample
-                title="ReadingProgress"
-                description="The gradient bar at the very top of this page. A scroll-driven progress indicator that's literally one <div> with CSS. No Intersection Observer, no scroll event listener, no JavaScript."
-                features={["scroll-driven", "zero-js", "css-only"]}
-                codeSnippet={'&lt;ReadingProgress color="gradient" height="default" /&gt;'}
-              >
-                <p class="text-sm text-foreground-secondary">
-                  Look at the top of the page — the gradient bar filling as you scroll is this component. One <code class="text-xs bg-background-primary px-1 py-0.5 rounded">&lt;div&gt;</code>, three CSS properties.
-                </p>
-              </ShowcaseExample>
-            </ScrollReveal>
-
             {/* CounterBadge */}
             <ScrollReveal>
               <ShowcaseExample
                 title="CounterBadge"
                 description="Animated counter using CSS @property with <integer> type and counter(). Numbers count up from 0 when scrolled into view — entirely in CSS."
                 features={["css-property", "scroll-driven", "zero-js"]}
+                a11yNote="role=img + aria-label exposes counter values to assistive tech"
                 codeSnippet={'&lt;CounterBadge value={42} suffix="+" label="Components" /&gt;'}
               >
                 <div class="flex justify-center gap-8">
@@ -307,6 +275,7 @@ const spySections = [
                 title="Card"
                 description="Base container with optional @starting-style entry animation. When animated=true, the card fades and slides in on first render — visible during View Transitions navigation."
                 features={["starting-style", "zero-js", "view-transitions"]}
+                a11yNote="prefers-reduced-motion: respected — no entry animation"
                 codeSnippet={'&lt;Card animated&gt;\n  &lt;div class="p-4"&gt;Content with entry animation&lt;/div&gt;\n&lt;/Card&gt;'}
               >
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -322,6 +291,7 @@ const spySections = [
                 title="Dialog"
                 description="Native <dialog> element with ::backdrop, focus trapping, and Escape-to-close — all browser-provided. Replaces Radix Dialog, HeadlessUI, or any modal library. Entry animation via @starting-style."
                 features={["dialog", "starting-style", "wcag-aa"]}
+                a11yNote="Focus trap + Escape-to-close: native to <dialog>"
                 codeSnippet={'&lt;Dialog id="my-dialog" title="Dialog Title" size="md"&gt;\n  &lt;p&gt;Dialog content here&lt;/p&gt;\n&lt;/Dialog&gt;\n\n&lt;button onclick="document.getElementById(\'my-dialog\').showModal()"&gt;\n  Open Dialog\n&lt;/button&gt;'}
               >
                 <div class="flex gap-3">
@@ -339,7 +309,7 @@ const spySections = [
                   </button>
                 </div>
 
-                <Dialog id="showcase-dialog" title="Native Dialog Element" size="md">
+                <Dialog id="showcase-dialog" title="Native Dialog Element" size="md" headingLevel="h3">
                   <p class="text-foreground-secondary">
                     This dialog uses the native <code class="text-sm">&lt;dialog&gt;</code> element. The browser provides focus trapping, backdrop, Escape-to-close, and proper stacking context.
                   </p>
@@ -348,7 +318,7 @@ const spySections = [
                   </p>
                 </Dialog>
 
-                <Dialog id="showcase-dialog-sm" title="Small Dialog" size="sm">
+                <Dialog id="showcase-dialog-sm" title="Small Dialog" size="sm" headingLevel="h3">
                   <p class="text-foreground-secondary">A compact dialog for confirmations or simple messages.</p>
                 </Dialog>
               </ShowcaseExample>
@@ -360,6 +330,7 @@ const spySections = [
                 title="Tabs"
                 description="CSS-only tab switching using hidden radio buttons — the same pattern as the Header's mobile menu checkbox. Arrow key navigation via ~15 lines of inline script (WCAG requirement)."
                 features={["css-only", "progressive-enhancement", "wcag-aa"]}
+                a11yNote="Keyboard: arrow keys, Home, End — full WCAG tablist pattern"
                 codeSnippet={'&lt;Tabs tabs={[{ id: "one", label: "Tab One" }, ...]}&gt;\n  &lt;div data-tab-panel="one" role="tabpanel"&gt;First panel&lt;/div&gt;\n  &lt;div data-tab-panel="two" role="tabpanel"&gt;Second panel&lt;/div&gt;\n&lt;/Tabs&gt;'}
               >
                 <Tabs tabs={[
@@ -386,18 +357,6 @@ const spySections = [
               </ShowcaseExample>
             </ScrollReveal>
 
-            {/* SectionSeparator */}
-            <ScrollReveal>
-              <ShowcaseExample
-                title="SectionSeparator"
-                description="Gradient divider line between page sections. Uses design token colors for the gradient endpoints."
-                features={["zero-js", "css-only"]}
-              >
-                <div class="py-4">
-                  <SectionSeparator />
-                </div>
-              </ShowcaseExample>
-            </ScrollReveal>
           </div>
         </Container>
       </Section>
@@ -439,132 +398,13 @@ const spySections = [
                 title="ParallaxSection"
                 description="CSS scroll-driven parallax. Decorative background shapes move at different rates than content using animation-timeline: scroll(). Replaces Rellax, Locomotive Scroll, or GSAP ScrollTrigger."
                 features={["scroll-driven", "zero-js", "css-only"]}
+                a11yNote="prefers-reduced-motion: respected — shapes stay static; aria-hidden on decorations"
                 codeSnippet={'&lt;ParallaxSection intensity="subtle"&gt;\n  &lt;h2&gt;Content moves at normal speed&lt;/h2&gt;\n  &lt;p&gt;Background shapes drift with parallax&lt;/p&gt;\n&lt;/ParallaxSection&gt;'}
               >
                 <p class="text-sm text-foreground-secondary">
                   The hero section at the top of this page uses ParallaxSection. Scroll up to see the subtle background shape movement as you scroll past.
                 </p>
               </ShowcaseExample>
-            </ScrollReveal>
-          </div>
-        </Container>
-      </Section>
-
-      <SectionSeparator />
-
-      {/* ================================================================
-          MODERN CSS FEATURES SECTION
-          ================================================================ */}
-      <Section id="modern-css" class="py-16">
-        <Container>
-          <ScrollReveal>
-            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Modern CSS Features</h2>
-            <p class="text-foreground-secondary mb-8 max-w-2xl">
-              The web platform has caught up to JavaScript frameworks. Every feature below replaces a JavaScript library with native CSS — zero bundle cost, zero runtime overhead.
-            </p>
-          </ScrollReveal>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-1">Scroll-Driven Animations</h3>
-                  <p class="text-sm text-foreground-secondary mb-3">
-                    <code class="text-xs bg-background-primary px-1 py-0.5 rounded">animation-timeline: view()</code> and <code class="text-xs bg-background-primary px-1 py-0.5 rounded">scroll()</code>
-                  </p>
-                  <p class="text-sm text-foreground-secondary mb-2">Replaces: AOS, ScrollMagic, GSAP ScrollTrigger</p>
-                  <div class="flex gap-1.5 flex-wrap">
-                    <Badge variant="primary" size="xs">Chrome 115+</Badge>
-                    <Badge variant="primary" size="xs">Firefox 135+</Badge>
-                    <Badge variant="neutral" size="xs">Safari 18.4+</Badge>
-                  </div>
-                </div>
-              </Card>
-            </ScrollReveal>
-
-            <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-1">CSS @property</h3>
-                  <p class="text-sm text-foreground-secondary mb-3">
-                    Type-safe custom properties with <code class="text-xs bg-background-primary px-1 py-0.5 rounded">syntax</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">initial-value</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">inherits</code>
-                  </p>
-                  <p class="text-sm text-foreground-secondary mb-2">Enables: gradient animation, integer interpolation</p>
-                  <div class="flex gap-1.5 flex-wrap">
-                    <Badge variant="primary" size="xs">Chrome 85+</Badge>
-                    <Badge variant="primary" size="xs">Firefox 128+</Badge>
-                    <Badge variant="primary" size="xs">Safari 15.4+</Badge>
-                  </div>
-                </div>
-              </Card>
-            </ScrollReveal>
-
-            <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-1">@starting-style</h3>
-                  <p class="text-sm text-foreground-secondary mb-3">
-                    Entry animations for elements appearing in the DOM
-                  </p>
-                  <p class="text-sm text-foreground-secondary mb-2">Replaces: requestAnimationFrame, Intersection Observer</p>
-                  <div class="flex gap-1.5 flex-wrap">
-                    <Badge variant="primary" size="xs">Chrome 117+</Badge>
-                    <Badge variant="primary" size="xs">Firefox 129+</Badge>
-                    <Badge variant="primary" size="xs">Safari 17.4+</Badge>
-                  </div>
-                </div>
-              </Card>
-            </ScrollReveal>
-
-            <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-1">Popover API</h3>
-                  <p class="text-sm text-foreground-secondary mb-3">
-                    <code class="text-xs bg-background-primary px-1 py-0.5 rounded">popover="hint"</code> with auto-dismiss and Escape-to-close
-                  </p>
-                  <p class="text-sm text-foreground-secondary mb-2">Replaces: tippy.js, Floating UI, Popper.js</p>
-                  <div class="flex gap-1.5 flex-wrap">
-                    <Badge variant="primary" size="xs">Chrome 114+</Badge>
-                    <Badge variant="primary" size="xs">Firefox 125+</Badge>
-                    <Badge variant="primary" size="xs">Safari 17+</Badge>
-                  </div>
-                </div>
-              </Card>
-            </ScrollReveal>
-
-            <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-1">Native &lt;dialog&gt;</h3>
-                  <p class="text-sm text-foreground-secondary mb-3">
-                    Focus trapping, backdrop, stacking context — all built-in
-                  </p>
-                  <p class="text-sm text-foreground-secondary mb-2">Replaces: Radix Dialog, HeadlessUI, React Modal</p>
-                  <div class="flex gap-1.5 flex-wrap">
-                    <Badge variant="primary" size="xs">Chrome 37+</Badge>
-                    <Badge variant="primary" size="xs">Firefox 98+</Badge>
-                    <Badge variant="primary" size="xs">Safari 15.4+</Badge>
-                  </div>
-                </div>
-              </Card>
-            </ScrollReveal>
-
-            <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-1">Container Queries</h3>
-                  <p class="text-sm text-foreground-secondary mb-3">
-                    <code class="text-xs bg-background-primary px-1 py-0.5 rounded">@container</code> responsive to parent, not viewport
-                  </p>
-                  <p class="text-sm text-foreground-secondary mb-2">Enables: truly reusable responsive components</p>
-                  <div class="flex gap-1.5 flex-wrap">
-                    <Badge variant="primary" size="xs">Chrome 105+</Badge>
-                    <Badge variant="primary" size="xs">Firefox 110+</Badge>
-                    <Badge variant="primary" size="xs">Safari 16+</Badge>
-                  </div>
-                </div>
-              </Card>
             </ScrollReveal>
           </div>
         </Container>
@@ -589,6 +429,7 @@ const spySections = [
               title="SignalsCounter"
               description="Preact Signals reactive state demo. Uses client:visible for lazy hydration — zero JS cost until the component enters the viewport. Signal updates only re-render the text nodes that changed, not the entire component tree."
               features={["preact-signals", "wcag-aa"]}
+              a11yNote="aria-label on increment/decrement buttons + visible focus rings"
               codeSnippet={'import SignalsCounter from "@/components/islands/SignalsCounter.tsx";\n\n&lt;SignalsCounter client:visible /&gt;'}
             >
               <SignalsCounter client:visible />
@@ -600,60 +441,112 @@ const spySections = [
       <SectionSeparator />
 
       {/* ================================================================
-          ACCESSIBILITY SECTION
+          COMPOSITION SECTION
+          Realistic UI patterns built from multiple components.
           ================================================================ */}
-      <Section id="accessibility" class="py-16 pb-24">
+      <Section id="composition" class="py-16 pb-24">
         <Container>
           <ScrollReveal>
-            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Accessibility</h2>
+            <h2 class="text-3xl font-bold text-foreground-primary mb-2">Composition</h2>
             <p class="text-foreground-secondary mb-8 max-w-2xl">
-              Every component is built accessibility-first. WCAG 2.1 AA as a floor, not a ceiling. Media queries respect user preferences; ARIA attributes are structural, not decorative.
+              Isolated demos prove a component renders. Compositions prove the system holds together. Below: real UI assembled from the same atoms and molecules shown above — no glue code.
             </p>
           </ScrollReveal>
 
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="flex flex-col gap-8">
+            {/* Composition 1 — Blog Post Card */}
             <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-2">prefers-reduced-motion</h3>
-                  <p class="text-sm text-foreground-secondary">
-                    Every animation on this page is wrapped in a motion preference check. Users who prefer reduced motion see content immediately without transitions. The ScrollReveal, ParallaxSection, and AnimatedGradientText components all respect this.
-                  </p>
+              <ShowcaseExample
+                title="Blog Post Card"
+                description="Card + Badge + Tooltip + Button — the building blocks for any blog index, news feed, or content listing. Hover the date to see the Tooltip, click the button for the Card hover state."
+                features={["zero-js", "wcag-aa"]}
+                a11yNote="All interactive elements keyboard-reachable; tooltip on focus + hover"
+                codeSnippet={'&lt;Card animated&gt;\n  &lt;article class="p-6"&gt;\n    &lt;Badge variant="primary" size="xs"&gt;Engineering&lt;/Badge&gt;\n    &lt;h3&gt;Why CSS-Only Tabs Are Faster Than React Tabs&lt;/h3&gt;\n    &lt;p&gt;A deep dive into the radio-button pattern...&lt;/p&gt;\n    &lt;Tooltip text="Published 4 days ago"&gt;\n      &lt;time&gt;Apr 7, 2026&lt;/time&gt;\n    &lt;/Tooltip&gt;\n    &lt;Button variant="ghost" size="sm" href="/blog/css-tabs/"&gt;Read more&lt;/Button&gt;\n  &lt;/article&gt;\n&lt;/Card&gt;'}
+              >
+                <div class="max-w-md mx-auto">
+                  <Card animated>
+                    <article class="p-6 flex flex-col gap-3">
+                      <div class="flex items-center gap-2">
+                        <Badge variant="primary" size="xs">Engineering</Badge>
+                        <Badge variant="secondary" size="xs">CSS</Badge>
+                      </div>
+                      <h3 class="text-xl font-semibold text-foreground-primary leading-snug">
+                        Why CSS-Only Tabs Are Faster Than React Tabs
+                      </h3>
+                      <p class="text-sm text-foreground-secondary">
+                        A deep dive into the radio-button pattern that powers this template's tab component — zero JavaScript, full ARIA support.
+                      </p>
+                      <div class="flex items-center justify-between mt-2">
+                        <Tooltip text="Published 4 days ago" position="top">
+                          <time class="text-xs text-foreground-secondary underline decoration-dashed cursor-help">
+                            Apr 7, 2026
+                          </time>
+                        </Tooltip>
+                        <Button variant="ghost" size="sm" href="#">Read more →</Button>
+                      </div>
+                    </article>
+                  </Card>
                 </div>
-              </Card>
+              </ShowcaseExample>
             </ScrollReveal>
 
+            {/* Composition 2 — Settings Panel */}
             <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-2">prefers-contrast</h3>
-                  <p class="text-sm text-foreground-secondary">
-                    Badge components gain heavier borders and font weights under <code class="text-xs bg-background-primary px-1 py-0.5 rounded">prefers-contrast: more</code>. No extra JavaScript — purely CSS media queries responding to OS-level accessibility settings.
-                  </p>
-                </div>
-              </Card>
-            </ScrollReveal>
+              <ShowcaseExample
+                title="Settings Panel"
+                description="Tabs + Dialog + Grid + Button — a typical app settings UI. The tabs partition concerns, the dialog handles destructive confirmations, the grid lays out option cards."
+                features={["css-only", "dialog", "wcag-aa"]}
+                a11yNote="Tabs: arrow keys + Home/End. Dialog: focus trap + Escape. Both built into the components."
+                codeSnippet={'&lt;Tabs tabs={[\n  { id: "general", label: "General" },\n  { id: "advanced", label: "Advanced" },\n]}&gt;\n  &lt;div data-tab-panel="general"&gt;\n    &lt;Grid&gt;\n      &lt;Card&gt;Theme&lt;/Card&gt;\n      &lt;Card&gt;Language&lt;/Card&gt;\n    &lt;/Grid&gt;\n    &lt;Button onclick="confirmDialog.showModal()"&gt;Reset all&lt;/Button&gt;\n  &lt;/div&gt;\n&lt;/Tabs&gt;\n\n&lt;Dialog id="confirm-reset" title="Reset all settings?"&gt;\n  &lt;p&gt;This cannot be undone.&lt;/p&gt;\n&lt;/Dialog&gt;'}
+              >
+                <div class="max-w-2xl">
+                  <Tabs tabs={[
+                    { id: "general", label: "General" },
+                    { id: "advanced", label: "Advanced" },
+                  ]} defaultTab="general">
+                    <div data-tab-panel="general">
+                      <div class="space-y-4">
+                        <Grid class="gap-3">
+                          <Card>
+                            <div class="p-4">
+                              <h4 class="text-sm font-semibold text-foreground-primary">Theme</h4>
+                              <p class="text-xs text-foreground-secondary mt-1">Follows system preference</p>
+                            </div>
+                          </Card>
+                          <Card>
+                            <div class="p-4">
+                              <h4 class="text-sm font-semibold text-foreground-primary">Language</h4>
+                              <p class="text-xs text-foreground-secondary mt-1">English (US)</p>
+                            </div>
+                          </Card>
+                          <Card>
+                            <div class="p-4">
+                              <h4 class="text-sm font-semibold text-foreground-primary">Notifications</h4>
+                              <p class="text-xs text-foreground-secondary mt-1">All enabled</p>
+                            </div>
+                          </Card>
+                        </Grid>
+                        <div class="flex justify-end">
+                          <Button variant="secondary" onclick="document.getElementById('composition-confirm').showModal()">
+                            Reset all settings
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                    <div data-tab-panel="advanced">
+                      <p class="text-sm text-foreground-secondary">
+                        Advanced settings would live here — feature flags, experimental UI, developer tools. Try the arrow keys to navigate between tabs.
+                      </p>
+                    </div>
+                  </Tabs>
 
-            <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-2">Keyboard Navigation</h3>
-                  <p class="text-sm text-foreground-secondary">
-                    Tab through this entire page. Every interactive element has visible focus rings using design tokens. The Tabs component supports arrow keys. Dialog traps focus. Skip link jumps to main content.
-                  </p>
+                  <Dialog id="composition-confirm" title="Reset all settings?" size="sm" headingLevel="h3">
+                    <p class="text-foreground-secondary">
+                      This will restore all settings to their defaults. This action cannot be undone.
+                    </p>
+                  </Dialog>
                 </div>
-              </Card>
-            </ScrollReveal>
-
-            <ScrollReveal>
-              <Card animated>
-                <div class="p-5">
-                  <h3 class="font-semibold text-foreground-primary mb-2">Semantic HTML</h3>
-                  <p class="text-sm text-foreground-secondary">
-                    Native elements over ARIA roles: <code class="text-xs bg-background-primary px-1 py-0.5 rounded">&lt;dialog&gt;</code> not <code class="text-xs bg-background-primary px-1 py-0.5 rounded">role="dialog"</code>, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">&lt;details&gt;</code> not custom accordions, <code class="text-xs bg-background-primary px-1 py-0.5 rounded">popover</code> not tooltip libraries. The platform provides the accessibility for free.
-                  </p>
-                </div>
-              </Card>
+              </ShowcaseExample>
             </ScrollReveal>
           </div>
         </Container>

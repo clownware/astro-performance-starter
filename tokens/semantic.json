@@ -1,6 +1,7 @@
 {
   "semantic": {
     "primary": {
+      "50": { "value": "{color.moonstone.50}" },
       "100": { "value": "{color.moonstone.100}" },
       "200": { "value": "{color.moonstone.200}" },
       "300": { "value": "{color.moonstone.300}" },
@@ -9,9 +10,11 @@
       "600": { "value": "{color.moonstone.600}" },
       "700": { "value": "{color.moonstone.700}" },
       "800": { "value": "{color.moonstone.800}" },
-      "900": { "value": "{color.moonstone.900}" }
+      "900": { "value": "{color.moonstone.900}" },
+      "950": { "value": "{color.moonstone.950}" }
     },
     "secondary": {
+      "50": { "value": "{color.imperialRed.50}" },
       "100": { "value": "{color.imperialRed.100}" },
       "200": { "value": "{color.imperialRed.200}" },
       "300": { "value": "{color.imperialRed.300}" },
@@ -20,7 +23,8 @@
       "600": { "value": "{color.imperialRed.600}" },
       "700": { "value": "{color.imperialRed.700}" },
       "800": { "value": "{color.imperialRed.800}" },
-      "900": { "value": "{color.imperialRed.900}" }
+      "900": { "value": "{color.imperialRed.900}" },
+      "950": { "value": "{color.imperialRed.950}" }
     },
     "background": {
       "primary": { "value": "{color.white.500}", "dark": "{color.spaceCadet.500}" },
@@ -31,7 +35,9 @@
       "secondary": { "value": "{color.gray.600}", "dark": "{color.gray.300}" }
     },
     "border": {
-      "primary": { "value": "{color.gray.300}", "dark": "{color.gray.700}" }
+      "primary": { "value": "{color.gray.300}", "dark": "{color.gray.700}" },
+      "_comment_emphasis": "Higher-contrast border for interactive elements (buttons, focused inputs) — maintains ≥3:1 against the page background per WCAG AA non-text contrast.",
+      "emphasis": { "value": "{color.gray.600}", "dark": "{color.gray.300}" }
     },
     "_comment_status_colors": "Status colors (success/warning/error) use limited scales (100/600/700) for semantic clarity - 100 for backgrounds, 600 for default state, 700 for hover/active states",
     "success": {
