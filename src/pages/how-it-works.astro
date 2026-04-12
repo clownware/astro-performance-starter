@@ -1,0 +1,904 @@
+---
+import { Code } from "astro-expressive-code/components";
+import AnimatedGradientText from "@/components/atoms/AnimatedGradientText.astro";
+import Badge from "@/components/atoms/Badge.astro";
+import Button from "@/components/atoms/Button.astro";
+import CounterBadge from "@/components/atoms/CounterBadge.astro";
+import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
+import Card from "@/components/molecules/Card.astro";
+import ScrollSpy from "@/components/molecules/ScrollSpy.astro";
+import SectionSeparator from "@/components/molecules/SectionSeparator.astro";
+import Tabs from "@/components/molecules/Tabs.astro";
+import Container from "@/components/structural/Container.astro";
+import Grid from "@/components/structural/Grid.astro";
+import Section from "@/components/structural/Section.astro";
+import { siteLinks } from "@/config";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+
+// ScrollSpy section list — keep IDs in sync with the <Section id="…"> values below.
+const spySections = [
+  { id: "intro", label: "Intro" },
+  { id: "zero-js", label: "Zero-JS Architecture" },
+  { id: "ai-development", label: "AI Development" },
+  { id: "design-system", label: "Design System" },
+  { id: "toolchain", label: "Toolchain" },
+  { id: "page-templates", label: "Page Templates" },
+];
+
+// Inline code samples are defined as consts here so the Astro parser doesn't
+// try to interpret raw `<` characters inside template literals as JSX/HTML
+// tags. Astro evaluates expressions inside `{...}` as JS, but inline string
+// props containing `<` confuse the static analyzer.
+
+const claudeMdSnippet = `# Astro Performance Starter — Claude Code Context
+
+## Rules of Engagement
+
+1. Check \`docs/adr/\` before suggesting architectural changes.
+2. No \`client:load\` without ADR justification (ADR-001).
+3. Use design tokens from \`tokens/\` — never hardcode colors.
+4. TypeScript strict mode is non-negotiable.
+5. Use Biome, not ESLint/Prettier.
+6. Use pnpm, not npm or yarn.
+7. Prefer CSS solutions over JavaScript.
+8. Use Astro Image for all images — no raw <img> tags.
+9. Verify with \`pnpm run quality\` before claiming done.`;
+
+// Note: `---` on its own line collides with the Astro frontmatter delimiter
+// inside template literals, so we build this string with \n separators.
+const islandSnippet = [
+  "---",
+  'import SignalsCounter from "@/components/islands/SignalsCounter.tsx";',
+  "---",
+  "<!-- Lazy-hydrated. Zero JS until visible. -->",
+  "<SignalsCounter client:visible />",
+].join("\n");
+
+const tokenJsonSnippet = `{
+  "semantic": {
+    "primary": {
+      "600": { "value": "{color.moonstone.600}" }
+    },
+    "background": {
+      "primary": {
+        "value": "{color.white.500}",
+        "dark":  "{color.spaceCadet.500}"
+      }
+    }
+  }
+}`;
+
+const tokenCssSnippet = `:root {
+  --color-primary-600: 189 61% 32%;
+  --color-background-primary: 0 0% 100%;
+}
+
+.dark {
+  --color-background-primary: 227 50% 16%;
+}`;
+
+const tokenThemeSnippet = `@theme inline {
+  --color-primary-600: hsl(var(--color-primary-600));
+  --color-background-primary: hsl(var(--color-background-primary));
+}`;
+
+const tokenComponentSnippet = `<button class="bg-primary-600 text-white">
+  Save changes
+</button>
+
+<!-- Dark mode just works. No dark: variants needed. -->`;
+
+const validateContrastSnippet = `pnpm design:validate
+# ✅ All semantic foreground/background pairs meet WCAG-AA contrast.`;
+
+const qualityPipelineSnippet = `pnpm quality
+# ✓ format          biome format . --write
+# ✓ lint            biome check .
+# ✓ lint:md         markdownlint-cli2 **/*.md **/*.mdx
+# ✓ check           astro check (TypeScript)`;
+
+// CSS-replaces-JS comparison data — used by the Tabs in the Zero-JS section.
+// Each entry is one parallel concept: what JS libraries do vs what CSS does
+// natively, with both code snippets short enough to grok at a glance.
+const cssReplacesJs = [
+  {
+    id: "scroll",
+    label: "Scroll-driven animations",
+    js: `// Typical IntersectionObserver setup
+import { useEffect, useRef } from "react";
+
+export function FadeIn({ children }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) ref.current.classList.add("visible");
+    }, { threshold: 0.3 });
+    io.observe(ref.current);
+    return () => io.disconnect();
+  }, []);
+  return <div ref={ref} className="fade-in">{children}</div>;
+}`,
+    css: `/* Native scroll-driven animation — zero JS */
+.fade-in {
+  animation: fade-up linear both;
+  animation-timeline: view();
+  animation-range: entry 0% entry 30%;
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(2rem); }
+  to   { opacity: 1; transform: translateY(0); }
+}`,
+    replaces: "AOS · ScrollMagic · GSAP ScrollTrigger",
+  },
+  {
+    id: "dialog",
+    label: "Modals / dialogs",
+    js: `// React modal with focus trap
+import * as Dialog from "@radix-ui/react-dialog";
+
+export function ConfirmModal() {
+  const [open, setOpen] = useState(false);
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="overlay" />
+        <Dialog.Content className="content">
+          {/* focus trap, backdrop, escape handling, body scroll lock */}
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}`,
+    css: `<!-- Native <dialog> — focus trap, backdrop, escape: free -->
+<dialog id="confirm">
+  <h2>Confirm action</h2>
+  <button onclick="confirm.close()">Close</button>
+</dialog>
+
+<button onclick="confirm.showModal()">Open</button>`,
+    replaces: "Radix Dialog · HeadlessUI · React Modal",
+  },
+  {
+    id: "tooltip",
+    label: "Tooltips",
+    js: `// Floating UI tooltip with positioning
+import { useFloating, autoUpdate, offset, flip } from "@floating-ui/react";
+
+export function Tooltip({ children, text }) {
+  const [open, setOpen] = useState(false);
+  const { refs, floatingStyles } = useFloating({
+    open, onOpenChange: setOpen,
+    middleware: [offset(8), flip()],
+    whileElementsMounted: autoUpdate,
+  });
+  // ... handlers, render, escape, dismiss
+}`,
+    css: `<!-- Popover API: hint type = auto-dismiss, escape, no JS -->
+<button popovertarget="hint" popovertargetaction="show">
+  Hover me
+</button>
+<div id="hint" popover="hint">
+  Helpful information
+</div>`,
+    replaces: "tippy.js · Floating UI · Popper.js",
+  },
+  {
+    id: "counter",
+    label: "Animated counters",
+    js: `// GSAP number counter
+import { gsap } from "gsap";
+
+export function Counter({ value }) {
+  const ref = useRef(null);
+  useEffect(() => {
+    const obj = { n: 0 };
+    gsap.to(obj, {
+      n: value, duration: 1.5, ease: "power2.out",
+      onUpdate: () => { ref.current.textContent = Math.round(obj.n); },
+    });
+  }, [value]);
+  return <span ref={ref}>0</span>;
+}`,
+    css: `/* CSS @property + counter() — pure CSS interpolation */
+@property --num {
+  syntax: "<integer>";
+  initial-value: 0;
+  inherits: false;
+}
+
+.counter {
+  counter-reset: num var(--num);
+  animation: count 1.5s forwards;
+}
+.counter::before { content: counter(num); }
+@keyframes count { to { --num: 95; } }`,
+    replaces: "GSAP · CountUp.js · react-countup",
+  },
+];
+---
+
+<BaseLayout
+  title="How It Works"
+  description="An architecture tour of the Astro Performance Starter — the zero-JS philosophy, the AI development system, the design pipeline, and the toolchain that ships."
+>
+  <div class="lg:grid lg:grid-cols-[220px_1fr] lg:gap-8 max-w-7xl mx-auto px-4 sm:px-6">
+    {/* Sticky sidebar on desktop, horizontal scroll on mobile */}
+    <aside class="hidden lg:block">
+      <div class="sticky top-24 py-8">
+        <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-3">
+          On this page
+        </p>
+        <ScrollSpy sections={spySections} ariaLabel="Table of contents" />
+      </div>
+    </aside>
+
+    <div class="lg:hidden sticky top-16 z-40 bg-background-primary/95 backdrop-blur-sm border-b border-border-primary -mx-4 px-4 sm:-mx-6 sm:px-6">
+      <ScrollSpy sections={spySections} ariaLabel="Section navigation" />
+    </div>
+
+    <div class="min-w-0">
+      {/* ============================================================
+          INTRO
+          ============================================================ */}
+      <Section id="intro" class="pt-12 pb-12 sm:pt-16 sm:pb-16">
+        <div class="max-w-3xl">
+          <AnimatedGradientText as="h1" speed="slow" class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+            How It Works
+          </AnimatedGradientText>
+          <p class="text-lg sm:text-xl text-foreground-secondary mb-6">
+            An architecture tour for developers who read the homepage and asked,
+            <em>prove it.</em> Here's what's actually under the hood — the
+            zero-JS philosophy, the AI development system, the design pipeline,
+            and the toolchain that ships.
+          </p>
+          <p class="text-base text-foreground-secondary">
+            The page you're reading is itself a demonstration: zero hydrated
+            JavaScript, scroll-driven animations powered by CSS, and a
+            section-tracking sidebar that uses one Intersection Observer.
+          </p>
+        </div>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ============================================================
+          1. ZERO-JS ARCHITECTURE
+          ============================================================ */}
+      <Section id="zero-js" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <div class="max-w-3xl mb-10">
+              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+                Pillar 1 — Performance-First Architecture
+              </p>
+              <h2 class="text-3xl font-bold text-foreground-primary mb-3">Zero-JS by default</h2>
+              <p class="text-foreground-secondary">
+                Every component in this template compiles to static HTML and CSS.
+                JavaScript ships only when a feature genuinely needs it — and
+                even then, it's an Astro Island, lazy-hydrated only when in
+                view. <a href={`${siteLinks.docs || "#"}/adr/001-preact-island-usage-policy/`} class="underline">ADR-001</a> codifies the rule: no <code class="text-xs">client:load</code> without explicit justification.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Key metric */}
+          <ScrollReveal>
+            <div class="flex flex-wrap justify-start gap-12 mb-12">
+              <CounterBadge value={0} suffix=" KB" label="JS shipped by default" />
+              <CounterBadge value={160} suffix=" KB" label="Hard JS budget (gzipped)" />
+              <CounterBadge value={95} suffix="+" label="Lighthouse Performance" />
+            </div>
+          </ScrollReveal>
+
+          {/* The web platform freebies */}
+          <ScrollReveal>
+            <div class="max-w-3xl mb-6">
+              <h3 class="text-xl font-semibold text-foreground-primary mb-2">
+                What the web platform gives us for free
+              </h3>
+              <p class="text-foreground-secondary">
+                The browser has caught up to the framework era. Most of what
+                React, Vue, or Angular libraries used to do in user-space JavaScript
+                is now a CSS rule, a media query, or a one-line HTML attribute.
+                Pick a tab to see the swap.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <Tabs tabs={cssReplacesJs.map((c) => ({ id: c.id, label: c.label }))} defaultTab="scroll">
+              {cssReplacesJs.map((c) => (
+                <div data-tab-panel={c.id}>
+                  <p class="text-xs text-foreground-secondary mb-4">
+                    Replaces: <span class="font-mono">{c.replaces}</span>
+                  </p>
+                  <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                    <div>
+                      <div class="flex items-center gap-2 mb-2">
+                        <Badge variant="neutral" size="xs">JS approach</Badge>
+                        <span class="text-xs text-foreground-secondary">Bundle cost: kilobytes</span>
+                      </div>
+                      <Code code={c.js} lang="tsx" title="component.tsx" />
+                    </div>
+                    <div>
+                      <div class="flex items-center gap-2 mb-2">
+                        <Badge variant="primary" size="xs">CSS native</Badge>
+                        <span class="text-xs text-foreground-secondary">Bundle cost: 0</span>
+                      </div>
+                      <Code code={c.css} lang={c.id === "dialog" || c.id === "tooltip" ? "html" : "css"} title="component.astro" />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </Tabs>
+          </ScrollReveal>
+
+          {/* The one exception */}
+          <ScrollReveal>
+            <Card class="mt-10">
+              <div class="p-6">
+                <div class="flex items-center gap-2 mb-2">
+                  <Badge variant="secondary" size="sm">The one exception</Badge>
+                </div>
+                <h3 class="text-lg font-semibold text-foreground-primary mb-2">
+                  Preact islands for genuine state
+                </h3>
+                <p class="text-sm text-foreground-secondary mb-4">
+                  Some interactions actually need client-side reactive state —
+                  optimistic UI, complex form validation, signal-driven counters.
+                  For those, Astro Islands give us a Preact component that
+                  hydrates only when it scrolls into view via{" "}
+                  <code class="text-xs bg-background-secondary px-1.5 py-0.5 rounded">client:visible</code>.
+                  Everything else stays static.
+                </p>
+                <Code code={islandSnippet} lang="astro" title="src/pages/some-page.astro" />
+              </div>
+            </Card>
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ============================================================
+          2. AI-ASSISTED DEVELOPMENT
+          ============================================================ */}
+      <Section id="ai-development" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <div class="max-w-3xl mb-10">
+              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+                Pillar 2 — AI-Assisted Development
+              </p>
+              <h2 class="text-3xl font-bold text-foreground-primary mb-3">
+                Point your agent at the docs and ship
+              </h2>
+              <p class="text-foreground-secondary">
+                The headline differentiator. Most templates assume a human
+                reads the README and figures out the conventions. This one
+                assumes an AI coding agent will be sitting at the keyboard,
+                and front-loads the context, constraints, and decision history
+                that agent needs to make good calls without supervision.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* AI metrics */}
+          <ScrollReveal>
+            <div class="flex flex-wrap justify-start gap-12 mb-12">
+              <CounterBadge value={37} label="Architecture Decisions (ADRs)" />
+              <CounterBadge value={2} label="Top-level CLAUDE.md files" />
+              <CounterBadge value={3} label="Implementation tiers" />
+            </div>
+          </ScrollReveal>
+
+          {/* What the agent sees on day one */}
+          <ScrollReveal>
+            <div class="max-w-3xl mb-6">
+              <h3 class="text-xl font-semibold text-foreground-primary mb-2">
+                What an agent sees on day one
+              </h3>
+              <p class="text-foreground-secondary">
+                When Claude Code (or any AI assistant) opens this repo, the
+                very first thing it loads is <code class="text-xs">CLAUDE.md</code> at the project root —
+                rules of engagement, scope boundaries, and a pointer to every
+                ADR that constrains architectural decisions.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <div class="mb-10">
+              <Code code={claudeMdSnippet} lang="markdown" title="CLAUDE.md (excerpt)" />
+            </div>
+          </ScrollReveal>
+
+          {/* The AI context system */}
+          <ScrollReveal>
+            <h3 class="text-xl font-semibold text-foreground-primary mb-4">
+              The AI-context system
+            </h3>
+          </ScrollReveal>
+
+          <Grid class="gap-4 mb-12">
+            <ScrollReveal>
+              <Card>
+                <div class="p-5 h-full">
+                  <div class="text-2xl mb-2" aria-hidden="true">📋</div>
+                  <h4 class="font-semibold text-foreground-primary mb-1">CLAUDE.md</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Project-root entry point. Conventions, scope boundaries,
+                    and rules of engagement an agent must follow.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="short">
+              <Card>
+                <div class="p-5 h-full">
+                  <div class="text-2xl mb-2" aria-hidden="true">📐</div>
+                  <h4 class="font-semibold text-foreground-primary mb-1">37 ADRs in <code class="text-xs">docs/adr/</code></h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Every accepted ADR is a constraint. The agent reads them
+                    before proposing architectural changes — no rediscovery
+                    of past decisions.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="medium">
+              <Card>
+                <div class="p-5 h-full">
+                  <div class="text-2xl mb-2" aria-hidden="true">🧭</div>
+                  <h4 class="font-semibold text-foreground-primary mb-1">
+                    <code class="text-xs">docs/ai-context/</code>
+                  </h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Prompt libraries, context-update procedures, and guides
+                    for keeping the AI surface area in sync with the code.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+          </Grid>
+
+          {/* The progressive tier model */}
+          <ScrollReveal>
+            <div class="max-w-3xl mb-6">
+              <h3 class="text-xl font-semibold text-foreground-primary mb-2">
+                Progressive implementation tiers
+              </h3>
+              <p class="text-foreground-secondary">
+                ADR-033 splits the work into three tiers — natural stopping
+                points the agent can ship to. Each tier is "done enough" to
+                deploy, then the next tier unlocks more capability.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <Grid class="gap-4">
+            <ScrollReveal>
+              <Card>
+                <div class="p-5 border-l-4 border-primary-600 dark:border-primary-400 h-full">
+                  <Badge variant="primary" size="xs">Tier 1</Badge>
+                  <h4 class="font-semibold text-foreground-primary mt-2 mb-1">Foundation</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Working site skeleton with design system, content schemas,
+                    and build pipeline. Done = deployable site, no content yet.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="short">
+              <Card>
+                <div class="p-5 border-l-4 border-primary-600 dark:border-primary-400 h-full">
+                  <Badge variant="primary" size="xs">Tier 2</Badge>
+                  <h4 class="font-semibold text-foreground-primary mt-2 mb-1">Build</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Components, pages, content, and quality assurance.
+                    Done = complete, tested site running locally and in CI.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="medium">
+              <Card>
+                <div class="p-5 border-l-4 border-primary-600 dark:border-primary-400 h-full">
+                  <Badge variant="primary" size="xs">Tier 3</Badge>
+                  <h4 class="font-semibold text-foreground-primary mt-2 mb-1">Polish</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Performance optimization, monitoring, deeper docs.
+                    Done = enterprise-grade deployment.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+          </Grid>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ============================================================
+          3. DESIGN SYSTEM PIPELINE
+          ============================================================ */}
+      <Section id="design-system" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <div class="max-w-3xl mb-10">
+              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+                Pillar 3 — Enterprise-Grade Design System
+              </p>
+              <h2 class="text-3xl font-bold text-foreground-primary mb-3">
+                Tokens flow from JSON to your components
+              </h2>
+              <p class="text-foreground-secondary">
+                One source of truth in <code class="text-xs">tokens/</code>,
+                automatically built into CSS custom properties and exposed
+                as Tailwind utilities. Change one token; the cascade
+                propagates everywhere — light mode, dark mode, every component.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          {/* Pipeline visualization */}
+          <ScrollReveal>
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-10">
+              <Card>
+                <div class="p-4 text-center h-full flex flex-col justify-center">
+                  <p class="text-xs uppercase tracking-wider text-foreground-secondary mb-1">Step 1</p>
+                  <p class="font-semibold text-foreground-primary text-sm">Token JSON</p>
+                  <p class="text-xs text-foreground-secondary mt-1"><code>tokens/semantic.json</code></p>
+                </div>
+              </Card>
+              <Card>
+                <div class="p-4 text-center h-full flex flex-col justify-center">
+                  <p class="text-xs uppercase tracking-wider text-foreground-secondary mb-1">Step 2</p>
+                  <p class="font-semibold text-foreground-primary text-sm">CSS Variables</p>
+                  <p class="text-xs text-foreground-secondary mt-1"><code>tokens/dist/tokens.css</code></p>
+                </div>
+              </Card>
+              <Card>
+                <div class="p-4 text-center h-full flex flex-col justify-center">
+                  <p class="text-xs uppercase tracking-wider text-foreground-secondary mb-1">Step 3</p>
+                  <p class="font-semibold text-foreground-primary text-sm">Tailwind Utilities</p>
+                  <p class="text-xs text-foreground-secondary mt-1"><code>@theme inline</code></p>
+                </div>
+              </Card>
+              <Card>
+                <div class="p-4 text-center h-full flex flex-col justify-center">
+                  <p class="text-xs uppercase tracking-wider text-foreground-secondary mb-1">Step 4</p>
+                  <p class="font-semibold text-foreground-primary text-sm">Components</p>
+                  <p class="text-xs text-foreground-secondary mt-1"><code>bg-primary-600</code></p>
+                </div>
+              </Card>
+            </div>
+          </ScrollReveal>
+
+          {/* Code: source token */}
+          <ScrollReveal>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
+              <div>
+                <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-2">
+                  1. Token definition
+                </p>
+                <Code code={tokenJsonSnippet} lang="json" title="tokens/semantic.json" />
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-2">
+                  2. Generated CSS variables
+                </p>
+                <Code code={tokenCssSnippet} lang="css" title="tokens/dist/tokens.css (generated)" />
+              </div>
+            </div>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10">
+              <div>
+                <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-2">
+                  3. Tailwind utility binding
+                </p>
+                <Code code={tokenThemeSnippet} lang="css" title="src/styles/global.css" />
+              </div>
+              <div>
+                <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-2">
+                  4. Used in a component
+                </p>
+                <Code code={tokenComponentSnippet} lang="astro" title="src/components/atoms/Button.astro" />
+              </div>
+            </div>
+          </ScrollReveal>
+
+          {/* Validation */}
+          <ScrollReveal>
+            <Card>
+              <div class="p-6">
+                <div class="flex items-center gap-2 mb-2">
+                  <Badge variant="primary" size="sm">Automated</Badge>
+                </div>
+                <h3 class="text-lg font-semibold text-foreground-primary mb-2">
+                  Contrast validation in CI
+                </h3>
+                <p class="text-sm text-foreground-secondary mb-4">
+                  Every semantic foreground/background pair is checked against
+                  WCAG-AA at build time. The build fails if any pair drops
+                  below 4.5:1.
+                </p>
+                <Code code={validateContrastSnippet} lang="bash" title="terminal" />
+              </div>
+            </Card>
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ============================================================
+          4. DEVELOPER TOOLCHAIN
+          ============================================================ */}
+      <Section id="toolchain" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <div class="max-w-3xl mb-10">
+              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+                Pillar 4 — Next-Gen Toolchain
+              </p>
+              <h2 class="text-3xl font-bold text-foreground-primary mb-3">
+                One command verifies everything
+              </h2>
+              <p class="text-foreground-secondary">
+                The toolchain is opinionated and modern. Biome instead of
+                ESLint + Prettier. TypeScript strict by default. Performance
+                budgets enforced in CI. Tests at four layers — and a single
+                <code class="text-xs ml-1">pnpm quality</code> runs all of it.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <Grid class="gap-4 mb-10">
+            <ScrollReveal>
+              <Card>
+                <div class="p-5 h-full">
+                  <div class="flex items-center gap-2 mb-2">
+                    <Badge variant="primary" size="xs">20× faster</Badge>
+                  </div>
+                  <h4 class="font-semibold text-foreground-primary mb-1">Biome</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Replaces ESLint + Prettier with one Rust-powered binary.
+                    Linting and formatting in a single config, single pass.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="short">
+              <Card>
+                <div class="p-5 h-full">
+                  <div class="flex items-center gap-2 mb-2">
+                    <Badge variant="primary" size="xs">Strict mode</Badge>
+                  </div>
+                  <h4 class="font-semibold text-foreground-primary mb-1">TypeScript</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Astro's <code class="text-xs">strict</code> preset plus
+                    <code class="text-xs ml-1">strictNullChecks</code>. Errors
+                    surface during <code class="text-xs">astro check</code>,
+                    not in production.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="medium">
+              <Card>
+                <div class="p-5 h-full">
+                  <div class="flex items-center gap-2 mb-2">
+                    <Badge variant="primary" size="xs">CI-enforced</Badge>
+                  </div>
+                  <h4 class="font-semibold text-foreground-primary mb-1">Performance budgets</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    160 KB JS, 50 KB CSS, 200 KB per image. The build fails
+                    if any budget is exceeded. Overrides expire automatically.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card>
+                <div class="p-5 h-full">
+                  <div class="flex items-center gap-2 mb-2">
+                    <Badge variant="primary" size="xs">4 layers</Badge>
+                  </div>
+                  <h4 class="font-semibold text-foreground-primary mb-1">Test pyramid</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Vitest for units, Playwright for e2e across Chromium /
+                    Firefox / WebKit, axe-core for a11y, Lighthouse for
+                    performance regressions.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="short">
+              <Card>
+                <div class="p-5 h-full">
+                  <div class="flex items-center gap-2 mb-2">
+                    <Badge variant="primary" size="xs">Pre-commit</Badge>
+                  </div>
+                  <h4 class="font-semibold text-foreground-primary mb-1">Git hooks</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Husky + lint-staged runs Biome on staged files; commitlint
+                    enforces conventional commits. No bad code reaches the
+                    remote.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="medium">
+              <Card>
+                <div class="p-5 h-full">
+                  <div class="flex items-center gap-2 mb-2">
+                    <Badge variant="primary" size="xs">Locked</Badge>
+                  </div>
+                  <h4 class="font-semibold text-foreground-primary mb-1">pnpm engine-strict</h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Package manager and Node version are pinned in
+                    <code class="text-xs ml-1">package.json</code>. New
+                    contributors get the same toolchain on the first install.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+          </Grid>
+
+          <ScrollReveal>
+            <Card>
+              <div class="p-6">
+                <h3 class="text-lg font-semibold text-foreground-primary mb-2">
+                  The single quality gate
+                </h3>
+                <p class="text-sm text-foreground-secondary mb-4">
+                  Format → lint → markdown lint → type check. One command,
+                  fast feedback, identical in CI and on your laptop.
+                </p>
+                <Code code={qualityPipelineSnippet} lang="bash" title="terminal" />
+              </div>
+            </Card>
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ============================================================
+          5. PAGE TEMPLATES
+          ============================================================ */}
+      <Section id="page-templates" class="py-16 pb-24">
+        <Container>
+          <ScrollReveal>
+            <div class="max-w-3xl mb-10">
+              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+                Pillar 5 — Robust Page Templates
+              </p>
+              <h2 class="text-3xl font-bold text-foreground-primary mb-3">
+                Real pages, not empty shells
+              </h2>
+              <p class="text-foreground-secondary">
+                Most starter templates ship a hero page and call it a day.
+                This one ships a full set of reference implementations —
+                each one a working example of how the components, content
+                collections, and conventions fit together.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <Grid class="gap-4 mb-10">
+            <ScrollReveal>
+              <Card>
+                <div class="p-5 h-full">
+                  <h4 class="font-semibold text-foreground-primary mb-1">
+                    <a href="/" class="hover:underline">Home</a>
+                  </h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Marketing pillar grid, Lighthouse metric showcase, tech
+                    stack with version display, expandable feature cards.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="short">
+              <Card>
+                <div class="p-5 h-full">
+                  <h4 class="font-semibold text-foreground-primary mb-1">
+                    <a href="/showcase/" class="hover:underline">Component Showcase</a>
+                  </h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Live demo of every component in <code class="text-xs">src/components/</code>,
+                    with code snippets, a11y notes, and composition examples.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="medium">
+              <Card>
+                <div class="p-5 h-full">
+                  <h4 class="font-semibold text-foreground-primary mb-1">
+                    <a href="/blog/" class="hover:underline">Blog</a>
+                  </h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Content Collections + MDX with Zod schemas. Reading time,
+                    tags, scroll-driven progress bar, prefetched links.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal>
+              <Card>
+                <div class="p-5 h-full">
+                  <h4 class="font-semibold text-foreground-primary mb-1">
+                    <a href="/projects/" class="hover:underline">Projects</a>
+                  </h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Portfolio / case-study layout with filtering by technology,
+                    pagination, and structured outcome metadata.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="short">
+              <Card>
+                <div class="p-5 h-full">
+                  <h4 class="font-semibold text-foreground-primary mb-1">
+                    <a href="/about/" class="hover:underline">About</a>
+                  </h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Bio, skills, experience timeline, social links — pulled
+                    from content collections so non-engineers can edit it.
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+
+            <ScrollReveal delay="medium">
+              <Card>
+                <div class="p-5 h-full">
+                  <h4 class="font-semibold text-foreground-primary mb-1">
+                    <a href="/contact/" class="hover:underline">Contact</a>
+                  </h4>
+                  <p class="text-sm text-foreground-secondary">
+                    Progressive-enhancement form with native HTML validation
+                    first, JS enhancement second (ADR-021).
+                  </p>
+                </div>
+              </Card>
+            </ScrollReveal>
+          </Grid>
+
+          <ScrollReveal>
+            <div class="text-center">
+              <p class="text-foreground-secondary mb-6">
+                Want to see the components themselves? The Showcase has every
+                atom, molecule, and structural component with a live demo and
+                code.
+              </p>
+              <Button variant="primary" href="/showcase/">
+                Browse the Component Showcase →
+              </Button>
+            </div>
+          </ScrollReveal>
+        </Container>
+      </Section>
+    </div>
+  </div>
+</BaseLayout>
