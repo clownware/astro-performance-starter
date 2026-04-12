@@ -1,6 +1,6 @@
 ---
 import Container from "@/components/structural/Container.astro";
-import { siteLinks, siteMetadata, socialLinks } from "@/config";
+import { siteLinks, socialLinks } from "@/config";
 import { withBase } from "@/utils/url-utils";
 
 const currentYear = new Date().getFullYear();
@@ -44,7 +44,7 @@ const externalLinks = [
         <div class="mb-6">
           <img
             src={withBase("/logo.svg")}
-            alt={siteMetadata.title} 
+            alt=""
             class="h-10 w-auto" 
             width="220" 
             height="60"

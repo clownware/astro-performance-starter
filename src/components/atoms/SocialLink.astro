@@ -8,9 +8,17 @@ interface Props extends HTMLAttributes<"a"> {
   platform: SocialPlatform;
   href: string;
   showIcon?: boolean;
+  purpose?: "profile" | "share";
 }
 
-const { platform, href, showIcon = true, class: className, ...attrs } = Astro.props;
+const {
+  platform,
+  href,
+  showIcon = true,
+  purpose = "profile",
+  class: className,
+  ...attrs
+} = Astro.props;
 
 // Platform-specific configurations with icon names
 type IconName = "github" | "arrow-down" | "arrow-right" | "external-link" | "custom";
@@ -24,7 +32,10 @@ const platformConfig = {
 } satisfies Record<SocialPlatform, { name: string; icon: IconName }>;
 
 const config = platformConfig[platform];
-const linkText = `${config.name} profile`;
+const ariaText =
+  purpose === "share"
+    ? `Share this post on ${config.name} (opens in new tab)`
+    : `Visit my ${config.name} profile (opens in new tab)`;
 ---
 
 <a 
@@ -47,7 +58,7 @@ const linkText = `${config.name} profile`;
   href={href}
   target="_blank"
   rel="noopener noreferrer"
-  aria-label={`Visit my ${linkText} (opens in new tab)`}
+  aria-label={ariaText}
   role="link"
   {...attrs}
 >

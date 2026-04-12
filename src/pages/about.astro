@@ -65,7 +65,7 @@ const experiences = [
           <div class="mb-8">
             <Image
               src={avatarImage}
-              alt="Profile photo"
+              alt="Alex, full-stack developer"
               class="mx-auto h-32 w-32 rounded-full object-cover shadow-lg ring-4 ring-background-primary"
               width={128}
               height={128}
@@ -155,7 +155,7 @@ const experiences = [
                         {exp.company}
                       </p>
                       <p class="text-sm text-foreground-secondary">
-                        {exp.period}
+                        <time>{exp.period}</time>
                       </p>
                     </div>
                     <p class="text-foreground-secondary leading-relaxed">
@@ -229,12 +229,12 @@ const experiences = [
               Get In Touch
             </Button>
             <Button
-              href={withBase("/resume.pdf")}
               variant="secondary"
               size="lg"
-              class="inline-flex items-center"
-              target="_blank"
-              rel="noopener noreferrer"
+              class="inline-flex items-center opacity-50 cursor-not-allowed"
+              disabled
+              aria-disabled="true"
+              title="Resume coming soon"
             >
               Download Resume
             </Button>
