@@ -16,30 +16,46 @@ const activeTab = defaultTab ?? tabs[0]?.id;
 ---
 
 {/*
-  CSS-only tabs using the hidden radio-button pattern — the same technique as
-  the Header's checkbox mobile menu. Radio buttons manage exclusive-selection
-  state without JavaScript. A small inline script (~25 lines) wires up arrow-key
-  navigation (WCAG 2.1) and assigns panel id/aria attributes that the static
-  template can't compute (panel ids depend on the runtime groupId).
+  CSS-only tabs using the hidden radio-button pattern. The radio inputs hold
+  the selection state (so the CSS :has(...:checked) selector can show the
+  matching panel without JavaScript), but the *visible* labels carry the
+  role="tab" semantics. This means:
+
+  - Screen readers see the labels as the interactive tabs (correct mental
+    model — the labels are what users actually see and click).
+  - Tooling like Playwright's `getByRole("tab")` resolves to the visible
+    label, not a hidden sr-only input behind a sticky header.
+  - Roving tabindex on the labels keeps focus inside the tablist per WCAG
+    2.1; the inputs are aria-hidden and tabindex="-1" so they no longer
+    appear in the focus order.
+
+  A ~30-line inline script handles arrow-key navigation, click-to-state
+  syncing, and panel id/aria wiring (panel ids depend on the runtime groupId).
 */}
 <div class:list={["tabs", className]} data-tabs data-tabs-group={groupId}>
   <div class="tabs__list" role="tablist" aria-label="Tab navigation">
     {tabs.map((tab) => (
-      <label class="tabs__tab" data-tab-label>
+      <label
+        class="tabs__tab"
+        data-tab-label
+        data-tab-id={tab.id}
+        role="tab"
+        id={`tab-${groupId}-${tab.id}`}
+        aria-selected={tab.id === activeTab ? "true" : "false"}
+        aria-controls={`panel-${groupId}-${tab.id}`}
+        tabindex={tab.id === activeTab ? 0 : -1}
+      >
         <input
           type="radio"
           name={`tabs-${groupId}`}
           value={tab.id}
           class="sr-only peer"
           checked={tab.id === activeTab}
-          role="tab"
-          aria-label={tab.label}
-          aria-selected={tab.id === activeTab ? "true" : "false"}
-          aria-controls={`panel-${groupId}-${tab.id}`}
-          id={`tab-${groupId}-${tab.id}`}
+          tabindex="-1"
+          aria-hidden="true"
           data-tab-radio
         />
-        <span class="tabs__tab-label peer-checked:text-primary-600 peer-checked:border-primary-600 dark:peer-checked:text-primary-400 dark:peer-checked:border-primary-400 peer-focus-visible:ring-2 peer-focus-visible:ring-primary-500 peer-focus-visible:ring-offset-2">
+        <span class="tabs__tab-label peer-checked:text-primary-600 peer-checked:border-primary-600 dark:peer-checked:text-primary-400 dark:peer-checked:border-primary-400">
           {tab.label}
         </span>
       </label>
@@ -69,6 +85,15 @@ const activeTab = defaultTab ?? tabs[0]?.id;
   .tabs__tab {
     cursor: pointer;
     flex-shrink: 0;
+  }
+
+  /* The label is now the focusable role="tab" element. Visible focus ring on
+     the label itself (the input is aria-hidden / tabindex=-1 and never
+     receives keyboard focus). */
+  .tabs__tab:focus-visible {
+    outline: 2px solid hsl(var(--color-primary-500));
+    outline-offset: 2px;
+    border-radius: 0.25rem;
   }
 
   .tabs__tab-label {
@@ -126,60 +151,95 @@ const activeTab = defaultTab ?? tabs[0]?.id;
   `[data-tabs][data-tabs-group="${groupId}"]:has(input[value="${tab.id}"]:checked) [data-tab-panel="${tab.id}"] { display: block; }`
 ).join('\n')} />
 
-{/* Keyboard navigation + panel ARIA wiring */}
+{/*
+  Keyboard navigation + panel ARIA wiring + click-to-state syncing.
+
+  The labels carry role="tab" and the focus order; the radios are sr-only
+  state holders the CSS reads via :has(...:checked). This script keeps the
+  two layers in sync without leaking the implementation detail.
+*/}
 <script>
+  function activateTab(
+    label: HTMLElement,
+    labels: HTMLElement[],
+    tabGroup: HTMLElement,
+    focus = true,
+  ) {
+    const tabId = label.dataset.tabId;
+    if (!tabId) return;
+
+    // Update the underlying radio so the CSS panel selector flips.
+    const radio = tabGroup.querySelector<HTMLInputElement>(
+      `[data-tab-radio][value="${tabId}"]`,
+    );
+    if (radio && !radio.checked) {
+      radio.checked = true;
+      radio.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+
+    // Roving tabindex + aria-selected on the labels.
+    labels.forEach((l) => {
+      const isActive = l === label;
+      l.setAttribute('aria-selected', isActive ? 'true' : 'false');
+      l.setAttribute('tabindex', isActive ? '0' : '-1');
+    });
+
+    if (focus) label.focus();
+  }
+
   function initTabs() {
     document.querySelectorAll<HTMLElement>('[data-tabs]').forEach((tabGroup) => {
-      const radios = Array.from(tabGroup.querySelectorAll<HTMLInputElement>('[data-tab-radio]'));
+      const labels = Array.from(
+        tabGroup.querySelectorAll<HTMLElement>('[data-tab-label]'),
+      );
 
       // Wire up panels: assign id, role="tabpanel", aria-labelledby, tabindex.
       // Panel ids depend on the runtime groupId, so they can't be set in the
       // template by consumers — this script bridges that gap.
-      radios.forEach((radio) => {
-        const tabId = radio.value;
-        const panelId = radio.getAttribute('aria-controls');
-        if (!panelId) return;
+      labels.forEach((label) => {
+        const panelId = label.getAttribute('aria-controls');
+        const tabId = label.dataset.tabId;
+        if (!panelId || !tabId) return;
         const panel = tabGroup.querySelector<HTMLElement>(`[data-tab-panel="${tabId}"]`);
         if (!panel) return;
         if (!panel.id) panel.id = panelId;
         if (!panel.getAttribute('role')) panel.setAttribute('role', 'tabpanel');
-        if (!panel.getAttribute('aria-labelledby')) panel.setAttribute('aria-labelledby', radio.id);
+        if (!panel.getAttribute('aria-labelledby')) {
+          panel.setAttribute('aria-labelledby', label.id);
+        }
         if (!panel.hasAttribute('tabindex')) panel.setAttribute('tabindex', '0');
       });
 
-      // Arrow-key navigation between tabs (WCAG 2.1).
+      // Arrow-key navigation between labels (WCAG 2.1 tablist pattern).
       tabGroup.addEventListener('keydown', (e) => {
-        const target = e.target as HTMLInputElement;
-        if (!target.matches('[data-tab-radio]')) return;
+        const target = e.target as HTMLElement;
+        if (!target.matches('[data-tab-label]')) return;
 
-        const idx = radios.indexOf(target);
+        const idx = labels.indexOf(target);
         let next = -1;
 
         if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-          next = (idx + 1) % radios.length;
+          next = (idx + 1) % labels.length;
         } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-          next = (idx - 1 + radios.length) % radios.length;
+          next = (idx - 1 + labels.length) % labels.length;
         } else if (e.key === 'Home') {
           next = 0;
         } else if (e.key === 'End') {
-          next = radios.length - 1;
+          next = labels.length - 1;
         }
 
         if (next >= 0) {
           e.preventDefault();
-          radios[next].checked = true;
-          radios[next].focus();
-          radios[next].dispatchEvent(new Event('change', { bubbles: true }));
+          activateTab(labels[next], labels, tabGroup);
         }
       });
 
-      // Keep aria-selected in sync with checked state on change.
-      tabGroup.addEventListener('change', (e) => {
-        const target = e.target as HTMLInputElement;
-        if (!target.matches('[data-tab-radio]')) return;
-        radios.forEach((r) => {
-          r.setAttribute('aria-selected', r.checked ? 'true' : 'false');
-        });
+      // Click on a label (or descendant) — sync aria-selected and tabindex.
+      // The HTML <label for/wraps input> contract already toggled the radio.
+      tabGroup.addEventListener('click', (e) => {
+        const label = (e.target as HTMLElement).closest<HTMLElement>('[data-tab-label]');
+        if (!label || !tabGroup.contains(label)) return;
+        activateTab(label, labels, tabGroup, false);
       });
     });
   }
