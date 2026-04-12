@@ -57,7 +57,7 @@ export interface Props {
 ---
 
 <!doctype html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
   <head>
     <Head {...Astro.props} />
     <ThemeSetup />
@@ -71,6 +71,7 @@ export interface Props {
       class="flex-1"
       aria-label="Main content"
       role="main"
+      tabindex="-1"
     >
       <slot />
     </main>

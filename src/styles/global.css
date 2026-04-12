@@ -187,6 +187,31 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
+
+  /* Override Tailwind v4 preflight scroll-behavior and account for sticky header */
+  html {
+    scroll-behavior: auto;
+    scroll-padding-top: 5rem;
+  }
+
+  /* Global focus-visible baseline for interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid hsl(var(--color-primary-500));
+    outline-offset: 2px;
+  }
+
+  /* Inline code outside of prose blocks */
+  code:not(pre code) {
+    background: hsl(var(--color-background-secondary));
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+  }
 }
 
 /* Global link styles. Prefer component-level overrides when needed. */
@@ -274,6 +299,15 @@
     outline: 2px solid hsl(var(--color-primary-500));
     outline-offset: 2px;
   }
+}
+
+/* ============================================================
+   DARK MODE FIXES
+   Tokens that need dark-mode overrides but aren't in the
+   semantic token pipeline (defined directly in @theme inline).
+   ============================================================ */
+.dark {
+  --color-foreground-subtle: var(--color-gray-400);
 }
 
 /* ============================================================
