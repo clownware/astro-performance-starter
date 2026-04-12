@@ -64,8 +64,15 @@ const featuredPostsWithMetadata = featuredPosts.map((post: CollectionEntry<"blog
   metadata: formatPostMetadata(post.data.date, post.body),
 }));
 
+// Exclude featured posts from All Posts on page 1 to avoid duplication
+const featuredIds = new Set(featuredPosts.map((p: CollectionEntry<"blog">) => p.id));
+const filteredPosts =
+  page.currentPage === 1
+    ? posts.filter((post: CollectionEntry<"blog">) => !featuredIds.has(post.id))
+    : posts;
+
 // Pre-process posts with metadata
-const postsWithMetadata = posts.map((post: CollectionEntry<"blog">) => ({
+const postsWithMetadata = filteredPosts.map((post: CollectionEntry<"blog">) => ({
   ...post,
   metadata: formatPostMetadata(post.data.date, post.body),
 }));

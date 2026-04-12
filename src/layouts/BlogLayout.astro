@@ -7,6 +7,7 @@ import SocialLink from "@components/atoms/SocialLink.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { formatPostMetadata } from "@utils/formatDate";
 import { generateAllShareUrls } from "@utils/socialShare";
+import ReadingProgress from "@/components/atoms/ReadingProgress.astro";
 import { withBase } from "@/utils/url-utils";
 
 export interface Props {
@@ -47,6 +48,7 @@ const shareUrls = generateAllShareUrls({
     tags,
   }}
 >
+  <ReadingProgress />
   <article class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 bg-background-default">
     <!-- Article Header -->
     <header class="mb-12">
@@ -58,8 +60,8 @@ const shareUrls = generateAllShareUrls({
               Home
             </a>
           </li>
-          <li>
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <li aria-hidden="true">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
@@ -68,8 +70,8 @@ const shareUrls = generateAllShareUrls({
               Blog
             </a>
           </li>
-          <li>
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <li aria-hidden="true">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
@@ -185,10 +187,10 @@ const shareUrls = generateAllShareUrls({
               Share this post
             </h3>
             <div class="flex flex-col space-y-3">
-              <SocialLink platform="twitter" href={shareUrls.twitter} />
-              <SocialLink platform="linkedin" href={shareUrls.linkedin} />
-              <SocialLink platform="facebook" href={shareUrls.facebook} />
-              <SocialLink platform="reddit" href={shareUrls.reddit} />
+              <SocialLink platform="twitter" href={shareUrls.twitter} purpose="share" />
+              <SocialLink platform="linkedin" href={shareUrls.linkedin} purpose="share" />
+              <SocialLink platform="facebook" href={shareUrls.facebook} purpose="share" />
+              <SocialLink platform="reddit" href={shareUrls.reddit} purpose="share" />
             </div>
           </div>
         </div>

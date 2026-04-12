@@ -4,7 +4,7 @@ import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Icon from "@/components/atoms/Icon.astro";
 import Image from "@/components/atoms/Image.astro";
-import { siteMetadata } from "@/config";
+import { siteLinks, siteMetadata } from "@/config";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { formatDate, formatDateIso } from "@/utils/formatDate";
 import { withBase } from "@/utils/url-utils";
@@ -103,7 +103,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
               )}
               {publishedDate && (
                 <span class="text-sm text-foreground-secondary">
-                  <time datetime={project.date?.toString()}>
+                  <time datetime={project.date ? formatDateIso(project.date) ?? undefined : undefined}>
                     {publishedDate}
                   </time>
                 </span>
@@ -117,18 +117,16 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 
             <!-- Call-to-Action Buttons -->
             <div class="project-actions flex flex-wrap gap-4">
-              {project.externalUrl && (
-                <Button
-                  variant="primary"
-                  size="lg"
-                  href={project.externalUrl}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  <Icon name="github" class="size-5 mr-2" decorative />
-                  Clone the Template
-                </Button>
-              )}
+              <Button
+                variant="primary"
+                size="lg"
+                href={project.externalUrl || siteLinks.github}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <Icon name="github" class="size-5 mr-2" decorative />
+                Clone the Template
+              </Button>
             </div>
           </div>
 
@@ -155,7 +153,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
     </header>
 
     <!-- Main Content -->
-    <main class="project-content mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <div class="project-content mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
 
       <!-- Outcomes / Key Metrics -->
       {project.outcomes && project.outcomes.length > 0 && (
@@ -219,7 +217,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
           Back to Projects
         </Button>
       </section>
-    </main>
+    </div>
   </article>
 </BaseLayout>
 
@@ -285,6 +283,9 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
   .prose table {
     @apply w-full border-collapse mb-6;
     border: 1px solid hsl(var(--color-border-primary));
+    display: block;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
 
   .prose th {

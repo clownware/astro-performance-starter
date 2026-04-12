@@ -1,7 +1,6 @@
 ---
 import { type CollectionEntry, getCollection } from "astro:content";
 import type { ImageMetadata } from "astro";
-import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import ProjectCard from "@/components/molecules/ProjectCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
@@ -106,24 +105,23 @@ const pageDescription =
     <section class="mb-12" aria-labelledby="filter-heading">
       <h2 id="filter-heading" class="mb-4 text-center text-xl font-bold text-foreground-default">Filter by Technology</h2>
       <div class="flex flex-wrap justify-center gap-3">
-        <Button 
-          variant="ghost" 
-          size="sm"
-          class="filter-btn active"
+        <button
+          type="button"
+          class="filter-btn active inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium border border-border-primary bg-background-secondary text-foreground-primary transition-colors duration-200 hover:bg-primary-200 dark:hover:bg-primary-800 cursor-pointer"
           data-filter="all"
+          aria-pressed="true"
         >
           All Projects
-        </Button>
+        </button>
         {allTechStack.map((tech) => (
-          <Badge 
-            class="cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors duration-200 filter-badge" 
+          <button
+            type="button"
+            class="filter-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200 cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors duration-200"
             data-filter={tech.toLowerCase()}
-            role="button"
-            tabindex="0"
             aria-pressed="false"
           >
             {tech}
-          </Badge>
+          </button>
         ))}
       </div>
     </section>
@@ -352,26 +350,16 @@ const pageDescription =
         const filterValue = button.getAttribute('data-filter') ?? 'all';
         filterProjects(filterValue);
         button.classList.add('active');
+        button.setAttribute('aria-pressed', 'true');
       });
     });
 
     filterBadges.forEach((badge) => {
-      // Click handler
-      const handleActivate = () => {
+      badge.addEventListener('click', () => {
         const filterValue = badge.getAttribute('data-filter') ?? 'all';
         filterProjects(filterValue);
         badge.classList.add('active');
         badge.setAttribute('aria-pressed', 'true');
-      };
-
-      badge.addEventListener('click', handleActivate);
-      
-      // Keyboard handler (Enter or Space)
-      badge.addEventListener('keydown', (e: KeyboardEvent) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          handleActivate();
-        }
       });
     });
 
