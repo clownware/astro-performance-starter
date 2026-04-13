@@ -8,4 +8,9 @@ export default {
   themes: ["dark-plus", "light-plus"],
   useDarkModeMediaQuery: false,
   themeCssSelector: (theme) => (theme.type === "dark" ? ".dark" : ":root:not(.dark)"),
+  styleOverrides: {
+    borderColor: "hsl(var(--color-border-primary))",
+    borderWidth: "1px",
+    borderRadius: "0.5rem",
+  },
 };

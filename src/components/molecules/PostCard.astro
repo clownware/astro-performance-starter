@@ -54,8 +54,16 @@ const img = post.data.cardImage ?? post.data.cover;
   <div class="p-6">
     <div class="mb-3 flex flex-wrap gap-2">
       {featured
-        ? post.data.tags?.slice(0, 3).map((tag: string) => <Badge>{tag}</Badge>)
-        : post.data.tags?.map((tag: string) => <Badge>{tag}</Badge>)
+        ? post.data.tags?.slice(0, 3).map((tag: string) => (
+            <a href={withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`)} class="no-underline relative z-10">
+              <Badge>{tag}</Badge>
+            </a>
+          ))
+        : post.data.tags?.map((tag: string) => (
+            <a href={withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`)} class="no-underline relative z-10">
+              <Badge>{tag}</Badge>
+            </a>
+          ))
       }
     </div>
 
