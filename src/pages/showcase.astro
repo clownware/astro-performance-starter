@@ -32,7 +32,7 @@ const spySections = [
 ---
 
 <BaseLayout
-  title="Component Showcase"
+  title="Components"
   description="Every component in the Astro Performance Starter, demonstrated live. Modern CSS features, zero JavaScript, full accessibility."
 >
   <ReadingProgress color="gradient" />
@@ -49,7 +49,7 @@ const spySections = [
     </aside>
 
     {/* Mobile ScrollSpy — horizontal */}
-    <div class="lg:hidden sticky top-16 z-40 bg-background-primary/95 backdrop-blur-sm border-b border-border-primary -mx-4 px-4 sm:-mx-6 sm:px-6">
+    <div class="lg:hidden sticky top-16 z-40 bg-background-primary/95 backdrop-blur-sm border-b border-border-primary -mx-4 px-4 sm:-mx-6 sm:px-6 overflow-x-clip">
       <ScrollSpy sections={spySections} ariaLabel="Section navigation" />
     </div>
 
@@ -57,11 +57,11 @@ const spySections = [
       {/* ================================================================
           HERO SECTION
           ================================================================ */}
-      <ParallaxSection intensity="subtle" ariaLabel="Component showcase hero">
+      <ParallaxSection intensity="subtle" ariaLabel="Components hero">
         <Section id="hero" class="pt-12 pb-16 sm:pt-16 sm:pb-20">
           <div class="text-center max-w-3xl mx-auto">
             <AnimatedGradientText as="h1" speed="slow" class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              Component Showcase
+              Components
             </AnimatedGradientText>
 
             <p class="text-lg sm:text-xl text-foreground-secondary mb-10 max-w-2xl mx-auto">

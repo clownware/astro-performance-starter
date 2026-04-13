@@ -233,7 +233,7 @@ export function Counter({ value }) {
       </div>
     </aside>
 
-    <div class="lg:hidden sticky top-16 z-40 bg-background-primary/95 backdrop-blur-sm border-b border-border-primary -mx-4 px-4 sm:-mx-6 sm:px-6">
+    <div class="lg:hidden sticky top-16 z-40 bg-background-primary/95 backdrop-blur-sm border-b border-border-primary -mx-4 px-4 sm:-mx-6 sm:px-6 overflow-x-clip">
       <ScrollSpy sections={spySections} ariaLabel="Section navigation" />
     </div>
 
@@ -818,7 +818,7 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <h4 class="font-semibold text-foreground-primary mb-1">
-                    <a href="/showcase/" class="hover:underline">Component Showcase</a>
+                    <a href="/showcase/" class="hover:underline">Components</a>
                   </h4>
                   <p class="text-sm text-foreground-secondary">
                     Live demo of every component in <code class="text-xs">src/components/</code>,
@@ -888,12 +888,12 @@ export function Counter({ value }) {
           <ScrollReveal>
             <div class="text-center">
               <p class="text-foreground-secondary mb-6">
-                Want to see the components themselves? The Showcase has every
+                Want to see the components themselves? The Components page has every
                 atom, molecule, and structural component with a live demo and
                 code.
               </p>
               <Button variant="primary" href="/showcase/">
-                Browse the Component Showcase →
+                Browse the Components →
               </Button>
             </div>
           </ScrollReveal>
