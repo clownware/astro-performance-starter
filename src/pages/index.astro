@@ -238,6 +238,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           Build blazing-fast websites with Astro's zero-JS architecture — 95+ Lighthouse scores out of the box, with AI-optimized documentation so your agent can hit the ground running.
         </p>
 
+        {/* TODO: Make GitHub repo public — visitors currently see a 404 */}
         <div class="mt-4 sm:mt-6 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-6">
           <Button href={siteLinks.github} variant="primary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" rel="noopener noreferrer" target="_blank">
             <Icon name="github" class="size-4 sm:size-5 mr-2" decorative />
@@ -326,12 +327,18 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           </a>
           )}
 
-          <span class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-100 text-secondary-800 text-xs font-medium">
+          <a
+            href={`${siteLinks.github}/actions`}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-secondary-100 text-secondary-800 hover:bg-secondary-200 text-xs font-medium transition-colors"
+            aria-label="View CI verification results on GitHub (opens in new tab)"
+          >
             <svg class="size-3" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
             </svg>
             Verified by CI
-          </span>
+          </a>
         </div>
       </div>
     </Container>
@@ -350,8 +357,22 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
         </p>
       </div>
 
-      <Grid class="mt-12 gap-8">
-        {features.map((feature) => (
+      {/* Hero cards — the two differentiators */}
+      <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {features.slice(0, 2).map((feature) => (
+          <ExpandableFeatureCard
+            icon={feature.icon}
+            title={feature.title}
+            description={feature.description}
+            metric={feature.metric}
+            expandedDetails={feature.expandedDetails}
+          />
+        ))}
+      </div>
+
+      {/* Supporting capabilities */}
+      <Grid class="mt-8 gap-8">
+        {features.slice(2).map((feature) => (
           <ExpandableFeatureCard
             icon={feature.icon}
             title={feature.title}
@@ -361,117 +382,6 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           />
         ))}
       </Grid>
-    </Container>
-  </Section>
-
-  <!-- Latest Posts -->
-  {latestPostsWithMetadata.length > 0 && (
-    <Section id="latest-posts" ariaLabel="Latest blog posts section" class="relative">
-      <SectionSeparator />
-      <Container>
-        <div class="mx-auto max-w-2xl text-center">
-          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl text-balance">
-            From the Blog
-          </h2>
-          <p class="mt-4 text-lg text-foreground-secondary">
-            Latest thoughts on Astro, performance, and modern web development.
-          </p>
-        </div>
-
-        <div class="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {latestPostsWithMetadata.map((post) => (
-            <PostCard post={post} />
-          ))}
-        </div>
-
-        <div class="mt-10 text-center">
-          <Button href={withBase("/blog/")} variant="secondary">
-            View all posts →
-          </Button>
-        </div>
-      </Container>
-    </Section>
-  )}
-
-  <!-- Tech Stack -->
-  <Section id="tech-stack" ariaLabel="Technology stack section" class="bg-background-secondary relative">
-    <SectionSeparator />
-    <Container>
-      <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-3xl font-bold text-foreground-primary text-balance">
-          <span aria-hidden="true" class="mr-1.5">🛠️</span> Modern Tech Stack
-        </h2>
-        <p class="mt-4 text-lg text-foreground-secondary">
-          Carefully selected tools for optimal developer experience
-        </p>
-      </div>
-
-      <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {techStack.map((tech) => (
-          <Card class="p-6 text-center hover:shadow-lg transition-shadow group">
-            <div class="mb-3">
-              <Badge class="bg-secondary-100 text-secondary-800 text-xs">
-                {tech.category}
-              </Badge>
-            </div>
-            <h3 class="font-semibold text-foreground-primary text-lg mb-2">{tech.name}</h3>
-            <p class="text-sm text-primary-600 dark:text-primary-300 font-mono font-medium mb-3">{tech.version}</p>
-            <p class="text-sm text-foreground-secondary mb-3 leading-relaxed">{tech.description}</p>
-            <div class="mt-4 pt-4 border-t border-dashed border-border-default">
-              <p class="text-xs text-foreground-subtle group-hover:text-foreground-secondary transition-colors">
-                {tech.benefit}
-              </p>
-            </div>
-          </Card>
-        ))}
-      </div>
-
-      <!-- Why This Stack Section -->
-      <div class="mt-12 mx-auto max-w-4xl">
-        <div class="text-center mb-8">
-          <h3 class="text-2xl font-bold text-foreground-primary mb-4">
-            <span aria-hidden="true" class="mr-1.5">🤔</span> Why This Stack?
-          </h3>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card class="p-6">
-            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
-              <span aria-hidden="true">⚡</span> Performance First
-            </h4>
-            <p class="text-sm text-foreground-secondary leading-relaxed">
-              {stackRationale.performance}
-            </p>
-          </Card>
-
-          <Card class="p-6">
-            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
-              <span aria-hidden="true">🎯</span> Developer Experience
-            </h4>
-            <p class="text-sm text-foreground-secondary leading-relaxed">
-              {stackRationale.developerExperience}
-            </p>
-          </Card>
-
-          <Card class="p-6">
-            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
-              <span aria-hidden="true">🏭</span> Production Ready
-            </h4>
-            <p class="text-sm text-foreground-secondary leading-relaxed">
-              {stackRationale.productionReady}
-            </p>
-          </Card>
-
-          <Card class="p-6">
-            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
-              <span aria-hidden="true">🔮</span> Future Proof
-            </h4>
-            <p class="text-sm text-foreground-secondary leading-relaxed">
-              {stackRationale.futureProof}
-            </p>
-          </Card>
-        </div>
-      </div>
     </Container>
   </Section>
 
@@ -602,6 +512,88 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
     </Container>
   </Section>
 
+  <!-- Tech Stack -->
+  <Section id="tech-stack" ariaLabel="Technology stack section" class="bg-background-secondary relative">
+    <SectionSeparator />
+    <Container>
+      <div class="mx-auto max-w-2xl text-center">
+        <h2 class="text-3xl font-bold text-foreground-primary text-balance">
+          <span aria-hidden="true" class="mr-1.5">🛠️</span> Modern Tech Stack
+        </h2>
+        <p class="mt-4 text-lg text-foreground-secondary">
+          Carefully selected tools for optimal developer experience
+        </p>
+      </div>
+
+      <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        {techStack.map((tech) => (
+          <Card class="p-6 text-center hover:shadow-lg transition-shadow group">
+            <div class="mb-3">
+              <Badge class="bg-secondary-100 text-secondary-800 text-xs">
+                {tech.category}
+              </Badge>
+            </div>
+            <h3 class="font-semibold text-foreground-primary text-lg mb-2">{tech.name}</h3>
+            <p class="text-sm text-primary-600 dark:text-primary-300 font-mono font-medium mb-3">{tech.version}</p>
+            <p class="text-sm text-foreground-secondary mb-3 leading-relaxed">{tech.description}</p>
+            <div class="mt-4 pt-4 border-t border-dashed border-border-default">
+              <p class="text-xs text-foreground-subtle group-hover:text-foreground-secondary transition-colors">
+                {tech.benefit}
+              </p>
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      <!-- Why This Stack Section -->
+      <div class="mt-12 mx-auto max-w-4xl">
+        <div class="text-center mb-8">
+          <h3 class="text-2xl font-bold text-foreground-primary mb-4">
+            <span aria-hidden="true" class="mr-1.5">🤔</span> Why This Stack?
+          </h3>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <Card class="p-6">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
+              <span aria-hidden="true">⚡</span> Performance First
+            </h4>
+            <p class="text-sm text-foreground-secondary leading-relaxed">
+              {stackRationale.performance}
+            </p>
+          </Card>
+
+          <Card class="p-6">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
+              <span aria-hidden="true">🎯</span> Developer Experience
+            </h4>
+            <p class="text-sm text-foreground-secondary leading-relaxed">
+              {stackRationale.developerExperience}
+            </p>
+          </Card>
+
+          <Card class="p-6">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
+              <span aria-hidden="true">🏭</span> Production Ready
+            </h4>
+            <p class="text-sm text-foreground-secondary leading-relaxed">
+              {stackRationale.productionReady}
+            </p>
+          </Card>
+
+          <Card class="p-6">
+            <h4 class="font-semibold text-foreground-primary mb-3 flex items-center gap-2">
+              <span aria-hidden="true">🔮</span> Future Proof
+            </h4>
+            <p class="text-sm text-foreground-secondary leading-relaxed">
+              {stackRationale.futureProof}
+            </p>
+          </Card>
+        </div>
+      </div>
+    </Container>
+  </Section>
+
   <!-- CTA Section -->
   <Section ariaLabel="Call to action section" class="relative bg-linear-to-br from-primary-600 to-secondary-600">
     <Container>
@@ -631,4 +623,33 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
       </div>
     </Container>
   </Section>
+
+  <!-- Latest Posts -->
+  {latestPostsWithMetadata.length > 0 && (
+    <Section id="latest-posts" ariaLabel="Latest blog posts section" class="relative">
+      <SectionSeparator />
+      <Container>
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl text-balance">
+            From the Blog
+          </h2>
+          <p class="mt-4 text-lg text-foreground-secondary">
+            Latest thoughts on Astro, performance, and modern web development.
+          </p>
+        </div>
+
+        <div class="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {latestPostsWithMetadata.map((post) => (
+            <PostCard post={post} />
+          ))}
+        </div>
+
+        <div class="mt-10 text-center">
+          <Button href={withBase("/blog/")} variant="secondary">
+            View all posts →
+          </Button>
+        </div>
+      </Container>
+    </Section>
+  )}
 </BaseLayout>
