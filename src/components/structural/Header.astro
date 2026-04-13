@@ -1,11 +1,13 @@
 ---
 import { getCollection } from "astro:content";
-import type { NavItem } from "@/types/navigation"; // Import the new type
+import Icon from "@/components/atoms/Icon.astro";
+import type { NavItem } from "@/types/navigation";
 import { withBase } from "@/utils/url-utils";
 
 const navigation = await getCollection("navigation");
-// Explicitly type navItems to ensure type safety in the template
 const navItems: NavItem[] = navigation[0]?.data.items || [];
+const textNavItems = navItems.filter((item: NavItem) => !item.isExternal);
+const githubItem = navItems.find((item: NavItem) => item.isExternal && item.icon === "github-logo");
 ---
 
 <header
@@ -25,15 +27,13 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
     </a>
 
     <nav class="hidden lg:flex items-center gap-8" aria-label="Main navigation">
-      {navItems.map((item: NavItem) => {
-        const resolvedHref = item.isExternal ? item.href : withBase(item.href);
+      {textNavItems.map((item: NavItem) => {
+        const resolvedHref = withBase(item.href);
         return (
           <a
             href={resolvedHref}
             class="no-underline text-base font-medium text-foreground-secondary transition-all hover:text-foreground-primary hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-background-secondary"
             aria-current={Astro.url.pathname === resolvedHref ? 'page' : undefined}
-            target={item.isExternal ? '_blank' : undefined}
-            rel={item.isExternal ? 'noopener noreferrer' : undefined}
           >
             {item.label}
           </a>
@@ -42,6 +42,17 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
     </nav>
 
     <div class="flex items-center gap-2">
+      {githubItem && (
+        <a
+          href={githubItem.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="View on GitHub (opens in new tab)"
+          class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md text-foreground-secondary transition hover:text-foreground-primary hover:bg-background-secondary focus-visible-ring"
+        >
+          <Icon name="github" class="h-5 w-5" decorative />
+        </a>
+      )}
       <!--
         CSS-only mobile menu toggle: hidden checkbox + label button.
         The label is keyboard-activated via the script below; aria-expanded
@@ -138,15 +149,24 @@ const navItems: NavItem[] = navigation[0]?.data.items || [];
     aria-label="Mobile navigation"
     aria-live="polite"
   >
-    {navItems.map((item: NavItem) => (
+    {textNavItems.map((item: NavItem) => (
       <a
-        href={item.isExternal ? item.href : withBase(item.href)}
+        href={withBase(item.href)}
         class="no-underline text-lg font-medium text-foreground-primary transition-colors hover:text-foreground-primary focus-visible-ring"
-        target={item.isExternal ? '_blank' : undefined}
-        rel={item.isExternal ? 'noopener noreferrer' : undefined}
       >
         {item.label}
       </a>
     ))}
+    {githubItem && (
+      <a
+        href={githubItem.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="no-underline text-lg font-medium text-foreground-primary transition-colors hover:text-foreground-primary focus-visible-ring inline-flex items-center gap-2"
+      >
+        <Icon name="github" class="h-5 w-5" decorative />
+        GitHub
+      </a>
+    )}
   </nav>
 </header>
