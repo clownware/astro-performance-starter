@@ -20,7 +20,7 @@ export function resolveBasePath(base: string, path: string): string {
  */
 export function withBase(path: string, base: string = import.meta.env.BASE_URL): string {
   // Pass through empty, anchors, relative, protocol-relative, and external URLs
-  if (!path || !path.startsWith("/") || path.startsWith("//")) {
+  if (!path?.startsWith("/") || path.startsWith("//")) {
     return path;
   }
 

@@ -11,7 +11,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
 <form 
   class:list={[
     "contact-form",
-    "max-w-lg mx-auto",
+    "max-w-lg w-full mx-auto",
     "space-y-6",
     "p-6",
     "bg-background-secondary",
@@ -23,6 +23,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   action={action}
   name="contact"
   method="POST"
+  novalidate
   data-static-form-name="contact"
   {...attrs}
 >
@@ -38,13 +39,14 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       for="contact-name" 
       class="block text-sm font-medium text-foreground-primary mb-2"
     >
-      Name <span class="text-secondary-600" aria-label="required">*</span>
+      Name <span class="text-error-600" aria-hidden="true">*</span>
     </label>
     <input
       type="text"
       id="contact-name"
       name="name"
       required
+      aria-required="true"
       minlength="2"
       maxlength="100"
       autocomplete="name"
@@ -60,13 +62,14 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       for="contact-email" 
       class="block text-sm font-medium text-foreground-primary mb-2"
     >
-      Email <span class="text-secondary-600" aria-label="required">*</span>
+      Email <span class="text-error-600" aria-hidden="true">*</span>
     </label>
     <input
       type="email"
       id="contact-email"
       name="email"
       required
+      aria-required="true"
       maxlength="254"
       autocomplete="email"
       class="w-full px-3 py-2 min-h-[2.75rem] border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
@@ -100,12 +103,13 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       for="contact-message" 
       class="block text-sm font-medium text-foreground-primary mb-2"
     >
-      Message <span class="text-secondary-600" aria-label="required">*</span>
+      Message <span class="text-error-600" aria-hidden="true">*</span>
     </label>
     <textarea
       id="contact-message"
       name="message"
       required
+      aria-required="true"
       minlength="10"
       maxlength="2000"
       rows="5"
@@ -139,7 +143,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   </div>
 
   <!-- Success/Error Messages -->
-  <div class="contact-form__status hidden" role="status" aria-live="polite" tabindex="-1">
+  <div class="contact-form__status invisible" role="status" aria-live="polite" tabindex="-1">
     <div class="contact-form__success hidden p-4 bg-success-50 border border-success-200 rounded-md">
       <div class="flex items-center">
         <span class="text-success-600 mr-2" aria-hidden="true">✓</span>
@@ -180,9 +184,11 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   }
   
   /* Enhanced focus styles for better accessibility */
-  .contact-form input:focus,
-  .contact-form textarea:focus {
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  .contact-form input:focus-visible,
+  .contact-form textarea:focus-visible {
+    outline: 2px solid hsl(var(--color-primary-500));
+    outline-offset: 2px;
+    box-shadow: none;
   }
   
   /* Improved error state styling */

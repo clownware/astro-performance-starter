@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import Badge from "@/components/atoms/Badge.astro";
 import Image from "@/components/atoms/Image.astro";
 import Card from "@/components/molecules/Card.astro";
+import { formatDateIso } from "@/utils/formatDate";
 import { withBase } from "@/utils/url-utils";
 
 interface Props {
@@ -21,10 +22,11 @@ const { post, featured = false, class: className } = Astro.props;
 const img = post.data.cardImage ?? post.data.cover;
 ---
 
-<Card class:list={["group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg", className]}>
-  <div class="aspect-video overflow-hidden">
-    {img && (
-      typeof img === "string" ? (
+<article class:list={["post-card", className]}>
+<Card class="group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg">
+  {img ? (
+    <div class="aspect-video overflow-hidden">
+      {typeof img === "string" ? (
         <img
           src={img}
           alt={post.data.coverAlt || `Image for ${post.data.title}`}
@@ -38,20 +40,30 @@ const img = post.data.cardImage ?? post.data.cover;
           sizes={featured ? "(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw" : undefined}
           loading={featured ? "eager" : "lazy"}
         />
-      )
-    )}
-    {post.metadata.isRecent && (
-      <div class="absolute left-3 top-3">
-        <Badge>New</Badge>
-      </div>
-    )}
-  </div>
+      )}
+      {post.metadata.isRecent && (
+        <div class="absolute left-3 top-3">
+          <Badge>New</Badge>
+        </div>
+      )}
+    </div>
+  ) : (
+    <div class="border-b border-border-primary" />
+  )}
 
   <div class="p-6">
     <div class="mb-3 flex flex-wrap gap-2">
       {featured
-        ? post.data.tags?.slice(0, 3).map((tag: string) => <Badge>{tag}</Badge>)
-        : post.data.tags?.map((tag: string) => <Badge>{tag}</Badge>)
+        ? post.data.tags?.slice(0, 3).map((tag: string) => (
+            <a href={withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`)} class="no-underline relative z-10">
+              <Badge>{tag}</Badge>
+            </a>
+          ))
+        : post.data.tags?.map((tag: string) => (
+            <a href={withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`)} class="no-underline relative z-10">
+              <Badge>{tag}</Badge>
+            </a>
+          ))
       }
     </div>
 
@@ -72,11 +84,12 @@ const img = post.data.cardImage ?? post.data.cover;
     </p>
 
     <div class="flex items-center justify-between text-sm text-foreground-subtle">
-      <span>{post.metadata.publishedDate}</span>
+      <time datetime={formatDateIso(post.data.date) ?? undefined}>{post.metadata.publishedDate}</time>
       <span>{post.metadata.readingTime}</span>
     </div>
   </div>
 </Card>
+</article>
 
 <style>
   .stretched-link::after {

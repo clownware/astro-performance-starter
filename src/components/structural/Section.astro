@@ -4,9 +4,16 @@ interface Props {
   id?: string;
   fullHeight?: boolean; // Optional: allow disabling full viewport height when needed
   ariaLabel?: string; // Optional: ARIA label for screen readers (recommended for snap sections)
+  ariaLabelledBy?: string; // Optional: reference to heading ID that labels this section
 }
 
-const { class: className, id, fullHeight = false, ariaLabel } = Astro.props as Props;
+const {
+  class: className,
+  id,
+  fullHeight = false,
+  ariaLabel,
+  ariaLabelledBy,
+} = Astro.props as Props;
 ---
 
 <section
@@ -17,6 +24,7 @@ const { class: className, id, fullHeight = false, ariaLabel } = Astro.props as P
     className,
   ]}
   aria-label={ariaLabel}
+  aria-labelledby={ariaLabelledBy}
 >
   <slot />
 </section>

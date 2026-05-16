@@ -13,8 +13,10 @@ test.describe("About Page", () => {
 		const heading = page.getByRole("heading", { name: /Hi, I'm/ });
 		await expect(heading).toBeVisible();
 
-		// Check for profile image
-		const profileImage = page.locator('img[alt="Profile photo"]');
+		// Profile image is the only rounded-full avatar on the page. Locating by
+		// class keeps the test stable across customisation of the alt text (which
+		// describes the person, not the photo).
+		const profileImage = page.locator("img.rounded-full");
 		await expect(profileImage).toBeVisible();
 	});
 
@@ -92,7 +94,7 @@ test.describe("About Page", () => {
 	});
 
 	test("should have responsive profile image", async ({ page }) => {
-		const profileImage = page.locator('img[alt="Profile photo"]');
+		const profileImage = page.locator("img.rounded-full");
 		await expect(profileImage).toBeVisible();
 
 		// Verify image has proper dimensions

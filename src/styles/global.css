@@ -54,6 +54,7 @@
   /* Raw palette colors (imperial-red, orange-web, moonstone, pearl, space-cadet)
      are defined in tokens.css but not mapped to Tailwind utilities since only
      semantic tokens (primary, secondary, etc.) are used in components. */
+  --color-primary-50: hsl(var(--color-primary-50));
   --color-primary-100: hsl(var(--color-primary-100));
   --color-primary-200: hsl(var(--color-primary-200));
   --color-primary-300: hsl(var(--color-primary-300));
@@ -63,7 +64,9 @@
   --color-primary-700: hsl(var(--color-primary-700));
   --color-primary-800: hsl(var(--color-primary-800));
   --color-primary-900: hsl(var(--color-primary-900));
+  --color-primary-950: hsl(var(--color-primary-950));
 
+  --color-secondary-50: hsl(var(--color-secondary-50));
   --color-secondary-100: hsl(var(--color-secondary-100));
   --color-secondary-200: hsl(var(--color-secondary-200));
   --color-secondary-300: hsl(var(--color-secondary-300));
@@ -73,6 +76,7 @@
   --color-secondary-700: hsl(var(--color-secondary-700));
   --color-secondary-800: hsl(var(--color-secondary-800));
   --color-secondary-900: hsl(var(--color-secondary-900));
+  --color-secondary-950: hsl(var(--color-secondary-950));
 
   /* --- Colors: Surface & state tokens (these respond to .dark overrides) --- */
   --color-background-primary: hsl(var(--color-background-primary));
@@ -81,6 +85,7 @@
   --color-foreground-secondary: hsl(var(--color-foreground-secondary));
   --color-border-primary: hsl(var(--color-border-primary));
   --color-border-default: hsl(var(--color-border-primary));
+  --color-border-emphasis: hsl(var(--color-border-emphasis));
 
   --color-foreground-subtle: hsl(var(--color-gray-500));
 
@@ -182,6 +187,31 @@
   ::file-selector-button {
     border-color: var(--color-gray-200, currentcolor);
   }
+
+  /* Override Tailwind v4 preflight scroll-behavior and account for sticky header */
+  html {
+    scroll-behavior: auto;
+    scroll-padding-top: 5rem;
+  }
+
+  /* Global focus-visible baseline for interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid hsl(var(--color-primary-500));
+    outline-offset: 2px;
+  }
+
+  /* Inline code outside of prose blocks */
+  code:not(pre code) {
+    background: hsl(var(--color-background-secondary));
+    padding: 0.125rem 0.375rem;
+    border-radius: 0.25rem;
+    font-size: 0.875em;
+  }
 }
 
 /* Global link styles. Prefer component-level overrides when needed. */
@@ -269,6 +299,15 @@
     outline: 2px solid hsl(var(--color-primary-500));
     outline-offset: 2px;
   }
+}
+
+/* ============================================================
+   DARK MODE FIXES
+   Tokens that need dark-mode overrides but aren't in the
+   semantic token pipeline (defined directly in @theme inline).
+   ============================================================ */
+.dark {
+  --color-foreground-subtle: var(--color-gray-400);
 }
 
 /* ============================================================
