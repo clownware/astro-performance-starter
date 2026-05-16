@@ -7,9 +7,14 @@ interface SectionItem {
 interface Props {
   sections: SectionItem[];
   class?: string;
+  /**
+   * Accessible name for the nav landmark. Required when more than one
+   * ScrollSpy renders on the same page so each landmark has a unique name.
+   */
+  ariaLabel?: string;
 }
 
-const { sections, class: className } = Astro.props;
+const { sections, class: className, ariaLabel = "Page sections" } = Astro.props;
 ---
 
 {/*
@@ -18,7 +23,7 @@ const { sections, class: className } = Astro.props;
   navigation state) with a tiny inline script. Falls back to a static nav list
   without JS.
 */}
-<nav class:list={["scroll-spy", className]} aria-label="Page sections">
+<nav class:list={["scroll-spy", className]} aria-label={ariaLabel}>
   <ul class="scroll-spy__list">
     {sections.map((section) => (
       <li>
@@ -78,14 +83,27 @@ const { sections, class: className } = Astro.props;
     border-left-color: hsl(var(--color-primary-400));
   }
 
-  /* Horizontal layout on mobile */
+  /* Horizontal layout below the desktop breakpoint. The list scrolls
+     horizontally; a mask-image fade on the right edge signals overflow
+     since scrollbars are hidden. Scroll-snap keeps each item aligned
+     when the user flicks. */
   @media (max-width: 1023px) {
+    .scroll-spy {
+      /* Soft 1.25rem fade. Wide enough to signal scrollability without
+         visibly dimming an active item that lands near the right edge. */
+      mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 1.25rem), transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 1.25rem), transparent 100%);
+    }
+
     .scroll-spy__list {
       flex-direction: row;
       gap: 0;
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;
       scrollbar-width: none;
+      scroll-snap-type: x proximity;
+      scroll-padding-inline: 0.5rem;
+      padding-right: 1.5rem; /* trailing space so the last item clears the fade */
     }
 
     .scroll-spy__list::-webkit-scrollbar {
@@ -97,6 +115,7 @@ const { sections, class: className } = Astro.props;
       border-left: none;
       border-bottom: 2px solid transparent;
       padding: 0.5rem 0.75rem;
+      scroll-snap-align: start;
     }
 
     .scroll-spy__link[aria-current="true"] {

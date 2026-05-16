@@ -2,7 +2,9 @@
 import type { CollectionEntry } from "astro:content";
 import { getCollection, render } from "astro:content";
 import BlogLayout from "@/layouts/BlogLayout.astro";
-import { withBase } from "@/utils/url-utils"; // Used in !post redirect guard (line 38)
+// Astro check reports this as unused (ts(6133) hint) because it doesn't trace
+// into the runtime `!post` redirect guard on line 36. The import is required.
+import { withBase } from "@/utils/url-utils";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
