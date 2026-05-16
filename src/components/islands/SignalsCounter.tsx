@@ -67,6 +67,7 @@ export default function SignalsCounter() {
           type="button"
           onClick={() => (count.value = 0)}
           class="inline-flex items-center justify-center px-3 h-10 rounded-md border border-border-primary bg-background-primary text-sm text-foreground-secondary hover:bg-background-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+          aria-label="Reset counter"
         >
           Reset
         </button>

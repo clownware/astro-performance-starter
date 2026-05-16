@@ -25,14 +25,17 @@ const heightMap = {
   Scroll-driven reading progress bar. Literally one <div> with CSS.
   No Intersection Observer. No scroll event listener. No JavaScript at all.
   Uses animation-timeline: scroll() to fill the bar as the user scrolls.
+
+  Marked aria-hidden because the bar is purely decorative — its meaning
+  (current scroll position) is already conveyed by the scrollbar to assistive
+  technology, and a CSS-only progressbar can't provide a live aria-valuenow
+  without JavaScript. Per ADR-019, decorative content stays out of the
+  accessibility tree to avoid duplicate announcements.
 */}
 <div
   class:list={["reading-progress", className]}
   style={`--progress-color: ${colorMap[color]}; --progress-height: ${heightMap[height]}`}
-  role="progressbar"
-  aria-label="Reading progress"
-  aria-valuemin="0"
-  aria-valuemax="100"
+  aria-hidden="true"
 ></div>
 
 <style>

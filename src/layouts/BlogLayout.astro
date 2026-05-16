@@ -7,6 +7,8 @@ import SocialLink from "@components/atoms/SocialLink.astro";
 import BaseLayout from "@layouts/BaseLayout.astro";
 import { formatPostMetadata } from "@utils/formatDate";
 import { generateAllShareUrls } from "@utils/socialShare";
+import ReadingProgress from "@/components/atoms/ReadingProgress.astro";
+import ScrollSpy from "@/components/molecules/ScrollSpy.astro";
 import { withBase } from "@/utils/url-utils";
 
 export interface Props {
@@ -33,6 +35,10 @@ const shareUrls = generateAllShareUrls({
   title,
   description,
 });
+
+const tocSections = headings
+  .filter((h) => h.depth <= 3)
+  .map((h) => ({ id: h.slug, label: h.text }));
 ---
 
 <BaseLayout
@@ -47,6 +53,7 @@ const shareUrls = generateAllShareUrls({
     tags,
   }}
 >
+  <ReadingProgress />
   <article class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 bg-background-default">
     <!-- Article Header -->
     <header class="mb-12">
@@ -58,8 +65,8 @@ const shareUrls = generateAllShareUrls({
               Home
             </a>
           </li>
-          <li>
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <li aria-hidden="true">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
@@ -68,8 +75,8 @@ const shareUrls = generateAllShareUrls({
               Blog
             </a>
           </li>
-          <li>
-            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+          <li aria-hidden="true">
+            <svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
@@ -125,7 +132,9 @@ const shareUrls = generateAllShareUrls({
         <div class="mb-8">
           <div class="flex flex-wrap gap-2">
             {tags.map((tag: string) => (
-              <Badge>{tag}</Badge>
+              <a href={withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, "-")}/`)} class="no-underline">
+                <Badge>{tag}</Badge>
+              </a>
             ))}
           </div>
         </div>
@@ -159,24 +168,13 @@ const shareUrls = generateAllShareUrls({
       <aside class="lg:col-span-1">
         <div class="sticky top-8 space-y-8">
           <!-- Table of Contents -->
-          {headings.length > 0 && (
-            <nav class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6 shadow-lg" role="navigation" aria-label="Table of contents">
+          {tocSections.length > 0 && (
+            <div class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6 shadow-lg">
               <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
                 Table of Contents
               </h3>
-              <ul class="space-y-2 text-sm">
-                {headings.map((heading: any) => (
-                  <li style={`margin-left: ${(heading.depth - 1) * 12}px`}>
-                    <a
-                      href={`#${heading.slug}`}
-                      class="text-foreground-secondary hover:text-primary-600 transition-colors"
-                    >
-                      {heading.text}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+              <ScrollSpy sections={tocSections} ariaLabel="Table of contents" />
+            </div>
           )}
 
           <!-- Social Sharing -->
@@ -185,10 +183,10 @@ const shareUrls = generateAllShareUrls({
               Share this post
             </h3>
             <div class="flex flex-col space-y-3">
-              <SocialLink platform="twitter" href={shareUrls.twitter} />
-              <SocialLink platform="linkedin" href={shareUrls.linkedin} />
-              <SocialLink platform="facebook" href={shareUrls.facebook} />
-              <SocialLink platform="reddit" href={shareUrls.reddit} />
+              <SocialLink platform="twitter" href={shareUrls.twitter} purpose="share" />
+              <SocialLink platform="linkedin" href={shareUrls.linkedin} purpose="share" />
+              <SocialLink platform="facebook" href={shareUrls.facebook} purpose="share" />
+              <SocialLink platform="reddit" href={shareUrls.reddit} purpose="share" />
             </div>
           </div>
         </div>

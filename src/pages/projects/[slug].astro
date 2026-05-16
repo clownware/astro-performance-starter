@@ -38,7 +38,7 @@ const { Content } = await render(entry);
 const heroImage = project.cover ?? withBase("/logo.svg");
 
 // SEO meta — extract .src from ImageMetadata for OG tags (matches BlogLayout pattern)
-const pageTitle = `${project.title} - Project Showcase`;
+const pageTitle = `${project.title} - Project Details`;
 const pageDescription = project.description;
 const heroSrc = typeof heroImage === "string" ? heroImage : heroImage.src;
 const pageImage = project.cardImage?.src ?? heroSrc;
