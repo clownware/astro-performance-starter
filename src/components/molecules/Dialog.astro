@@ -4,15 +4,31 @@ interface Props {
   title: string;
   size?: "sm" | "md" | "lg";
   class?: string;
+  /**
+   * Heading level for the dialog title only. Defaults to "h2" for top-level
+   * dialogs. Pass a deeper level when the dialog is nested inside a section
+   * that already uses h2/h3 — heading hierarchy should not skip levels.
+   *
+   * Note: this only affects the dialog's *title* heading. Any headings authored
+   * inside the dialog's slot must be set to the appropriate level by the
+   * consumer (e.g. if `headingLevel="h3"`, slot headings start at `h4`).
+   */
+  headingLevel?: "h2" | "h3" | "h4" | "h5" | "h6";
 }
 
-const { id, title, size = "md", class: className } = Astro.props;
+const { id, title, size = "md", class: className, headingLevel = "h2" } = Astro.props;
 
 const sizeClasses = {
   sm: "max-w-sm",
   md: "max-w-lg",
   lg: "max-w-2xl",
 } as const;
+
+// Astro requires PascalCase for dynamic component tags (otherwise they're
+// emitted as literal lowercase HTML elements), so the local alias must be
+// capitalized even though Biome's camelCase rule prefers otherwise.
+// biome-ignore lint/style/useNamingConvention: Astro dynamic-tag convention
+const HeadingTag = headingLevel;
 ---
 
 {/*
@@ -31,9 +47,9 @@ const sizeClasses = {
   aria-labelledby={`${id}-title`}
 >
   <div class="dialog__header">
-    <h2 id={`${id}-title`} class="text-lg font-semibold text-foreground-primary">
+    <HeadingTag id={`${id}-title`} class="text-lg font-semibold text-foreground-primary">
       {title}
-    </h2>
+    </HeadingTag>
     <button
       class="dialog__close"
       aria-label="Close dialog"

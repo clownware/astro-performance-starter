@@ -6,36 +6,41 @@
       "order": 1
     },
     {
+      "label": "How It Works",
+      "href": "/how-it-works/",
+      "order": 2
+    },
+    {
+      "label": "Components",
+      "href": "/showcase/",
+      "order": 3
+    },
+    {
       "label": "Blog",
       "href": "/blog/",
-      "order": 2
+      "order": 4
     },
     {
       "label": "Projects",
       "href": "/projects/",
-      "order": 3
+      "order": 5
     },
     {
       "label": "About",
       "href": "/about/",
-      "order": 4
+      "order": 6
     },
     {
       "label": "Contact",
       "href": "/contact/",
-      "order": 5
-    },
-    {
-      "label": "Showcase",
-      "href": "/showcase/",
-      "order": 6
+      "order": 7
     },
     {
       "label": "GitHub",
-      "href": "",
+      "href": "https://github.com/Clownware/astro-performance-starter",
       "isExternal": true,
       "icon": "github-logo",
-      "order": 7
+      "order": 8
     }
   ]
 }
