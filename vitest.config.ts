@@ -1,14 +1,22 @@
 import { resolve } from "node:path";
-import { defineConfig } from "vitest/config";
+import { getViteConfig } from "astro/config";
 
-export default defineConfig({
+// Use Astro's vite config so vitest can transform .astro components for
+// container-API based unit tests (see src/components/**/__tests__).
+export default getViteConfig({
   test: {
     environment: "jsdom",
     globals: true,
     exclude: ["**/node_modules/**", "**/dist/**", "**/e2e/**"],
     coverage: {
       provider: "v8",
-      reporter: ["text", "html"],
+      reporter: ["text", "html", "json-summary"],
+      // Scope coverage to pure-logic modules in scope for the ADR-023 unit-test
+      // target. Components (.astro) and build scripts run through Astro/Node
+      // runtimes that v8 instrumentation handles poorly — they're tested via
+      // Playwright (e2e/a11y) and exercised by `pnpm build`, not here.
+      include: ["src/utils/**/*.ts"],
+      exclude: ["**/__tests__/**", "**/__mocks__/**", "**/*.test.ts", "**/*.spec.ts", "**/*.d.ts"],
       thresholds: {
         lines: 80,
         functions: 75,
