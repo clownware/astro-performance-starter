@@ -1,8 +1,15 @@
 import { sortPostsByDate } from "@utils/blog";
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { draftPost, publishedPosts } from "../../../tests/fixtures/posts";
 
 // astro:content is a virtual module aliased to a stub in vitest.config.ts,
-// enabling direct import of the real sortPostsByDate without Astro's runtime.
+// enabling direct import of the real sortPostsByDate / getPublishedPosts /
+// getFeaturedPosts without Astro's runtime. The stub also exports
+// __setMockCollection / __resetMockCollection for controlling fixtures.
+
+// biome-ignore lint/suspicious/noExplicitAny: virtual module isn't typed here
+const stub = (await import("astro:content")) as any;
+const { getPublishedPosts, getFeaturedPosts } = await import("@utils/blog");
 
 // Build a minimal post shape — only the fields sortPostsByDate accesses.
 const makePost = (date: Date, title = "Test Post") =>
@@ -50,5 +57,91 @@ describe("sortPostsByDate", () => {
     sortPostsByDate(posts);
     expect(posts[0]).not.toBe(firstPost);
     expect(posts[1]).toBe(firstPost);
+  });
+});
+
+describe("getPublishedPosts", () => {
+  beforeEach(() => {
+    stub.setMockCollection([...publishedPosts, draftPost]);
+  });
+  afterEach(() => {
+    stub.resetMockCollection();
+  });
+
+  it("excludes drafts and sorts newest-first", async () => {
+    const posts = await getPublishedPosts();
+    expect(posts.map((p) => p.id)).toEqual([
+      "featured-newest",
+      "newer-published",
+      "older-published",
+    ]);
+  });
+
+  it("returns empty array when no posts exist", async () => {
+    stub.setMockCollection([]);
+    expect(await getPublishedPosts()).toEqual([]);
+  });
+});
+
+describe("getFeaturedPosts", () => {
+  beforeEach(() => {
+    stub.setMockCollection(publishedPosts);
+  });
+  afterEach(() => {
+    stub.resetMockCollection();
+  });
+
+  it("returns only posts flagged featured", async () => {
+    const posts = await getFeaturedPosts();
+    expect(posts).toHaveLength(1);
+    expect(posts[0]?.id).toBe("featured-newest");
+  });
+
+  it("respects the limit argument", async () => {
+    // Promote two more posts to featured.
+    const allFeatured = publishedPosts.map((p) => ({
+      ...p,
+      data: { ...p.data, featured: true },
+    }));
+    stub.setMockCollection(allFeatured);
+
+    const posts = await getFeaturedPosts(2);
+    expect(posts).toHaveLength(2);
+    // Sorted newest-first.
+    expect(posts.map((p) => p.id)).toEqual(["featured-newest", "newer-published"]);
+  });
+
+  it("defaults to a limit of 3", async () => {
+    const allFeatured = publishedPosts.map((p) => ({
+      ...p,
+      data: { ...p.data, featured: true },
+    }));
+    // Add a fourth to confirm slicing.
+    allFeatured.push({
+      id: "fourth-featured",
+      data: {
+        title: "Fourth Featured",
+        description: "Extra",
+        date: new Date("2025-10-01T00:00:00Z"),
+        tags: ["x"],
+        draft: false,
+        featured: true,
+      },
+    });
+    stub.setMockCollection(allFeatured);
+
+    const posts = await getFeaturedPosts();
+    expect(posts).toHaveLength(3);
+  });
+
+  it("excludes drafts even when featured flag is set", async () => {
+    const draftFeatured = {
+      ...draftPost,
+      data: { ...draftPost.data, featured: true },
+    };
+    stub.setMockCollection([...publishedPosts, draftFeatured]);
+
+    const posts = await getFeaturedPosts();
+    expect(posts.find((p) => p.id === draftPost.id)).toBeUndefined();
   });
 });
