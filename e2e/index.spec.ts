@@ -70,8 +70,10 @@ test.describe("Homepage (index.astro)", () => {
 	});
 
 	test("should display implementation tiers section", async ({ page }) => {
+		// Heading reworded in 9bf58109 (chore(homepage): update hero, AI card
+		// metric, and implementation tiers copy).
 		const tiersHeading = page.getByRole("heading", {
-			name: /Progressive Implementation/,
+			name: /What You Get on Clone/,
 		});
 		await expect(tiersHeading).toBeVisible();
 

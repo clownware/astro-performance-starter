@@ -43,5 +43,10 @@
     "module": "defu",
     "reason": "Transitive dependency via astro -> unstorage -> h3 -> defu (h3 already allowlisted). Prototype pollution requires user-controlled input as the defaults argument; static build pipeline does not expose user input to defu.",
     "expires": "2026-06-25"
+  },
+  {
+    "module": "fast-xml-builder",
+    "reason": "Transitive dependency via @astrojs/rss -> fast-xml-parser -> fast-xml-builder. XML attribute-quote-escape bypass; RSS feed is generated at build time from controlled blog content collections with no attacker-controlled input. Output is a static .xml file with no runtime serialization.",
+    "expires": "2026-06-25"
   }
 ]
