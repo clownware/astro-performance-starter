@@ -1,16 +1,18 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Component Showcase", () => {
+test.describe("Components", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/showcase/");
 	});
 
 	test("should load successfully with correct title", async ({ page }) => {
-		await expect(page).toHaveTitle(/Component Showcase/);
+		// Page title is "Components | ..." after the showcase → components rename
+		// (24477fa4); BaseLayout appends a site-name suffix.
+		await expect(page).toHaveTitle(/Components/);
 	});
 
 	test("should display hero with animated H1", async ({ page }) => {
-		const h1 = page.getByRole("heading", { level: 1, name: "Component Showcase" });
+		const h1 = page.getByRole("heading", { level: 1, name: "Components" });
 		await expect(h1).toBeVisible();
 	});
 
