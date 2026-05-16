@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import {
   estimateReadingTime,
   formatDate,
@@ -269,6 +269,90 @@ describe("formatDate utilities", () => {
 
       expect(result.publishedDate).toBeNull();
       expect(result.isRecent).toBe(false);
+    });
+  });
+
+  // Targeted coverage for uncovered branches reported by v8.
+  describe("edge branches", () => {
+    describe("normalizeDate (via formatDateShort)", () => {
+      it("returns null for non-Date/string/number input", () => {
+        // Exercises the final `else { return null }` branch.
+        expect(formatDateShort({} as unknown as Date)).toBeNull();
+        expect(formatDateShort([] as unknown as Date)).toBeNull();
+        expect(formatDateShort(true as unknown as Date)).toBeNull();
+      });
+    });
+
+    describe("formatDateRelative — future date edges", () => {
+      // Note: the source's "today" branch (line 145) is unreachable because
+      // diffMs < 0 always floors to at least -1 day; we exercise the rest of
+      // the future-date path here.
+
+      it("returns 'in N days' for futures within a week", () => {
+        // 3.5 days ahead so timing jitter can't push us past 7.
+        const nearFuture = new Date(Date.now() + 3.5 * 24 * 60 * 60 * 1000);
+        expect(formatDateRelative(nearFuture)).toMatch(/^in \d+ days$/);
+      });
+
+      it("falls back to short format for far-future dates", () => {
+        const farFuture = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000);
+        const result = formatDateRelative(farFuture);
+        expect(result).toMatch(/\w+ \d+, \d{4}/);
+      });
+    });
+
+    describe("formatDateRelative — singular hour/minute units", () => {
+      it("returns '1 minute ago' (singular)", () => {
+        const oneMinAgo = new Date(Date.now() - 60 * 1000 - 1_000);
+        expect(formatDateRelative(oneMinAgo)).toBe("1 minute ago");
+      });
+
+      it("returns '1 hour ago' (singular)", () => {
+        const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000 - 1_000);
+        expect(formatDateRelative(oneHourAgo)).toBe("1 hour ago");
+      });
+    });
+
+    describe("formatDateRelative — year unit", () => {
+      it("falls through to year unit when threshold permits", () => {
+        const twoYearsAgo = new Date(Date.now() - 2 * 365 * 24 * 60 * 60 * 1000);
+        // Bump threshold so we stay inside the relative-time branch and hit
+        // the `years` unit (lines 194–195).
+        const result = formatDateRelative(twoYearsAgo, { threshold: 10_000 });
+        expect(result).toMatch(/year/);
+      });
+    });
+
+    describe("Intl error fallbacks", () => {
+      it("formatDateFull falls back to null when Intl throws", () => {
+        // Invalid timezone forces Intl.DateTimeFormat to throw, exercising
+        // the catch → console.warn → return null branch (lines 68–70).
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        try {
+          expect(formatDateFull(new Date(), { timezone: "Not/AZone" })).toBeNull();
+          expect(warn).toHaveBeenCalled();
+        } finally {
+          warn.mockRestore();
+        }
+      });
+
+      it("formatDateShort falls back to null when Intl throws", () => {
+        const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+        try {
+          expect(formatDateShort(new Date(), { timezone: "Not/AZone" })).toBeNull();
+          expect(warn).toHaveBeenCalled();
+        } finally {
+          warn.mockRestore();
+        }
+      });
+    });
+
+    describe("estimateReadingTime — whitespace-only content", () => {
+      it("returns 0 when stripping leaves no content", () => {
+        // Only HTML tags + whitespace → cleanContent === "" after trim, hits
+        // the `if (!cleanContent) return 0` branch (line 225).
+        expect(estimateReadingTime("<div>   </div><span> </span>")).toBe(0);
+      });
     });
   });
 });

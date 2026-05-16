@@ -1,0 +1,5 @@
+#!/usr/bin/env sh
+# Run the unit test suite before pushing so failures surface locally
+# instead of in CI. Skip with --no-verify if you have a deliberate reason
+# (e.g. pushing WIP for backup).
+pnpm run test:unit
