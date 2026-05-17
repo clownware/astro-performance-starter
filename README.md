@@ -116,12 +116,12 @@ This template ships working AI context for multiple tools — not just documenta
 
 | Tool | File(s) | What it does |
 |------|---------|-------------|
-| Claude Code | `CLAUDE.md`, `.claude/` | Project brain + skills + code reviewer subagent |
-| Windsurf | `.windsurfrules` | Full project conventions |
-| Cursor / Cline | `airules.example` | Copy to `.cursorrules` or `.clinerules` |
-| All tools | `docs/ai-context/` | Canonical source of truth for all AI context |
+| All modern AI tools | `AGENTS.md` (root) | Cross-tool spine — read natively by Cursor, Codex CLI, Copilot, Aider, Devin, Zed, Continue, Amp, Amazon Q |
+| Claude Code | `CLAUDE.md` + `.claude/` | Constitution, layered engineering/workflow/stack files, skills, subagents |
+| Windsurf | `.windsurfrules` (root) | Thin overlay for Cascade-specific directives; full context comes from `AGENTS.md` |
+| Maintenance | `pnpm agents:build` | Regenerates `AGENTS.md` from the layered source files; CI fails on drift |
 
-One set of conventions, multiple tool formats. Update `docs/ai-context/INDEX.md` and all AI tools pick up the changes.
+One source of truth, every tool stays in sync. Edit the layered files in `.claude/` (or `CLAUDE.md` for halt-on-violation rules) and run `pnpm agents:build`. See [ADR-045](docs/adr/045-cross-tool-agents-spine.md) for the cross-tool spine rationale and [ADR-036](docs/adr/036-layered-constitution.md) for the layering.
 
 ### AI Context Layer
 

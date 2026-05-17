@@ -1,179 +1,20 @@
-# Astro Performance Starter Rules
+# Windsurf Rules — Astro Performance Starter
 
-Every time you choose to apply a rule(s), explicitly state the rule(s) in the output. You can abbreviate the rule description to a single word or phrase.
+This project's canonical AI agent context lives in [`AGENTS.md`](AGENTS.md) at the repo root. Windsurf reads `AGENTS.md` natively; this file is a Windsurf-specific overlay only.
 
-## Project Context
+Read `AGENTS.md` first. Everything below adds Windsurf-specific behaviour on top of it; nothing here repeats or overrides shared rules.
 
-Astro Performance Starter Template - Production-ready GitHub template with comprehensive documentation:
+## Windsurf-specific directives
 
-- Target 95+ Lighthouse scores with zero JavaScript by default
-- AI-optimized documentation structure with context management
-- Focus on web performance, accessibility (WCAG AA), and developer experience
+Every time you choose to apply a rule from `AGENTS.md`, explicitly state the rule in the output. You can abbreviate the rule description to a single word or phrase.
 
-## Code Style and Structure
+## Maintenance
 
-- Write concise, technical TypeScript code with accurate examples
-- Use functional and declarative programming patterns; avoid classes
-- Prefer iteration and modularization over code duplication
-- Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError)
-- Follow atomic design pattern with clear component hierarchy:
+Do not add shared project rules to this file. If a rule applies to all AI agents (Claude, Cursor, Codex, etc.), add it to the appropriate layer:
 
-## Tech Stack
+- Halt-on-violation rules → [`CLAUDE.md`](CLAUDE.md)
+- Engineering defaults → [`.claude/engineering.md`](.claude/engineering.md)
+- Process and workflow → [`.claude/workflow.md`](.claude/workflow.md)
+- Stack facts (versions, commands, budgets) → [`.claude/stack.md`](.claude/stack.md)
 
-- **Framework**: Astro v6.x with Vite 7.x bundler
-- **Package Manager**: pnpm 10.x (required - locked in package.json)
-- **Runtime**: Node.js 24.x LTS (specified in .nvmrc)
-- **Styling**: Tailwind CSS v4.x with CSS-native `@theme inline` design tokens
-- **Code Quality**: Biome 2.x (replaces ESLint + Prettier for 20x speed)
-- **Content**: MDX with Astro Content Collections API
-- **Images**: Astro Image component with Sharp processing (AVIF + WebP)
-- **Fonts**: @fontsource for self-hosting variable fonts
-- **TypeScript**: v5.x in strict mode with @astrojs/check
-
-## Package Dependencies
-
-Core dependencies can be found in package.json
-
-## Naming Conventions
-
-- Use lowercase with dashes for directories (e.g., components/hero-section)
-- Use PascalCase for component files (e.g., HeroSection.astro)
-- Use camelCase for utility files (e.g., formatDate.ts)
-- Use kebab-case for content collection slugs and URLs
-- Follow action-object pattern for utilities (e.g., parse-markdown.ts)
-- Use semantic naming for design tokens (primary, secondary, etc.)
-
-## TypeScript Usage
-
-- Use TypeScript strict mode (required in tsconfig.json)
-- Prefer interfaces over types for component props
-- Avoid enums; use const objects with 'as const' assertion
-- Define strict types for Content Collections schemas
-- Use Astro.props typing for component props
-- **NEW**: When wrapping Astro components, use pragmatic TypeScript patterns:
-  - Prefer `ComponentProps<typeof Component>` for extending framework components
-  - Use `@ts-ignore` with clear comments for complex framework type intersections
-  - Document reasoning in ADRs when using type escape hatches
-- Implement absolute imports with @ aliases:
-
-```typescript
-  "@/*": ["src/*"]
-  "@components/*": ["src/components/*"]
-  "@layouts/*": ["src/layouts/*"]
-  "@utils/*": ["src/utils/*"]
-  "@styles/*": ["src/styles/*"]
-  "@types/*": ["src/types/*"]
-  "@content/*": ["src/content/*"]
-  ```
-
-## Astro-Specific Patterns
-
-- Use zero JavaScript by default; add interactivity strategically
-- Follow progressive enhancement: CSS → View Transitions → Alpine.js → Preact islands
-- Use proper client directives:
-  - `client:visible` (lazy load when in viewport)
-  - `client:idle` (load when browser idle)
-  - `client:media` (responsive loading)
-  - `client:only` (skip SSR - rare use)
-  - **Never**: `client:load` unless justified in ADR
-- Implement Content Collections for all structured content with type-safe schemas
-- Use Astro components for static content, framework components only for complex state
-
-## Design System Implementation
-
-- Use design tokens as single source of truth in `tokens/` directory
-- Build tokens to CSS variables and Tailwind config via `pnpm run tokens:build`
-- Token structure: `tokens/base.json` → `tokens/dist/tokens.css` + Tailwind integration
-- Implement dark mode with system preference detection using `.dark` class
-- Follow WCAG AA accessibility standards with automated contrast validation
-- Use semantic color naming:
-
-### **CORRECT Naming Pattern (Industry Standard)**
-
-- `foreground.primary` / `foreground.secondary` (text colors)
-- `background.primary` / `background.secondary` (surface colors)
-- `border.primary` (border colors)
-
-### **CSS Variables Generated**
-
-- `--color-foreground-primary` / `--color-foreground-secondary`
-- `--color-background-primary` / `--color-background-secondary`
-- `--color-border-primary`
-
-### **Tailwind Classes Available**
-
-- `text-foreground-primary` / `text-foreground-secondary`
-- `bg-background-primary` / `bg-background-secondary`
-- `border-border-primary`
-
-### **Never Use**
-
-- Manual dark mode variants (dark:bg-gray-800)
-- Hardcoded color names (bg-white, text-gray-600)
-- Non-semantic naming (default, subtle - use primary, secondary)
-
-## Documentation Rules
-
-- Docs are local only under /docs/ and serve dual purpose: Starlight rendering + AI filesystem context (ADR-034)
-- Always include a front-matter title, description, lastUpdated, pagefind
-- Keep the page's first written heading at h2 or lower
-- Write call-outs with triple-colon asides
-- Fence code blocks and lean on Expressive Code
-
-## Scope Boundary (ADR-035)
-
-- **Modify freely (Category 1)**: `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `tokens/`, `public/`, `.github/workflows/`, `.windsurfrules`
-- **Read but don't modify (Category 2)**: `docs/` — unless explicitly asked to update documentation
-- **Don't create (Category 3)**: Maintenance artifacts, marketing content, deployment-specific workflows — suggest adding to docs site instead
-
-## Implementation Tiers (ADR-033)
-
-The project uses a progressive tier model — no MVP/Showcase tracks:
-
-- **Foundation (Phases 0–4)**: Everyone does these — pre-configured in template
-- **Build (Phases 5–8)**: Make it yours — scope each phase to Essential/Recommended/Advanced
-- **Polish (Phases 9–12)**: Production-harden — stop when goals are met
-
-## Performance Requirements
-
-- Target 95+ Lighthouse scores
-- Use Astro's built-in image optimization (no external CDNs)
-- Implement proper caching strategies with `public/_headers`
-- Monitor Core Web Vitals: LCP < 2.5s, FID < 100ms, CLS < 0.1
-
-## Development Workflow Scripts
-
-Use exact scripts from package.json
-
-## Git and Code Quality
-
-- Use conventional commits (enforced via Husky hooks):
-  - "feat:" for new features
-  - "fix:" for bug fixes  
-  - "docs:" for documentation
-  - "perf:" for performance improvements
-  - "refactor:" for code restructuring
-  - "test:" for testing additions
-  - "chore:" for maintenance
-- Pre-commit hooks run Biome formatting and type checking
-- Use pnpm as package manager (engine-strict enforced)
-- Maintain pnpm-lock.yaml in version control
-
-## Deployment and Hosting
-
-- Primary: Cloudflare Pages (global CDN, generous free tier)
-- Output directory: `dist`
-- Security headers via `public/_headers` file
-
-## Component Wrapping Patterns
-
-- Keep wrapper interfaces minimal and focused
-- Use object spread (`{...props}`) for prop forwarding when possible
-- Prefer composition over complex prop transformation
-- Document any TypeScript escape hatches with clear reasoning
-
-## Astro 6.x Patterns
-
-- Use `ClientRouter` instead of deprecated `ViewTransitions`
-- Configure `disable404Route: true` in Starlight when using custom 404 pages
-- Follow new absolute import patterns and tsconfig structure
+`AGENTS.md` is regenerated from those four files by `pnpm agents:build`; CI fails on drift. See [ADR-045](docs/adr/045-cross-tool-agents-spine.md) for the cross-tool spine rationale and [ADR-036](docs/adr/036-layered-constitution.md) for the layering rationale.

@@ -96,8 +96,8 @@ These files ship in the template and users are expected to customize them for th
 | `.env.example` | Environment variable documentation |
 | `README.md` | User-facing project README |
 | `LICENSE.txt` | License file |
-| `.windsurfrules` | AI assistant rules (users may customize for their IDE) |
-| `airules.example` | Example AI rules file |
+| `.windsurfrules` | Windsurf-specific overlay (thin; full context lives in `AGENTS.md` per ADR-045) |
+| `AGENTS.md` | Cross-tool AI agent context (generated from the layered constitution; see ADR-045) |
 
 ### Category 2: Reference Documentation (Files AI/Humans Read)
 

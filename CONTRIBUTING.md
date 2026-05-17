@@ -17,13 +17,14 @@ Thank you for your interest in contributing! This project follows a structured a
 
 ## AI-Assisted Development
 
-This project ships with pre-configured AI assistant context for multiple tools:
+This project ships with pre-configured AI assistant context for multiple tools, using the [AGENTS.md](https://agents.md) cross-tool pattern:
 
-- **Claude Code:** `CLAUDE.md` + `.claude/` directory (skills, agents, settings) — auto-detected on session start
-- **Windsurf:** `.windsurfrules` — auto-detected at project root
-- **Cursor/Cline:** Copy `airules.example` to `.cursorrules` or `.clinerules`
+- **Cross-tool spine:** `AGENTS.md` at the repo root — read natively by Cursor, Codex CLI, Copilot, Windsurf, Aider, Devin, Zed, Continue, Amp, and Amazon Q. Generated from the layered constitution; do not edit directly.
+- **Claude Code:** `CLAUDE.md` + the layered `.claude/{engineering,workflow,stack}.md` files + the `.claude/` directory (skills, agents, settings, roles) — auto-detected on session start
+- **Windsurf:** `.windsurfrules` is a thin Cascade-specific overlay; full context comes from `AGENTS.md`
+- **Adding a new tool:** if it reads `AGENTS.md` natively, no setup is needed. If not, add a thin overlay following the `.windsurfrules` template.
 
-Claude Code includes project-specific skills (`/pr-description`, `/component-scaffold`) and a `code-reviewer` subagent that checks changes against the project's ADRs, performance budgets, and component patterns. See `docs/ai-context/ai-rules-setup.md` for full setup details.
+Claude Code includes project-specific skills (`/pr-description`, `/component-scaffold`) and a `code-reviewer` subagent that checks changes against the project's ADRs, performance budgets, and component patterns. To update shared rules, edit the source layer in `.claude/` (or `CLAUDE.md`) and run `pnpm agents:build` — CI fails on drift. See `docs/ai-context/ai-rules-setup.md` for full setup details and ADR-045 for the cross-tool architecture.
 
 ## 🎯 Ways to Contribute
 
