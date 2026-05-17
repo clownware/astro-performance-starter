@@ -1,6 +1,6 @@
 {
   "name": "astro-performance-starter",
-  "version": "0.3.0",
+  "version": "0.9.0",
   "description": "Production-ready Astro starter with zero-JS baseline, 95+ Lighthouse scores, design tokens, and a layered AI constitution with halt-on-violation enforcement.",
   "private": true,
   "type": "module",

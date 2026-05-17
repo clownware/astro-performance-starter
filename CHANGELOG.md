@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.9.0] — 2026-05-17
+
+Release candidate. Material shift in positioning: this template is now a reference implementation of the layered AI constitution pattern with halt-on-violation enforcement.
+
 ### Added
 
 - Layered AI constitution split across `CLAUDE.md`, `.claude/engineering.md`, `.claude/workflow.md`, `.claude/stack.md`, and `.claude/roles/` ([ADR-036](./docs/adr/036-layered-constitution.md))
