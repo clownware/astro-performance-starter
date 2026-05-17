@@ -12,6 +12,18 @@ How work moves through the repo. These rules apply with the same force as `CLAUD
 
 Full rationale in [ADR-035](../docs/adr/035-template-scope-boundary.md).
 
+## Non-trivial Feature Workflow (ADR-038)
+
+For any feature that touches multiple ADRs, has non-obvious acceptance criteria, adds a dependency, or changes a public API, use the three-pass workflow:
+
+1. **Architect pass** ([`.claude/roles/architect.md`](roles/architect.md)) — write or update the relevant ADR; write the failing test scaffold; no production code
+2. **Coder pass** ([`.claude/roles/coder.md`](roles/coder.md)) — minimum implementation to make the failing test pass; no test edits beyond what the Architect scaffolded
+3. **Reviewer pass** ([`.claude/roles/reviewer.md`](roles/reviewer.md)) — run `pnpm quality:ci`; report delta vs. the Architect plan; recommend (no commits)
+
+Each pass produces a concrete artefact and announces hand-off explicitly. The operator (human) enforces the hand-off: refuse to merge work that skipped a pass. Trivial changes (typo, single-line, single rename) can skip the pattern.
+
+Full rationale in [ADR-038](../docs/adr/038-agent-roles.md).
+
 ## Quality Gate
 
 Before claiming a change is complete, run:
