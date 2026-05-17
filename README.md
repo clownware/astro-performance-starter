@@ -128,7 +128,7 @@ Every rule names its halt condition with a stated reason — no soft guidance. `
 pnpm quality:ci  # the halt-on-violation gate — agent must clear this before claiming done
 ```
 
-Pattern source: Robert C. Martin and Justin Martin's *Clean AI: Agentic Discipline* series. Layered-constitution precedent: [`unclebob/swarm-forge`](https://github.com/unclebob/swarm-forge).
+Pattern source: Robert C. Martin and Justin Martin's _Clean AI: Agentic Discipline_ series. Layered-constitution precedent: [`unclebob/swarm-forge`](https://github.com/unclebob/swarm-forge).
 
 ### Multi-tool AI Context
 

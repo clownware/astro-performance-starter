@@ -1,18 +1,18 @@
 {
   "name": "astro-performance-starter",
-  "version": "0.2.0",
-  "description": "Production-ready Astro starter with zero-JS baseline, 95+ Lighthouse scores, design tokens, and AI-optimized documentation.",
+  "version": "0.3.0",
+  "description": "Production-ready Astro starter with zero-JS baseline, 95+ Lighthouse scores, design tokens, and a layered AI constitution with halt-on-violation enforcement.",
   "private": true,
   "type": "module",
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "git+https://github.com/Clownware/astro-performance-starter.git"
   },
-  "author": "",
+  "author": "Chris Pezza",
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://clownware.github.io/astro-performance-starter/",
   "bugs": {
-    "url": ""
+    "url": "https://github.com/Clownware/astro-performance-starter/issues"
   },
   "keywords": [
     "astro",
