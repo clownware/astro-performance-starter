@@ -24,7 +24,7 @@ Each pass produces a concrete artefact and announces hand-off explicitly. The op
 
 Full rationale in [ADR-038](../docs/adr/038-agent-roles.md).
 
-## Quality Gate
+## Quality Gate (ADR-039)
 
 Before claiming a change is complete, run:
 
@@ -32,9 +32,11 @@ Before claiming a change is complete, run:
 pnpm quality:ci
 ```
 
-If it exits non-zero, halt and fix the failure. Do not propose the change as complete. Do not work around the failure by lowering thresholds or excluding files.
+If it exits non-zero, halt and fix the failure. Do not propose the change as complete. Do not work around the failure by lowering thresholds, excluding files, or skipping git hooks with `--no-verify`.
 
-Local-vs-CI parity: `pnpm quality:ci` runs `format:check + lint + lint:md + check`. CI runs the same plus `test:coverage` (for the artifact upload). Locally, you can run `pnpm test:unit` (faster, no instrumentation) or `pnpm test:coverage` (with v8 coverage report).
+**Local↔CI parity** (per [ADR-039](../docs/adr/039-halt-on-violation-enforcement.md)): `pnpm quality:ci` runs `format:check + lint + lint:md + check + test:unit`. CI runs the same plus `test:coverage` (for the artefact upload added in PR #213). Same tests; only v8 instrumentation differs. A broken unit test fails both commands.
+
+The fast inner-loop variant is `pnpm quality` (auto-fixes format and lint where possible; does NOT chain tests, so iteration stays fast). Reserve `pnpm quality:ci` for the final gate before claiming done.
 
 ## ADR Discipline
 
