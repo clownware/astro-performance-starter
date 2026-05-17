@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Layered AI constitution files in the Astro Performance Starter">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1120"/>
+      <stop offset="1" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="layerA" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#0ea5e9"/>
+    </linearGradient>
+    <linearGradient id="layerB" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <linearGradient id="layerC" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f472b6"/>
+      <stop offset="1" stop-color="#db2777"/>
+    </linearGradient>
+    <linearGradient id="layerD" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#fbbf24"/>
+      <stop offset="1" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg2)"/>
+  <g transform="translate(80 110)">
+    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="22" fill="#a5b4fc" font-weight="600" letter-spacing="4">AGENTIC DISCIPLINE</text>
+    <text x="0" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="84" fill="#f8fafc" font-weight="800">A layered constitution,</text>
+    <text x="0" y="195" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="84" fill="#f8fafc" font-weight="800">not a rules file.</text>
+    <text x="0" y="265" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="22" fill="#cbd5e1" font-weight="500">Halt-on-violation enforcement · Architect → Coder → Reviewer · ADR-036</text>
+  </g>
+  <g transform="translate(720 330)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" fill="#0f172a">
+    <g transform="translate(0 0)">
+      <rect x="0" y="0" width="400" height="50" rx="8" fill="url(#layerA)"/>
+      <text x="20" y="32" font-weight="700">CLAUDE.md</text>
+      <text x="380" y="32" text-anchor="end" font-size="14" fill="#0f172a" opacity="0.8">constitution</text>
+    </g>
+    <g transform="translate(20 65)">
+      <rect x="0" y="0" width="380" height="50" rx="8" fill="url(#layerB)"/>
+      <text x="20" y="32" font-weight="700">.claude/engineering.md</text>
+      <text x="360" y="32" text-anchor="end" font-size="14" fill="#0f172a" opacity="0.8">how to build</text>
+    </g>
+    <g transform="translate(40 130)">
+      <rect x="0" y="0" width="360" height="50" rx="8" fill="url(#layerC)"/>
+      <text x="20" y="32" font-weight="700">.claude/workflow.md</text>
+      <text x="340" y="32" text-anchor="end" font-size="14" fill="#0f172a" opacity="0.85">how to ship</text>
+    </g>
+    <g transform="translate(60 195)">
+      <rect x="0" y="0" width="340" height="50" rx="8" fill="url(#layerD)"/>
+      <text x="20" y="32" font-weight="700">.claude/stack.md</text>
+      <text x="320" y="32" text-anchor="end" font-size="14" fill="#0f172a" opacity="0.85">what we use</text>
+    </g>
+  </g>
+</svg>
