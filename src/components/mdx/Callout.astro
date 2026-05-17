@@ -25,10 +25,10 @@ const {
   borderRadius = "0.375rem",
 } = Astro.props as Props;
 
-// Base styling for all callouts (CSS vars for composability)
-const baseClasses =
-  "border-l-(--callout-border-width) p-(--callout-padding) my-(--callout-margin) rounded-r-(--callout-border-radius) shadow-sm motion-reduce:transition-none";
-const styleAttr = `--callout-padding: ${padding}; --callout-margin: ${margin}; --callout-border-width: ${borderWidth}; --callout-border-radius: ${borderRadius};`;
+// Sizing applied via inline style so dynamic prop values resolve reliably;
+// colour utility classes still drive the variant theming below.
+const baseClasses = "shadow-sm motion-reduce:transition-none";
+const styleAttr = `border-left-width: ${borderWidth}; padding: ${padding}; margin-top: ${margin}; margin-bottom: ${margin}; border-top-right-radius: ${borderRadius}; border-bottom-right-radius: ${borderRadius};`;
 // Type-specific styling options with dark mode support
 const typeStyles: Record<
   Props["type"],

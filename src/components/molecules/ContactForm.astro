@@ -27,10 +27,11 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   data-static-form-name="contact"
   {...attrs}
 >
-  <!-- Honeypot field for spam protection (optional but good practice) -->
-  <p class="hidden">
+  <!-- Honeypot: off-screen so bots see and fill it but humans and AT cannot. -->
+  <p class="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden" aria-hidden="true">
     <label>
-      Don’t fill this out if you’re human: <input name="bot-field" />
+      Don’t fill this out if you’re human:
+      <input name="bot-field" type="text" tabindex="-1" autocomplete="off" />
     </label>
   </p>
   
