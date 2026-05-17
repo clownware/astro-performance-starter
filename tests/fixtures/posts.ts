@@ -75,3 +75,39 @@ export const publishedPosts: BlogPostFixture[] = [
 export const featuredPosts: BlogPostFixture[] = publishedPosts.filter(
   (post) => post.data.featured === true,
 );
+
+// PostCard fixture shape: extends BlogPostFixture with the `metadata` block
+// PostCard.astro expects (publishedDate / readingTime / isRecent). Used by
+// `src/components/molecules/__tests__/PostCard.test.ts`.
+interface PostCardFixture extends BlogPostFixture {
+  data: BlogPostFixture["data"] & {
+    cover?: string;
+    cardImage?: string;
+    coverAlt?: string;
+  };
+  metadata: {
+    publishedDate: string;
+    readingTime: string;
+    isRecent: boolean;
+  };
+}
+
+export const makePostCardPost = (
+  overrides: Partial<PostCardFixture> = {},
+): PostCardFixture => ({
+  id: overrides.id ?? "test-card-post",
+  data: {
+    title: "A Card Post",
+    description: "A blog post used to exercise PostCard rendering",
+    date: new Date("2025-09-15T00:00:00Z"),
+    tags: ["astro", "perf"],
+    draft: false,
+    ...overrides.data,
+  },
+  metadata: {
+    publishedDate: "Sep 15, 2025",
+    readingTime: "4 min read",
+    isRecent: false,
+    ...overrides.metadata,
+  },
+});
