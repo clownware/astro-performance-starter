@@ -52,7 +52,7 @@ generateAllShareUrls(options: ShareUrlOptions): Record<SharePlatform, string>
 
 **Before** (`BlogLayout.astro`):
 
-```
+````
 ```typescript
 const encodedTitle = encodeURIComponent(title);
 const encodedUrl = encodeURIComponent(currentUrl);
@@ -63,11 +63,11 @@ const shareUrls = {
   facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
   reddit: `https://reddit.com/submit?url=${encodedUrl}&title=${encodedTitle}`,
 };
-```
+````
 
 **After**:
 
-```
+````
 ```typescript
 import { generateAllShareUrls } from "@utils/socialShare";
 
@@ -76,7 +76,7 @@ const shareUrls = generateAllShareUrls({
   title,
   description,
 });
-```
+````
 
 ## Consequences
 

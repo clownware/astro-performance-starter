@@ -69,7 +69,7 @@ Run all quality checks:
 pnpm run quality
 ```
 
-*Note: As the project grows, the full `pnpm run quality` suite (including tests, extensive linting, etc.) might become slower. For faster local iteration, a mechanism such as setting an environment variable (e.g., `CI=0` or `FAST_LINT=true`) might be implemented to run a quicker, focused subset of these checks. However, the complete quality suite will always be enforced by pre-commit hooks and the CI pipeline to ensure no regressions.*
+_Note: As the project grows, the full `pnpm run quality` suite (including tests, extensive linting, etc.) might become slower. For faster local iteration, a mechanism such as setting an environment variable (e.g., `CI=0` or `FAST_LINT=true`) might be implemented to run a quicker, focused subset of these checks. However, the complete quality suite will always be enforced by pre-commit hooks and the CI pipeline to ensure no regressions._
 
 Individual checks:
 

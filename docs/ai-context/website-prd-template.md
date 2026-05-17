@@ -289,7 +289,7 @@ When making development choices:
 
 ---
 
-*This PRD should be reviewed weekly during development and monthly during maintenance phases.*
+_This PRD should be reviewed weekly during development and monthly during maintenance phases._
 
 - **Content Updates**: [Frequency and type]
 - **Feature Additions**: [Planned enhancements]

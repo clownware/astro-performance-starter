@@ -9,7 +9,7 @@ pagefind: true
 
 ## Overview
 
-The *Astro Performance Starter* gives you a production-ready foundation focused on performance, accessibility, and DX. **Phase 5 ("UI Component Library") is now complete**, delivering essential UI components alongside the foundational site structure.
+The _Astro Performance Starter_ gives you a production-ready foundation focused on performance, accessibility, and DX. **Phase 5 ("UI Component Library") is now complete**, delivering essential UI components alongside the foundational site structure.
 
 ## What’s included in this template
 

@@ -157,4 +157,4 @@ Documenting important technical decisions:
 - Consequences
 
 ---
-*Questions? Open a Discussion on GitHub*
+_Questions? Open a Discussion on GitHub_

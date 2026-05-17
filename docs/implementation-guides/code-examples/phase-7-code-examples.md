@@ -298,7 +298,7 @@ The redesign exceeded all target metrics:
 
 ### Blog Post Example
 
-```mdx
+````mdx
 
 
 ***

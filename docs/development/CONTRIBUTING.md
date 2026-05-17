@@ -14,7 +14,7 @@ pagefind: false
 Please see the main **[CONTRIBUTING.md](../../CONTRIBUTING.md)** file in the repository root for:
 
 - Complete contribution workflow
-- Code standards and guidelines  
+- Code standards and guidelines
 - Version management system
 - Pull request requirements
 - Testing guidelines
@@ -23,4 +23,4 @@ The consolidated guide includes all template-specific requirements and general c
 
 ---
 
-*This redirect ensures all contribution guidance is centralized while maintaining any existing links to this location.*
+_This redirect ensures all contribution guidance is centralized while maintaining any existing links to this location._

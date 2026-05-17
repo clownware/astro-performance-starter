@@ -303,7 +303,7 @@ jobs:
 
 - Quick scan for obvious errors during development
 
-### Weekly  
+### Weekly
 
 - Phase status accuracy
 - Active development areas
@@ -311,7 +311,7 @@ jobs:
 
 ### Monthly
 
-- Full accuracy audit  
+- Full accuracy audit
 - Dependency updates
 - Pattern effectiveness
 - Team feedback
