@@ -15,7 +15,7 @@ Thank you for your interest in contributing! This project follows a structured a
 - pnpm 10.x or later
 - Familiarity with our [Implementation Guides](docs/implementation-guides/README.md)
 
-## AI-Assisted Development
+## Working with AI Agents
 
 This project ships with pre-configured AI assistant context for multiple tools, using the [AGENTS.md](https://agents.md) cross-tool pattern:
 

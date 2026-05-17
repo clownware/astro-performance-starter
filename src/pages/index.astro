@@ -38,16 +38,16 @@ const features: Feature[] = [
   },
   {
     icon: "🤖",
-    title: "AI-Assisted Development",
+    title: "Agentic Discipline Built In",
     description:
-      "Rich context documentation and prompt libraries that make your AI agent's output ship-ready from the first pass.",
-    metric: "Ship-Ready",
+      "Layered AI constitution, role-separated workflow, and halt-on-violation CI gates. Your agent works under the same rules you do.",
+    metric: "Halt-on-Violation",
     expandedDetails: [
-      "Structured documentation that AI assistants can understand and use effectively",
-      "Architectural Decision Records (ADRs) for tracking design choices",
-      "Phase-by-phase implementation guides with clear milestones",
-      "Pattern libraries with real-world examples and anti-patterns",
-      "Context-aware documentation that adapts to your project needs",
+      "Layered constitution: CLAUDE.md + .claude/engineering.md + .claude/workflow.md + .claude/stack.md",
+      "Role-separated workflow: Architect plans, Coder implements, Reviewer verifies (.claude/roles/)",
+      "pnpm quality:ci halts on any violation — broken tests, lint, types, and markdown all block merge",
+      "Every AI-readable rule names its halt condition with a stated reason, not soft guidance",
+      "Pattern source: Uncle Bob's Clean AI: Agentic Discipline series",
     ],
   },
   {
@@ -175,6 +175,20 @@ const techStack: TechStackItem[] = [
     category: "Unit Testing",
   },
   {
+    name: "Astro Container API",
+    version: "experimental_",
+    description: "Microtests for every .astro atom and molecule",
+    benefit: "Sub-second component-contract verification (ADR-040)",
+    category: "Component Testing",
+  },
+  {
+    name: "Stryker",
+    version: "v9",
+    description: "Mutation testing nightly via GitHub Actions",
+    benefit: "Verifies tests actually fail when code breaks (ADR-042)",
+    category: "Mutation Testing",
+  },
+  {
     name: "Sharp",
     version: "v0.34.x",
     description: "High-performance image processing",
@@ -206,8 +220,8 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
 ---
 
 <BaseLayout
-  title="Production-Ready Astro Template for AI-Assisted Development"
-  description="Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 95+ Lighthouse scores, and AI-optimized documentation for rapid development."
+  title="Astro Performance Starter — Agentic Discipline Built In"
+  description="Build blazing-fast websites with Astro's modern architecture. Zero-JS baseline, 95+ Lighthouse scores, and a layered AI constitution with halt-on-violation enforcement."
 >
   <!-- Hero Section -->
   <Section ariaLabel="Hero section" class="relative overflow-hidden flex flex-col items-center justify-center text-center min-h-[calc(100vh-4rem)]">
@@ -284,10 +298,10 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
     <Container>
       <div class="text-center">
         <h2 class="text-3xl font-bold text-foreground-primary text-balance">
-          <span aria-hidden="true" class="mr-1.5">🎯</span> Lighthouse Performance Scores
+          <span aria-hidden="true" class="mr-1.5">🎯</span> Quality Metrics
         </h2>
         <p class="mt-4 text-lg text-foreground-secondary">
-          Optimized for Core Web Vitals and search engine performance
+          Lighthouse for runtime performance · Stryker for test-quality verification (ADR-042)
         </p>
       </div>
 
@@ -426,7 +440,11 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
               </li>
               <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
                 <span class="text-secondary-500 mt-0.5" aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>CI pipeline</span>
+                <span><span class="sr-only">Included: </span>Layered AI constitution (CLAUDE.md + .claude/)</span>
+              </li>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-secondary-500 mt-0.5" aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Halt-on-violation CI gates</span>
               </li>
             </ul>
             <p class="text-xs text-foreground-subtle italic">Clone the repo and this is already running.</p>
@@ -458,10 +476,14 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
               </li>
               <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
                 <span class="text-warning-600 mt-0.5" aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Automated tests &amp; CI quality gates</span>
+                <span><span class="sr-only">Included: </span>Container API microtests for every atom &amp; molecule</span>
+              </li>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-warning-600 mt-0.5" aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Test-first discipline enforced in CI (ADR-037)</span>
               </li>
             </ul>
-            <p class="text-xs text-foreground-subtle italic">Your agent can help — the AI context layer covers every component and pattern.</p>
+            <p class="text-xs text-foreground-subtle italic">Your agent works under the same constitution — every component has a contract test.</p>
           </Card>
 
           <!-- Polish Tier -->
@@ -490,7 +512,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
               </li>
               <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
                 <span class="text-success-600 mt-0.5" aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Post-launch monitoring</span>
+                <span><span class="sr-only">Included: </span>Mutation testing as quality verification (ADR-042)</span>
               </li>
             </ul>
             <p class="text-xs text-foreground-subtle italic">Each phase has a clear scope — go as far as your project needs.</p>
@@ -602,7 +624,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           Clone it. Own it. Ship it.
         </h2>
         <p class="mt-4 text-lg text-white">
-          One clone. Astro 6, Tailwind v4, and a full AI-optimized doc system — ready to go.
+          One clone. Astro 6, Tailwind v4, and a layered AI constitution with halt-on-violation gates — ready to go.
         </p>
 
         <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
@@ -618,7 +640,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
         </div>
 
         <div class="mt-8 text-sm text-white">
-          <span aria-hidden="true">🔒</span> MIT Licensed <span aria-hidden="true">•</span> <span aria-hidden="true">⚡</span> Astro 6 + Tailwind v4 <span aria-hidden="true">•</span> <span aria-hidden="true">🤖</span> AI Optimized
+          <span aria-hidden="true">🔒</span> MIT Licensed <span aria-hidden="true">•</span> <span aria-hidden="true">⚡</span> Astro 6 + Tailwind v4 <span aria-hidden="true">•</span> <span aria-hidden="true">🤖</span> Agentic Discipline
         </div>
       </div>
     </Container>

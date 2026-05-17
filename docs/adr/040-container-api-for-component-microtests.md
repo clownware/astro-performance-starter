@@ -191,7 +191,7 @@ The helper's `slots` parameter is `Record<string, string>`. Astro itself accepts
 
 The choice to keep slot values as `Record<string, string>` rather than the full Astro slot type is deliberate. Microtests assert on serialised HTML; the string form is sufficient and forces simpler test data. The day a component requires a richer slot shape for legitimate testing reasons, that's a signal to ask whether the component or the test is overcomplicated.
 
-Phase 2 of [the testing+agentic-discipline plan](/Users/chrispezza/.claude/plans/testing-and-agentic-discipline-sharded-quokka.md) builds on this helper for molecule-tier expansion (Card, PostCard, ProjectCard, Tabs). Phase 3 (mutation testing via Stryker) uses the assertion improvements that helper consistency enables.
+Molecule-tier microtests (Card, PostCard, ProjectCard, Tabs) build on this helper. Mutation testing via Stryker ([ADR-042](042-mutation-testing-with-stryker.md)) leverages the assertion improvements that helper consistency enables.
 
 ---
 

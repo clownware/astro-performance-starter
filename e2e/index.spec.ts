@@ -25,9 +25,9 @@ test.describe("Homepage (index.astro)", () => {
 		await expect(githubLink).toHaveAttribute("href", /github\.com/);
 	});
 
-	test("should display Lighthouse metrics section", async ({ page }) => {
+	test("should display Quality Metrics section", async ({ page }) => {
 		const metricsHeading = page.getByRole("heading", {
-			name: /Lighthouse Performance Scores/,
+			name: /Quality Metrics/,
 		});
 		await expect(metricsHeading).toBeVisible();
 

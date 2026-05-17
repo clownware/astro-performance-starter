@@ -18,7 +18,7 @@
 Most Astro templates sacrifice performance for features. This one delivers **95+ Lighthouse scores** without the bloat.
 
 - **Performance-first** — < 90KB JS, < 15KB CSS (gzipped) out of the box
-- **AI-ready from clone** — Ships CLAUDE.md, Claude Code skills + subagents, plus Windsurf/Cursor/Cline context. Your AI assistant knows the codebase on first session.
+- **Agentic discipline built in** — Layered AI constitution (`CLAUDE.md` + `.claude/`), role-separated workflow, halt-on-violation CI gates. Your agent works under the same rules you do.
 - **Modern stack** — Astro 6.x + TypeScript 5.x + Tailwind 4.x + Biome 2.x
 - **Accessible** — WCAG AA compliance via semantic HTML, ARIA labels, and validated contrast ratios
 - **Solo dev optimized** — Build portfolios and client sites fast
@@ -110,9 +110,29 @@ One path, three natural stopping points:
 
 See the **[Implementation Guide](./docs/README.md#implementation-roadmap)** for details.
 
-## 🤖 AI Development Workflows
+## 🤖 Working with AI Agents
 
-This template ships working AI context for multiple tools — not just documentation, but active skills, subagents, and project conventions that make your AI assistant productive from the first session.
+This template is a reference implementation of the **layered AI constitution** pattern — agent-readable rules with halt-on-violation enforcement. Drop Claude (or any agent) into the repo and it works under the same rules you do.
+
+The constitution layers responsibility:
+
+- **[`CLAUDE.md`](./CLAUDE.md)** — top-level entry: stack, scope boundaries, halt conditions
+- **`.claude/engineering.md`** — components, design system, TypeScript, testing discipline ([ADR-037](./docs/adr/037-testing-philosophy.md))
+- **`.claude/workflow.md`** — three-pass Architect → Coder → Reviewer ([ADR-038](./docs/adr/038-agent-roles.md)), quality gate ([ADR-039](./docs/adr/039-halt-on-violation-enforcement.md))
+- **`.claude/stack.md`** — tooling, versions, performance budgets
+- **`.claude/roles/`** — per-pass prompts (architect, coder, reviewer)
+
+Every rule names its halt condition with a stated reason — no soft guidance. `pnpm quality:ci` halts on broken tests, lint, types, or markdown — the same gate your agent must clear before claiming done.
+
+```bash
+pnpm quality:ci  # the halt-on-violation gate — agent must clear this before claiming done
+```
+
+Pattern source: Robert C. Martin and Justin Martin's _Clean AI: Agentic Discipline_ series. Layered-constitution precedent: [`unclebob/swarm-forge`](https://github.com/unclebob/swarm-forge).
+
+### Multi-tool AI Context
+
+The constitution is the canonical source. The same rules ship in multiple formats so the discipline is tool-agnostic:
 
 | Tool | File(s) | What it does |
 |------|---------|-------------|
@@ -123,14 +143,14 @@ This template ships working AI context for multiple tools — not just documenta
 
 One source of truth, every tool stays in sync. Edit the layered files in `.claude/` (or `CLAUDE.md` for halt-on-violation rules) and run `pnpm agents:build`. See [ADR-045](docs/adr/045-cross-tool-agents-spine.md) for the cross-tool spine rationale and [ADR-036](docs/adr/036-layered-constitution.md) for the layering.
 
-### AI Context Layer
+Entry points:
 
-- **Entry point**: `docs/ai-context/INDEX.md` — project overview, constraints, and navigation
-- **Architectural constraints**: `docs/adr/` — every accepted ADR is a rule AI must respect
-- **Performance limits**: Budgets and guardrails checked before adding dependencies
-- **Zero config**: No MCP server, no API — just well-structured markdown that any AI can read
+- **Agent workflow**: `.claude/workflow.md` — three-pass pattern, quality gate, ADR discipline
+- **Architectural constraints**: `docs/adr/` — every Accepted ADR is a rule the agent must respect
+- **Performance limits**: budgets in `.claude/stack.md`, checked before adding dependencies
+- **Zero config**: no MCP server, no API — well-structured markdown any agent can read
 
-See [AI Context Setup Guide](docs/ai-context/ai-rules-setup.md) for details.
+See [AI Context Setup Guide](docs/ai-context/ai-rules-setup.md) for the multi-tool sync workflow.
 
 ## 🔧 Key Commands
 

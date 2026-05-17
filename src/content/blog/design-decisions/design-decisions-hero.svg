@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Design decisions behind the Astro Performance Starter">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e293b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <pattern id="grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.6"/>
+  <g transform="translate(80 110)">
+    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="22" fill="#7dd3fc" font-weight="600" letter-spacing="4">DESIGN DECISIONS</text>
+    <text x="0" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="84" fill="#f8fafc" font-weight="800">Why these choices,</text>
+    <text x="0" y="195" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="84" fill="#f8fafc" font-weight="800">not the others.</text>
+    <line x1="0" y1="245" x2="380" y2="245" stroke="url(#accent)" stroke-width="6"/>
+    <g transform="translate(0 290)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#cbd5e1">
+      <text x="0" y="0">Biome <tspan fill="#64748b">over</tspan> ESLint + Prettier</text>
+      <text x="0" y="40">Tailwind v4 <tspan fill="#64748b">over</tspan> v3</text>
+      <text x="0" y="80">Preact <tspan fill="#64748b">over</tspan> React</text>
+      <text x="0" y="120">pnpm <tspan fill="#64748b">over</tspan> npm / yarn</text>
+    </g>
+  </g>
+  <g transform="translate(960 480)" opacity="0.85">
+    <circle cx="0" cy="0" r="90" fill="none" stroke="url(#accent)" stroke-width="3"/>
+    <circle cx="0" cy="0" r="60" fill="none" stroke="#a78bfa" stroke-width="2" opacity="0.5"/>
+    <circle cx="0" cy="0" r="30" fill="#38bdf8" opacity="0.4"/>
+  </g>
+</svg>
