@@ -177,7 +177,7 @@ We follow a **progressive testing approach**:
 - **Before PR**: Run full test suite to catch regressions
 - **Pre-Launch**: Comprehensive testing per implementation tier
 
-See [Testing Strategy Guide](docs/implementation-guides/guides/testing-strategy-guide.md) for details.
+See [Testing Strategy Guide](docs/implementation-guides/guides/testing-strategy-guide.md) for the strategic overview, and [Testing Conventions](docs/development/testing-conventions.md) for the practical "how to write a good test in this repo" reference (AAA, single-assertion, the conditional-assertion anti-pattern, mock-or-not decisions). The five testing-discipline rules live in [`.claude/engineering.md`](.claude/engineering.md), per [ADR-037](docs/adr/037-testing-philosophy.md).
 
 ### For Code Changes
 
