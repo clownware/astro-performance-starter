@@ -9,19 +9,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Layered AI constitution split across `CLAUDE.md`, `.claude/engineering.md`, `.claude/workflow.md`, `.claude/stack.md`, and `.claude/roles/` ([ADR-036](./docs/adr/036-layered-constitution.md))
+- Testing philosophy adopted as house rules — test-first, AAA structure, no conditional assertions, no lowered thresholds ([ADR-037](./docs/adr/037-testing-philosophy.md))
+- Three-pass Architect → Coder → Reviewer workflow with explicit hand-off artefacts ([ADR-038](./docs/adr/038-agent-roles.md))
 - `AGENTS.md` at repo root — cross-tool AI agent spine read natively by Cursor, Codex CLI, Copilot, Windsurf, Aider, Devin, Zed, Continue, Amp, and Amazon Q (ADR-045)
 - `scripts/src/build-agents-md.ts` with `pnpm agents:build` and `pnpm agents:check` — generates `AGENTS.md` from the layered constitution; CI fails on drift
 - ADR-045 documenting the cross-tool spine architecture as the cross-tool extension of ADR-036
+- Homepage "AI-Assisted Development" card and README "Why This Starter?" bullet rewritten to name the agentic-discipline methodology rather than soft "AI-optimized" copy
+- README "Working with AI Agents" section documenting the layered constitution and `AGENTS.md` cross-tool spine
 
 ### Changed
 
-- `quality:ci` now chains `agents:check` so a source-file edit without `AGENTS.md` regeneration fails CI
+- `pnpm quality:ci` now halts on any violation — broken tests, lint, types, and markdown all block merge with no `--no-verify` bypass ([ADR-039](./docs/adr/039-halt-on-violation-enforcement.md)). **Breaking for contributors:** PRs that previously landed without passing tests will now be blocked.
+- `quality:ci` now also chains `agents:check` so a source-file edit without `AGENTS.md` regeneration fails CI
 - `.windsurfrules` shrunk from 179 lines to a ~20-line Windsurf-specific overlay; full context now comes from `AGENTS.md`
 - `.claude/stack.md` "Multi-tool sync" footer replaced with a generated-spine note
 - `docs/ai-context/INDEX.md` Rules of Engagement section no longer duplicates the halt-on-violation rules (the 7-vs-10 drift it encoded was the motivating example for ADR-045); points at `AGENTS.md` instead
 - `docs/ai-context/ai-rules-setup.md` rewritten for the AGENTS.md pattern with a 2026 tool-support matrix
 - ADR-035 Category 1 enumeration: `airules.example` row removed; `AGENTS.md` row added
 - README, CONTRIBUTING, and `docs/getting-started/included-in-this-template.md` updated to describe the cross-tool spine instead of the per-tool copy workflow
+- Homepage Foundation tier card replaces "CI pipeline" with "Layered AI constitution" and "Halt-on-violation CI gates"
+- Homepage CTA footer "AI Optimized" replaced with "Agentic Discipline"; subhead updated to reference the layered constitution
 
 ### Removed
 

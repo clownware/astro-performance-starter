@@ -38,16 +38,16 @@ const features: Feature[] = [
   },
   {
     icon: "🤖",
-    title: "AI-Assisted Development",
+    title: "Agentic Discipline Built In",
     description:
-      "Rich context documentation and prompt libraries that make your AI agent's output ship-ready from the first pass.",
-    metric: "Ship-Ready",
+      "Layered AI constitution, role-separated workflow, and halt-on-violation CI gates. Your agent works under the same rules you do.",
+    metric: "Halt-on-Violation",
     expandedDetails: [
-      "Structured documentation that AI assistants can understand and use effectively",
-      "Architectural Decision Records (ADRs) for tracking design choices",
-      "Phase-by-phase implementation guides with clear milestones",
-      "Pattern libraries with real-world examples and anti-patterns",
-      "Context-aware documentation that adapts to your project needs",
+      "Layered constitution: CLAUDE.md + .claude/engineering.md + .claude/workflow.md + .claude/stack.md",
+      "Role-separated workflow: Architect plans, Coder implements, Reviewer verifies (.claude/roles/)",
+      "pnpm quality:ci halts on any violation — broken tests, lint, types, and markdown all block merge",
+      "Every AI-readable rule names its halt condition with a stated reason, not soft guidance",
+      "Pattern source: Uncle Bob's Clean AI: Agentic Discipline series",
     ],
   },
   {
@@ -426,7 +426,11 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
               </li>
               <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
                 <span class="text-secondary-500 mt-0.5" aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>CI pipeline</span>
+                <span><span class="sr-only">Included: </span>Layered AI constitution (CLAUDE.md + .claude/)</span>
+              </li>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-secondary-500 mt-0.5" aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Halt-on-violation CI gates</span>
               </li>
             </ul>
             <p class="text-xs text-foreground-subtle italic">Clone the repo and this is already running.</p>
@@ -602,7 +606,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           Clone it. Own it. Ship it.
         </h2>
         <p class="mt-4 text-lg text-white">
-          One clone. Astro 6, Tailwind v4, and a full AI-optimized doc system — ready to go.
+          One clone. Astro 6, Tailwind v4, and a layered AI constitution with halt-on-violation gates — ready to go.
         </p>
 
         <div class="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-6">
@@ -618,7 +622,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
         </div>
 
         <div class="mt-8 text-sm text-white">
-          <span aria-hidden="true">🔒</span> MIT Licensed <span aria-hidden="true">•</span> <span aria-hidden="true">⚡</span> Astro 6 + Tailwind v4 <span aria-hidden="true">•</span> <span aria-hidden="true">🤖</span> AI Optimized
+          <span aria-hidden="true">🔒</span> MIT Licensed <span aria-hidden="true">•</span> <span aria-hidden="true">⚡</span> Astro 6 + Tailwind v4 <span aria-hidden="true">•</span> <span aria-hidden="true">🤖</span> Agentic Discipline
         </div>
       </div>
     </Container>
