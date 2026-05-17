@@ -16,14 +16,13 @@ test.describe("Homepage (index.astro)", () => {
 		await expect(heading).toBeVisible();
 	});
 
-	test("should have GitHub link in hero when configured", async ({ page }) => {
+	test("hero CTA links to the configured GitHub repo", async ({ page }) => {
+		// siteLinks.github is non-empty in config.ts (the template default). If
+		// a forked instance empties it, this test should fail loudly — that's
+		// the correct signal. ADR-037 forbids conditional assertions.
 		const githubLink = page.getByRole("link", { name: /Clone the Template/ }).first();
-		const isVisible = await githubLink.isVisible().catch(() => false);
-
-		if (isVisible) {
-			await expect(githubLink).toHaveAttribute("href", /github\.com/);
-		}
-		// When siteLinks.github is empty, the button is conditionally hidden — valid state
+		await expect(githubLink).toBeVisible();
+		await expect(githubLink).toHaveAttribute("href", /github\.com/);
 	});
 
 	test("should display Lighthouse metrics section", async ({ page }) => {
@@ -50,52 +49,72 @@ test.describe("Homepage (index.astro)", () => {
 		await expect(performanceFeature).toBeVisible();
 	});
 
-	test("should display tech stack section with accurate versions", async ({
-		page,
-	}) => {
-		const techStackHeading = page.getByRole("heading", {
-			name: /Modern Tech Stack/,
+	// Tech stack section: split per ADR-037 Rule 2 (one logical assertion per
+	// test). The previous combined test bundled four unrelated facts; one
+	// failure hid the others.
+	test.describe("tech stack section", () => {
+		test("should display the section heading", async ({ page }) => {
+			const techStackHeading = page.getByRole("heading", {
+				name: /Modern Tech Stack/,
+			});
+			await expect(techStackHeading).toBeVisible();
 		});
-		await expect(techStackHeading).toBeVisible();
 
-		// Verify Sharp version is not placeholder
-		const sharpVersion = page.getByText("v0.34.x");
-		await expect(sharpVersion).toBeVisible();
+		test("should not show a placeholder Sharp version", async ({ page }) => {
+			// vX.YZ.x placeholder format is what gets shown before scripts/src/sync-docs.ts
+			// fills in real versions; surfacing it would indicate the pipeline ran wrong.
+			const sharpVersion = page.getByText("v0.34.x");
+			await expect(sharpVersion).toBeVisible();
+		});
 
-		// Verify other key technologies are listed in the tech stack section
-		const techSection = page.getByLabel("Technology stack section");
-		await expect(techSection.getByRole("heading", { name: "Astro", exact: true })).toBeVisible();
-		await expect(techSection.getByText("TypeScript").first()).toBeVisible();
-		await expect(techSection.getByText("Biome").first()).toBeVisible();
+		test("should list Astro as a technology", async ({ page }) => {
+			const techSection = page.getByLabel("Technology stack section");
+			await expect(
+				techSection.getByRole("heading", { name: "Astro", exact: true }),
+			).toBeVisible();
+		});
+
+		test("should list TypeScript as a technology", async ({ page }) => {
+			const techSection = page.getByLabel("Technology stack section");
+			await expect(techSection.getByText("TypeScript").first()).toBeVisible();
+		});
+
+		test("should list Biome as a technology", async ({ page }) => {
+			const techSection = page.getByLabel("Technology stack section");
+			await expect(techSection.getByText("Biome").first()).toBeVisible();
+		});
 	});
 
-	test("should display implementation tiers section", async ({ page }) => {
+	// Implementation tiers: heading + individual tier names exercised separately.
+	test("should display the implementation tiers section heading", async ({ page }) => {
 		// Heading reworded in 9bf58109 (chore(homepage): update hero, AI card
 		// metric, and implementation tiers copy).
 		const tiersHeading = page.getByRole("heading", {
 			name: /What You Get on Clone/,
 		});
 		await expect(tiersHeading).toBeVisible();
-
-		// Check for Foundation, Build, and Polish tiers
-		await expect(page.getByText("Foundation").first()).toBeVisible();
-		await expect(page.getByText("Build").first()).toBeVisible();
-		await expect(page.getByText("Polish").first()).toBeVisible();
 	});
+
+	for (const tier of ["Foundation", "Build", "Polish"]) {
+		test(`should display the ${tier} tier card`, async ({ page }) => {
+			await expect(page.getByText(tier).first()).toBeVisible();
+		});
+	}
 
 	test("should have CTA section with heading", async ({ page }) => {
 		const ctaHeading = page.getByRole("heading", {
 			name: /Clone it\. Own it\. Ship it\./,
 		});
 		await expect(ctaHeading).toBeVisible();
+	});
 
-		// CTA GitHub link is conditionally rendered based on siteLinks.github config
+	test("CTA section links to the configured GitHub repo", async ({ page }) => {
+		// Same reasoning as the hero CTA test: if siteLinks.github is emptied
+		// by a forked instance, this test should fail loudly (ADR-037 Rule 3).
 		const ctaSection = page.getByLabel("Call to action section");
 		const ctaLink = ctaSection.getByRole("link", { name: /Clone the Template/ });
-		const isVisible = await ctaLink.isVisible().catch(() => false);
-		if (isVisible) {
-			await expect(ctaLink).toHaveAttribute("href", /github\.com/);
-		}
+		await expect(ctaLink).toBeVisible();
+		await expect(ctaLink).toHaveAttribute("href", /github\.com/);
 	});
 
 	test("should have disclaimer about real-world results", async ({ page }) => {
@@ -112,6 +131,9 @@ test.describe("Homepage (index.astro)", () => {
 		await expect(scrollIndicator).toBeVisible();
 	});
 
+	// @a11y baseline checks: kept as one test because the assertions together
+	// describe a single logical fact ("page meets baseline a11y structure").
+	// Per ADR-037 the rule is one *logical* assertion, not one expect() call.
 	test("@a11y should meet basic accessibility requirements", async ({
 		page,
 	}) => {
