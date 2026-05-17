@@ -65,3 +65,11 @@ Branch naming: `feature/*`, `fix/*`, `docs/*`, `chore/*`, `phase{N}/*` for phase
 | Performance | Lighthouse CI, JS bundle gate | Budgets in `.claude/stack.md` | Enforced in CI |
 
 For coverage targets, see [ADR-023](../docs/adr/023-testing-strategy.md).
+
+### Gherkin / BDD-style specs — declined
+
+The Phase 2 testing plan reserved an optional slot (ADR-041) for Gherkin-style `*.feature` files consumed by Playwright if the E2E restructure surfaced cases where prose acceptance criteria were genuinely ambiguous.
+
+The restructure (PR for `e2e/index.spec.ts`) did not surface any such case. The split-out tests (one logical assertion per test, behaviour-describing names per ADR-037) already read as specifications. Adding Given/When/Then on top would be ceremony without signal.
+
+**Decision: do not open ADR-041 at this time.** If a future feature genuinely has Given/When/Then-shaped acceptance criteria (contact form happy/sad paths, future search, multi-step flow), revisit by opening ADR-041 then. The trigger condition is "prose acceptance criteria are ambiguous enough that test reviewers disagree about whether the test matches the spec." Until that trigger fires, the existing tests-as-specs convention stands.
