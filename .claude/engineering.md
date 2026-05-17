@@ -75,3 +75,13 @@ For external images, use `<Image>` with the `inferSize` prop.
 | Utilities | `camelCase` | `formatDate.ts` |
 | Content slugs / URLs | `kebab-case` | `getting-started` |
 | Design tokens | semantic | `primary`, `secondary` |
+
+## Testing Discipline (ADR-037)
+
+1. Before implementing, write or update the failing test. Show the failure output before writing production code.
+2. Use Arrange / Act / Assert structure with one logical assertion per test.
+3. No conditional assertions. If the assertion depends on configuration, fix the fixture so the configuration is deterministic.
+4. Test names describe behaviour, not implementation.
+5. Never lower a coverage threshold to make CI pass. Add the missing test or open an ADR documenting the exception.
+
+The practical companion with examples lives at [`docs/development/testing-conventions.md`](../docs/development/testing-conventions.md). The exemplar test file is [`src/utils/__tests__/formatDate.test.ts`](../src/utils/__tests__/formatDate.test.ts). The Architect pass from [ADR-038](../docs/adr/038-agent-roles.md) produces the failing test these rules govern.
