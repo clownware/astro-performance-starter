@@ -141,8 +141,8 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
                   format="avif"
                   quality="high"
                   loading="eager"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                  widths={[400, 600, 800, 1200]}
+                  sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 640px"
+                  widths={[400, 600, 800, 1200, 1536]}
                 />
               )}
               <div class="absolute inset-0 bg-linear-to-t from-foreground-primary/20 to-transparent pointer-events-none"></div>
@@ -164,14 +164,14 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
           <div class="outcomes-grid grid grid-cols-1 sm:grid-cols-3 gap-6">
             {project.outcomes.map((outcome) => (
               <div class="outcome-card text-center p-8 bg-background-secondary border border-border-primary rounded-xl hover:shadow-lg transition-shadow">
-                <div class="outcome-value text-4xl font-bold text-primary-600 dark:text-primary-400 mb-3 leading-tight">
+                <div class="outcome-value text-3xl font-bold text-primary-600 dark:text-primary-400 mb-3 leading-tight break-words">
                   {outcome.value}
                 </div>
                 <div class="outcome-metric text-sm font-semibold text-foreground-primary mb-2 uppercase tracking-wide">
                   {outcome.metric}
                 </div>
                 {outcome.description && (
-                  <div class="outcome-description text-xs text-foreground-secondary leading-relaxed">
+                  <div class="outcome-description text-xs text-foreground-secondary leading-relaxed break-words">
                     {outcome.description}
                   </div>
                 )}
@@ -198,8 +198,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
       </section>
 
       <!-- Project Content (MDX slot) -->
-      <section class="project-details mb-12" aria-labelledby="details-heading">
-        <h2 id="details-heading" class="sr-only">Project Details</h2>
+      <section class="project-details mb-12" aria-label="Project details">
         <div class="prose prose-lg max-w-none">
           <slot />
         </div>
