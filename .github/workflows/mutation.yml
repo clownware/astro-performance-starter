@@ -1,0 +1,83 @@
+name: Mutation Testing
+
+# Runs Stryker mutation testing nightly (and on demand via workflow_dispatch).
+# This is a tracked-metric workflow, NOT a PR gate — see ADR-042.
+#
+# Cadence: nightly at 07:00 UTC (~midnight Pacific). Single run; the result
+# is uploaded as an artefact and surfaced in the workflow summary.
+
+on:
+  schedule:
+    # Nightly at 07:00 UTC
+    - cron: '0 7 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  mutation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SITE_URL: https://${{ github.repository_owner }}.github.io
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+        id: pnpm-cache
+
+      - name: Cache pnpm store
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Run mutation tests
+        run: pnpm run test:mutate
+
+      - name: Upload mutation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mutation-report
+          path: reports/mutation/
+          retention-days: 14
+          if-no-files-found: warn
+
+      - name: Surface mutation score in summary
+        if: always()
+        shell: bash
+        run: |
+          if [ -f "reports/mutation/mutation.json" ]; then
+            SCORE=$(node -e "const r = require('./reports/mutation/mutation.json'); const k = r.files; let killed=0, total=0; for (const f of Object.values(k)) { for (const m of f.mutants) { if (m.status==='Killed') killed++; if (m.status!=='Ignored' && m.status!=='NoCoverage') total++; } } console.log((killed/total*100).toFixed(2));")
+            {
+              echo "## Mutation testing"
+              echo ""
+              echo "**Mutation score:** ${SCORE}%"
+              echo ""
+              echo "Full report: download the \`mutation-report\` artefact."
+              echo ""
+              echo "Scope: \`src/utils/**/*.ts\`. See [ADR-042](../../docs/adr/042-mutation-testing-with-stryker.md) for rationale."
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "No mutation report produced." >> "$GITHUB_STEP_SUMMARY"
+          fi
