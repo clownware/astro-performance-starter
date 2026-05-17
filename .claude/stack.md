@@ -56,6 +56,6 @@ Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding
 - **Output:** `dist/`
 - **Security headers:** `public/_headers`
 
-## Multi-tool sync
+## Cross-tool spine
 
-`.windsurfrules` mirrors `CLAUDE.md` and the `.claude/` sublayers for Windsurf users. When updating standards in either file, update the other. See `docs/ai-context/ai-rules-setup.md` for the full multi-tool setup.
+The cross-tool agent context lives in [`AGENTS.md`](../AGENTS.md) at the repo root. It is generated from this file plus `CLAUDE.md`, `.claude/engineering.md`, and `.claude/workflow.md` via `pnpm agents:build`. CI fails if `AGENTS.md` drifts from its sources (see [ADR-045](../docs/adr/045-cross-tool-agents-spine.md)). Do not edit `AGENTS.md` directly; edit the source layer instead.

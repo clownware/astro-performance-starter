@@ -64,9 +64,10 @@ The _Astro Performance Starter_ gives you a production-ready foundation focused 
 
 | Feature | Path | Purpose |
 |---------|------|----------|
-| Windsurf AI rules | `.windsurfrules` | AI assistant configuration for optimal development patterns. |
-| AI rules template | `airules.example` | Template for customizing AI development context. |
-| Comprehensive docs | `docs/` | Complete implementation guides, patterns, and ADRs for AI context. |
+| Cross-tool AI spine | `AGENTS.md` | Canonical context for Cursor, Codex CLI, Copilot, Windsurf, Aider, Devin, Zed, Continue, Amp, Amazon Q. Generated from the layered constitution (`CLAUDE.md` + `.claude/{engineering,workflow,stack}.md`) via `pnpm agents:build`. See ADR-045. |
+| Layered constitution | `CLAUDE.md`, `.claude/engineering.md`, `.claude/workflow.md`, `.claude/stack.md` | Halt-on-violation rules + engineering defaults + workflow + stack facts. Source of truth for `AGENTS.md`. See ADR-036. |
+| Windsurf overlay | `.windsurfrules` | Thin Cascade-specific overlay; full context comes from `AGENTS.md`. |
+| Comprehensive docs | `docs/` | Implementation guides, patterns, and ADRs. |
 
 ## Configuration Files
 

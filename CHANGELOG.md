@@ -7,6 +7,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- `AGENTS.md` at repo root — cross-tool AI agent spine read natively by Cursor, Codex CLI, Copilot, Windsurf, Aider, Devin, Zed, Continue, Amp, and Amazon Q (ADR-045)
+- `scripts/src/build-agents-md.ts` with `pnpm agents:build` and `pnpm agents:check` — generates `AGENTS.md` from the layered constitution; CI fails on drift
+- ADR-045 documenting the cross-tool spine architecture as the cross-tool extension of ADR-036
+
+### Changed
+
+- `quality:ci` now chains `agents:check` so a source-file edit without `AGENTS.md` regeneration fails CI
+- `.windsurfrules` shrunk from 179 lines to a ~20-line Windsurf-specific overlay; full context now comes from `AGENTS.md`
+- `.claude/stack.md` "Multi-tool sync" footer replaced with a generated-spine note
+- `docs/ai-context/INDEX.md` Rules of Engagement section no longer duplicates the halt-on-violation rules (the 7-vs-10 drift it encoded was the motivating example for ADR-045); points at `AGENTS.md` instead
+- `docs/ai-context/ai-rules-setup.md` rewritten for the AGENTS.md pattern with a 2026 tool-support matrix
+- ADR-035 Category 1 enumeration: `airules.example` row removed; `AGENTS.md` row added
+- README, CONTRIBUTING, and `docs/getting-started/included-in-this-template.md` updated to describe the cross-tool spine instead of the per-tool copy workflow
+
+### Removed
+
+- `airules.example` — stale Chrome Extension / React / Shadcn / Express boilerplate; setup docs that recommended copying it (`cp airules.example .windsurfrules`) would have overwritten the working Windsurf rules with the wrong stack. Replaced by the generated `AGENTS.md` pattern (ADR-045)
+
 ## [0.2.0] — 2026-04-06
 
 ### Added

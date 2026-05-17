@@ -129,12 +129,12 @@ astro-performance-starter/
 ├── .gitignore                       # Comprehensive ignore
 ├── .lintstagedignore                # Lint staged ignore
 ├── .nvmrc                           # Node version
-├── .windsurfrules                   # Windsurf AI rules
+├── .windsurfrules                   # Windsurf overlay (thin; see AGENTS.md)
+├── AGENTS.md                        # Cross-tool AI spine (generated; see ADR-045)
 ├── CHANGELOG.md                     # Release notes
 ├── CONTRIBUTING.md                  # Contribution guide
 ├── README.md                        # Project overview
 ├── LICENSE.txt                      # MIT license
-├── airules.example                  # AI rules template
 ├── astro.config.mjs                 # Minimal config
 ├── biome.json                       # Complete config
 ├── budget-overrides.json            # Example overrides
