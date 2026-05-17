@@ -1,0 +1,43 @@
+{
+  "$schema": "./node_modules/@stryker-mutator/core/schema/stryker-schema.json",
+  "_comment": "Mutation testing config — see ADR-042. Initial scope: src/utils/**/*.ts (the layer Vitest coverage measures). .astro components and build scripts are excluded — their behaviour is exercised by Playwright and the Container API microtests, neither of which Stryker can drive efficiently in this template's setup.",
+  "packageManager": "pnpm",
+  "testRunner": "vitest",
+  "plugins": ["@stryker-mutator/vitest-runner"],
+  "vitest": {
+    "configFile": "vitest.config.ts"
+  },
+  "mutate": [
+    "src/utils/**/*.ts",
+    "!src/utils/**/__tests__/**",
+    "!src/utils/**/*.test.ts",
+    "!src/utils/**/*.spec.ts",
+    "!src/utils/**/*.d.ts"
+  ],
+  "reporters": ["html", "json", "progress", "clear-text"],
+  "htmlReporter": {
+    "fileName": "reports/mutation/index.html"
+  },
+  "jsonReporter": {
+    "fileName": "reports/mutation/mutation.json"
+  },
+  "thresholds": {
+    "high": 80,
+    "low": 50,
+    "break": 50
+  },
+  "concurrency": 4,
+  "timeoutMS": 60000,
+  "tempDirName": ".stryker-tmp",
+  "cleanTempDir": "always",
+  "incremental": false,
+  "ignorePatterns": [
+    ".astro",
+    ".stryker-tmp",
+    "coverage",
+    "dist",
+    "node_modules",
+    "reports",
+    "tokens/dist"
+  ]
+}
