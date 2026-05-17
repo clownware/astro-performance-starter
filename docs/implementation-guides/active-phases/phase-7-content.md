@@ -5,7 +5,7 @@ lastUpdated: 2024-01-15T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
-*What performance challenges are you facing? I'd love to hear about your optimization wins and struggles. [Reach out on Twitter](https://twitter.com/yourusername) or [email me](/implementation-guides/mailto:your@email/).*
+_What performance challenges are you facing? I'd love to hear about your optimization wins and struggles. [Reach out on Twitter](https://twitter.com/yourusername) or [email me](/implementation-guides/mailto:your@email/)._
 
 ## Overview
 

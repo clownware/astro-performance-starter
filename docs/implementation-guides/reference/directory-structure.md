@@ -13,7 +13,7 @@ pagefind: true
 The Astro Performance Starter follows a **structured, scalable architecture** designed for:
 
 - **Developer Experience**: Clear, predictable file locations
-- **Performance First**: Optimized build output and asset organization  
+- **Performance First**: Optimized build output and asset organization
 - **Atomic Design**: Component hierarchy that scales from simple to complex
 - **Type Safety**: TypeScript-first with generated types from content
 - **AI-Friendly**: Well-documented structure for AI development tools

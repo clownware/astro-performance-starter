@@ -369,7 +369,7 @@ const wrapperClass = [
 
 ### Badge Component
 
-```astro
+````astro
 
 
 ***
@@ -525,7 +525,7 @@ const linkText = `${config.name} profile`;
     (opens in new tab)
   </span>
 </a>
-```
+````
 
 **Usage Example:**
 

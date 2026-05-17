@@ -19,7 +19,7 @@ Snippets are embedded using a shortcode syntax:
 {{% snippet "git-hooks" %}}
 ```
 
-*Note: The actual implementation uses `{%` and `%}` delimiters.*
+_Note: The actual implementation uses `{%` and `%}` delimiters._
 
 ## Available Snippets
 

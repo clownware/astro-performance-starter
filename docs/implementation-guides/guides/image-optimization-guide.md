@@ -92,7 +92,7 @@ import heroImage from '@/assets/images/hero.jpg';
 **Size Categories:**
 
 - **Hero images**: 1200-1920px wide
-- **Content images**: 800-1200px wide  
+- **Content images**: 800-1200px wide
 - **Thumbnails**: 200-400px wide
 - **Avatars**: 100-200px wide
 

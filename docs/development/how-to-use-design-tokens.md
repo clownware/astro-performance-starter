@@ -14,7 +14,7 @@ Token sources live in `tokens/`:
 | File | Purpose |
 |------|---------|
 | `base.json` | **Atomic** design tokens (color, spacing, radii, motion, etc.) |
-| `semantic.json` | Light/dark *semantic* aliases (background, border, etc.) |
+| `semantic.json` | Light/dark _semantic_ aliases (background, border, etc.) |
 | `dist/` | Build output – **do not edit directly** |
 
 The build process automatically generates:
@@ -57,7 +57,7 @@ Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual c
 
 1. Edit `tokens/base.json` or `tokens/semantic.json`.
 2. Save the file – tokens auto-compile during `dev` or `build`.
-3. Commit both source and *dist* files.
+3. Commit both source and _dist_ files.
 
 Manual compilation (if needed): `pnpm run tokens:build`
 

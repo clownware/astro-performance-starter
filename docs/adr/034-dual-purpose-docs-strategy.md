@@ -34,7 +34,7 @@ Three alternatives were evaluated and rejected:
 
 **Separate docs repo**: Would degrade AI context quality. AI assistants reading from the filesystem get zero-config access to `docs/`. A separate repo requires explicit configuration (git submodules, MCP connections, or manual setup) that most users won't complete.
 
-**MCP server for docs**: Adds infrastructure complexity (server maintenance, version management, connection configuration) disproportionate to the benefit. The files are already *there* — an MCP server for static markdown is overengineered.
+**MCP server for docs**: Adds infrastructure complexity (server maintenance, version management, connection configuration) disproportionate to the benefit. The files are already _there_ — an MCP server for static markdown is overengineered.
 
 **Docs only on rendered site**: AI assistants would need web access to read context. Most IDE-integrated assistants read from the local filesystem, not URLs. This would eliminate the primary value of co-located docs.
 

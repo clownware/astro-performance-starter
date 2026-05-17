@@ -274,7 +274,7 @@ Implementing branch protection ensures that your `main` branch always stays in a
 
 ### Contributing Guidelines
 
-```markdown
+````markdown
 # Contributing Guide
 
 ## Development Setup
@@ -296,4 +296,4 @@ Implementing branch protection ensures that your `main` branch always stays in a
         ```bash
         pnpm run dev
         ```
-```
+````

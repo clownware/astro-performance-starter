@@ -195,4 +195,4 @@ Focus: Content engagement, subscriber growth, monetization
 
 ---
 
-*See [AI Context Index](./INDEX.md) and [Website PRD Template](./website-prd-template.md) for implementation guidance.*
+_See [AI Context Index](./INDEX.md) and [Website PRD Template](./website-prd-template.md) for implementation guidance._
