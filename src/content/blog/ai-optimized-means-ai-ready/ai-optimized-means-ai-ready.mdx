@@ -7,6 +7,7 @@ date: 2026-03-29
 slug: 'ai-optimized-means-ai-ready'
 draft: true
 featured: false
+# TODO: add hero cover image (stylized illustration matching "Why Astro" hero style)
 coverAlt: 'Claude Code configuration files in the astro-performance-starter project'
 tags: ['Claude Code', 'AI', 'Developer Experience']
 technologies: ['Claude Code', 'Astro']
@@ -31,7 +32,7 @@ That's what we shipped.
 
 Here's the full Claude Code configuration in this repo:
 
-```
+```text
 astro-performance-starter/
 ├── CLAUDE.md                        # Project brain — always-on context
 ├── .claude/
@@ -99,7 +100,7 @@ A few design decisions worth noting:
 
 The same `client:load` rule that appears in `CLAUDE.md` as rule #2 shows up in `.windsurfrules` like this:
 
-```
+```text
 - **Never**: `client:load` unless justified in ADR
 ```
 
@@ -124,7 +125,7 @@ Here's what it checks — the real list from the agent file:
 
 An example interaction looks like this:
 
-```
+```text
 > Review my staged changes
 
 ## Review Summary
@@ -165,7 +166,7 @@ Skills run in your main conversation — fast and lightweight, good for focused 
 
 Here's what happens when you ask it to create a component:
 
-```
+```text
 > Create a card component for displaying blog post previews
 
 Generated: src/components/molecules/BlogPostCard.astro
@@ -271,7 +272,7 @@ Progressive disclosure in practice: `CLAUDE.md` says "follow component patterns"
 
 This project already had `docs/ai-context/INDEX.md` as the canonical AI contract. The Claude Code configuration extends that architecture to a new tool without replacing anything:
 
-```
+```text
 AI Context Architecture
 ├── docs/ai-context/INDEX.md          # Canonical AI contract
 ├── docs/ai-context/ai-rules-setup.md # Setup guide (all tools)

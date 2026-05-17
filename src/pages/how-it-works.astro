@@ -387,7 +387,7 @@ export function Counter({ value }) {
           {/* AI metrics */}
           <ScrollReveal>
             <div class="flex flex-wrap justify-start gap-12 mb-12">
-              <CounterBadge value={37} label="Architecture Decisions (ADRs)" />
+              <CounterBadge value={35} suffix="+" label="Architecture Decisions (ADRs)" />
               <CounterBadge value={2} label="Top-level CLAUDE.md files" />
               <CounterBadge value={3} label="Implementation tiers" />
             </div>
@@ -439,7 +439,7 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <div class="text-2xl mb-2" aria-hidden="true">📐</div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">37 ADRs in <code class="text-xs">docs/adr/</code></h4>
+                  <h4 class="font-semibold text-foreground-primary mb-1">35+ ADRs in <code class="text-xs">docs/adr/</code></h4>
                   <p class="text-sm text-foreground-secondary">
                     Every accepted ADR is a constraint. The agent reads them
                     before proposing architectural changes — no rediscovery
@@ -633,6 +633,13 @@ export function Counter({ value }) {
                 <Code code={validateContrastSnippet} lang="bash" title="terminal" />
               </div>
             </Card>
+          </ScrollReveal>
+          <ScrollReveal>
+            <p class="text-center text-foreground-secondary mt-8">
+              <a href="/showcase/" class="text-primary-600 dark:text-primary-400 hover:underline font-medium">
+                See these tokens in action on the Components page →
+              </a>
+            </p>
           </ScrollReveal>
         </Container>
       </Section>
@@ -894,6 +901,9 @@ export function Counter({ value }) {
               </p>
               <Button variant="primary" href="/showcase/">
                 Browse the Components →
+              </Button>
+              <Button variant="ghost" href={siteLinks.github} target="_blank" rel="noopener noreferrer" class="ml-4">
+                Clone the repo →
               </Button>
             </div>
           </ScrollReveal>

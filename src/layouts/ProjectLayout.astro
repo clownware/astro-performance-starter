@@ -132,7 +132,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 
           <!-- Hero Image -->
           <div class="project-hero-image">
-            <div class="relative rounded-xl overflow-hidden shadow-2xl">
+            <div class="relative rounded-xl overflow-hidden shadow-2xl bg-background-secondary">
               {project.cover && (
                 <Image
                   src={project.cover}
@@ -153,7 +153,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
     </header>
 
     <!-- Main Content -->
-    <div class="project-content mx-auto max-w-prose px-4 py-12 sm:px-6 lg:px-8">
+    <div class="project-content mx-auto max-w-3xl px-4 py-12 sm:px-6 lg:px-8">
 
       <!-- Outcomes / Key Metrics -->
       {project.outcomes && project.outcomes.length > 0 && (
