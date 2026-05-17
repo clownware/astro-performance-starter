@@ -136,11 +136,15 @@ export function formatDateRelative(
   const { timezone = "UTC", locale = "en-US", threshold = 30 } = options;
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  const dayMs = 1000 * 60 * 60 * 24;
+  const diffDays = Math.floor(diffMs / dayMs);
 
-  // Handle future dates
+  // Handle future dates. We compute futureDiffDays from |diffMs| (not from
+  // Math.abs(diffDays)) so that a date less than 24h in the future floors to
+  // 0 and resolves to "today". Math.abs(Math.floor(-0.04)) is 1, which would
+  // misclassify a one-hour-in-the-future date as "tomorrow".
   if (diffMs < 0) {
-    const futureDiffDays = Math.abs(diffDays);
+    const futureDiffDays = Math.floor(Math.abs(diffMs) / dayMs);
     if (futureDiffDays === 0) {
       return "today";
     }

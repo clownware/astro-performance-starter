@@ -284,9 +284,15 @@ describe("formatDate utilities", () => {
     });
 
     describe("formatDateRelative — future date edges", () => {
-      // Note: the source's "today" branch (line 145) is unreachable because
-      // diffMs < 0 always floors to at least -1 day; we exercise the rest of
-      // the future-date path here.
+      it("returns 'today' for a date less than 24h in the future", () => {
+        const inOneHour = new Date(Date.now() + 60 * 60 * 1000);
+        expect(formatDateRelative(inOneHour)).toBe("today");
+      });
+
+      it("returns 'tomorrow' for a date 25h+ but <48h in the future", () => {
+        const in25h = new Date(Date.now() + 25 * 60 * 60 * 1000);
+        expect(formatDateRelative(in25h)).toBe("tomorrow");
+      });
 
       it("returns 'in N days' for futures within a week", () => {
         // 3.5 days ahead so timing jitter can't push us past 7.
