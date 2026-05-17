@@ -12,11 +12,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Layered AI constitution split across `CLAUDE.md`, `.claude/engineering.md`, `.claude/workflow.md`, `.claude/stack.md`, and `.claude/roles/` ([ADR-036](./docs/adr/036-layered-constitution.md))
 - Testing philosophy adopted as house rules — test-first, AAA structure, no conditional assertions, no lowered thresholds ([ADR-037](./docs/adr/037-testing-philosophy.md))
 - Three-pass Architect → Coder → Reviewer workflow with explicit hand-off artefacts ([ADR-038](./docs/adr/038-agent-roles.md))
-- `AGENTS.md` at repo root — cross-tool AI agent spine read natively by Cursor, Codex CLI, Copilot, Windsurf, Aider, Devin, Zed, Continue, Amp, and Amazon Q (ADR-045)
+- Container API helper for `.astro` component microtests; microtests now ship for every atom and molecule ([ADR-040](./docs/adr/040-container-api-for-component-microtests.md))
+- Stryker mutation testing nightly via `.github/workflows/mutation.yml`; local invocation `pnpm test:mutate` ([ADR-042](./docs/adr/042-mutation-testing-with-stryker.md))
+- CRAP score budget policy for high-coupling functions ([ADR-043](./docs/adr/043-crap-score-budgets.md))
+- Coupling-map tooling to surface high-fan-in modules ([ADR-044](./docs/adr/044-coupling-map.md))
+- `AGENTS.md` at repo root — cross-tool AI agent spine read natively by Cursor, Codex CLI, Copilot, Windsurf, Aider, Devin, Zed, Continue, Amp, and Amazon Q ([ADR-045](./docs/adr/045-cross-tool-agents-spine.md))
 - `scripts/src/build-agents-md.ts` with `pnpm agents:build` and `pnpm agents:check` — generates `AGENTS.md` from the layered constitution; CI fails on drift
-- ADR-045 documenting the cross-tool spine architecture as the cross-tool extension of ADR-036
-- Homepage "AI-Assisted Development" card and README "Why This Starter?" bullet rewritten to name the agentic-discipline methodology rather than soft "AI-optimized" copy
-- README "Working with AI Agents" section documenting the layered constitution and `AGENTS.md` cross-tool spine
+- Homepage "AI-Assisted Development" card rewritten as "Agentic Discipline Built In" naming the constitution, role-separated workflow, and halt-on-violation gates
+- Homepage tech stack now lists Astro Container API and Stryker as first-class testing tools
+- README "Why This Starter?" bullet rewritten ("Agentic discipline built in") and a new "Working with AI Agents" section documents the layered constitution, the `AGENTS.md` cross-tool spine, and Uncle Bob's _Clean AI: Agentic Discipline_ source
+- SVG hero images for the `design-decisions` and `ai-optimized-means-ai-ready` blog posts; the latter is now published (draft removed)
 
 ### Changed
 
@@ -28,8 +33,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `docs/ai-context/ai-rules-setup.md` rewritten for the AGENTS.md pattern with a 2026 tool-support matrix
 - ADR-035 Category 1 enumeration: `airules.example` row removed; `AGENTS.md` row added
 - README, CONTRIBUTING, and `docs/getting-started/included-in-this-template.md` updated to describe the cross-tool spine instead of the per-tool copy workflow
+- E2E suite restructured for ADR-037 hygiene (one logical assertion per test, behaviour-describing names); Gherkin extension declined as unnecessary ceremony given the rewrite already reads as specifications
 - Homepage Foundation tier card replaces "CI pipeline" with "Layered AI constitution" and "Halt-on-violation CI gates"
+- Homepage Build tier card replaces "Automated tests & CI quality gates" with "Container API microtests for every atom & molecule" and "Test-first discipline enforced in CI (ADR-037)"
+- Homepage Polish tier card replaces "Post-launch monitoring" with "Mutation testing as quality verification (ADR-042)"
+- Homepage "Lighthouse Performance Scores" section renamed to "Quality Metrics" to accommodate both runtime performance and test-quality dimensions
 - Homepage CTA footer "AI Optimized" replaced with "Agentic Discipline"; subhead updated to reference the layered constitution
+- `package.json` description rewritten from "AI-optimized documentation" to "a layered AI constitution with halt-on-violation enforcement"; previously-empty `author`, `homepage`, `repository.url`, and `bugs.url` fields populated
+- ADR-040 Notes section cleaned of a hardcoded `/Users/chrispezza/…` path leak — now cross-links to ADR-042 instead
+
+### Fixed
+
+- `@stryker-mutator/core`, `@stryker-mutator/vitest-runner`, and `@vitest/coverage-v8` were declared but not installed locally; lockfile refreshed so `pnpm test:mutate` works on first clone
 
 ### Removed
 

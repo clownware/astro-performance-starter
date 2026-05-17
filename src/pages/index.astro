@@ -175,6 +175,20 @@ const techStack: TechStackItem[] = [
     category: "Unit Testing",
   },
   {
+    name: "Astro Container API",
+    version: "experimental_",
+    description: "Microtests for every .astro atom and molecule",
+    benefit: "Sub-second component-contract verification (ADR-040)",
+    category: "Component Testing",
+  },
+  {
+    name: "Stryker",
+    version: "v9",
+    description: "Mutation testing nightly via GitHub Actions",
+    benefit: "Verifies tests actually fail when code breaks (ADR-042)",
+    category: "Mutation Testing",
+  },
+  {
     name: "Sharp",
     version: "v0.34.x",
     description: "High-performance image processing",
@@ -284,10 +298,10 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
     <Container>
       <div class="text-center">
         <h2 class="text-3xl font-bold text-foreground-primary text-balance">
-          <span aria-hidden="true" class="mr-1.5">🎯</span> Lighthouse Performance Scores
+          <span aria-hidden="true" class="mr-1.5">🎯</span> Quality Metrics
         </h2>
         <p class="mt-4 text-lg text-foreground-secondary">
-          Optimized for Core Web Vitals and search engine performance
+          Lighthouse for runtime performance · Stryker for test-quality verification (ADR-042)
         </p>
       </div>
 
@@ -462,10 +476,14 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
               </li>
               <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
                 <span class="text-warning-600 mt-0.5" aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Automated tests &amp; CI quality gates</span>
+                <span><span class="sr-only">Included: </span>Container API microtests for every atom &amp; molecule</span>
+              </li>
+              <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+                <span class="text-warning-600 mt-0.5" aria-hidden="true">✓</span>
+                <span><span class="sr-only">Included: </span>Test-first discipline enforced in CI (ADR-037)</span>
               </li>
             </ul>
-            <p class="text-xs text-foreground-subtle italic">Your agent can help — the AI context layer covers every component and pattern.</p>
+            <p class="text-xs text-foreground-subtle italic">Your agent works under the same constitution — every component has a contract test.</p>
           </Card>
 
           <!-- Polish Tier -->
@@ -494,7 +512,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
               </li>
               <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
                 <span class="text-success-600 mt-0.5" aria-hidden="true">✓</span>
-                <span><span class="sr-only">Included: </span>Post-launch monitoring</span>
+                <span><span class="sr-only">Included: </span>Mutation testing as quality verification (ADR-042)</span>
               </li>
             </ul>
             <p class="text-xs text-foreground-subtle italic">Each phase has a clear scope — go as far as your project needs.</p>
