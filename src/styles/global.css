@@ -9,15 +9,23 @@
 
 /* ============================================================
    IMPORTS
-   Order matters: tokens first so CSS vars are declared before
-   Tailwind resolves them; tailwindcss second.
+   Order matters: tailwindcss FIRST so that the runtime CSS vars
+   it emits from `@theme inline` (below) — e.g. `--color-background-primary:
+   hsl(var(--color-background-primary))` — are then *shadowed* by
+   tokens.css's raw HSL declarations in :root and .dark, which come
+   second. Without this ordering, Tailwind's self-referential
+   declaration wins the cascade, becomes the guaranteed-invalid value,
+   and every `bg-background-*` / `text-foreground-*` utility silently
+   resolves to transparent. The mobile menu is the most visible victim
+   (solid floating panel over page content); other surfaces hide the
+   bug behind borders, gradients, or page-level backgrounds.
    ============================================================ */
+
+/* Tailwind v4 (must come first so tokens.css overrides its emitted vars) */
+@import 'tailwindcss';
 
 /* Design tokens: defines --color-*, --spacing-*, etc. in :root and .dark */
 @import '../../tokens/dist/tokens.css';
-
-/* Tailwind v4 */
-@import 'tailwindcss';
 
 /* Typography plugin */
 @plugin "@tailwindcss/typography";
