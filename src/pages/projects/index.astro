@@ -88,7 +88,7 @@ const pageDescription =
 <BaseLayout
   title={pageTitle}
   description={pageDescription}
-  image="/og-default.svg"
+  image="/og-default.png"
 >
   <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
     <!-- Page Header -->
@@ -218,9 +218,19 @@ const pageDescription =
     href: string;
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
+  // Wrapped as a named function so it can run both on initial load *and* on
+  // every Astro view-transition swap. Astro's ClientRouter does not re-fire
+  // DOMContentLoaded when navigating between pages and inline module scripts
+  // do not re-execute on swap, so a plain DOMContentLoaded listener never
+  // re-attaches click handlers to freshly-rendered filter buttons after a
+  // soft navigation. This was the underlying cause of the projects filter
+  // appearing entirely inert when reached from another page.
+  function setupProjectsFilter() {
     const filterButtons = document.querySelectorAll<HTMLElement>('.filter-btn');
     const filterBadges = document.querySelectorAll<HTMLElement>('.filter-badge');
+    // Bail if we're not on the projects page (e.g. astro:after-swap on a
+    // different route).
+    if (filterButtons.length === 0 && filterBadges.length === 0) return;
     const emptyState = document.getElementById('empty-state');
     const resetButton = document.querySelector<HTMLElement>('.reset-filter-btn');
     const loadMoreBtn = document.querySelector<HTMLElement>('.load-more-btn');
@@ -375,12 +385,22 @@ const pageDescription =
       filterButtons.forEach((btn) => {
         if (btn.getAttribute('data-filter') === 'all') {
           btn.classList.add('active');
+          btn.setAttribute('aria-pressed', 'true');
         } else {
           btn.classList.remove('active');
+          btn.setAttribute('aria-pressed', 'false');
         }
       });
     });
-  });
+  }
+
+  // Initial load: module scripts run after DOM parse, so the DOM is ready.
+  setupProjectsFilter();
+
+  // ClientRouter (View Transitions) swaps in new DOM but does not re-fire
+  // DOMContentLoaded and does not re-execute inline module scripts. Re-run
+  // setup after each swap so freshly-rendered filter buttons get listeners.
+  document.addEventListener('astro:after-swap', setupProjectsFilter);
 </script>
 
 <style>
