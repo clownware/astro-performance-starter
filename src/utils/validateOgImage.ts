@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 /**
  * Validates that an OG image path exists in the public directory.
  *
- * @param imagePath - Relative path to the image (e.g., "/og-default.svg") or ImageMetadata object
+ * @param imagePath - Relative path to the image (e.g., "/og-default.png") or ImageMetadata object
  * @returns true if valid, false if missing (with console warning)
  */
 export function validateOgImage(imagePath: string | { src: string }): boolean {

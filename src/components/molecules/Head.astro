@@ -16,9 +16,11 @@ export interface Props {
   description: string;
   /**
    * Open Graph image for social media previews.
-   * Can be a relative path (e.g., "/og-default.svg") or absolute URL.
+   * Can be a relative path (e.g., "/og-default.png") or absolute URL.
    * Relative paths are automatically converted to absolute URLs using Astro.site.
-   * @default "/og-default.svg"
+   * Prefer PNG: Facebook, LinkedIn, Discord, and Slack do not render SVG
+   * previews even though the spec permits them.
+   * @default "/og-default.png"
    */
   image?: string;
   /**
@@ -55,7 +57,7 @@ export interface Props {
 const {
   title,
   description,
-  image = withBase("/og-default.svg"),
+  image = withBase("/og-default.png"),
   canonicalUrl = new URL(Astro.url.pathname, Astro.site),
   noindex = false,
   ogType = "website",
