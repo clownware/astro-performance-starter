@@ -5,6 +5,7 @@ import SocialLink from "@/components/atoms/SocialLink.astro";
 import Card from "@/components/molecules/Card.astro";
 import ContactForm from "@/components/molecules/ContactForm.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/url-utils";
 
 // Contact information from environment variables
 const contactEmail = import.meta.env.PUBLIC_CONTACT_EMAIL || "hello@example.com";
@@ -176,7 +177,16 @@ const responseExpectations: ResponseExpectation[] = [
             </div>
             
             <!-- Primary Component Showcase: ContactForm -->
-            <ContactForm action="/contact" />
+            <!--
+              `action` resolves to "<BASE>/contact" so the path respects the
+              deployment base (e.g. /astro-performance-starter on GitHub Pages
+              sub-path deploys). The form ships with `data-static-form-name`
+              for static-form services (Netlify Forms, Formspree, etc.). Static
+              deploys (GitHub Pages, Cloudflare Pages without Functions) need a
+              third-party form backend or this will POST to a 404. Configure
+              your service of choice and update the action prop accordingly.
+            -->
+            <ContactForm action={withBase("/contact")} />
             
             <div class="text-sm text-foreground-secondary text-center lg:text-left">
               <p>

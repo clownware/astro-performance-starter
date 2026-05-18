@@ -338,7 +338,14 @@ const pageDescription =
         emptyState.classList.toggle('hidden', visibleCount !== 0);
       }
 
-      filterButtons.forEach((btn) => btn.classList.remove('active'));
+      // Reset both the .active class AND aria-pressed on every control before the
+      // caller marks the newly-selected one. Without the aria-pressed reset, the
+      // initial "All Projects" button (which ships aria-pressed="true") stays
+      // pressed forever, producing two simultaneously-pressed filters.
+      filterButtons.forEach((btn) => {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+      });
       filterBadges.forEach((badge) => {
         badge.classList.remove('active');
         badge.setAttribute('aria-pressed', 'false');

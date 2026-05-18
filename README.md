@@ -7,7 +7,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-24.x-green?logo=node.js)](https://nodejs.org/)
 [![Lighthouse Score](https://img.shields.io/badge/Lighthouse-95%2B-success?logo=lighthouse&logoColor=white)](#-performance-budgets)
 
-[Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
+**[🚀 Live Demo](https://clownware.github.io/astro-performance-starter/)** • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
 
 ---
 
