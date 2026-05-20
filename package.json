@@ -133,7 +133,7 @@
     "vitest": "^4.1.6"
   },
   "optionalDependencies": {
-    "@axe-core/playwright": "^4.11.1",
+    "@axe-core/playwright": "^4.11.3",
     "style-dictionary": "^5.4.0",
     "tailwindcss-themer": "^4.1.1"
   },
