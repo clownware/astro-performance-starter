@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import Icon from "@/components/atoms/Icon.astro";
+import ThemeToggle from "@/components/atoms/ThemeToggle.astro";
 import type { NavItem } from "@/types/navigation";
 import { withBase } from "@/utils/url-utils";
 
@@ -25,6 +26,7 @@ const currentPath = normalizePath(Astro.url.pathname);
         class="h-8 w-auto"
         width="220"
         height="60"
+        fetchpriority="high"
         transition:name="site-logo"
       />
     </a>
@@ -46,6 +48,7 @@ const currentPath = normalizePath(Astro.url.pathname);
     </nav>
 
     <div class="flex items-center gap-2">
+      <ThemeToggle />
       {githubItem && (
         <a
           href={githubItem.href}

@@ -69,7 +69,63 @@ const {
 validateOgImage(image);
 
 const siteTitle = siteMetadata.title;
-const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
+// Append the site name only when the page title doesn't already begin with
+// it. The `===` check that used to live here didn't catch titles that *start*
+// with the site name (e.g. the homepage "Astro Performance Starter —
+// Agentic Discipline Built In"), producing "… Built In | Astro Performance
+// Starter" — 83 chars, past Google's ~60-char display cutoff.
+const fullTitle = title.startsWith(siteTitle) ? title : `${title} | ${siteTitle}`;
+
+// Resolve absolute URLs once for the JSON-LD payload — search engines need
+// fully-qualified URLs even though browser meta tags can use relative ones.
+const ogImageUrl = new URL(withBase(image), Astro.site).href;
+const siteOrigin = new URL(withBase("/"), Astro.site).href;
+
+// JSON-LD: WebSite + Organization on every page (linked via @graph so crawlers
+// see them as one connected entity), with BlogPosting added on article pages.
+// Keep this minimal — Google's structured-data guidance prefers correct,
+// validated, simple schemas over kitchen-sink ones.
+type JsonLdNode = Record<string, unknown>;
+const jsonLdGraph: JsonLdNode[] = [
+  {
+    "@type": "WebSite",
+    "@id": `${siteOrigin}#website`,
+    url: siteOrigin,
+    name: siteTitle,
+    description: siteMetadata.description,
+    inLanguage: "en",
+    publisher: { "@id": `${siteOrigin}#organization` },
+  },
+  {
+    "@type": "Organization",
+    "@id": `${siteOrigin}#organization`,
+    name: siteMetadata.author || siteTitle,
+    url: siteOrigin,
+    logo: new URL(withBase("/logo.svg"), Astro.site).href,
+  },
+];
+
+if (ogType === "article" && ogArticle) {
+  jsonLdGraph.push({
+    "@type": "BlogPosting",
+    "@id": `${canonicalUrl.href}#blogposting`,
+    headline: title,
+    description,
+    image: ogImageUrl,
+    url: canonicalUrl.href,
+    datePublished: ogArticle.publishedTime,
+    dateModified: ogArticle.modifiedTime ?? ogArticle.publishedTime,
+    author: ogArticle.author
+      ? { "@type": "Person", name: ogArticle.author }
+      : { "@id": `${siteOrigin}#organization` },
+    publisher: { "@id": `${siteOrigin}#organization` },
+    keywords: ogArticle.tags,
+    mainEntityOfPage: { "@type": "WebPage", "@id": canonicalUrl.href },
+    inLanguage: "en",
+  });
+}
+
+const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": jsonLdGraph });
 ---
 
 <meta charset="UTF-8" />
@@ -84,6 +140,9 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 <link rel="icon" type="image/svg+xml" href={withBase("/favicon.svg")} />
 <link rel="icon" type="image/x-icon" href={withBase("/favicon.ico")} />
 <link rel="apple-touch-icon" sizes="180x180" href={withBase("/apple-touch-icon.png")} />
+<link rel="manifest" href={withBase("/site.webmanifest")} />
+<meta name="theme-color" content="#0f172a" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 
 <!-- Primary Meta Tags -->
 <title>{fullTitle}</title>
@@ -125,6 +184,9 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 <meta property="twitter:title" content={fullTitle} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(withBase(image), Astro.site)} />
+
+<!-- JSON-LD Structured Data: WebSite + Organization on every page, BlogPosting on articles -->
+<script type="application/ld+json" set:html={jsonLd} />
 
 <!-- Font Preloading (hashed URLs injected by Vite) -->
 <link
