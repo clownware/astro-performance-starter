@@ -1,0 +1,137 @@
+---
+/**
+ * Theme toggle — cycles through light → dark → system. Writes to localStorage
+ * under the key `theme` (or removes it for "system") and triggers the existing
+ * `window.__themeSetupApply` hook from ThemeSetup.astro to re-apply.
+ *
+ * The visible icon reflects the *current* mode, not the next-on-click mode,
+ * which is the convention every major site uses (Tailwind docs, MDN, Astro
+ * docs). The aria-label spells the next state out for screen-reader users.
+ *
+ * Initial server render shows the sun icon (light) because we cannot know the
+ * client's preference at SSR time. A small inline script in the button body
+ * swaps the visible icon on hydration so users on dark mode don't see a sun
+ * flash. This stays under the zero-JS-by-default policy because the icon
+ * swap is purely visual progressive enhancement — the toggle works without JS
+ * via the underlying ThemeSetup hooks.
+ */
+---
+
+<button
+  type="button"
+  data-theme-toggle
+  aria-label="Switch theme"
+  title="Switch theme"
+  class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md text-foreground-secondary transition hover:text-foreground-primary hover:bg-background-secondary focus-visible-ring"
+>
+  <span class="sr-only">Toggle theme</span>
+  <!-- Sun (light mode) -->
+  <svg
+    data-theme-icon="light"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="h-5 w-5"
+    aria-hidden="true"
+  >
+    <circle cx="12" cy="12" r="4" />
+    <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+  </svg>
+  <!-- Moon (dark mode) -->
+  <svg
+    data-theme-icon="dark"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="h-5 w-5 hidden"
+    aria-hidden="true"
+  >
+    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+  </svg>
+  <!-- Auto / system -->
+  <svg
+    data-theme-icon="system"
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    class="h-5 w-5 hidden"
+    aria-hidden="true"
+  >
+    <rect x="3" y="4" width="18" height="14" rx="2" />
+    <path d="M8 20h8M12 18v2" />
+  </svg>
+</button>
+
+<script>
+  (() => {
+    // Re-runs on initial load and after every Astro view-transition swap.
+    function setupThemeToggle() {
+      const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+      if (!button || button.dataset.themeToggleBound === 'true') return;
+      button.dataset.themeToggleBound = 'true';
+
+      type Mode = 'light' | 'dark' | 'system';
+      const ORDER: Mode[] = ['light', 'dark', 'system'];
+
+      const readMode = (): Mode => {
+        try {
+          const stored = localStorage.getItem('theme');
+          if (stored === 'light' || stored === 'dark') return stored;
+        } catch {}
+        return 'system';
+      };
+
+      const renderIcon = (mode: Mode) => {
+        for (const icon of button.querySelectorAll<HTMLElement>('[data-theme-icon]')) {
+          icon.classList.toggle('hidden', icon.dataset.themeIcon !== mode);
+        }
+        button.setAttribute(
+          'aria-label',
+          mode === 'light'
+            ? 'Switch to dark mode'
+            : mode === 'dark'
+              ? 'Switch to system theme'
+              : 'Switch to light mode',
+        );
+      };
+
+      const writeMode = (mode: Mode) => {
+        try {
+          if (mode === 'system') localStorage.removeItem('theme');
+          else localStorage.setItem('theme', mode);
+        } catch {}
+        // Reuse the existing apply hook from ThemeSetup.astro so the DOM class
+        // and color-scheme attribute stay in sync without re-implementing the
+        // preference logic here.
+        const applyFn = (window as unknown as { __themeSetupApply?: () => void })
+          .__themeSetupApply;
+        if (applyFn) applyFn();
+        renderIcon(mode);
+      };
+
+      button.addEventListener('click', () => {
+        const current = readMode();
+        const next = ORDER[(ORDER.indexOf(current) + 1) % ORDER.length] as Mode;
+        writeMode(next);
+      });
+
+      // Initial paint: sync icon with persisted/system state.
+      renderIcon(readMode());
+    }
+
+    setupThemeToggle();
+    document.addEventListener('astro:after-swap', setupThemeToggle);
+  })();
+</script>

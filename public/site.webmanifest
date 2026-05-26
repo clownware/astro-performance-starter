@@ -1,0 +1,24 @@
+{
+  "name": "Astro Performance Starter",
+  "short_name": "Astro Starter",
+  "description": "Production-ready Astro starter with zero-JS baseline, 95+ Lighthouse scores, design tokens, and a layered AI constitution with halt-on-violation enforcement.",
+  "start_url": ".",
+  "scope": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

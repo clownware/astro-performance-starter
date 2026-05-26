@@ -152,6 +152,15 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
         </svg>
       </summary>
       <div class="showcase-example__code">
+        <button
+          type="button"
+          class="showcase-example__copy"
+          data-copy-code
+          aria-label={`Copy ${title} code`}
+        >
+          <span class="showcase-example__copy-label" data-copy-state="idle">Copy</span>
+          <span class="showcase-example__copy-label hidden" data-copy-state="copied">Copied!</span>
+        </button>
         <pre><code class={`language-${codeLang}`} set:html={codeSnippet} /></pre>
       </div>
     </details>
@@ -268,10 +277,50 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
     margin-top: 0.75rem;
     border-radius: 0.5rem;
     overflow: auto;
+    position: relative;
+  }
+
+  .showcase-example__copy {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    padding: 0.25rem 0.625rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    font-family: inherit;
+    color: hsl(var(--color-gray-100));
+    background: hsl(var(--color-gray-700) / 0.85);
+    border: 1px solid hsl(var(--color-gray-600));
+    border-radius: 0.25rem;
+    cursor: pointer;
+    transition:
+      background-color 0.15s,
+      border-color 0.15s;
+  }
+
+  .showcase-example__copy:hover {
+    background: hsl(var(--color-gray-600));
+    border-color: hsl(var(--color-gray-500));
+  }
+
+  .showcase-example__copy:focus-visible {
+    outline: 2px solid hsl(var(--color-primary-500));
+    outline-offset: 2px;
+  }
+
+  .showcase-example__copy[data-copy-state="copied"] {
+    background: hsl(var(--color-success-600) / 0.85);
+    border-color: hsl(var(--color-success-600));
+  }
+
+  .showcase-example__copy-label.hidden {
+    display: none;
   }
 
   .showcase-example__code pre {
     padding: 1rem;
+    padding-top: 2.25rem;
     font-size: 0.8125rem;
     line-height: 1.6;
     background: hsl(var(--color-gray-900));
@@ -301,3 +350,42 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
     }
   }
 </style>
+
+<script>
+  // Event delegation: one document-level click handler serves every
+  // ShowcaseExample on the page. Astro deduplicates this script across multiple
+  // component instances since the content is identical.
+  (() => {
+    if ((window as unknown as { __showcaseCopyBound?: boolean }).__showcaseCopyBound) return;
+    (window as unknown as { __showcaseCopyBound?: boolean }).__showcaseCopyBound = true;
+
+    document.addEventListener("click", (event) => {
+      const target = event.target as HTMLElement;
+      const button = target.closest<HTMLButtonElement>("[data-copy-code]");
+      if (!button) return;
+
+      const codeBlock = button.parentElement?.querySelector("pre code");
+      if (!codeBlock) return;
+
+      const text = codeBlock.textContent ?? "";
+      if (!navigator.clipboard) {
+        // Non-secure context or very old browsers — silently no-op rather
+        // than throw. The button remains; the user can still select and copy
+        // manually.
+        return;
+      }
+      navigator.clipboard.writeText(text).then(() => {
+        button.setAttribute("data-copy-state", "copied");
+        for (const label of button.querySelectorAll<HTMLElement>("[data-copy-state]")) {
+          label.classList.toggle("hidden", label.dataset.copyState !== "copied");
+        }
+        setTimeout(() => {
+          button.setAttribute("data-copy-state", "idle");
+          for (const label of button.querySelectorAll<HTMLElement>("[data-copy-state]")) {
+            label.classList.toggle("hidden", label.dataset.copyState !== "idle");
+          }
+        }, 1500);
+      });
+    });
+  })();
+</script>
