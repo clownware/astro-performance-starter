@@ -50,13 +50,14 @@ function loadAllowlist(): AllowlistEntry[] {
 const allowlist = loadAllowlist();
 const allowedModules = new Set(allowlist.map((e) => e.module));
 
-// Run pnpm audit and capture JSON output
-// Use pnpm.cmd on Windows for proper execution
+// Run pnpm audit and capture JSON output.
+// No shell: spawnSync resolves the explicit pnpm.cmd basename on Windows natively (Node 18+),
+// so a shell is unnecessary. Keep the args free of shell metacharacters — Node 20+ throws
+// ERR_CHILD_PROCESS_BATCH_SCRIPT_ARGS on .cmd targets if an argument contains one.
 const pnpmCommand = process.platform === "win32" ? "pnpm.cmd" : "pnpm";
 const result = spawnSync(pnpmCommand, ["audit", "--prod", "--json"], {
   encoding: "utf8",
   stdio: ["inherit", "pipe", "inherit"],
-  shell: true, // Use shell on Windows to resolve .cmd files
 });
 
 if (result.error) {
