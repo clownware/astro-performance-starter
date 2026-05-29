@@ -143,9 +143,14 @@ function resolveTokenReferences(obj: TokenGroup, context: BaseTokens): TokenGrou
           const refPath = token.value.slice(1, -1).split(".");
           let resolvedValue: any = context;
 
-          // Navigate through the reference path
+          // Navigate through the reference path. Object.hasOwn (not `in`) rejects inherited
+          // keys like __proto__/constructor/prototype, preventing prototype-pollution lookups.
           for (const part of refPath) {
-            if (resolvedValue && typeof resolvedValue === "object" && part in resolvedValue) {
+            if (
+              resolvedValue &&
+              typeof resolvedValue === "object" &&
+              Object.hasOwn(resolvedValue, part)
+            ) {
               resolvedValue = resolvedValue[part];
             } else {
               resolvedValue = null;
@@ -172,7 +177,7 @@ function resolveTokenReferences(obj: TokenGroup, context: BaseTokens): TokenGrou
                   if (
                     darkResolvedValue &&
                     typeof darkResolvedValue === "object" &&
-                    part in darkResolvedValue
+                    Object.hasOwn(darkResolvedValue, part)
                   ) {
                     darkResolvedValue = darkResolvedValue[part];
                   } else {
