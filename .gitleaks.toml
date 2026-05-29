@@ -1,0 +1,24 @@
+# gitleaks configuration for astro-performance-starter
+# Wired into CI per ADR-046 (docs/adr/046-security-scanning-pipeline.md).
+
+title = "astro-performance-starter gitleaks config"
+
+# Inherit gitleaks' built-in ruleset, then add our allowlist below.
+[extend]
+useDefault = true
+
+# False positive from the 2026-05-21 security assessment (finding #3):
+# the built-in `generic-api-key` rule matches the substring "Toke" inside Astro
+# component prop names such as tokenName="..." — e.g.
+#   <ColorTokenSwatch tokenName="secondary-600" cssVar="--color-secondary-600" />
+# in src/pages/showcase.astro. These are design-token identifiers, not secrets.
+#
+# Scoped by line regex (not a path exclusion) so secret scanning stays active on
+# the rest of every .astro file — only lines carrying these prop attributes are
+# exempted.
+[allowlist]
+description = "Astro design-token prop names (tokenName/cssVar) trigger generic-api-key false positives — see ADR-046"
+regexTarget = "line"
+regexes = [
+  '''(?:tokenName|cssVar)="[^"]*"''',
+]

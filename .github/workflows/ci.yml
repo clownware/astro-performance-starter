@@ -126,3 +126,36 @@ jobs:
           config-file: '.markdown-link-check.json'
           folder-path: 'docs/'
           file-extension: '.md'
+
+  # SAST + secret scanning (ADR-046). Both are halt-on-violation gates (ADR-039):
+  # the scan command exits non-zero on a finding and fails the build.
+  # Run in their official containers — Semgrep's docs mandate the semgrep/semgrep
+  # image, and the gitleaks CLI avoids the gitleaks-action org-license requirement.
+  semgrep:
+    name: Semgrep SAST
+    runs-on: ubuntu-latest
+    # Dependabot PRs only touch manifests and run with a restricted token; skip.
+    if: github.actor != 'dependabot[bot]'
+    container:
+      image: semgrep/semgrep
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Semgrep scan
+        # --error exits 1 on findings; --config p/* pulls public registry rulesets.
+        run: semgrep scan --config p/javascript --config p/typescript --config p/secrets --error
+
+  gitleaks:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    if: github.actor != 'dependabot[bot]'
+    container:
+      image: ghcr.io/gitleaks/gitleaks:v8.30.1
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Gitleaks scan
+        # `dir` scans the working tree; --exit-code 1 fails the build on any leak.
+        run: gitleaks dir . --config .gitleaks.toml --exit-code 1 --verbose
