@@ -10,8 +10,12 @@ test.describe("Homepage (index.astro)", () => {
 	});
 
 	test("should display hero section with main heading", async ({ page }) => {
+		// Hero rewritten in feat(ui): voice + icon system pass.
+		// Locked copy: "Ship a site that loads instantly. With agents."
+		// "loads instantly." is the gradient span (still part of the h1's
+		// accessible name); we match a stable fragment.
 		const heading = page.getByRole("heading", {
-			name: /Astro Performance Starter/,
+			name: /Ship a site that loads instantly/,
 		});
 		await expect(heading).toBeVisible();
 	});

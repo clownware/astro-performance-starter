@@ -21,12 +21,15 @@ test.describe("About Page", () => {
 	});
 
 	test("should display bio section", async ({ page }) => {
-		const bioHeading = page.getByRole("heading", { name: "My Story" });
-		await expect(bioHeading).toBeVisible();
+		// Bio section now renders from the `bio` content collection (ADR-054).
+		// The first h2 in the rendered MDX is the persona's intro heading; the
+		// surrounding section is identified via the .prose container, which is
+		// the conventional MDX-rendered prose wrapper.
+		const bioProse = page.locator(".prose").first();
+		await expect(bioProse).toBeVisible();
 
-		// Check for bio content
-		const bioSection = page.locator("section").filter({ hasText: "My Story" });
-		await expect(bioSection).toBeVisible();
+		const bioHeading = bioProse.getByRole("heading", { level: 2 }).first();
+		await expect(bioHeading).toBeVisible();
 	});
 
 	test("should display skills section with categories", async ({ page }) => {
