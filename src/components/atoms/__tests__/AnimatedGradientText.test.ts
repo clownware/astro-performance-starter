@@ -38,4 +38,14 @@ describe("AnimatedGradientText (atom)", () => {
     const html = await renderAgt({ morph: true });
     expect(html).toContain("hero-grad");
   });
+
+  it("defaults to the shipped longer-hue arc (Variant B)", async () => {
+    const html = await renderAgt();
+    expect(html).not.toContain("arc-short");
+  });
+
+  it("switches to the shorter-hue arc (Variant A) when arc=short", async () => {
+    const html = await renderAgt({ arc: "short" });
+    expect(html).toContain("arc-short");
+  });
 });

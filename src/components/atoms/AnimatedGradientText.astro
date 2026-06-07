@@ -10,6 +10,12 @@ interface Props {
    * must be unique.
    */
   morph?: boolean;
+  /**
+   * OKLCH hue-interpolation arc. "long" (default) is the shipped Variant B — a
+   * full-spectrum violet→crimson sweep; "short" is Variant A — a tight, vivid
+   * arc. Used by the design-system Motion section to compare A vs B.
+   */
+  arc?: "short" | "long";
 }
 
 const props: Props = Astro.props;
@@ -18,6 +24,7 @@ const Tag = props.as ?? "span";
 const speed = props.speed ?? "medium";
 const className = props.class;
 const morph = props.morph ?? false;
+const arcShort = props.arc === "short";
 
 const speedMap = {
   slow: "8s",
@@ -28,7 +35,7 @@ const speedMap = {
 
 {/* @ts-ignore — Astro checker loses Props inference when `as` keyword is used as prop name */}
 <Tag
-  class:list={["animated-gradient-text", morph && "hero-grad", className]}
+  class:list={["animated-gradient-text", morph && "hero-grad", arcShort && "arc-short", className]}
   style={`--gradient-duration: ${speedMap[speed]}`}
 >
   <slot />
@@ -60,6 +67,16 @@ const speedMap = {
     -webkit-background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+  }
+
+  /* Variant A — OKLCH shorter-hue arc (tight, vivid violet→crimson). */
+  .animated-gradient-text.arc-short {
+    background: linear-gradient(
+      var(--gradient-angle) in oklch shorter hue,
+      hsl(var(--color-primary-500)),
+      hsl(var(--color-secondary-500)),
+      hsl(var(--color-primary-500))
+    );
   }
 
   /* Opt-in morph target for cross-route page transitions (ADR-048 #2). */

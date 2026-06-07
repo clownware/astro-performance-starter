@@ -1,0 +1,194 @@
+---
+/**
+ * TypeSpecimen — the type scale rendered from the fontSize + fontFamily tokens.
+ *
+ * Token-driven by construction: each row sizes itself with a Tailwind `text-*`
+ * utility (resolved from the `--text-*` theme tokens) and picks its face with
+ * `font-display` / `font-text` (the `fontFamily` token group). No font-size is
+ * hardcoded — swap the fontFamily.display token and the whole specimen reflows.
+ *
+ * Class strings are written as full literals so Tailwind's scanner emits them.
+ */
+interface Row {
+  /** fontSize token key. */
+  size: string;
+  /** Full Tailwind text utility (literal for the scanner). */
+  sizeClass: string;
+  /** Documentation label for the rem value. */
+  rem: string;
+  /** Full Tailwind font-weight utility (literal). */
+  weightClass: string;
+  /** Weight label. */
+  weight: string;
+  /** Sample line. */
+  sample: string;
+}
+
+const displayRows: Row[] = [
+  {
+    size: "6xl",
+    sizeClass: "text-6xl",
+    rem: "3.75rem",
+    weightClass: "font-bold",
+    weight: "700",
+    sample: "Instant by default",
+  },
+  {
+    size: "5xl",
+    sizeClass: "text-5xl",
+    rem: "3rem",
+    weightClass: "font-bold",
+    weight: "700",
+    sample: "Cold-minimal, dark-first",
+  },
+  {
+    size: "4xl",
+    sizeClass: "text-4xl",
+    rem: "2.25rem",
+    weightClass: "font-semibold",
+    weight: "600",
+    sample: "Token-driven components",
+  },
+  {
+    size: "3xl",
+    sizeClass: "text-3xl",
+    rem: "1.875rem",
+    weightClass: "font-semibold",
+    weight: "600",
+    sample: "Accessible by contract",
+  },
+  {
+    size: "2xl",
+    sizeClass: "text-2xl",
+    rem: "1.5rem",
+    weightClass: "font-medium",
+    weight: "500",
+    sample: "Zero-JS baseline performance",
+  },
+  {
+    size: "xl",
+    sizeClass: "text-xl",
+    rem: "1.25rem",
+    weightClass: "font-medium",
+    weight: "500",
+    sample: "Section heading on the surface",
+  },
+];
+
+const textRows: Row[] = [
+  {
+    size: "lg",
+    sizeClass: "text-lg",
+    rem: "1.125rem",
+    weightClass: "font-normal",
+    weight: "400",
+    sample: "Lede paragraph, set in the text face for calm reading.",
+  },
+  {
+    size: "base",
+    sizeClass: "text-base",
+    rem: "1rem",
+    weightClass: "font-normal",
+    weight: "400",
+    sample: "Body copy — the workhorse, 16px at 1.6 line height.",
+  },
+  {
+    size: "sm",
+    sizeClass: "text-sm",
+    rem: "0.875rem",
+    weightClass: "font-normal",
+    weight: "400",
+    sample: "Secondary text, captions and helper copy.",
+  },
+  {
+    size: "xs",
+    sizeClass: "text-xs",
+    rem: "0.75rem",
+    weightClass: "font-medium",
+    weight: "500",
+    sample: "XS · mono labels / eyebrows",
+  },
+];
+---
+
+<div class="type-specimen">
+  <div class="type-specimen__group">
+    <p class="type-specimen__face-label">
+      <span class="font-display text-foreground font-semibold">Display — Geist</span>
+      <code class="text-xs text-muted-foreground">fontFamily.display</code>
+    </p>
+    {displayRows.map((row) => (
+      <div class="type-specimen__row">
+        <div class="type-specimen__meta">
+          <span class="text-link font-medium">{row.size}</span>
+          <span class="text-muted-foreground"> · {row.rem}</span>
+          <span class="block text-muted-foreground">weight {row.weight}</span>
+        </div>
+        <div class:list={["type-specimen__sample", "font-display", row.sizeClass, row.weightClass, "text-foreground"]}>
+          {row.sample}
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div class="type-specimen__group">
+    <p class="type-specimen__face-label">
+      <span class="font-text text-foreground font-semibold">Text — Inter</span>
+      <code class="text-xs text-muted-foreground">fontFamily.text</code>
+    </p>
+    {textRows.map((row) => (
+      <div class="type-specimen__row">
+        <div class="type-specimen__meta">
+          <span class="text-link font-medium">{row.size}</span>
+          <span class="text-muted-foreground"> · {row.rem}</span>
+          <span class="block text-muted-foreground">weight {row.weight}</span>
+        </div>
+        <div class:list={["type-specimen__sample", "font-text", row.sizeClass, row.weightClass, "text-foreground"]}>
+          {row.sample}
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .type-specimen {
+    border: 1px solid hsl(var(--color-border));
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+  }
+  .type-specimen__group + .type-specimen__group {
+    border-top: 1px solid hsl(var(--color-border));
+  }
+  .type-specimen__face-label {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    padding: 0.875rem 1.25rem;
+    background: hsl(var(--color-surface));
+    border-bottom: 1px solid hsl(var(--color-border));
+  }
+  .type-specimen__row {
+    display: grid;
+    grid-template-columns: 7.5rem 1fr;
+    gap: 1.25rem;
+    align-items: baseline;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid hsl(var(--color-border));
+  }
+  .type-specimen__row:last-child {
+    border-bottom: 0;
+  }
+  .type-specimen__meta {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    font-size: 0.6875rem;
+    line-height: 1.4;
+  }
+  .type-specimen__sample {
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+</style>
