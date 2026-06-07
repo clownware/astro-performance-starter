@@ -78,6 +78,14 @@
       "value": "{color.white}",
       "dark": "{color.slate.900}"
     },
+    "surfaceRaised": {
+      "value": "228 24% 100%",
+      "dark": "228 18% 16%"
+    },
+    "surfaceAccent": {
+      "value": "256 60% 96%",
+      "dark": "256 38% 13%"
+    },
     "foreground": {
       "value": "{color.charcoal}",
       "dark": "{color.slate.50}"
@@ -103,8 +111,8 @@
       "dark": "{color.violet.300}"
     },
     "success": {
-      "value": "{color.violet.600}",
-      "dark": "{color.violet.400}"
+      "value": "{color.green.700}",
+      "dark": "{color.green.400}"
     },
     "warning": {
       "value": "{color.amber.700}",

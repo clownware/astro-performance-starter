@@ -80,7 +80,7 @@ const tokenThemeSnippet = `@theme inline {
   --color-background: hsl(var(--color-background));
 }`;
 
-const tokenComponentSnippet = `<button class="bg-primary-600 text-white">
+const tokenComponentSnippet = `<button class="bg-primary-600 text-primary-foreground">
   Save changes
 </button>
 
@@ -673,7 +673,7 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">20× faster</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground mb-1">Biome</h4>
+                  <h3 class="font-semibold text-foreground mb-1">Biome</h3>
                   <p class="text-sm text-muted-foreground">
                     Replaces ESLint + Prettier with one Rust-powered binary.
                     Linting and formatting in a single config, single pass.
@@ -688,7 +688,7 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">Strict mode</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground mb-1">TypeScript</h4>
+                  <h3 class="font-semibold text-foreground mb-1">TypeScript</h3>
                   <p class="text-sm text-muted-foreground">
                     Astro's <code class="text-xs">strict</code> preset plus
                     <code class="text-xs ml-1">strictNullChecks</code>. Errors
@@ -705,7 +705,7 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">CI-enforced</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground mb-1">Performance budgets</h4>
+                  <h3 class="font-semibold text-foreground mb-1">Performance budgets</h3>
                   <p class="text-sm text-muted-foreground">
                     160 KB JS, 50 KB CSS, 200 KB per image. The build fails
                     if any budget is exceeded. Overrides expire automatically.
@@ -720,7 +720,7 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">4 layers</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground mb-1">Test pyramid</h4>
+                  <h3 class="font-semibold text-foreground mb-1">Test pyramid</h3>
                   <p class="text-sm text-muted-foreground">
                     Vitest for units, Playwright for e2e across Chromium /
                     Firefox / WebKit, axe-core for a11y, Lighthouse for
@@ -736,7 +736,7 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">Pre-commit</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground mb-1">Git hooks</h4>
+                  <h3 class="font-semibold text-foreground mb-1">Git hooks</h3>
                   <p class="text-sm text-muted-foreground">
                     Husky + lint-staged runs Biome on staged files; commitlint
                     enforces conventional commits. No bad code reaches the
@@ -752,7 +752,7 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">Locked</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground mb-1">pnpm engine-strict</h4>
+                  <h3 class="font-semibold text-foreground mb-1">pnpm engine-strict</h3>
                   <p class="text-sm text-muted-foreground">
                     Package manager and Node version are pinned in
                     <code class="text-xs ml-1">package.json</code>. New
@@ -808,9 +808,9 @@ export function Counter({ value }) {
             <ScrollReveal>
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground mb-1">
+                  <h3 class="font-semibold text-foreground mb-1">
                     <a href="/" class="hover:underline">Home</a>
-                  </h4>
+                  </h3>
                   <p class="text-sm text-muted-foreground">
                     Marketing pillar grid, Lighthouse metric showcase, tech
                     stack with version display, expandable feature cards.
@@ -822,9 +822,9 @@ export function Counter({ value }) {
             <ScrollReveal delay="short">
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground mb-1">
+                  <h3 class="font-semibold text-foreground mb-1">
                     <a href="/showcase/" class="hover:underline">Components</a>
-                  </h4>
+                  </h3>
                   <p class="text-sm text-muted-foreground">
                     Live demo of every component in <code class="text-xs">src/components/</code>,
                     with code snippets, a11y notes, and composition examples.
@@ -836,9 +836,9 @@ export function Counter({ value }) {
             <ScrollReveal delay="medium">
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground mb-1">
+                  <h3 class="font-semibold text-foreground mb-1">
                     <a href="/blog/" class="hover:underline">Blog</a>
-                  </h4>
+                  </h3>
                   <p class="text-sm text-muted-foreground">
                     Content Collections + MDX with Zod schemas. Reading time,
                     tags, scroll-driven progress bar, prefetched links.
@@ -850,9 +850,9 @@ export function Counter({ value }) {
             <ScrollReveal>
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground mb-1">
+                  <h3 class="font-semibold text-foreground mb-1">
                     <a href="/projects/" class="hover:underline">Projects</a>
-                  </h4>
+                  </h3>
                   <p class="text-sm text-muted-foreground">
                     Portfolio / case-study layout with filtering by technology,
                     pagination, and structured outcome metadata.
@@ -864,9 +864,9 @@ export function Counter({ value }) {
             <ScrollReveal delay="short">
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground mb-1">
+                  <h3 class="font-semibold text-foreground mb-1">
                     <a href="/about/" class="hover:underline">About</a>
-                  </h4>
+                  </h3>
                   <p class="text-sm text-muted-foreground">
                     Bio, skills, experience timeline, social links — pulled
                     from content collections so non-engineers can edit it.
@@ -878,9 +878,9 @@ export function Counter({ value }) {
             <ScrollReveal delay="medium">
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground mb-1">
+                  <h3 class="font-semibold text-foreground mb-1">
                     <a href="/contact/" class="hover:underline">Contact</a>
-                  </h4>
+                  </h3>
                   <p class="text-sm text-muted-foreground">
                     Progressive-enhancement form with native HTML validation
                     first, JS enhancement second (ADR-021).

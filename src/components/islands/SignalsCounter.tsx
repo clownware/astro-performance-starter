@@ -43,7 +43,7 @@ export default function SignalsCounter() {
         <button
           type="button"
           onClick={() => (count.value += 1)}
-          class="inline-flex items-center justify-center size-10 rounded-md bg-primary-600 text-white hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+          class="inline-flex items-center justify-center size-10 rounded-md bg-primary-600 text-primary-foreground hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
           aria-label="Increment"
         >
           <svg

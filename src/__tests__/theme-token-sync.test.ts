@@ -59,3 +59,24 @@ describe("@theme inline — non-color tokens reference the token source", () => 
     expect(themeBlock).not.toContain("--duration-base: 250ms");
   });
 });
+
+describe("@theme inline — v2.1 token additions are wired", () => {
+  it("maps the raised + accent surfaces to their token vars", () => {
+    expect(themeBlock).toContain("--color-surface-raised: hsl(var(--color-surface-raised))");
+    expect(themeBlock).toContain("--color-surface-accent: hsl(var(--color-surface-accent))");
+  });
+
+  it("exposes the gradient glow shadow (literal, mirrors base.json shadow.glow)", () => {
+    expect(themeBlock).toContain("--shadow-glow: 0 0 44px -10px hsl(256 86% 63% / 0.45)");
+  });
+
+  it("extends the type scale with 7xl / 8xl", () => {
+    expect(themeBlock).toContain("--text-7xl: 4.5rem");
+    expect(themeBlock).toContain("--text-8xl: 6rem");
+  });
+
+  it("extends the spacing scale with steps 28 / 32", () => {
+    expect(themeBlock).toContain("--spacing-28: 7rem");
+    expect(themeBlock).toContain("--spacing-32: 8rem");
+  });
+});
