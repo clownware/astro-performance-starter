@@ -1,9 +1,11 @@
 ---
+import AnimatedGradientText from "@/components/atoms/AnimatedGradientText.astro";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Icon from "@/components/atoms/Icon.astro";
 
 import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
+import SheenEyebrow from "@/components/atoms/SheenEyebrow.astro";
 import Card from "@/components/molecules/Card.astro";
 import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
 import PostCard from "@/components/molecules/PostCard.astro";
@@ -24,7 +26,7 @@ import { withBase } from "@/utils/url-utils";
  */
 const features: Feature[] = [
   {
-    icon: "🚀",
+    icon: "gauge",
     title: "Performance-First Architecture",
     description:
       "Zero-JS baseline with islands architecture. Ships with 95+ Lighthouse and CI/CD performance budgets.",
@@ -38,7 +40,7 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: "🤖",
+    icon: "bot",
     title: "Agentic Discipline Built In",
     description:
       "Layered AI constitution, role-separated workflow, and halt-on-violation CI gates. Your agent works under the same rules you do.",
@@ -52,7 +54,7 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: "🎨",
+    icon: "palette",
     title: "Enterprise-Grade Design System",
     description:
       "Semantic design tokens with automatic dark mode, WCAG AA compliance, and automated contrast validation.",
@@ -67,7 +69,7 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: "⚡",
+    icon: "zap",
     title: "Next-Gen Opinionated Toolchain",
     description:
       "Biome replaces ESLint + Prettier with 20x speed. Tailwind v4 CSS-native config. TypeScript strict mode and automated quality gates.",
@@ -81,7 +83,7 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: "🧩",
+    icon: "puzzle",
     title: "Production-Ready Components",
     description:
       "Battle-tested atomic design system with accessible primitives, responsive layouts, and TypeScript interfaces.",
@@ -95,7 +97,7 @@ const features: Feature[] = [
     ],
   },
   {
-    icon: "🏗️",
+    icon: "layers",
     title: "Robust Page Templates",
     description:
       "Portfolio-ready pages included: About, Projects, Blog, Contact. Launch with professional content, not empty shells.",
@@ -115,10 +117,10 @@ const features: Feature[] = [
  * Reflects ideal conditions with empty starter content.
  */
 const metrics: LighthouseMetric[] = [
-  { label: "Performance", score: "95+", icon: "🚀" },
-  { label: "Accessibility", score: "100", icon: "♿" },
-  { label: "Best Practices", score: "100", icon: "🛡️" },
-  { label: "SEO", score: "100", icon: "🔍" },
+  { label: "Performance", score: "95+", icon: "gauge" },
+  { label: "Accessibility", score: "100", icon: "accessibility" },
+  { label: "Best Practices", score: "100", icon: "shield-check" },
+  { label: "SEO", score: "100", icon: "search" },
 ];
 
 /**
@@ -236,23 +238,21 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
 
     <Container>
       <div class="mx-auto max-w-4xl text-center">
-        <Badge transition:name="hero-badge" class="mb-4 sm:mb-6 bg-primary-100 text-primary-800 text-sm sm:text-base px-3 sm:px-4 py-1.5 sm:py-2">
-          Astro 6 + Tailwind v4 Starter
-        </Badge>
+        <SheenEyebrow transition:name="hero-badge" class="mb-4 sm:mb-6">
+          Astro 6 + Tailwind 4 · zero-JS baseline
+        </SheenEyebrow>
 
+        {/* "loads instantly." carries the gradient and the hero-grad view-transition
+            name — the single bright move, glides into /showcase and /how-it-works
+            on route change (ADR-048 #2). */}
         <h1 transition:name="hero-heading" class="text-3xl sm:text-4xl lg:text-6xl font-extrabold tracking-tight text-foreground">
-          Astro Performance Starter.
+          <span>Ship a site that </span>
+          <AnimatedGradientText as="span" morph>loads instantly.</AnimatedGradientText>
+          <span class="block">With agents.</span>
         </h1>
-        <p class="mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
-          {/* Shared view-transition name — the gradient sub-line glides into the
-              gradient headline on /showcase and /how-it-works (ADR-048 #2). */}
-          <span transition:name="hero-grad" class="bg-linear-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
-            Point your AI agent at the docs and ship.
-          </span>
-        </p>
 
-        <p class="mt-3 sm:mt-4 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto">
-          Build blazing-fast websites with Astro's zero-JS architecture — 95+ Lighthouse scores out of the box. Ships with implementation guides, Claude Code skills, and context docs for your coding agent.
+        <p class="mt-4 sm:mt-6 text-base sm:text-lg leading-relaxed text-muted-foreground max-w-2xl mx-auto">
+          A performance-first Astro 6 starter your agent builds under enforced discipline — zero-JS baseline, halt-on-violation gates, accessible by contract.
         </p>
 
         {/* TODO: Make GitHub repo public — visitors currently see a 404 */}
@@ -263,7 +263,8 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           </Button>
           {siteLinks.docs && (
           <Button href={`${siteLinks.docs}/getting-started/`} variant="secondary" class="text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-6" data-astro-prefetch>
-            <span aria-hidden="true">📖</span> View Documentation →
+            <Icon name="book-open" class="size-4 sm:size-5 mr-2" decorative />
+            View Documentation
           </Button>
           )}
         </div>
@@ -302,7 +303,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
       <ScrollReveal>
         <div class="text-center">
           <h2 class="text-3xl font-bold text-foreground text-balance">
-            <span aria-hidden="true" class="mr-1.5">🎯</span> Quality Metrics
+            Quality Metrics
           </h2>
           <p class="mt-4 text-lg text-muted-foreground">
             Lighthouse for runtime performance · Stryker for test-quality verification (ADR-042)
@@ -314,8 +315,8 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
         {metrics.map((metric) => (
           <li>
             <Card class="border-2 border-primary-300 bg-surface p-6 text-center h-full">
-              <div class="text-3xl font-bold text-link" aria-label={`${metric.label} score: ${metric.score}`}>
-                <span aria-hidden="true">{metric.icon}</span>
+              <div class="flex items-center justify-center gap-2 text-3xl font-bold text-link" aria-label={`${metric.label} score: ${metric.score}`}>
+                <Icon name={metric.icon} class="size-6 text-primary-600 dark:text-primary-400" decorative />
                 {metric.score}
               </div>
               <div class="mt-1 text-sm font-medium text-muted-foreground">{metric.label}</div>
@@ -339,7 +340,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
             class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-primary-100 hover:bg-primary-200 text-primary-800 transition-colors group"
             aria-label="View live Lighthouse scores on PageSpeed Insights"
           >
-            <span class="text-sm font-medium"><span aria-hidden="true">🎯</span> View Live Scores</span>
+            <span class="text-sm font-medium">View Live Scores</span>
             <svg class="size-4 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
             </svg>
@@ -426,9 +427,9 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           <!-- Foundation Tier -->
           <Card class="p-6 border-l-4 border-l-secondary-500">
             <div class="mb-4">
-              <Badge variant="secondary" size="xs">✅ Done</Badge>
-              <h3 class="mt-3 text-xl font-bold text-foreground flex items-center gap-2">
-                <span aria-hidden="true">🏗️</span> Foundation
+              <Badge variant="secondary" size="xs">Done</Badge>
+              <h3 class="mt-3 text-xl font-bold text-foreground">
+                Foundation
               </h3>
             </div>
             <p class="text-muted-foreground mb-6">
@@ -462,9 +463,9 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           <!-- Build Tier -->
           <Card class="p-6 border-l-4 border-l-warning-600">
             <div class="mb-4">
-              <Badge variant="neutral" size="xs">📦 Demo Included</Badge>
-              <h3 class="mt-3 text-xl font-bold text-foreground flex items-center gap-2">
-                <span aria-hidden="true">⚡</span> Build
+              <Badge variant="neutral" size="xs">Demo Included</Badge>
+              <h3 class="mt-3 text-xl font-bold text-foreground">
+                Build
               </h3>
             </div>
             <p class="text-muted-foreground mb-6">
@@ -498,9 +499,9 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           <!-- Polish Tier -->
           <Card class="p-6 border-l-4 border-l-success-600">
             <div class="mb-4">
-              <Badge variant="primary" size="xs">📋 Guided</Badge>
-              <h3 class="mt-3 text-xl font-bold text-foreground flex items-center gap-2">
-                <span aria-hidden="true">🏆</span> Polish
+              <Badge variant="primary" size="xs">Guided</Badge>
+              <h3 class="mt-3 text-xl font-bold text-foreground">
+                Polish
               </h3>
             </div>
             <p class="text-muted-foreground mb-6">
@@ -550,7 +551,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
       <ScrollReveal>
         <div class="mx-auto max-w-2xl text-center">
           <h2 class="text-3xl font-bold text-foreground text-balance">
-            <span aria-hidden="true" class="mr-1.5">🛠️</span> Modern Tech Stack
+            Modern Tech Stack
           </h2>
           <p class="mt-4 text-lg text-muted-foreground">
             Carefully selected tools for optimal developer experience
@@ -582,14 +583,14 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
       <div class="mt-12 mx-auto max-w-4xl">
         <div class="text-center mb-8">
           <h3 class="text-2xl font-bold text-foreground mb-4">
-            <span aria-hidden="true" class="mr-1.5">🤔</span> Why This Stack?
+            Why This Stack?
           </h3>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card class="p-6">
-            <h4 class="font-semibold text-foreground mb-3 flex items-center gap-2">
-              <span aria-hidden="true">⚡</span> Performance First
+            <h4 class="font-semibold text-foreground mb-3">
+              Performance First
             </h4>
             <p class="text-sm text-muted-foreground leading-relaxed">
               {stackRationale.performance}
@@ -597,8 +598,8 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           </Card>
 
           <Card class="p-6">
-            <h4 class="font-semibold text-foreground mb-3 flex items-center gap-2">
-              <span aria-hidden="true">🎯</span> Developer Experience
+            <h4 class="font-semibold text-foreground mb-3">
+              Developer Experience
             </h4>
             <p class="text-sm text-muted-foreground leading-relaxed">
               {stackRationale.developerExperience}
@@ -606,8 +607,8 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           </Card>
 
           <Card class="p-6">
-            <h4 class="font-semibold text-foreground mb-3 flex items-center gap-2">
-              <span aria-hidden="true">🏭</span> Production Ready
+            <h4 class="font-semibold text-foreground mb-3">
+              Production Ready
             </h4>
             <p class="text-sm text-muted-foreground leading-relaxed">
               {stackRationale.productionReady}
@@ -615,8 +616,8 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           </Card>
 
           <Card class="p-6">
-            <h4 class="font-semibold text-foreground mb-3 flex items-center gap-2">
-              <span aria-hidden="true">🔮</span> Future Proof
+            <h4 class="font-semibold text-foreground mb-3">
+              Future Proof
             </h4>
             <p class="text-sm text-muted-foreground leading-relaxed">
               {stackRationale.futureProof}
@@ -651,7 +652,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
         </div>
 
         <div class="mt-8 text-sm text-primary-foreground">
-          <span aria-hidden="true">🔒</span> MIT Licensed <span aria-hidden="true">•</span> <span aria-hidden="true">⚡</span> Astro 6 + Tailwind v4 <span aria-hidden="true">•</span> <span aria-hidden="true">🤖</span> Agentic Discipline
+          MIT Licensed · Astro 6 + Tailwind v4 · Agentic Discipline
         </div>
       </div>
     </Container>

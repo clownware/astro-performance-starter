@@ -1,0 +1,23 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type EyebrowTag = "p" | "span" | "div";
+
+interface Props extends Omit<HTMLAttributes<"p">, "class"> {
+  class?: string;
+  as?: EyebrowTag;
+}
+
+const { class: className, as: asProp, ...rest } = Astro.props;
+// biome-ignore lint/style/useNamingConvention: Astro requires PascalCase for dynamic HTML tag variables
+const Tag = asProp ?? "p";
+---
+<Tag
+  class:list={[
+    "text-sheen text-xs sm:text-sm font-semibold uppercase tracking-[0.18em]",
+    className,
+  ]}
+  {...rest}
+>
+  <slot />
+</Tag>
