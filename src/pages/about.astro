@@ -1,56 +1,43 @@
 ---
-
+import { type CollectionEntry, getCollection, getEntry, render } from "astro:content";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Image from "@/components/atoms/Image.astro";
 import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
 import SocialLink from "@/components/atoms/SocialLink.astro";
 import { socialLinks as configSocialLinks } from "@/config";
-// Import the avatar image
-import avatarImage from "@/images/avatar-placeholder.png";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { withBase } from "@/utils/url-utils";
 
-// Skills data
-const skills = [
-  "TypeScript",
-  "Astro",
-  "React",
-  "Vue",
-  "Node.js",
-  "Python",
-  "Tailwind CSS",
-  "PostgreSQL",
-  "Docker",
-  "AWS",
-  "Git",
-  "Figma",
-];
+// Bio + experience are sourced from content collections so the About page is
+// content-driven, not hardcoded. See ADR-054 (demo persona).
+const bio = await getEntry("bio", "default");
+if (!bio) {
+  throw new Error("Missing bio entry: src/content/bio/default.mdx");
+}
+// biome-ignore lint/style/useNamingConvention: render() returns Content; PascalCase required to use as JSX tag
+const { Content: BioContent } = await render(bio);
 
-// Experience data
-const experiences = [
-  {
-    title: "Senior Full-Stack Developer",
-    company: "Tech Innovations Inc.",
-    period: "2022 - Present",
-    description:
-      "Leading development of modern web applications using Astro, React, and TypeScript. Architected scalable solutions serving 100K+ users.",
-  },
-  {
-    title: "Frontend Developer",
-    company: "Digital Solutions Co.",
-    period: "2020 - 2022",
-    description:
-      "Built responsive web applications with focus on performance and accessibility. Improved Core Web Vitals scores by 40%.",
-  },
-  {
-    title: "Junior Developer",
-    company: "StartupXYZ",
-    period: "2019 - 2020",
-    description:
-      "Developed features for SaaS platform using Vue.js and Node.js. Collaborated with design team to implement pixel-perfect UIs.",
-  },
-];
+type ExperienceEntry = CollectionEntry<"experience">;
+const experienceEntries = await getCollection("experience");
+const experiences = experienceEntries.sort(
+  (a: ExperienceEntry, b: ExperienceEntry) => a.data.order - b.data.order,
+);
+
+interface SkillGroup {
+  category: string;
+  items: string[];
+}
+const skillGroups: SkillGroup[] = (bio.data.skills ?? []) as SkillGroup[];
+
+const formatPeriod = (start: Date, end: Date | undefined, current: boolean) => {
+  const startYear = start.getFullYear();
+  if (current) {
+    return `${startYear} – Present`;
+  }
+  const endYear = end ? end.getFullYear() : startYear;
+  return `${startYear} – ${endYear}`;
+};
 ---
 
 <BaseLayout
@@ -65,8 +52,8 @@ const experiences = [
         <div class="mx-auto max-w-2xl text-center">
           <div class="mb-8">
             <Image
-              src={avatarImage}
-              alt="Alex, full-stack developer"
+              src={bio.data.avatar}
+              alt={`${bio.data.name} — ${bio.data.title}`}
               class="mx-auto h-32 w-32 rounded-full object-cover shadow-lg ring-4 ring-background"
               width={128}
               height={128}
@@ -75,10 +62,10 @@ const experiences = [
           </div>
           <ScrollReveal>
             <h1 class="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-              Hi, I'm Alex
+              Hi, I'm {bio.data.name}
             </h1>
             <p class="mt-6 text-lg leading-8 text-muted-foreground">
-              I build blazing-fast websites that don't sacrifice beauty for performance. Zero-JS enthusiast, accessibility advocate, and professional yak-shaver.
+              {bio.data.title}{bio.data.location ? ` · ${bio.data.location}` : ""}
             </p>
           </ScrollReveal>
         </div>
@@ -89,24 +76,8 @@ const experiences = [
     <section class="pt-16 sm:pt-12">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl">
-          <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-8">
-            My Story
-          </h2>
-          <div class="prose prose-lg max-w-none">
-            <p class="leading-relaxed mb-6">
-              My journey into web development started during college when I built my first website using HTML and CSS. 
-              What began as curiosity quickly turned into a passion for creating digital experiences that make a difference.
-            </p>
-            <p class="leading-relaxed mb-6">
-              Over the years, I've had the privilege of working with startups and established companies, 
-              helping them build scalable web applications that serve thousands of users. I'm particularly 
-              passionate about performance optimization, accessibility, and creating maintainable codebases.
-            </p>
-            <p class="leading-relaxed">
-              When I'm not coding, you can find me contributing to open-source projects, writing technical 
-              articles, or exploring the latest web technologies. I believe in continuous learning and 
-              sharing knowledge with the developer community.
-            </p>
+          <div class="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground">
+            <BioContent />
           </div>
         </div>
       </div>
@@ -123,16 +94,23 @@ const experiences = [
             Technologies I work with to build modern web applications
           </p>
         </div>
-        <div class="mx-auto max-w-4xl">
-          <ul class="flex flex-wrap justify-center gap-4" role="list" aria-label="Technical skills">
-            {skills.map((skill) => (
-              <li class="transition-transform duration-200 hover:scale-105">
-                <Badge variant="primary" size="sm">
-                  {skill}
-                </Badge>
-              </li>
-            ))}
-          </ul>
+        <div class="mx-auto max-w-4xl flex flex-col gap-8">
+          {skillGroups.map((group: SkillGroup) => (
+            <div>
+              <h3 class="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-3 text-center">
+                {group.category}
+              </h3>
+              <ul class="flex flex-wrap justify-center gap-3" role="list" aria-label={`${group.category} skills`}>
+                {group.items.map((skill: string) => (
+                  <li class="transition-transform duration-200 hover:scale-105">
+                    <Badge variant="primary" size="sm">
+                      {skill}
+                    </Badge>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -145,24 +123,24 @@ const experiences = [
             Experience
           </h2>
           <ol class="space-y-8" role="list" aria-label="Work experience timeline">
-            {experiences.map((exp) => (
+            {experiences.map((exp: ExperienceEntry) => (
               <li class="relative pl-8 pb-8 border-l-2 border-border last:border-l-0 last:pb-0">
                 <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-primary-600 ring-4 ring-background" aria-hidden="true"></div>
                 <article>
                   <div class="space-y-2">
                     <h3 class="text-xl font-semibold text-foreground">
-                      {exp.title}
+                      {exp.data.title}
                     </h3>
                     <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4">
                       <p class="text-link font-medium">
-                        {exp.company}
+                        {exp.data.company}
                       </p>
                       <p class="text-sm text-muted-foreground">
-                        <time>{exp.period}</time>
+                        <time>{formatPeriod(exp.data.startDate, exp.data.endDate, exp.data.current)}</time>
                       </p>
                     </div>
                     <p class="text-muted-foreground leading-relaxed">
-                      {exp.description}
+                      {exp.data.description}
                     </p>
                   </div>
                 </article>
