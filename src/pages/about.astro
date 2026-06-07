@@ -2,7 +2,6 @@
 import { type CollectionEntry, getCollection, getEntry, render } from "astro:content";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
-import Image from "@/components/atoms/Image.astro";
 import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
 import SocialLink from "@/components/atoms/SocialLink.astro";
 import { socialLinks as configSocialLinks } from "@/config";
@@ -51,13 +50,18 @@ const formatPeriod = (start: Date, end: Date | undefined, current: boolean) => {
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
           <div class="mb-8">
-            <Image
-              src={bio.data.avatar}
+            {/* Native <img> bypasses Astro's image pipeline so the embedded
+                cursor-blink CSS animation in state-idle.svg survives unchanged.
+                The SVG paints its own slate-950 background; rounded-full on the
+                <img> clips to a disc. */}
+            <img
+              src={bio.data.avatar.src}
               alt={`${bio.data.name} — ${bio.data.title}`}
-              class="mx-auto h-32 w-32 rounded-full object-cover shadow-lg ring-4 ring-background"
+              class="mx-auto h-32 w-32 rounded-full shadow-lg ring-4 ring-background"
               width={128}
               height={128}
               loading="eager"
+              decoding="async"
             />
           </div>
           <ScrollReveal>

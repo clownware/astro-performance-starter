@@ -1,0 +1,6 @@
+<svg viewBox="0 0 480 120" width="480" height="120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Clownware">
+  <defs><linearGradient id="g" x1="40" y1="50" x2="74" y2="82" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="hsl(256 80% 64%)"></stop><stop offset="1" stop-color="hsl(344 85% 62%)"></stop></linearGradient></defs>
+  <path d="M 40 42 L 60 24 L 80 42" fill="none" stroke="hsl(228 22% 97%)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"></path><path d="M 44 54 L 62 68 L 44 82" fill="none" stroke="url(#g)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"></path><rect x="69" y="57" width="10" height="22" rx="3.5" fill="hsl(228 22% 97%)"></rect>
+  <text x="138" y="60" font-family="Geist, Inter, sans-serif" font-weight="600" font-size="46" letter-spacing="-1" fill="hsl(228 22% 97%)" dominant-baseline="middle">Clownware</text>
+  <text x="140" y="86" font-family="&#39;Geist Mono&#39;, monospace" font-size="15" letter-spacing="1" fill="hsl(228 12% 60%)">open-source dev tools</text>
+</svg>
