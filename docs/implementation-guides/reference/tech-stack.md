@@ -235,7 +235,6 @@ Runtime:
     "@astrojs/check": "^0.9.8",
     "@biomejs/biome": "^2.4.9",
     "@playwright/test": "^1.58.2",
-    "astrobook": "^0.12.4",
     "husky": "^9.1.7",
     "lighthouse": "^13.0.3",
     "lint-staged": "^16.4.0",
