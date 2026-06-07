@@ -95,7 +95,7 @@ A few design decisions worth noting:
 
 **Priority-ordered.** Claude Code reads top-down. The most critical rules come first — scope boundaries and "don't break these things." Conventions and nice-to-haves follow. If context gets truncated, the most important rules survive.
 
-**Progressive disclosure.** The full file is under 130 lines. For detailed conventions — the full component pattern spec, all 35+ ADRs — it references deeper docs by file path. Claude Code loads those on demand, keeping session context lean.
+**Progressive disclosure.** The full file is under 130 lines. For detailed conventions — the full component pattern spec, the full ADR set — it references deeper docs by file path. Claude Code loads those on demand, keeping session context lean.
 
 **Neutral tone.** This ships to every developer who forks the template. No personal interaction preferences, no "treat me as a senior engineer." Project conventions only.
 
