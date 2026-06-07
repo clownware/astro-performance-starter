@@ -36,13 +36,13 @@ describe("Button (atom)", () => {
 
     it("applies secondary variant classes", async () => {
       const html = await renderButton({ variant: "secondary" });
-      expect(html).toContain("bg-background-secondary");
+      expect(html).toContain("bg-surface");
       expect(html).toContain("border-border-emphasis");
     });
 
     it("applies ghost variant classes", async () => {
       const html = await renderButton({ variant: "ghost" });
-      expect(html).toContain("text-foreground-secondary");
+      expect(html).toContain("text-muted-foreground");
     });
   });
 

@@ -120,7 +120,7 @@ Here's what it checks — the real list from the agent file:
 - **ADR compliance** — flags any `client:load` without justification (ADR-001), untested new functionality (ADR-023), files created in wrong scope categories (ADR-035)
 - **Performance budgets** — JS bundle under 160KB gzipped, CSS under 50KB, images under 200KB each, Lighthouse targets 95+/98+
 - **Component patterns** — TypeScript Props interface required, slots over props, correct atomic design directory
-- **Design tokens** — no hardcoded colors (`bg-white`, `#hex`, `rgb()`), must use semantic tokens (`text-foreground-primary`)
+- **Design tokens** — no hardcoded colors (`bg-white`, `#hex`, `rgb()`), must use semantic tokens (`text-foreground`)
 - **Image handling** — Astro Image component required, `alt` text mandatory
 - **What CI doesn't catch** — architectural patterns, convention compliance, design decisions, missing test coverage
 
@@ -211,7 +211,7 @@ const {
 ---
 
 <article
-  class:list={["rounded-lg border border-border-primary", className]}
+  class:list={["rounded-lg border border-border", className]}
   {...rest}
 >
   <!-- Image, content, and slot-based actions area -->

@@ -55,18 +55,18 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 >
   <article class="project-article">
     <!-- Project Hero Section -->
-    <header class="project-hero relative overflow-hidden bg-linear-to-br from-background-primary to-background-secondary">
+    <header class="project-hero relative overflow-hidden bg-linear-to-br from-background to-surface">
       <div class="mx-auto max-w-4xl px-4 py-12 lg:py-20 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <!-- Project Info -->
           <div class="project-info">
             <!-- Breadcrumb Navigation -->
             <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
-              <ol class="flex items-center space-x-2 text-sm text-foreground-secondary">
+              <ol class="flex items-center space-x-2 text-sm text-muted-foreground">
                 <li>
                   <a
                     href={withBase("/projects/")}
-                    class="hover:text-foreground-primary transition-colors duration-200"
+                    class="hover:text-foreground transition-colors duration-200"
                     aria-label="Back to projects"
                   >
                     Projects
@@ -74,18 +74,18 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
                 </li>
                 <li class="flex items-center">
                   <span class="mx-2" aria-hidden="true">→</span>
-                  <span class="text-foreground-primary font-medium">{project.title}</span>
+                  <span class="text-foreground font-medium">{project.title}</span>
                 </li>
               </ol>
             </nav>
 
             <!-- Project Title -->
-            <h1 class="project-title text-4xl lg:text-5xl font-bold text-foreground-primary mb-4 leading-tight">
+            <h1 class="project-title text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
               {project.title}
             </h1>
 
             <!-- Project Description -->
-            <p class="project-description text-lg text-foreground-secondary mb-6 leading-relaxed">
+            <p class="project-description text-lg text-muted-foreground mb-6 leading-relaxed">
               {project.description}
             </p>
 
@@ -97,19 +97,19 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
                 </Badge>
               )}
               {project.role && (
-                <span class="text-sm text-foreground-secondary">
+                <span class="text-sm text-muted-foreground">
                   {project.role}
                 </span>
               )}
               {publishedDate && (
-                <span class="text-sm text-foreground-secondary">
+                <span class="text-sm text-muted-foreground">
                   <time datetime={project.date ? formatDateIso(project.date) ?? undefined : undefined}>
                     {publishedDate}
                   </time>
                 </span>
               )}
               {project.duration && (
-                <span class="text-sm text-foreground-secondary">
+                <span class="text-sm text-muted-foreground">
                   {project.duration}
                 </span>
               )}
@@ -132,7 +132,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 
           <!-- Hero Image -->
           <div class="project-hero-image">
-            <div class="relative rounded-xl overflow-hidden shadow-2xl bg-background-secondary">
+            <div class="relative rounded-xl overflow-hidden shadow-2xl bg-surface">
               {project.cover && (
                 <Image
                   src={project.cover}
@@ -145,7 +145,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
                   widths={[400, 600, 800, 1200, 1536]}
                 />
               )}
-              <div class="absolute inset-0 bg-linear-to-t from-foreground-primary/20 to-transparent pointer-events-none"></div>
+              <div class="absolute inset-0 bg-linear-to-t from-foreground/20 to-transparent pointer-events-none"></div>
             </div>
           </div>
         </div>
@@ -158,20 +158,20 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
       <!-- Outcomes / Key Metrics -->
       {project.outcomes && project.outcomes.length > 0 && (
         <section class="outcomes-section mb-12" aria-labelledby="outcomes-heading">
-          <h2 id="outcomes-heading" class="text-2xl font-bold text-foreground-primary mb-6">
+          <h2 id="outcomes-heading" class="text-2xl font-bold text-foreground mb-6">
             Key Results
           </h2>
           <div class="outcomes-grid grid grid-cols-1 sm:grid-cols-3 gap-6">
             {project.outcomes.map((outcome) => (
-              <div class="outcome-card text-center p-8 bg-background-secondary border border-border-primary rounded-xl hover:shadow-lg transition-shadow">
-                <div class="outcome-value text-3xl font-bold text-primary-600 dark:text-primary-400 mb-3 leading-tight break-words">
+              <div class="outcome-card text-center p-8 bg-surface border border-border rounded-xl hover:shadow-lg transition-shadow">
+                <div class="outcome-value text-3xl font-bold text-link mb-3 leading-tight break-words">
                   {outcome.value}
                 </div>
-                <div class="outcome-metric text-sm font-semibold text-foreground-primary mb-2 uppercase tracking-wide">
+                <div class="outcome-metric text-sm font-semibold text-foreground mb-2 uppercase tracking-wide">
                   {outcome.metric}
                 </div>
                 {outcome.description && (
-                  <div class="outcome-description text-xs text-foreground-secondary leading-relaxed break-words">
+                  <div class="outcome-description text-xs text-muted-foreground leading-relaxed break-words">
                     {outcome.description}
                   </div>
                 )}
@@ -183,7 +183,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 
       <!-- Tech Stack Section -->
       <section class="tech-stack-section mb-12" aria-labelledby="tech-stack-heading">
-        <h2 id="tech-stack-heading" class="text-2xl font-bold text-foreground-primary mb-6">
+        <h2 id="tech-stack-heading" class="text-2xl font-bold text-foreground mb-6">
           Tech Stack
         </h2>
         <div role="list" class="flex flex-wrap gap-3">
@@ -205,7 +205,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
       </section>
 
       <!-- Back to Projects -->
-      <section class="back-navigation text-center pt-8 border-t border-border-primary">
+      <section class="back-navigation text-center pt-8 border-t border-border">
         <Button
           variant="ghost"
           size="lg"
@@ -235,32 +235,32 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 
   .outcome-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px hsl(var(--color-foreground-primary) / 0.1);
+    box-shadow: 0 4px 12px hsl(var(--color-foreground) / 0.1);
   }
 
   .prose {
-    @apply text-foreground-primary;
+    @apply text-foreground;
     line-height: 1.7;
   }
 
   .prose h1 {
-    @apply text-3xl font-bold text-foreground-primary mt-12 mb-6 leading-tight;
+    @apply text-3xl font-bold text-foreground mt-12 mb-6 leading-tight;
   }
 
   .prose h2 {
-    @apply text-2xl font-bold text-foreground-primary mt-10 mb-5 leading-tight;
+    @apply text-2xl font-bold text-foreground mt-10 mb-5 leading-tight;
   }
 
   .prose h3 {
-    @apply text-xl font-semibold text-foreground-primary mt-8 mb-4 leading-tight;
+    @apply text-xl font-semibold text-foreground mt-8 mb-4 leading-tight;
   }
 
   .prose h4 {
-    @apply text-lg font-medium text-foreground-primary mt-6 mb-3 leading-tight;
+    @apply text-lg font-medium text-foreground mt-6 mb-3 leading-tight;
   }
 
   .prose p {
-    @apply mb-6 leading-relaxed text-foreground-secondary;
+    @apply mb-6 leading-relaxed text-muted-foreground;
   }
 
   .prose ul, .prose ol {
@@ -268,45 +268,45 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
   }
 
   .prose li {
-    @apply leading-relaxed text-foreground-secondary;
+    @apply leading-relaxed text-muted-foreground;
   }
 
   .prose li strong {
-    @apply text-foreground-primary font-semibold;
+    @apply text-foreground font-semibold;
   }
 
   .prose strong {
-    @apply text-foreground-primary font-semibold;
+    @apply text-foreground font-semibold;
   }
 
   .prose table {
     @apply w-full border-collapse mb-6;
-    border: 1px solid hsl(var(--color-border-primary));
+    border: 1px solid hsl(var(--color-border));
     display: block;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
   }
 
   .prose th {
-    @apply px-4 py-2 bg-background-secondary text-foreground-primary font-semibold text-left;
-    border: 1px solid hsl(var(--color-border-primary));
+    @apply px-4 py-2 bg-surface text-foreground font-semibold text-left;
+    border: 1px solid hsl(var(--color-border));
   }
 
   .prose td {
-    @apply px-4 py-2 text-foreground-secondary;
-    border: 1px solid hsl(var(--color-border-primary));
+    @apply px-4 py-2 text-muted-foreground;
+    border: 1px solid hsl(var(--color-border));
   }
 
   .prose hr {
     @apply my-8;
-    border-color: hsl(var(--color-border-primary));
+    border-color: hsl(var(--color-border));
   }
 
   .prose code {
-    @apply bg-background-secondary px-1.5 py-0.5 rounded text-sm font-mono text-foreground-primary;
+    @apply bg-surface px-1.5 py-0.5 rounded text-sm font-mono text-foreground;
   }
 
   .prose blockquote {
-    @apply border-l-4 border-primary-500 pl-4 italic text-foreground-secondary my-6;
+    @apply border-l-4 border-primary-500 pl-4 italic text-muted-foreground my-6;
   }
 </style>

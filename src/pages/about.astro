@@ -66,16 +66,16 @@ const experiences = [
             <Image
               src={avatarImage}
               alt="Alex, full-stack developer"
-              class="mx-auto h-32 w-32 rounded-full object-cover shadow-lg ring-4 ring-background-primary"
+              class="mx-auto h-32 w-32 rounded-full object-cover shadow-lg ring-4 ring-background"
               width={128}
               height={128}
               loading="eager"
             />
           </div>
-          <h1 class="text-4xl font-bold tracking-tight text-foreground-primary sm:text-6xl">
+          <h1 class="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
             Hi, I'm Alex 👋
           </h1>
-          <p class="mt-6 text-lg leading-8 text-foreground-secondary">
+          <p class="mt-6 text-lg leading-8 text-muted-foreground">
             I build blazing-fast websites that don't sacrifice beauty for performance. Zero-JS enthusiast, accessibility advocate, and professional yak-shaver.
           </p>
         </div>
@@ -86,7 +86,7 @@ const experiences = [
     <section class="pt-16 sm:pt-12">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl">
-          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-8">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-8">
             My Story
           </h2>
           <div class="prose prose-lg max-w-none">
@@ -110,13 +110,13 @@ const experiences = [
     </section>
 
     <!-- Skills Section -->
-    <section class="bg-background-secondary py-16 sm:py-24">
+    <section class="bg-surface py-16 sm:py-24">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
-          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-4">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4">
             Skills & Technologies
           </h2>
-          <p class="text-lg leading-8 text-foreground-secondary mb-12">
+          <p class="text-lg leading-8 text-muted-foreground mb-12">
             Technologies I work with to build modern web applications
           </p>
         </div>
@@ -138,27 +138,27 @@ const experiences = [
     <section class="py-16 sm:py-24">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl">
-          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-12">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-12">
             Experience
           </h2>
           <ol class="space-y-8" role="list" aria-label="Work experience timeline">
             {experiences.map((exp) => (
-              <li class="relative pl-8 pb-8 border-l-2 border-border-primary last:border-l-0 last:pb-0">
-                <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-primary-600 ring-4 ring-background-primary" aria-hidden="true"></div>
+              <li class="relative pl-8 pb-8 border-l-2 border-border last:border-l-0 last:pb-0">
+                <div class="absolute -left-2 top-0 h-4 w-4 rounded-full bg-primary-600 ring-4 ring-background" aria-hidden="true"></div>
                 <article>
                   <div class="space-y-2">
-                    <h3 class="text-xl font-semibold text-foreground-primary">
+                    <h3 class="text-xl font-semibold text-foreground">
                       {exp.title}
                     </h3>
                     <div class="flex flex-col sm:flex-row sm:items-center sm:gap-4">
-                      <p class="text-primary-600 font-medium">
+                      <p class="text-link font-medium">
                         {exp.company}
                       </p>
-                      <p class="text-sm text-foreground-secondary">
+                      <p class="text-sm text-muted-foreground">
                         <time>{exp.period}</time>
                       </p>
                     </div>
-                    <p class="text-foreground-secondary leading-relaxed">
+                    <p class="text-muted-foreground leading-relaxed">
                       {exp.description}
                     </p>
                   </div>
@@ -171,13 +171,13 @@ const experiences = [
     </section>
 
     <!-- Social Links Section -->
-    <section class="bg-background-secondary py-16 sm:py-24">
+    <section class="bg-surface py-16 sm:py-24">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
-          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-4">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4">
             Let's Connect
           </h2>
-          <p class="text-lg leading-8 text-foreground-secondary mb-8">
+          <p class="text-lg leading-8 text-muted-foreground mb-8">
             Find me on these platforms or reach out directly
           </p>
           <div class="flex justify-center gap-6">
@@ -211,10 +211,10 @@ const experiences = [
     <section class="py-16 sm:py-24">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
-          <h2 class="text-3xl font-bold tracking-tight text-foreground-primary sm:text-4xl mb-4">
+          <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl mb-4">
             Ready to Work Together?
           </h2>
-          <p class="text-lg leading-8 text-foreground-secondary mb-8">
+          <p class="text-lg leading-8 text-muted-foreground mb-8">
             I'm always interested in new opportunities and exciting projects. 
             Let's discuss how we can bring your ideas to life.
           </p>

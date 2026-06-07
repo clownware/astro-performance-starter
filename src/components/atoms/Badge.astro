@@ -12,7 +12,7 @@ const { class: className, role, variant = "primary", size = "sm", ...rest } = As
 const variantClasses: Record<"primary" | "secondary" | "neutral", string> = {
   primary: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
   secondary: "bg-secondary-100 text-secondary-800 dark:bg-secondary-900 dark:text-secondary-200",
-  neutral: "bg-background-secondary text-foreground-primary dark:bg-gray-600 dark:text-gray-100",
+  neutral: "bg-surface text-muted-foreground border border-border",
 };
 
 const sizeClasses: Record<"xs" | "sm" | "md", string> = {

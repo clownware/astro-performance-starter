@@ -23,7 +23,7 @@ describe("Badge (atom)", () => {
   it.each([
     ["primary", ["bg-primary-100", "text-primary-800"]],
     ["secondary", ["bg-secondary-100", "text-secondary-800"]],
-    ["neutral", ["bg-background-secondary", "text-foreground-primary"]],
+    ["neutral", ["bg-surface", "text-muted-foreground"]],
   ])("applies %s variant classes", async (variant, expected) => {
     const html = await renderBadge({ variant });
     for (const cls of expected) {

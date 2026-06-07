@@ -11,7 +11,7 @@ const { icon, title, description, metric, expandedDetails } = Astro.props;
 ---
 
 <div
-  class="overflow-hidden rounded-lg border border-border-primary bg-background-primary shadow-sm relative p-6 hover:border-primary-300 transition-colors group"
+  class="overflow-hidden rounded-lg border border-border bg-background shadow-sm relative p-6 hover:border-primary-300 transition-colors group"
 >
   <div class="flex items-start justify-between mb-4">
     <div class="flex items-start gap-4 flex-1">
@@ -19,7 +19,7 @@ const { icon, title, description, metric, expandedDetails } = Astro.props;
         {icon}
       </div>
       <div class="flex-1">
-        <h3 class="text-lg font-semibold text-foreground-primary pr-4">{title}</h3>
+        <h3 class="text-lg font-semibold text-foreground pr-4">{title}</h3>
       </div>
     </div>
     <span class="inline-flex items-center rounded-full font-medium bg-primary-100 text-primary-800 text-xs px-[0.5rem] py-0.5 shrink-0">
@@ -28,11 +28,11 @@ const { icon, title, description, metric, expandedDetails } = Astro.props;
   </div>
 
   <div class="pl-12">
-    <p class="text-foreground-secondary mb-4">{description}</p>
+    <p class="text-muted-foreground mb-4">{description}</p>
 
     <details class="feature-details group/details">
       <summary
-        class="text-primary-600 hover:text-primary-700 text-sm font-medium flex items-center gap-1 mb-3 transition-colors cursor-pointer list-none"
+        class="text-link text-sm font-medium flex items-center gap-1 mb-3 transition-colors cursor-pointer list-none"
         aria-label="Toggle feature details"
       >
         <span class="details-show">Show details</span>
@@ -54,9 +54,9 @@ const { icon, title, description, metric, expandedDetails } = Astro.props;
       </summary>
 
       <section class="expand-content" aria-label="Feature details">
-        <ul class="flex flex-col gap-2 text-sm text-foreground-secondary">
+        <ul class="flex flex-col gap-2 text-sm text-muted-foreground">
           {expandedDetails.map((detail) => (
-            <li class="flex items-start gap-2 not-last:border-b not-last:border-border-primary not-last:pb-2">
+            <li class="flex items-start gap-2 not-last:border-b not-last:border-border not-last:pb-2">
               <span class="text-primary-500 mt-1 text-xs" aria-hidden="true">
                 ▸
               </span>

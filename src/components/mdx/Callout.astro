@@ -34,34 +34,35 @@ const typeStyles: Record<
   Props["type"],
   { border: string; background: string; text: string; defaultTitle: string }
 > = {
+  // Role tokens flip light/dark automatically — no manual dark: variants.
   note: {
-    border: "border-primary-500 dark:border-primary-400",
-    background: "bg-primary-100 dark:bg-primary-900/30",
-    text: "text-primary-800 dark:text-primary-200",
+    border: "border-link",
+    background: "bg-primary/10",
+    text: "text-foreground",
     defaultTitle: "Note",
   },
   info: {
-    border: "border-primary-400 dark:border-primary-500",
-    background: "bg-primary-50 dark:bg-primary-900/20",
-    text: "text-primary-700 dark:text-primary-300",
+    border: "border-link",
+    background: "bg-primary/5",
+    text: "text-foreground",
     defaultTitle: "Information",
   },
   warning: {
-    border: "border-secondary-500 dark:border-secondary-400",
-    background: "bg-secondary-100 dark:bg-secondary-900/30",
-    text: "text-secondary-800 dark:text-secondary-200",
+    border: "border-warning",
+    background: "bg-warning/10",
+    text: "text-foreground",
     defaultTitle: "Warning",
   },
   danger: {
-    border: "border-secondary-600 dark:border-secondary-500",
-    background: "bg-secondary-100 dark:bg-secondary-900/40",
-    text: "text-secondary-800 dark:text-secondary-200",
+    border: "border-error",
+    background: "bg-error/10",
+    text: "text-foreground",
     defaultTitle: "Danger",
   },
   success: {
-    border: "border-primary-600 dark:border-primary-500",
-    background: "bg-primary-100 dark:bg-primary-900/30",
-    text: "text-primary-800 dark:text-primary-200",
+    border: "border-success",
+    background: "bg-success/10",
+    text: "text-foreground",
     defaultTitle: "Success",
   },
 };

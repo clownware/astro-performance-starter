@@ -48,7 +48,7 @@ const img = post.data.cardImage ?? post.data.cover;
       )}
     </div>
   ) : (
-    <div class="border-b border-border-primary" />
+    <div class="border-b border-border" />
   )}
 
   <div class="p-6">
@@ -67,23 +67,23 @@ const img = post.data.cardImage ?? post.data.cover;
       }
     </div>
 
-    <h3 transition:name={"post-title-" + post.id} class="mb-3 text-xl font-semibold text-foreground-primary">
+    <h3 transition:name={"post-title-" + post.id} class="mb-3 text-xl font-semibold text-foreground">
       <a
         href={withBase(`/blog/${post.id}/`)}
         class:list={[
           "transition-colors",
-          featured ? "stretched-link hover:text-primary-600" : "after:absolute after:inset-0 group-hover:text-primary-600"
+          featured ? "stretched-link hover:text-link" : "after:absolute after:inset-0 group-hover:text-link"
         ]}
       >
         {post.data.title}
       </a>
     </h3>
 
-    <p class="mb-4 text-foreground-subtle line-clamp-3">
+    <p class="mb-4 text-muted-foreground line-clamp-3">
       {post.data.description}
     </p>
 
-    <div class="flex items-center justify-between text-sm text-foreground-subtle">
+    <div class="flex items-center justify-between text-sm text-muted-foreground">
       <time datetime={formatDateIso(post.data.date) ?? undefined}>{post.metadata.publishedDate}</time>
       <span>{post.metadata.readingTime}</span>
     </div>

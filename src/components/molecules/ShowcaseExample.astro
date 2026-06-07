@@ -48,7 +48,7 @@ const {
 const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
   "zero-js": {
     label: "Zero JS",
-    color: "bg-success-100 text-success-700 dark:bg-success-600/20 dark:text-success-100",
+    color: "bg-success/10 text-success",
   },
   "css-only": {
     label: "CSS Only",
@@ -84,7 +84,7 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
   },
   "preact-signals": {
     label: "Preact Signals",
-    color: "bg-warning-100 text-warning-700 dark:bg-warning-600/20 dark:text-warning-100",
+    color: "bg-warning/10 text-warning",
   },
   "view-transitions": {
     label: "View Transitions",
@@ -92,14 +92,14 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
   },
   "progressive-enhancement": {
     label: "Prog. Enhancement",
-    color: "bg-success-100 text-success-700 dark:bg-success-600/20 dark:text-success-100",
+    color: "bg-success/10 text-success",
   },
 };
 ---
 
 <div class:list={["showcase-example", className]} id={title.toLowerCase().replace(/\s+/g, '-')}>
   <div class="showcase-example__header">
-    <h3 class="text-lg font-semibold text-foreground-primary">{title}</h3>
+    <h3 class="text-lg font-semibold text-foreground">{title}</h3>
     {features.length > 0 && (
       <div class="flex flex-wrap gap-1.5">
         {features.map((feature) => {
@@ -114,10 +114,10 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
     )}
   </div>
 
-  <p class="text-sm text-foreground-secondary mb-2">{description}</p>
+  <p class="text-sm text-muted-foreground mb-2">{description}</p>
 
   {a11yNote && (
-    <p class="showcase-example__a11y-note text-xs text-foreground-secondary mb-4">
+    <p class="showcase-example__a11y-note text-xs text-muted-foreground mb-4">
       <span class="showcase-example__a11y-icon" aria-hidden="true">a11y</span>
       {a11yNote}
     </p>
@@ -170,9 +170,9 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
 <style>
   .showcase-example {
     padding: 1.5rem;
-    border: 1px solid hsl(var(--color-border-primary));
+    border: 1px solid hsl(var(--color-border));
     border-radius: 0.75rem;
-    background: hsl(var(--color-background-primary));
+    background: hsl(var(--color-background));
   }
 
   .showcase-example__header {
@@ -186,9 +186,9 @@ const featureLabels: Record<FeatureTag, { label: string; color: string }> = {
 
   .showcase-example__demo {
     padding: 1.5rem;
-    border: 1px dashed hsl(var(--color-border-primary));
+    border: 1px dashed hsl(var(--color-border));
     border-radius: 0.5rem;
-    background: hsl(var(--color-background-secondary));
+    background: hsl(var(--color-surface));
     overflow: hidden;
   }
 

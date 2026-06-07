@@ -16,10 +16,10 @@ const { tokenName, cssVar, contrastRatio, class: className } = Astro.props;
     aria-hidden="true"
   ></div>
   <div class="color-swatch__info">
-    <span class="text-sm font-medium text-foreground-primary">{tokenName}</span>
-    <code class="text-xs text-foreground-secondary font-mono">{cssVar}</code>
+    <span class="text-sm font-medium text-foreground">{tokenName}</span>
+    <code class="text-xs text-muted-foreground font-mono">{cssVar}</code>
     {contrastRatio && (
-      <span class="text-xs text-foreground-secondary">
+      <span class="text-xs text-muted-foreground">
         {contrastRatio}
       </span>
     )}
@@ -37,14 +37,14 @@ const { tokenName, cssVar, contrastRatio, class: className } = Astro.props;
   }
 
   .color-swatch:hover {
-    background-color: hsl(var(--color-background-secondary));
+    background-color: hsl(var(--color-surface));
   }
 
   .color-swatch__preview {
     width: 2.5rem;
     height: 2.5rem;
     border-radius: 0.5rem;
-    border: 1px solid hsl(var(--color-border-primary));
+    border: 1px solid hsl(var(--color-border));
     flex-shrink: 0;
   }
 

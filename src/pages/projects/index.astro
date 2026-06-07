@@ -96,7 +96,7 @@ const pageDescription =
       <h1 class="mb-4 text-4xl font-bold tracking-tight text-foreground-default sm:text-5xl">
         {pageTitle}
       </h1>
-      <p class="mx-auto max-w-2xl text-lg text-foreground-subtle">
+      <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
         {pageDescription}
       </p>
     </div>
@@ -107,7 +107,7 @@ const pageDescription =
       <div class="flex flex-wrap justify-center gap-3">
         <button
           type="button"
-          class="filter-btn active inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium border border-border-primary bg-background-secondary text-foreground-primary transition-colors duration-200 hover:bg-primary-200 dark:hover:bg-primary-800 cursor-pointer"
+          class="filter-btn active inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium border border-border bg-surface text-foreground transition-colors duration-200 hover:bg-primary-200 dark:hover:bg-primary-800 cursor-pointer"
           data-filter="all"
           aria-pressed="true"
         >
@@ -151,10 +151,10 @@ const pageDescription =
     <!-- Empty State (hidden by default, shown when no projects match filter) -->
     <div id="empty-state" class="hidden text-center py-12">
       <div class="text-6xl mb-4" aria-hidden="true">🔍</div>
-      <h3 class="text-xl font-semibold text-foreground-primary mb-2">
+      <h3 class="text-xl font-semibold text-foreground mb-2">
         No projects found
       </h3>
-      <p class="text-foreground-secondary mb-6">
+      <p class="text-muted-foreground mb-6">
         Try selecting a different technology filter or view all projects.
       </p>
       <Button 
@@ -169,7 +169,7 @@ const pageDescription =
     <!-- Load More Section (only shown when there are more projects) -->
     {hasMoreProjects && (
       <section class="text-center mt-12" id="load-more-section">
-        <p class="text-foreground-secondary mb-6">
+        <p class="text-muted-foreground mb-6">
           Showing <span id="shown-count">{displayedProjects.length}</span> of {projects.length} projects
         </p>
         <Button 
@@ -257,7 +257,7 @@ const pageDescription =
           
           // Build card DOM safely — avoids innerHTML to prevent XSS if data source changes
           const article = document.createElement('article');
-          article.className = 'w-full project-card bg-background-secondary border border-primary rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary-300 focus-within:ring-2 focus-within:ring-primary-500';
+          article.className = 'w-full project-card bg-surface border border-border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary-300 focus-within:ring-2 focus-within:ring-primary-500';
 
           const imageContainer = document.createElement('div');
           imageContainer.className = 'project-card__image-container relative overflow-hidden';
@@ -276,10 +276,10 @@ const pageDescription =
           const header = document.createElement('header');
           header.className = 'project-card__header mb-4';
           const h3 = document.createElement('h3');
-          h3.className = 'project-card__title text-xl font-semibold text-foreground-primary mb-2';
+          h3.className = 'project-card__title text-xl font-semibold text-foreground mb-2';
           h3.textContent = project.title;
           const desc = document.createElement('p');
-          desc.className = 'project-card__description text-foreground-secondary leading-relaxed';
+          desc.className = 'project-card__description text-muted-foreground leading-relaxed';
           desc.textContent = project.description;
           header.appendChild(h3);
           header.appendChild(desc);
@@ -291,7 +291,7 @@ const pageDescription =
             const labelRow = document.createElement('div');
             labelRow.className = 'flex items-center gap-2 mb-2';
             const label = document.createElement('span');
-            label.className = 'text-xs font-medium text-foreground-secondary uppercase tracking-wide';
+            label.className = 'text-xs font-medium text-muted-foreground uppercase tracking-wide';
             label.textContent = labelText;
             labelRow.appendChild(label);
             wrapper.appendChild(labelRow);

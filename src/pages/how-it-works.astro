@@ -70,16 +70,16 @@ const tokenJsonSnippet = `{
 
 const tokenCssSnippet = `:root {
   --color-primary-600: 189 61% 32%;
-  --color-background-primary: 0 0% 100%;
+  --color-background: 0 0% 100%;
 }
 
 .dark {
-  --color-background-primary: 227 50% 16%;
+  --color-background: 227 50% 16%;
 }`;
 
 const tokenThemeSnippet = `@theme inline {
   --color-primary-600: hsl(var(--color-primary-600));
-  --color-background-primary: hsl(var(--color-background-primary));
+  --color-background: hsl(var(--color-background));
 }`;
 
 const tokenComponentSnippet = `<button class="bg-primary-600 text-white">
@@ -226,14 +226,14 @@ export function Counter({ value }) {
     {/* Sticky sidebar on desktop, horizontal scroll on mobile */}
     <aside class="hidden lg:block">
       <div class="sticky top-24 py-8">
-        <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-3">
+        <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">
           On this page
         </p>
         <ScrollSpy sections={spySections} ariaLabel="Table of contents" />
       </div>
     </aside>
 
-    <div class="lg:hidden sticky top-16 z-40 bg-background-primary/95 backdrop-blur-sm border-b border-border-primary -mx-4 px-4 sm:-mx-6 sm:px-6 overflow-x-clip">
+    <div class="lg:hidden sticky top-16 z-40 bg-background/95 backdrop-blur-sm border-b border-border -mx-4 px-4 sm:-mx-6 sm:px-6 overflow-x-clip">
       <ScrollSpy sections={spySections} ariaLabel="Section navigation" />
     </div>
 
@@ -243,16 +243,16 @@ export function Counter({ value }) {
           ============================================================ */}
       <Section id="intro" class="pt-12 pb-12 sm:pt-16 sm:pb-16">
         <div class="max-w-3xl">
-          <AnimatedGradientText as="h1" speed="slow" class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+          <AnimatedGradientText as="h1" speed="slow" morph class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
             How It Works
           </AnimatedGradientText>
-          <p class="text-lg sm:text-xl text-foreground-secondary mb-6">
+          <p class="text-lg sm:text-xl text-muted-foreground mb-6">
             An architecture tour for developers who read the homepage and asked,
             <em>prove it.</em> Here's what's actually under the hood — the
             zero-JS philosophy, the AI development system, the design pipeline,
             and the toolchain that ships.
           </p>
-          <p class="text-base text-foreground-secondary">
+          <p class="text-base text-muted-foreground">
             The page you're reading is itself a demonstration: zero hydrated
             JavaScript, scroll-driven animations powered by CSS, and a
             section-tracking sidebar that uses one Intersection Observer.
@@ -269,11 +269,11 @@ export function Counter({ value }) {
         <Container>
           <ScrollReveal>
             <div class="max-w-3xl mb-10">
-              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+              <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">
                 Pillar 1 — Performance-First Architecture
               </p>
-              <h2 class="text-3xl font-bold text-foreground-primary mb-3">Zero-JS by default</h2>
-              <p class="text-foreground-secondary">
+              <h2 class="text-3xl font-bold text-foreground mb-3">Zero-JS by default</h2>
+              <p class="text-muted-foreground">
                 Every component in this template compiles to static HTML and CSS.
                 JavaScript ships only when a feature genuinely needs it — and
                 even then, it's an Astro Island, lazy-hydrated only when in
@@ -294,10 +294,10 @@ export function Counter({ value }) {
           {/* The web platform freebies */}
           <ScrollReveal>
             <div class="max-w-3xl mb-6">
-              <h3 class="text-xl font-semibold text-foreground-primary mb-2">
+              <h3 class="text-xl font-semibold text-foreground mb-2">
                 What the web platform gives us for free
               </h3>
-              <p class="text-foreground-secondary">
+              <p class="text-muted-foreground">
                 The browser has caught up to the framework era. Most of what
                 React, Vue, or Angular libraries used to do in user-space JavaScript
                 is now a CSS rule, a media query, or a one-line HTML attribute.
@@ -310,21 +310,21 @@ export function Counter({ value }) {
             <Tabs tabs={cssReplacesJs.map((c) => ({ id: c.id, label: c.label }))} defaultTab="scroll">
               {cssReplacesJs.map((c) => (
                 <div data-tab-panel={c.id}>
-                  <p class="text-xs text-foreground-secondary mb-4">
+                  <p class="text-xs text-muted-foreground mb-4">
                     Replaces: <span class="font-mono">{c.replaces}</span>
                   </p>
                   <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
                     <div>
                       <div class="flex items-center gap-2 mb-2">
                         <Badge variant="neutral" size="xs">JS approach</Badge>
-                        <span class="text-xs text-foreground-secondary">Bundle cost: kilobytes</span>
+                        <span class="text-xs text-muted-foreground">Bundle cost: kilobytes</span>
                       </div>
                       <Code code={c.js} lang="tsx" title="component.tsx" />
                     </div>
                     <div>
                       <div class="flex items-center gap-2 mb-2">
                         <Badge variant="primary" size="xs">CSS native</Badge>
-                        <span class="text-xs text-foreground-secondary">Bundle cost: 0</span>
+                        <span class="text-xs text-muted-foreground">Bundle cost: 0</span>
                       </div>
                       <Code code={c.css} lang={c.id === "dialog" || c.id === "tooltip" ? "html" : "css"} title="component.astro" />
                     </div>
@@ -341,15 +341,15 @@ export function Counter({ value }) {
                 <div class="flex items-center gap-2 mb-2">
                   <Badge variant="secondary" size="sm">The one exception</Badge>
                 </div>
-                <h3 class="text-lg font-semibold text-foreground-primary mb-2">
+                <h3 class="text-lg font-semibold text-foreground mb-2">
                   Preact islands for genuine state
                 </h3>
-                <p class="text-sm text-foreground-secondary mb-4">
+                <p class="text-sm text-muted-foreground mb-4">
                   Some interactions actually need client-side reactive state —
                   optimistic UI, complex form validation, signal-driven counters.
                   For those, Astro Islands give us a Preact component that
                   hydrates only when it scrolls into view via{" "}
-                  <code class="text-xs bg-background-secondary px-1.5 py-0.5 rounded">client:visible</code>.
+                  <code class="text-xs bg-surface px-1.5 py-0.5 rounded">client:visible</code>.
                   Everything else stays static.
                 </p>
                 <Code code={islandSnippet} lang="astro" title="src/pages/some-page.astro" />
@@ -368,13 +368,13 @@ export function Counter({ value }) {
         <Container>
           <ScrollReveal>
             <div class="max-w-3xl mb-10">
-              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+              <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">
                 Pillar 2 — Agentic Discipline
               </p>
-              <h2 class="text-3xl font-bold text-foreground-primary mb-3">
+              <h2 class="text-3xl font-bold text-foreground mb-3">
                 Point your agent at the docs and ship
               </h2>
-              <p class="text-foreground-secondary">
+              <p class="text-muted-foreground">
                 The headline differentiator. Most templates assume a human
                 reads the README and figures out the conventions. This one
                 assumes an AI coding agent will be sitting at the keyboard,
@@ -396,10 +396,10 @@ export function Counter({ value }) {
           {/* What the agent sees on day one */}
           <ScrollReveal>
             <div class="max-w-3xl mb-6">
-              <h3 class="text-xl font-semibold text-foreground-primary mb-2">
+              <h3 class="text-xl font-semibold text-foreground mb-2">
                 What an agent sees on day one
               </h3>
-              <p class="text-foreground-secondary">
+              <p class="text-muted-foreground">
                 When Claude Code (or any AI assistant) opens this repo, the
                 very first thing it loads is <code class="text-xs">CLAUDE.md</code> at the project root —
                 rules of engagement, scope boundaries, and a pointer to every
@@ -416,7 +416,7 @@ export function Counter({ value }) {
 
           {/* The AI context system */}
           <ScrollReveal>
-            <h3 class="text-xl font-semibold text-foreground-primary mb-4">
+            <h3 class="text-xl font-semibold text-foreground mb-4">
               The AI-context system
             </h3>
           </ScrollReveal>
@@ -426,8 +426,8 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <div class="text-2xl mb-2" aria-hidden="true">📋</div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">CLAUDE.md</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mb-1">CLAUDE.md</h4>
+                  <p class="text-sm text-muted-foreground">
                     Project-root entry point. Conventions, scope boundaries,
                     and rules of engagement an agent must follow.
                   </p>
@@ -439,8 +439,8 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <div class="text-2xl mb-2" aria-hidden="true">📐</div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">35+ ADRs in <code class="text-xs">docs/adr/</code></h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mb-1">35+ ADRs in <code class="text-xs">docs/adr/</code></h4>
+                  <p class="text-sm text-muted-foreground">
                     Every accepted ADR is a constraint. The agent reads them
                     before proposing architectural changes — no rediscovery
                     of past decisions.
@@ -453,10 +453,10 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <div class="text-2xl mb-2" aria-hidden="true">🧭</div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">
+                  <h4 class="font-semibold text-foreground mb-1">
                     <code class="text-xs">docs/ai-context/</code>
                   </h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <p class="text-sm text-muted-foreground">
                     Prompt libraries, context-update procedures, and guides
                     for keeping the AI surface area in sync with the code.
                   </p>
@@ -468,10 +468,10 @@ export function Counter({ value }) {
           {/* The progressive tier model */}
           <ScrollReveal>
             <div class="max-w-3xl mb-6">
-              <h3 class="text-xl font-semibold text-foreground-primary mb-2">
+              <h3 class="text-xl font-semibold text-foreground mb-2">
                 Progressive implementation tiers
               </h3>
-              <p class="text-foreground-secondary">
+              <p class="text-muted-foreground">
                 ADR-033 splits the work into three tiers — natural stopping
                 points the agent can ship to. Each tier is "done enough" to
                 deploy, then the next tier unlocks more capability.
@@ -484,8 +484,8 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 border-l-4 border-primary-600 dark:border-primary-400 h-full">
                   <Badge variant="primary" size="xs">Tier 1</Badge>
-                  <h4 class="font-semibold text-foreground-primary mt-2 mb-1">Foundation</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mt-2 mb-1">Foundation</h4>
+                  <p class="text-sm text-muted-foreground">
                     Working site skeleton with design system, content schemas,
                     and build pipeline. Done = deployable site, no content yet.
                   </p>
@@ -497,8 +497,8 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 border-l-4 border-primary-600 dark:border-primary-400 h-full">
                   <Badge variant="primary" size="xs">Tier 2</Badge>
-                  <h4 class="font-semibold text-foreground-primary mt-2 mb-1">Build</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mt-2 mb-1">Build</h4>
+                  <p class="text-sm text-muted-foreground">
                     Components, pages, content, and quality assurance.
                     Done = complete, tested site running locally and in CI.
                   </p>
@@ -510,8 +510,8 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 border-l-4 border-primary-600 dark:border-primary-400 h-full">
                   <Badge variant="primary" size="xs">Tier 3</Badge>
-                  <h4 class="font-semibold text-foreground-primary mt-2 mb-1">Polish</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mt-2 mb-1">Polish</h4>
+                  <p class="text-sm text-muted-foreground">
                     Performance optimization, monitoring, deeper docs.
                     Done = enterprise-grade deployment.
                   </p>
@@ -531,13 +531,13 @@ export function Counter({ value }) {
         <Container>
           <ScrollReveal>
             <div class="max-w-3xl mb-10">
-              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+              <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">
                 Pillar 3 — Enterprise-Grade Design System
               </p>
-              <h2 class="text-3xl font-bold text-foreground-primary mb-3">
+              <h2 class="text-3xl font-bold text-foreground mb-3">
                 Tokens flow from JSON to your components
               </h2>
-              <p class="text-foreground-secondary">
+              <p class="text-muted-foreground">
                 One source of truth in <code class="text-xs">tokens/</code>,
                 automatically built into CSS custom properties and exposed
                 as Tailwind utilities. Change one token; the cascade
@@ -551,30 +551,30 @@ export function Counter({ value }) {
             <div class="grid grid-cols-1 lg:grid-cols-4 gap-3 mb-10">
               <Card>
                 <div class="p-4 text-center h-full flex flex-col justify-center">
-                  <p class="text-xs uppercase tracking-wider text-foreground-secondary mb-1">Step 1</p>
-                  <p class="font-semibold text-foreground-primary text-sm">Token JSON</p>
-                  <p class="text-xs text-foreground-secondary mt-1"><code>tokens/semantic.json</code></p>
+                  <p class="text-xs uppercase tracking-wider text-muted-foreground mb-1">Step 1</p>
+                  <p class="font-semibold text-foreground text-sm">Token JSON</p>
+                  <p class="text-xs text-muted-foreground mt-1"><code>tokens/semantic.json</code></p>
                 </div>
               </Card>
               <Card>
                 <div class="p-4 text-center h-full flex flex-col justify-center">
-                  <p class="text-xs uppercase tracking-wider text-foreground-secondary mb-1">Step 2</p>
-                  <p class="font-semibold text-foreground-primary text-sm">CSS Variables</p>
-                  <p class="text-xs text-foreground-secondary mt-1"><code>tokens/dist/tokens.css</code></p>
+                  <p class="text-xs uppercase tracking-wider text-muted-foreground mb-1">Step 2</p>
+                  <p class="font-semibold text-foreground text-sm">CSS Variables</p>
+                  <p class="text-xs text-muted-foreground mt-1"><code>tokens/dist/tokens.css</code></p>
                 </div>
               </Card>
               <Card>
                 <div class="p-4 text-center h-full flex flex-col justify-center">
-                  <p class="text-xs uppercase tracking-wider text-foreground-secondary mb-1">Step 3</p>
-                  <p class="font-semibold text-foreground-primary text-sm">Tailwind Utilities</p>
-                  <p class="text-xs text-foreground-secondary mt-1"><code>@theme inline</code></p>
+                  <p class="text-xs uppercase tracking-wider text-muted-foreground mb-1">Step 3</p>
+                  <p class="font-semibold text-foreground text-sm">Tailwind Utilities</p>
+                  <p class="text-xs text-muted-foreground mt-1"><code>@theme inline</code></p>
                 </div>
               </Card>
               <Card>
                 <div class="p-4 text-center h-full flex flex-col justify-center">
-                  <p class="text-xs uppercase tracking-wider text-foreground-secondary mb-1">Step 4</p>
-                  <p class="font-semibold text-foreground-primary text-sm">Components</p>
-                  <p class="text-xs text-foreground-secondary mt-1"><code>bg-primary-600</code></p>
+                  <p class="text-xs uppercase tracking-wider text-muted-foreground mb-1">Step 4</p>
+                  <p class="font-semibold text-foreground text-sm">Components</p>
+                  <p class="text-xs text-muted-foreground mt-1"><code>bg-primary-600</code></p>
                 </div>
               </Card>
             </div>
@@ -584,13 +584,13 @@ export function Counter({ value }) {
           <ScrollReveal>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
               <div>
-                <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-2">
+                <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                   1. Token definition
                 </p>
                 <Code code={tokenJsonSnippet} lang="json" title="tokens/semantic.json" />
               </div>
               <div>
-                <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-2">
+                <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                   2. Generated CSS variables
                 </p>
                 <Code code={tokenCssSnippet} lang="css" title="tokens/dist/tokens.css (generated)" />
@@ -601,13 +601,13 @@ export function Counter({ value }) {
           <ScrollReveal>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-10">
               <div>
-                <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-2">
+                <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                   3. Tailwind utility binding
                 </p>
                 <Code code={tokenThemeSnippet} lang="css" title="src/styles/global.css" />
               </div>
               <div>
-                <p class="text-xs font-semibold text-foreground-secondary uppercase tracking-wider mb-2">
+                <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                   4. Used in a component
                 </p>
                 <Code code={tokenComponentSnippet} lang="astro" title="src/components/atoms/Button.astro" />
@@ -622,10 +622,10 @@ export function Counter({ value }) {
                 <div class="flex items-center gap-2 mb-2">
                   <Badge variant="primary" size="sm">Automated</Badge>
                 </div>
-                <h3 class="text-lg font-semibold text-foreground-primary mb-2">
+                <h3 class="text-lg font-semibold text-foreground mb-2">
                   Contrast validation in CI
                 </h3>
-                <p class="text-sm text-foreground-secondary mb-4">
+                <p class="text-sm text-muted-foreground mb-4">
                   Every semantic foreground/background pair is checked against
                   WCAG-AA at build time. The build fails if any pair drops
                   below 4.5:1.
@@ -635,8 +635,8 @@ export function Counter({ value }) {
             </Card>
           </ScrollReveal>
           <ScrollReveal>
-            <p class="text-center text-foreground-secondary mt-8">
-              <a href="/showcase/" class="text-primary-600 dark:text-primary-400 hover:underline font-medium">
+            <p class="text-center text-muted-foreground mt-8">
+              <a href="/showcase/" class="text-link hover:underline font-medium">
                 See these tokens in action on the Components page →
               </a>
             </p>
@@ -653,13 +653,13 @@ export function Counter({ value }) {
         <Container>
           <ScrollReveal>
             <div class="max-w-3xl mb-10">
-              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+              <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">
                 Pillar 4 — Next-Gen Toolchain
               </p>
-              <h2 class="text-3xl font-bold text-foreground-primary mb-3">
+              <h2 class="text-3xl font-bold text-foreground mb-3">
                 One command verifies everything
               </h2>
-              <p class="text-foreground-secondary">
+              <p class="text-muted-foreground">
                 The toolchain is opinionated and modern. Biome instead of
                 ESLint + Prettier. TypeScript strict by default. Performance
                 budgets enforced in CI. Tests at four layers — and a single
@@ -675,8 +675,8 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">20× faster</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">Biome</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mb-1">Biome</h4>
+                  <p class="text-sm text-muted-foreground">
                     Replaces ESLint + Prettier with one Rust-powered binary.
                     Linting and formatting in a single config, single pass.
                   </p>
@@ -690,8 +690,8 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">Strict mode</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">TypeScript</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mb-1">TypeScript</h4>
+                  <p class="text-sm text-muted-foreground">
                     Astro's <code class="text-xs">strict</code> preset plus
                     <code class="text-xs ml-1">strictNullChecks</code>. Errors
                     surface during <code class="text-xs">astro check</code>,
@@ -707,8 +707,8 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">CI-enforced</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">Performance budgets</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mb-1">Performance budgets</h4>
+                  <p class="text-sm text-muted-foreground">
                     160 KB JS, 50 KB CSS, 200 KB per image. The build fails
                     if any budget is exceeded. Overrides expire automatically.
                   </p>
@@ -722,8 +722,8 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">4 layers</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">Test pyramid</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mb-1">Test pyramid</h4>
+                  <p class="text-sm text-muted-foreground">
                     Vitest for units, Playwright for e2e across Chromium /
                     Firefox / WebKit, axe-core for a11y, Lighthouse for
                     performance regressions.
@@ -738,8 +738,8 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">Pre-commit</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">Git hooks</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mb-1">Git hooks</h4>
+                  <p class="text-sm text-muted-foreground">
                     Husky + lint-staged runs Biome on staged files; commitlint
                     enforces conventional commits. No bad code reaches the
                     remote.
@@ -754,8 +754,8 @@ export function Counter({ value }) {
                   <div class="flex items-center gap-2 mb-2">
                     <Badge variant="primary" size="xs">Locked</Badge>
                   </div>
-                  <h4 class="font-semibold text-foreground-primary mb-1">pnpm engine-strict</h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <h4 class="font-semibold text-foreground mb-1">pnpm engine-strict</h4>
+                  <p class="text-sm text-muted-foreground">
                     Package manager and Node version are pinned in
                     <code class="text-xs ml-1">package.json</code>. New
                     contributors get the same toolchain on the first install.
@@ -768,10 +768,10 @@ export function Counter({ value }) {
           <ScrollReveal>
             <Card>
               <div class="p-6">
-                <h3 class="text-lg font-semibold text-foreground-primary mb-2">
+                <h3 class="text-lg font-semibold text-foreground mb-2">
                   The single quality gate
                 </h3>
-                <p class="text-sm text-foreground-secondary mb-4">
+                <p class="text-sm text-muted-foreground mb-4">
                   Format → lint → markdown lint → type check. One command,
                   fast feedback, identical in CI and on your laptop.
                 </p>
@@ -791,13 +791,13 @@ export function Counter({ value }) {
         <Container>
           <ScrollReveal>
             <div class="max-w-3xl mb-10">
-              <p class="text-xs font-semibold text-primary-600 dark:text-primary-400 uppercase tracking-wider mb-2">
+              <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">
                 Pillar 5 — Robust Page Templates
               </p>
-              <h2 class="text-3xl font-bold text-foreground-primary mb-3">
+              <h2 class="text-3xl font-bold text-foreground mb-3">
                 Real pages, not empty shells
               </h2>
-              <p class="text-foreground-secondary">
+              <p class="text-muted-foreground">
                 Most starter templates ship a hero page and call it a day.
                 This one ships a full set of reference implementations —
                 each one a working example of how the components, content
@@ -810,10 +810,10 @@ export function Counter({ value }) {
             <ScrollReveal>
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground-primary mb-1">
+                  <h4 class="font-semibold text-foreground mb-1">
                     <a href="/" class="hover:underline">Home</a>
                   </h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <p class="text-sm text-muted-foreground">
                     Marketing pillar grid, Lighthouse metric showcase, tech
                     stack with version display, expandable feature cards.
                   </p>
@@ -824,10 +824,10 @@ export function Counter({ value }) {
             <ScrollReveal delay="short">
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground-primary mb-1">
+                  <h4 class="font-semibold text-foreground mb-1">
                     <a href="/showcase/" class="hover:underline">Components</a>
                   </h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <p class="text-sm text-muted-foreground">
                     Live demo of every component in <code class="text-xs">src/components/</code>,
                     with code snippets, a11y notes, and composition examples.
                   </p>
@@ -838,10 +838,10 @@ export function Counter({ value }) {
             <ScrollReveal delay="medium">
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground-primary mb-1">
+                  <h4 class="font-semibold text-foreground mb-1">
                     <a href="/blog/" class="hover:underline">Blog</a>
                   </h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <p class="text-sm text-muted-foreground">
                     Content Collections + MDX with Zod schemas. Reading time,
                     tags, scroll-driven progress bar, prefetched links.
                   </p>
@@ -852,10 +852,10 @@ export function Counter({ value }) {
             <ScrollReveal>
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground-primary mb-1">
+                  <h4 class="font-semibold text-foreground mb-1">
                     <a href="/projects/" class="hover:underline">Projects</a>
                   </h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <p class="text-sm text-muted-foreground">
                     Portfolio / case-study layout with filtering by technology,
                     pagination, and structured outcome metadata.
                   </p>
@@ -866,10 +866,10 @@ export function Counter({ value }) {
             <ScrollReveal delay="short">
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground-primary mb-1">
+                  <h4 class="font-semibold text-foreground mb-1">
                     <a href="/about/" class="hover:underline">About</a>
                   </h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <p class="text-sm text-muted-foreground">
                     Bio, skills, experience timeline, social links — pulled
                     from content collections so non-engineers can edit it.
                   </p>
@@ -880,10 +880,10 @@ export function Counter({ value }) {
             <ScrollReveal delay="medium">
               <Card>
                 <div class="p-5 h-full">
-                  <h4 class="font-semibold text-foreground-primary mb-1">
+                  <h4 class="font-semibold text-foreground mb-1">
                     <a href="/contact/" class="hover:underline">Contact</a>
                   </h4>
-                  <p class="text-sm text-foreground-secondary">
+                  <p class="text-sm text-muted-foreground">
                     Progressive-enhancement form with native HTML validation
                     first, JS enhancement second (ADR-021).
                   </p>
@@ -894,7 +894,7 @@ export function Counter({ value }) {
 
           <ScrollReveal>
             <div class="text-center">
-              <p class="text-foreground-secondary mb-6">
+              <p class="text-muted-foreground mb-6">
                 Want to see the components themselves? The Components page has every
                 atom, molecule, and structural component with a live demo and
                 code.

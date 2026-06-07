@@ -96,7 +96,7 @@ const pageDescription =
       <h1 class="mb-4 text-4xl font-bold tracking-tight text-foreground-default sm:text-5xl">
         Blog
       </h1>
-      <p class="mx-auto max-w-2xl text-lg text-foreground-subtle">
+      <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
         Thoughts, tutorials, and insights about web development, Astro, and modern frontend technologies.
       </p>
     </div>
@@ -127,7 +127,7 @@ const pageDescription =
 
       {postsWithMetadata.length === 0 ? (
         <div class="py-16 text-center">
-          <p class="text-lg text-foreground-subtle">No blog posts found.</p>
+          <p class="text-lg text-muted-foreground">No blog posts found.</p>
           <Button href={withBase("/")} variant="secondary" class="mt-4">
             Back to Home
           </Button>
@@ -205,7 +205,7 @@ const pageDescription =
                 </div>
 
                 <!-- Current Page Indicator (Mobile) -->
-                <div class="sm:hidden px-3 py-2 text-sm text-foreground-subtle">
+                <div class="sm:hidden px-3 py-2 text-sm text-muted-foreground">
                   Page {page.currentPage} of {page.lastPage}
                 </div>
 

@@ -27,8 +27,8 @@ describe("Card (molecule)", () => {
 
     it("applies background, border, and shadow tokens", async () => {
       const html = await renderCard();
-      expect(html).toContain("bg-background-secondary");
-      expect(html).toContain("border-primary");
+      expect(html).toContain("bg-surface");
+      expect(html).toContain("border-border");
       expect(html).toContain("shadow-sm");
     });
 

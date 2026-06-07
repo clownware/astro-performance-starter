@@ -144,10 +144,10 @@ const responseExpectations: ResponseExpectation[] = [
     <section class="bg-linear-to-br from-primary-50 to-secondary-50 dark:from-primary-950 dark:to-secondary-950 py-16">
       <div class="container mx-auto px-4">
         <div class="max-w-3xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold text-foreground-primary mb-6">
+          <h1 class="text-4xl md:text-5xl font-bold text-foreground mb-6">
             Let's Start a Conversation
           </h1>
-          <p class="text-xl text-foreground-secondary mb-8 leading-relaxed">
+          <p class="text-xl text-muted-foreground mb-8 leading-relaxed">
             Whether you have a question, want to discuss a project, or just want to say hello, 
             we're here to help. Choose the method that works best for you.
           </p>
@@ -168,10 +168,10 @@ const responseExpectations: ResponseExpectation[] = [
           <!-- Contact Form Section -->
           <div class="space-y-8">
             <div class="text-center lg:text-left">
-              <h2 class="text-3xl font-bold text-foreground-primary mb-4">
+              <h2 class="text-3xl font-bold text-foreground mb-4">
                 Send us a message
               </h2>
-              <p class="text-foreground-secondary mb-6">
+              <p class="text-muted-foreground mb-6">
                 Fill out the form below and we'll get back to you within 24 hours.
               </p>
             </div>
@@ -188,7 +188,7 @@ const responseExpectations: ResponseExpectation[] = [
             -->
             <ContactForm action={withBase("/contact")} />
             
-            <div class="text-sm text-foreground-secondary text-center lg:text-left">
+            <div class="text-sm text-muted-foreground text-center lg:text-left">
               <p>
                 By submitting this form, you agree to our privacy policy. 
                 We'll never share your information with third parties.
@@ -199,10 +199,10 @@ const responseExpectations: ResponseExpectation[] = [
           <!-- Alternative Contact Methods -->
           <div class="space-y-8">
             <div class="text-center lg:text-left">
-              <h2 class="text-3xl font-bold text-foreground-primary mb-4">
+              <h2 class="text-3xl font-bold text-foreground mb-4">
                 Other ways to reach us
               </h2>
-              <p class="text-foreground-secondary mb-6">
+              <p class="text-muted-foreground mb-6">
                 Prefer a different communication method? We've got you covered.
               </p>
             </div>
@@ -216,8 +216,8 @@ const responseExpectations: ResponseExpectation[] = [
                       <span class="text-2xl" aria-hidden="true">{method.icon}</span>
                     </div>
                     <div class="flex-1">
-                      <h3 class="text-lg font-semibold text-foreground-primary mb-2">{method.title}</h3>
-                      <p class="text-foreground-secondary mb-3">
+                      <h3 class="text-lg font-semibold text-foreground mb-2">{method.title}</h3>
+                      <p class="text-muted-foreground mb-3">
                         {method.description}
                       </p>
                       {method.action && (
@@ -233,7 +233,7 @@ const responseExpectations: ResponseExpectation[] = [
                         <div class="flex items-center space-x-2">
                           <Badge role={method.badge.role}>{method.badge.text}</Badge>
                           {method.badge.additionalInfo && (
-                            <span class="text-sm text-foreground-secondary">
+                            <span class="text-sm text-muted-foreground">
                               {method.badge.additionalInfo}
                             </span>
                           )}
@@ -246,8 +246,8 @@ const responseExpectations: ResponseExpectation[] = [
             </div>
 
             <!-- Social Media Links -->
-            <div class="pt-8 border-t border-border-default">
-              <h3 class="text-xl font-semibold text-foreground-primary mb-4">
+            <div class="pt-8 border-t border-border">
+              <h3 class="text-xl font-semibold text-foreground mb-4">
                 Follow us on social media
               </h3>
               <div class="flex space-x-4">
@@ -270,14 +270,14 @@ const responseExpectations: ResponseExpectation[] = [
             </div>
 
             <!-- Location & Availability -->
-            <div class="pt-8 border-t border-border-default">
+            <div class="pt-8 border-t border-border">
               <h3 class="text-xl font-semibold text-foreground-default mb-4">
                 Location & Availability
               </h3>
               <div class="space-y-4">
                 {locationInfo.map((info) => (
                   <div class="flex items-center space-x-3">
-                    <span class="text-foreground-subtle" aria-hidden="true">{info.icon}</span>
+                    <span class="text-muted-foreground" aria-hidden="true">{info.icon}</span>
                     <span class="text-foreground-default">{info.text}</span>
                     <Badge role="presentation">{info.badge}</Badge>
                   </div>
@@ -306,7 +306,7 @@ const responseExpectations: ResponseExpectation[] = [
                 <h3 class="text-xl font-semibold text-foreground-default">
                   {expectation.title}
                 </h3>
-                <p class="text-foreground-subtle">
+                <p class="text-muted-foreground">
                   {expectation.description}
                 </p>
               </div>

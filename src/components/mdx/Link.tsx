@@ -12,7 +12,7 @@ export default function Link({ children, href, class: className, ...props }: Lin
   const isExternal = href && (href.startsWith("http://") || href.startsWith("https://"));
 
   const defaultClasses =
-    "text-primary-600 dark:text-primary-600 hover:underline focus:outline-hidden focus:ring-2 focus:ring-primary-500/50 rounded-sm";
+    "text-link hover:underline focus:outline-hidden focus:ring-2 focus:ring-primary-500/50 rounded-sm";
 
   if (isExternal) {
     return (

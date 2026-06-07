@@ -47,7 +47,7 @@ const HeadingTag = headingLevel;
   aria-labelledby={`${id}-title`}
 >
   <div class="dialog__header">
-    <HeadingTag id={`${id}-title`} class="text-lg font-semibold text-foreground-primary">
+    <HeadingTag id={`${id}-title`} class="text-lg font-semibold text-foreground">
       {title}
     </HeadingTag>
     <button
@@ -81,10 +81,10 @@ const HeadingTag = headingLevel;
   .dialog {
     width: calc(100% - 2rem);
     padding: 0;
-    border: 1px solid hsl(var(--color-border-primary));
+    border: 1px solid hsl(var(--color-border));
     border-radius: 0.75rem;
-    background: hsl(var(--color-background-primary));
-    color: hsl(var(--color-foreground-primary));
+    background: hsl(var(--color-background));
+    color: hsl(var(--color-foreground));
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
   }
 
@@ -146,7 +146,7 @@ const HeadingTag = headingLevel;
     align-items: center;
     justify-content: space-between;
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid hsl(var(--color-border-primary));
+    border-bottom: 1px solid hsl(var(--color-border));
   }
 
   .dialog__body {
@@ -158,7 +158,7 @@ const HeadingTag = headingLevel;
     justify-content: flex-end;
     gap: 0.75rem;
     padding: 1rem 1.5rem;
-    border-top: 1px solid hsl(var(--color-border-primary));
+    border-top: 1px solid hsl(var(--color-border));
   }
 
   .dialog__close {
@@ -167,14 +167,14 @@ const HeadingTag = headingLevel;
     justify-content: center;
     padding: 0.375rem;
     border-radius: 0.375rem;
-    color: hsl(var(--color-foreground-secondary));
+    color: hsl(var(--color-muted-foreground));
     transition: color 0.15s, background-color 0.15s;
     cursor: pointer;
   }
 
   .dialog__close:hover {
-    color: hsl(var(--color-foreground-primary));
-    background-color: hsl(var(--color-background-secondary));
+    color: hsl(var(--color-foreground));
+    background-color: hsl(var(--color-surface));
   }
 
   .dialog__close:focus {

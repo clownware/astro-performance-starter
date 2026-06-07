@@ -16,7 +16,7 @@ const currentPath = normalizePath(Astro.url.pathname);
 
 <header
   transition:persist
-  class="sticky top-0 z-50 w-full border-b border-primary bg-background-primary/95 supports-backdrop-filter:backdrop-blur-sm supports-backdrop-filter:bg-background-primary/60"
+  class="sticky top-0 z-50 w-full border-b border-border bg-background/95 supports-backdrop-filter:backdrop-blur-sm supports-backdrop-filter:bg-background/60"
 >
   <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href={withBase("/")} class="flex items-center" aria-label="Homepage">
@@ -38,7 +38,7 @@ const currentPath = normalizePath(Astro.url.pathname);
         return (
           <a
             href={resolvedHref}
-            class="no-underline text-base font-medium text-foreground-secondary transition-all hover:text-foreground-primary hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-background-secondary"
+            class="no-underline text-base font-medium text-muted-foreground transition-all hover:text-foreground hover:scale-105 focus-visible-ring px-3 py-2 rounded-md hover:bg-surface"
             aria-current={isExact ? 'page' : undefined}
           >
             {item.label}
@@ -55,7 +55,7 @@ const currentPath = normalizePath(Astro.url.pathname);
           target="_blank"
           rel="noopener noreferrer"
           aria-label="View on GitHub (opens in new tab)"
-          class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md text-foreground-secondary transition hover:text-foreground-primary hover:bg-background-secondary focus-visible-ring"
+          class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md text-muted-foreground transition hover:text-foreground hover:bg-surface focus-visible-ring"
         >
           <Icon name="github" class="h-5 w-5" decorative />
         </a>
@@ -74,7 +74,7 @@ const currentPath = normalizePath(Astro.url.pathname);
         aria-controls="mobile-menu"
         aria-expanded="false"
         data-mobile-menu-button
-        class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md border border-primary bg-background-primary/80 transition motion-safe:transition-colors motion-reduce:transition-none hover:bg-background-secondary focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring lg:hidden"
+        class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md border border-border bg-background/80 transition motion-safe:transition-colors motion-reduce:transition-none hover:bg-surface focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring lg:hidden"
       >
         <span class="sr-only">Toggle menu</span>
         <!-- Hamburger icon -->
@@ -152,14 +152,14 @@ const currentPath = normalizePath(Astro.url.pathname);
 
   <nav
     id="mobile-menu"
-    class="fixed inset-0 top-16 z-40 hidden flex-col gap-6 bg-background-primary p-6 opacity-0 pointer-events-none lg:hidden motion-safe:transition-opacity motion-reduce:transition-none duration-200 peer-checked:flex peer-checked:opacity-100 peer-checked:pointer-events-auto"
+    class="fixed inset-0 top-16 z-40 hidden flex-col gap-6 bg-background p-6 opacity-0 pointer-events-none lg:hidden motion-safe:transition-opacity motion-reduce:transition-none duration-200 peer-checked:flex peer-checked:opacity-100 peer-checked:pointer-events-auto"
     aria-label="Mobile navigation"
     aria-live="polite"
   >
     {textNavItems.map((item: NavItem) => (
       <a
         href={withBase(item.href)}
-        class="no-underline text-lg font-medium text-foreground-primary transition-colors hover:text-foreground-primary focus-visible-ring"
+        class="no-underline text-lg font-medium text-foreground transition-colors hover:text-foreground focus-visible-ring"
       >
         {item.label}
       </a>
@@ -169,7 +169,7 @@ const currentPath = normalizePath(Astro.url.pathname);
         href={githubItem.href}
         target="_blank"
         rel="noopener noreferrer"
-        class="no-underline text-lg font-medium text-foreground-primary transition-colors hover:text-foreground-primary focus-visible-ring inline-flex items-center gap-2"
+        class="no-underline text-lg font-medium text-foreground transition-colors hover:text-foreground focus-visible-ring inline-flex items-center gap-2"
       >
         <Icon name="github" class="h-5 w-5" decorative />
         GitHub

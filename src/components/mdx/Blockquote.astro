@@ -14,7 +14,7 @@ const citeId = `quote-cite-${crypto.randomUUID()}`;
 
 <blockquote
   class:list={[
-    "border-l-4 border-primary-500 bg-primary-50 dark:bg-primary-950 px-6 py-4 my-6 text-foreground-primary",
+    "border-l-4 border-primary-500 bg-primary-50 dark:bg-primary-950 px-6 py-4 my-6 text-foreground",
     className,
   ]}
   cite={cite}
@@ -24,7 +24,7 @@ const citeId = `quote-cite-${crypto.randomUUID()}`;
   <div class="flex items-start gap-4">
     <!-- Quote icon -->
     <svg
-      class="h-6 w-6 shrink-0 text-primary-400 dark:text-primary-600 mt-1"
+      class="h-6 w-6 shrink-0 text-link mt-1"
       fill="currentColor"
       viewBox="0 0 24 24"
       aria-hidden="true"
@@ -41,9 +41,9 @@ const citeId = `quote-cite-${crypto.randomUUID()}`;
       <!-- Attribution -->
       {(author || source) && (
         <footer
-          class="mt-4 text-sm text-foreground-secondary not-italic"
+          class="mt-4 text-sm text-muted-foreground not-italic"
         >
-          <cite id={citeId} class="font-medium text-foreground-primary">
+          <cite id={citeId} class="font-medium text-foreground">
             {author && <span>— {author}</span>}
             {author && source && <span>, </span>}
             {source && <span>{source}</span>}

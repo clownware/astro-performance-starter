@@ -50,20 +50,20 @@ const externalLinks = [
             height="60"
           />
         </div>
-        <p class="text-sm text-foreground-secondary leading-relaxed max-w-sm">
+        <p class="text-sm text-muted-foreground leading-relaxed max-w-sm">
           Production-ready Astro template with zero-JS baseline and 95+ Lighthouse scores. Built for performance and developer experience.
         </p>
       </div>
 
       <!-- Navigation Links -->
       <div class="lg:col-span-1">
-        <h2 class="text-sm font-semibold text-foreground-primary mb-6 uppercase tracking-wide">Navigation</h2>
+        <h2 class="text-sm font-semibold text-foreground mb-6 uppercase tracking-wide">Navigation</h2>
         <ul class="space-y-4">
           {footerLinks.map((link) => (
             <li>
               <a 
                 href={link.href} 
-                class="no-underline text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 hover:translate-x-1 flex items-center min-h-[2.75rem]"
+                class="no-underline text-sm text-muted-foreground hover:text-link transition-all duration-200 hover:translate-x-1 flex items-center min-h-[2.75rem]"
               >
                 {link.label}
               </a>
@@ -75,7 +75,7 @@ const externalLinks = [
       <!-- Docs Links -->
       {docsLinks.length > 0 && (
       <div class="lg:col-span-1">
-        <h2 class="text-sm font-semibold text-foreground-primary mb-6 uppercase tracking-wide">Docs</h2>
+        <h2 class="text-sm font-semibold text-foreground mb-6 uppercase tracking-wide">Docs</h2>
         <ul class="space-y-4">
           {docsLinks.map((link) => (
             <li>
@@ -83,7 +83,7 @@ const externalLinks = [
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="no-underline text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 hover:translate-x-1 flex items-center gap-1 min-h-[2.75rem]"
+                class="no-underline text-sm text-muted-foreground hover:text-link transition-all duration-200 hover:translate-x-1 flex items-center gap-1 min-h-[2.75rem]"
               >
                 {link.label}
                 <svg class="size-3 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -99,7 +99,7 @@ const externalLinks = [
       <!-- Social Links -->
       {externalLinks.length > 0 && (
       <div class="lg:col-span-1">
-        <h2 class="text-sm font-semibold text-foreground-primary mb-6 uppercase tracking-wide">Connect</h2>
+        <h2 class="text-sm font-semibold text-foreground mb-6 uppercase tracking-wide">Connect</h2>
         <ul class="space-y-4">
           {externalLinks.map((link) => (
             <li>
@@ -107,7 +107,7 @@ const externalLinks = [
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="no-underline text-sm text-foreground-secondary hover:text-primary-600 transition-all duration-200 inline-block group"
+                class="no-underline text-sm text-muted-foreground hover:text-link transition-all duration-200 inline-block group"
               >
                 <span class="group-hover:translate-x-1 transition-transform duration-200 inline-block">{link.label}</span>
               </a>
@@ -119,10 +119,10 @@ const externalLinks = [
     </div>
 
     <!-- Copyright -->
-    <div class="border-t border-default mt-16 pt-8">
+    <div class="border-t border-border mt-16 pt-8">
       <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <p class="text-sm text-foreground-secondary">
-          &copy; {currentYear} <a href="https://github.com/clownware" class="no-underline hover:text-primary-600 transition-colors" target="_blank" rel="noopener noreferrer">Clownware</a>. MIT Licensed starter template.
+        <p class="text-sm text-muted-foreground">
+          &copy; {currentYear} <a href="https://github.com/clownware" class="no-underline hover:text-link transition-colors" target="_blank" rel="noopener noreferrer">Clownware</a>. MIT Licensed starter template.
         </p>
         <div class="flex flex-wrap items-center gap-4 text-xs">
           <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200">

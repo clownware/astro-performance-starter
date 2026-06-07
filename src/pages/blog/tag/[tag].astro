@@ -53,7 +53,7 @@ const postsWithMetadata = posts.map((post) => ({
         <span>Posts tagged: </span>
         <Badge class="text-lg px-4 py-2">{tag}</Badge>
       </h1>
-      <p class="mx-auto max-w-2xl text-lg text-foreground-subtle">
+      <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
         {postsWithMetadata.length} {postsWithMetadata.length === 1 ? "post" : "posts"} tagged with "{tag}"
       </p>
     </div>

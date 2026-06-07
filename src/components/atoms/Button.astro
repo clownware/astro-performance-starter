@@ -25,12 +25,12 @@ function getVariantStyles(v: Props["variant"]) {
     case "secondary":
       // border-emphasis (gray-600 light, gray-300 dark) maintains ≥3:1 against
       // both the page bg and the button bg, satisfying WCAG AA non-text
-      // contrast. The previous border-border-primary (gray-300/700) sat at
+      // contrast. The previous border-border (gray-300/700) sat at
       // ~1.56:1 against the page background.
-      return "bg-background-secondary text-foreground-primary border border-border-emphasis hover:bg-background-primary active:bg-background-primary focus:ring-primary-500 shadow-sm hover:shadow";
+      return "bg-surface text-foreground border border-border-emphasis hover:bg-background active:bg-background focus:ring-primary-500 shadow-sm hover:shadow";
     case "ghost":
       // Subtle default border for high-contrast support
-      return "text-foreground-secondary border border-border-primary/40 hover:border-border-primary hover:bg-background-secondary hover:text-foreground-primary active:bg-background-secondary focus:ring-primary-500";
+      return "text-muted-foreground border border-border/40 hover:border-border hover:bg-surface hover:text-foreground active:bg-surface focus:ring-primary-500";
     default:
       return "bg-primary-600 text-white hover:bg-primary-700 active:bg-primary-800 focus:ring-primary-500 shadow-sm hover:shadow-md";
   }

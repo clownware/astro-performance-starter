@@ -17,19 +17,17 @@ const isEven = computed(() => count.value % 2 === 0);
 
 export default function SignalsCounter() {
   return (
-    <div class="flex flex-col items-center gap-6 p-6 rounded-lg border border-border-primary bg-background-secondary">
+    <div class="flex flex-col items-center gap-6 p-6 rounded-lg border border-border bg-surface">
       <div class="text-center">
-        <p class="text-sm font-medium text-foreground-secondary mb-1">Reactive Count</p>
-        <p class="text-4xl font-bold text-primary-600 dark:text-primary-400 tabular-nums">
-          {count}
-        </p>
+        <p class="text-sm font-medium text-muted-foreground mb-1">Reactive Count</p>
+        <p class="text-4xl font-bold text-link tabular-nums">{count}</p>
       </div>
 
       <div class="flex gap-3">
         <button
           type="button"
           onClick={() => (count.value -= 1)}
-          class="inline-flex items-center justify-center size-10 rounded-md border border-border-primary bg-background-primary text-foreground-primary hover:bg-background-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+          class="inline-flex items-center justify-center size-10 rounded-md border border-border bg-background text-foreground hover:bg-surface focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
           aria-label="Decrement"
         >
           <svg
@@ -66,7 +64,7 @@ export default function SignalsCounter() {
         <button
           type="button"
           onClick={() => (count.value = 0)}
-          class="inline-flex items-center justify-center px-3 h-10 rounded-md border border-border-primary bg-background-primary text-sm text-foreground-secondary hover:bg-background-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
+          class="inline-flex items-center justify-center px-3 h-10 rounded-md border border-border bg-background text-sm text-muted-foreground hover:bg-surface focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 transition-colors"
           aria-label="Reset counter"
         >
           Reset
@@ -74,18 +72,18 @@ export default function SignalsCounter() {
       </div>
 
       {/* Computed values — update automatically when count changes */}
-      <div class="flex gap-6 text-sm text-foreground-secondary">
+      <div class="flex gap-6 text-sm text-muted-foreground">
         <div class="flex flex-col items-center">
-          <span class="font-medium text-foreground-primary tabular-nums">{doubled}</span>
+          <span class="font-medium text-foreground tabular-nums">{doubled}</span>
           <span>Doubled</span>
         </div>
         <div class="flex flex-col items-center">
-          <span class="font-medium text-foreground-primary">{isEven.value ? "Even" : "Odd"}</span>
+          <span class="font-medium text-foreground">{isEven.value ? "Even" : "Odd"}</span>
           <span>Parity</span>
         </div>
       </div>
 
-      <p class="text-xs text-foreground-secondary text-center max-w-xs">
+      <p class="text-xs text-muted-foreground text-center max-w-xs">
         Preact Signals — fine-grained reactivity with zero VDOM diffing. Only the text nodes that
         change re-render.
       </p>

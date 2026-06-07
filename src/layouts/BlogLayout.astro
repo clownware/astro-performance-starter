@@ -59,9 +59,9 @@ const tocSections = headings
     <header class="mb-12">
       <!-- Breadcrumb -->
       <nav class="mb-6 text-sm" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-2 text-foreground-secondary">
+        <ol class="flex items-center space-x-2 text-muted-foreground">
           <li>
-            <a href={withBase("/")} class="hover:text-foreground-primary transition-colors">
+            <a href={withBase("/")} class="hover:text-foreground transition-colors">
               Home
             </a>
           </li>
@@ -71,7 +71,7 @@ const tocSections = headings
             </svg>
           </li>
           <li>
-            <a href={withBase("/blog/")} class="hover:text-foreground-primary transition-colors">
+            <a href={withBase("/blog/")} class="hover:text-foreground transition-colors">
               Blog
             </a>
           </li>
@@ -80,7 +80,7 @@ const tocSections = headings
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
-          <li class="text-foreground-primary" aria-current="page">
+          <li class="text-foreground" aria-current="page">
             {title}
           </li>
         </ol>
@@ -89,13 +89,13 @@ const tocSections = headings
       <!-- Article Title -->
       <h1
         transition:name={"post-title-" + post.id}
-        class="mb-6 text-4xl font-bold tracking-tight text-foreground-primary sm:text-5xl lg:text-6xl"
+        class="mb-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl"
       >
         {title}
       </h1>
 
       <!-- Article Meta -->
-      <div class="mb-8 flex flex-wrap items-center gap-4 text-sm text-foreground-secondary">
+      <div class="mb-8 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
         <div class="flex items-center">
           <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -169,8 +169,8 @@ const tocSections = headings
         <div class="sticky top-8 space-y-8">
           <!-- Table of Contents -->
           {tocSections.length > 0 && (
-            <div class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6 shadow-lg">
-              <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
+            <div class="rounded-lg border border-border bg-surface p-6 shadow-lg">
+              <h3 class="mb-4 text-sm font-semibold text-foreground">
                 Table of Contents
               </h3>
               <ScrollSpy sections={tocSections} ariaLabel="Table of contents" />
@@ -178,8 +178,8 @@ const tocSections = headings
           )}
 
           <!-- Social Sharing -->
-          <div class="rounded-lg border border-default bg-background-secondary p-6 shadow-lg">
-            <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
+          <div class="rounded-lg border border-border bg-surface p-6 shadow-lg">
+            <h3 class="mb-4 text-sm font-semibold text-foreground">
               Share this post
             </h3>
             <div class="flex flex-col space-y-3">
@@ -195,24 +195,24 @@ const tocSections = headings
 
     <!-- Previous/Next Navigation -->
     {(prevPost || nextPost) && (
-      <nav class="mt-16 border-t border-default pt-8" aria-label="Post navigation">
+      <nav class="mt-16 border-t border-border pt-8" aria-label="Post navigation">
         <div class="grid gap-8 md:grid-cols-2">
           {prevPost && (
             <div class="group">
-              <p class="mb-2 text-sm font-medium text-foreground-secondary">Previous Post</p>
+              <p class="mb-2 text-sm font-medium text-muted-foreground">Previous Post</p>
               <Button
                 href={withBase(`/blog/${prevPost.id}/`)}
                 variant="ghost"
-                class="h-auto p-4 text-left justify-start group-hover:bg-background-secondary"
+                class="h-auto p-4 text-left justify-start group-hover:bg-surface"
               >
                 <div>
-                  <div class="flex items-center text-sm text-foreground-secondary mb-1">
+                  <div class="flex items-center text-sm text-muted-foreground mb-1">
                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                     Previous
                   </div>
-                  <div class="text-base font-medium text-foreground-primary group-hover:text-primary-600">
+                  <div class="text-base font-medium text-foreground group-hover:text-link">
                     {prevPost.data.title}
                   </div>
                 </div>
@@ -221,20 +221,20 @@ const tocSections = headings
           )}
           {nextPost && (
             <div class="group md:text-right">
-              <p class="mb-2 text-sm font-medium text-foreground-secondary">Next Post</p>
+              <p class="mb-2 text-sm font-medium text-muted-foreground">Next Post</p>
               <Button
                 href={withBase(`/blog/${nextPost.id}/`)}
                 variant="ghost"
-                class="h-auto p-4 text-right justify-end group-hover:bg-background-secondary"
+                class="h-auto p-4 text-right justify-end group-hover:bg-surface"
               >
                 <div>
-                  <div class="flex items-center justify-end text-sm text-foreground-secondary mb-1">
+                  <div class="flex items-center justify-end text-sm text-muted-foreground mb-1">
                     Next
                     <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
-                  <div class="text-base font-medium text-foreground-primary group-hover:text-primary-600">
+                  <div class="text-base font-medium text-foreground group-hover:text-link">
                     {nextPost.data.title}
                   </div>
                 </div>
@@ -252,7 +252,7 @@ const tocSections = headings
 
   /* Enhanced prose styling for blog content */
   .prose {
-    @apply text-foreground-primary;
+    @apply text-foreground;
   }
   
   .prose h1,
@@ -261,7 +261,7 @@ const tocSections = headings
   .prose h4,
   .prose h5,
   .prose h6 {
-    @apply text-foreground-primary font-bold;
+    @apply text-foreground font-bold;
   }
   
   .prose h2 {
@@ -277,15 +277,15 @@ const tocSections = headings
   }
   
   .prose a {
-    @apply text-primary-600 hover:text-primary-700;
+    @apply text-link;
   }
   
   .prose code {
-    @apply bg-background-secondary px-1.5 py-0.5 rounded text-sm;
+    @apply bg-surface px-1.5 py-0.5 rounded text-sm;
   }
   
   .prose pre {
-    @apply bg-background-secondary rounded-lg p-4 overflow-x-auto;
+    @apply bg-surface rounded-lg p-4 overflow-x-auto;
   }
   
   .prose pre code {

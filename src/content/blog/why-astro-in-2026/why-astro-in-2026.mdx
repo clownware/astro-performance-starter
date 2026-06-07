@@ -82,9 +82,9 @@ export interface Props {
 const { title, description, detail } = Astro.props;
 ---
 
-<article class="rounded-lg border border-border-primary bg-background-secondary p-6 shadow-sm">
-  <h3 class="text-lg font-semibold text-foreground-primary">{title}</h3>
-  <p class="mt-2 text-foreground-secondary">{description}</p>
+<article class="rounded-lg border border-border bg-surface p-6 shadow-sm">
+  <h3 class="text-lg font-semibold text-foreground">{title}</h3>
+  <p class="mt-2 text-muted-foreground">{description}</p>
 
   <!-- Only this piece ships JavaScript, and only when visible -->
   <ToggleDetail client:visible detail={detail} />
@@ -93,7 +93,7 @@ const { title, description, detail } = Astro.props;
 
 The `<article>` is pure HTML and CSS — zero JavaScript cost. The `ToggleDetail` component uses `client:visible`, so it doesn't hydrate until the user actually scrolls to it. On a page with ten of these cards, you're hydrating exactly the ones in the viewport, when they appear.
 
-Every class references semantic tokens: `text-foreground-primary` instead of `text-gray-900`, `bg-background-secondary` instead of `bg-gray-50`, `border-border-primary` instead of `border-gray-200`. The tokens handle light mode and dark mode automatically — no manual `dark:` variants scattered through your markup.
+Every class references semantic tokens: `text-foreground` instead of `text-gray-900`, `bg-surface` instead of `bg-gray-50`, `border-border` instead of `border-gray-200`. The tokens handle light mode and dark mode automatically — no manual `dark:` variants scattered through your markup.
 
 <Callout type="success" title="The Numbers Are In">
 Astro npm downloads grew from 360K/week to over 900K/week in 2025 — a 2.5x increase. GitHub stars passed 55K. Production users include IKEA, Visa, NBC News, Porsche, and OpenAI. This isn't an experiment anymore.

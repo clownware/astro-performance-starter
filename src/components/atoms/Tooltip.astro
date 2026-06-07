@@ -20,12 +20,12 @@ const tooltipId = `tooltip-${Math.random().toString(36).slice(2, 10)}`;
 
 function getArrowClasses(pos: Position) {
   const map: Record<Position, string> = {
-    top: "top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-background-secondary",
+    top: "top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-surface",
     bottom:
-      "bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-background-secondary",
-    left: "left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-background-secondary",
+      "bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-surface",
+    left: "left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-surface",
     right:
-      "right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-background-secondary",
+      "right-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-l-transparent border-r-surface",
   };
   return `${arrowBase} ${map[pos]}`;
 }
@@ -41,7 +41,7 @@ function getArrowClasses(pos: Position) {
   <slot />
   <div
     class:list={[
-      "tooltip-content absolute z-50 px-3 py-2 text-[0.8125rem] sm:text-xs text-foreground-primary bg-background-secondary rounded-md shadow-lg opacity-0 invisible pointer-events-none transition-opacity duration-200 motion-reduce:transition-none whitespace-normal wrap-break-word max-w-[80vw] sm:max-w-xs group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
+      "tooltip-content absolute z-50 px-3 py-2 text-[0.8125rem] sm:text-xs text-foreground bg-surface rounded-md shadow-lg opacity-0 invisible pointer-events-none transition-opacity duration-200 motion-reduce:transition-none whitespace-normal wrap-break-word max-w-[80vw] sm:max-w-xs group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
       positionClasses[position]
     ]}
     data-tooltip-content

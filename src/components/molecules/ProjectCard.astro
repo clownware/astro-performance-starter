@@ -46,8 +46,8 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
   <article
     class:list={["w-full",
       "project-card",
-      "bg-background-secondary",
-      "border border-primary",
+      "bg-surface",
+      "border border-border",
       "rounded-lg",
       "overflow-hidden",
       "transition-all duration-300",
@@ -79,7 +79,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
 
       <div class="project-card__content p-6">
         <header class="project-card__header mb-4">
-          <div class="project-card__meta flex flex-wrap items-center gap-2 mb-3 text-sm text-foreground-secondary">
+          <div class="project-card__meta flex flex-wrap items-center gap-2 mb-3 text-sm text-muted-foreground">
             {formattedDate && (
               <time datetime={date instanceof Date ? date.toISOString() : date}>
                 {formattedDate}
@@ -90,30 +90,30 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             )}
             {client && (
               <span class="flex items-center gap-1">
-                <span class="text-foreground-secondary">•</span>
+                <span class="text-muted-foreground">•</span>
                 <span class="font-medium">{client}</span>
               </span>
             )}
             {projectRole && (
               <span class="flex items-center gap-1">
-                <span class="text-foreground-secondary">•</span>
+                <span class="text-muted-foreground">•</span>
                 <span>{projectRole}</span>
               </span>
             )}
             {duration && (
               <span class="flex items-center gap-1">
-                <span class="text-foreground-secondary">•</span>
+                <span class="text-muted-foreground">•</span>
                 <span>{duration}</span>
               </span>
             )}
           </div>
           
-          <h3 class="project-card__title text-xl font-semibold text-foreground-primary mb-2">
-            <a href={href} class="project-card__title-link hover:text-primary-600 focus:outline-hidden">
+          <h3 class="project-card__title text-xl font-semibold text-foreground mb-2">
+            <a href={href} class="project-card__title-link hover:text-link focus:outline-hidden">
               {title}
             </a>
           </h3>
-          <p class="project-card__description text-foreground-secondary leading-relaxed">
+          <p class="project-card__description text-muted-foreground leading-relaxed">
             {description}
           </p>
         </header>
@@ -121,7 +121,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
         {tags.length > 0 && (
           <div class="project-card__tags mb-4">
             <div class="flex items-center gap-2 mb-2">
-              <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Categories</span>
+              <span class="text-xs font-medium text-muted-foreground uppercase tracking-wide">Categories</span>
             </div>
             <ul class="flex flex-wrap gap-2" role="list">
               {tags.map((tag) => (
@@ -135,7 +135,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
 
         <div class="project-card__tech-stack mb-6">
           <div class="flex items-center gap-2 mb-2">
-            <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Technologies</span>
+            <span class="text-xs font-medium text-muted-foreground uppercase tracking-wide">Technologies</span>
           </div>
           <ul class="flex flex-wrap gap-2" role="list">
             {techStack.map((tech) => (
@@ -165,7 +165,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             {githubUrl && (
               <a
                 href={githubUrl}
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground bg-surface border border-border rounded-md hover:bg-background focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`View ${title} source code on GitHub (opens in new tab)`}
@@ -182,8 +182,8 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
   <article 
     class:list={["w-full", 
       "project-card",
-      "bg-background-subtle",
-      "border border-default",
+      "bg-surface",
+      "border border-border",
       "rounded-lg",
       "overflow-hidden",
       "transition-all duration-300",
@@ -215,7 +215,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
     
     <div class="project-card__content p-6">
       <header class="project-card__header mb-4">
-        <div class="project-card__meta flex flex-wrap items-center gap-2 mb-3 text-sm text-foreground-secondary">
+        <div class="project-card__meta flex flex-wrap items-center gap-2 mb-3 text-sm text-muted-foreground">
           {formattedDate && (
             <time datetime={date instanceof Date ? date.toISOString() : date}>
               {formattedDate}
@@ -226,28 +226,28 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
           )}
           {client && (
             <span class="flex items-center gap-1">
-              <span class="text-foreground-secondary">•</span>
+              <span class="text-muted-foreground">•</span>
               <span class="font-medium">{client}</span>
             </span>
           )}
           {projectRole && (
             <span class="flex items-center gap-1">
-              <span class="text-foreground-secondary">•</span>
+              <span class="text-muted-foreground">•</span>
               <span>{projectRole}</span>
             </span>
           )}
           {duration && (
             <span class="flex items-center gap-1">
-              <span class="text-foreground-secondary">•</span>
+              <span class="text-muted-foreground">•</span>
               <span>{duration}</span>
             </span>
           )}
         </div>
         
-        <h3 class="project-card__title text-xl font-semibold text-foreground-primary mb-2">
+        <h3 class="project-card__title text-xl font-semibold text-foreground mb-2">
           {title}
         </h3>
-        <p class="project-card__description text-foreground-secondary leading-relaxed">
+        <p class="project-card__description text-muted-foreground leading-relaxed">
           {description}
         </p>
       </header>
@@ -295,7 +295,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
           {githubUrl && (
             <a 
               href={githubUrl}
-              class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+              class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground bg-surface border border-border rounded-md hover:bg-background focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`View ${title} source code on GitHub`}

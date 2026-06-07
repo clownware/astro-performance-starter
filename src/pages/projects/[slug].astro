@@ -64,35 +64,35 @@ const hasOutcomes = project.outcomes && project.outcomes.length > 0;
   </div>
 
   <!-- Project Meta Strip -->
-  <div class="project-meta-strip mt-12 p-6 bg-background-secondary rounded-xl border border-border-primary grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
+  <div class="project-meta-strip mt-12 p-6 bg-surface rounded-xl border border-border grid grid-cols-2 sm:grid-cols-4 gap-6 text-center">
     {project.client && (
       <div>
-        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-foreground-secondary mb-1">Client</div>
-        <div class="meta-value text-sm font-medium text-foreground-primary">{project.client}</div>
+        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Client</div>
+        <div class="meta-value text-sm font-medium text-foreground">{project.client}</div>
       </div>
     )}
     {project.role && (
       <div>
-        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-foreground-secondary mb-1">Role</div>
-        <div class="meta-value text-sm font-medium text-foreground-primary">{project.role}</div>
+        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Role</div>
+        <div class="meta-value text-sm font-medium text-foreground">{project.role}</div>
       </div>
     )}
     {project.duration && (
       <div>
-        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-foreground-secondary mb-1">Duration</div>
-        <div class="meta-value text-sm font-medium text-foreground-primary">{project.duration}</div>
+        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Duration</div>
+        <div class="meta-value text-sm font-medium text-foreground">{project.duration}</div>
       </div>
     )}
     {project.date && (
       <div>
-        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-foreground-secondary mb-1">Launched</div>
-        <div class="meta-value text-sm font-medium text-foreground-primary">{formatDate(project.date, 'full')}</div>
+        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Launched</div>
+        <div class="meta-value text-sm font-medium text-foreground">{formatDate(project.date, 'full')}</div>
       </div>
     )}
     {!hasOutcomes && (
       <div>
-        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-foreground-secondary mb-1">Reading Time</div>
-        <div class="meta-value text-sm font-medium text-foreground-primary">{projectMetadata.readingTime}</div>
+        <div class="meta-label text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-1">Reading Time</div>
+        <div class="meta-value text-sm font-medium text-foreground">{projectMetadata.readingTime}</div>
       </div>
     )}
   </div>
@@ -100,19 +100,19 @@ const hasOutcomes = project.outcomes && project.outcomes.length > 0;
   <!-- Related Projects -->
   {allProjects.filter(p => p.slug !== entry.id).length > 0 && (
     <div class="related-projects mt-12">
-      <h3 class="text-xl font-semibold text-foreground-primary mb-6">More Projects</h3>
+      <h3 class="text-xl font-semibold text-foreground mb-6">More Projects</h3>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {allProjects
           .filter(p => p.slug !== entry.id)
           .slice(0, 2)
           .map((relatedProject) => (
-            <article class="related-project-card bg-background-secondary border border-border-primary rounded-xl p-6 hover:border-primary-400 transition-colors duration-200">
-              <h4 class="text-base font-semibold text-foreground-primary mb-2">
-                <a href={withBase(`/projects/${relatedProject.slug}/`)} class="hover:text-primary-300 dark:hover:text-primary-600 transition-colors duration-200 no-underline">
+            <article class="related-project-card bg-surface border border-border rounded-xl p-6 hover:border-primary-400 transition-colors duration-200">
+              <h4 class="text-base font-semibold text-foreground mb-2">
+                <a href={withBase(`/projects/${relatedProject.slug}/`)} class="hover:text-link transition-colors duration-200 no-underline">
                   {relatedProject.title}
                 </a>
               </h4>
-              <p class="text-foreground-secondary text-sm mb-4 line-clamp-2">
+              <p class="text-muted-foreground text-sm mb-4 line-clamp-2">
                 {relatedProject.description}
               </p>
               <div class="flex flex-wrap gap-2">
@@ -124,7 +124,7 @@ const hasOutcomes = project.outcomes && project.outcomes.length > 0;
                     </Badge>
                   ))}
                 {(relatedProject.technologies?.length ?? 0) > 3 && (
-                  <span class="text-xs text-foreground-secondary self-center">
+                  <span class="text-xs text-muted-foreground self-center">
                     +{(relatedProject.technologies?.length ?? 0) - 3} more
                   </span>
                 )}
@@ -151,6 +151,6 @@ const hasOutcomes = project.outcomes && project.outcomes.length > 0;
 
   .related-project-card:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px hsl(var(--color-foreground-primary) / 0.08);
+    box-shadow: 0 4px 12px hsl(var(--color-foreground) / 0.08);
   }
 </style>

@@ -14,8 +14,8 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
     "max-w-lg w-full mx-auto",
     "space-y-6",
     "p-6",
-    "bg-background-secondary",
-    "border border-primary",
+    "bg-surface",
+    "border border-border",
     "rounded-lg",
     "shadow-sm",
     className
@@ -38,9 +38,9 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   <div class="contact-form__field">
     <label 
       for="contact-name" 
-      class="block text-sm font-medium text-foreground-primary mb-2"
+      class="block text-sm font-medium text-foreground mb-2"
     >
-      Name <span class="text-error-600" aria-hidden="true">*</span>
+      Name <span class="text-error" aria-hidden="true">*</span>
     </label>
     <input
       type="text"
@@ -51,19 +51,19 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       minlength="2"
       maxlength="100"
       autocomplete="name"
-      class="w-full px-3 py-2 min-h-[2.75rem] border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+      class="w-full px-3 py-2 min-h-[2.75rem] border border-border rounded-md shadow-sm placeholder-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
       placeholder="Your full name"
       aria-describedby="name-error"
     />
-    <div id="name-error" class="contact-form__error mt-1 text-sm text-secondary-600" role="alert" aria-live="polite"></div>
+    <div id="name-error" class="contact-form__error mt-1 text-sm text-error" role="alert" aria-live="polite"></div>
   </div>
 
   <div class="contact-form__field">
     <label 
       for="contact-email" 
-      class="block text-sm font-medium text-foreground-primary mb-2"
+      class="block text-sm font-medium text-foreground mb-2"
     >
-      Email <span class="text-error-600" aria-hidden="true">*</span>
+      Email <span class="text-error" aria-hidden="true">*</span>
     </label>
     <input
       type="email"
@@ -73,17 +73,17 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       aria-required="true"
       maxlength="254"
       autocomplete="email"
-      class="w-full px-3 py-2 min-h-[2.75rem] border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+      class="w-full px-3 py-2 min-h-[2.75rem] border border-border rounded-md shadow-sm placeholder-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
       placeholder="your.email@example.com"
       aria-describedby="email-error"
     />
-    <div id="email-error" class="contact-form__error mt-1 text-sm text-secondary-600" role="alert" aria-live="polite"></div>
+    <div id="email-error" class="contact-form__error mt-1 text-sm text-error" role="alert" aria-live="polite"></div>
   </div>
 
   <div class="contact-form__field">
     <label 
       for="contact-subject" 
-      class="block text-sm font-medium text-foreground-primary mb-2"
+      class="block text-sm font-medium text-foreground mb-2"
     >
       Subject
     </label>
@@ -92,19 +92,19 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       id="contact-subject"
       name="subject"
       maxlength="200"
-      class="w-full px-3 py-2 min-h-[2.75rem] border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
+      class="w-full px-3 py-2 min-h-[2.75rem] border border-border rounded-md shadow-sm placeholder-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200"
       placeholder="What's this about?"
       aria-describedby="subject-error"
     />
-    <div id="subject-error" class="contact-form__error mt-1 text-sm text-secondary-600" role="alert" aria-live="polite"></div>
+    <div id="subject-error" class="contact-form__error mt-1 text-sm text-error" role="alert" aria-live="polite"></div>
   </div>
 
   <div class="contact-form__field">
     <label 
       for="contact-message" 
-      class="block text-sm font-medium text-foreground-primary mb-2"
+      class="block text-sm font-medium text-foreground mb-2"
     >
-      Message <span class="text-error-600" aria-hidden="true">*</span>
+      Message <span class="text-error" aria-hidden="true">*</span>
     </label>
     <textarea
       id="contact-message"
@@ -114,14 +114,14 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       minlength="10"
       maxlength="2000"
       rows="5"
-      class="w-full px-3 py-2 border border-default rounded-md shadow-sm placeholder-foreground-secondary focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-vertical transition-colors duration-200"
+      class="w-full px-3 py-2 border border-border rounded-md shadow-sm placeholder-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:border-primary-500 resize-vertical transition-colors duration-200"
       placeholder="Tell us more about your inquiry..."
       aria-describedby="message-error message-help"
     ></textarea>
-    <div id="message-help" class="mt-1 text-sm text-foreground-secondary">
+    <div id="message-help" class="mt-1 text-sm text-muted-foreground">
       Minimum 10 characters, maximum 2000 characters
     </div>
-    <div id="message-error" class="contact-form__error mt-1 text-sm text-secondary-600" role="alert" aria-live="polite"></div>
+    <div id="message-error" class="contact-form__error mt-1 text-sm text-error" role="alert" aria-live="polite"></div>
   </div>
 
   <div class="contact-form__actions">
@@ -138,27 +138,27 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
         </svg>
       </span>
     </button>
-    <div id="submit-help" class="mt-2 text-sm text-foreground-secondary text-center">
+    <div id="submit-help" class="mt-2 text-sm text-muted-foreground text-center">
       Your message will be sent securely
     </div>
   </div>
 
   <!-- Success/Error Messages -->
   <div class="contact-form__status invisible" role="status" aria-live="polite" tabindex="-1">
-    <div class="contact-form__success hidden p-4 bg-success-50 border border-success-200 rounded-md">
+    <div class="contact-form__success hidden p-4 bg-success/10 border border-success/30 rounded-md">
       <div class="flex items-center">
-        <span class="text-success-600 mr-2" aria-hidden="true">✓</span>
-        <span class="text-success-800 font-medium">Message sent successfully!</span>
+        <span class="text-success mr-2" aria-hidden="true">✓</span>
+        <span class="text-success font-medium">Message sent successfully!</span>
       </div>
-      <p class="text-success-700 mt-1">Thank you for your message. We'll get back to you soon.</p>
+      <p class="text-success mt-1">Thank you for your message. We'll get back to you soon.</p>
     </div>
     
-    <div class="contact-form__error-message hidden p-4 bg-error-50 border border-error-200 rounded-md">
+    <div class="contact-form__error-message hidden p-4 bg-error/10 border border-error/30 rounded-md">
       <div class="flex items-center">
-        <span class="text-secondary-600 mr-2" aria-hidden="true">⚠</span>
-        <span class="text-secondary-800 font-medium">Error sending message</span>
+        <span class="text-error mr-2" aria-hidden="true">⚠</span>
+        <span class="text-error font-medium">Error sending message</span>
       </div>
-      <p class="text-secondary-700 mt-1">Please try again or contact us directly.</p>
+      <p class="text-error mt-1">Please try again or contact us directly.</p>
     </div>
   </div>
 </form>
