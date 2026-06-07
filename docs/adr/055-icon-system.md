@@ -110,10 +110,14 @@ need multiple nodes (e.g. `bot` eyes). All new icons are stroke paths
 ## Decision
 
 We will go with **Option 3** — extend `Icon.astro`'s path registry with
-Lucide-aligned line icons. Curated set (≤15): `zap`, `bot`, `palette`, `gauge`,
-`puzzle`, `layers` (feature cards); `accessibility`, `shield-check`, `search`
-(metrics); `check`, `target`, `wrench`, `lock`, `book-open` (utility); plus the
-existing `github`, `arrow-down`, `arrow-right`, `external-link`.
+Lucide-aligned line icons.
+
+Initial curated set (under twenty):
+
+- Feature cards: `zap`, `bot`, `palette`, `gauge`, `puzzle`, `layers`
+- Metrics: `accessibility`, `shield-check`, `search`
+- Utility: `check`, `target`, `wrench`, `lock`, `book-open`
+- Pre-existing: `github`, `arrow-down`, `arrow-right`, `external-link`
 
 ### Implementation Details
 
