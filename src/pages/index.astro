@@ -1,9 +1,15 @@
 ---
+// Pulci Nella lifecycle portraits — Foundation = shipped, Build = writing,
+// Polish = thinking. Rendered via native <img> so the embedded CSS
+// animations (state-thinking dot pulse) survive — Image.astro rasterizes
+// SVG to PNG/AVIF which kills the animation. ADR-054.
+import statePortraitShipped from "@/assets/brand/state-shipped.svg";
+import statePortraitThinking from "@/assets/brand/state-thinking.svg";
+import statePortraitWriting from "@/assets/brand/state-writing.svg";
 import AnimatedGradientText from "@/components/atoms/AnimatedGradientText.astro";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Icon from "@/components/atoms/Icon.astro";
-
 import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
 import SheenEyebrow from "@/components/atoms/SheenEyebrow.astro";
 import Card from "@/components/molecules/Card.astro";
@@ -426,11 +432,22 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <!-- Foundation Tier -->
           <Card class="p-6 border-l-4 border-l-secondary-500">
-            <div class="mb-4">
-              <Badge variant="secondary" size="xs">Done</Badge>
-              <h3 class="mt-3 text-xl font-bold text-foreground">
-                Foundation
-              </h3>
+            <div class="mb-4 flex items-start gap-4">
+              <img
+                src={statePortraitShipped.src}
+                alt=""
+                width="64"
+                height="64"
+                class="shrink-0 size-16 rounded-lg"
+                decoding="async"
+                loading="lazy"
+              />
+              <div class="min-w-0 flex-1">
+                <Badge variant="secondary" size="xs">Done</Badge>
+                <h3 class="mt-3 text-xl font-bold text-foreground">
+                  Foundation
+                </h3>
+              </div>
             </div>
             <p class="text-muted-foreground mb-6">
               Architecture, tooling, and design system — pre-configured and working. You never touch this unless you're making architectural changes.
@@ -462,11 +479,22 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
 
           <!-- Build Tier -->
           <Card class="p-6 border-l-4 border-l-warning-600">
-            <div class="mb-4">
-              <Badge variant="neutral" size="xs">Demo Included</Badge>
-              <h3 class="mt-3 text-xl font-bold text-foreground">
-                Build
-              </h3>
+            <div class="mb-4 flex items-start gap-4">
+              <img
+                src={statePortraitWriting.src}
+                alt=""
+                width="64"
+                height="64"
+                class="shrink-0 size-16 rounded-lg"
+                decoding="async"
+                loading="lazy"
+              />
+              <div class="min-w-0 flex-1">
+                <Badge variant="neutral" size="xs">Demo Included</Badge>
+                <h3 class="mt-3 text-xl font-bold text-foreground">
+                  Build
+                </h3>
+              </div>
             </div>
             <p class="text-muted-foreground mb-6">
               Components, page templates, blog posts, and case studies — all built with real content. Replace the demo content with your own brand and copy.
@@ -498,11 +526,22 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
 
           <!-- Polish Tier -->
           <Card class="p-6 border-l-4 border-l-success-600">
-            <div class="mb-4">
-              <Badge variant="primary" size="xs">Guided</Badge>
-              <h3 class="mt-3 text-xl font-bold text-foreground">
-                Polish
-              </h3>
+            <div class="mb-4 flex items-start gap-4">
+              <img
+                src={statePortraitThinking.src}
+                alt=""
+                width="64"
+                height="64"
+                class="shrink-0 size-16 rounded-lg"
+                decoding="async"
+                loading="lazy"
+              />
+              <div class="min-w-0 flex-1">
+                <Badge variant="primary" size="xs">Guided</Badge>
+                <h3 class="mt-3 text-xl font-bold text-foreground">
+                  Polish
+                </h3>
+              </div>
             </div>
             <p class="text-muted-foreground mb-6">
               Performance budgets, deployment configuration, and monitoring. Follow the implementation guides when you're ready to go live.

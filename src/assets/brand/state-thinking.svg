@@ -16,6 +16,7 @@
       }
     </style>
   </defs>
+  <circle cx="60" cy="60" r="60" fill="hsl(228 24% 9%)"/>
   <path d="M 40 42 L 60 24 L 80 42" fill="none" stroke="hsl(228 22% 97%)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
   <path d="M 44 54 L 62 68 L 44 82" fill="none" stroke="url(#g)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
   <g fill="hsl(228 22% 97%)">
