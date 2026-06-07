@@ -1,0 +1,61 @@
+---
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatDate } from "@/utils/formatDate";
+import { withBase } from "@/utils/url-utils";
+
+export async function getStaticPaths() {
+  const adrs = await getCollection("adr");
+  return adrs.map((adr: CollectionEntry<"adr">) => ({
+    params: { slug: adr.id },
+    props: { adr },
+  }));
+}
+
+interface Props {
+  adr: CollectionEntry<"adr">;
+}
+
+const { adr } = Astro.props;
+
+if (!adr) {
+  return Astro.redirect(withBase("/404/"));
+}
+
+// biome-ignore lint/style/useNamingConvention: render() returns Content; PascalCase required to use as JSX tag
+const { Content } = await render(adr);
+---
+
+<BaseLayout
+  title={adr.data.title}
+  description={adr.data.description}
+  ogType="article"
+  noindex={!adr.data.pagefind}
+>
+  <article class="mx-auto max-w-3xl px-6 lg:px-8 py-12 sm:py-16">
+    <nav aria-label="ADR navigation" class="mb-8">
+      <a
+        href={withBase("/docs/adr/")}
+        class="text-sm text-muted-foreground hover:text-link transition-colors inline-flex items-center gap-1"
+      >
+        ← All Architecture Decision Records
+      </a>
+    </nav>
+
+    <header class="mb-10 pb-8 border-b border-border">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-foreground mb-4">
+        {adr.data.title}
+      </h1>
+      <p class="text-lg text-muted-foreground leading-relaxed mb-4">
+        {adr.data.description}
+      </p>
+      <p class="text-sm text-muted-foreground">
+        Last updated <time datetime={adr.data.lastUpdated.toISOString()}>{formatDate(adr.data.lastUpdated)}</time>
+      </p>
+    </header>
+
+    <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-link prose-code:text-foreground">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>

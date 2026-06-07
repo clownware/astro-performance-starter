@@ -1,0 +1,71 @@
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { formatDate } from "@/utils/formatDate";
+import { withBase } from "@/utils/url-utils";
+
+const adrs = await getCollection("adr");
+
+// The ID is the file basename (e.g. "001-preact-island-usage-policy"). The
+// numeric prefix lets a plain string sort do the right thing.
+const sorted = adrs.sort((a: CollectionEntry<"adr">, b: CollectionEntry<"adr">) =>
+  a.id.localeCompare(b.id),
+);
+
+// Reserved entries share a frontmatter shape (tableOfContents: false,
+// pagefind: false) and a description that starts with "Placeholder". Keep
+// them in the listing but visually de-emphasized.
+const isReserved = (adr: CollectionEntry<"adr">) =>
+  adr.data.tableOfContents === false && adr.data.pagefind === false;
+---
+
+<BaseLayout
+  title="Architecture Decision Records"
+  description="Every accepted architectural decision in the Astro Performance Starter — the rules an agent has to obey and the rationale behind each one."
+>
+  <article class="mx-auto max-w-4xl px-6 lg:px-8 py-12 sm:py-16">
+    <header class="mb-12">
+      <h1 class="text-3xl sm:text-5xl font-bold tracking-tight text-foreground mb-4">
+        Architecture Decision Records
+      </h1>
+      <p class="text-lg text-muted-foreground leading-relaxed max-w-2xl">
+        Every accepted architectural decision in this template — what the rule
+        is, the alternatives considered, and why this one won. Halt-on-violation
+        means an agent reads these before proposing a change; no rediscovery of
+        past decisions.
+      </p>
+      <p class="mt-4 text-sm text-muted-foreground">
+        {sorted.length} records · numbered ADR-000 onward
+      </p>
+    </header>
+
+    <ol class="flex flex-col divide-y divide-border" role="list" aria-label="All ADRs">
+      {sorted.map((adr: CollectionEntry<"adr">) => (
+        <li class={isReserved(adr) ? "py-5 opacity-50" : "py-5"}>
+          <a
+            href={withBase(`/docs/adr/${adr.id}/`)}
+            class="group block focus:outline-hidden focus-visible:ring-2 focus-visible:ring-link rounded-lg"
+            aria-label={`Open ${adr.data.title}`}
+          >
+            <div class="flex flex-col sm:flex-row sm:items-baseline sm:gap-4">
+              <p class="font-mono text-xs uppercase tracking-wider text-muted-foreground shrink-0 sm:w-20">
+                ADR-{adr.id.slice(0, 3)}
+              </p>
+              <div class="flex-1 min-w-0">
+                <h2 class="text-base sm:text-lg font-semibold text-foreground group-hover:text-link transition-colors">
+                  {adr.data.title.replace(/^ADR-\d+:\s*/i, "")}
+                </h2>
+                <p class="mt-1 text-sm text-muted-foreground leading-relaxed">
+                  {adr.data.description}
+                </p>
+                <p class="mt-2 text-xs text-muted-foreground">
+                  <time datetime={adr.data.lastUpdated.toISOString()}>{formatDate(adr.data.lastUpdated)}</time>
+                </p>
+              </div>
+            </div>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </article>
+</BaseLayout>

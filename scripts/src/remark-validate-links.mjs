@@ -78,6 +78,19 @@ export function remarkValidateLinks(options = {}) {
               isValid = true;
               break;
             }
+            // Route-style trailing-slash links produced by Astro content
+            // collections — `/docs/adr/SLUG/` should resolve to `docs/adr/SLUG.md`.
+            // This handles the ADR collection added in ADR-062 without forcing
+            // authors to write the file extension.
+            if (filePath.endsWith("/")) {
+              const slugPath = filePath.slice(1, -1);
+              const mdCandidate = join(rootDir, `${slugPath}.md`);
+              if (existsSync(mdCandidate) && statSync(mdCandidate).isFile()) {
+                targetPath = mdCandidate;
+                isValid = true;
+                break;
+              }
+            }
           }
         }
       }
