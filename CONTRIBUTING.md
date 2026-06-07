@@ -155,6 +155,25 @@ git commit -m "feat(components): add skeleton loading pattern"
 - Update AI context if adding new patterns
 - **Use Standard Front-Matter**: All documentation files should include YAML front-matter with `title`, `version`, `lastUpdated` (YYYY-MM-DD), and a brief `description`.
 
+### Architecture Decision Records (ADRs)
+
+ADRs `000`–`05x` in `docs/adr/` are the **template's founding architecture, which
+a cloner inherits** — they are not decisions a downstream project made. The
+`Participants` field on these records names the template's authors/maintainers,
+not the cloner.
+
+When you clone this template for your own project:
+
+- Treat the inherited ADRs as the rationale behind the starter's defaults; keep,
+  amend, or supersede them as your project diverges.
+- **Start your own decision log at the next free number** (continue the sequence)
+  so your decisions are distinguishable from the inherited ones.
+- Accepted ADRs are binding for the AI constitution (halt-on-violation); ADRs
+  marked `Proposed (aspirational)` are recommendations, not enforced rules.
+
+See [`docs/adr/README.md`](docs/adr/README.md) for the index and conventions, and
+[`docs/adr/template.md`](docs/adr/template.md) for the record format.
+
 ### Version Management
 
 Version references in documentation use hardcoded values from `package.json`. When updating dependencies:

@@ -134,6 +134,23 @@ The 19% of survived/no-coverage mutants are concentrated in string literals (err
 
 Quarterly: revisit the thresholds based on rolling mutation score trends. If the score consistently rises above the `high` threshold, raise it; if it consistently runs into the `break`, investigate before adjusting (regression first, threshold tweak last).
 
+### Optionality (clone critical path)
+
+Mutation testing is a **maintainer/advanced** capability, not part of the
+clone-and-ship critical path. It is deliberately:
+
+- **Not in `quality:ci`** — the gate a cloner (or their agent) must clear is
+  `format → lint → lint:md → check → test:unit → agents:check`. `test:mutate` is
+  absent and stays absent.
+- **Nightly + on-demand only** — it runs in `.github/workflows/mutation.yml` on a
+  schedule and via `workflow_dispatch`, never on PRs.
+- **Grouped as a maintainer script** in `package.json` (see ADR-052) and labelled
+  Advanced/optional in the README and `.claude/stack.md`.
+
+A cloner can use the template, pass CI, and ship without ever running Stryker.
+The wedge value is the _trend signal for template maintainers_; nothing here
+requires cloners to adopt it.
+
 ### Out of scope (for this ADR)
 
 - **`.astro` component mutation testing.** The Container API microtests assert against rendered HTML strings; Stryker can mutate `.astro` source but the resulting tests-vs-mutations signal is noisy under the current setup. Revisit when Astro adds first-class type-safe component testing.

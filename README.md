@@ -201,6 +201,12 @@ pnpm run tokens:build     # Rebuild design tokens (rarely needed)
 | `pnpm run test:e2e:ui` | Playwright with interactive UI |
 | `pnpm run test:a11y` | Accessibility tests (axe-core via Playwright) |
 
+**Advanced / optional** — not on the clone critical path; not in `quality:ci`.
+
+| Command | Description |
+|---------|-------------|
+| `pnpm run test:mutate` | Mutation testing (Stryker). Slow; runs nightly in CI, rarely run locally. See [ADR-042](docs/adr/042-mutation-testing-with-stryker.md). |
+
 **Build & Deploy**
 
 | Command | Description |
@@ -254,4 +260,4 @@ Licensed under the [MIT License](./LICENSE.txt).
 
 ---
 
-**Status**: Active development • v0.2.0
+**Status**: Active development • v0.9.0
