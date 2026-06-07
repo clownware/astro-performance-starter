@@ -16,9 +16,13 @@ const currentPath = normalizePath(Astro.url.pathname);
 
 <header
   transition:persist
-  class="sticky top-0 z-50 w-full border-b border-border bg-background/95 supports-backdrop-filter:backdrop-blur-sm supports-backdrop-filter:bg-background/60"
+  class="sticky top-0 z-50 w-full"
 >
-  <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+  {/* Frosted-glass bar wrapper. The backdrop-filter lives HERE, not on <header>,
+      so it doesn't establish a containing block that would trap the fixed
+      #mobile-menu and shrink it to the header height. */}
+  <div class="border-b border-border bg-background/95 supports-backdrop-filter:backdrop-blur-sm supports-backdrop-filter:bg-background/60">
+    <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href={withBase("/")} class="flex items-center" aria-label="Homepage">
       <img
         src={withBase("/logo.svg")}
@@ -95,6 +99,7 @@ const currentPath = normalizePath(Astro.url.pathname);
         </svg>
       </label>
     </div>
+    </div>
   </div>
 
   <!-- Hidden checkbox controls mobile nav visibility via peer-checked classes -->
@@ -152,7 +157,7 @@ const currentPath = normalizePath(Astro.url.pathname);
 
   <nav
     id="mobile-menu"
-    class="fixed inset-0 top-16 z-40 hidden flex-col gap-6 bg-background p-6 opacity-0 pointer-events-none lg:hidden motion-safe:transition-opacity motion-reduce:transition-none duration-200 peer-checked:flex peer-checked:opacity-100 peer-checked:pointer-events-auto"
+    class="fixed inset-0 top-16 z-40 hidden flex-col gap-6 bg-surface border-t border-border shadow-xl p-6 opacity-0 pointer-events-none lg:hidden motion-safe:transition-opacity motion-reduce:transition-none duration-200 peer-checked:flex peer-checked:opacity-100 peer-checked:pointer-events-auto"
     aria-label="Mobile navigation"
     aria-live="polite"
   >
