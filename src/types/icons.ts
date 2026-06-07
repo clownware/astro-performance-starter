@@ -30,4 +30,12 @@ export type IconName =
   | "target"
   | "wrench"
   | "lock"
-  | "book-open";
+  | "book-open"
+  // Contact / communication
+  | "mail"
+  | "message-circle"
+  | "phone"
+  | "map-pin"
+  | "clock"
+  | "globe"
+  | "handshake";

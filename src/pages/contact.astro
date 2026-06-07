@@ -1,10 +1,12 @@
 ---
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
+import Icon from "@/components/atoms/Icon.astro";
 import SocialLink from "@/components/atoms/SocialLink.astro";
 import Card from "@/components/molecules/Card.astro";
 import ContactForm from "@/components/molecules/ContactForm.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { IconName } from "@/types/icons";
 import { withBase } from "@/utils/url-utils";
 
 // Contact information from environment variables
@@ -23,7 +25,7 @@ const socialTwitter = import.meta.env.PUBLIC_SOCIAL_TWITTER || "https://twitter.
 
 // Declarative contact methods data structure
 interface ContactMethod {
-  icon: string;
+  icon: IconName;
   iconLabel: string;
   title: string;
   description: string;
@@ -40,7 +42,7 @@ interface ContactMethod {
 
 const contactMethods: ContactMethod[] = [
   {
-    icon: "📧",
+    icon: "mail",
     iconLabel: "Email icon",
     title: "Email",
     description: "For detailed inquiries or project discussions",
@@ -50,7 +52,7 @@ const contactMethods: ContactMethod[] = [
     },
   },
   {
-    icon: "💬",
+    icon: "message-circle",
     iconLabel: "Chat icon",
     title: "Live Chat",
     description: "Quick questions? Chat with us in real-time",
@@ -61,7 +63,7 @@ const contactMethods: ContactMethod[] = [
     },
   },
   {
-    icon: "📞",
+    icon: "phone",
     iconLabel: "Phone icon",
     title: "Phone",
     description: "Prefer to talk? Schedule a call with our team",
@@ -74,7 +76,7 @@ const contactMethods: ContactMethod[] = [
 
 // Location and availability data structure
 interface LocationInfo {
-  icon: string;
+  icon: IconName;
   iconLabel: string;
   text: string;
   badge: string;
@@ -82,19 +84,19 @@ interface LocationInfo {
 
 const locationInfo: LocationInfo[] = [
   {
-    icon: "📍",
+    icon: "map-pin",
     iconLabel: "Location pin",
     text: contactLocation,
     badge: "Remote-friendly",
   },
   {
-    icon: "🕒",
+    icon: "clock",
     iconLabel: "Clock",
     text: contactTimezone,
     badge: "Quick response",
   },
   {
-    icon: "🌍",
+    icon: "globe",
     iconLabel: "Globe",
     text: "Serving clients worldwide",
     badge: "Global reach",
@@ -103,7 +105,7 @@ const locationInfo: LocationInfo[] = [
 
 // Response expectations data structure
 interface ResponseExpectation {
-  icon: string;
+  icon: IconName;
   iconLabel: string;
   bgClass: string;
   title: string;
@@ -112,21 +114,21 @@ interface ResponseExpectation {
 
 const responseExpectations: ResponseExpectation[] = [
   {
-    icon: "⚡",
+    icon: "zap",
     iconLabel: "Lightning bolt",
     bgClass: "bg-surface",
     title: "Quick Response",
     description: "We'll acknowledge your message within 2 hours during business hours",
   },
   {
-    icon: "🎯",
+    icon: "target",
     iconLabel: "Target",
     bgClass: "bg-secondary-100 dark:bg-secondary-900",
     title: "Detailed Follow-up",
     description: "Within 24 hours, we'll provide a comprehensive response to your inquiry",
   },
   {
-    icon: "🤝",
+    icon: "handshake",
     iconLabel: "Handshake",
     bgClass: "bg-primary-100 dark:bg-primary-900",
     title: "Next Steps",
@@ -212,8 +214,8 @@ const responseExpectations: ResponseExpectation[] = [
               {contactMethods.map((method) => (
                 <Card class="p-6">
                   <div class="flex items-start space-x-4">
-                    <div class="shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center">
-                      <span class="text-2xl" aria-hidden="true">{method.icon}</span>
+                    <div class="shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center text-primary-700 dark:text-primary-300">
+                      <Icon name={method.icon} class="size-6" decorative />
                     </div>
                     <div class="flex-1">
                       <h3 class="text-lg font-semibold text-foreground mb-2">{method.title}</h3>
@@ -277,7 +279,7 @@ const responseExpectations: ResponseExpectation[] = [
               <div class="space-y-4">
                 {locationInfo.map((info) => (
                   <div class="flex items-center space-x-3">
-                    <span class="text-muted-foreground" aria-hidden="true">{info.icon}</span>
+                    <Icon name={info.icon} class="size-4 text-muted-foreground shrink-0" decorative />
                     <span class="text-foreground">{info.text}</span>
                     <Badge role="presentation">{info.badge}</Badge>
                   </div>
@@ -300,8 +302,8 @@ const responseExpectations: ResponseExpectation[] = [
           <div class="grid md:grid-cols-3 gap-8">
             {responseExpectations.map((expectation) => (
               <div class="space-y-4">
-                <div class={`w-16 h-16 ${expectation.bgClass} rounded-full flex items-center justify-center mx-auto`}>
-                  <span class="text-2xl" aria-hidden="true">{expectation.icon}</span>
+                <div class={`w-16 h-16 ${expectation.bgClass} rounded-full flex items-center justify-center mx-auto text-primary-700 dark:text-primary-300`}>
+                  <Icon name={expectation.icon} class="size-7" decorative />
                 </div>
                 <h3 class="text-xl font-semibold text-foreground">
                   {expectation.title}
