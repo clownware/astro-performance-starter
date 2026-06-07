@@ -46,10 +46,11 @@
     };
 
     const getPreferredTheme = () => {
+      // Dark-first default (ADR-032): an explicit stored choice wins; otherwise
+      // default to dark rather than echoing the OS preference.
       const fromStorage = getStoredTheme();
       if (fromStorage) return fromStorage;
-      if (prefersDarkMql && prefersDarkMql.matches) return 'dark';
-      return 'light';
+      return 'dark';
     };
 
     const applyTheme = () => {
