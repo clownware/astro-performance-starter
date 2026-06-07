@@ -119,10 +119,26 @@ const experienceCollection = defineCollection({
   }),
 });
 
+// Architecture Decision Records (ADR-062 — publish ADRs as web routes).
+// Glob excludes README.md, template.md, and any non-numbered files so the
+// collection contains only real ADRs. The numeric prefix on the file name
+// IS the ADR number.
+const adrCollection = defineCollection({
+  loader: glob({ pattern: "[0-9][0-9][0-9]-*.md", base: "./docs/adr" }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    lastUpdated: z.date(),
+    tableOfContents: z.boolean().default(true),
+    pagefind: z.boolean().default(true),
+  }),
+});
+
 export const collections = {
   projects: projectsCollection,
   blog: blogCollection,
   navigation: navigationCollection,
   bio: bioCollection,
   experience: experienceCollection,
+  adr: adrCollection,
 };

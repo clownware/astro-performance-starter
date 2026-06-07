@@ -27,7 +27,7 @@ Astro's islands model is the entire reason this template can promise
 "loads instantly" without that being a slogan. HTML renders at build time;
 JavaScript ships only where a component explicitly asks to hydrate, and even
 then through `client:visible` or `client:idle` — never `client:load` without
-an ADR justifying it (ADR-001).
+an ADR justifying it ([ADR-001](/docs/adr/001-preact-island-usage-policy/)).
 
 Pairing Astro with Preact instead of React keeps the interactive island
 budget honest. A hydrated Preact tree weighs ~4KB gzipped; the same surface
@@ -54,7 +54,8 @@ directly — the abstraction layer between intent and pixels is one short hop.
 
 ## 4. Contract tests on every atom & molecule
 
-Every reusable component ships with a Container API microtest (ADR-040). Render
+Every reusable component ships with a Container API microtest
+([ADR-040](/docs/adr/040-container-api-for-component-microtests/)). Render
 the component with controlled props, inspect the rendered DOM, assert the
 contract. The tests are fast (Vitest in jsdom, sub-second), they fail
 loudly when a refactor changes meaningful structure, and they catch
@@ -70,7 +71,7 @@ The template ships with a four-file constitution that any coding agent has
 to obey: `CLAUDE.md` (project-wide rules), `.claude/engineering.md`
 (testing posture, halt conditions), `.claude/workflow.md` (Architect →
 Coder → Reviewer roles), and `.claude/stack.md` (factual versions). The
-layering is established by ADR-036.
+layering is established by [ADR-036](/docs/adr/036-layered-constitution/).
 
 Halt-on-violation is the operative phrase. If `pnpm quality:ci` exits
 non-zero, work halts; the agent doesn't paper over the failure with a
@@ -81,8 +82,10 @@ typing.
 
 Sharp processes every image at build time. AVIF with WebP fallback, five
 responsive breakpoints, `srcset` emitted, lazy-loading by default. The
-Astro `<Image />` component is the only way images render — ADR-008 forbids
-raw `<img>`. The result is
+Astro `<Image />` component is the only way images render — the
+[image-optimisation defaults](/docs/adr/030-image-optimisation-defaults/)
+are baked into `astro.config.mjs` so a contributor doesn't reinvent
+them. The result is
 an LCP image that loads at the right resolution on every device with no
 client-side JS.
 
