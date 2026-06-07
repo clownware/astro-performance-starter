@@ -1,0 +1,21 @@
+<svg viewBox="0 0 120 120" width="120" height="120" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Pulci Nella">
+  <defs>
+    <linearGradient id="g" x1="40" y1="50" x2="74" y2="82" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="hsl(256 80% 64%)"/>
+      <stop offset="1" stop-color="hsl(344 85% 62%)"/>
+    </linearGradient>
+    <style>
+      @media (prefers-reduced-motion: no-preference) {
+        .cursor { animation: pn-cursor-blink 1.1s steps(2, jump-none) infinite; }
+      }
+      @keyframes pn-cursor-blink {
+        0%, 49% { opacity: 1; }
+        50%, 100% { opacity: 0; }
+      }
+    </style>
+  </defs>
+  <circle cx="60" cy="60" r="60" fill="hsl(228 24% 9%)"/>
+  <path d="M 40 42 L 60 24 L 80 42" fill="none" stroke="hsl(228 22% 97%)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M 44 54 L 62 68 L 44 82" fill="none" stroke="url(#g)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <rect class="cursor" x="69" y="57" width="10" height="22" rx="3.5" fill="hsl(228 22% 97%)"/>
+</svg>
