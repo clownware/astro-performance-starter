@@ -42,7 +42,7 @@ const claudeMdSnippet = `# Astro Performance Starter — Claude Code Context
 6. Use pnpm, not npm or yarn.
 7. Prefer CSS solutions over JavaScript.
 8. Use Astro Image for all images — no raw <img> tags.
-9. Verify with \`pnpm run quality\` before claiming done.`;
+9. Verify with \`pnpm quality:ci\` before claiming done.`;
 
 // Note: `---` on its own line collides with the Astro frontmatter delimiter
 // inside template literals, so we build this string with \n separators.
@@ -57,24 +57,22 @@ const islandSnippet = [
 const tokenJsonSnippet = `{
   "semantic": {
     "primary": {
-      "600": { "value": "{color.moonstone.600}" }
+      "600": { "value": "{color.violet.600}" }
     },
     "background": {
-      "primary": {
-        "value": "{color.white.500}",
-        "dark":  "{color.spaceCadet.500}"
-      }
+      "value": "{color.slate.50}",
+      "dark":  "{color.spaceCadet}"
     }
   }
 }`;
 
 const tokenCssSnippet = `:root {
-  --color-primary-600: 189 61% 32%;
-  --color-background: 0 0% 100%;
+  --color-primary-600: 256 72% 54%;
+  --color-background: 228 22% 98%;
 }
 
 .dark {
-  --color-background: 227 50% 16%;
+  --color-background: 230 22% 7%;
 }`;
 
 const tokenThemeSnippet = `@theme inline {
@@ -637,7 +635,7 @@ export function Counter({ value }) {
           <ScrollReveal>
             <p class="text-center text-muted-foreground mt-8">
               <a href="/showcase/" class="text-link hover:underline font-medium">
-                See these tokens in action on the Components page →
+                See these tokens in action on the living style guide →
               </a>
             </p>
           </ScrollReveal>
@@ -895,7 +893,7 @@ export function Counter({ value }) {
           <ScrollReveal>
             <div class="text-center">
               <p class="text-muted-foreground mb-6">
-                Want to see the components themselves? The Components page has every
+                Want to see the components themselves? The Design System page has every
                 atom, molecule, and structural component with a live demo and
                 code.
               </p>
