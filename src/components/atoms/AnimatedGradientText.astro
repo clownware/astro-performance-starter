@@ -3,6 +3,13 @@ interface Props {
   as?: "span" | "h1" | "h2" | "h3" | "p";
   speed?: "slow" | "medium" | "fast";
   class?: string;
+  /**
+   * When true, tags the element with `view-transition-name: hero-grad` so the
+   * gradient headline tweens between routes during page transitions (ADR-048,
+   * technique 2). Use on at most ONE element per page — view-transition names
+   * must be unique.
+   */
+  morph?: boolean;
 }
 
 const props: Props = Astro.props;
@@ -10,6 +17,7 @@ const props: Props = Astro.props;
 const Tag = props.as ?? "span";
 const speed = props.speed ?? "medium";
 const className = props.class;
+const morph = props.morph ?? false;
 
 const speedMap = {
   slow: "8s",
@@ -20,7 +28,7 @@ const speedMap = {
 
 {/* @ts-ignore — Astro checker loses Props inference when `as` keyword is used as prop name */}
 <Tag
-  class:list={["animated-gradient-text", className]}
+  class:list={["animated-gradient-text", morph && "hero-grad", className]}
   style={`--gradient-duration: ${speedMap[speed]}`}
 >
   <slot />
@@ -41,16 +49,22 @@ const speedMap = {
 
   .animated-gradient-text {
     --gradient-duration: 4s;
+    /* Variant B — OKLCH longer-hue sweep (violet → crimson through the spectrum). */
     background: linear-gradient(
-      var(--gradient-angle),
+      var(--gradient-angle) in oklch longer hue,
       hsl(var(--color-primary-500)),
       hsl(var(--color-secondary-500)),
-      hsl(var(--color-primary-600))
+      hsl(var(--color-primary-500))
     );
     background-clip: text;
     -webkit-background-clip: text;
     color: transparent;
     -webkit-text-fill-color: transparent;
+  }
+
+  /* Opt-in morph target for cross-route page transitions (ADR-048 #2). */
+  .hero-grad {
+    view-transition-name: hero-grad;
   }
 
   @supports (background-clip: text) {

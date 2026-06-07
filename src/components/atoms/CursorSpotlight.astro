@@ -1,0 +1,71 @@
+---
+/**
+ * CursorSpotlight — the single optional JS surface of the motion system
+ * (ADR-048, technique 7). Wraps content in a relatively-positioned container
+ * whose ::before paints a radial glow tracking the pointer. CSS does all
+ * rendering; the script only feeds two custom properties, rAF-throttled.
+ *
+ * No-JS / reduced-motion fallback: the listener never binds, so --mx/--my stay
+ * at 50% 50% and a soft static centred glow renders. Nothing is lost.
+ */
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+---
+
+<div class:list={["cursor-spotlight", className]}>
+  <slot />
+</div>
+
+<style>
+  .cursor-spotlight {
+    position: relative;
+    isolation: isolate;
+    --mx: 50%;
+    --my: 50%;
+  }
+  .cursor-spotlight::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(
+      280px circle at var(--mx) var(--my),
+      hsl(var(--color-primary-500) / 0.18),
+      hsl(var(--color-secondary-500) / 0.08) 40%,
+      transparent 66%
+    );
+    transition: background 0.12s linear;
+  }
+</style>
+
+<script>
+  // rAF-throttled pointer tracking. Re-runs after each Astro view transition
+  // via astro:page-load; the data flag prevents double-binding persisted nodes.
+  function initCursorSpotlight() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const els = document.querySelectorAll<HTMLElement>(".cursor-spotlight");
+    for (const el of els) {
+      if (el.dataset.spotlightBound) continue;
+      el.dataset.spotlightBound = "true";
+      let queued = 0;
+      el.addEventListener("pointermove", (e) => {
+        if (queued) return;
+        queued = requestAnimationFrame(() => {
+          const r = el.getBoundingClientRect();
+          el.style.setProperty("--mx", `${e.clientX - r.left}px`);
+          el.style.setProperty("--my", `${e.clientY - r.top}px`);
+          queued = 0;
+        });
+      });
+      el.addEventListener("pointerleave", () => {
+        el.style.setProperty("--mx", "50%");
+        el.style.setProperty("--my", "50%");
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", initCursorSpotlight);
+</script>
