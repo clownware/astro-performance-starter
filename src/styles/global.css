@@ -89,6 +89,8 @@
   /* --- Role tokens (flip in .dark via tokens.css) --- */
   --color-background: hsl(var(--color-background));
   --color-surface: hsl(var(--color-surface));
+  --color-surface-raised: hsl(var(--color-surface-raised));
+  --color-surface-accent: hsl(var(--color-surface-accent));
   --color-foreground: hsl(var(--color-foreground));
   --color-muted-foreground: hsl(var(--color-muted-foreground));
   --color-border: hsl(var(--color-border));
@@ -113,6 +115,8 @@
   --spacing-16: 4rem;
   --spacing-20: 5rem;
   --spacing-24: 6rem;
+  --spacing-28: 7rem;
+  --spacing-32: 8rem;
 
   /* --- Font sizes --- */
   --text-xs: 0.75rem;
@@ -125,6 +129,8 @@
   --text-4xl: 2.25rem;
   --text-5xl: 3rem;
   --text-6xl: 3.75rem;
+  --text-7xl: 4.5rem;
+  --text-8xl: 6rem;
 
   /* --- Border radius (sourced from tokens.css — see ADR-047) --- */
   --radius-none: var(--border-radius-none);
@@ -146,6 +152,7 @@
   --shadow-md: 0 6px 16px -6px hsl(230 40% 3% / 0.35);
   --shadow-lg: 0 18px 40px -16px hsl(230 40% 3% / 0.50);
   --shadow-xl: 0 30px 70px -28px hsl(230 45% 2% / 0.65);
+  --shadow-glow: 0 0 44px -10px hsl(256 86% 63% / 0.45);
 
   /* --- Transition durations (sourced from tokens.css) --- */
   --duration-fast: var(--motion-duration-fast);

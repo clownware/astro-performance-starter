@@ -26,6 +26,8 @@ interface SemanticTokens {
     secondary: Scale;
     background: TokenLeaf;
     surface: TokenLeaf;
+    surfaceRaised: TokenLeaf;
+    surfaceAccent: TokenLeaf;
     foreground: TokenLeaf;
     mutedForeground: TokenLeaf;
     border: TokenLeaf;
@@ -38,6 +40,9 @@ interface SemanticTokens {
   };
 }
 interface BaseTokens {
+  color: {
+    green: Scale;
+  };
   fontFamily: {
     display: TokenLeaf;
     text: TokenLeaf;
@@ -54,6 +59,8 @@ describe("design tokens v2 — role tokens present with light + dark", () => {
   const roles = [
     "background",
     "surface",
+    "surfaceRaised",
+    "surfaceAccent",
     "foreground",
     "mutedForeground",
     "border",
@@ -108,6 +115,30 @@ describe("design tokens v2 — role source mappings", () => {
   it("maps warning to amber-700 / amber-500", () => {
     expect(semantic.semantic.warning.value).toBe("{color.amber.700}");
     expect(semantic.semantic.warning.dark).toBe("{color.amber.500}");
+  });
+
+  it("maps success to the green family (v2.1) — text-safe light, bright dark", () => {
+    // Repointed off the violet alias to a real green (ADR-047 v2.1). Follows the
+    // warning/error convention: .value uses the darker .700 step (text-safe on
+    // white, 4.93:1), .dark uses the brighter .400 (10.1:1 on the dark surface).
+    expect(semantic.semantic.success.value).toBe("{color.green.700}");
+    expect(semantic.semantic.success.dark).toBe("{color.green.400}");
+  });
+});
+
+describe("design tokens v2.1 — green scale + raised/accent surfaces", () => {
+  it("adds a full green 50–950 scale for success states", () => {
+    expect(base.color.green["50"].value).toBeTruthy();
+    expect(base.color.green["400"].value).toBe("152 62% 56%");
+    expect(base.color.green["700"].value).toBe("152 62% 30%");
+    expect(base.color.green["950"].value).toBeTruthy();
+  });
+
+  it("defines raised + accent surfaces distinct from the base surface", () => {
+    expect(semantic.semantic.surfaceRaised.value).not.toBe(semantic.semantic.surface.value);
+    expect(semantic.semantic.surfaceAccent.value).not.toBe(semantic.semantic.surface.value);
+    expect(semantic.semantic.surfaceRaised.dark).not.toBe(semantic.semantic.surface.dark);
+    expect(semantic.semantic.surfaceAccent.dark).not.toBe(semantic.semantic.surface.dark);
   });
 });
 
