@@ -1,4 +1,16 @@
 ---
+// Type-safe, schema-validated env (astro:env) — defaults live in astro.config (ADR-050)
+import {
+  PUBLIC_CONTACT_CHAT_HOURS,
+  PUBLIC_CONTACT_EMAIL,
+  PUBLIC_CONTACT_LOCATION,
+  PUBLIC_CONTACT_PHONE,
+  PUBLIC_CONTACT_PHONE_DISPLAY,
+  PUBLIC_CONTACT_TIMEZONE,
+  PUBLIC_SOCIAL_GITHUB,
+  PUBLIC_SOCIAL_LINKEDIN,
+  PUBLIC_SOCIAL_TWITTER,
+} from "astro:env/client";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import SocialLink from "@/components/atoms/SocialLink.astro";
@@ -7,19 +19,18 @@ import ContactForm from "@/components/molecules/ContactForm.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { withBase } from "@/utils/url-utils";
 
-// Contact information from environment variables
-const contactEmail = import.meta.env.PUBLIC_CONTACT_EMAIL || "hello@example.com";
-const contactPhone = import.meta.env.PUBLIC_CONTACT_PHONE || "+1234567890";
-const contactPhoneDisplay = import.meta.env.PUBLIC_CONTACT_PHONE_DISPLAY || "+1 (234) 567-890";
-const contactLocation = import.meta.env.PUBLIC_CONTACT_LOCATION || "San Francisco, CA";
-const contactTimezone = import.meta.env.PUBLIC_CONTACT_TIMEZONE || "Mon-Fri, 9AM-6PM PST";
-const contactChatHours = import.meta.env.PUBLIC_CONTACT_CHAT_HOURS || "Mon-Fri, 9AM-5PM EST";
+// Contact information (schema-validated; defaults supplied by the env schema)
+const contactEmail = PUBLIC_CONTACT_EMAIL;
+const contactPhone = PUBLIC_CONTACT_PHONE;
+const contactPhoneDisplay = PUBLIC_CONTACT_PHONE_DISPLAY;
+const contactLocation = PUBLIC_CONTACT_LOCATION;
+const contactTimezone = PUBLIC_CONTACT_TIMEZONE;
+const contactChatHours = PUBLIC_CONTACT_CHAT_HOURS;
 
-// Social media links from environment variables
-const socialGithub = import.meta.env.PUBLIC_SOCIAL_GITHUB || "https://github.com/example";
-const socialLinkedIn =
-  import.meta.env.PUBLIC_SOCIAL_LINKEDIN || "https://linkedin.com/company/example";
-const socialTwitter = import.meta.env.PUBLIC_SOCIAL_TWITTER || "https://twitter.com/example";
+// Social media links
+const socialGithub = PUBLIC_SOCIAL_GITHUB;
+const socialLinkedIn = PUBLIC_SOCIAL_LINKEDIN;
+const socialTwitter = PUBLIC_SOCIAL_TWITTER;
 
 // Declarative contact methods data structure
 interface ContactMethod {

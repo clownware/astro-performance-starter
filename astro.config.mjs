@@ -4,7 +4,7 @@ import mdx from "@astrojs/mdx";
 import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig } from "astro/config";
+import { defineConfig, envField } from "astro/config";
 import astroExpressiveCode from "astro-expressive-code";
 import { remarkSnippetIncludes } from "./scripts/src/remark-snippet-includes.mjs";
 import { remarkValidateLinks } from "./scripts/src/remark-validate-links.mjs";
@@ -41,6 +41,72 @@ export default defineConfig({
   trailingSlash: "always",
 
   prefetch: true,
+
+  // --- Type-safe environment variables (astro:env) — see ADR-050 ---
+  // Schema-validated, typed access to the PUBLIC_* surface via astro:env/client.
+  // Defaults here are the demo values, so consumers import the value directly
+  // without scattered `|| "fallback"` literals. SITE_URL / PUBLIC_SITE_URL and
+  // DEPLOY_TARGET are intentionally NOT here: they are read at config-load time
+  // (above), before astro:env exists, and the placeholder heuristic that
+  // astro:env can't express lives in scripts/src/validate-env.ts (env:validate).
+  env: {
+    schema: {
+      PUBLIC_CONTACT_EMAIL: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        default: "hello@example.com",
+      }),
+      PUBLIC_CONTACT_PHONE: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        default: "+1234567890",
+      }),
+      PUBLIC_CONTACT_PHONE_DISPLAY: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        default: "+1 (234) 567-890",
+      }),
+      PUBLIC_CONTACT_LOCATION: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        default: "San Francisco, CA",
+      }),
+      PUBLIC_CONTACT_TIMEZONE: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        default: "Mon-Fri, 9AM-6PM PST",
+      }),
+      PUBLIC_CONTACT_CHAT_HOURS: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        default: "Mon-Fri, 9AM-5PM EST",
+      }),
+      PUBLIC_SOCIAL_GITHUB: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        default: "https://github.com/example",
+      }),
+      PUBLIC_SOCIAL_LINKEDIN: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        default: "https://linkedin.com/company/example",
+      }),
+      PUBLIC_SOCIAL_TWITTER: envField.string({
+        context: "client",
+        access: "public",
+        optional: true,
+        default: "https://twitter.com/example",
+      }),
+    },
+  },
 
   integrations: [
     // Options live in ec.config.mjs so the <Code> component can be used in
@@ -92,7 +158,6 @@ export default defineConfig({
 
   build: {
     inlineStylesheets: "auto",
-    // biome-ignore lint/style/useNamingConvention: Astro requires the exact key `compressHTML`
     compressHTML: true,
   },
 
