@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Astro Starter — Component Sheet</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ============================== SCALE TOKENS ============================== */
+:root{
+  --moon-200:257 95% 89%; --moon-300:257 92% 80%; --moon-400:256 90% 71%; --moon-500:256 86% 63%;
+  --moon-600:256 72% 54%; --moon-700:256 66% 46%;
+  --r-sm:6px; --r-md:9px; --r-lg:13px; --r-xl:18px; --r-2xl:24px;
+  --font-display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --font-text:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --shadow-sm:0 1px 2px hsl(230 40% 3% / .18);
+  --shadow-md:0 6px 16px -6px hsl(230 40% 3% / .35);
+  --shadow-lg:0 18px 40px -16px hsl(230 40% 3% / .5);
+  --shadow-xl:0 30px 70px -28px hsl(230 45% 2% / .65);
+}
+
+/* ============================== SEMANTIC ROLES ============================== */
+.mode{
+  --bg-1:228 22% 98%;   /* background-primary  */
+  --bg-2:228 24% 99%;   /* background-secondary (surface/card) */
+  --bg-3:228 20% 95%;   /* background-tertiary (input/subtle fill) */
+  --fg-1:228 24% 12%;   /* foreground-primary */
+  --fg-2:228 13% 42%;   /* foreground-secondary (muted) */
+  --fg-3:228 12% 52%;   /* foreground-tertiary */
+  --border:228 16% 90%; /* border-default */
+  --border-emph:228 12% 52%; /* border-emphasis */
+  --primary:256 86% 63%; --primary-press:256 72% 54%; --on-primary:228 24% 99%;
+  --link:256 72% 54%; --ring:256 86% 63%;
+  --secondary:344 83% 60%; --secondary-press:344 75% 50%;
+  --error:344 73% 42%; --warning:33 86% 40%; --success:256 72% 54%;
+  --g1:256 72% 54%; --g2:344 75% 50%;       /* gradient: darker 600 stops on light */
+  --scrim:230 30% 30% / .42;
+}
+.mode.dark{
+  --bg-1:230 22% 7%; --bg-2:228 20% 13%; --bg-3:228 17% 18%;
+  --fg-1:228 22% 98%; --fg-2:228 13% 66%; --fg-3:228 13% 58%;
+  --border:228 17% 20%; --border-emph:228 12% 52%;
+  --primary:256 86% 63%; --primary-press:256 90% 71%; --on-primary:228 24% 99%;
+  --link:257 92% 80%; --ring:256 86% 63%;
+  --secondary:344 83% 60%; --secondary-press:344 87% 70%;
+  --error:344 87% 70%; --warning:38 95% 53%; --success:256 90% 71%;
+  --g1:256 90% 71%; --g2:344 87% 70%;       /* gradient: brighter 400 stops on dark */
+  --scrim:230 45% 2% / .62;
+}
+
+/* ============================== PAGE CHROME ============================== */
+*{box-sizing:border-box;}
+body{margin:0;font-family:var(--font-text);background:hsl(230 24% 5%);color:hsl(228 18% 72%);
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 480px at 88% -10%,hsl(256 86% 63% / .08),transparent 60%),
+                   radial-gradient(820px 480px at 4% 2%,hsl(344 83% 60% / .055),transparent 55%);}
+.wrap{max-width:1240px;margin:0 auto;padding:0 28px;}
+.topbar{position:sticky;top:0;z-index:50;background:hsl(230 26% 6% / .82);backdrop-filter:blur(14px);border-bottom:1px solid hsl(228 18% 16%);}
+.topbar .wrap{display:flex;align-items:center;gap:14px;height:62px;}
+.brand{display:flex;align-items:center;gap:11px;margin-right:auto;}
+.brand .dot{width:13px;height:13px;border-radius:4px;background:linear-gradient(135deg in oklch longer hue,hsl(256 90% 71%),hsl(344 87% 70%));}
+.brand b{font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;color:hsl(228 22% 96%);font-size:14px;}
+.brand span{font-size:12px;color:hsl(228 14% 50%);}
+.legend{display:flex;gap:14px;font-family:var(--mono);font-size:11px;color:hsl(228 12% 52%);}
+.legend i{font-style:normal;display:inline-flex;align-items:center;gap:6px;}
+.legend .p{width:9px;height:9px;border-radius:50%;}
+@media(max-width:760px){.legend{display:none;}}
+
+.intro{padding:48px 0 8px;}
+.intro h1{font-family:var(--font-display);font-weight:700;font-size:34px;letter-spacing:-.025em;color:hsl(228 22% 96%);margin:0 0 12px;}
+.intro p{max-width:74ch;font-size:14.5px;line-height:1.65;color:hsl(228 14% 58%);margin:0;}
+.intro .note{margin-top:18px;display:flex;gap:10px;align-items:flex-start;padding:13px 16px;border:1px solid hsl(38 60% 30%);background:hsl(38 60% 12% / .5);border-radius:10px;font-size:13px;color:hsl(38 70% 78%);max-width:74ch;}
+.intro .note b{color:hsl(38 90% 70%);}
+
+/* component block */
+.comp{padding:40px 0 6px;border-top:1px solid hsl(228 18% 13%);margin-top:40px;}
+.comp-head{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap;margin-bottom:6px;}
+.comp-head h2{font-family:var(--font-display);font-weight:600;font-size:21px;letter-spacing:-.02em;color:hsl(228 22% 94%);margin:0;}
+.comp-head .ix{font-family:var(--mono);font-size:12px;color:hsl(256 60% 72%);}
+.comp-head .desc{font-size:13px;color:hsl(228 13% 54%);margin-left:auto;}
+.tokens{display:flex;flex-wrap:wrap;gap:6px;margin:12px 0 20px;}
+.tokens .tk{font-family:var(--mono);font-size:10.5px;color:hsl(228 16% 66%);background:hsl(228 18% 11%);border:1px solid hsl(228 18% 18%);border-radius:6px;padding:3px 8px;}
+.tokens .tk b{color:hsl(256 62% 74%);font-weight:500;}
+
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:920px){.pair{grid-template-columns:1fr;}}
+.panel{border:1px solid hsl(228 18% 16%);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--shadow-lg);}
+.panel .ptab{display:flex;align-items:center;gap:8px;padding:9px 15px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;background:hsl(228 18% 10%);border-bottom:1px solid hsl(228 18% 16%);color:hsl(228 12% 56%);}
+.panel .ptab .pp{width:8px;height:8px;border-radius:50%;}
+.panel.l .pp{background:hsl(40 90% 60%);} .panel.d .pp{background:hsl(256 86% 66%);}
+.mode{background:hsl(var(--bg-1));color:hsl(var(--fg-1));padding:30px 26px;min-height:100%;}
+
+/* state chips under instances */
+.st{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:hsl(var(--fg-3));margin-top:8px;}
+
+/* ===================== BUTTON MATRIX ===================== */
+.bm{display:grid;grid-template-columns:78px repeat(5,1fr);gap:13px 12px;align-items:center;}
+.bm .bm-h{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:hsl(var(--fg-3));text-align:center;}
+.bm .bm-h.lab{text-align:left;}
+.bm .bm-lab{font-family:var(--font-display);font-weight:600;font-size:13px;color:hsl(var(--fg-1));}
+.bm .cell{display:flex;justify-content:center;}
+
+.btn{font-family:var(--font-text);font-weight:600;font-size:13.5px;line-height:1;cursor:pointer;border:1.5px solid transparent;border-radius:var(--r-md);
+  padding:10px 16px;transition:transform .14s,box-shadow .2s,background .18s,border-color .18s,color .18s;white-space:nowrap;}
+.btn-primary{background:hsl(var(--primary));color:hsl(var(--on-primary));box-shadow:0 1px 0 hsl(var(--moon-300)/.5) inset,0 10px 22px -12px hsl(var(--primary)/.85);}
+.btn-primary:hover,.btn-primary.is-hover{transform:translateY(-1px);box-shadow:0 1px 0 hsl(var(--moon-200)/.6) inset,0 16px 30px -12px hsl(var(--primary)/.95);}
+.btn-primary:active,.btn-primary.is-active{transform:translateY(0);background:hsl(var(--primary-press));box-shadow:0 2px 6px -2px hsl(var(--primary)/.6) inset;}
+.btn-secondary{background:transparent;color:hsl(var(--fg-1));border-color:hsl(var(--border-emph));}
+.btn-secondary:hover,.btn-secondary.is-hover{background:hsl(var(--bg-3));border-color:hsl(var(--fg-2));}
+.btn-secondary:active,.btn-secondary.is-active{background:hsl(var(--bg-3));border-color:hsl(var(--border-emph));transform:translateY(.5px);}
+.btn-ghost{background:transparent;color:hsl(var(--fg-1));border-color:transparent;}
+.btn-ghost:hover,.btn-ghost.is-hover{background:hsl(var(--bg-3));}
+.btn-ghost:active,.btn-ghost.is-active{background:hsl(var(--bg-3));color:hsl(var(--link));}
+.btn:focus-visible,.btn.is-focus{outline:none;box-shadow:0 0 0 2px hsl(var(--bg-1)),0 0 0 4px hsl(var(--ring));}
+.btn-primary.is-focus{box-shadow:0 1px 0 hsl(var(--moon-300)/.5) inset,0 0 0 2px hsl(var(--bg-1)),0 0 0 4px hsl(var(--ring));}
+.btn:disabled,.btn.is-disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:none;}
+
+/* ===================== BADGES ===================== */
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:center;}
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;line-height:1;padding:5px 10px;border-radius:999px;border:1px solid transparent;}
+.badge .d{width:6px;height:6px;border-radius:50%;}
+.badge-neutral{background:hsl(var(--bg-3));color:hsl(var(--fg-2));border-color:hsl(var(--border));}
+.badge-primary{background:hsl(var(--primary)/.14);color:hsl(var(--link));}
+.badge-success{background:hsl(var(--success)/.16);color:hsl(var(--success));}
+.badge-warning{background:hsl(var(--warning)/.18);color:hsl(var(--warning));}
+.badge-error{background:hsl(var(--error)/.16);color:hsl(var(--error));}
+.navitem{display:inline-flex;align-items:center;gap:8px;font-size:13.5px;font-weight:500;color:hsl(var(--fg-1));}
+.counter{min-width:20px;height:20px;padding:0 6px;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:11px;font-weight:500;background:hsl(var(--secondary));color:hsl(0 0% 100%);}
+.counter.alt{background:hsl(var(--primary));}
+
+/* ===================== TABS ===================== */
+.tabs{display:flex;gap:4px;border-bottom:1px solid hsl(var(--border));}
+.tab{position:relative;font-family:var(--font-text);font-weight:600;font-size:13.5px;cursor:pointer;border:0;background:transparent;
+  color:hsl(var(--fg-2));padding:11px 14px;transition:color .16s;}
+.tab::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;border-radius:2px;background:transparent;transition:background .16s;}
+.tab:hover,.tab.is-hover{color:hsl(var(--fg-1));}
+.tab.is-active{color:hsl(var(--link));}
+.tab.is-active::after{background:hsl(var(--primary));}
+.tab:focus-visible{outline:none;box-shadow:0 0 0 3px hsl(var(--ring)/.4);border-radius:6px;}
+
+/* ===================== TOOLTIP ===================== */
+.tipwrap{display:flex;justify-content:center;padding:26px 0 8px;}
+.tipanchor{position:relative;}
+.tip{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%);white-space:nowrap;
+  background:hsl(var(--fg-1));color:hsl(var(--bg-1));font-size:12px;font-weight:500;padding:7px 11px;border-radius:8px;box-shadow:var(--shadow-md);}
+.tip::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:6px solid transparent;border-top-color:hsl(var(--fg-1));}
+
+/* ===================== INPUTS ===================== */
+.field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;}
+.field:last-child{margin-bottom:0;}
+.field label{font-size:12.5px;font-weight:600;color:hsl(var(--fg-1));}
+.field .hint{font-size:11.5px;color:hsl(var(--fg-2));}
+.field .err{font-size:11.5px;color:hsl(var(--error));font-weight:500;}
+.input{font-family:var(--font-text);font-size:13.5px;color:hsl(var(--fg-1));background:hsl(var(--bg-2));
+  border:1.5px solid hsl(var(--border));border-radius:var(--r-md);padding:10px 12px;transition:border-color .16s,box-shadow .16s;width:100%;}
+.input::placeholder{color:hsl(var(--fg-3));}
+.input:hover{border-color:hsl(var(--border-emph));}
+.input:focus,.input.is-focus{outline:none;border-color:hsl(var(--primary));box-shadow:0 0 0 3px hsl(var(--ring)/.28);}
+.input.is-error{border-color:hsl(var(--error));}
+.input.is-error.is-focus,.input.is-error:focus{box-shadow:0 0 0 3px hsl(var(--error)/.25);}
+.input.is-disabled,.input:disabled{background:hsl(var(--bg-3));color:hsl(var(--fg-3));cursor:not-allowed;border-style:dashed;}
+textarea.input{resize:none;min-height:74px;}
+
+/* ===================== CARD ===================== */
+.cards2{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:560px){.cards2{grid-template-columns:1fr;}}
+.card{position:relative;background:hsl(var(--bg-2));border:1px solid hsl(var(--border));border-radius:var(--r-lg);padding:20px;box-shadow:var(--shadow-sm);transition:box-shadow .25s,border-color .2s;}
+.card h4{font-family:var(--font-display);font-weight:600;font-size:16px;margin:0 0 7px;color:hsl(var(--fg-1));letter-spacing:-.01em;}
+.card p{margin:0;font-size:13px;line-height:1.6;color:hsl(var(--fg-2));}
+.card .tagline{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:hsl(var(--fg-3));margin-bottom:10px;}
+.card.glow::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.4px;
+  background:linear-gradient(130deg in oklch longer hue,hsl(var(--g1)),hsl(var(--g2)));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+  opacity:0;transition:opacity .28s;pointer-events:none;}
+.card.glow:hover,.card.glow.is-hover{border-color:transparent;box-shadow:var(--shadow-lg),0 0 38px -10px hsl(var(--g1)/.5);}
+.card.glow:hover::before,.card.glow.is-hover::before{opacity:1;}
+
+/* ===================== DIALOG ===================== */
+.scrim{position:relative;border-radius:var(--r-lg);overflow:hidden;background:hsl(var(--scrim));padding:30px 22px;display:flex;justify-content:center;
+  background-image:repeating-linear-gradient(135deg,hsl(var(--fg-1)/.03) 0 14px,transparent 14px 28px);}
+.dialog{width:100%;max-width:340px;background:hsl(var(--bg-2));border:1px solid hsl(var(--border));border-radius:var(--r-lg);box-shadow:var(--shadow-xl);padding:22px;}
+.dialog h4{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 8px;color:hsl(var(--fg-1));}
+.dialog p{margin:0 0 18px;font-size:13px;line-height:1.6;color:hsl(var(--fg-2));}
+.dialog .acts{display:flex;gap:10px;justify-content:flex-end;}
+
+/* ===================== POST / PROJECT CARDS ===================== */
+.ph-img{position:relative;border-radius:var(--r-md);overflow:hidden;border:1px solid hsl(var(--border));
+  background:hsl(var(--bg-3));background-image:repeating-linear-gradient(135deg,hsl(var(--fg-1)/.05) 0 9px,transparent 9px 18px);
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10.5px;letter-spacing:.08em;color:hsl(var(--fg-3));}
+.postcard,.projcard{background:hsl(var(--bg-2));border:1px solid hsl(var(--border));border-radius:var(--r-lg);overflow:hidden;box-shadow:var(--shadow-sm);}
+.postcard .body,.projcard .body{padding:16px 17px 18px;}
+.postcard .ph-img{height:118px;border-radius:0;border:0;border-bottom:1px solid hsl(var(--border));}
+.postcard .cat{margin-bottom:9px;}
+.postcard h4,.projcard h4{font-family:var(--font-display);font-weight:600;font-size:16px;letter-spacing:-.01em;margin:0 0 7px;color:hsl(var(--fg-1));line-height:1.2;}
+.postcard p,.projcard p{margin:0;font-size:12.5px;line-height:1.6;color:hsl(var(--fg-2));}
+.postcard .meta{display:flex;gap:10px;align-items:center;margin-top:13px;font-size:11.5px;color:hsl(var(--fg-3));font-family:var(--mono);}
+.postcard .meta .sepd{width:3px;height:3px;border-radius:50%;background:hsl(var(--fg-3));}
+.projcard{display:flex;gap:14px;padding:15px;align-items:center;}
+.projcard .thumb{width:74px;height:74px;flex:0 0 auto;border-radius:var(--r-md);}
+.projcard .tags{display:flex;gap:6px;margin-top:10px;flex-wrap:wrap;}
+.projcard .tag{font-family:var(--mono);font-size:10px;color:hsl(var(--fg-2));border:1px solid hsl(var(--border));border-radius:5px;padding:2px 6px;}
+.projcard .go{margin-left:auto;align-self:flex-start;color:hsl(var(--link));font-size:18px;line-height:1;}
+
+/* ===================== HEADER ===================== */
+.hdr{display:flex;align-items:center;gap:18px;background:hsl(var(--bg-2));border:1px solid hsl(var(--border));border-radius:999px;padding:9px 9px 9px 18px;box-shadow:var(--shadow-md);}
+.hdr .logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:14px;color:hsl(var(--fg-1));letter-spacing:-.01em;}
+.hdr .logo .ld{width:11px;height:11px;border-radius:3px;background:linear-gradient(135deg in oklch longer hue,hsl(var(--g1)),hsl(var(--g2)));}
+.hdr nav{display:flex;gap:4px;margin-left:6px;}
+.hdr nav a{font-size:13px;font-weight:500;color:hsl(var(--fg-2));text-decoration:none;padding:7px 11px;border-radius:8px;transition:.15s;}
+.hdr nav a:hover{color:hsl(var(--fg-1));background:hsl(var(--bg-3));}
+.hdr nav a.active{color:hsl(var(--fg-1));}
+.hdr .sp{margin-left:auto;}
+.hdr .tog{width:34px;height:34px;border-radius:50%;border:1px solid hsl(var(--border));background:hsl(var(--bg-1));display:flex;align-items:center;justify-content:center;color:hsl(var(--fg-2));font-size:15px;cursor:pointer;}
+@media(max-width:560px){.hdr nav{display:none;}}
+
+.mobwrap{margin-top:18px;max-width:300px;}
+.mobbar{display:flex;align-items:center;justify-content:space-between;background:hsl(var(--bg-2));border:1px solid hsl(var(--border));border-radius:14px 14px 0 0;padding:12px 16px;border-bottom:0;}
+.mobbar .logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:700;font-size:14px;color:hsl(var(--fg-1));}
+.mobbar .logo .ld{width:11px;height:11px;border-radius:3px;background:linear-gradient(135deg in oklch longer hue,hsl(var(--g1)),hsl(var(--g2)));}
+.mobbar .burger{display:flex;flex-direction:column;gap:3.5px;}
+.mobbar .burger i{width:18px;height:2px;border-radius:2px;background:hsl(var(--fg-1));display:block;}
+/* the floating menu — SOLID background, never translucent */
+.mobmenu{background:hsl(var(--bg-2));border:1px solid hsl(var(--border));border-top:0;border-radius:0 0 14px 14px;padding:8px;box-shadow:var(--shadow-xl);}
+.mobmenu a{display:block;font-size:14px;font-weight:500;color:hsl(var(--fg-1));text-decoration:none;padding:11px 12px;border-radius:9px;}
+.mobmenu a:hover{background:hsl(var(--bg-3));}
+.mobmenu a.active{color:hsl(var(--link));background:hsl(var(--primary)/.1);}
+.mobmenu .mm-cta{margin:8px 4px 4px;}
+.solid-note{font-family:var(--mono);font-size:10px;color:hsl(var(--fg-3));margin-top:9px;text-align:center;}
+
+/* ===================== CONTRAST RECAP ===================== */
+table.cr{width:100%;border-collapse:collapse;border:1px solid hsl(228 18% 16%);border-radius:var(--r-xl);overflow:hidden;margin-top:6px;}
+table.cr th,table.cr td{text-align:left;padding:11px 16px;border-bottom:1px solid hsl(228 18% 13%);font-size:13px;}
+table.cr th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:hsl(228 12% 52%);background:hsl(228 18% 9%);}
+table.cr td.pair{font-family:var(--mono);font-size:11.5px;color:hsl(228 16% 74%);}
+table.cr td.num{font-family:var(--mono);font-weight:500;color:hsl(228 20% 88%);}
+.swp{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:7px;border:1px solid hsl(0 0% 100% / .12);}
+.req{color:hsl(228 12% 50%);font-family:var(--mono);font-size:11px;}
+.pass{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:hsl(150 60% 64%);}
+.pass::before{content:"";width:6px;height:6px;border-radius:50%;background:hsl(150 60% 56%);}
+footer{padding:54px 0 70px;color:hsl(228 12% 46%);font-size:12.5px;line-height:1.7;}
+footer b{color:hsl(228 16% 68%);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><div class="dot"></div><b>Astro Starter</b><span>· Component Sheet · all states</span></div>
+    <div class="legend">
+      <i><span class="p" style="background:hsl(40 90% 60%)"></span>Light</i>
+      <i><span class="p" style="background:hsl(256 86% 66%)"></span>Dark</i>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="intro">
+    <h1>The language, on the primitives</h1>
+    <p>No new components — this dresses the existing atoms, molecules and structures in the cold-minimal token system. Every block lists the semantic tokens it consumes, so implementation is a token map rather than fresh CSS. States are rendered statically (and the real <code style="font-family:var(--mono);color:hsl(256 60% 74%)">:hover/:focus-visible/:active</code> still fire live).</p>
+    <div class="note"><span>⚠︎</span><div><b>Mobile menu surface.</b> The floating menu uses a <b>solid</b> <code style="font-family:var(--mono)">bg-background-secondary</code> — never a translucent/blur fill. This regressed before; it is pinned here.</div></div>
+  </div>
+
+  <!-- container for generated component blocks -->
+  <div id="sheet"></div>
+
+  <!-- ===================== CONTRAST RECAP ===================== -->
+  <section class="comp" id="contrast">
+    <div class="comp-head"><span class="ix">11</span><h2>Contrast recap — gated pairs</h2><span class="desc">WCAG 2.x · unchanged from base.json</span></div>
+    <table class="cr">
+      <thead><tr><th>Role / pair</th><th>Mode</th><th>Req.</th><th>Ratio</th><th>Result</th></tr></thead>
+      <tbody id="crbody"></tbody>
+    </table>
+  </section>
+
+  <footer>
+    <b>Token vocabulary used here.</b> Surfaces: <code style="font-family:var(--mono)">bg-background-primary / -secondary / -tertiary</code>. Text: <code style="font-family:var(--mono)">text-foreground-primary / -secondary / -tertiary</code>. Lines: <code style="font-family:var(--mono)">border-default / border-emphasis</code>. Accent: <code style="font-family:var(--mono)">bg-primary, text-primary (link), ring-primary, bg-secondary, text-error, text-warning, text-success</code>. Every component above maps to these — no component-local colors.
+  </footer>
+</div>
+
+<!-- ============================== COMPONENT TEMPLATES ============================== -->
+<template data-name="Button" data-ix="01" data-desc="primary · secondary (outline) · ghost — focus ring = primary-500"
+  data-tokens="bg-primary|on-primary|ring-primary|border-emphasis|bg-background-tertiary|text-foreground-primary|text-primary">
+  <div class="bm">
+    <span class="bm-h lab"></span><span class="bm-h">Default</span><span class="bm-h">Hover</span><span class="bm-h">Focus</span><span class="bm-h">Active</span><span class="bm-h">Disabled</span>
+    <span class="bm-lab">Primary</span>
+    <span class="cell"><button class="btn btn-primary">Deploy</button></span>
+    <span class="cell"><button class="btn btn-primary is-hover">Deploy</button></span>
+    <span class="cell"><button class="btn btn-primary is-focus">Deploy</button></span>
+    <span class="cell"><button class="btn btn-primary is-active">Deploy</button></span>
+    <span class="cell"><button class="btn btn-primary is-disabled" disabled>Deploy</button></span>
+    <span class="bm-lab">Secondary</span>
+    <span class="cell"><button class="btn btn-secondary">Docs</button></span>
+    <span class="cell"><button class="btn btn-secondary is-hover">Docs</button></span>
+    <span class="cell"><button class="btn btn-secondary is-focus">Docs</button></span>
+    <span class="cell"><button class="btn btn-secondary is-active">Docs</button></span>
+    <span class="cell"><button class="btn btn-secondary is-disabled" disabled>Docs</button></span>
+    <span class="bm-lab">Ghost</span>
+    <span class="cell"><button class="btn btn-ghost">Skip</button></span>
+    <span class="cell"><button class="btn btn-ghost is-hover">Skip</button></span>
+    <span class="cell"><button class="btn btn-ghost is-focus">Skip</button></span>
+    <span class="cell"><button class="btn btn-ghost is-active">Skip</button></span>
+    <span class="cell"><button class="btn btn-ghost is-disabled" disabled>Skip</button></span>
+  </div>
+</template>
+
+<template data-name="Badge · CounterBadge" data-ix="02" data-desc="status pills + count indicator"
+  data-tokens="bg-primary/.14|text-primary|text-success|text-warning|text-error|bg-secondary|bg-background-tertiary">
+  <div class="row" style="margin-bottom:20px">
+    <span class="badge badge-neutral"><span class="d" style="background:hsl(var(--fg-3))"></span>Neutral</span>
+    <span class="badge badge-primary"><span class="d" style="background:hsl(var(--primary))"></span>Primary</span>
+    <span class="badge badge-success"><span class="d" style="background:hsl(var(--success))"></span>Active</span>
+    <span class="badge badge-warning"><span class="d" style="background:hsl(var(--warning))"></span>Beta</span>
+    <span class="badge badge-error"><span class="d" style="background:hsl(var(--error))"></span>Error</span>
+  </div>
+  <div class="row">
+    <span class="navitem">Notifications <span class="counter">3</span></span>
+    <span class="navitem">Issues <span class="counter alt">12</span></span>
+    <span class="navitem">Drafts <span class="counter">99+</span></span>
+  </div>
+</template>
+
+<template data-name="Tabs" data-ix="03" data-desc="active underline = primary; inactive = foreground-secondary"
+  data-tokens="text-foreground-secondary|text-primary|bg-primary|border-default|ring-primary">
+  <div class="tabs">
+    <button class="tab is-active">Overview</button>
+    <button class="tab">Components</button>
+    <button class="tab is-hover">Tokens</button>
+    <button class="tab">Changelog</button>
+  </div>
+</template>
+
+<template data-name="Tooltip" data-ix="04" data-desc="inverts: surface = foreground-primary, text = background-primary"
+  data-tokens="bg:text-foreground-primary|text:bg-background-primary|shadow-md">
+  <div class="tipwrap">
+    <div class="tipanchor">
+      <div class="tip">Deploys to the edge in ~8s</div>
+      <button class="btn btn-secondary">Hover target</button>
+    </div>
+  </div>
+</template>
+
+<template data-name="ContactForm · inputs" data-ix="05" data-desc="default · focus · error · disabled"
+  data-tokens="bg-background-secondary|border-default|border-emphasis|bg-primary|ring-primary|text-error|bg-background-tertiary">
+  <div class="field">
+    <label>Name <span style="color:hsl(var(--fg-3));font-weight:400">— default</span></label>
+    <input class="input" placeholder="Ada Lovelace" />
+  </div>
+  <div class="field">
+    <label>Email <span style="color:hsl(var(--fg-3));font-weight:400">— focus</span></label>
+    <input class="input is-focus" value="ada@analytical.dev" />
+  </div>
+  <div class="field">
+    <label>Message <span style="color:hsl(var(--error));font-weight:400">— error</span></label>
+    <textarea class="input is-error">…</textarea>
+    <span class="err">Message must be at least 20 characters.</span>
+  </div>
+  <div class="field">
+    <label>Company <span style="color:hsl(var(--fg-3));font-weight:400">— disabled</span></label>
+    <input class="input is-disabled" value="Locked to your org" disabled />
+  </div>
+</template>
+
+<template data-name="Card · default + glow-border hover" data-ix="06" data-desc="hover lights a gradient border + ambient glow"
+  data-tokens="bg-background-secondary|border-default|gradient(primary→secondary)|shadow-lg">
+  <div class="cards2">
+    <div class="card">
+      <div class="tagline">Default</div>
+      <h4>Edge functions</h4>
+      <p>Static-first, with islands that hydrate only where you opt in.</p>
+    </div>
+    <div class="card glow is-hover">
+      <div class="tagline">Glow border · hover</div>
+      <h4>Edge functions</h4>
+      <p>The signature gradient traces the border and casts a soft ambient glow.</p>
+    </div>
+  </div>
+</template>
+
+<template data-name="Dialog" data-ix="07" data-desc="solid surface over a dim scrim"
+  data-tokens="bg-background-secondary|border-default|scrim|shadow-xl|bg-primary">
+  <div class="scrim">
+    <div class="dialog">
+      <h4>Delete this deployment?</h4>
+      <p>This removes the preview URL and its build cache. This action can’t be undone.</p>
+      <div class="acts">
+        <button class="btn btn-ghost">Cancel</button>
+        <button class="btn btn-primary" style="--primary:var(--error);--on-primary:0 0% 100%">Delete</button>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template data-name="PostCard" data-ix="08" data-desc="image · category badge · title · excerpt · meta"
+  data-tokens="bg-background-secondary|border-default|badge-primary|text-foreground-secondary|text-foreground-tertiary">
+  <div class="postcard">
+    <div class="ph-img">1.91:1 · COVER IMAGE</div>
+    <div class="body">
+      <div class="cat"><span class="badge badge-primary">Performance</span></div>
+      <h4>Shipping a 0-JS baseline without losing interactivity</h4>
+      <p>How islands architecture lets you pay for hydration only where it earns its weight.</p>
+      <div class="meta"><span>Jun 6, 2026</span><span class="sepd"></span><span>6 min read</span></div>
+    </div>
+  </div>
+</template>
+
+<template data-name="ProjectCard" data-ix="09" data-desc="thumb · title · description · tags · link"
+  data-tokens="bg-background-secondary|border-default|text-primary|text-foreground-secondary">
+  <div class="projcard">
+    <div class="ph-img thumb">1:1</div>
+    <div style="flex:1;min-width:0">
+      <h4>Aurora Dashboard</h4>
+      <p>Real-time analytics surface built on the starter.</p>
+      <div class="tags"><span class="tag">Astro</span><span class="tag">Islands</span><span class="tag">Edge</span></div>
+    </div>
+    <span class="go">→</span>
+  </div>
+</template>
+
+<template data-name="Header + floating mobile menu" data-ix="10" data-desc="solid menu surface — never translucent"
+  data-tokens="bg-background-secondary(SOLID)|border-default|text-foreground-secondary|bg-primary|bg-background-primary">
+  <div class="hdr">
+    <span class="logo"><span class="ld"></span>Astro</span>
+    <nav><a class="active">Home</a><a>Docs</a><a>Blog</a><a>Pricing</a></nav>
+    <span class="sp"></span>
+    <button class="tog">☾</button>
+    <button class="btn btn-primary">Deploy</button>
+  </div>
+  <div class="mobwrap">
+    <div class="mobbar">
+      <span class="logo"><span class="ld"></span>Astro</span>
+      <span class="burger"><i></i><i></i><i></i></span>
+    </div>
+    <div class="mobmenu">
+      <a class="active">Home</a>
+      <a>Docs</a>
+      <a>Blog</a>
+      <a>Pricing</a>
+      <div class="mm-cta"><button class="btn btn-primary" style="width:100%">Deploy</button></div>
+    </div>
+    <div class="solid-note">menu fill: bg-background-secondary · opacity 1</div>
+  </div>
+</template>
+
+<script>
+/* ---------- build each component block as a light|dark pair ---------- */
+const sheet=document.getElementById('sheet');
+document.querySelectorAll('template[data-name]').forEach(tpl=>{
+  const sec=document.createElement('section');
+  sec.className='comp';
+  const tokens=(tpl.dataset.tokens||'').split('|').filter(Boolean).map(t=>{
+    const [k,v]=t.split(':');
+    return v?`<span class="tk"><b>${k}</b>:${v}</span>`:`<span class="tk">${k}</span>`;
+  }).join('');
+  sec.innerHTML=`
+    <div class="comp-head">
+      <span class="ix">${tpl.dataset.ix}</span>
+      <h2>${tpl.dataset.name}</h2>
+      <span class="desc">${tpl.dataset.desc||''}</span>
+    </div>
+    <div class="tokens">${tokens}</div>
+    <div class="pair">
+      <div class="panel l"><div class="ptab"><span class="pp"></span>Light</div><div class="mode"></div></div>
+      <div class="panel d"><div class="ptab"><span class="pp"></span>Dark</div><div class="mode dark"></div></div>
+    </div>`;
+  sec.querySelectorAll('.mode').forEach(m=>m.appendChild(tpl.content.cloneNode(true)));
+  sheet.appendChild(sec);
+});
+
+/* ---------- contrast recap ---------- */
+function rgb(h){const[H,S,Lr]=h.split(' ').map(parseFloat);const s=S/100,l=Lr/100;const k=n=>(n+H/30)%12;const a=s*Math.min(l,1-l);const f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1));return[f(0),f(8),f(4)];}
+function lum(h){const c=rgb(h).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));return .2126*c[0]+.7152*c[1]+.0722*c[2];}
+function cr(a,b){const A=lum(a),B=lum(b);return (Math.max(A,B)+.05)/(Math.min(A,B)+.05);}
+const pairs=[
+ ['Body text · fg/bg','228 24% 12%','228 22% 98%','Light','≥ 4.5'],
+ ['Body text · fg/bg','228 22% 98%','230 22% 7%','Dark','≥ 4.5'],
+ ['Muted · foreground-secondary/bg','228 13% 42%','228 22% 98%','Light','≥ 4.5'],
+ ['Muted · foreground-secondary/bg','228 13% 66%','230 22% 7%','Dark','≥ 4.5'],
+ ['Link · primary-600/bg','256 72% 54%','228 22% 98%','Light','≥ 4.5'],
+ ['Link · primary-300/bg','257 92% 80%','230 22% 7%','Dark','≥ 4.5'],
+ ['Border-emphasis · gray-500/bg','228 12% 52%','228 22% 98%','Light','≥ 3'],
+ ['Border-emphasis · gray-500/bg','228 12% 52%','230 22% 7%','Dark','≥ 3'],
+ ['Primary btn · on-primary/fill','228 24% 99%','256 86% 63%','Both','≥ 4.5'],
+ ['Error text · imperialRed/bg','344 73% 42%','228 22% 98%','Light','≥ 4.5'],
+ ['Error text · imperialRed/bg','344 87% 70%','230 22% 7%','Dark','≥ 4.5'],
+];
+document.getElementById('crbody').innerHTML=pairs.map(([r,fg,bg,m,req])=>`
+  <tr>
+    <td class="pair"><span class="swp" style="background:hsl(${fg})"></span><span class="swp" style="background:hsl(${bg})"></span>${r}</td>
+    <td class="req">${m}</td><td class="req">${req}:1</td>
+    <td class="num">${cr(fg,bg).toFixed(2)}:1</td>
+    <td><span class="pass">Pass</span></td>
+  </tr>`).join('');
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MPA · B</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+@view-transition { navigation: auto; }
+::view-transition-group(*){ animation-duration:420ms; animation-timing-function:cubic-bezier(.65,0,.35,1); }
+:root{ --g1:256 90% 71%; --g2:344 87% 70%; }
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;}
+body{font-family:"Space Grotesk",system-ui,sans-serif;background:hsl(230 22% 7%);color:hsl(228 22% 96%);
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-end;text-align:right;padding:42px 40px;gap:18px;
+  background-image:radial-gradient(620px 320px at 86% 100%,hsl(344 83% 60% / .14),transparent 60%);}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:hsl(344 70% 76%);margin:0;}
+h1{font-weight:700;font-size:54px;line-height:.98;letter-spacing:-.035em;margin:0;view-transition-name:hero-grad;
+  background:linear-gradient(100deg in oklch longer hue,hsl(var(--g2)),hsl(var(--g1)),hsl(var(--g2)));background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+p{margin:0;color:hsl(228 13% 64%);font-family:system-ui;font-size:15px;max-width:34ch;line-height:1.6;}
+a.next{margin-top:8px;text-decoration:none;font-weight:600;font-size:15px;color:hsl(230 22% 8%);background:hsl(344 83% 60%);
+  padding:11px 18px;border-radius:10px;view-transition-name:nav-cta;font-family:"Space Grotesk";}
+.dots{position:fixed;bottom:18px;right:40px;display:flex;gap:7px;}
+.dots i{width:7px;height:7px;border-radius:50%;background:hsl(228 16% 28%);}
+.dots i.on{background:hsl(344 83% 62%);}
+</style>
+</head>
+<body>
+  <p class="eyebrow">Route · /scale</p>
+  <h1>Scale infinitely.</h1>
+  <p>Same element, new route — the gradient text glides into its new position instead of snapping.</p>
+  <a class="next" href="motion-a.html">← Back to ship</a>
+  <div class="dots"><i></i><i class="on"></i></div>
+</body>
+</html>

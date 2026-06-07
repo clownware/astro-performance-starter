@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Astro Starter — Motion System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ============================== MOTION TOKENS ============================== */
+:root{
+  --dur-fast:120ms; --dur-base:220ms; --dur-slow:420ms;
+  --ease-in:cubic-bezier(.55,.06,.68,.19);
+  --ease-out:cubic-bezier(.22,.61,.36,1);
+  --ease-inout:cubic-bezier(.65,0,.35,1);
+  /* near-monochrome dark surface */
+  --bg:230 22% 7%; --surf:228 20% 12%; --surf2:228 18% 16%;
+  --fg:228 22% 96%; --fg2:228 13% 64%; --fg3:228 12% 48%;
+  --border:228 17% 19%; --border-emph:228 12% 40%;
+  --primary:256 86% 63%; --link:257 92% 80%;
+  --g1:256 90% 71%; --g2:344 87% 70%;   /* gradient stops (dark, 400) */
+  --font-display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --font-text:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+/* register angle for conic glow (technique 4) */
+@property --glow-ang{ syntax:'<angle>'; inherits:false; initial-value:0deg; }
+
+*{box-sizing:border-box;}
+body{margin:0;font-family:var(--font-text);color:hsl(var(--fg));background:hsl(var(--bg));-webkit-font-smoothing:antialiased;position:relative;}
+/* technique 6 — grain overlay, page-wide, near-free */
+body::before{
+  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:var(--grain,.05);
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;position:relative;z-index:1;}
+
+/* top bar */
+.topbar{position:sticky;top:0;z-index:60;background:hsl(230 26% 6% / .85);backdrop-filter:blur(14px);border-bottom:1px solid hsl(228 18% 16%);}
+.topbar .wrap{display:flex;align-items:center;gap:16px;height:62px;}
+.brand{display:flex;align-items:center;gap:11px;margin-right:auto;}
+.brand .dot{width:13px;height:13px;border-radius:4px;background:linear-gradient(135deg in oklch longer hue,hsl(var(--g1)),hsl(var(--g2)));}
+.brand b{font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;color:hsl(228 22% 96%);font-size:14px;}
+.brand span{font-size:12px;color:hsl(228 14% 50%);}
+.tg{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:hsl(228 12% 56%);cursor:pointer;user-select:none;
+  background:hsl(228 18% 11%);border:1px solid hsl(228 18% 18%);border-radius:8px;padding:7px 11px;transition:.16s;}
+.tg:hover{border-color:hsl(228 18% 26%);color:hsl(228 16% 72%);}
+.tg .sw{width:30px;height:17px;border-radius:999px;background:hsl(228 18% 22%);position:relative;transition:.2s;}
+.tg .sw::after{content:"";position:absolute;top:2px;left:2px;width:13px;height:13px;border-radius:50%;background:hsl(228 14% 60%);transition:.2s var(--ease-out);}
+.tg.on .sw{background:hsl(var(--primary));}
+.tg.on .sw::after{left:15px;background:hsl(0 0% 100%);}
+@media(max-width:720px){.tg .lab{display:none;}}
+
+/* intro */
+.intro{padding:50px 0 6px;}
+.intro h1{font-family:var(--font-display);font-weight:700;font-size:clamp(30px,4.4vw,46px);letter-spacing:-.03em;margin:0 0 14px;line-height:1.02;}
+.intro h1 .gt{background:linear-gradient(100deg in oklch longer hue,hsl(var(--g1)),hsl(var(--g2)),hsl(var(--g1)));background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+.intro p{max-width:72ch;font-size:15px;line-height:1.66;color:hsl(var(--fg2));margin:0;}
+.intro p code{font-family:var(--mono);color:hsl(256 60% 78%);font-size:13px;}
+
+/* token board */
+.tokboard{margin:30px 0 8px;display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+@media(max-width:820px){.tokboard{grid-template-columns:1fr;}}
+.tokcard{background:hsl(var(--surf));border:1px solid hsl(var(--border));border-radius:16px;padding:18px 20px;}
+.tokcard h3{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:hsl(var(--fg3));margin:0 0 14px;}
+.trow{display:flex;align-items:center;gap:14px;padding:9px 0;border-top:1px solid hsl(228 18% 14%);}
+.trow:first-of-type{border-top:0;}
+.trow .nm{font-family:var(--mono);font-size:12px;color:hsl(256 60% 76%);width:120px;flex:0 0 auto;}
+.trow .vl{font-family:var(--mono);font-size:12px;color:hsl(var(--fg2));width:84px;flex:0 0 auto;}
+.trow .demo{flex:1;height:8px;border-radius:999px;background:hsl(228 18% 16%);overflow:hidden;position:relative;}
+.trow .demo i{position:absolute;top:0;left:0;height:100%;width:34%;border-radius:999px;background:hsl(var(--primary));}
+.trow.dur .demo i{animation:runDur 2.4s infinite;}
+.trow.dur.fast .demo i{animation-name:runFast;}
+.trow.dur.base .demo i{animation-name:runBase;}
+.trow.dur.slow .demo i{animation-name:runSlow;}
+@keyframes runFast{0%,8%{left:0}/* 120ms move */ 12%,58%{left:66%} 62%,100%{left:0}}
+@keyframes runBase{0%,8%{left:0} 18%,58%{left:66%} 68%,100%{left:0}}
+@keyframes runSlow{0%,8%{left:0} 32%,60%{left:66%} 84%,100%{left:0}}
+.trow .ec{flex:1;height:34px;position:relative;}
+.trow .ec b{position:absolute;top:50%;left:0;width:13px;height:13px;margin-top:-6.5px;border-radius:50%;background:hsl(var(--g1));}
+.trow.in .ec b{animation:slideEC 2.6s var(--ease-in) infinite;}
+.trow.out .ec b{animation:slideEC 2.6s var(--ease-out) infinite;}
+.trow.io .ec b{animation:slideEC 2.6s var(--ease-inout) infinite;}
+@keyframes slideEC{0%,12%{left:0}50%{left:calc(100% - 13px)}88%,100%{left:0}}
+
+/* technique sections */
+.tech{margin-top:34px;background:hsl(var(--surf));border:1px solid hsl(var(--border));border-radius:20px;overflow:hidden;}
+.tech-head{display:flex;align-items:baseline;gap:13px;flex-wrap:wrap;padding:20px 24px 0;}
+.tech-head .ix{font-family:var(--mono);font-size:13px;color:hsl(256 60% 72%);}
+.tech-head h2{font-family:var(--font-display);font-weight:600;font-size:20px;letter-spacing:-.018em;margin:0;color:hsl(228 22% 95%);}
+.tech-head .opt{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:hsl(38 90% 68%);border:1px solid hsl(38 60% 34%);background:hsl(38 60% 14% / .5);border-radius:5px;padding:3px 7px;white-space:nowrap;}
+.tech-sub{padding:6px 24px 0;font-size:13.5px;color:hsl(var(--fg2));max-width:78ch;line-height:1.6;}
+.tech-body{display:grid;grid-template-columns:1.05fr .95fr;gap:0;margin-top:18px;border-top:1px solid hsl(228 18% 14%);}
+@media(max-width:880px){.tech-body{grid-template-columns:1fr;}}
+.stage{padding:26px 24px;background:hsl(var(--bg));position:relative;min-height:230px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid hsl(228 18% 14%);}
+@media(max-width:880px){.stage{border-right:0;border-bottom:1px solid hsl(228 18% 14%);}}
+.spec{padding:22px 24px;}
+.spec pre{margin:0 0 16px;font-family:var(--mono);font-size:11.5px;line-height:1.6;color:hsl(228 16% 74%);background:hsl(230 26% 5%);border:1px solid hsl(228 18% 15%);border-radius:11px;padding:14px 15px;overflow:auto;}
+.spec pre .c{color:hsl(228 12% 42%);} .spec pre .k{color:hsl(256 62% 76%);} .spec pre .p{color:hsl(40 80% 68%);} .spec pre .v{color:hsl(344 70% 76%);}
+.maps{display:flex;flex-direction:column;gap:9px;}
+.maprow{display:flex;align-items:center;gap:10px;font-size:12px;}
+.maprow .mk{font-family:var(--mono);font-size:10.5px;color:hsl(var(--fg3));width:84px;flex:0 0 auto;letter-spacing:.04em;}
+.maprow .mv{font-family:var(--mono);font-size:11.5px;color:hsl(228 18% 78%);}
+.maprow .mv b{color:hsl(256 60% 78%);font-weight:500;}
+
+.budget{display:flex;flex-wrap:wrap;gap:7px;margin:14px 0 2px;}
+.b{font-family:var(--mono);font-size:10px;letter-spacing:.04em;padding:4px 8px;border-radius:6px;display:inline-flex;align-items:center;gap:6px;border:1px solid transparent;}
+.b::before{content:"";width:6px;height:6px;border-radius:50%;}
+.b.ok{background:hsl(150 50% 14%);color:hsl(150 60% 70%);border-color:hsl(150 40% 24%);} .b.ok::before{background:hsl(150 60% 56%);}
+.b.lo{background:hsl(228 20% 14%);color:hsl(228 18% 72%);border-color:hsl(228 20% 22%);} .b.lo::before{background:hsl(228 18% 54%);}
+.b.js{background:hsl(38 55% 14%);color:hsl(38 85% 70%);border-color:hsl(38 50% 28%);} .b.js::before{background:hsl(38 90% 60%);}
+.rmnote{font-family:var(--mono);font-size:11px;color:hsl(var(--fg3));margin-top:10px;line-height:1.5;}
+.rmnote b{color:hsl(150 55% 66%);font-weight:500;}
+
+/* ---------- stage demos ---------- */
+.demo-frame{width:100%;height:210px;border:1px solid hsl(var(--border));border-radius:13px;background:hsl(230 22% 6%);}
+.fr-cap{font-family:var(--mono);font-size:10.5px;color:hsl(var(--fg3));margin-top:9px;text-align:center;}
+
+/* frame strip (page transition diagram) */
+.strip{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:center;}
+.frame{background:hsl(230 22% 6%);border:1px solid hsl(var(--border));border-radius:11px;height:120px;padding:12px;position:relative;overflow:hidden;}
+.frame .lab{position:absolute;top:8px;left:10px;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:hsl(var(--fg3));}
+.frame .hl{position:absolute;font-family:var(--font-display);font-weight:700;font-size:19px;letter-spacing:-.03em;
+  background:linear-gradient(100deg in oklch longer hue,hsl(var(--g1)),hsl(var(--g2)));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.frame.a .hl{left:12px;bottom:14px;} .frame.b .hl{right:12px;bottom:14px;text-align:right;}
+.strip .arrow{font-family:var(--mono);font-size:11px;color:hsl(256 60% 74%);text-align:center;}
+.strip .arrow small{display:block;color:hsl(var(--fg3));font-size:9px;margin-top:3px;}
+
+/* technique 3 — scroll reveal */
+.scroller{height:210px;overflow-y:auto;border:1px solid hsl(var(--border));border-radius:13px;background:hsl(230 22% 6%);padding:14px;scrollbar-width:thin;scrollbar-color:hsl(228 18% 26%) transparent;}
+.scroller .sp{height:64px;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:10px;color:hsl(var(--fg3));}
+.rev{background:hsl(var(--surf));border:1px solid hsl(var(--border));border-radius:10px;padding:13px 15px;margin-bottom:12px;}
+.rev h5{font-family:var(--font-display);font-weight:600;font-size:14px;margin:0 0 4px;color:hsl(var(--fg));}
+.rev p{margin:0;font-size:12px;color:hsl(var(--fg2));line-height:1.5;}
+
+/* technique 4 — conic glow border */
+.glow-card{position:relative;background:hsl(var(--surf));border-radius:15px;padding:24px;width:100%;max-width:330px;margin:0 auto;border:1px solid hsl(var(--border));}
+.glow-card::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1.5px;
+  background:conic-gradient(from var(--glow-ang),hsl(var(--g1)),hsl(var(--g2)),hsl(256 86% 63%),hsl(var(--g1)));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;}
+.glow-card .gl{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:hsl(var(--fg3));margin-bottom:9px;}
+.glow-card h4{font-family:var(--font-display);font-weight:600;font-size:17px;margin:0 0 6px;color:hsl(var(--fg));}
+.glow-card p{margin:0;font-size:12.5px;color:hsl(var(--fg2));line-height:1.55;}
+
+/* technique 5 — sheen */
+.sheen-stage{display:flex;flex-direction:column;gap:20px;align-items:center;}
+.eyebrow-sheen{font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;position:relative;
+  background:linear-gradient(100deg,hsl(228 13% 50%) 0%,hsl(228 13% 50%) 40%,hsl(0 0% 100%) 50%,hsl(228 13% 50%) 60%,hsl(228 13% 50%) 100%);
+  background-size:220% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;}
+.cta-sheen{position:relative;overflow:hidden;font-family:var(--font-text);font-weight:600;font-size:14px;color:hsl(0 0% 100%);
+  background:hsl(var(--primary));border:0;border-radius:11px;padding:13px 22px;cursor:pointer;isolation:isolate;}
+.cta-sheen::after{content:"";position:absolute;inset:0;z-index:1;transform:translateX(-130%) skewX(-18deg);
+  background:linear-gradient(90deg,transparent,hsl(0 0% 100% / .42),transparent);width:55%;}
+
+/* technique 6 — grain compare */
+.grain-stage{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;}
+.gt-tile{height:190px;border-radius:13px;border:1px solid hsl(var(--border));position:relative;overflow:hidden;
+  background:hsl(230 22% 8%);background-image:radial-gradient(380px 220px at 70% 0%,hsl(256 86% 63% / .2),transparent 60%);}
+.gt-tile .tlab{position:absolute;bottom:10px;left:12px;font-family:var(--mono);font-size:10px;color:hsl(var(--fg2));z-index:2;}
+.gt-tile.on::after{content:"";position:absolute;inset:0;opacity:.07;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n2'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n2)'/%3E%3C/svg%3E");}
+
+/* technique 7 — cursor spotlight */
+.spot{position:relative;width:100%;height:210px;border:1px solid hsl(var(--border));border-radius:13px;overflow:hidden;
+  background:hsl(230 24% 6%);display:flex;align-items:center;justify-content:center;cursor:crosshair;
+  --mx:50%;--my:50%;}
+.spot::before{content:"";position:absolute;inset:0;
+  background:radial-gradient(280px circle at var(--mx) var(--my),hsl(256 86% 63% / .3),hsl(344 83% 60% / .12) 40%,transparent 66%);
+  transition:background .12s linear;}
+.spot .sp-h{position:relative;z-index:1;font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:-.03em;color:hsl(228 22% 92%);}
+.spot .sp-tag{position:absolute;top:10px;right:12px;z-index:1;font-family:var(--mono);font-size:9.5px;color:hsl(var(--fg3));}
+
+/* ---------- reduced-motion gate ---------- */
+@media (prefers-reduced-motion: no-preference){
+  body:not(.rm) .intro h1 .gt,
+  body:not(.rm) .frame .hl{ animation:sweepBg 7s linear infinite; }
+  body:not(.rm) .glow-card::before{ animation:spinGlow 6s linear infinite; }
+  body:not(.rm) .eyebrow-sheen{ animation:sweepBg 4.5s linear infinite; }
+  body:not(.rm) .cta-sheen::after{ animation:sweep5 3.4s var(--ease-inout) infinite; }
+  body:not(.rm) .rev{ animation:revealIn linear both; animation-timeline:view(); animation-range:entry 2% cover 26%; }
+}
+@keyframes sweepBg{to{background-position:200% center;}}
+@keyframes spinGlow{to{--glow-ang:360deg;}}
+@keyframes sweep5{0%,18%{transform:translateX(-130%) skewX(-18deg);}55%,100%{transform:translateX(230%) skewX(-18deg);}}
+@keyframes revealIn{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:none;}}
+/* pause-all */
+body.paused *{animation-play-state:paused !important;}
+
+footer{padding:54px 0 72px;color:hsl(228 12% 46%);font-size:12.5px;line-height:1.7;margin-top:34px;}
+footer b{color:hsl(228 16% 68%);}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><div class="dot"></div><b>Astro Starter</b><span>· Motion System · CSS-native, ≤ 1 island</span></div>
+    <div class="tg" id="tgPause"><span class="sw"></span><span class="lab">Pause all</span></div>
+    <div class="tg" id="tgRM"><span class="sw"></span><span class="lab">Simulate reduced-motion</span></div>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="intro">
+    <h1>Restraint, then <span class="gt">one bright move.</span></h1>
+    <p>Seven motion primitives — all CSS-native, compositor-cheap, and gated behind <code>prefers-reduced-motion: no-preference</code>. Total JavaScript budget: <b style="color:hsl(38 90% 70%)">one optional island</b> (the cursor spotlight). Every animation touches only <code>transform</code>, <code>opacity</code>, <code>background-position</code>, or a registered <code>&lt;angle&gt;</code> — no layout, no main-thread jank. Flip the two switches above to preview the paused and reduced-motion fallbacks.</p>
+  </div>
+
+  <!-- ================= TOKEN BOARD ================= -->
+  <div class="tokboard">
+    <div class="tokcard">
+      <h3>motion.duration</h3>
+      <div class="trow dur fast"><span class="nm">fast</span><span class="vl">120ms</span><div class="demo"><i></i></div></div>
+      <div class="trow dur base"><span class="nm">base</span><span class="vl">220ms</span><div class="demo"><i></i></div></div>
+      <div class="trow dur slow"><span class="nm">slow</span><span class="vl">420ms</span><div class="demo"><i></i></div></div>
+    </div>
+    <div class="tokcard">
+      <h3>motion.ease</h3>
+      <div class="trow ec-row in"><span class="nm">in</span><span class="vl" style="width:auto;font-size:10.5px">.55,.06,.68,.19</span><div class="ec"><b></b></div></div>
+      <div class="trow ec-row out"><span class="nm">out</span><span class="vl" style="width:auto;font-size:10.5px">.22,.61,.36,1</span><div class="ec"><b></b></div></div>
+      <div class="trow ec-row io"><span class="nm">in-out</span><span class="vl" style="width:auto;font-size:10.5px">.65,0,.35,1</span><div class="ec"><b></b></div></div>
+    </div>
+  </div>
+
+  <!-- ================= 1. PAGE TRANSITIONS ================= -->
+  <section class="tech">
+    <div class="tech-head"><span class="ix">01</span><h2>Page transitions — cross-document morph</h2></div>
+    <p class="tech-sub">Zero-JS MPA path. A document-level <code style="font-family:var(--mono);color:hsl(256 60% 78%)">@view-transition</code> makes the browser cross-fade the whole page on same-origin navigation — no router, no hydration. The live frame below is two real pages.</p>
+    <div class="tech-body">
+      <div class="stage">
+        <iframe class="demo-frame" src="motion/motion-a.html" title="MPA view-transition demo"></iframe>
+        <div class="fr-cap">live · click “Go to scale →” inside the frame (Chrome 126+)</div>
+      </div>
+      <div class="spec">
+        <pre><span class="c">/* in the document &lt;head&gt; — both pages */</span>
+<span class="k">@view-transition</span> { navigation: <span class="v">auto</span>; }
+
+<span class="c">/* tune the morph with tokens */</span>
+::view-transition-group(*) {
+  animation-duration: <span class="v">var(--dur-slow)</span>;   <span class="c">/* 420ms */</span>
+  animation-timing-function: <span class="v">var(--ease-inout)</span>;
+}</pre>
+        <div class="budget">
+          <span class="b ok">Compositor-only</span><span class="b lo">Paint: snapshot</span><span class="b ok">JS: none</span>
+        </div>
+        <div class="maps">
+          <div class="maprow"><span class="mk">duration</span><span class="mv"><b>slow</b> · 420ms</span></div>
+          <div class="maprow"><span class="mk">ease</span><span class="mv"><b>in-out</b></span></div>
+        </div>
+        <div class="rmnote"><b>JS alternative:</b> Astro <code style="font-family:var(--mono)">&lt;ClientRouter/&gt;</code> ships ~5KB + intercepts nav for SPA-style transitions. Cost: hydration + history mgmt. <b>Reduced-motion:</b> browser auto-skips to an instant cut.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 2. HEADLINE GRADIENT MORPH ================= -->
+  <section class="tech">
+    <div class="tech-head"><span class="ix">02</span><h2>Headline gradient morph across routes</h2></div>
+    <p class="tech-sub">Give the gradient headline a shared <code style="font-family:var(--mono);color:hsl(256 60% 78%)">view-transition-name</code> and the browser tweens it between its old and new position/size during the page transition above — the one expressive element glides instead of snapping.</p>
+    <div class="tech-body">
+      <div class="stage">
+        <div class="strip">
+          <div class="frame a"><span class="lab">ROUTE · /</span><span class="hl">Ship.</span></div>
+          <div class="arrow">⇢<small>tween</small></div>
+          <div class="frame b"><span class="lab">ROUTE · /scale</span><span class="hl">Scale.</span></div>
+        </div>
+        <div class="fr-cap">same <code style="font-family:var(--mono)">view-transition-name: hero-grad</code> on both routes</div>
+      </div>
+      <div class="spec">
+        <pre><span class="c">/* the gradient headline, on every route */</span>
+.hero-headline {
+  <span class="k">view-transition-name</span>: <span class="v">hero-grad</span>;
+}
+
+<span class="c">/* the named pair gets its own curve */</span>
+::view-transition-group(<span class="v">hero-grad</span>) {
+  animation-duration: <span class="v">var(--dur-slow)</span>;
+  animation-timing-function: <span class="v">var(--ease-out)</span>;
+}</pre>
+        <div class="budget">
+          <span class="b ok">Compositor-only</span><span class="b lo">Paint: 1 layer</span><span class="b ok">JS: none</span>
+        </div>
+        <div class="maps">
+          <div class="maprow"><span class="mk">duration</span><span class="mv"><b>slow</b> · 420ms</span></div>
+          <div class="maprow"><span class="mk">ease</span><span class="mv"><b>out</b> — settles, no overshoot</span></div>
+        </div>
+        <div class="rmnote"><b>Reduced-motion:</b> falls back to the page-level instant cut — headline simply appears in place.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 3. SCROLL REVEALS ================= -->
+  <section class="tech">
+    <div class="tech-head"><span class="ix">03</span><h2>Scroll-driven reveals — no IntersectionObserver</h2></div>
+    <p class="tech-sub">Native <code style="font-family:var(--mono);color:hsl(256 60% 78%)">animation-timeline: view()</code> ties the reveal to each element’s own scroll progress. No JS, no observer callbacks. Scroll the panel →</p>
+    <div class="tech-body">
+      <div class="stage">
+        <div class="scroller">
+          <div class="sp">↓ scroll</div>
+          <div class="rev"><h5>Static-first rendering</h5><p>HTML ships complete; islands hydrate on demand.</p></div>
+          <div class="rev"><h5>Edge-cached routes</h5><p>Sub-50ms TTFB from the nearest region.</p></div>
+          <div class="rev"><h5>Token-driven theming</h5><p>One source of truth, light + dark.</p></div>
+          <div class="rev"><h5>Zero-JS baseline</h5><p>Interactivity is opt-in, never default.</p></div>
+          <div class="rev"><h5>Accessible by contract</h5><p>Contrast + motion gates enforced.</p></div>
+          <div class="sp">— end —</div>
+        </div>
+      </div>
+      <div class="spec">
+        <pre>.reveal {
+  animation: <span class="v">reveal-in</span> linear both;
+  <span class="k">animation-timeline</span>: <span class="v">view()</span>;
+  <span class="k">animation-range</span>: <span class="v">entry 2% cover 26%</span>;
+}
+<span class="k">@keyframes</span> reveal-in {
+  from { opacity:0; transform:<span class="v">translateY(18px)</span>; }
+  to   { opacity:1; transform:none; }
+}</pre>
+        <div class="budget">
+          <span class="b ok">Compositor-only</span><span class="b ok">Paint: none</span><span class="b ok">JS: none</span>
+        </div>
+        <div class="maps">
+          <div class="maprow"><span class="mk">driver</span><span class="mv">scroll position, not time</span></div>
+          <div class="maprow"><span class="mk">ease</span><span class="mv"><b>out</b> via range shaping</span></div>
+        </div>
+        <div class="rmnote"><b>Reduced-motion:</b> the keyframe block is gated, so items render at their resting state — fully visible, no transform.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 4. CONIC GLOW BORDER ================= -->
+  <section class="tech">
+    <div class="tech-head"><span class="ix">04</span><h2>Animated conic glow border</h2></div>
+    <p class="tech-sub">Reuses the registered <code style="font-family:var(--mono);color:hsl(256 60% 78%)">@property &lt;angle&gt;</code> trick from <code style="font-family:var(--mono);color:hsl(256 60% 78%)">AnimatedGradientText</code>. A conic gradient rotates around a masked 1.5px ring — the only decorative loop in the system, reserved for one featured item per view.</p>
+    <div class="tech-body">
+      <div class="stage">
+        <div class="glow-card">
+          <div class="gl">Featured</div>
+          <h4>Edge runtime</h4>
+          <p>One rotating conic gradient, masked to the border. Animating a registered custom property stays off the main thread.</p>
+        </div>
+      </div>
+      <div class="spec">
+        <pre><span class="k">@property</span> --glow-ang {
+  syntax: <span class="v">'&lt;angle&gt;'</span>; inherits: false; initial-value: <span class="v">0deg</span>;
+}
+.glow::before {                <span class="c">/* masked ring */</span>
+  background: <span class="p">conic-gradient</span>(from <span class="v">var(--glow-ang)</span>,
+              hsl(var(--g1)), hsl(var(--g2)), hsl(var(--g1)));
+  animation: spin <span class="v">6s</span> linear infinite;
+}
+<span class="k">@keyframes</span> spin { to { --glow-ang: <span class="v">360deg</span>; } }</pre>
+        <div class="budget">
+          <span class="b ok">Compositor-only</span><span class="b js">Paint: conic / low</span><span class="b ok">JS: none</span>
+        </div>
+        <div class="maps">
+          <div class="maprow"><span class="mk">duration</span><span class="mv">6s loop (decorative)</span></div>
+          <div class="maprow"><span class="mk">scope</span><span class="mv">≤ 1 featured item / view</span></div>
+        </div>
+        <div class="rmnote"><b>Reduced-motion:</b> rotation stops; the ring holds a static gradient angle — still a lit border, just not spinning.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 5. TEXT SHEEN ================= -->
+  <section class="tech">
+    <div class="tech-head"><span class="ix">05</span><h2>Text sheen / CTA shimmer</h2></div>
+    <p class="tech-sub">A single specular pass. The eyebrow uses a clipped-text highlight sweep; the hero CTA gets a skewed light bar crossing on a slow loop. Subtle — one moving highlight, never a strobe.</p>
+    <div class="tech-body">
+      <div class="stage">
+        <div class="sheen-stage">
+          <span class="eyebrow-sheen">Now in public beta</span>
+          <button class="cta-sheen">Deploy your first site</button>
+        </div>
+      </div>
+      <div class="spec">
+        <pre><span class="c">/* eyebrow: moving highlight in a clipped gradient */</span>
+.eyebrow {
+  background: linear-gradient(100deg, #777 40%, <span class="v">#fff 50%</span>, #777 60%);
+  background-size: <span class="v">220% 100%</span>; <span class="k">-webkit-background-clip</span>: text;
+  animation: sweep <span class="v">4.5s</span> linear infinite;
+}
+<span class="c">/* CTA: skewed specular bar */</span>
+.cta::after { transform: translateX(-130%) skewX(-18deg);
+  animation: sheen <span class="v">3.4s</span> var(--ease-inout) infinite; }</pre>
+        <div class="budget">
+          <span class="b ok">Compositor-only</span><span class="b ok">Paint: none</span><span class="b ok">JS: none</span>
+        </div>
+        <div class="maps">
+          <div class="maprow"><span class="mk">duration</span><span class="mv">4.5s / 3.4s loops</span></div>
+          <div class="maprow"><span class="mk">ease</span><span class="mv"><b>in-out</b> for the bar</span></div>
+        </div>
+        <div class="rmnote"><b>Reduced-motion:</b> both loops gated off — eyebrow sits at its base grey, CTA shows no bar.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 6. GRAIN OVERLAY ================= -->
+  <section class="tech">
+    <div class="tech-head"><span class="ix">06</span><h2>Fine grain / “expensive dark” texture</h2></div>
+    <p class="tech-sub">An inline <code style="font-family:var(--mono);color:hsl(256 60% 78%)">feTurbulence</code> SVG at ~5% opacity over the dark surface. Static (no animation), tiled, GPU-composited — it costs one fixed layer and reads as premium depth. Toggle to compare.</p>
+    <div class="tech-body">
+      <div class="stage">
+        <div class="grain-stage">
+          <div class="gt-tile on"><span class="tlab">grain · 7%</span></div>
+          <div class="gt-tile"><span class="tlab">flat (off)</span></div>
+        </div>
+      </div>
+      <div class="spec">
+        <pre>body::before {
+  content:""; position:fixed; inset:0; pointer-events:none;
+  opacity: <span class="v">.05</span>;
+  background-image: url("data:image/svg+xml,
+    &lt;svg&gt;&lt;filter id='n'&gt;<span class="p">feTurbulence</span>
+       type='fractalNoise' baseFrequency='<span class="v">.85</span>'
+       numOctaves='2' stitchTiles='stitch'/&gt;
+    &lt;rect filter='url(%23n)'/&gt;&lt;/svg&gt;");
+}</pre>
+        <div class="budget">
+          <span class="b ok">Compositor-only</span><span class="b ok">Paint: 1 static layer</span><span class="b ok">JS: none</span>
+        </div>
+        <div class="maps">
+          <div class="maprow"><span class="mk">animation</span><span class="mv">none — static texture</span></div>
+          <div class="maprow"><span class="mk">cost</span><span class="mv">~3KB inline, cached once</span></div>
+        </div>
+        <div class="rmnote"><b>Reduced-motion:</b> unaffected — it never moves. Safe at all times.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= 7. CURSOR SPOTLIGHT (ISLAND) ================= -->
+  <section class="tech">
+    <div class="tech-head"><span class="ix">07</span><h2>Cursor spotlight</h2><span class="opt">Optional island · the only JS</span></div>
+    <p class="tech-sub">A radial glow that tracks the pointer on the hero only. The island is ~12 lines: one <code style="font-family:var(--mono);color:hsl(256 60% 78%)">pointermove</code> listener writing two CSS vars, rAF-throttled. This is the entire JS motion budget — nothing else hydrates.</p>
+    <div class="tech-body">
+      <div class="stage">
+        <div class="spot" id="spot">
+          <span class="sp-tag">move your cursor →</span>
+          <span class="sp-h">Hover the hero</span>
+        </div>
+      </div>
+      <div class="spec">
+        <pre><span class="c">/* CSS does the rendering; JS only feeds 2 vars */</span>
+.hero::before { background:
+  radial-gradient(280px circle at <span class="v">var(--mx) var(--my)</span>,
+    hsl(var(--g1)/.3), transparent 66%); }
+
+<span class="c">/* island.js — load: client:idle */</span>
+<span class="k">let</span> q; el.addEventListener('pointermove', e =&gt; {
+  <span class="k">if</span>(q) <span class="k">return</span>; q = requestAnimationFrame(() =&gt; {
+    el.style.setProperty('--mx', e.offsetX+'px');
+    el.style.setProperty('--my', e.offsetY+'px'); q=0; }); });</pre>
+        <div class="budget">
+          <span class="b ok">Compositor-only</span><span class="b lo">Paint: 1 gradient</span><span class="b js">JS: 1 island (~0.4KB)</span>
+        </div>
+        <div class="maps">
+          <div class="maprow"><span class="mk">load</span><span class="mv"><b>client:idle</b> — never blocks paint</span></div>
+          <div class="maprow"><span class="mk">throttle</span><span class="mv">requestAnimationFrame</span></div>
+        </div>
+        <div class="rmnote"><b>No-JS / reduced-motion fallback:</b> the island never mounts; <code style="font-family:var(--mono)">--mx/--my</code> stay at <code style="font-family:var(--mono)">50% 50%</code> so a soft <b>static centered glow</b> renders. Nothing is lost, nothing moves.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <b>Motion budget, summed.</b> Six of seven techniques are 100% CSS, compositor-only, and gated behind <code style="font-family:var(--mono)">prefers-reduced-motion</code>. One optional island (cursor spotlight, ~0.4KB, <code style="font-family:var(--mono)">client:idle</code>) is the entire JavaScript surface. Decorative loops are capped: one conic border + two slow sheens, all pausable. Durations and easings map 1:1 to <code style="font-family:var(--mono)">motion.duration</code> / <code style="font-family:var(--mono)">motion.ease</code> in <code style="font-family:var(--mono)">base.json</code>.
+  </footer>
+</div>
+
+<script>
+/* page controls: pause-all + simulate reduced-motion */
+const tgPause=document.getElementById('tgPause'), tgRM=document.getElementById('tgRM');
+tgPause.onclick=()=>{tgPause.classList.toggle('on');document.body.classList.toggle('paused');};
+tgRM.onclick=()=>{tgRM.classList.toggle('on');document.body.classList.toggle('rm');};
+
+/* technique 7 — the single optional island (rAF-throttled pointer spotlight) */
+(function(){
+  const el=document.getElementById('spot'); if(!el) return;
+  let q=0;
+  el.addEventListener('pointermove',e=>{
+    if(q) return;
+    q=requestAnimationFrame(()=>{
+      const r=el.getBoundingClientRect();
+      el.style.setProperty('--mx',(e.clientX-r.left)+'px');
+      el.style.setProperty('--my',(e.clientY-r.top)+'px');
+      q=0;
+    });
+  });
+  el.addEventListener('pointerleave',()=>{el.style.setProperty('--mx','50%');el.style.setProperty('--my','50%');});
+})();
+</script>
+</body>
+</html>

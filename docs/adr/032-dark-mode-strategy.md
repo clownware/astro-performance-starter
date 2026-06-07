@@ -1,10 +1,10 @@
 ---
-title: 'ADR-032: Dark Mode Strategy — Class-Based Toggle with System Preference'
-lastUpdated: 2026-02-18T00:00:00.000Z
+title: 'ADR-032: Dark Mode Strategy — Class-Based Toggle, Dark-First Default'
+lastUpdated: 2026-06-06T00:00:00.000Z
 description: >-
-  Documents the decision to use Tailwind's darkMode: "class" strategy with
-  a small inline script for system preference detection, rather than the
-  CSS-only "media" strategy.
+  Documents the decision to use Tailwind's darkMode: "class" strategy with a
+  small inline script, rather than the CSS-only "media" strategy. Amended for the
+  v2 design language: dark is the default when no preference is stored.
 tableOfContents: true
 pagefind: true
 ---
@@ -93,6 +93,14 @@ html:has(input[data-theme-toggle]:checked) { /* dark styles */ }
 
 The inline script is placed as the first child of `<head>` to run synchronously before any rendering occurs. This eliminates the flash of incorrect theme (FOIT) that would occur if the script were deferred or loaded asynchronously.
 
+### Amendment (ADR-047): dark-first default
+
+The v2 cold-minimal design language is **dark-first** — dark is the intended default
+presentation, not merely a system-preference echo. The inline script therefore defaults to
+dark whenever no explicit preference is stored, and only renders light when the user has
+explicitly chosen it. System `prefers-color-scheme` no longer drives the default (an
+explicit user choice still wins, persisted in `localStorage`).
+
 ### Implementation
 
 `src/components/ThemeSetup.astro` contains the inline script:
@@ -103,9 +111,9 @@ The inline script is placed as the first child of `<head>` to run synchronously 
 ---
 <script is:inline>
   (function () {
+    // Dark-first: default to dark unless the user has explicitly stored 'light'.
     const stored = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (stored === 'dark' || (!stored && prefersDark)) {
+    if (stored !== 'light') {
       document.documentElement.classList.add('dark');
     }
   })();
@@ -147,7 +155,7 @@ This means the class-based strategy is required — the token system cannot be c
 - No flash of incorrect theme — inline script runs before paint
 - User preference persists across sessions via `localStorage`
 - Manual toggle supported without additional JS overhead
-- System preference respected as the default when no stored preference exists
+- Dark-first default matches the v2 design language's intended presentation
 
 ### Negative
 
@@ -162,8 +170,8 @@ This means the class-based strategy is required — the token system cannot be c
 ## Validation
 
 - **No FOIT**: Dark-mode users must not see a white flash on page load
-- **Persistence**: Toggling dark mode and reloading must preserve the choice
-- **System preference**: First visit with no stored preference must match OS theme
+- **Persistence**: Toggling theme and reloading must preserve the choice
+- **Dark-first default**: First visit with no stored preference must render dark
 - **Lighthouse**: Inline script must not appear as a render-blocking resource warning
 
 ## References

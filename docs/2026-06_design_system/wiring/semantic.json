@@ -1,0 +1,118 @@
+{
+  "semantic": {
+    "primary": {
+      "50": {
+        "value": "{color.violet.50}"
+      },
+      "100": {
+        "value": "{color.violet.100}"
+      },
+      "200": {
+        "value": "{color.violet.200}"
+      },
+      "300": {
+        "value": "{color.violet.300}"
+      },
+      "400": {
+        "value": "{color.violet.400}"
+      },
+      "500": {
+        "value": "{color.violet.500}"
+      },
+      "600": {
+        "value": "{color.violet.600}"
+      },
+      "700": {
+        "value": "{color.violet.700}"
+      },
+      "800": {
+        "value": "{color.violet.800}"
+      },
+      "900": {
+        "value": "{color.violet.900}"
+      },
+      "950": {
+        "value": "{color.violet.950}"
+      }
+    },
+    "secondary": {
+      "50": {
+        "value": "{color.rose.50}"
+      },
+      "100": {
+        "value": "{color.rose.100}"
+      },
+      "200": {
+        "value": "{color.rose.200}"
+      },
+      "300": {
+        "value": "{color.rose.300}"
+      },
+      "400": {
+        "value": "{color.rose.400}"
+      },
+      "500": {
+        "value": "{color.rose.500}"
+      },
+      "600": {
+        "value": "{color.rose.600}"
+      },
+      "700": {
+        "value": "{color.rose.700}"
+      },
+      "800": {
+        "value": "{color.rose.800}"
+      },
+      "900": {
+        "value": "{color.rose.900}"
+      },
+      "950": {
+        "value": "{color.rose.950}"
+      }
+    },
+    "background": {
+      "value": "{color.slate.50}",
+      "dark": "{color.spaceCadet}"
+    },
+    "surface": {
+      "value": "{color.white}",
+      "dark": "{color.slate.900}"
+    },
+    "foreground": {
+      "value": "{color.charcoal}",
+      "dark": "{color.slate.50}"
+    },
+    "mutedForeground": {
+      "value": "{color.slate.600}",
+      "dark": "{color.slate.400}"
+    },
+    "border": {
+      "value": "{color.slate.200}",
+      "dark": "{color.slate.800}"
+    },
+    "borderEmphasis": {
+      "value": "{color.slate.500}",
+      "dark": "{color.slate.500}"
+    },
+    "primaryForeground": {
+      "value": "{color.white}",
+      "dark": "{color.white}"
+    },
+    "link": {
+      "value": "{color.violet.600}",
+      "dark": "{color.violet.300}"
+    },
+    "success": {
+      "value": "{color.violet.600}",
+      "dark": "{color.violet.400}"
+    },
+    "warning": {
+      "value": "{color.amber.700}",
+      "dark": "{color.amber.500}"
+    },
+    "error": {
+      "value": "{color.rose.700}",
+      "dark": "{color.rose.400}"
+    }
+  }
+}

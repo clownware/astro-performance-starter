@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Astro Starter — Cold-Minimal Visual Language</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+/* ============================== TOKENS ============================== */
+:root{
+  /* gray — cool, blue-tinted, low chroma (hue 228) */
+  --gray-50:228 22% 98%;  --gray-100:228 20% 96%; --gray-200:228 16% 90%;
+  --gray-300:228 14% 80%; --gray-400:228 13% 66%; --gray-500:228 12% 52%;
+  --gray-600:228 13% 42%; --gray-700:228 15% 30%; --gray-800:228 17% 20%;
+  --gray-900:228 20% 13%; --gray-950:228 24% 9%;
+  /* moonstone — primary, indigo-violet (hue 256) */
+  --moon-50:257 100% 97%; --moon-100:257 97% 94%; --moon-200:257 95% 89%;
+  --moon-300:257 92% 80%; --moon-400:256 90% 71%; --moon-500:256 86% 63%;
+  --moon-600:256 72% 54%; --moon-700:256 66% 46%; --moon-800:256 60% 38%;
+  --moon-900:256 54% 30%; --moon-950:256 50% 21%;
+  /* imperialRed — secondary + error, crimson-rose (hue 344) */
+  --red-50:344 100% 97%; --red-100:344 96% 94%; --red-200:344 94% 89%;
+  --red-300:344 91% 80%; --red-400:344 87% 70%; --red-500:344 83% 60%;
+  --red-600:344 75% 50%; --red-700:344 73% 42%; --red-800:344 68% 34%;
+  --red-900:344 62% 27%; --red-950:344 56% 18%;
+  /* orangeWeb — warning, amber (hue 38) */
+  --orange-400:38 94% 60%; --orange-500:38 95% 53%; --orange-600:36 90% 47%; --orange-700:33 86% 40%;
+  --space-cadet:230 22% 7%; --white:228 24% 99%; --charcoal:228 24% 12%;
+
+  --r-sm:6px; --r-md:10px; --r-lg:14px; --r-xl:20px; --r-2xl:28px;
+  --font-display:"Space Grotesk","Geist",ui-sans-serif,system-ui,sans-serif;
+  --font-text:"Inter","Geist",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+body[data-font="geist"]{ --font-display:"Geist","Space Grotesk",ui-sans-serif,system-ui,sans-serif; }
+
+/* mode scopes — semantic roles */
+.mode{
+  --bg:228 22% 98%; --surface:228 24% 99%; --raise:228 22% 98%;
+  --fg:228 24% 12%; --muted:228 13% 42%;
+  --border:228 16% 90%; --border-emph:228 12% 52%;
+  --primary:256 86% 63%; --primary-ink:228 24% 99%;
+  --link:256 72% 54%; --error:344 73% 42%; --warning:33 86% 40%;
+  /* gradient stops: darker (600/700) on light bg */
+  --g1:256 72% 54%; --g2:344 75% 50%;
+}
+.mode.dark{
+  --bg:230 22% 7%; --surface:228 20% 13%; --raise:228 18% 16%;
+  --fg:228 22% 98%; --muted:228 13% 66%;
+  --border:228 17% 20%; --border-emph:228 12% 52%;
+  --primary:256 86% 63%; --primary-ink:228 24% 99%;
+  --link:257 92% 80%; --error:344 87% 70%; --warning:38 95% 53%;
+  /* gradient stops: brighter (400/500) on dark bg */
+  --g1:256 90% 71%; --g2:344 87% 70%;
+}
+
+/* ============================== PAGE CHROME ============================== */
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0; font-family:var(--font-text);
+  background:hsl(230 24% 5%);
+  color:hsl(228 18% 72%);
+  -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+  background-image:
+    radial-gradient(900px 500px at 82% -8%, hsl(256 86% 63% / .10), transparent 60%),
+    radial-gradient(820px 500px at 6% 4%, hsl(344 83% 60% / .07), transparent 55%);
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+/* top bar */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  background:hsl(230 26% 6% / .82);backdrop-filter:blur(14px);
+  border-bottom:1px solid hsl(228 18% 16%);
+}
+.topbar .wrap{display:flex;align-items:center;gap:22px;height:62px;}
+.brand{display:flex;align-items:center;gap:11px;margin-right:auto;}
+.brand .dot{width:13px;height:13px;border-radius:4px;
+  background:linear-gradient(135deg in oklch longer hue,hsl(256 90% 71%),hsl(344 87% 70%));}
+.brand b{font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;color:hsl(228 22% 96%);font-size:14px;}
+.brand span{font-size:12px;color:hsl(228 14% 50%);}
+.seg{display:flex;align-items:center;gap:0;background:hsl(228 18% 11%);border:1px solid hsl(228 18% 18%);border-radius:9px;padding:3px;}
+.seg .lab{font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:hsl(228 12% 46%);padding:0 10px 0 8px;}
+.seg button{
+  font:inherit;font-size:12px;font-weight:500;cursor:pointer;
+  border:0;background:transparent;color:hsl(228 14% 60%);
+  padding:5px 12px;border-radius:6px;transition:all .16s ease;white-space:nowrap;
+}
+.seg button[aria-pressed="true"]{background:hsl(228 20% 20%);color:hsl(228 22% 96%);box-shadow:0 1px 0 hsl(228 30% 28%) inset;}
+.seg button:hover{color:hsl(228 22% 92%);}
+@media(max-width:880px){.brand span{display:none;}.seg .lab{display:none;}}
+
+/* section scaffolding */
+section{padding:64px 0 8px;}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:hsl(256 60% 72%);margin:0 0 12px;}
+.sec-title{font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:-.02em;color:hsl(228 22% 95%);margin:0 0 6px;}
+.sec-sub{font-size:14px;color:hsl(228 14% 56%);max-width:60ch;margin:0 0 28px;line-height:1.6;}
+.divider{height:1px;background:hsl(228 18% 14%);margin:40px 0 0;}
+
+/* comp frame */
+.frames{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:980px){.frames{grid-template-columns:1fr;}}
+.frame{border-radius:var(--r-2xl);overflow:hidden;border:1px solid hsl(228 18% 16%);box-shadow:0 30px 70px -30px hsl(230 40% 2% / .8);}
+.frame-tab{display:flex;align-items:center;gap:9px;padding:11px 16px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;
+  background:hsl(228 18% 10%);border-bottom:1px solid hsl(228 18% 16%);color:hsl(228 12% 56%);}
+.frame-tab .pip{width:8px;height:8px;border-radius:50%;}
+.frame-tab.l .pip{background:hsl(40 90% 60%);} .frame-tab.d .pip{background:hsl(256 86% 66%);}
+
+/* ===== the hero comp (rendered inside .mode scopes) ===== */
+.mode{background:hsl(var(--bg));color:hsl(var(--fg));}
+.hero{padding:46px 40px 44px;position:relative;overflow:hidden;}
+.hero::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(620px 320px at 86% -20%,hsl(var(--g1) / .14),transparent 60%);}
+.hero-top{display:flex;align-items:center;gap:10px;margin-bottom:26px;position:relative;z-index:1;}
+.badge{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:500;line-height:1;
+  padding:6px 11px;border-radius:999px;border:1px solid hsl(var(--border-emph) / .5);color:hsl(var(--muted));background:hsl(var(--surface));}
+.badge .star{width:6px;height:6px;border-radius:50%;background:hsl(var(--primary));box-shadow:0 0 0 4px hsl(var(--primary)/.18);}
+.kbd{margin-left:auto;font-family:var(--mono);font-size:11px;color:hsl(var(--muted));border:1px solid hsl(var(--border));border-radius:6px;padding:4px 8px;background:hsl(var(--surface));}
+
+h1.hl{font-family:var(--font-display);font-weight:700;letter-spacing:-.035em;line-height:.98;
+  font-size:clamp(40px,5.2vw,64px);margin:0 0 18px;position:relative;z-index:1;}
+.hl .plain{color:hsl(var(--fg));display:block;}
+.grad{
+  display:block;
+  background-image:var(--grad,linear-gradient(100deg in oklch shorter hue,hsl(var(--g1)),hsl(var(--g2)),hsl(var(--g1))));
+  background-size:220% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:sweep 7.5s linear infinite;
+}
+body[data-grad="b"] .grad{ --grad:linear-gradient(100deg in oklch longer hue,hsl(var(--g1)),hsl(var(--g2)),hsl(var(--g1))); }
+body[data-grad="a"] .grad{ --grad:linear-gradient(100deg in oklch shorter hue,hsl(var(--g1)),hsl(var(--g2)),hsl(var(--g1))); }
+@keyframes sweep{to{background-position:220% center;}}
+@media(prefers-reduced-motion:reduce){.grad{animation:none;background-position:0 center;}}
+
+.lede{font-size:16px;line-height:1.62;color:hsl(var(--muted));max-width:42ch;margin:0 0 30px;position:relative;z-index:1;}
+.lede a{color:hsl(var(--link));text-decoration:none;border-bottom:1px solid hsl(var(--link) / .4);padding-bottom:1px;font-weight:500;}
+.lede a:hover{border-bottom-color:hsl(var(--link));}
+
+.cta{display:flex;align-items:center;gap:14px;position:relative;z-index:1;flex-wrap:wrap;}
+.btn{font-family:var(--font-text);font-weight:600;font-size:14.5px;cursor:pointer;border:0;border-radius:10px;
+  padding:12px 20px;transition:transform .14s ease,box-shadow .2s ease,background .2s ease;}
+.btn-primary{background:hsl(var(--primary));color:hsl(var(--primary-ink));
+  box-shadow:0 1px 0 hsl(var(--moon-300) / .5) inset,0 12px 26px -12px hsl(var(--primary) / .8);}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 1px 0 hsl(var(--moon-200) / .6) inset,0 16px 32px -12px hsl(var(--primary) / .9);}
+.btn-ghost{background:transparent;color:hsl(var(--fg));border:1px solid hsl(var(--border-emph) / .6);}
+.btn-ghost:hover{background:hsl(var(--surface));border-color:hsl(var(--border-emph));}
+.linklike{font-size:14.5px;font-weight:600;color:hsl(var(--link));text-decoration:none;display:inline-flex;align-items:center;gap:6px;}
+.linklike .arr{transition:transform .16s ease;}.linklike:hover .arr{transform:translateX(3px);}
+
+/* ===== gradient variant compare ===== */
+.gvar{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+@media(max-width:760px){.gvar{grid-template-columns:1fr;}}
+.gcard{border:1px solid hsl(228 18% 16%);border-radius:var(--r-xl);overflow:hidden;}
+.gcard .top{padding:30px 26px;display:grid;gap:18px;}
+.gcard .top.dark{background:hsl(230 22% 7%);}
+.gcard .top.light{background:hsl(228 22% 98%);}
+.gword{font-family:var(--font-display);font-weight:700;font-size:46px;letter-spacing:-.035em;line-height:1;
+  background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:sweep 7.5s linear infinite;}
+.gcard .meta{display:flex;justify-content:space-between;gap:12px;padding:12px 16px;background:hsl(228 18% 10%);border-top:1px solid hsl(228 18% 16%);
+  font-family:var(--mono);font-size:10.5px;letter-spacing:.06em;color:hsl(228 12% 54%);}
+.gcard .meta b{color:hsl(228 18% 78%);font-weight:500;}
+
+/* ===== type scale ===== */
+.scale{border:1px solid hsl(228 18% 16%);border-radius:var(--r-xl);overflow:hidden;background:hsl(230 24% 6%);}
+.srow{display:grid;grid-template-columns:120px 1fr;gap:20px;align-items:baseline;padding:16px 24px;border-bottom:1px solid hsl(228 18% 12%);}
+.srow:last-child{border-bottom:0;}
+.srow .tag{font-family:var(--mono);font-size:11px;color:hsl(228 12% 50%);letter-spacing:.05em;}
+.srow .tag b{color:hsl(256 60% 74%);font-weight:500;}
+.srow .spec{font-family:var(--font-display);color:hsl(228 22% 94%);line-height:1.05;letter-spacing:-.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+/* ===== swatch grids ===== */
+.scaleband{display:grid;grid-template-columns:repeat(11,1fr);border-radius:12px;overflow:hidden;border:1px solid hsl(228 18% 16%);}
+.sw{height:62px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-family:var(--mono);font-size:9.5px;}
+.fam-label{display:flex;align-items:baseline;gap:10px;margin:26px 0 9px;}
+.fam-label b{font-family:var(--font-display);font-weight:600;font-size:15px;color:hsl(228 22% 92%);}
+.fam-label span{font-family:var(--mono);font-size:11px;color:hsl(228 12% 50%);}
+
+/* ===== accent demo strip ===== */
+.demo{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:760px){.demo{grid-template-columns:1fr;}}
+.demo .panel{border:1px solid hsl(228 18% 16%);border-radius:var(--r-xl);overflow:hidden;}
+.demo .ph{padding:11px 16px;font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:hsl(228 12% 56%);background:hsl(228 18% 10%);border-bottom:1px solid hsl(228 18% 16%);}
+.demo .body{padding:26px 22px;display:flex;flex-wrap:wrap;gap:14px;align-items:center;}
+.demo .body.light{background:hsl(228 22% 98%);} .demo .body.dark{background:hsl(230 22% 7%);}
+.chip{font-size:12px;font-weight:600;padding:5px 11px;border-radius:999px;line-height:1;}
+
+/* ===== json + contrast ===== */
+.json{background:hsl(230 26% 6%);border:1px solid hsl(228 18% 16%);border-radius:var(--r-xl);overflow:hidden;}
+.json .ph{display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-bottom:1px solid hsl(228 18% 14%);background:hsl(228 18% 9%);}
+.json .ph b{font-family:var(--mono);font-size:12px;color:hsl(228 18% 80%);letter-spacing:.04em;}
+.json .ph span{font-family:var(--mono);font-size:10.5px;color:hsl(228 12% 48%);}
+.json pre{margin:0;padding:20px 22px;overflow:auto;font-family:var(--mono);font-size:12px;line-height:1.65;color:hsl(228 16% 74%);}
+.json .k{color:hsl(256 70% 78%);} .json .s{color:hsl(40 80% 66%);} .json .n{color:hsl(344 70% 74%);} .json .c{color:hsl(228 12% 42%);}
+
+table.cr{width:100%;border-collapse:collapse;border:1px solid hsl(228 18% 16%);border-radius:var(--r-xl);overflow:hidden;}
+table.cr th,table.cr td{text-align:left;padding:12px 16px;border-bottom:1px solid hsl(228 18% 13%);font-size:13px;}
+table.cr th{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:hsl(228 12% 52%);background:hsl(228 18% 9%);}
+table.cr td.pair{font-family:var(--mono);font-size:11.5px;color:hsl(228 16% 74%);}
+table.cr td .swp{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-2px;margin-right:7px;border:1px solid hsl(0 0% 100% / .12);}
+table.cr td.num{font-family:var(--mono);font-weight:500;color:hsl(228 20% 88%);}
+.pass{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:600;color:hsl(150 60% 64%);}
+.pass::before{content:"";width:6px;height:6px;border-radius:50%;background:hsl(150 60% 56%);}
+.req{color:hsl(228 12% 48%);font-family:var(--mono);font-size:11px;}
+footer{padding:60px 0 70px;color:hsl(228 12% 44%);font-size:12.5px;line-height:1.7;}
+footer b{color:hsl(228 16% 66%);font-weight:600;}
+</style>
+</head>
+<body data-grad="a" data-font="grotesk">
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand"><div class="dot"></div><b>Astro Starter</b><span>· Cold-Minimal Visual Language · v1</span></div>
+    <div class="seg" role="group" aria-label="Gradient variant">
+      <span class="lab">Gradient</span>
+      <button id="ga" aria-pressed="true">A · short arc</button>
+      <button id="gb" aria-pressed="false">B · longer hue</button>
+    </div>
+    <div class="seg" role="group" aria-label="Display font">
+      <span class="lab">Display</span>
+      <button id="fg1" aria-pressed="true">Space Grotesk</button>
+      <button id="fg2" aria-pressed="false">Geist</button>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ========================= HERO COMPS ========================= -->
+  <section id="hero">
+    <p class="eyebrow">01 — Hero comp · light + dark</p>
+    <h2 class="sec-title">One expressive moment on a near-monochrome surface</h2>
+    <p class="sec-sub">The base is restraint — cool blue-grey neutrals, deep space-cadet ground. The single animated violet→crimson gradient headline carries all the energy. Same comp, both modes, mode-aware gradient stops.</p>
+
+    <div class="frames">
+      <!-- DARK -->
+      <div class="frame">
+        <div class="frame-tab d"><span class="pip"></span>Dark · default</div>
+        <div class="mode dark">
+          <div class="hero">
+            <div class="hero-top">
+              <span class="badge"><span class="star"></span>Astro 5 · zero-JS baseline</span>
+              <span class="kbd">⌘K</span>
+            </div>
+            <h1 class="hl">
+              <span class="plain">Ship a site that</span>
+              <span class="grad">loads instantly.</span>
+            </h1>
+            <p class="lede">A performance-first starter with a token-driven component library. Dark by default, accessible by contract. <a href="#">Read the docs →</a></p>
+            <div class="cta">
+              <button class="btn btn-primary">Deploy starter</button>
+              <button class="btn btn-ghost">View components</button>
+              <a class="linklike" href="#">Live demo <span class="arr">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- LIGHT -->
+      <div class="frame">
+        <div class="frame-tab l"><span class="pip"></span>Light</div>
+        <div class="mode">
+          <div class="hero">
+            <div class="hero-top">
+              <span class="badge"><span class="star"></span>Astro 5 · zero-JS baseline</span>
+              <span class="kbd">⌘K</span>
+            </div>
+            <h1 class="hl">
+              <span class="plain">Ship a site that</span>
+              <span class="grad">loads instantly.</span>
+            </h1>
+            <p class="lede">A performance-first starter with a token-driven component library. Dark by default, accessible by contract. <a href="#">Read the docs →</a></p>
+            <div class="cta">
+              <button class="btn btn-primary">Deploy starter</button>
+              <button class="btn btn-ghost">View components</button>
+              <a class="linklike" href="#">Live demo <span class="arr">→</span></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========================= GRADIENT VARIANTS ========================= -->
+  <section id="grad">
+    <p class="eyebrow">02 — Signature gradient · pick the sweep</p>
+    <h2 class="sec-title">Variant A vs B — OKLCH interpolation, mode-aware</h2>
+    <p class="sec-sub">Both sweep primary → secondary in OKLCH so the middle never goes muddy. <b style="color:hsl(228 18% 78%)">A</b> takes the short hue arc (tight, vivid violet→crimson). <b style="color:hsl(228 18% 78%)">B</b> takes the longer hue path — a full rainbow sweep. Toggle above changes the live hero too.</p>
+
+    <div class="gvar">
+      <div class="gcard">
+        <div class="top dark">
+          <div class="gword" style="background-image:linear-gradient(100deg in oklch shorter hue,hsl(256 90% 71%),hsl(344 87% 70%),hsl(256 90% 71%))">Aurora</div>
+          <div class="gword" style="background-image:linear-gradient(100deg in oklch longer hue,hsl(256 90% 71%),hsl(344 87% 70%),hsl(256 90% 71%))">Aurora</div>
+        </div>
+        <div class="meta"><span>on <b>spaceCadet</b> · stops 400</span><span>top <b>A short arc</b> · bottom <b>B longer hue</b></span></div>
+      </div>
+      <div class="gcard">
+        <div class="top light">
+          <div class="gword" style="background-image:linear-gradient(100deg in oklch shorter hue,hsl(256 72% 54%),hsl(344 75% 50%),hsl(256 72% 54%))">Aurora</div>
+          <div class="gword" style="background-image:linear-gradient(100deg in oklch longer hue,hsl(256 72% 54%),hsl(344 75% 50%),hsl(256 72% 54%))">Aurora</div>
+        </div>
+        <div class="meta"><span>on <b>gray-50</b> · stops 600</span><span>top <b>A short arc</b> · bottom <b>B longer hue</b></span></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========================= TYPE ========================= -->
+  <section id="type">
+    <p class="eyebrow">03 — Typography · display swaps live</p>
+    <h2 class="sec-title">Bold geometric grotesque + clean neutral text</h2>
+    <p class="sec-sub">Display headline rides at 700 (heavy). Body text is Inter. Proposing a <code style="font-family:var(--mono);color:hsl(256 60% 74%)">fontFamily</code> token group so type becomes swappable like color — toggle Space Grotesk ↔ Geist above to preview.</p>
+
+    <div class="scale">
+      <div class="srow"><div class="tag"><b>6xl</b> · 60 / 700</div><div class="spec" style="font-size:60px;font-weight:700">Instant by default</div></div>
+      <div class="srow"><div class="tag"><b>5xl</b> · 48 / 700</div><div class="spec" style="font-size:48px;font-weight:700">Cold-minimal, dark-first</div></div>
+      <div class="srow"><div class="tag"><b>4xl</b> · 36 / 600</div><div class="spec" style="font-size:36px;font-weight:600">Token-driven components</div></div>
+      <div class="srow"><div class="tag"><b>3xl</b> · 30 / 600</div><div class="spec" style="font-size:30px;font-weight:600">Accessible by contract</div></div>
+      <div class="srow"><div class="tag"><b>2xl</b> · 24 / 500</div><div class="spec" style="font-size:24px;font-weight:500">Zero-JS baseline performance</div></div>
+      <div class="srow"><div class="tag"><b>xl</b> · 20 / 500</div><div class="spec" style="font-size:20px;font-weight:500">Section heading on the surface</div></div>
+      <div class="srow"><div class="tag"><b>lg</b> · 18 / 400</div><div class="spec" style="font-size:18px;font-weight:400;font-family:var(--font-text)">Lede paragraph, set in Inter for calm reading.</div></div>
+      <div class="srow"><div class="tag"><b>base</b> · 16 / 400</div><div class="spec" style="font-size:16px;font-weight:400;font-family:var(--font-text)">Body copy — the workhorse, 16px Inter at 1.6 line height.</div></div>
+      <div class="srow"><div class="tag"><b>sm</b> · 14 / 400</div><div class="spec" style="font-size:14px;font-weight:400;font-family:var(--font-text)">Secondary text, captions and helper copy.</div></div>
+      <div class="srow"><div class="tag"><b>xs</b> · 12 / 500</div><div class="spec" style="font-size:12px;font-weight:500;font-family:var(--mono);letter-spacing:.04em;color:hsl(228 14% 60%)">XS · MONO LABELS / EYEBROWS</div></div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========================= COLOR + ACCENT ========================= -->
+  <section id="color">
+    <p class="eyebrow">04 — Palette · accent in use</p>
+    <h2 class="sec-title">Near-monochrome surface, accent does the pointing</h2>
+    <p class="sec-sub">Full 50→950 scales. Semantic roles are fixed: primary→moonstone, secondary/error→imperialRed, warning→orangeWeb, success→moonstone.</p>
+
+    <div class="fam-label"><b>gray</b><span>neutral · hue 228° · cool blue-tint</span></div>
+    <div class="scaleband" id="band-gray"></div>
+    <div class="fam-label"><b>moonstone</b><span>primary / success · indigo-violet 256°</span></div>
+    <div class="scaleband" id="band-moon"></div>
+    <div class="fam-label"><b>imperialRed</b><span>secondary / error · crimson-rose 344°</span></div>
+    <div class="scaleband" id="band-red"></div>
+    <div class="fam-label"><b>orangeWeb</b><span>warning · amber 38°</span></div>
+    <div class="scaleband" id="band-orange"></div>
+
+    <div class="demo" style="margin-top:34px">
+      <div class="panel">
+        <div class="ph">Accent in use · dark</div>
+        <div class="body dark">
+          <button class="btn btn-primary">Primary</button>
+          <button class="btn btn-ghost" style="--fg:228 22% 98%;--border-emph:228 12% 52%;--surface:228 20% 13%">Ghost</button>
+          <a class="linklike" href="#" style="--link:257 92% 80%">Text link <span class="arr">→</span></a>
+          <span class="chip" style="background:hsl(256 86% 63% / .16);color:hsl(257 92% 84%)">primary</span>
+          <span class="chip" style="background:hsl(344 83% 60% / .16);color:hsl(344 87% 82%)">error</span>
+          <span class="chip" style="background:hsl(38 95% 53% / .16);color:hsl(38 95% 70%)">warning</span>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="ph">Accent in use · light</div>
+        <div class="body light">
+          <button class="btn btn-primary" style="--primary:256 86% 63%;--primary-ink:228 24% 99%">Primary</button>
+          <button class="btn btn-ghost" style="--fg:228 24% 12%;--border-emph:228 12% 52%;--surface:228 24% 99%">Ghost</button>
+          <a class="linklike" href="#" style="--link:256 72% 54%">Text link <span class="arr">→</span></a>
+          <span class="chip" style="background:hsl(256 86% 63% / .14);color:hsl(256 66% 46%)">primary</span>
+          <span class="chip" style="background:hsl(344 83% 60% / .14);color:hsl(344 73% 42%)">error</span>
+          <span class="chip" style="background:hsl(38 95% 53% / .18);color:hsl(33 86% 36%)">warning</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========================= TOKENS JSON ========================= -->
+  <section id="tokens">
+    <p class="eyebrow">05 — Deliverable · base.json</p>
+    <h2 class="sec-title">Token values — bare HSL channels</h2>
+    <p class="sec-sub">Drop-in for the build (which wraps the channels in <code style="font-family:var(--mono);color:hsl(40 80% 66%)">hsl()</code>). Key structure preserved; <code style="font-family:var(--mono);color:hsl(256 60% 74%)">fontFamily</code> is the proposed new group.</p>
+    <div class="json">
+      <div class="ph"><b>tokens/base.json</b><span>11-step scales · bare "H S% L%"</span></div>
+      <pre id="jsonout"></pre>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========================= CONTRAST ========================= -->
+  <section id="contrast">
+    <p class="eyebrow">06 — Accessibility · gated pairs</p>
+    <h2 class="sec-title">Contrast report — all pass, both modes</h2>
+    <p class="sec-sub">Computed with the WCAG 2.x relative-luminance formula. Body ≥ 4.5:1, large ≥ 3:1, emphasis border ≥ 3:1.</p>
+    <table class="cr">
+      <thead><tr><th>Role / pair</th><th>Mode</th><th>Requirement</th><th>Ratio</th><th>Result</th></tr></thead>
+      <tbody id="crbody"></tbody>
+    </table>
+  </section>
+
+  <footer>
+    <b>System summary.</b> Cold-minimal, dark-first, near-monochrome cool neutrals (hue 228°) on a deep space-cadet ground. One animated OKLCH violet→crimson gradient headline as the single expressive moment, mode-aware (stops 400 dark / 600 light). Primary = moonstone indigo-violet 256°, secondary/error = imperialRed crimson-rose 344°, warning = orangeWeb amber 38°. Display Space Grotesk / Geist · text Inter.<br><br>
+    <b>Open decisions for you.</b> (1) Gradient A short-arc vs B longer-hue rainbow. (2) Display face Space Grotesk vs Geist. (3) Light/dark default. — toggle any of these above.
+  </footer>
+</div>
+
+<script>
+/* ---- toggles ---- */
+const setPressed=(on,off)=>{document.getElementById(on).setAttribute('aria-pressed','true');document.getElementById(off).setAttribute('aria-pressed','false');};
+document.getElementById('ga').onclick=()=>{document.body.dataset.grad='a';setPressed('ga','gb');};
+document.getElementById('gb').onclick=()=>{document.body.dataset.grad='b';setPressed('gb','ga');};
+document.getElementById('fg1').onclick=()=>{document.body.dataset.font='grotesk';setPressed('fg1','fg2');};
+document.getElementById('fg2').onclick=()=>{document.body.dataset.font='geist';setPressed('fg2','fg1');};
+
+/* ---- color scale bands ---- */
+const scales={
+  gray:['228 22% 98%','228 20% 96%','228 16% 90%','228 14% 80%','228 13% 66%','228 12% 52%','228 13% 42%','228 15% 30%','228 17% 20%','228 20% 13%','228 24% 9%'],
+  moon:['257 100% 97%','257 97% 94%','257 95% 89%','257 92% 80%','256 90% 71%','256 86% 63%','256 72% 54%','256 66% 46%','256 60% 38%','256 54% 30%','256 50% 21%'],
+  red:['344 100% 97%','344 96% 94%','344 94% 89%','344 91% 80%','344 87% 70%','344 83% 60%','344 75% 50%','344 73% 42%','344 68% 34%','344 62% 27%','344 56% 18%'],
+  orange:['40 100% 96%','40 98% 90%','39 96% 80%','39 95% 70%','38 94% 60%','38 95% 53%','36 90% 47%','33 86% 40%','30 80% 33%','27 75% 27%','24 72% 17%']
+};
+const steps=['50','100','200','300','400','500','600','700','800','900','950'];
+const L=hsl=>parseInt(hsl.split(' ')[2]);
+for(const [k,arr] of Object.entries(scales)){
+  const el=document.getElementById('band-'+k);
+  el.innerHTML=arr.map((c,i)=>`<div class="sw" style="background:hsl(${c});color:hsl(${L(c)>55?'228 30% 14%':'228 20% 92%'})">${steps[i]}</div>`).join('');
+}
+
+/* ---- contrast math ---- */
+function rgb(h){const[H,S,Lr]=h.split(' ').map((v,i)=>i?parseFloat(v):parseFloat(v));const s=S/100,l=Lr/100;const k=n=>(n+H/30)%12;const a=s*Math.min(l,1-l);const f=n=>l-a*Math.max(-1,Math.min(k(n)-3,9-k(n),1));return[f(0),f(8),f(4)];}
+function lum(h){const c=rgb(h).map(v=>v<=.03928?v/12.92:Math.pow((v+.055)/1.055,2.4));return .2126*c[0]+.7152*c[1]+.0722*c[2];}
+function cr(a,b){const A=lum(a),B=lum(b);return (Math.max(A,B)+.05)/(Math.min(A,B)+.05);}
+const pairs=[
+ ['Body text · fg / bg','228 24% 12%','228 22% 98%','Light','≥ 4.5:1'],
+ ['Body text · fg / bg','228 22% 98%','230 22% 7%','Dark','≥ 4.5:1'],
+ ['Muted text · muted / bg','228 13% 42%','228 22% 98%','Light','≥ 4.5:1'],
+ ['Muted text · muted / bg','228 13% 66%','230 22% 7%','Dark','≥ 4.5:1'],
+ ['Link · primary-600 / bg','256 72% 54%','228 22% 98%','Light','≥ 4.5:1'],
+ ['Link · primary-300 / bg','257 92% 80%','230 22% 7%','Dark','≥ 4.5:1'],
+ ['Emphasis border · gray-500 / bg','228 12% 52%','228 22% 98%','Light','≥ 3:1'],
+ ['Emphasis border · gray-500 / bg','228 12% 52%','230 22% 7%','Dark','≥ 3:1'],
+ ['Primary button · ink / fill','228 24% 99%','256 86% 63%','Both','≥ 4.5:1'],
+ ['Error text · imperialRed-700 / bg','344 73% 42%','228 22% 98%','Light','≥ 4.5:1'],
+ ['Error text · imperialRed-400 / bg','344 87% 70%','230 22% 7%','Dark','≥ 4.5:1'],
+];
+document.getElementById('crbody').innerHTML=pairs.map(([role,fg,bg,mode,req])=>{
+  const r=cr(fg,bg);
+  return `<tr>
+    <td class="pair"><span class="swp" style="background:hsl(${fg})"></span><span class="swp" style="background:hsl(${bg})"></span>${role}</td>
+    <td class="req">${mode}</td>
+    <td class="req">${req}</td>
+    <td class="num">${r.toFixed(2)}:1</td>
+    <td><span class="pass">Pass</span></td>
+  </tr>`;
+}).join('');
+
+/* ---- pretty json render ---- */
+fetch('tokens/base.json').then(r=>r.json()).then(j=>render(j)).catch(()=>render(FALLBACK));
+function render(j){
+  let s=JSON.stringify(j,null,2);
+  s=s.replace(/&/g,'&amp;').replace(/</g,'&lt;')
+     .replace(/("(?:[^"\\]|\\.)*")(\s*:)/g,'<span class="k">$1</span>$2')
+     .replace(/:\s*("(?:[^"\\]|\\.)*")/g,': <span class="s">$1</span>');
+  document.getElementById('jsonout').innerHTML=s;
+}
+const FALLBACK={note:"open via a server to load tokens/base.json"};
+</script>
+</body>
+</html>

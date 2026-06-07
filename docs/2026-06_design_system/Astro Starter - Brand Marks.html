@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Astro Starter — Brand Marks & Iconography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --font-display:"Space Grotesk",ui-sans-serif,system-ui,sans-serif;
+  --font-text:"Inter",ui-sans-serif,system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+.mode{
+  --bg:228 22% 98%; --surf:228 24% 99%; --surf2:228 20% 95%;
+  --fg:228 24% 12%; --fg2:228 13% 42%; --fg3:228 12% 52%;
+  --border:228 16% 90%; --border-emph:228 12% 52%;
+  --primary:256 86% 63%; --link:256 72% 54%;
+  --ico:228 13% 42%;        /* default icon color = foreground-secondary */
+  --grad:url(#gx-light);
+}
+.mode.dark{
+  --bg:230 22% 7%; --surf:228 20% 13%; --surf2:228 17% 18%;
+  --fg:228 22% 98%; --fg2:228 13% 66%; --fg3:228 13% 58%;
+  --border:228 17% 20%; --border-emph:228 12% 52%;
+  --primary:256 86% 63%; --link:257 92% 80%;
+  --ico:228 13% 66%;
+  --grad:url(#gx-dark);
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:var(--font-text);background:hsl(230 24% 5%);color:hsl(228 18% 72%);-webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(900px 480px at 86% -8%,hsl(256 86% 63% / .08),transparent 60%),radial-gradient(820px 460px at 4% 3%,hsl(344 83% 60% / .06),transparent 55%);}
+.wrap{max-width:1180px;margin:0 auto;padding:0 28px;}
+
+.topbar{position:sticky;top:0;z-index:50;background:hsl(230 26% 6% / .82);backdrop-filter:blur(14px);border-bottom:1px solid hsl(228 18% 16%);}
+.topbar .wrap{display:flex;align-items:center;gap:12px;height:62px;}
+.brand{display:flex;align-items:center;gap:10px;margin-right:auto;}
+.brand b{font-family:var(--font-display);font-weight:700;letter-spacing:-.01em;color:hsl(228 22% 96%);font-size:14px;}
+.brand span{font-size:12px;color:hsl(228 14% 50%);}
+.bspark{width:18px;height:18px;}
+
+section{padding:54px 0 6px;}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:hsl(256 60% 72%);margin:0 0 12px;}
+.sec-title{font-family:var(--font-display);font-weight:700;font-size:26px;letter-spacing:-.02em;color:hsl(228 22% 95%);margin:0 0 6px;}
+.sec-sub{font-size:14px;color:hsl(228 14% 56%);max-width:66ch;margin:0 0 26px;line-height:1.6;}
+.sec-sub code{font-family:var(--mono);color:hsl(256 60% 76%);font-size:12.5px;}
+.divider{height:1px;background:hsl(228 18% 14%);margin:38px 0 0;}
+
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:880px){.pair{grid-template-columns:1fr;}}
+.panel{border:1px solid hsl(228 18% 16%);border-radius:20px;overflow:hidden;box-shadow:0 24px 60px -28px hsl(230 45% 2% / .7);}
+.panel .ptab{display:flex;align-items:center;gap:8px;padding:9px 15px;font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;background:hsl(228 18% 10%);border-bottom:1px solid hsl(228 18% 16%);color:hsl(228 12% 56%);}
+.panel .ptab .pp{width:8px;height:8px;border-radius:50%;}
+.panel.l .pp{background:hsl(40 90% 60%);} .panel.d .pp{background:hsl(256 86% 66%);}
+.mode{background:hsl(var(--bg));color:hsl(var(--fg));padding:30px 28px;}
+.subhead{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:hsl(var(--fg3));margin:0 0 16px;}
+
+/* ===== glyph sizing ===== */
+.spark{display:inline-block;color:hsl(var(--ico));}
+.grad-fill{fill:var(--grad);}
+
+/* glyph hero row */
+.glyph-hero{display:flex;align-items:center;gap:36px;flex-wrap:wrap;}
+.glyph-big{width:140px;height:140px;}
+.size-ramp{display:flex;align-items:flex-end;gap:26px;}
+.size-ramp .col{display:flex;flex-direction:column;align-items:center;gap:10px;}
+.size-ramp .lbl{font-family:var(--mono);font-size:10px;color:hsl(var(--fg3));}
+.mono-row{display:flex;align-items:flex-end;gap:26px;margin-top:8px;}
+
+/* in-context */
+.ctx{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;}
+.ctx .card{flex:1;min-width:170px;border:1px solid hsl(var(--border));border-radius:14px;padding:18px;background:hsl(var(--surf));display:flex;flex-direction:column;align-items:center;gap:12px;}
+.ctx .clab{font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:hsl(var(--fg3));}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:7px 13px 7px 9px;border-radius:999px;border:1px solid hsl(var(--border-emph) / .5);color:hsl(var(--fg));background:hsl(var(--bg));}
+.fav-tile{width:44px;height:44px;border-radius:11px;background:hsl(var(--surf2));border:1px solid hsl(var(--border));display:flex;align-items:center;justify-content:center;}
+.loader{width:40px;height:40px;}
+@media (prefers-reduced-motion: no-preference){ .loader .spin{ transform-origin:50% 50%; animation:lspin 1.6s var(--ico-ease,cubic-bezier(.65,0,.35,1)) infinite; } }
+@keyframes lspin{ to{ transform:rotate(360deg);} }
+
+/* ===== wordmark ===== */
+.lockups{display:flex;flex-direction:column;gap:26px;}
+.lockup{display:flex;align-items:center;gap:13px;}
+.lockup .gl{width:34px;height:34px;}
+.wm{font-family:var(--font-display);font-weight:700;font-size:34px;letter-spacing:-.035em;line-height:1;}
+.wm.solid{color:hsl(var(--fg));}
+.wm.gradient{background:linear-gradient(100deg in oklch longer hue,hsl(var(--g1,256 72% 54%)),hsl(var(--g2,344 75% 50%)));-webkit-background-clip:text;background-clip:text;color:transparent;}
+.mode.dark .wm.gradient{--g1:256 90% 71%;--g2:344 87% 70%;}
+.lk-meta{font-family:var(--mono);font-size:10px;color:hsl(var(--fg3));margin-top:7px;}
+.clearspace{position:relative;display:inline-flex;align-items:center;gap:13px;padding:18px;border:1px dashed hsl(var(--border-emph) / .6);border-radius:10px;}
+.clearspace .u{position:absolute;font-family:var(--mono);font-size:9px;color:hsl(var(--fg3));}
+
+/* ===== favicon ===== */
+.fav-grid{display:flex;flex-wrap:wrap;gap:14px;}
+.fav-cell{display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px;border:1px solid hsl(var(--border));border-radius:13px;background:hsl(var(--surf));}
+.fav-cell .px16{width:16px;height:16px;image-rendering:auto;}
+.fav-cell .px32{width:32px;height:32px;}
+.fav-cell .app{width:52px;height:52px;border-radius:13px;}
+.fav-cell .flab{font-family:var(--mono);font-size:9.5px;color:hsl(var(--fg3));letter-spacing:.04em;}
+.browser-tab{display:inline-flex;align-items:center;gap:8px;background:hsl(var(--surf2));border:1px solid hsl(var(--border));border-radius:9px 9px 0 0;padding:8px 14px 8px 11px;font-size:12px;color:hsl(var(--fg2));}
+.browser-tab .px16{width:16px;height:16px;}
+
+/* ===== iconography ===== */
+.icogrid{display:grid;grid-template-columns:repeat(6,1fr);gap:2px;border:1px solid hsl(var(--border));border-radius:14px;overflow:hidden;background:hsl(var(--border));}
+@media(max-width:560px){.icogrid{grid-template-columns:repeat(4,1fr);}}
+.icocell{background:hsl(var(--surf));display:flex;flex-direction:column;align-items:center;gap:9px;padding:18px 8px;}
+.icocell svg{width:24px;height:24px;color:hsl(var(--ico));}
+.icocell .nm{font-family:var(--mono);font-size:9px;color:hsl(var(--fg3));}
+.lucide{fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}
+
+.spec-table{width:100%;border-collapse:collapse;border:1px solid hsl(228 18% 16%);border-radius:14px;overflow:hidden;margin-top:4px;}
+.spec-table th,.spec-table td{text-align:left;padding:11px 15px;border-bottom:1px solid hsl(228 18% 13%);font-size:13px;}
+.spec-table th{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:hsl(228 12% 52%);background:hsl(228 18% 9%);}
+.spec-table td{color:hsl(228 16% 74%);}
+.spec-table td.k{font-family:var(--mono);font-size:12px;color:hsl(256 60% 76%);}
+.spec-table td.mono{font-family:var(--mono);font-size:12px;color:hsl(228 18% 80%);}
+
+.pairing{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px;}
+.pchip{display:inline-flex;align-items:center;gap:9px;border:1px solid hsl(var(--border));background:hsl(var(--surf));border-radius:10px;padding:10px 15px;}
+.pchip svg{width:20px;height:20px;color:hsl(var(--fg2));}
+.pchip.accent svg{color:hsl(var(--primary));}
+.pchip span{font-family:var(--font-display);font-weight:600;font-size:15px;color:hsl(var(--fg));letter-spacing:-.01em;}
+.pchip.btn{background:hsl(var(--primary));border-color:transparent;}
+.pchip.btn svg{color:hsl(0 0% 100%);} .pchip.btn span{color:hsl(0 0% 100%);}
+
+.json{background:hsl(230 26% 6%);border:1px solid hsl(228 18% 16%);border-radius:16px;overflow:hidden;margin-top:22px;}
+.json .ph{display:flex;align-items:center;justify-content:space-between;padding:11px 16px;border-bottom:1px solid hsl(228 18% 14%);background:hsl(228 18% 9%);}
+.json .ph b{font-family:var(--mono);font-size:12px;color:hsl(228 18% 80%);}
+.json .ph span{font-family:var(--mono);font-size:10px;color:hsl(228 12% 48%);}
+.json pre{margin:0;padding:18px 20px;font-family:var(--mono);font-size:12px;line-height:1.6;color:hsl(228 16% 74%);overflow:auto;}
+.json .kk{color:hsl(256 70% 78%);} .json .ss{color:hsl(40 80% 66%);}
+
+.note{display:flex;gap:10px;align-items:flex-start;padding:14px 17px;border:1px solid hsl(150 35% 26%);background:hsl(150 40% 11% / .5);border-radius:12px;font-size:13px;color:hsl(150 45% 76%);margin-top:22px;max-width:78ch;line-height:1.55;}
+.note b{color:hsl(150 60% 72%);}
+footer{padding:54px 0 72px;color:hsl(228 12% 46%);font-size:12.5px;line-height:1.7;}
+footer b{color:hsl(228 16% 68%);}
+</style>
+</head>
+<body>
+
+<!-- ============ SHARED SVG DEFS (glyph + gradients) ============ -->
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <defs>
+    <linearGradient id="gx-dark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(256 90% 71%)"/>
+      <stop offset="0.5" stop-color="hsl(312 88% 70%)"/>
+      <stop offset="1" stop-color="hsl(344 87% 70%)"/>
+    </linearGradient>
+    <linearGradient id="gx-light" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="hsl(256 72% 54%)"/>
+      <stop offset="0.5" stop-color="hsl(310 70% 52%)"/>
+      <stop offset="1" stop-color="hsl(344 75% 50%)"/>
+    </linearGradient>
+    <symbol id="spark" viewBox="0 0 100 100">
+      <path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <svg class="bspark" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg>
+      <b>Astro Starter</b><span>· Brand Marks & Iconography</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <!-- ========================= SIGNATURE GLYPH ========================= -->
+  <section>
+    <p class="eyebrow">01 — Signature glyph · the spark</p>
+    <h2 class="sec-title">One mark: a 4-point spark (“Astro” = star)</h2>
+    <p class="sec-sub">A single geometric path with concave waists — vivid at 96px, still legible at 16px. The violet→crimson gradient is its default dress; a single-token mono version covers small / monochrome contexts. It anchors the hero badge, the favicon, and the loading state.</p>
+
+    <div class="pair">
+      <div class="panel d">
+        <div class="ptab"><span class="pp"></span>Dark</div>
+        <div class="mode dark">
+          <p class="subhead">Gradient · mono · size ramp</p>
+          <div class="glyph-hero">
+            <svg class="glyph-big" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg>
+            <div>
+              <div class="size-ramp">
+                <div class="col"><svg viewBox="0 0 100 100" style="width:96px;height:96px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg><span class="lbl">96 · hero</span></div>
+                <div class="col"><svg viewBox="0 0 100 100" style="width:48px;height:48px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg><span class="lbl">48</span></div>
+                <div class="col"><svg viewBox="0 0 100 100" style="width:24px;height:24px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg><span class="lbl">24</span></div>
+                <div class="col"><svg viewBox="0 0 100 100" style="width:16px;height:16px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg><span class="lbl">16</span></div>
+              </div>
+              <div class="mono-row">
+                <div class="col"><svg class="spark" viewBox="0 0 100 100" style="width:48px;height:48px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor"/></svg></div>
+                <div class="col"><svg class="spark" viewBox="0 0 100 100" style="width:24px;height:24px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor"/></svg></div>
+                <div class="col"><svg class="spark" viewBox="0 0 100 100" style="width:16px;height:16px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor"/></svg></div>
+                <span class="lbl" style="font-family:var(--mono);font-size:10px;color:hsl(var(--fg3))">mono · foreground-secondary</span>
+              </div>
+            </div>
+          </div>
+          <div class="ctx">
+            <div class="card"><span class="clab">Hero badge</span><span class="hero-badge"><svg viewBox="0 0 100 100" style="width:15px;height:15px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg>Astro 5 · zero-JS</span></div>
+            <div class="card"><span class="clab">Favicon 16px</span><div class="fav-tile"><svg viewBox="0 0 100 100" style="width:16px;height:16px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg></div></div>
+            <div class="card"><span class="clab">Loading</span><svg class="loader" viewBox="0 0 100 100"><g class="spin"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></g></svg></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel l">
+        <div class="ptab"><span class="pp"></span>Light</div>
+        <div class="mode">
+          <p class="subhead">Gradient · mono · size ramp</p>
+          <div class="glyph-hero">
+            <svg class="glyph-big" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg>
+            <div>
+              <div class="size-ramp">
+                <div class="col"><svg viewBox="0 0 100 100" style="width:96px;height:96px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg><span class="lbl">96 · hero</span></div>
+                <div class="col"><svg viewBox="0 0 100 100" style="width:48px;height:48px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg><span class="lbl">48</span></div>
+                <div class="col"><svg viewBox="0 0 100 100" style="width:24px;height:24px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg><span class="lbl">24</span></div>
+                <div class="col"><svg viewBox="0 0 100 100" style="width:16px;height:16px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg><span class="lbl">16</span></div>
+              </div>
+              <div class="mono-row">
+                <div class="col"><svg class="spark" viewBox="0 0 100 100" style="width:48px;height:48px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor"/></svg></div>
+                <div class="col"><svg class="spark" viewBox="0 0 100 100" style="width:24px;height:24px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor"/></svg></div>
+                <div class="col"><svg class="spark" viewBox="0 0 100 100" style="width:16px;height:16px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor"/></svg></div>
+                <span class="lbl" style="font-family:var(--mono);font-size:10px;color:hsl(var(--fg3))">mono · foreground-secondary</span>
+              </div>
+            </div>
+          </div>
+          <div class="ctx">
+            <div class="card"><span class="clab">Hero badge</span><span class="hero-badge"><svg viewBox="0 0 100 100" style="width:15px;height:15px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg>Astro 5 · zero-JS</span></div>
+            <div class="card"><span class="clab">Favicon 16px</span><div class="fav-tile"><svg viewBox="0 0 100 100" style="width:16px;height:16px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg></div></div>
+            <div class="card"><span class="clab">Loading</span><svg class="loader" viewBox="0 0 100 100"><g class="spin"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></g></svg></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========================= WORDMARK ========================= -->
+  <section>
+    <p class="eyebrow">02 — Wordmark · display lockup</p>
+    <h2 class="sec-title">Built from Space Grotesk, three dresses</h2>
+    <p class="sec-sub">Set in the display face at 700 with −0.035em tracking. Default lockup pairs the gradient spark with a solid wordmark; a full-gradient variant is reserved for hero / splash. Clear space = the spark’s height on all sides; minimum lockup width 96px.</p>
+
+    <div class="pair">
+      <div class="panel d">
+        <div class="ptab"><span class="pp"></span>Dark</div>
+        <div class="mode dark">
+          <div class="lockups">
+            <div>
+              <div class="lockup"><svg class="gl" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg><span class="wm solid">Astro</span></div>
+              <div class="lk-meta">primary · gradient spark + foreground wordmark</div>
+            </div>
+            <div>
+              <div class="lockup"><svg class="gl" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg><span class="wm gradient">Astro</span></div>
+              <div class="lk-meta">expressive · full gradient — hero / splash only</div>
+            </div>
+            <div>
+              <div class="clearspace"><svg class="gl" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor" style="color:hsl(var(--fg))"/></svg><span class="wm solid">Astro</span></div>
+              <div class="lk-meta">mono · clear-space = spark height</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel l">
+        <div class="ptab"><span class="pp"></span>Light</div>
+        <div class="mode">
+          <div class="lockups">
+            <div>
+              <div class="lockup"><svg class="gl" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg><span class="wm solid">Astro</span></div>
+              <div class="lk-meta">primary · gradient spark + foreground wordmark</div>
+            </div>
+            <div>
+              <div class="lockup"><svg class="gl" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg><span class="wm gradient">Astro</span></div>
+              <div class="lk-meta">expressive · full gradient — hero / splash only</div>
+            </div>
+            <div>
+              <div class="clearspace"><svg class="gl" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor" style="color:hsl(var(--fg))"/></svg><span class="wm solid">Astro</span></div>
+              <div class="lk-meta">mono · clear-space = spark height</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========================= FAVICON ========================= -->
+  <section>
+    <p class="eyebrow">03 — Favicon · actual size</p>
+    <h2 class="sec-title">Holds at 16px — gradient and mono</h2>
+    <p class="sec-sub">The spark’s broad arms keep it readable at tab size. Ship an SVG favicon (gradient) with a mono <code>currentColor</code> fallback for monochrome OS contexts, plus a rounded app tile.</p>
+
+    <div class="pair">
+      <div class="panel d">
+        <div class="ptab"><span class="pp"></span>Dark</div>
+        <div class="mode dark">
+          <div class="browser-tab"><svg class="px16" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg>astro.build — Deploy</div>
+          <div class="fav-grid" style="margin-top:18px">
+            <div class="fav-cell"><svg class="px16" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg><span class="flab">16 · gradient</span></div>
+            <div class="fav-cell"><svg class="px32" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg><span class="flab">32 · gradient</span></div>
+            <div class="fav-cell"><svg class="spark px16" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor"/></svg><span class="flab">16 · mono</span></div>
+            <div class="fav-cell"><div class="app" style="background:hsl(230 22% 9%);display:flex;align-items:center;justify-content:center;border:1px solid hsl(var(--border))"><svg viewBox="0 0 100 100" style="width:34px;height:34px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-dark)"/></svg></div><span class="flab">app tile</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="panel l">
+        <div class="ptab"><span class="pp"></span>Light</div>
+        <div class="mode">
+          <div class="browser-tab"><svg class="px16" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg>astro.build — Deploy</div>
+          <div class="fav-grid" style="margin-top:18px">
+            <div class="fav-cell"><svg class="px16" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg><span class="flab">16 · gradient</span></div>
+            <div class="fav-cell"><svg class="px32" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg><span class="flab">32 · gradient</span></div>
+            <div class="fav-cell"><svg class="spark px16" viewBox="0 0 100 100"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="currentColor"/></svg><span class="flab">16 · mono</span></div>
+            <div class="fav-cell"><div class="app" style="background:hsl(228 24% 99%);display:flex;align-items:center;justify-content:center;border:1px solid hsl(var(--border))"><svg viewBox="0 0 100 100" style="width:34px;height:34px"><path d="M50 3 C 55 35 65 45 97 50 C 65 55 55 65 50 97 C 45 65 35 55 3 50 C 35 45 45 35 50 3 Z" fill="url(#gx-light)"/></svg></div><span class="flab">app tile</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ========================= ICONOGRAPHY ========================= -->
+  <section>
+    <p class="eyebrow">04 — Iconography · Lucide (no bespoke set)</p>
+    <h2 class="sec-title">Standardize on Lucide via astro-icon</h2>
+    <p class="sec-sub">Lucide’s geometric 24/2px grid and rounded joins echo Space Grotesk’s mechanical-but-soft terminals — a clean pairing. Shipped build-time through the existing <code>Icon.astro</code>, zero runtime JS. We define conventions, not a new set.</p>
+
+    <div class="pair">
+      <div class="panel d">
+        <div class="ptab"><span class="pp"></span>Dark</div>
+        <div class="mode dark">
+          <p class="subhead">Lucide sample · 24px · stroke 2 · currentColor</p>
+          <div class="icogrid" id="ico-d"></div>
+          <p class="subhead" style="margin-top:22px">Reads with the type</p>
+          <div class="pairing" id="pair-d"></div>
+        </div>
+      </div>
+      <div class="panel l">
+        <div class="ptab"><span class="pp"></span>Light</div>
+        <div class="mode">
+          <p class="subhead">Lucide sample · 24px · stroke 2 · currentColor</p>
+          <div class="icogrid" id="ico-l"></div>
+          <p class="subhead" style="margin-top:22px">Reads with the type</p>
+          <div class="pairing" id="pair-l"></div>
+        </div>
+      </div>
+    </div>
+
+    <table class="spec-table">
+      <thead><tr><th>Optical size</th><th>Stroke</th><th>Used for</th><th>Cap-align</th></tr></thead>
+      <tbody>
+        <tr><td class="k">16</td><td class="mono">1.75</td><td>inline w/ sm / xs text, dense chips</td><td class="mono">−0.06em</td></tr>
+        <tr><td class="k">20</td><td class="mono">2</td><td>buttons, form affordances, nav</td><td class="mono">−0.05em</td></tr>
+        <tr><td class="k">24</td><td class="mono">2</td><td>default — standalone & list bullets</td><td class="mono">baseline</td></tr>
+        <tr><td class="k">32</td><td class="mono">2</td><td>feature cards, empty states</td><td class="mono">baseline</td></tr>
+      </tbody>
+    </table>
+
+    <div class="json">
+      <div class="ph"><b>icon usage spec</b><span>consumes existing Icon.astro · astro-icon</span></div>
+      <pre>{
+  <span class="kk">"set"</span>: <span class="ss">"lucide"</span>,
+  <span class="kk">"delivery"</span>: <span class="ss">"astro-icon · build-time · 0 runtime JS"</span>,
+  <span class="kk">"size"</span>:   { <span class="kk">"inline"</span>: <span class="ss">"16"</span>, <span class="kk">"action"</span>: <span class="ss">"20"</span>, <span class="kk">"base"</span>: <span class="ss">"24"</span>, <span class="kk">"feature"</span>: <span class="ss">"32"</span> },
+  <span class="kk">"strokeWidth"</span>: { <span class="kk">"16"</span>: <span class="ss">"1.75"</span>, <span class="kk">"20"</span>: <span class="ss">"2"</span>, <span class="kk">"24"</span>: <span class="ss">"2"</span>, <span class="kk">"32"</span>: <span class="ss">"2"</span> },
+  <span class="kk">"linecap"</span>: <span class="ss">"round"</span>, <span class="kk">"linejoin"</span>: <span class="ss">"round"</span>,
+  <span class="kk">"color"</span>: {
+    <span class="kk">"default"</span>:     <span class="ss">"text-foreground-secondary"</span>,
+    <span class="kk">"interactive"</span>: <span class="ss">"text-foreground-primary"</span>,
+    <span class="kk">"accent"</span>:      <span class="ss">"text-primary"</span>,
+    <span class="kk">"inherit"</span>:     <span class="ss">"currentColor"</span>
+  }
+}</pre>
+    </div>
+
+    <div class="note"><span>✓</span><div><b>Contrast.</b> Default icon color = <code style="font-family:var(--mono)">foreground-secondary</code> → <b>5.68:1</b> light · <b>7.48:1</b> dark on background (passes ≥ 3:1 for non-text graphics with margin). Wordmark = <code style="font-family:var(--mono)">foreground-primary</code> → <b>16.5:1</b> / <b>18.2:1</b>. Gradient marks are decorative; the mono fallback carries any meaning-bearing use.</div></div>
+  </section>
+
+  <footer>
+    <b>Deliverables.</b> Signature spark (gradient + mono), wordmark lockups (3 variants), and favicon (16/32 + app tile) — all SVG, light + dark, at favicon / inline / hero sizes. Standalone assets saved to <code style="font-family:var(--mono)">brand/</code>. Iconography is Lucide via <code style="font-family:var(--mono)">astro-icon</code> with the sizing/stroke/color spec above — no bespoke icon set.
+  </footer>
+</div>
+
+<script>
+/* ---- Lucide sample (accurate geometric subset) rendered at 24/2px ---- */
+const I={
+ 'arrow-right':'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+ 'arrow-up-right':'<path d="M7 7h10v10"/><path d="M7 17 17 7"/>',
+ 'check':'<path d="M20 6 9 17l-5-5"/>',
+ 'plus':'<path d="M5 12h14"/><path d="M12 5v14"/>',
+ 'x':'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+ 'menu':'<path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/>',
+ 'chevron-right':'<path d="m9 18 6-6-6-6"/>',
+ 'chevron-down':'<path d="m6 9 6 6 6-6"/>',
+ 'search':'<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+ 'sun':'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.9 4.9 1.4 1.4"/><path d="m17.7 17.7 1.4 1.4"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.3 17.7-1.4 1.4"/><path d="m19.1 4.9-1.4 1.4"/>',
+ 'moon':'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+ 'zap':'<path d="M13 2 3 14h9l-1 8 10-12h-9z"/>',
+ 'copy':'<rect width="14" height="14" x="8" y="8" rx="2"/><path d="M4 16a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2"/>',
+ 'external-link':'<path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>',
+ 'github':'<path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 4 5 4 5 4c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 11c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/>',
+ 'terminal':'<path d="m4 17 6-6-6-6"/><path d="M12 19h8"/>',
+ 'play':'<polygon points="6 3 20 12 6 21 6 3"/>',
+ 'settings':'<path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2Z"/><circle cx="12" cy="12" r="3"/>',
+};
+const order=['arrow-right','arrow-up-right','chevron-right','chevron-down','check','x','plus','menu','search','zap','copy','external-link','sun','moon','github','terminal','play','settings'];
+function buildGrid(el){
+  el.innerHTML=order.map(n=>`<div class="icocell"><svg class="lucide" viewBox="0 0 24 24">${I[n]}</svg><span class="nm">${n}</span></div>`).join('');
+}
+buildGrid(document.getElementById('ico-d'));
+buildGrid(document.getElementById('ico-l'));
+function buildPair(el){
+  el.innerHTML=`
+    <span class="pchip"><svg class="lucide" viewBox="0 0 24 24">${I['search']}</svg><span>Search docs</span></span>
+    <span class="pchip accent"><svg class="lucide" viewBox="0 0 24 24">${I['zap']}</svg><span>Instant deploys</span></span>
+    <span class="pchip btn"><svg class="lucide" viewBox="0 0 24 24">${I['arrow-right']}</svg><span>Get started</span></span>`;
+}
+buildPair(document.getElementById('pair-d'));
+buildPair(document.getElementById('pair-l'));
+</script>
+</body>
+</html>

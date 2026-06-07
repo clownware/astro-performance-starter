@@ -1,9 +1,10 @@
 ---
 title: 'ADR-026: Font Strategy — Self-Hosted Variable Fonts via @fontsource'
-lastUpdated: 2026-02-18T00:00:00.000Z
+lastUpdated: 2026-06-06T00:00:00.000Z
 description: >-
-  Documents the decision to self-host Inter as a variable font via @fontsource,
-  covering the rationale over Google Fonts, subsetting approach, and loading strategy.
+  Documents the decision to self-host variable fonts via @fontsource, covering
+  the rationale over Google Fonts, subsetting, and loading strategy. Amended for
+  the v2 design language: Geist as the display face alongside Inter for body text.
 tableOfContents: true
 pagefind: true
 ---
@@ -100,6 +101,26 @@ import '@fontsource-variable/inter';
 - Variable font available (single file, all weights)
 - Widely used in developer tooling and SaaS products — familiar to the target audience
 - Permissive SIL Open Font License
+
+### Amendment (ADR-047): dual-face setup — Geist display + Inter text
+
+The v2 cold-minimal design language pairs a bold geometric display face for headlines with
+Inter for body text, and exposes typography as a swappable `fontFamily` token group
+(`display` / `text`). We self-host **Geist** (via `@fontsource-variable/geist`) as the
+display face and keep **Inter** for body copy. Both are variable WOFF2 faces loaded with the
+same preload +`font-display: swap` pattern as Inter.
+
+```json
+// tokens/base.json
+"fontFamily": {
+  "display": { "value": "\"Geist\", \"Space Grotesk\", ui-sans-serif, system-ui, sans-serif" },
+  "text":    { "value": "\"Inter\", ui-sans-serif, system-ui, sans-serif" }
+}
+```
+
+Constraints carried over from this ADR: **two faces maximum**, both variable, subset to the
+used range, `font-display: swap`, and total font CSS kept under ~15KB gzipped. Headings use
+`var(--font-display)`; body uses `var(--font-text)` (set as `--default-font-family`).
 
 ### Loading Strategy
 

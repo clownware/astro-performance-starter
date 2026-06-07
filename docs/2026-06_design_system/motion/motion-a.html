@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MPA · A</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+<style>
+/* zero-JS cross-document view transition */
+@view-transition { navigation: auto; }
+::view-transition-group(*){ animation-duration:420ms; animation-timing-function:cubic-bezier(.65,0,.35,1); }
+:root{ --g1:256 90% 71%; --g2:344 87% 70%; }
+*{box-sizing:border-box;}
+html,body{height:100%;margin:0;}
+body{font-family:"Space Grotesk",system-ui,sans-serif;background:hsl(230 22% 7%);color:hsl(228 22% 96%);
+  display:flex;flex-direction:column;justify-content:center;align-items:flex-start;padding:42px 40px;gap:18px;
+  background-image:radial-gradient(620px 320px at 18% 0%,hsl(256 86% 63% / .14),transparent 60%);}
+.eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:hsl(256 60% 76%);margin:0;}
+h1{font-weight:700;font-size:54px;line-height:.98;letter-spacing:-.035em;margin:0;view-transition-name:hero-grad;
+  background:linear-gradient(100deg in oklch longer hue,hsl(var(--g1)),hsl(var(--g2)),hsl(var(--g1)));background-size:200% 100%;
+  -webkit-background-clip:text;background-clip:text;color:transparent;}
+p{margin:0;color:hsl(228 13% 64%);font-family:system-ui;font-size:15px;max-width:34ch;line-height:1.6;}
+a.next{margin-top:8px;text-decoration:none;font-weight:600;font-size:15px;color:hsl(230 22% 8%);background:hsl(256 86% 63%);
+  padding:11px 18px;border-radius:10px;view-transition-name:nav-cta;font-family:"Space Grotesk";}
+.dots{position:fixed;bottom:18px;left:40px;display:flex;gap:7px;}
+.dots i{width:7px;height:7px;border-radius:50%;background:hsl(228 16% 28%);}
+.dots i.on{background:hsl(256 86% 66%);}
+</style>
+</head>
+<body>
+  <p class="eyebrow">Route · /</p>
+  <h1>Ship instantly.</h1>
+  <p>Cross-document morph, zero JavaScript. The headline carries a <code style="font-family:'JetBrains Mono';color:hsl(256 60% 78%)">view-transition-name</code> across the navigation.</p>
+  <a class="next" href="motion-b.html">Go to scale →</a>
+  <div class="dots"><i class="on"></i><i></i></div>
+</body>
+</html>
