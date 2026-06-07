@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" role="img" aria-label="Why Astro in 2026 — zero-JS by default, islands on demand, Cloudflare-backed in production">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e1b4b"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#a78bfa"/>
+    </linearGradient>
+    <linearGradient id="growth" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="0.5" stop-color="#a78bfa"/>
+      <stop offset="1" stop-color="#f472b6"/>
+    </linearGradient>
+    <pattern id="grid" x="0" y="0" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#1e293b" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <rect width="1200" height="630" fill="url(#grid)" opacity="0.5"/>
+
+  <g transform="translate(80 110)">
+    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="22" fill="#7dd3fc" font-weight="600" letter-spacing="4">WHY ASTRO IN 2026</text>
+    <text x="0" y="100" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="84" fill="#f8fafc" font-weight="800">Loads instantly.</text>
+    <text x="0" y="195" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="84" fill="#f8fafc" font-weight="800">Stays that way.</text>
+    <line x1="0" y1="245" x2="380" y2="245" stroke="url(#accent)" stroke-width="6"/>
+    <g transform="translate(0 290)" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#cbd5e1">
+      <text x="0" y="0">Zero JavaScript <tspan fill="#64748b">by default</tspan></text>
+      <text x="0" y="40">Islands <tspan fill="#64748b">on demand</tspan></text>
+      <text x="0" y="80">Cloudflare-backed <tspan fill="#64748b">in production</tspan></text>
+    </g>
+  </g>
+
+  <g transform="translate(960 420)">
+    <text x="0" y="-110" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14" fill="#a5b4fc" text-anchor="middle" font-weight="600" letter-spacing="3">WEEKLY DOWNLOADS · 2025</text>
+    <path d="M -110 -10 Q 0 -150 110 -10" fill="none" stroke="url(#growth)" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="-110" cy="-10" r="6" fill="#38bdf8"/>
+    <circle cx="110" cy="-10" r="6" fill="#f472b6"/>
+    <text x="-110" y="25" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#7dd3fc" text-anchor="middle" font-weight="700">360K</text>
+    <text x="110" y="25" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="22" fill="#f472b6" text-anchor="middle" font-weight="700">900K</text>
+    <text x="0" y="55" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="14" fill="#94a3b8" text-anchor="middle">2.5×</text>
+    <text x="0" y="90" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="12" fill="#64748b" text-anchor="middle" letter-spacing="2">IKEA · VISA · NBC · PORSCHE · OPENAI</text>
+  </g>
+</svg>
