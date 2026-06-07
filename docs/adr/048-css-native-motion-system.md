@@ -76,7 +76,7 @@ cost; overkill for seven small effects
 | --- | --- | --- | --- |
 | 1 | Page transitions — `@view-transition { navigation: auto }` | Compositor | none |
 | 2 | Headline gradient morph — shared `view-transition-name: hero-grad` | Compositor | none |
-| 3 | Scroll reveals — `animation-timeline: view()` | Compositor | none |
+| 3 | Scroll reveals — `animation-timeline: view()` (via the existing `ScrollReveal` component) | Compositor | none |
 | 4 | Conic glow border — registered `@property --glow-ang` | Low paint | none |
 | 5 | Text sheen / CTA shimmer — clip-text + skewed bar | Compositor | none |
 | 6 | Grain overlay — fixed `feTurbulence` SVG at ~5% | 1 static layer | none |

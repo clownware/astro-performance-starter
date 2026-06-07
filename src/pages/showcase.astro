@@ -306,9 +306,11 @@ const spySections = [
                 a11yNote="prefers-reduced-motion: respected — no entry animation"
                 codeSnippet={'&lt;Card animated&gt;\n  &lt;div class="p-4"&gt;Content with entry animation&lt;/div&gt;\n&lt;/Card&gt;'}
               >
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <Card><div class="p-4 text-sm">Standard card — no animation</div></Card>
                   <Card animated><div class="p-4 text-sm">Animated card — @starting-style entry</div></Card>
+                  {/* Featured card — animated conic glow border (ADR-048, capped at one per view) */}
+                  <div class="glow-border rounded-lg bg-surface p-4 text-sm shadow-sm">Featured card — rotating gradient glow border</div>
                 </div>
               </ShowcaseExample>
             </ScrollReveal>
