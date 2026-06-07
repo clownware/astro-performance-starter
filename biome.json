@@ -160,6 +160,16 @@
           }
         }
       }
+    },
+    {
+      "includes": ["*.config.{mjs,ts,js}"],
+      "linter": {
+        "rules": {
+          "style": {
+            "useNamingConvention": "off"
+          }
+        }
+      }
     }
   ]
 }
