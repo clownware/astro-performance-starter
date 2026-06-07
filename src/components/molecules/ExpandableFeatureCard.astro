@@ -1,6 +1,10 @@
 ---
+import Icon from "@/components/atoms/Icon.astro";
+import type { IconName } from "@/types/icons";
+
 interface Props {
-  icon: string;
+  /** Icon name from the Icon atom registry (see ADR-055). */
+  icon: IconName;
   title: string;
   description: string;
   metric: string;
@@ -15,8 +19,8 @@ const { icon, title, description, metric, expandedDetails } = Astro.props;
 >
   <div class="flex items-start justify-between mb-4">
     <div class="flex items-start gap-4 flex-1">
-      <div class="text-2xl" role="img" aria-label={`${title} icon`}>
-        {icon}
+      <div class="text-primary-600 dark:text-primary-400 shrink-0" aria-hidden="true">
+        <Icon name={icon} class="size-8" decorative />
       </div>
       <div class="flex-1">
         <h3 class="text-lg font-semibold text-foreground pr-4">{title}</h3>

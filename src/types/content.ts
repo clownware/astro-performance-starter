@@ -3,12 +3,14 @@
  * Used across pages for consistent typing and better DX.
  */
 
+import type { IconName } from "./icons";
+
 /**
  * Feature card data structure for homepage features section
  */
 export interface Feature {
-  /** Emoji icon representing the feature */
-  icon: string;
+  /** Icon name from the Icon atom registry (see src/types/icons.ts) */
+  icon: IconName;
   /** Feature title */
   title: string;
   /** Short description of the feature */
@@ -27,8 +29,8 @@ export interface LighthouseMetric {
   label: string;
   /** Score value (e.g., "95+", "100") */
   score: string;
-  /** Emoji icon for the metric */
-  icon: string;
+  /** Icon name from the Icon atom registry */
+  icon: IconName;
 }
 
 /**
