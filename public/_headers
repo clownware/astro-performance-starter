@@ -4,8 +4,9 @@
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=()
-  # TODO: Replace 'unsafe-inline' with nonces/hashes when Astro adds CSP nonce support.
-  # Required today for Astro island scripts and Tailwind utility styles.
+  # 'unsafe-inline' is a deliberate, documented choice — see ADR-051. Astro 6's
+  # built-in CSP is hash-only and incompatible with ClientRouter + Shiki, so this
+  # header-based CSP (required for island scripts + Tailwind utility styles) stays.
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
   Cache-Control: public, max-age=0, must-revalidate
 

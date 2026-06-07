@@ -109,6 +109,16 @@ corrected to v2) and links to the style guide. The site nav label changes
 - **Zero-JS**: the built page adds no new `client:` island.
 - **Gate**: `pnpm quality:ci` + `pnpm design:validate` pass; CSS stays < 50KB.
 
+## Amendment (2026-06-07) — sole component catalog
+
+`/showcase` is now the **single** component catalog. The `astrobook` dependency
+and its `docs:components` / `docs:components:build` scripts have been removed:
+astrobook was an unused second catalog (no config, no stories, no CI usage)
+duplicating what the living style guide already provides with zero extra
+dependencies. New primitives are demonstrated by adding them to the Components
+section of `/showcase`, not by reintroducing a separate story runner. Completing
+the per-component coverage of that section is tracked separately as Found Work.
+
 ## References
 
 - [ADR-026: Font Strategy](./026-font-strategy.md)

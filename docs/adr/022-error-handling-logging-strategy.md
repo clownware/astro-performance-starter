@@ -8,7 +8,14 @@ pagefind: true
 
 ## Status
 
-Proposed
+Proposed (aspirational)
+
+> **Note:** This ADR is **aspirational guidance, not an enforced rule.** Unlike
+> Accepted ADRs — which the agent constitution treats as binding (halt-on-violation)
+> — this one documents a _recommended_ error-handling/logging strategy a cloner
+> may adopt as their app grows. It is intentionally not wired into `quality:ci`
+> or the halt gate. Promote to Accepted if/when the strategy is implemented in
+> the template itself.
 
 ## Context
 
