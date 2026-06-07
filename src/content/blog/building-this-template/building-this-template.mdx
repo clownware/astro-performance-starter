@@ -1,0 +1,108 @@
+---
+title: "Building This Template: A Ghost's Tour"
+description: "Seven decisions that hold the Astro Performance Starter together — zero-JS by default, semantic tokens, contract tests, halt-on-violation gates."
+date: 2026-06-06
+slug: "building-this-template"
+featured: false
+cover: "./hero.svg"
+cardImage: "./hero.svg"
+coverAlt: "Hero card — Building This Template, dev log by Pulci Nella"
+author: "Pulci Nella"
+tags: ["Architecture", "Performance", "Astro"]
+technologies: ["Astro", "Tailwind CSS", "TypeScript", "Preact", "Biome", "Sharp"]
+---
+
+import Callout from "@/components/mdx/Callout.astro";
+
+I haunt this template. I should know how it stays up.
+
+Most starters look great in demo conditions and fall apart the day a real
+brand and real content arrive. This one is built so the *arrival* doesn't
+change the numbers. The architecture absorbs change instead of degrading
+under it. Here's the seven decisions doing that work.
+
+## 1. Zero JavaScript by default
+
+Astro's islands model is the entire reason this template can promise
+"loads instantly" without that being a slogan. HTML renders at build time;
+JavaScript ships only where a component explicitly asks to hydrate, and even
+then through `client:visible` or `client:idle` — never `client:load` without
+an ADR justifying it (ADR-001).
+
+Pairing Astro with Preact instead of React keeps the interactive island
+budget honest. A hydrated Preact tree weighs ~4KB gzipped; the same surface
+in React would be ~45KB before you've shipped a single feature.
+
+## 2. Semantic design tokens
+
+Colors don't live in components. They live in
+`tokens/base.json` → `tokens/semantic.json` → CSS custom properties. Base
+tokens are raw palette steps (OKLCH violet and rose); semantic tokens name
+roles (`foreground`, `background`, `border`, `link`); components consume
+semantic tokens only.
+
+The payoff: a rebrand is a one-file change. Dark mode is one class. WCAG
+contrast is validated at the token level (`pnpm design:validate`), so an
+inaccessible pairing fails the build before a human notices.
+
+## 3. CSS-first Tailwind v4
+
+No `tailwind.config.js`. The theme is declared in `@theme inline` blocks in
+CSS, the Lightning CSS compiler builds it, and there's zero JS config
+overhead. Components reference Tailwind's utilities or the design tokens
+directly — the abstraction layer between intent and pixels is one short hop.
+
+## 4. Contract tests on every atom & molecule
+
+Every reusable component ships with a Container API microtest (ADR-040). Render
+the component with controlled props, inspect the rendered DOM, assert the
+contract. The tests are fast (Vitest in jsdom, sub-second), they fail
+loudly when a refactor changes meaningful structure, and they catch
+accessibility regressions because the contract includes ARIA roles and
+labels.
+
+This is why I can swap the Icon registry or the SheenEyebrow atom without
+fear: the contract tests would tell me first.
+
+## 5. Layered constitution for the AI on duty
+
+The template ships with a four-file constitution that any coding agent has
+to obey: `CLAUDE.md` (project-wide rules), `.claude/engineering.md`
+(testing posture, halt conditions), `.claude/workflow.md` (Architect →
+Coder → Reviewer roles), and `.claude/stack.md` (factual versions). The
+layering is established by ADR-036.
+
+Halt-on-violation is the operative phrase. If `pnpm quality:ci` exits
+non-zero, work halts; the agent doesn't paper over the failure with a
+workaround. The discipline is identical whether a human or an agent is
+typing.
+
+## 6. Image pipeline that doesn't think about you
+
+Sharp processes every image at build time. AVIF with WebP fallback, five
+responsive breakpoints, `srcset` emitted, lazy-loading by default. The
+Astro `<Image />` component is the only way images render — ADR-008 forbids
+raw `<img>`. The result is
+an LCP image that loads at the right resolution on every device with no
+client-side JS.
+
+## 7. Quality gates that block, not warn
+
+`pnpm quality:ci` is the canonical gate: format check, lint, markdown lint,
+TypeScript check, unit tests with coverage thresholds, AI-context drift
+check. Pre-commit hook runs it; CI runs it; agents read it. There is no
+"I'll fix the test later" — the commit doesn't happen.
+
+<Callout type="success" title="The summary">
+None of these are clever. They're all boring. The work is keeping them
+boring as the surface grows — which is the whole reason a template exists.
+</Callout>
+
+## Where to start reading
+
+If you cloned this and want the short tour without me narrating: open
+`CLAUDE.md`, then `docs/adr/`, then `src/components/atoms/`. The first
+tells you the rules, the second tells you why those rules exist, the third
+shows you what living within them looks like.
+
+Then evict me.
