@@ -126,33 +126,36 @@
   --text-5xl: 3rem;
   --text-6xl: 3.75rem;
 
-  /* --- Border radius --- */
-  --radius-none: 0;
-  --radius-sm: 0.125rem;
-  --radius-base: 0.25rem;
-  --radius-md: 0.375rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 0.75rem;
-  --radius-2xl: 1rem;
-  --radius-3xl: 1.5rem;
-  --radius-full: 9999px;
+  /* --- Border radius (sourced from tokens.css — see ADR-047) --- */
+  --radius-none: var(--border-radius-none);
+  --radius-sm: var(--border-radius-sm);
+  --radius-base: var(--border-radius-md);
+  --radius-md: var(--border-radius-md);
+  --radius-lg: var(--border-radius-lg);
+  --radius-xl: var(--border-radius-xl);
+  --radius-2xl: var(--border-radius-2xl);
+  --radius-3xl: var(--border-radius-3xl);
+  --radius-full: var(--border-radius-full);
 
-  /* --- Box shadows --- */
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-base: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  /* --- Box shadows (mirror tokens/base.json shadow.*; literal because the
+     @theme key and the tokens.css var share the --shadow-* namespace, so a
+     var() self-reference would resolve circular — unlike colors, which wrap in
+     hsl(). Keep these in sync with tokens/base.json shadow values.) --- */
+  --shadow-sm: 0 1px 2px hsl(230 40% 3% / 0.18);
+  --shadow-base: 0 2px 6px -2px hsl(230 40% 3% / 0.25);
+  --shadow-md: 0 6px 16px -6px hsl(230 40% 3% / 0.35);
+  --shadow-lg: 0 18px 40px -16px hsl(230 40% 3% / 0.50);
+  --shadow-xl: 0 30px 70px -28px hsl(230 45% 2% / 0.65);
 
-  /* --- Transition durations --- */
-  --duration-fast: 150ms;
-  --duration-base: 250ms;
-  --duration-slow: 400ms;
+  /* --- Transition durations (sourced from tokens.css) --- */
+  --duration-fast: var(--motion-duration-fast);
+  --duration-base: var(--motion-duration-base);
+  --duration-slow: var(--motion-duration-slow);
 
-  /* --- Easing functions --- */
-  --ease-in: cubic-bezier(0.4, 0, 1, 1);
-  --ease-out: cubic-bezier(0, 0, 0.2, 1);
-  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  /* --- Easing functions (sourced from tokens.css) --- */
+  --ease-in: var(--motion-ease-in);
+  --ease-out: var(--motion-ease-out);
+  --ease-in-out: var(--motion-ease-in-out);
 
   /* --- Fonts (display = Geist headlines, text = Inter body) --- */
   --font-display: var(--font-family-display);
@@ -409,22 +412,9 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  /* 3 — Scroll-driven reveal — native timeline, no IntersectionObserver. */
-  .reveal {
-    animation: reveal-in linear both;
-    animation-timeline: view();
-    animation-range: entry 2% cover 26%;
-  }
-  @keyframes reveal-in {
-    from {
-      opacity: 0;
-      transform: translateY(18px);
-    }
-    to {
-      opacity: 1;
-      transform: none;
-    }
-  }
+  /* Scroll-driven reveals are owned by the ScrollReveal component
+     (src/components/atoms/ScrollReveal.astro), which also offers animation
+     variants + delays — so no standalone .reveal utility here. */
 
   /* 4 — glow rotation */
   .glow-border::before {
