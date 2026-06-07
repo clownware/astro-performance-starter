@@ -195,8 +195,8 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   /* Improved error state styling */
   .contact-form input[aria-invalid="true"],
   .contact-form textarea[aria-invalid="true"] {
-    border-color: rgb(239 68 68);
-    box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+    border-color: hsl(var(--color-error));
+    box-shadow: 0 0 0 3px hsl(var(--color-error) / 0.1);
   }
   
   /* Loading animation */

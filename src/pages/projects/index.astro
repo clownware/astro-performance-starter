@@ -93,7 +93,7 @@ const pageDescription =
   <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
     <!-- Page Header -->
     <div class="mb-12 text-center">
-      <h1 class="mb-4 text-4xl font-bold tracking-tight text-foreground-default sm:text-5xl">
+      <h1 class="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
         {pageTitle}
       </h1>
       <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
@@ -103,7 +103,7 @@ const pageDescription =
 
     <!-- Filter Controls -->
     <section class="mb-12" aria-labelledby="filter-heading">
-      <h2 id="filter-heading" class="mb-4 text-center text-xl font-bold text-foreground-default">Filter by Technology</h2>
+      <h2 id="filter-heading" class="mb-4 text-center text-xl font-bold text-foreground">Filter by Technology</h2>
       <div class="flex flex-wrap justify-center gap-3">
         <button
           type="button"
@@ -128,7 +128,7 @@ const pageDescription =
 
     <!-- Projects Grid -->
     <section class="text-center" aria-labelledby="projects-heading">
-      <h2 id="projects-heading" class="mb-8 text-center text-2xl font-bold text-foreground-default">All Projects</h2>
+      <h2 id="projects-heading" class="mb-8 text-center text-2xl font-bold text-foreground">All Projects</h2>
       <div id="projects-grid" class="flex flex-wrap justify-center gap-8" aria-live="polite" aria-atomic="false">
         {displayedProjects.map((project) => (
           <ProjectCard

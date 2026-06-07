@@ -114,7 +114,7 @@ const responseExpectations: ResponseExpectation[] = [
   {
     icon: "⚡",
     iconLabel: "Lightning bolt",
-    bgClass: "bg-surface-subtle",
+    bgClass: "bg-surface",
     title: "Quick Response",
     description: "We'll acknowledge your message within 2 hours during business hours",
   },
@@ -128,7 +128,7 @@ const responseExpectations: ResponseExpectation[] = [
   {
     icon: "🤝",
     iconLabel: "Handshake",
-    bgClass: "bg-accent-100 dark:bg-accent-900",
+    bgClass: "bg-primary-100 dark:bg-primary-900",
     title: "Next Steps",
     description: "We'll schedule a call or meeting to discuss your project in detail",
   },
@@ -271,14 +271,14 @@ const responseExpectations: ResponseExpectation[] = [
 
             <!-- Location & Availability -->
             <div class="pt-8 border-t border-border">
-              <h3 class="text-xl font-semibold text-foreground-default mb-4">
+              <h3 class="text-xl font-semibold text-foreground mb-4">
                 Location & Availability
               </h3>
               <div class="space-y-4">
                 {locationInfo.map((info) => (
                   <div class="flex items-center space-x-3">
                     <span class="text-muted-foreground" aria-hidden="true">{info.icon}</span>
-                    <span class="text-foreground-default">{info.text}</span>
+                    <span class="text-foreground">{info.text}</span>
                     <Badge role="presentation">{info.badge}</Badge>
                   </div>
                 ))}
@@ -294,7 +294,7 @@ const responseExpectations: ResponseExpectation[] = [
     <section class="py-16 bg-background-surface">
       <div class="container mx-auto px-4">
         <div class="max-w-4xl mx-auto text-center">
-          <h2 class="text-3xl font-bold text-foreground-default mb-8">
+          <h2 class="text-3xl font-bold text-foreground mb-8">
             What to expect after reaching out
           </h2>
           <div class="grid md:grid-cols-3 gap-8">
@@ -303,7 +303,7 @@ const responseExpectations: ResponseExpectation[] = [
                 <div class={`w-16 h-16 ${expectation.bgClass} rounded-full flex items-center justify-center mx-auto`}>
                   <span class="text-2xl" aria-hidden="true">{expectation.icon}</span>
                 </div>
-                <h3 class="text-xl font-semibold text-foreground-default">
+                <h3 class="text-xl font-semibold text-foreground">
                   {expectation.title}
                 </h3>
                 <p class="text-muted-foreground">

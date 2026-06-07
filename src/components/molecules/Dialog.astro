@@ -85,12 +85,12 @@ const HeadingTag = headingLevel;
     border-radius: 0.75rem;
     background: hsl(var(--color-background));
     color: hsl(var(--color-foreground));
-    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+    box-shadow: var(--shadow-xl);
   }
 
   /* Backdrop — browser-provided, styled with design tokens */
   .dialog::backdrop {
-    background: hsl(var(--color-gray-900) / 0.6);
+    background: hsl(var(--color-slate-900) / 0.6);
     backdrop-filter: blur(4px);
   }
 
