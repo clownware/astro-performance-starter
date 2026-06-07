@@ -2,6 +2,7 @@
 import type { CollectionEntry } from "astro:content";
 import type { GetStaticPaths, Page } from "astro";
 import Button from "@/components/atoms/Button.astro";
+import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
 import PostCard from "@/components/molecules/PostCard.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getFeaturedPosts, getPublishedPosts } from "@/utils/blog";
@@ -92,14 +93,16 @@ const pageDescription =
 >
   <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
     <!-- Blog Header -->
-    <div class="mb-12 text-center">
-      <h1 class="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
-        Blog
-      </h1>
-      <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
-        Thoughts, tutorials, and insights about web development, Astro, and modern frontend technologies.
-      </p>
-    </div>
+    <ScrollReveal>
+      <div class="mb-12 text-center">
+        <h1 class="mb-4 text-4xl font-bold tracking-tight text-foreground sm:text-5xl">
+          Blog
+        </h1>
+        <p class="mx-auto max-w-2xl text-lg text-muted-foreground">
+          Thoughts, tutorials, and insights about web development, Astro, and modern frontend technologies.
+        </p>
+      </div>
+    </ScrollReveal>
 
     <!-- Featured Posts Section (only on first page) -->
     {page.currentPage === 1 && featuredPostsWithMetadata.length > 0 && (

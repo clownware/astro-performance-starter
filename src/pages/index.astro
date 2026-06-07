@@ -3,6 +3,7 @@ import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Icon from "@/components/atoms/Icon.astro";
 
+import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
 import Card from "@/components/molecules/Card.astro";
 import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
 import PostCard from "@/components/molecules/PostCard.astro";
@@ -243,7 +244,9 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           Astro Performance Starter.
         </h1>
         <p class="mt-2 text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight">
-          <span class="bg-linear-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
+          {/* Shared view-transition name — the gradient sub-line glides into the
+              gradient headline on /showcase and /how-it-works (ADR-048 #2). */}
+          <span transition:name="hero-grad" class="bg-linear-to-r from-primary-600 to-secondary-600 bg-clip-text text-transparent">
             Point your AI agent at the docs and ship.
           </span>
         </p>
@@ -296,14 +299,16 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
   <Section id="performance" ariaLabel="Performance metrics section" class="relative bg-surface">
     <SectionSeparator />
     <Container>
-      <div class="text-center">
-        <h2 class="text-3xl font-bold text-foreground text-balance">
-          <span aria-hidden="true" class="mr-1.5">🎯</span> Quality Metrics
-        </h2>
-        <p class="mt-4 text-lg text-muted-foreground">
-          Lighthouse for runtime performance · Stryker for test-quality verification (ADR-042)
-        </p>
-      </div>
+      <ScrollReveal>
+        <div class="text-center">
+          <h2 class="text-3xl font-bold text-foreground text-balance">
+            <span aria-hidden="true" class="mr-1.5">🎯</span> Quality Metrics
+          </h2>
+          <p class="mt-4 text-lg text-muted-foreground">
+            Lighthouse for runtime performance · Stryker for test-quality verification (ADR-042)
+          </p>
+        </div>
+      </ScrollReveal>
 
       <ul class="mt-4 sm:mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4 list-none" role="list" aria-label="Lighthouse performance metrics">
         {metrics.map((metric) => (
@@ -362,6 +367,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
   <Section id="features" ariaLabel="Key features section" class="relative">
     <SectionSeparator />
     <Container>
+      <ScrollReveal>
       <div class="mx-auto max-w-2xl text-center">
         <h2 class="text-3xl font-bold tracking-tight text-foreground sm:text-4xl text-balance">
           Why Choose This Template?
@@ -370,6 +376,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           Six production-tested capabilities — from zero-JS performance to AI-ready documentation — ready to customise from day one.
         </p>
       </div>
+      </ScrollReveal>
 
       {/* Hero cards — the two differentiators */}
       <div class="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -404,14 +411,16 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
     <SectionSeparator />
     <Container>
       <div class="mx-auto max-w-5xl">
-        <div class="text-center mb-12">
-          <h2 class="text-3xl font-bold text-foreground text-balance">
-            What You Get on Clone
-          </h2>
-          <p class="mt-4 text-lg text-muted-foreground">
-            Foundation is done. Build has demo content ready to replace. Polish guides you to production.
-          </p>
-        </div>
+        <ScrollReveal>
+          <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-foreground text-balance">
+              What You Get on Clone
+            </h2>
+            <p class="mt-4 text-lg text-muted-foreground">
+              Foundation is done. Build has demo content ready to replace. Polish guides you to production.
+            </p>
+          </div>
+        </ScrollReveal>
 
         <div class="grid grid-cols-1 gap-8 lg:grid-cols-3">
           <!-- Foundation Tier -->
@@ -538,14 +547,16 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
   <Section id="tech-stack" ariaLabel="Technology stack section" class="bg-surface relative">
     <SectionSeparator />
     <Container>
-      <div class="mx-auto max-w-2xl text-center">
-        <h2 class="text-3xl font-bold text-foreground text-balance">
-          <span aria-hidden="true" class="mr-1.5">🛠️</span> Modern Tech Stack
-        </h2>
-        <p class="mt-4 text-lg text-muted-foreground">
-          Carefully selected tools for optimal developer experience
-        </p>
-      </div>
+      <ScrollReveal>
+        <div class="mx-auto max-w-2xl text-center">
+          <h2 class="text-3xl font-bold text-foreground text-balance">
+            <span aria-hidden="true" class="mr-1.5">🛠️</span> Modern Tech Stack
+          </h2>
+          <p class="mt-4 text-lg text-muted-foreground">
+            Carefully selected tools for optimal developer experience
+          </p>
+        </div>
+      </ScrollReveal>
 
       <div class="mt-12 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {techStack.map((tech) => (

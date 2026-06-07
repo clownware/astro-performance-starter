@@ -3,6 +3,7 @@
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Image from "@/components/atoms/Image.astro";
+import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
 import SocialLink from "@/components/atoms/SocialLink.astro";
 import { socialLinks as configSocialLinks } from "@/config";
 // Import the avatar image
@@ -72,12 +73,14 @@ const experiences = [
               loading="eager"
             />
           </div>
-          <h1 class="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-            Hi, I'm Alex 👋
-          </h1>
-          <p class="mt-6 text-lg leading-8 text-muted-foreground">
-            I build blazing-fast websites that don't sacrifice beauty for performance. Zero-JS enthusiast, accessibility advocate, and professional yak-shaver.
-          </p>
+          <ScrollReveal>
+            <h1 class="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
+              Hi, I'm Alex 👋
+            </h1>
+            <p class="mt-6 text-lg leading-8 text-muted-foreground">
+              I build blazing-fast websites that don't sacrifice beauty for performance. Zero-JS enthusiast, accessibility advocate, and professional yak-shaver.
+            </p>
+          </ScrollReveal>
         </div>
       </div>
     </section>
