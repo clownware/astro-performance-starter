@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Northwind Docs portal cover">
+  <defs>
+    <linearGradient id="docs-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="oklch(0.55 0.22 256)"/>
+      <stop offset="100%" stop-color="oklch(0.65 0.20 344)"/>
+    </linearGradient>
+    <linearGradient id="docs-fade" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="oklch(0 0 0 / 0)"/>
+      <stop offset="100%" stop-color="oklch(0 0 0 / 0.35)"/>
+    </linearGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#docs-grad)"/>
+  <rect width="1600" height="900" fill="url(#docs-fade)"/>
+  <text x="120" y="780" font-family="ui-sans-serif, system-ui, sans-serif" font-size="32" font-weight="500" fill="white" opacity="0.7" letter-spacing="0.18em">DEMO CASE STUDY</text>
+  <text x="120" y="850" font-family="ui-serif, Georgia, serif" font-size="72" font-weight="700" fill="white">Northwind Docs — Documentation Portal</text>
+</svg>
