@@ -10,30 +10,31 @@ import SignalsCounter from "@/components/islands/SignalsCounter.tsx";
 import Card from "@/components/molecules/Card.astro";
 import ColorTokenSwatch from "@/components/molecules/ColorTokenSwatch.astro";
 import Dialog from "@/components/molecules/Dialog.astro";
+import PaletteBand from "@/components/molecules/PaletteBand.astro";
 import ScrollSpy from "@/components/molecules/ScrollSpy.astro";
 import SectionSeparator from "@/components/molecules/SectionSeparator.astro";
 import ShowcaseExample from "@/components/molecules/ShowcaseExample.astro";
 import Tabs from "@/components/molecules/Tabs.astro";
+import TypeSpecimen from "@/components/molecules/TypeSpecimen.astro";
 import Container from "@/components/structural/Container.astro";
 import Grid from "@/components/structural/Grid.astro";
 import ParallaxSection from "@/components/structural/ParallaxSection.astro";
 import Section from "@/components/structural/Section.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 
+// ScrollSpy section list — keep IDs in sync with the <Section id="…"> values below.
 const spySections = [
-  { id: "hero", label: "Overview" },
-  { id: "design-tokens", label: "Design Tokens" },
-  { id: "atoms", label: "Atoms" },
-  { id: "molecules", label: "Molecules" },
-  { id: "structural", label: "Structural" },
-  { id: "islands", label: "Islands" },
-  { id: "composition", label: "Composition" },
+  { id: "system", label: "System" },
+  { id: "color", label: "Color" },
+  { id: "type", label: "Type" },
+  { id: "motion", label: "Motion" },
+  { id: "components", label: "Components" },
 ];
 ---
 
 <BaseLayout
-  title="Components"
-  description="Every component in the Astro Performance Starter, demonstrated live. Modern CSS features, zero JavaScript, full accessibility."
+  title="Design System"
+  description="The Astro Performance Starter design system, demonstrated by a page styled entirely by it — colour, type, motion and components, all token-driven and zero-JS."
 >
   <ReadingProgress color="gradient" />
 
@@ -57,19 +58,24 @@ const spySections = [
       {/* ================================================================
           HERO SECTION
           ================================================================ */}
-      <ParallaxSection intensity="subtle" ariaLabel="Components hero">
-        <Section id="hero" class="pt-12 pb-16 sm:pt-16 sm:pb-20">
-          <div class="text-center max-w-3xl mx-auto">
-            <AnimatedGradientText as="h1" speed="slow" morph class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              Components
-            </AnimatedGradientText>
+      <ParallaxSection intensity="subtle" ariaLabel="Design system hero">
+        <Section id="system" class="pt-12 pb-16 sm:pt-16 sm:pb-20">
+          <div class="max-w-3xl">
+            <Badge variant="primary" size="sm" class="mb-6">✦ Astro 6 · zero-JS baseline</Badge>
 
-            <p class="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-              Every component in the starter, demonstrated live with code. Modern CSS features replacing JavaScript libraries — zero-JS by default, full accessibility.
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6 leading-[1.02]">
+              <span class="block text-foreground">Restraint, then</span>
+              <AnimatedGradientText as="span" speed="slow" morph class="block">one bright move.</AnimatedGradientText>
+            </h1>
+
+            <p class="text-lg sm:text-xl text-muted-foreground mb-10 max-w-2xl">
+              A performance-first starter, dressed in a cold-minimal, dark-first system.
+              Near-monochrome surfaces; a single animated violet→crimson OKLCH gradient does
+              all the talking. This page is styled entirely by the tokens it documents.
             </p>
 
-            {/* Stats row */}
-            <div class="flex flex-wrap justify-center gap-8 sm:gap-12">
+            {/* Stats row — real numbers */}
+            <div class="flex flex-wrap gap-8 sm:gap-12">
               <CounterBadge value={40} suffix="+" label="Components" />
               <CounterBadge value={0} suffix=" KB" label="New JS Added" />
               <CounterBadge value={95} suffix="+" label="Lighthouse" />
@@ -81,15 +87,80 @@ const spySections = [
       <SectionSeparator />
 
       {/* ================================================================
-          DESIGN TOKENS SECTION
+          SYSTEM — re-theme point of view
           ================================================================ */}
-      <Section id="design-tokens" class="py-16">
+      <Section class="py-12">
         <Container>
           <ScrollReveal>
-            <h2 class="text-3xl font-bold text-foreground mb-2">Design Tokens</h2>
-            <p class="text-muted-foreground mb-8 max-w-2xl">
-              Single source of truth in <a href="https://github.com/Clownware/astro-performance-starter/tree/main/tokens" target="_blank" rel="noopener noreferrer" class="underline decoration-dotted underline-offset-2 hover:decoration-solid"><code class="text-sm bg-surface px-1.5 py-0.5 rounded">tokens/</code></a>. Built to CSS custom properties, consumed via Tailwind utilities. Every color on this page comes from the token system.
+            <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">The point of view</p>
+            <h2 class="text-3xl font-bold text-foreground mb-3">A system you can re-theme, not just read</h2>
+            <p class="text-muted-foreground max-w-2xl mb-10">
+              Every pixel here is painted by tokens in <code class="text-sm bg-surface px-1.5 py-0.5 rounded-md">tokens/base.json</code> —
+              the swatches, the type scale, the gallery, this paragraph. Change values in one file
+              and the whole system re-skins: no component edits, no hunting hardcoded colours.
             </p>
+          </ScrollReveal>
+
+          <ScrollReveal>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+              <Card>
+                <div class="p-4">
+                  <p class="text-xs uppercase tracking-wider text-muted-foreground mb-1">Edit</p>
+                  <p class="font-mono font-semibold text-link text-sm mb-1">base.json</p>
+                  <p class="text-xs text-muted-foreground">Adjust a hue, a step, the gradient stops or the fontFamily group.</p>
+                </div>
+              </Card>
+              <Card>
+                <div class="p-4">
+                  <p class="text-xs uppercase tracking-wider text-muted-foreground mb-1">Run</p>
+                  <p class="font-mono font-semibold text-link text-sm mb-1">pnpm tokens:build</p>
+                  <p class="text-xs text-muted-foreground">Emits the <code class="text-xs">--color-*</code> and <code class="text-xs">--font-family-*</code> vars components consume.</p>
+                </div>
+              </Card>
+              <Card>
+                <div class="p-4">
+                  <p class="text-xs uppercase tracking-wider text-muted-foreground mb-1">Gate</p>
+                  <p class="font-mono font-semibold text-link text-sm mb-1">pnpm design:validate</p>
+                  <p class="text-xs text-muted-foreground">Checks WCAG-AA contrast on the gated pairs. Fails the build on a regression.</p>
+                </div>
+              </Card>
+              <Card>
+                <div class="p-4">
+                  <p class="text-xs uppercase tracking-wider text-muted-foreground mb-1">Ship</p>
+                  <p class="font-mono font-semibold text-link text-sm mb-1">this page re-skins</p>
+                  <p class="text-xs text-muted-foreground">Swatches, type scale, gallery and hero all reflect the new system automatically.</p>
+                </div>
+              </Card>
+            </div>
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          DESIGN TOKENS SECTION
+          ================================================================ */}
+      <Section id="color" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">Color tokens</p>
+            <h2 class="text-3xl font-bold text-foreground mb-2">Full scales, fixed semantic mapping</h2>
+            <p class="text-muted-foreground mb-8 max-w-2xl">
+              Each family is a 50→950 scale in <a href="https://github.com/Clownware/astro-performance-starter/tree/main/tokens" target="_blank" rel="noopener noreferrer" class="underline decoration-dotted underline-offset-2 hover:decoration-solid"><code class="text-sm bg-surface px-1.5 py-0.5 rounded-md">tokens/</code></a>.
+              Roles are pinned: primary/success→violet, secondary/error→rose, warning→amber, neutrals→slate.
+              The bands and role chips below read the live CSS vars — toggle the theme and watch them flip.
+            </p>
+          </ScrollReveal>
+
+          {/* Full 50–950 palette bands — token-driven via PaletteBand */}
+          <ScrollReveal>
+            <div class="flex flex-col gap-6 mb-10">
+              <PaletteBand family="slate" label="neutral · 228° cool" />
+              <PaletteBand family="violet" label="primary / success · 256°" />
+              <PaletteBand family="rose" label="secondary / error · 344°" />
+              <PaletteBand family="amber" label="warning · 38°" />
+            </div>
           </ScrollReveal>
 
           <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -166,12 +237,109 @@ const spySections = [
       <SectionSeparator />
 
       {/* ================================================================
-          ATOMS SECTION
+          TYPE SECTION
+          ================================================================ */}
+      <Section id="type" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">Type specimen</p>
+            <h2 class="text-3xl font-bold text-foreground mb-2">A scale built from fontFamily tokens</h2>
+            <p class="text-muted-foreground mb-8 max-w-2xl">
+              Type is tokenized like colour. The <code class="text-sm bg-surface px-1.5 py-0.5 rounded-md">fontFamily</code>
+              group (display + text) makes the face swappable — change the token and this whole
+              specimen reflows. Display rides at 700 in Geist; body is Inter, a clean neutral sans.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal>
+            <TypeSpecimen />
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          MOTION SECTION
+          ================================================================ */}
+      <Section id="motion" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">Motion</p>
+            <h2 class="text-3xl font-bold text-foreground mb-2">Live, CSS-native, reduced-motion gated</h2>
+            <p class="text-muted-foreground mb-8 max-w-2xl">
+              The signature gradient sits up top: two OKLCH interpolations, side by side.
+              Everything here is compositor-cheap and gated behind
+              <code class="text-sm bg-surface px-1.5 py-0.5 rounded-md">prefers-reduced-motion</code> — turn it on
+              and every loop settles to a legible resting state.
+            </p>
+          </ScrollReveal>
+
+          {/* Gradient A vs B — token-driven via AnimatedGradientText arc prop */}
+          <ScrollReveal>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+              <Card>
+                <div class="p-6">
+                  <p class="text-xs font-mono text-muted-foreground mb-4">Gradient A — <span class="text-link">in oklch shorter hue</span> · vivid, tight</p>
+                  <AnimatedGradientText as="p" arc="short" speed="slow" class="text-5xl font-bold tracking-tight">Aurora</AnimatedGradientText>
+                  <p class="text-xs text-muted-foreground mt-4">Hue takes the short path violet→crimson. Reduced-motion: sweep stops, gradient holds a static frame.</p>
+                </div>
+              </Card>
+              <Card>
+                <div class="p-6">
+                  <p class="text-xs font-mono text-muted-foreground mb-4">Gradient B — <span class="text-link">longer hue</span> · full rainbow sweep · shipped</p>
+                  <AnimatedGradientText as="p" arc="long" speed="slow" class="text-5xl font-bold tracking-tight">Aurora</AnimatedGradientText>
+                  <p class="text-xs text-muted-foreground mt-4">Hue takes the long way round the wheel. This is the variant the hero uses.</p>
+                </div>
+              </Card>
+            </div>
+          </ScrollReveal>
+
+          {/* Conic glow + CTA sheen */}
+          <ScrollReveal>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="rounded-lg border border-border p-6">
+                <p class="text-xs font-mono text-muted-foreground mb-4">Conic glow + sheen · <span class="text-link">@property &lt;angle&gt;</span></p>
+                <div class="flex items-center gap-4">
+                  <div class="glow-border rounded-lg bg-surface px-5 py-4 text-sm font-medium">Featured</div>
+                  <Button variant="primary" class="cta-sheen">Deploy</Button>
+                </div>
+                <p class="text-xs text-muted-foreground mt-4">One decorative loop + one specular pass. Reduced-motion: ring holds, sheen off.</p>
+              </div>
+              <div class="rounded-lg border border-border p-6">
+                <p class="text-xs font-mono text-muted-foreground mb-4">Scroll reveal · <span class="text-link">animation-timeline: view()</span></p>
+                <p class="text-sm text-muted-foreground">Every block on this page enters via the <code class="text-xs">ScrollReveal</code> component — native scroll-driven, no IntersectionObserver. A fixed <code class="text-xs">feTurbulence</code> grain adds depth on the dark surface. Reduced-motion: items render at rest, fully visible.</p>
+              </div>
+            </div>
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          COMPONENTS — gallery intro + atoms/molecules/structural/islands/composition
+          ================================================================ */}
+      <Section id="components" class="pt-16 pb-4">
+        <Container>
+          <ScrollReveal>
+            <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">Components</p>
+            <h2 class="text-3xl font-bold text-foreground mb-2">The gallery, styled by the system</h2>
+            <p class="text-muted-foreground max-w-2xl">
+              The atoms, molecules, structural primitives, islands and real-world compositions
+              below are imported live — no redesigned mockups, no hardcoded colour. Each consumes
+              the same tokens documented above.
+            </p>
+          </ScrollReveal>
+        </Container>
+      </Section>
+
+      {/* ================================================================
+          ATOMS
           ================================================================ */}
       <Section id="atoms" class="py-16">
         <Container>
           <ScrollReveal>
-            <h2 class="text-3xl font-bold text-foreground mb-2">Atoms</h2>
+            <h3 class="text-2xl font-bold text-foreground mb-2">Atoms</h3>
             <p class="text-muted-foreground mb-8 max-w-2xl">
               Primitive building blocks. Each is a single Astro component with TypeScript props, design token colors, and built-in accessibility.
             </p>
@@ -290,7 +458,7 @@ const spySections = [
       <Section id="molecules" class="py-16">
         <Container>
           <ScrollReveal>
-            <h2 class="text-3xl font-bold text-foreground mb-2">Molecules</h2>
+            <h3 class="text-2xl font-bold text-foreground mb-2">Molecules</h3>
             <p class="text-muted-foreground mb-8 max-w-2xl">
               Composite components built from atoms. Interactive patterns using native HTML elements — <code class="text-sm bg-surface px-1.5 py-0.5 rounded">&lt;dialog&gt;</code>, <code class="text-sm bg-surface px-1.5 py-0.5 rounded">&lt;details&gt;</code>, radio buttons — instead of JavaScript frameworks.
             </p>
@@ -399,7 +567,7 @@ const spySections = [
       <Section id="structural" class="py-16">
         <Container>
           <ScrollReveal>
-            <h2 class="text-3xl font-bold text-foreground mb-2">Structural</h2>
+            <h3 class="text-2xl font-bold text-foreground mb-2">Structural</h3>
             <p class="text-muted-foreground mb-8 max-w-2xl">
               Layout components that form the page skeleton. The Grid component uses CSS Container Queries — responding to parent width instead of viewport width.
             </p>
@@ -448,7 +616,7 @@ const spySections = [
       <Section id="islands" class="py-16">
         <Container>
           <ScrollReveal>
-            <h2 class="text-3xl font-bold text-foreground mb-2">Islands Architecture</h2>
+            <h3 class="text-2xl font-bold text-foreground mb-2">Islands Architecture</h3>
             <p class="text-muted-foreground mb-8 max-w-2xl">
               CSS handles presentation. JavaScript handles state — only when you genuinely need it. This is the one island component in the showcase: Preact Signals for fine-grained reactivity with zero VDOM diffing.
             </p>
@@ -477,7 +645,7 @@ const spySections = [
       <Section id="composition" class="py-16 pb-24">
         <Container>
           <ScrollReveal>
-            <h2 class="text-3xl font-bold text-foreground mb-2">Composition</h2>
+            <h3 class="text-2xl font-bold text-foreground mb-2">Composition</h3>
             <p class="text-muted-foreground mb-8 max-w-2xl">
               Isolated demos prove a component renders. Compositions prove the system holds together. Below: real UI assembled from the same atoms and molecules shown above — no glue code.
             </p>

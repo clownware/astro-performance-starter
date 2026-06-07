@@ -1,18 +1,18 @@
 import { expect, test } from "@playwright/test";
 
-test.describe("Components", () => {
+test.describe("Design System", () => {
 	test.beforeEach(async ({ page }) => {
 		await page.goto("/showcase/");
 	});
 
 	test("should load successfully with correct title", async ({ page }) => {
-		// Page title is "Components | ..." after the showcase → components rename
-		// (24477fa4); BaseLayout appends a site-name suffix.
-		await expect(page).toHaveTitle(/Components/);
+		// /showcase is the living style guide (ADR-049); BaseLayout appends a
+		// site-name suffix to the "Design System" title.
+		await expect(page).toHaveTitle(/Design System/);
 	});
 
 	test("should display hero with animated H1", async ({ page }) => {
-		const h1 = page.getByRole("heading", { level: 1, name: "Components" });
+		const h1 = page.getByRole("heading", { level: 1, name: /Restraint, then/ });
 		await expect(h1).toBeVisible();
 	});
 
@@ -24,16 +24,23 @@ test.describe("Components", () => {
 		await expect(page.getByRole("img", { name: "95+ Lighthouse" })).toBeVisible();
 	});
 
-	test("should display all top-level showcase sections", async ({ page }) => {
+	test("should display all top-level style-guide sections", async ({ page }) => {
+		// The living style guide is System / Color / Type / Motion / Components (ADR-049).
 		for (const heading of [
-			"Design Tokens",
-			"Atoms",
-			"Molecules",
-			"Structural",
-			"Islands Architecture",
-			"Composition",
+			"A system you can re-theme, not just read",
+			"Full scales, fixed semantic mapping",
+			"A scale built from fontFamily tokens",
+			"Live, CSS-native, reduced-motion gated",
+			"The gallery, styled by the system",
 		]) {
 			await expect(page.getByRole("heading", { level: 2, name: heading })).toBeVisible();
+		}
+	});
+
+	test("should display the component gallery subsections", async ({ page }) => {
+		// Atoms…Composition are now h3 subsections under the Components h2.
+		for (const heading of ["Atoms", "Molecules", "Structural", "Islands Architecture", "Composition"]) {
+			await expect(page.getByRole("heading", { level: 3, name: heading })).toBeVisible();
 		}
 	});
 
