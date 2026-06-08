@@ -66,7 +66,7 @@ graph TD
 
 ### Implementation Details
 
-1. **Remark Plugin** (`scripts/remark-validate-links.mjs`)
+1. **Remark Plugin** (`scripts/src/remark-validate-links.mjs`)
    - Processes all `.md` and `.mdx` files during build
    - Validates file existence for internal links
    - Supports multiple base paths for future migration

@@ -5,6 +5,7 @@
 - `atoms/` — smallest reusable elements (buttons, icons, badges)
 - `molecules/` — combinations of atoms (cards, nav items, form groups)
 - `structural/` — layout and page-level structure (headers, footers, sections)
+- `islands/` — interactive Preact island components (hydrated client-side)
 - `a11y/` — accessibility-specific components (skip links, focus traps)
 - `mdx/` — components used in MDX content
 
@@ -16,7 +17,7 @@
 
 ## Progressive Enhancement
 
-CSS → View Transitions → Alpine.js → Preact islands
+CSS → View Transitions → Preact islands
 
 Client directives:
 

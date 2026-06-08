@@ -1,6 +1,6 @@
 ---
 title: lint staged config
-description: "```json\r // package.json - lint-staged configuration\r {\r   \"lint-staged\": {\r     \"*.{js,ts,jsx,tsx,astro}\": [\r       \"biome check --apply --no-errors-on-unmatch"
+description: "```json\r // package.json - lint-staged configuration\r {\r   \"lint-staged\": {\r     \"*.{astro,ts,tsx,js,jsx,json,yml,yaml}\": \"biome check --write --no-errors-on-unmatch"
 lastUpdated: true
 tableOfContents: true
 pagefind: true
@@ -9,16 +9,8 @@ pagefind: true
 // package.json - lint-staged configuration
 {
   "lint-staged": {
-    "*.{js,ts,jsx,tsx,astro}": [
-      "biome check --apply --no-errors-on-unmatched",
-      "biome format --write --no-errors-on-unmatched"
-    ],
-    "*.{md,json,yaml,yml}": [
-      "biome format --write --no-errors-on-unmatched"
-    ],
-    "package.json": [
-      "sort-package-json"
-    ]
+    "*.{astro,ts,tsx,js,jsx,json,yml,yaml}": "biome check --write --no-errors-on-unmatched",
+    "*.{md,mdx}": "markdownlint-cli2 --fix"
   }
 }
 ```

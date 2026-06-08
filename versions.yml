@@ -9,7 +9,7 @@ preact: 10.x
 astro-mdx: 5.x
 tailwindcss-vite: 4.x
 astro-sitemap: 3.x
-astro-check: 0.9.8
+astro-check: 0.9.9
 playwright: 1.x
 vitest: 4.x
 lighthouse-ci: 13.x

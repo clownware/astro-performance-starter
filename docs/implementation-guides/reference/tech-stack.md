@@ -193,13 +193,13 @@ Runtime:
 {
   "dependencies": {
     "@astrojs/mdx": "^5.0.2",
-    "@astrojs/preact": "^5.0.2",
+    "@astrojs/preact": "^5.1.3",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.1",
     "@fontsource-variable/inter": "^5.2.8",
     "@preact/signals": "^2.9.0",
     "@tailwindcss/vite": "^4.2.2",
-    "astro-expressive-code": "^0.41.7",
+    "astro-expressive-code": "^0.42.0",
     "preact": "^10.29.0",
     "sharp": "^0.34.5",
     "tailwindcss": "4.2.2"
@@ -213,7 +213,7 @@ Runtime:
 {
   "scripts": {
     "dev": "astro dev",
-    "build": "pnpm run tokens:build && astro build",
+    "build": "pnpm run env:validate && pnpm run tokens:build && astro build",
     "preview": "astro preview",
     "preview:build": "pnpm run build && astro preview",
     "check": "astro check",
@@ -232,18 +232,18 @@ Runtime:
 ```json
 {
   "devDependencies": {
-    "@astrojs/check": "^0.9.8",
-    "@biomejs/biome": "^2.4.9",
-    "@playwright/test": "^1.58.2",
+    "@astrojs/check": "^0.9.9",
+    "@biomejs/biome": "^2.4.11",
+    "@playwright/test": "^1.59.1",
     "husky": "^9.1.7",
     "lighthouse": "^13.0.3",
     "lint-staged": "^16.4.0",
-    "tsx": "^4.21.0",
+    "tsx": "^4.22.3",
     "typescript": "^5.9.3",
-    "vitest": "^4.1.1"
+    "vitest": "^4.1.6"
   },
   "optionalDependencies": {
-    "@axe-core/playwright": "^4.11.1",
+    "@axe-core/playwright": "^4.11.3",
     "style-dictionary": "^5.4.0",
     "tailwindcss-themer": "^4.1.1"
   },

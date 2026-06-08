@@ -7,10 +7,25 @@ pagefind: true
 ---
 ```bash
 # .env.example
+# Copy this file to .env and fill in your values. DO NOT commit .env.
+
 # Site Configuration
-PUBLIC_SITE_URL=https://example.com
-PUBLIC_SITE_TITLE="Astro Performance Starter"
-PUBLIC_SITE_DESCRIPTION="High-performance website built with Astro"
+#
+# SITE_URL (required for production builds) — canonical origin, no trailing slash.
+# The build fails if it is unset or contains placeholder values.
+# SITE_URL=https://your-username.github.io
+#
+# Alternatively use PUBLIC_SITE_URL (exposed to client-side code via Astro):
+PUBLIC_SITE_URL=http://localhost:4321
+
+# Deployment Target
+# Set to "gh-pages" for GitHub Pages (derives base path from package.json "name").
+# Leave unset for root deployments (Cloudflare Pages, Netlify, Vercel, etc.)
+# DEPLOY_TARGET=gh-pages
+
+# Analytics (optional) — not yet implemented; uncomment when adding support.
+# PUBLIC_PLAUSIBLE_DOMAIN="your-domain.com"
+# PUBLIC_FATHOM_SITE_ID="YOUR_FATHOM_SITE_ID"
 
 # Contact Information
 PUBLIC_CONTACT_EMAIL=hello@example.com
@@ -25,11 +40,7 @@ PUBLIC_SOCIAL_GITHUB=https://github.com/example
 PUBLIC_SOCIAL_LINKEDIN=https://linkedin.com/company/example
 PUBLIC_SOCIAL_TWITTER=https://twitter.com/example
 
-# Analytics (optional)
-PUBLIC_ANALYTICS_ID=
-
-# Development
-DEV_SERVER_PORT=4321
-DEV_MODE=true
-DEBUG=false
+# Docs Sync (only needed if using scripts/src/sync-docs.ts)
+# DOCS_REPO_URL=https://github.com/your-org/your-docs-repo
+# DOCS_REPO_RAW_URL=https://raw.githubusercontent.com/your-org/your-docs-repo/main
 ```

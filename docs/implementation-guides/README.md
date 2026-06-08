@@ -108,6 +108,14 @@ Stop here when you need an enterprise-grade deployment.
 
 ## Phase Overview
 
+> **"Completed" vs "Active" is from _your_ perspective as a cloner, not the template's.**
+> This template already ships a fully-built reference implementation of every phase
+> (44 components, content collections, an e2e suite, performance budgets, CI, and
+> deployment config). The Foundation phases below are marked "Complete" because they're
+> shared infrastructure you inherit as-is; the "Active" phases are the customization work
+> _you_ do to make the site yours (your components, your content, your QA pass). Read each
+> active phase as a guided walkthrough, using the shipped implementation as the worked example.
+
 ### ✅ Completed Phases (Foundation)
 
 | Phase | Name | Scope | Status |

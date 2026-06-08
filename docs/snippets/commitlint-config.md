@@ -1,38 +1,21 @@
 ---
 title: commitlint config
-description: "```js\r // commitlint.config.js\r export default {\r   extends: ['@commitlint/config-conventional'],\r   rules: {\r     'type-enum': [\r       2,\r       'always',"
+description: "```js\r // .commitlintrc.cjs\r module.exports = {\r   extends: [\"@commitlint/config-conventional\"],\r };"
 lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 ```js
-// commitlint.config.js
-export default {
-  extends: ['@commitlint/config-conventional'],
-  rules: {
-    'type-enum': [
-      2,
-      'always',
-      [
-        'feat',     // New features
-        'fix',      // Bug fixes
-        'docs',     // Documentation changes
-        'style',    // Code style changes (formatting, etc.)
-        'refactor', // Code refactoring
-        'perf',     // Performance improvements
-        'test',     // Test changes
-        'chore',    // Build process or auxiliary tool changes
-        'ci',       // CI configuration changes
-        'build',    // Build system changes
-        'revert'    // Revert previous commit
-      ]
-    ],
-    'subject-case': [2, 'never', ['upper-case']],
-    'subject-max-length': [2, 'always', 72],
-    'body-max-line-length': [2, 'always', 100]
-  }
+// .commitlintrc.cjs
+module.exports = {
+  extends: ["@commitlint/config-conventional"],
 };
 ```
+
+The project relies on the conventional preset's defaults — it already enforces the
+standard type set (`feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`,
+`chore`, `ci`, `build`, `revert`), lower-case subjects, and a 72-character header
+limit. No custom `rules` block is needed.
 
 **Installation:**
 
