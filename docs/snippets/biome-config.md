@@ -15,45 +15,78 @@ pagefind: true
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
-    "ignore": ["dist", "node_modules", ".astro"]
+    "includes": [
+      "src/**/*.{astro,ts,tsx,js,jsx,md,mdx}",
+      "docs/**/*.{md,mdx}",
+      "scripts/**/*.{ts,js,mjs}",
+      "*.{md,mdx,ts,js,mjs}"
+    ]
   },
   "formatter": {
     "enabled": true,
-    "formatWithErrors": false,
+    "formatWithErrors": true,
     "indentStyle": "space",
     "indentWidth": 2,
-    "lineWidth": 100
+    "lineEnding": "lf",
+    "lineWidth": 100,
+    "attributePosition": "auto"
   },
-  "organizeImports": {
-    "enabled": true
+  "javascript": {
+    "formatter": {
+      "jsxQuoteStyle": "double",
+      "quoteProperties": "asNeeded",
+      "trailingCommas": "all",
+      "semicolons": "always",
+      "arrowParentheses": "always",
+      "bracketSpacing": true,
+      "bracketSameLine": false,
+      "quoteStyle": "double"
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true
+    }
   },
   "linter": {
     "enabled": true,
     "rules": {
       "recommended": true,
-      "style": {
-        "noUnusedTemplateLiteral": "error",
-        "useTemplate": "error"
+      "complexity": {
+        "noBannedTypes": "error",
+        "noUselessTypeConstraint": "error"
       },
       "correctness": {
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "error",
+        "useExhaustiveDependencies": "error"
+      },
+      "suspicious": {
+        "noExplicitAny": "error",
+        "noImplicitAnyLet": "error"
+      },
+      "a11y": {
+        "recommended": true
+      },
+      "style": {
+        "noNonNullAssertion": "warn",
+        "useAsConstAssertion": "warn",
+        "useBlockStatements": "warn",
+        "noParameterAssign": "warn",
+        "useDefaultParameterLast": "warn",
+        "useEnumInitializers": "warn",
+        "useSelfClosingElements": "warn",
+        "useSingleVarDeclarator": "warn",
+        "useNumberNamespace": "warn",
+        "noInferrableTypes": "warn",
+        "noUselessElse": "warn"
       }
-    }
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "single",
-      "trailingCommas": "es5",
-      "semicolons": "always"
-    }
-  },
-  "typescript": {
-    "formatter": {
-      "quoteStyle": "single",
-      "trailingCommas": "es5",
-      "semicolons": "always"
     }
   }
 }
 ```
+
+> The project config also defines a `useNamingConvention` rule and an `overrides`
+> array (per-glob rules for Markdown, scripts, Astro, CSS, tests, and config files).
+> See the repo's
+> [`biome.json`](https://github.com/Clownware/astro-performance-starter/blob/main/biome.json)
+> for the authoritative, complete configuration.

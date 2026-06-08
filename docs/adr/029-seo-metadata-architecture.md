@@ -76,7 +76,7 @@ This ADR documents the chosen architecture and the reasoning behind each decisio
 
 ## Decision
 
-**Use a dedicated `Head.astro` molecule** at `src/components/atoms/Head.astro` with the following responsibilities:
+**Use a dedicated `Head.astro` molecule** at `src/components/molecules/Head.astro` with the following responsibilities:
 
 ### Props Interface
 

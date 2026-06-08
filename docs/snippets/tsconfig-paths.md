@@ -18,7 +18,9 @@ pagefind: true
       "@utils/*": ["src/utils/*"],
       "@styles/*": ["src/styles/*"],
       "@types/*": ["src/types/*"],
-      "@content/*": ["src/content/*"]
+      "@content/*": ["src/content/*"],
+      "@assets/*": ["src/assets/*"],
+      "@scripts/*": ["scripts/*"]
     }
   }
 }

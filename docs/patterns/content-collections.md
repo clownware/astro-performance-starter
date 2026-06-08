@@ -35,7 +35,7 @@ pagefind: true
 ### 1. Discriminated Union Schemas
 
 ```typescript
-// content/config.ts
+// src/content.config.ts
 import { defineCollection, z } from 'astro:content';
 
 // Base schema for all posts
@@ -81,7 +81,7 @@ const blogCollection = defineCollection({
 ### 2. Relational Content
 
 ```typescript
-// content/config.ts
+// src/content.config.ts
 // Handle relationships between content
 
 const authorsCollection = defineCollection({
@@ -130,7 +130,7 @@ export async function getPostWithAuthor(post: any) {
 ### 3. Computed Fields
 
 ```typescript
-// content/config.ts
+// src/content.config.ts
 // Add computed fields to schemas
 
 import readingTime from 'reading-time';
@@ -166,7 +166,7 @@ export async function getEnhancedPost(post: any) {
 ### 4. Nested Content Structures
 
 ```typescript
-// content/config.ts
+// src/content.config.ts
 // Complex nested schemas
 
 const projectsCollection = defineCollection({
@@ -399,7 +399,7 @@ export function searchContent(
 ### 1. Multi-language Content
 
 ```typescript
-// content/config.ts
+// src/content.config.ts
 const i18nSchema = z.object({
   lang: z.enum(['en', 'es', 'fr']),
   translations: z.array(z.object({
@@ -455,7 +455,7 @@ export function shouldShowDraft() {
 ### 3. Content Versioning
 
 ```typescript
-// content/config.ts
+// src/content.config.ts
 const versionedSchema = z.object({
   version: z.number().default(1),
   lastModified: z.date(),

@@ -1,26 +1,34 @@
 ---
 title: package scripts
-description: "```json\r // package.json - scripts section\r {\r   \"scripts\": {\r     \"dev\": \"astro dev\",\r     \"build\": \"astro check && astro build\",\r     \"preview\": \"astro previe"
+description: "```json\r // package.json — everyday scripts (see package.json for the full maintainer set)\r {\r   \"scripts\": {\r     \"dev\": \"astro dev\","
 lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 ```json
-// package.json - scripts section
+// package.json — everyday scripts (the ones a cloner actually runs).
+// See package.json for the full maintainer & advanced set (ADR-052 taxonomy).
 {
   "scripts": {
     "dev": "astro dev",
-    "build": "astro check && astro build",
+    "dev:host": "astro dev --host",
+    "build": "pnpm run env:validate && pnpm run tokens:build && astro build",
     "preview": "astro preview",
-    "check": "astro check",
-    "sync": "astro sync",
-    "format": "biome format --write .",
+    "tokens:build": "tsx scripts/src/build-tokens.ts",
+    "format": "biome format . --write",
     "format:check": "biome format .",
-    "lint": "biome lint .",
-    "lint:fix": "biome lint --apply .",
-    "quality": "biome check .",
-    "quality:fix": "biome check --apply .",
-    "validate:links": "tsx scripts/validate-links.ts",
+    "lint": "biome check .",
+    "lint:md": "markdownlint-cli2 \"**/*.md\" \"**/*.mdx\"",
+    "check": "astro check",
+    "check:types": "tsc --noEmit",
+    "quality": "pnpm run format && pnpm run lint && pnpm run lint:md && pnpm run check",
+    "quality:ci": "pnpm run format:check && pnpm run lint && pnpm run lint:md && pnpm run check && pnpm run test:unit && pnpm run agents:check",
+    "test": "vitest",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test --grep=\"@a11y\"",
+    "clean": "rm -rf dist .astro tokens/dist",
     "prepare": "husky install"
   }
 }

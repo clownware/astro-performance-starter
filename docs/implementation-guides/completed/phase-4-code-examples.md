@@ -18,9 +18,9 @@ pagefind: true
 
 
 // src/layouts/BaseLayout.astro
-import { ViewTransitions } from 'astro:transitions';
-import Header from '@/components/layout/Header.astro';
-import Footer from '@/components/layout/Footer.astro';
+import { ClientRouter } from 'astro:transitions';
+import Header from '@/components/structural/Header.astro';
+import Footer from '@/components/structural/Footer.astro';
 import SkipLink from '@/components/a11y/SkipLink.astro';
 import ThemeSetup from '@/components/ThemeSetup.astro'; // ADDED: Import for theme setup component
 import '@fontsource-variable/inter';
@@ -132,7 +132,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     */}
     <ThemeSetup client:load /> {/* client:load ensures it runs ASAP */}
     
-    <ViewTransitions />
+    <ClientRouter />
   </head>
   <body class="flex min-h-screen flex-col bg-background text-foreground antialiased">
     <SkipLink />
@@ -153,7 +153,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 ***
 
 
-// src/components/layout/Header.astro
+// src/components/structural/Header.astro
 import { getCollection } from 'astro:content';
 import ThemeToggle from '@/components/ThemeToggle.astro';
 import MobileMenu from '@/components/MobileMenu.astro';
@@ -251,7 +251,7 @@ const { items } = Astro.props;
 ***
 
 
-// src/components/layout/Footer.astro
+// src/components/structural/Footer.astro
 const currentYear = new Date().getFullYear();
 
 const footerLinks = [

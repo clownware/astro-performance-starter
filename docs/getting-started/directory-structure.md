@@ -33,28 +33,45 @@ astro-performance-starter/
 │   ├── components/
 │   │   ├── a11y/                    # Accessibility components (1)
 │   │   │   └── SkipLink.astro
-│   │   ├── atoms/                   # Atomic components (6)
+│   │   ├── atoms/                   # Atomic components (13)
+│   │   │   ├── AnimatedGradientText.astro
 │   │   │   ├── Badge.astro
 │   │   │   ├── Button.astro
+│   │   │   ├── CounterBadge.astro
+│   │   │   ├── CursorSpotlight.astro
 │   │   │   ├── Icon.astro
 │   │   │   ├── Image.astro
+│   │   │   ├── ReadingProgress.astro
+│   │   │   ├── ScrollReveal.astro
+│   │   │   ├── SheenEyebrow.astro
 │   │   │   ├── SocialLink.astro
+│   │   │   ├── ThemeToggle.astro
 │   │   │   └── Tooltip.astro
-│   │   ├── molecules/               # Molecule components (8)
+│   │   ├── molecules/               # Molecule components (15)
 │   │   │   ├── Card.astro
+│   │   │   ├── ColorTokenSwatch.astro
 │   │   │   ├── ContactForm.astro
 │   │   │   ├── ContactFormScript.ts
-│   │   │   ├── ExpandableFeatureCard.tsx  # Preact component
+│   │   │   ├── Dialog.astro
+│   │   │   ├── ExpandableFeatureCard.astro
 │   │   │   ├── Head.astro
+│   │   │   ├── PaletteBand.astro
 │   │   │   ├── PostCard.astro
 │   │   │   ├── ProjectCard.astro
-│   │   │   └── SectionSeparator.astro
-│   │   ├── structural/              # Structural components (5)
+│   │   │   ├── ScrollSpy.astro
+│   │   │   ├── SectionSeparator.astro
+│   │   │   ├── ShowcaseExample.astro
+│   │   │   ├── Tabs.astro
+│   │   │   └── TypeSpecimen.astro
+│   │   ├── structural/              # Structural components (6)
 │   │   │   ├── Container.astro
 │   │   │   ├── Footer.astro
 │   │   │   ├── Grid.astro
 │   │   │   ├── Header.astro
+│   │   │   ├── ParallaxSection.astro
 │   │   │   └── Section.astro
+│   │   ├── islands/                 # Preact island components (1)
+│   │   │   └── SignalsCounter.tsx
 │   │   ├── mdx/                     # MDX components (7)
 │   │   │   ├── Blockquote.astro
 │   │   │   ├── Callout.astro
@@ -77,16 +94,24 @@ astro-performance-starter/
 │   │   ├── BaseLayout.astro         # Foundation layout
 │   │   ├── BlogLayout.astro         # Blog post layout
 │   │   └── ProjectLayout.astro      # Project showcase layout
-│   ├── pages/                       # Routes (10)
+│   ├── pages/                       # Routes (16)
 │   │   ├── index.astro              # Homepage
 │   │   ├── about.astro              # About page
 │   │   ├── contact.astro            # Contact page
+│   │   ├── how-it-works.astro       # How-it-works page
+│   │   ├── showcase.astro           # Living style guide (ADR-049)
 │   │   ├── 404.astro                # Not found
 │   │   ├── 500.astro                # Server error
 │   │   ├── robots.txt.ts            # Dynamic robots.txt generation
+│   │   ├── rss.xml.ts               # RSS feed
+│   │   ├── adr/
+│   │   │   ├── index.astro          # ADR index
+│   │   │   └── [slug].astro         # Dynamic ADR page
 │   │   ├── blog/
 │   │   │   ├── index.astro          # Blog index with pagination
-│   │   │   └── [slug].astro         # Dynamic blog post
+│   │   │   ├── [slug].astro         # Dynamic blog post
+│   │   │   └── tag/
+│   │   │       └── [tag].astro      # Posts filtered by tag
 │   │   └── projects/
 │   │       ├── index.astro          # Projects index with filtering
 │   │       └── [slug].astro         # Dynamic project page
@@ -141,39 +166,58 @@ astro-performance-starter/
 
 ## Component Organization
 
-**28 production-ready component files** organized by atomic design principles:
+**44 production-ready component files** organized by atomic design principles:
 
 ### Accessibility (1)
 
 - `SkipLink.astro` - Keyboard navigation helper
 
-### Atoms (6)
+### Atoms (13)
 
+- `AnimatedGradientText.astro` - Gradient text effect
 - `Badge.astro` - Labels and tags
 - `Button.astro` - Interactive buttons with variants
+- `CounterBadge.astro` - Animated count badge
+- `CursorSpotlight.astro` - Cursor-following spotlight effect
 - `Icon.astro` - Reusable SVG icons with accessibility support
 - `Image.astro` - Optimized image wrapper
+- `ReadingProgress.astro` - Scroll/reading progress indicator
+- `ScrollReveal.astro` - Reveal-on-scroll wrapper
+- `SheenEyebrow.astro` - Eyebrow label with sheen effect
 - `SocialLink.astro` - Social media links
+- `ThemeToggle.astro` - Light/dark mode toggle
 - `Tooltip.astro` - Pure CSS tooltips
 
-### Molecules (8)
+### Molecules (15)
 
 - `Card.astro` - Content cards
+- `ColorTokenSwatch.astro` - Design-token colour swatch (showcase)
 - `ContactForm.astro` - Form with validation
 - `ContactFormScript.ts` - Form handling logic
-- `ExpandableFeatureCard.tsx` - Interactive feature cards (Preact)
+- `Dialog.astro` - Accessible dialog/modal
+- `ExpandableFeatureCard.astro` - Expandable feature cards
 - `Head.astro` - Reusable SEO component with OG/Twitter tags
+- `PaletteBand.astro` - Palette display band (showcase)
 - `PostCard.astro` - Blog post cards with metadata
 - `ProjectCard.astro` - Project showcase cards
+- `ScrollSpy.astro` - Scroll-spy navigation
 - `SectionSeparator.astro` - Gradient divider for visual section separation
+- `ShowcaseExample.astro` - Live example wrapper (showcase)
+- `Tabs.astro` - Tabbed content
+- `TypeSpecimen.astro` - Typography specimen (showcase)
 
-### Structural (5)
+### Structural (6)
 
 - `Container.astro` - Content width container
 - `Footer.astro` - Site footer
 - `Grid.astro` - Responsive grid layouts
 - `Header.astro` - Site navigation
+- `ParallaxSection.astro` - Parallax scroll section
 - `Section.astro` - Page sections
+
+### Islands (1)
+
+- `SignalsCounter.tsx` - Preact signals demo island (hydrated client-side)
 
 ### MDX Components (7)
 
@@ -193,17 +237,24 @@ astro-performance-starter/
 
 ## Page Routes
 
-**9 routes** including dynamic pages:
+**16 routes** including dynamic pages and endpoints:
 
 - `/` - Homepage
 - `/about` - About page
 - `/contact` - Contact form
+- `/how-it-works` - How-it-works page
+- `/showcase` - Living style guide (ADR-049)
 - `/blog/` - Blog index (paginated)
 - `/blog/[slug]` - Dynamic blog posts
+- `/blog/tag/[tag]` - Posts filtered by tag
 - `/projects/` - Projects index (filterable)
 - `/projects/[slug]` - Dynamic project pages
+- `/adr/` - ADR index
+- `/adr/[slug]` - Dynamic ADR pages
 - `/404` - Not found
 - `/500` - Server error
+- `/robots.txt` - Generated robots.txt endpoint
+- `/rss.xml` - RSS feed endpoint
 
 ---
 

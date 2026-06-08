@@ -42,7 +42,7 @@ pagefind: true
 
 This template does not include analytics out-of-the-box to respect user privacy. Adding analytics is an optional step that you can take based on your project's needs. We have created a detailed guide with copy-paste recipes for popular, privacy-focused providers.
 
-- **Guide: [Adding Web Analytics](/implementation-guides/05-deployment/optional-analytics)**
+- **Guide: [Adding Web Analytics](/implementation-guides/reference/optional-analytics)**
 
 This approach keeps the template clean while empowering you to make the right choice for your site.
 

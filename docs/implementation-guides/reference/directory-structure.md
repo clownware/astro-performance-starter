@@ -36,57 +36,58 @@ astro-performance-starter/
 │   │   ├── README.md                 # Implementation roadmap
 │   │   ├── completed/                # Foundation phases (0-4)
 │   │   │   ├── phase-0-foundation.md
-│   │   │   ├── phase-1-content.md
-│   │   │   ├── phase-2-design.md
-│   │   │   ├── phase-3-performance.md
-│   │   │   └── phase-4-quality.md
-│   │   ├── active-phases/            # Current development (5-12)
+│   │   │   ├── phase-1-content-arch.md
+│   │   │   ├── phase-2-design-system.md
+│   │   │   ├── phase-3-tooling.md
+│   │   │   └── phase-4-skeleton.md
+│   │   ├── active-phases/            # Build & polish phases (5-12)
 │   │   │   ├── phase-5-components.md   # ← AI starting point
-│   │   │   ├── phase-6-sections.md     # (not started)
-│   │   │   ├── phase-7-pages.md
-│   │   │   ├── phase-8-features.md
-│   │   │   ├── phase-9-optimization.md
+│   │   │   ├── phase-6-sections.md
+│   │   │   ├── phase-7-content.md
+│   │   │   ├── phase-8-qa.md
+│   │   │   ├── phase-9-performance.md
 │   │   │   ├── phase-10-deployment.md
-│   │   │   ├── phase-11-monitoring.md
-│   │   │   └── phase-12-maintenance.md
-│   │   ├── guides/                   # Topic-specific guides
-│   │   │   ├── accessibility.md
-│   │   │   ├── components.md
-│   │   │   ├── content-model.md
-│   │   │   └── testing.md
-│   │   ├── code-examples/            # Implementation examples
-│   │   │   ├── component-patterns/
-│   │   │   ├── content-collections/
-│   │   │   └── performance-patterns/
+│   │   │   ├── phase-11-documentation.md
+│   │   │   └── phase-12-post-launch.md
+│   │   ├── guides/                   # Topic-specific guides (suffixed -guide.md)
+│   │   │   ├── accessibility-guide.md
+│   │   │   ├── components-guide.md
+│   │   │   ├── content-model-guide.md
+│   │   │   └── testing-strategy-guide.md
+│   │   ├── code-examples/            # Per-phase implementation examples
+│   │   │   ├── phase-5-code-examples.md
+│   │   │   ├── phase-6-code-examples.md
+│   │   │   └── …                      # phase-7..12
 │   │   └── reference/                # Technical reference
 │   │       ├── tech-stack.md
 │   │       ├── directory-structure.md
 │   │       └── budgets-guardrails.md
 │   └── adr/
 │       ├── template.md
-│       └── 001-starter-decisions.md
+│       └── 000-starter-decisions.md
 │
 ├── src/                              # Minimal implementation
 │   ├── assets/
 │   │   └── logo.svg                 # Project logo
-│   ├── components/
-│   │   ├── atoms/
+│   ├── components/                  # atoms, molecules, structural,
+│   │   ├── atoms/                   #   islands, a11y, mdx (+ ThemeSetup.astro)
 │   │   │   └── Button.astro         # One example component
-│   │   ├── structural/
+│   │   ├── structural/              # Header, Footer, Container, Section live here
 │   │   │   ├── Container.astro
+│   │   │   ├── Header.astro
+│   │   │   ├── Footer.astro
 │   │   │   └── Section.astro
-│   │   └── README.md                # Component guidelines
+│   │   └── CLAUDE.md                # Component guidelines
 │   ├── content/
-│   │   ├── config.ts                # Full schema setup
-│   │   ├── docs/                    # Starlight docs content
 │   │   └── blog/
 │   │       └── example-post.mdx     # One example
+│   ├── content.config.ts            # Content Collections schema (Astro 6)
 │   ├── layouts/
 │   │   ├── BaseLayout.astro         # Complete base layout
-│   │   └── partials/
-│   │       ├── Header.astro
-│   │       └── Footer.astro
-│   │   ├── index.astro              # Minimal homepage
+│   │   ├── BlogLayout.astro
+│   │   └── ProjectLayout.astro
+│   ├── pages/
+│   │   ├── index.astro              # Homepage
 │   │   └── 404.astro
 │   ├── styles/
 │   │   └── global.css               # With token integration
@@ -245,18 +246,16 @@ import type { NavigationItem } from '@types/navigation';
 ### Content Collections Structure
 
 ```yaml
-src/content/
-├── config.ts           # Collection schemas
-├── blog/              # Blog posts
-│   ├── 2024-01-01-example.mdx
-│   └── index.ts       # Collection exports
-├── projects/          # Portfolio items
-│   ├── project-one.mdx
-│   └── index.ts
-└── docs/             # Documentation (Starlight)
-    ├── getting-started/
-    ├── implementation-guides/
-    └── patterns/
+src/
+├── content.config.ts   # Collection schemas (Astro 6 — lives at src/ root)
+└── content/
+    ├── bio/            # Author bio
+    ├── blog/           # Blog posts (MDX)
+    │   └── example/example.mdx
+    ├── experience/     # Work experience (MDX)
+    ├── navigation/     # Navigation config (JSON)
+    └── projects/       # Portfolio items (MDX)
+        └── example/index.mdx
 ```
 
 ### Content Type Patterns
@@ -330,9 +329,9 @@ dist/                   # Generated at build time
 ```bash
 # New component workflow
 1. Create component file: src/components/atoms/NewButton.astro
-2. Add to appropriate category (atoms/molecules/organisms)
+2. Add to appropriate category (atoms/molecules/structural/islands/a11y/mdx)
 3. Export component with proper TypeScript props
-4. Document usage in component README or Astrobook
+4. Document usage in src/components/CLAUDE.md or the showcase page
 5. Add to component index if needed
 
 # New content workflow  
