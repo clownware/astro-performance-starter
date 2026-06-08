@@ -15,7 +15,7 @@ The _Astro Performance Starter_ gives you a production-ready foundation focused 
 
 | Feature | Path | Notes |
 |---------|------|-------|
-| Base layout | `src/layouts/BaseLayout.astro` | Main layout with ViewTransitions, Header, Footer, SkipLink. Uses Head molecule for meta tags. |
+| Base layout | `src/layouts/BaseLayout.astro` | Main layout with ClientRouter (View Transitions), Header, Footer, SkipLink. Uses Head molecule for meta tags. |
 | Head molecule | `src/components/molecules/Head.astro` | Reusable SEO component with OG/Twitter tags, font pre-loading, canonical URLs. |
 | Header | `src/components/structural/Header.astro` | Sticky, responsive shell with placeholder nav & logo. |
 | Footer | `src/components/structural/Footer.astro` | Dynamic copyright year. |

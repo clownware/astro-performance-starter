@@ -19,12 +19,13 @@ pagefind: true
 
 // src/layouts/BaseLayout.astro
 import { ClientRouter } from 'astro:transitions';
+import { Font } from 'astro:assets';
 import Header from '@/components/structural/Header.astro';
 import Footer from '@/components/structural/Footer.astro';
 import SkipLink from '@/components/a11y/SkipLink.astro';
 import ThemeSetup from '@/components/ThemeSetup.astro'; // ADDED: Import for theme setup component
 import '@/styles/global.css';
-// Fonts are loaded via the Astro 6 Fonts API (<Font> in Head.astro), not a CSS import — see ADR-053.
+// Fonts use the Astro 6 Fonts API (<Font> below), not a CSS import — see ADR-053.
 
 export interface Props {
   title: string;
@@ -85,21 +86,9 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
     
-    <!-- Font Preloading -->
-    <link
-      rel="preload"
-      href="./_astro/inter-latin-400-normal.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
-    <link
-      rel="preload"
-      href="./_astro/inter-latin-700-normal.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
+    <!-- Fonts (Astro 6 Fonts API, ADR-053): emits @font-face + preload automatically -->
+    <Font cssVariable="--font-geist" preload />
+    <Font cssVariable="--font-inter" preload />
     
     {/* Theme Detection & Setup - REPLACED inline script with a component */}
     {/* 
@@ -130,7 +119,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
         }
       </script>
     */}
-    <ThemeSetup client:load /> {/* client:load ensures it runs ASAP */}
+    <ThemeSetup /> {/* Astro component with an early inline <script>; runs before paint, no hydration directive needed (client:load is forbidden — ADR-001) */}
     
     <ClientRouter />
   </head>
@@ -379,9 +368,9 @@ const projects = await getCollection('projects', ({ data }) => !data.draft);
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Content-Security-Policy: default-src 'self'; script-src 'self' 'strict-dynamic' https:; style-src 'self' 'nonce-<ASTRO_NONCE>'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://vitals.vercel-insights.com; frame-ancestors 'none';
 
-/
-  Link: </_astro/inter-latin-400-normal.woff2>; rel=preload; as=font; type=font/woff2; crossorigin=anonymous
-  Link: </_astro/inter-latin-700-normal.woff2>; rel=preload; as=font; type=font/woff2; crossorigin=anonymous
+# Font preloading is handled by the Astro 6 Fonts API (<Font preload /> in Head.astro,
+# ADR-053), which emits the correct hashed-filename preload links — no manual _headers
+# entries needed.
 // src/components/a11y/SkipLink.astro
 <a href="#main-content" class="skip-link">
   Skip to main content

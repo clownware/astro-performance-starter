@@ -17,7 +17,7 @@ pagefind: true
 ***
 
 
-// src/components/ui/Button.astro
+// src/components/atoms/Button.astro
 import type { HTMLAttributes } from 'astro/types';
 
 export interface Props extends HTMLAttributes<'button'> {
@@ -96,7 +96,7 @@ const linkProps = Tag === 'a' ? {
 ***
 
 
-// src/components/ui/Card.astro
+// src/components/molecules/Card.astro
 export interface Props {
   variant?: 'default' | 'outline-solid' | 'ghost';
   padding?: 'none' | 'sm' | 'md' | 'lg';
@@ -152,7 +152,7 @@ const classes = [
 ***
 
 
-// src/components/ui/Section.astro
+// src/components/structural/Section.astro
 export interface Props {
   size?: 'sm' | 'md' | 'lg' | 'xl';
   background?: 'default' | 'subtle' | 'muted';
@@ -202,7 +202,7 @@ const classes = [
 ***
 
 
-// src/components/ui/Container.astro
+// src/components/structural/Container.astro
 export interface Props {
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
   prose?: boolean;
@@ -248,7 +248,7 @@ const classes = [
 ***
 
 
-// src/components/ui/Grid.astro
+// src/components/structural/Grid.astro
 export interface Props {
   cols?: 1 | 2 | 3 | 4 | 6 | 12;
   gap?: 'sm' | 'md' | 'lg';
@@ -303,7 +303,7 @@ const classes = [
 ***
 
 
-// src/components/ui/Image.astro
+// src/components/atoms/Image.astro
 import { Image as AstroImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 
@@ -375,7 +375,7 @@ const wrapperClass = [
 ***
 
 
-// src/components/ui/Badge.astro
+// src/components/atoms/Badge.astro
 export interface Props {
   variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
   size?: 'sm' | 'md';
@@ -1607,7 +1607,7 @@ import ProjectCard from "@/components/molecules/ProjectCard.astro";
 ***
 
 
-// src/components/ui/Modal.astro
+// src/components/molecules/Modal.astro
 export interface Props {
   id: string;
   title: string;
@@ -1679,7 +1679,7 @@ const sizes = {
 ***
 
 
-// src/components/ui/Tabs.astro
+// src/components/molecules/Tabs.astro
 export interface Props {
   items: Array<{
     id: string;
@@ -1770,42 +1770,34 @@ const { items, defaultTab = items[0]?.id } = Astro.props;
 </style>
 ```
 
-### Astrobook Configuration (Advanced)
+### Component Catalog: the `/showcase` Living Style Guide (Advanced)
 
-```typescript
-// astrobook.config.mjs
-import { defineConfig } from 'astrobook';
+This template does not use a separate story runner. Component documentation lives in
+the in-app **`/showcase`** page — the canonical living style guide (ADR-049), organised
+as `System / Color / Type / Motion / Components`. A standalone Astrobook dependency was
+evaluated and removed (unused second catalog, no CI usage).
 
-export default defineConfig({
-  title: 'Component Library',
-  components: './src/components/ui/**/*.astro',
-  output: './astrobook',
-  theme: {
-    colors: {
-      primary: 'hsl(210, 100%, 48%)',
-      background: 'hsl(210, 40%, 98%)',
-    },
-  },
-  stories: [
-    {
-      title: 'Buttons',
-      component: './src/components/ui/Button.astro',
-      variants: [
-        { props: { variant: 'primary' }, label: 'Primary' },
-        { props: { variant: 'secondary' }, label: 'Secondary' },
-        { props: { variant: 'ghost' }, label: 'Ghost' },
-        { props: { variant: 'danger' }, label: 'Danger' },
-      ],
-    },
-    {
-      title: 'Cards',
-      component: './src/components/ui/Card.astro',
-      variants: [
-        { props: { variant: 'default' }, label: 'Default' },
-        { props: { variant: 'outline' }, label: 'Outline' },
-        { props: { variant: 'ghost' }, label: 'Ghost' },
-      ],
-    },
-  ],
-});
+To document a new component, add it to the relevant section of
+`src/pages/showcase.astro` using the showcase molecules — for example wrapping a live
+example in `ShowcaseExample.astro` and listing prop variants:
+
+```astro
+---
+// src/pages/showcase.astro (excerpt)
+import ShowcaseExample from "@/components/molecules/ShowcaseExample.astro";
+import Button from "@/components/atoms/Button.astro";
+---
+
+<section id="components">
+  <h2>Buttons</h2>
+  <ShowcaseExample title="Variants">
+    <Button variant="primary">Primary</Button>
+    <Button variant="secondary">Secondary</Button>
+    <Button variant="ghost">Ghost</Button>
+    <Button variant="danger">Danger</Button>
+  </ShowcaseExample>
+</section>
 ```
+
+Because `/showcase` is a real page, its examples are build-verified and covered by the
+showcase e2e spec — there is no separate config file or snapshot tool to keep in sync.

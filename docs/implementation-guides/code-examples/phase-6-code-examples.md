@@ -18,9 +18,9 @@ pagefind: true
 
 
 // src/components/sections/Hero.astro
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
-import Button from '@/components/ui/Button.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
+import Button from '@/components/atoms/Button.astro';
 
 export interface Props {
   title: string;
@@ -99,10 +99,10 @@ const { title, subtitle, primaryCTA, secondaryCTA } = Astro.props;
 
 
 // src/components/sections/Features.astro
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
-import Grid from '@/components/ui/Grid.astro';
-import Card from '@/components/ui/Card.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
+import Grid from '@/components/structural/Grid.astro';
+import Card from '@/components/molecules/Card.astro';
 
 export interface Feature {
   title: string;
@@ -163,9 +163,9 @@ const { title = "Features", subtitle, features } = Astro.props;
 
 
 // src/components/sections/CTA.astro
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
-import Button from '@/components/ui/Button.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
+import Button from '@/components/atoms/Button.astro';
 
 export interface Props {
   title: string;
@@ -232,8 +232,8 @@ const {
 
 // src/components/sections/About.astro
 import { Image } from 'astro:assets';
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
 
 export interface Props {
   title?: string;
@@ -296,9 +296,9 @@ const {
 
 
 // src/components/sections/AnimatedHero.astro
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
-import Button from '@/components/ui/Button.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
+import Button from '@/components/atoms/Button.astro';
 
 export interface Props {
   title: string;
@@ -474,9 +474,9 @@ const titleWords = title.split(' ');
 
 
 // src/components/sections/Testimonials.astro
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
-import Card from '@/components/ui/Card.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
+import Card from '@/components/molecules/Card.astro';
 
 export interface Testimonial {
   quote: string;
@@ -593,8 +593,8 @@ const {
 
 
 // src/components/sections/Stats.astro
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
 
 export interface Stat {
   value: string;
@@ -648,12 +648,12 @@ const { stats, title } = Astro.props;
 
 // src/components/sections/BlogListing.astro
 import { getCollection } from 'astro:content';
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
-import Grid from '@/components/ui/Grid.astro';
-import Card from '@/components/ui/Card.astro';
-import Button from '@/components/ui/Button.astro';
-import Badge from '@/components/ui/Badge.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
+import Grid from '@/components/structural/Grid.astro';
+import Card from '@/components/molecules/Card.astro';
+import Button from '@/components/atoms/Button.astro';
+import Badge from '@/components/atoms/Badge.astro';
 
 export interface Props {
   title?: string;
@@ -767,11 +767,11 @@ const sortedPosts = posts
 // src/components/sections/ProjectGrid.astro
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
-import Grid from '@/components/ui/Grid.astro';
-import Card from '@/components/ui/Card.astro';
-import Badge from '@/components/ui/Badge.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
+import Grid from '@/components/structural/Grid.astro';
+import Card from '@/components/molecules/Card.astro';
+import Badge from '@/components/atoms/Badge.astro';
 
 export interface Props {
   title?: string;

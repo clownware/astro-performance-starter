@@ -1118,9 +1118,9 @@ For questions about these terms: legal@yourdomain.com
 
 // src/pages/404.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Container from '@/components/ui/Container.astro';
-import Section from '@/components/ui/Section.astro';
-import Button from '@/components/ui/Button.astro';
+import Container from '@/components/structural/Container.astro';
+import Section from '@/components/structural/Section.astro';
+import Button from '@/components/atoms/Button.astro';
 
 const popularPages = [
   { title: 'Homepage', href: '/', description: 'Start from the beginning' },
