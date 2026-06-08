@@ -130,6 +130,10 @@ export default defineConfig({
         remarkValidateLinks,
         {
           rootDir: rootDir,
+          basePaths: ["/docs", "/adr"],
+          routeMap: {
+            "/adr/": "docs/adr/",
+          },
           excludePaths: ["docs"],
         },
       ],

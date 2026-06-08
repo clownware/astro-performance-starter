@@ -30,6 +30,12 @@ export function remarkValidateLinks(options = {}) {
     rootDir = process.cwd(),
     basePaths = ["/docs"],
     excludePaths = [],
+    /**
+     * Optional URL-prefix → filesystem-prefix map for content-collection routes.
+     * Example: { "/adr/": "docs/adr/" } resolves /adr/<slug>/ → docs/adr/<slug>.md.
+     * Without this, the validator only checks files at the literal URL path.
+     */
+    routeMap = {},
     validateAnchors = false, // TODO: implement anchor validation
     strict = true,
   } = options;
@@ -79,15 +85,28 @@ export function remarkValidateLinks(options = {}) {
               break;
             }
             // Route-style trailing-slash links produced by Astro content
-            // collections — `/docs/adr/SLUG/` should resolve to `docs/adr/SLUG.md`.
-            // This handles the ADR collection added in ADR-062 without forcing
-            // authors to write the file extension.
+            // collections — `/docs/adr/SLUG/` resolves to `docs/adr/SLUG.md`.
+            // Authors don't write the file extension for trailing-slash URLs.
             if (filePath.endsWith("/")) {
               const slugPath = filePath.slice(1, -1);
-              const mdCandidate = join(rootDir, `${slugPath}.md`);
-              if (existsSync(mdCandidate) && statSync(mdCandidate).isFile()) {
-                targetPath = mdCandidate;
-                isValid = true;
+              const candidates = [join(rootDir, `${slugPath}.md`)];
+              // routeMap re-targets a URL prefix to a different filesystem
+              // location — used when the route base and the source path differ
+              // (e.g. /adr/ pages render content from docs/adr/).
+              for (const [urlPrefix, fsPrefix] of Object.entries(routeMap)) {
+                if (filePath.startsWith(urlPrefix)) {
+                  const tail = filePath.slice(urlPrefix.length, -1);
+                  candidates.push(join(rootDir, fsPrefix, `${tail}.md`));
+                }
+              }
+              for (const candidate of candidates) {
+                if (existsSync(candidate) && statSync(candidate).isFile()) {
+                  targetPath = candidate;
+                  isValid = true;
+                  break;
+                }
+              }
+              if (isValid) {
                 break;
               }
             }

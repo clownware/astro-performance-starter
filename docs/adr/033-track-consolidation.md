@@ -240,7 +240,7 @@ graph TD
 
 - [ADR-000: Starter Template Architecture](/adr/000-starter-decisions/) — Original dual-track decision
 - Track Comparison — removed per this ADR
-- [Implementation Guide Master Index](/implementation-guides/)
+- [Implementation Guide Master Index](https://github.com/clownware/astro-performance-starter/tree/master/docs/implementation-guides)
 
 ## Notes
 
