@@ -4,7 +4,7 @@ import mdx from "@astrojs/mdx";
 import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
 import tailwindcss from "@tailwindcss/vite";
-import { defineConfig, envField } from "astro/config";
+import { defineConfig, envField, fontProviders } from "astro/config";
 import astroExpressiveCode from "astro-expressive-code";
 import { remarkSnippetIncludes } from "./scripts/src/remark-snippet-includes.mjs";
 import { remarkValidateLinks } from "./scripts/src/remark-validate-links.mjs";
@@ -41,6 +41,48 @@ export default defineConfig({
   trailingSlash: "always",
 
   prefetch: true,
+
+  // --- Fonts (Astro 6 Fonts API) — see ADR-053 (supersedes ADR-026) ---
+  // Self-hosted local providers: the latin variable woff2 files are vendored in
+  // src/assets/fonts/ so builds stay fully offline/reproducible (no build-time
+  // font fetch). Astro fingerprints them, emits the @font-face, and generates
+  // metric-adjusted fallback faces (size-adjust/ascent-override) to cut CLS.
+  // Consumed via the generated CSS vars, wired to --font-display/--font-text in
+  // global.css. Family names stay "Geist"/"Inter" to match tokens/base.json.
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: "Geist",
+      cssVariable: "--font-geist",
+      fallbacks: ["ui-sans-serif", "system-ui", "sans-serif"],
+      optimizedFallbacks: true,
+      options: {
+        variants: [
+          {
+            weight: "100 900",
+            style: "normal",
+            src: ["./src/assets/fonts/geist-latin-variable.woff2"],
+          },
+        ],
+      },
+    },
+    {
+      provider: fontProviders.local(),
+      name: "Inter",
+      cssVariable: "--font-inter",
+      fallbacks: ["ui-sans-serif", "system-ui", "sans-serif"],
+      optimizedFallbacks: true,
+      options: {
+        variants: [
+          {
+            weight: "100 900",
+            style: "normal",
+            src: ["./src/assets/fonts/inter-latin-variable.woff2"],
+          },
+        ],
+      },
+    },
+  ],
 
   // --- Type-safe environment variables (astro:env) — see ADR-050 ---
   // Schema-validated, typed access to the PUBLIC_* surface via astro:env/client.

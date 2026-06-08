@@ -1,7 +1,5 @@
 ---
-import geistVarUrl from "@fontsource-variable/geist/files/geist-latin-wght-normal.woff2?url";
-// Font asset URLs for proper hashed filenames in production
-import interVarUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+import { Font } from "astro:assets";
 import { siteMetadata } from "@/config";
 import { withBase } from "@/utils/url-utils";
 import { validateOgImage } from "@/utils/validateOgImage";
@@ -189,27 +187,11 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": json
 <!-- JSON-LD Structured Data: WebSite + Organization on every page, BlogPosting on articles -->
 <script type="application/ld+json" set:html={jsonLd} />
 
-<!-- Font Preloading (hashed URLs injected by Vite) -->
-<!-- Geist (display) first — headlines are the LCP element on most pages -->
-<link
-  rel="preload"
-  href={geistVarUrl}
-  as="font"
-  type="font/woff2"
-  crossorigin="anonymous"
-  fetchpriority="high"
-/>
-<link
-  rel="preload"
-  href={interVarUrl}
-  as="font"
-  type="font/woff2"
-  crossorigin="anonymous"
-  fetchpriority="high"
-/>
-<!-- Inline @font-face — no extra network request, latin-only subset.
-     Family names match the bare names in tokens/base.json (Geist / Inter). -->
-<Fragment set:html={`<style>@font-face{font-family:'Inter';font-style:normal;font-display:swap;font-weight:100 900;src:url('${interVarUrl}') format('woff2-variations');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}@font-face{font-family:'Geist';font-style:normal;font-display:swap;font-weight:100 900;src:url('${geistVarUrl}') format('woff2-variations');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+2074,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}</style>`} />
+<!-- Fonts (Astro 6 Fonts API, ADR-053). Emits the @font-face + metric-adjusted
+     fallback faces and preloads both faces. Geist drives headlines (LCP on most
+     pages); Inter is the body face. -->
+<Font cssVariable="--font-geist" preload />
+<Font cssVariable="--font-inter" preload />
 
 <!-- External Domain Performance Hints -->
 {preconnectDomains.map((domain) => (

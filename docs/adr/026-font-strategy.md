@@ -11,7 +11,14 @@ pagefind: true
 
 ## Status
 
-Accepted
+Superseded by [ADR-053](./053-fonts-via-astro-fonts-api.md)
+
+> The self-hosting **goal** (no third-party requests, latin subset, `swap`,
+> variable weights) is retained — ADR-053 keeps all of it, but delivers it via
+> the Astro 6 Fonts API (local provider, vendored woff2) instead of the
+> `@fontsource` packages + manual inline `@font-face`. The Fonts API adds
+> metric-adjusted fallback faces (size-adjust/ascent-override) to cut CLS, which
+> this approach lacked. See ADR-053 for the current strategy.
 
 ## Context
 
