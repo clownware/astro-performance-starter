@@ -17,7 +17,7 @@
 
 Most Astro templates sacrifice performance for features. This one delivers **95+ Lighthouse scores** without the bloat.
 
-- **Performance-first** — < 90KB JS, < 15KB CSS (gzipped) out of the box
+- **Performance-first** — ~17KB JS, ~18KB CSS gzipped out of the box (99 Lighthouse, CLS 0)
 - **Agentic discipline built in** — Layered AI constitution (`CLAUDE.md` + `.claude/`), role-separated workflow, halt-on-violation CI gates. Your agent works under the same rules you do.
 - **Modern stack** — Astro 6.x + TypeScript 5.x + Tailwind 4.x + Biome 2.x
 - **Accessible** — WCAG AA compliance via semantic HTML, ARIA labels, and validated contrast ratios
@@ -242,13 +242,18 @@ pnpm run tokens:build     # Rebuild design tokens (rarely needed)
 
 ## 🚀 Performance Budgets
 
-Strict limits enforced via CI:
+Budgets (see `.claude/stack.md`):
 
-- **JavaScript**: < 160KB gzipped
-- **CSS**: < 50KB uncompressed
+- **JavaScript**: < 160KB raw total
+- **CSS**: < 50KB
 - **Lighthouse**: 95+ Performance, 98+ Accessibility
 
-Default starter delivers well under budget: ~90KB JS, ~15KB CSS (gzipped).
+The default starter ships well under budget — measured on a production build:
+
+- **JavaScript**: ~48KB raw (~17KB gzipped) _total_ across the whole site; a
+  typical page loads only the view-transition router plus a tiny page script.
+- **CSS**: ~18KB gzipped per page (≈22KB on pages with code blocks).
+- **Lighthouse**: 99 Performance, CLS 0 on the home and blog routes.
 
 ## 🤝 Contributing
 
