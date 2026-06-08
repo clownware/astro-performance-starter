@@ -11,6 +11,7 @@ import {
   PUBLIC_SOCIAL_LINKEDIN,
   PUBLIC_SOCIAL_TWITTER,
 } from "astro:env/client";
+import AnimatedGradientText from "@/components/atoms/AnimatedGradientText.astro";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import Icon from "@/components/atoms/Icon.astro";
@@ -154,11 +155,11 @@ const responseExpectations: ResponseExpectation[] = [
 >
   <div>
     <!-- Hero Section -->
-    <section class="bg-linear-to-br from-primary-50 to-secondary-50 dark:from-primary-950 dark:to-secondary-950 py-16">
+    <section class="py-16">
       <div class="container mx-auto px-4">
         <div class="max-w-3xl mx-auto text-center">
-          <h1 class="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Let's Start a Conversation
+          <h1 transition:name="hero-heading" class="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            Let's Start a <AnimatedGradientText as="span" morph>Conversation</AnimatedGradientText>
           </h1>
           <p class="text-xl text-muted-foreground mb-8 leading-relaxed">
             Whether you have a question, want to discuss a project, or just want to say hello, 

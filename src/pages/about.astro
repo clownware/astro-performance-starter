@@ -1,5 +1,6 @@
 ---
 import { type CollectionEntry, getCollection, getEntry, render } from "astro:content";
+import AnimatedGradientText from "@/components/atoms/AnimatedGradientText.astro";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
@@ -46,7 +47,7 @@ const formatPeriod = (start: Date, end: Date | undefined, current: boolean) => {
 >
   <div>
     <!-- Hero Section -->
-    <section class="bg-linear-to-br from-primary-100 to-secondary-100 pt-16 pb-8 sm:pt-24 sm:pb-12">
+    <section class="pt-16 pb-8 sm:pt-24 sm:pb-12">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
           <div class="mb-8">
@@ -65,8 +66,8 @@ const formatPeriod = (start: Date, end: Date | undefined, current: boolean) => {
             />
           </div>
           <ScrollReveal>
-            <h1 class="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
-              Hi, I'm {bio.data.name}
+            <h1 transition:name="hero-heading" class="text-4xl font-bold tracking-tight text-foreground sm:text-6xl">
+              Hi, I'm <AnimatedGradientText as="span" morph>{bio.data.name}</AnimatedGradientText>
             </h1>
             <p class="mt-6 text-lg leading-8 text-muted-foreground">
               {bio.data.title}{bio.data.location ? ` · ${bio.data.location}` : ""}
