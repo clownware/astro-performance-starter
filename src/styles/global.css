@@ -165,8 +165,11 @@
   --ease-in-out: var(--motion-ease-in-out);
 
   /* --- Fonts (display = Geist headlines, text = Inter body) --- */
-  --font-display: var(--font-family-display);
-  --font-text: var(--font-family-text);
+  /* Sourced from the Astro Fonts API (ADR-053): these vars carry the family
+     plus the generated metric-adjusted fallbacks. The fontFamily token group in
+     tokens/base.json still documents the intended stack (Geist / Inter). */
+  --font-display: var(--font-geist);
+  --font-text: var(--font-inter);
   --default-font-family: var(--font-text);
 
   /* --- Animations --- */
