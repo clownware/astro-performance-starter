@@ -34,7 +34,7 @@ pagefind: true
 | 5.06 | Build Image component | Essential | Wrapper for Astro Image |
 | 5.07 | Create basic Badge | Essential | For tags/labels |
 | 5.08 | Add Grid component | Essential | Responsive layouts |
-| 5.09 | Set up Astrobook | Advanced | Component documentation |
+| 5.09 | Extend `/showcase` style guide | Advanced | Component documentation (ADR-049) |
 | 5.10 | Create Input components | Recommended | Forms, validation |
 | 5.11 | Build Modal component | Recommended | Accessible dialogs |
 | 5.12 | Add Tooltip component | Advanced | Hover information |
@@ -46,7 +46,9 @@ pagefind: true
 
 ## Component Management Strategy
 
-All components live in `src/components/ui/`. Build Essential components first; add Recommended and Advanced components as your project scope requires. There is no separate file per scope level — a single component file is extended with additional props and variants as needed.
+Components are organised by **atomic design** (ADR-003): `src/components/{atoms,molecules,structural,islands,a11y,mdx}/`. Build Essential components first; add Recommended and Advanced components as your project scope requires. There is no separate file per scope level — a single component file is extended with additional props and variants as needed.
+
+> **Note on paths in the code examples:** the Phase 5–7 examples use a flat `src/components/ui/` path as a generic placeholder. In this template, place each component in its atomic-design folder instead — e.g. `atoms/Button.astro`, `molecules/Card.astro`, `structural/Section.astro`.
 
 ### Component Scope Reference
 
@@ -99,7 +101,7 @@ All components live in `src/components/ui/`. Build Essential components first; a
 
 ### Advanced (portfolio/enterprise)
 
-- [ ] Astrobook configured for visual component documentation
+- [ ] `/showcase` style guide extended with your components (ADR-049)
 - [ ] Visual regression baseline established
 - [ ] All interactive components have automated accessibility tests
 
@@ -126,15 +128,15 @@ If components need major refactoring:
 
 ### Key Files to Reference
 
-- `src/components/ui/*` - Component library
-- `astrobook.config.mjs` - Documentation setup
+- `src/components/{atoms,molecules,structural,islands,a11y,mdx}/*` - Component library (atomic design, ADR-003)
+- `src/pages/showcase.astro` - Living style guide / component catalog (ADR-049)
 - Component usage in pages
 
 ### Common Prompts for This Phase
 
 - "Create accessible button component with variants"
 - "Build responsive grid system with Tailwind"
-- "Set up Astrobook for component documentation"
+- "Extend the /showcase style guide with a new component section"
 - "Create modal with focus trap and ARIA"
 
 ### Context Requirements

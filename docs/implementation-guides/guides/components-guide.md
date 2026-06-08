@@ -19,7 +19,7 @@ A custom `Link` component can handle logic that a simple `<a>` tag can't:
 
 ## Step 1: Create the Component File
 
-Create a new file at `src/components/ui/Link.astro`.
+Create a new file at `src/components/atoms/Link.astro`.
 
 ## Step 2: Define the Component Props
 
@@ -27,7 +27,7 @@ We'll use a TypeScript interface to define the props our component will accept.
 
 ```astro
 ---
-// src/components/ui/Link.astro
+// src/components/atoms/Link.astro
 interface Props {
   href: string;
   class?: string;

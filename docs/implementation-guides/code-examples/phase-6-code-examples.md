@@ -1262,12 +1262,12 @@ import Footer from "@/components/structural/Footer.astro";
 import Header from "@/components/structural/Header.astro";
 import ThemeSetup from "@/components/ThemeSetup.astro";
 import { siteMetadata } from "@/config";
+import { Font } from "astro:assets";
 
-import "@fontsource-variable/inter";
 import "@/styles/global.css";
 
-// Font asset URLs for proper hashed filenames in production
-import interVarUrl from "@fontsource-variable/inter/files/inter-latin-wght-normal.woff2?url";
+// Fonts use the Astro 6 Fonts API (ADR-053): configured in astro.config.mjs and
+// emitted (with preload + metric-adjust) via <Font> below. No @fontsource imports.
 
 export interface Props {
   title: string;
@@ -1324,14 +1324,9 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
 
-    <!-- Font Preloading (hashed URLs injected by Vite) -->
-    <link
-      rel="preload"
-      href={interVarUrl}
-      as="font"
-      type="font/woff2"
-      crossorigin="anonymous"
-    />
+    <!-- Fonts (Astro 6 Fonts API): emits @font-face + preload automatically -->
+    <Font cssVariable="--font-geist" preload />
+    <Font cssVariable="--font-inter" preload />
 
     <ClientRouter />
   </head>

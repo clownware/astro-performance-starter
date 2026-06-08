@@ -159,7 +159,7 @@ Dependencies:
 |------|-----------|-------------|----------|
 | **Lighthouse CI** | Manual | Every commit | Every commit + RUM |
 | **Accessibility** | Browser tools | Automated axe-core | Automated axe-core |
-| **Visual Regression** | None | None | Astrobook snapshots |
+| **Visual Regression** | None | None | `/showcase` review (ADR-049) |
 | **E2E Critical Paths** | Manual checklist | Playwright automated | Playwright automated |
 | **Performance** | Local only | CI | CI + monitoring |
 

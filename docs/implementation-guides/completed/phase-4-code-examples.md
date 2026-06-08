@@ -23,8 +23,8 @@ import Header from '@/components/structural/Header.astro';
 import Footer from '@/components/structural/Footer.astro';
 import SkipLink from '@/components/a11y/SkipLink.astro';
 import ThemeSetup from '@/components/ThemeSetup.astro'; // ADDED: Import for theme setup component
-import '@fontsource-variable/inter';
 import '@/styles/global.css';
+// Fonts are loaded via the Astro 6 Fonts API (<Font> in Head.astro), not a CSS import — see ADR-053.
 
 export interface Props {
   title: string;

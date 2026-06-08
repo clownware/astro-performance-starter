@@ -198,7 +198,7 @@ Each active phase includes practical code examples:
 |------|-----------|-------------|----------|
 | Interactivity | Static HTML + CSS | CSS + minimal JS for simple state | Preact islands where justified |
 | Testing | Manual checklist | Playwright critical paths | Full suite + visual regression |
-| Components | Core UI only | Extended component library | Astrobook + full documentation |
+| Components | Core UI only | Extended component library | `/showcase` style guide + full documentation |
 | Documentation | README + basics | AI context updated | Comprehensive guides |
 | Monitoring | Basic uptime | Lighthouse CI | RUM + error tracking |
 

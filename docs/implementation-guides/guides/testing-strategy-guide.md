@@ -400,7 +400,7 @@ test.describe('Visual Regression', () => {
 // tests/unit/Button.test.tsx
 import { render, fireEvent } from '@testing-library/preact';
 import { expect, test } from 'vitest';
-import Button from '../../src/components/ui/Button';
+import Button from '../../src/components/atoms/Button';
 
 test('Button renders with correct text', () => {
   const { getByText } = render(<Button>Click me</Button>);

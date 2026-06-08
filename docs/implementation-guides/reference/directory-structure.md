@@ -295,9 +295,9 @@ Performance Strategy:
     optimization: Automatic via Astro Image component
     
   fonts:
-    source: @fontsource packages (self-hosted)
+    source: Astro 6 Fonts API, vendored WOFF2 in src/assets/fonts/ (ADR-053)
     format: WOFF2 variable fonts preferred
-    loading: font-display: swap
+    loading: font-display + metric-adjust handled by the Fonts API
     
   icons:
     format: SVG inline (< 2KB) or sprite
