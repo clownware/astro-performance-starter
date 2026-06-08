@@ -42,6 +42,6 @@ test.describe("ADR routes", () => {
 	test("@a11y back link returns to the index", async ({ page }) => {
 		await page.goto("/adr/001-preact-island-usage-policy/");
 		await page.getByRole("link", { name: /All Architecture Decision Records/ }).click();
-		await expect(page).toHaveURL(/\/docs\/adr\/?$/);
+		await expect(page).toHaveURL(/\/adr\/?$/);
 	});
 });
