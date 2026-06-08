@@ -252,7 +252,7 @@ docs/** linguist-documentation
 ## References
 
 - [ADR-008: Documentation Sync Strategy](/adr/008-docs-sync-strategy/) — Handles docs → Starlight propagation
-- [AI Context Index](/ai-context/) — Current AI entry point
+- [AI Context Index](https://github.com/clownware/astro-performance-starter/tree/master/docs/ai-context) — Current AI entry point
 - [ADR-033: Track Consolidation](/adr/033-track-consolidation/) — Simplifies AI context by removing track ambiguity
 
 ## Notes

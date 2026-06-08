@@ -131,6 +131,29 @@ const currentPath = normalizePath(Astro.url.pathname);
     // a freshly inserted toggle needs its expanded attribute synced.
     document.addEventListener('astro:after-swap', syncMobileMenuExpanded);
 
+    // Close the mobile menu on link click. Without this, transition:persist on
+    // <header> keeps the checkbox checked across navigations, so the menu
+    // stays open after every tap — confusing on touch where there's no obvious
+    // way to close it back. Capture phase so the close runs before any
+    // ClientRouter interception, ensuring the menu is gone before the new
+    // document's view-transition starts painting.
+    document.addEventListener(
+      'click',
+      (e) => {
+        const target = e.target as HTMLElement | null;
+        const link = target?.closest<HTMLAnchorElement>('#mobile-menu a');
+        if (!link) {
+          return;
+        }
+        const toggle = document.getElementById('mobile-menu-toggle') as HTMLInputElement | null;
+        if (toggle?.checked) {
+          toggle.checked = false;
+          syncMobileMenuExpanded();
+        }
+      },
+      { capture: true },
+    );
+
     document.addEventListener('keydown', (e: KeyboardEvent) => {
       const toggle = document.getElementById('mobile-menu-toggle') as HTMLInputElement | null;
       // Close mobile menu when Escape is pressed

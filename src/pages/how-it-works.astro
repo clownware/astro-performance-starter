@@ -14,6 +14,7 @@ import Grid from "@/components/structural/Grid.astro";
 import Section from "@/components/structural/Section.astro";
 import { siteLinks } from "@/config";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/url-utils";
 
 // ScrollSpy section list — keep IDs in sync with the <Section id="…"> values below.
 const spySections = [
@@ -631,7 +632,7 @@ export function Counter({ value }) {
           </ScrollReveal>
           <ScrollReveal>
             <p class="text-center text-muted-foreground mt-8">
-              <a href="/showcase/" class="text-link hover:underline font-medium">
+              <a href={withBase("/showcase/")} class="text-link hover:underline font-medium">
                 See these tokens in action on the living style guide →
               </a>
             </p>
@@ -806,7 +807,7 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <h3 class="font-semibold text-foreground mb-1">
-                    <a href="/" class="hover:underline">Home</a>
+                    <a href={withBase("/")} class="hover:underline">Home</a>
                   </h3>
                   <p class="text-sm text-muted-foreground">
                     Marketing pillar grid, Lighthouse metric showcase, tech
@@ -820,7 +821,7 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <h3 class="font-semibold text-foreground mb-1">
-                    <a href="/showcase/" class="hover:underline">Components</a>
+                    <a href={withBase("/showcase/")} class="hover:underline">Components</a>
                   </h3>
                   <p class="text-sm text-muted-foreground">
                     Live demo of every component in <code class="text-xs">src/components/</code>,
@@ -834,7 +835,7 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <h3 class="font-semibold text-foreground mb-1">
-                    <a href="/blog/" class="hover:underline">Blog</a>
+                    <a href={withBase("/blog/")} class="hover:underline">Blog</a>
                   </h3>
                   <p class="text-sm text-muted-foreground">
                     Content Collections + MDX with Zod schemas. Reading time,
@@ -848,7 +849,7 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <h3 class="font-semibold text-foreground mb-1">
-                    <a href="/projects/" class="hover:underline">Projects</a>
+                    <a href={withBase("/projects/")} class="hover:underline">Projects</a>
                   </h3>
                   <p class="text-sm text-muted-foreground">
                     Portfolio / case-study layout with filtering by technology,
@@ -862,7 +863,7 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <h3 class="font-semibold text-foreground mb-1">
-                    <a href="/about/" class="hover:underline">About</a>
+                    <a href={withBase("/about/")} class="hover:underline">About</a>
                   </h3>
                   <p class="text-sm text-muted-foreground">
                     Bio, skills, experience timeline, social links — pulled
@@ -876,7 +877,7 @@ export function Counter({ value }) {
               <Card>
                 <div class="p-5 h-full">
                   <h3 class="font-semibold text-foreground mb-1">
-                    <a href="/contact/" class="hover:underline">Contact</a>
+                    <a href={withBase("/contact/")} class="hover:underline">Contact</a>
                   </h3>
                   <p class="text-sm text-muted-foreground">
                     Progressive-enhancement form with native HTML validation
@@ -894,7 +895,7 @@ export function Counter({ value }) {
                 atom, molecule, and structural component with a live demo and
                 code.
               </p>
-              <Button variant="primary" href="/showcase/">
+              <Button variant="primary" href={withBase("/showcase/")}>
                 Browse the Components →
               </Button>
               <Button variant="ghost" href={siteLinks.github} target="_blank" rel="noopener noreferrer" class="ml-4">

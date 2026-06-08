@@ -43,7 +43,7 @@ const isReserved = (adr: CollectionEntry<"adr">) =>
       {sorted.map((adr: CollectionEntry<"adr">) => (
         <li class={isReserved(adr) ? "py-5 opacity-50" : "py-5"}>
           <a
-            href={withBase(`/docs/adr/${adr.id}/`)}
+            href={withBase(`/adr/${adr.id}/`)}
             class="group block focus:outline-hidden focus-visible:ring-2 focus-visible:ring-link rounded-lg"
             aria-label={`Open ${adr.data.title}`}
           >

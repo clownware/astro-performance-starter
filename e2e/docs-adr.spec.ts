@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 test.describe("ADR routes", () => {
 	test("index page lists ADRs", async ({ page }) => {
-		await page.goto("/docs/adr/");
+		await page.goto("/adr/");
 
 		const h1 = page.getByRole("heading", {
 			name: "Architecture Decision Records",
@@ -25,7 +25,7 @@ test.describe("ADR routes", () => {
 		// ADR-001 is the foundational Preact island policy and has been
 		// stable since the project's first ADR commit. Using a stable ADR
 		// keeps this test resilient to additions.
-		await page.goto("/docs/adr/001-preact-island-usage-policy/");
+		await page.goto("/adr/001-preact-island-usage-policy/");
 
 		const h1 = page.getByRole("heading", { level: 1 });
 		await expect(h1).toBeVisible();
@@ -40,7 +40,7 @@ test.describe("ADR routes", () => {
 	});
 
 	test("@a11y back link returns to the index", async ({ page }) => {
-		await page.goto("/docs/adr/001-preact-island-usage-policy/");
+		await page.goto("/adr/001-preact-island-usage-policy/");
 		await page.getByRole("link", { name: /All Architecture Decision Records/ }).click();
 		await expect(page).toHaveURL(/\/docs\/adr\/?$/);
 	});
