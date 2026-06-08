@@ -197,7 +197,7 @@ Integrate [Feature] with our design system:
 - Add proper TypeScript types
 - Include accessibility features
 - Document usage patterns
-- Create component story (Advanced scope — Astrobook)
+- Add the component to the `/showcase` living style guide (Advanced scope — ADR-049)
 
 Reference design-system.md token structure
 ```
