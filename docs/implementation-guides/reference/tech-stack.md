@@ -65,7 +65,8 @@ Assets:
     - Sharp for processing
     - AVIF + WebP output
   fonts:
-    - @fontsource for self-hosting
+    - Astro 6 Fonts API with local provider (ADR-053)
+    - Vendored WOFF2 in src/assets/fonts/
     - Variable fonts preferred
 ```
 
@@ -122,7 +123,7 @@ Git_Hooks:
 | Type | Essential | Recommended | Tool |
 |------|-----------|-------------|------|
 | Unit | If needed | If needed | Vitest |
-| Component | ❌ | ✅ | Astrobook visual tests |
+| Component | ❌ | ✅ | `/showcase` style guide (ADR-049) |
 | E2E | Manual | ✅ | Playwright |
 | A11y | Dev tools | ✅ | axe-core + Playwright |
 | Performance | Lighthouse | ✅ | Lighthouse CI |
@@ -131,11 +132,11 @@ Git_Hooks:
 
 ```yaml
 Component_Docs:
-  tool: Astrobook
+  tool: /showcase living style guide (ADR-049)
   features:
-    - Component playground
-    - Visual regression testing
-    - Props documentation
+    - Component gallery (System / Color / Type / Motion / Components)
+    - Token swatches + typography specimens
+    - Live, build-verified examples
     - Accessibility checks
 
 API_Docs:
@@ -196,7 +197,6 @@ Runtime:
     "@astrojs/preact": "^5.1.3",
     "@astrojs/rss": "^4.0.18",
     "@astrojs/sitemap": "^3.7.1",
-    "@fontsource-variable/inter": "^5.2.8",
     "@preact/signals": "^2.9.0",
     "@tailwindcss/vite": "^4.2.2",
     "astro-expressive-code": "^0.42.0",
@@ -262,7 +262,7 @@ Runtime:
 3. **Biome**: Massive speed improvement over ESLint/Prettier
 4. **Preact**: Smaller than React for islands that need state
 5. **Cloudflare Pages**: Fast global CDN with great free tier
-6. **Astrobook**: Component documentation without Storybook overhead
+6. **`/showcase` style guide**: Living component catalog in-app, no separate story runner (ADR-049)
 
 ### What We Avoid
 

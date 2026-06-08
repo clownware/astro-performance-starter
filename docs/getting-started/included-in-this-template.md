@@ -21,7 +21,7 @@ The _Astro Performance Starter_ gives you a production-ready foundation focused 
 | Footer | `src/components/structural/Footer.astro` | Dynamic copyright year. |
 | Skip link | `src/components/a11y/SkipLink.astro` | Keyboard-friendly “skip to content”. |
 | Error pages | `src/pages/404.astro`, `src/pages/500.astro` | Custom, accessible error templates. |
-| Global font setup | `@fontsource-variable/inter` | Preloaded WOFF2 assets & CSS vars. |
+| Global font setup | Astro 6 Fonts API (`src/assets/fonts/`) | Self-hosted Geist + Inter, preloaded WOFF2 & CSS vars (ADR-053). |
 | Security headers | `public/_headers` | CSP, HSTS, referrer-policy, etc. |
 | Robots rules | `src/pages/robots.txt.ts` | Dynamic robots.txt generation with sitemap reference. |
 | Favicon | `public/favicon.svg`, `public/favicon.ico`, `public/apple-touch-icon.png` | Replace with your own brand assets. |

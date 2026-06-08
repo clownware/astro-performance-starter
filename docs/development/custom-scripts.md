@@ -56,8 +56,6 @@ This project uses a collection of custom scripts to automate common tasks, enfor
 | :--- | :--- |
 | `docs:sync` | Sync documentation from separate docs repo (available at launch) |
 | `docs:update` | Sync docs and inject current package versions for AI context |
-| `docs:components` | Start Astrobook component documentation |
-| `docs:components:build` | Build Astrobook documentation |
 | `roadmap:update` | Update implementation roadmap status |
 
 ## Performance Scripts

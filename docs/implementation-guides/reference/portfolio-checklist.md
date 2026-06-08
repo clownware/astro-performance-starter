@@ -98,7 +98,7 @@ Add these only if they serve a specific goal:
 
 | Feature | When to Add |
 |---------|-------------|
-| Astrobook component docs | Open source or team projects |
+| `/showcase` living style guide | Open source or team projects |
 | Visual regression tests | High-churn component library |
 | Playwright E2E suite | Contact form or interactive features |
 | View Transitions animations | When animation enhances UX, not just aesthetics |
