@@ -1,0 +1,38 @@
+{
+  "$comment": "Lighthouse CI gate (ADR-039 spirit: halt on real regressions, not on run variance). Thresholds set at the documented NON-NEGOTIABLE floor in `.claude/stack.md` — perf>=90, a11y>=95, BP>=95, SEO>=90. The headline 95+ Lighthouse claim is verified in the manual #246 pass; CI catches drops BELOW the floor. /adr a11y dips to 97 due to a transient theme-init flash tracked in #279; the floor accommodates it without masking real defects.",
+  "ci": {
+    "collect": {
+      "startServerCommand": "pnpm preview",
+      "startServerReadyPattern": "Local",
+      "url": [
+        "http://localhost:4321/",
+        "http://localhost:4321/how-it-works/",
+        "http://localhost:4321/showcase/",
+        "http://localhost:4321/blog/",
+        "http://localhost:4321/blog/why-astro-in-2026/",
+        "http://localhost:4321/projects/",
+        "http://localhost:4321/projects/patisserie-storefront/",
+        "http://localhost:4321/about/",
+        "http://localhost:4321/contact/",
+        "http://localhost:4321/adr/"
+      ],
+      "numberOfRuns": 1,
+      "settings": {
+        "preset": "desktop",
+        "chromeFlags": "--headless=new --no-sandbox"
+      }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.9 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["error", { "minScore": 0.95 }],
+        "categories:seo": ["error", { "minScore": 0.9 }]
+      }
+    },
+    "upload": {
+      "target": "filesystem",
+      "outputDir": "lighthouse-ci-reports"
+    }
+  }
+}

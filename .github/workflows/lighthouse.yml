@@ -1,0 +1,70 @@
+name: Lighthouse CI
+
+# Gates PRs on the documented NON-NEGOTIABLE Lighthouse floor (see
+# `.claude/stack.md` and `lighthouserc.json`). The headline "95+" claim is
+# verified by the manual Wave-3 pass and recorded in #246; this workflow keeps
+# PRs from silently dropping below the floor, while accommodating single-run
+# variance and the tracked /adr theme-init flash (#279).
+
+on:
+  pull_request:
+    branches: [master, develop]
+
+permissions:
+  contents: read
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    env:
+      # The Astro config validates SITE_URL at load time (ADR-050); the
+      # documented placeholder values would trip validate-env.ts, so we use a
+      # real-looking origin matching the GitHub Pages deploy.
+      SITE_URL: https://${{ github.repository_owner }}.github.io
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Get pnpm store directory
+        shell: bash
+        run: echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_OUTPUT
+        id: pnpm-cache
+
+      - name: Cache pnpm store
+        uses: actions/cache@v5
+        with:
+          path: ${{ steps.pnpm-cache.outputs.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: ${{ runner.os }}-pnpm-store-
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build site
+        run: pnpm run build
+
+      - name: Run Lighthouse CI
+        run: pnpm exec lhci autorun
+        env:
+          # lhci picks this up when present and writes a status check on the PR
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Upload Lighthouse reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-reports
+          path: lighthouse-ci-reports/
+          retention-days: 14
+          if-no-files-found: ignore
