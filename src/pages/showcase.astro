@@ -1,16 +1,31 @@
 ---
+import { getCollection } from "astro:content";
+import markPrimary from "@/assets/brand/mark-primary.svg";
 import AnimatedGradientText from "@/components/atoms/AnimatedGradientText.astro";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
 import CounterBadge from "@/components/atoms/CounterBadge.astro";
+import Icon from "@/components/atoms/Icon.astro";
+import Image from "@/components/atoms/Image.astro";
 import ReadingProgress from "@/components/atoms/ReadingProgress.astro";
 import ScrollReveal from "@/components/atoms/ScrollReveal.astro";
+import SocialLink from "@/components/atoms/SocialLink.astro";
+import ThemeToggle from "@/components/atoms/ThemeToggle.astro";
 import Tooltip from "@/components/atoms/Tooltip.astro";
+import MotionLab from "@/components/islands/MotionLab.tsx";
 import SignalsCounter from "@/components/islands/SignalsCounter.tsx";
+import Blockquote from "@/components/mdx/Blockquote.astro";
+import Callout from "@/components/mdx/Callout.astro";
+import CodeFromFile from "@/components/mdx/CodeFromFile.astro";
+import Figure from "@/components/mdx/Figure.astro";
+import MdxLink from "@/components/mdx/Link";
 import Card from "@/components/molecules/Card.astro";
 import ColorTokenSwatch from "@/components/molecules/ColorTokenSwatch.astro";
 import Dialog from "@/components/molecules/Dialog.astro";
+import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
 import PaletteBand from "@/components/molecules/PaletteBand.astro";
+import PostCard from "@/components/molecules/PostCard.astro";
+import ProjectCard from "@/components/molecules/ProjectCard.astro";
 import ScrollSpy from "@/components/molecules/ScrollSpy.astro";
 import SectionSeparator from "@/components/molecules/SectionSeparator.astro";
 import ShowcaseExample from "@/components/molecules/ShowcaseExample.astro";
@@ -21,6 +36,9 @@ import Grid from "@/components/structural/Grid.astro";
 import ParallaxSection from "@/components/structural/ParallaxSection.astro";
 import Section from "@/components/structural/Section.astro";
 import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getPublishedPosts } from "@/utils/blog";
+import { formatPostMetadata } from "@/utils/formatDate";
+import { withBase } from "@/utils/url-utils";
 
 // ScrollSpy section list — keep IDs in sync with the <Section id="…"> values below.
 const spySections = [
@@ -29,7 +47,19 @@ const spySections = [
   { id: "type", label: "Type" },
   { id: "motion", label: "Motion" },
   { id: "components", label: "Components" },
+  { id: "content", label: "Content" },
 ];
+
+// Live data for the component demos — real collection entries, not invented.
+const publishedPosts = await getPublishedPosts();
+const demoPost = publishedPosts[0]
+  ? {
+      ...publishedPosts[0],
+      metadata: formatPostMetadata(publishedPosts[0].data.date, publishedPosts[0].body),
+    }
+  : null;
+const projectEntries = await getCollection("projects");
+const demoProject = projectEntries[0] ?? null;
 ---
 
 <BaseLayout
@@ -307,9 +337,23 @@ const spySections = [
               </div>
               <div class="rounded-lg border border-border p-6">
                 <p class="text-xs font-mono text-muted-foreground mb-4">Scroll reveal · <span class="text-link">animation-timeline: view()</span></p>
-                <p class="text-sm text-muted-foreground">Every block on this page enters via the <code class="text-xs">ScrollReveal</code> component — native scroll-driven, no IntersectionObserver. A fixed <code class="text-xs">feTurbulence</code> grain adds depth on the dark surface. Reduced-motion: items render at rest, fully visible.</p>
+                <p class="text-sm text-muted-foreground">Every block on this page enters via the <code class="text-xs">ScrollReveal</code> component — native scroll-driven, no IntersectionObserver. A fixed <code class="text-xs">feTurbulence</code> grain adds depth on the dark surface. Reduced-motion: items render at rest, fully visible. On browsers without <code class="text-xs">animation-timeline</code> (e.g. Safari &lt; 26) reveals are simply skipped and content shows immediately — graceful, still zero-JS, no JS fallback by design (ADR-048).</p>
               </div>
             </div>
+          </ScrollReveal>
+
+          {/* The one interactive motion island — opt-in JS, clearly labelled (#250, ADR-048) */}
+          <ScrollReveal>
+            <ShowcaseExample
+              title="MotionLab (Preact island)"
+              description="Everything above is zero-JS CSS. This is the deliberate exception: a single Preact island that controls a CSS animation — play/pause and speed live in a Signal. It hydrates with client:idle, so it costs nothing until the browser is free. The gradient itself is still pure CSS, and it freezes under prefers-reduced-motion regardless of the controls."
+              features={["preact-signals", "progressive-enhancement"]}
+              a11yNote="Real <button>s; honours prefers-reduced-motion (animation off) even while playing"
+              codeSnippet={'import MotionLab from "@/components/islands/MotionLab.tsx";\n\n&lt;MotionLab client:idle /&gt;'}
+              codeLang="tsx"
+            >
+              <MotionLab client:idle />
+            </ShowcaseExample>
           </ScrollReveal>
         </Container>
       </Section>
@@ -446,6 +490,67 @@ const spySections = [
                 </div>
               </ShowcaseExample>
             </ScrollReveal>
+
+            {/* Icon */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Icon"
+                description="Inline SVG from a Lucide-aligned path registry (ADR-055). currentColor means each icon takes its colour from the surrounding text token; size with utility classes."
+                features={["zero-js", "wcag-aa"]}
+                a11yNote="Decorative icons get aria-hidden; meaningful ones take an ariaLabel"
+                codeSnippet={'&lt;Icon name="zap" class="size-6 text-primary-600" ariaLabel="Performance" /&gt;'}
+              >
+                <div class="flex flex-wrap items-center gap-5 text-foreground">
+                  <Icon name="zap" class="size-6 text-primary-600" ariaLabel="Performance" />
+                  <Icon name="shield-check" class="size-6 text-success" ariaLabel="Security" />
+                  <Icon name="gauge" class="size-6 text-link" ariaLabel="Speed" />
+                  <Icon name="palette" class="size-6 text-secondary-600" ariaLabel="Design" />
+                  <Icon name="accessibility" class="size-6" ariaLabel="Accessibility" />
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* Image */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Image"
+                description="Wrapper over astro:assets <Image> with project defaults: lazy loading, async decoding, and AVIF/WebP output for raster sources. Width/height are required so layout never shifts."
+                features={["zero-js"]}
+                a11yNote="alt is required by the Props type — no silent missing alt"
+                codeSnippet={'import hero from "@/assets/hero.png";\n&lt;Image src={hero} alt="Hero" width={1200} height={630} /&gt;'}
+              >
+                <Image src={markPrimary} alt="Astro Performance Starter spark mark" width={96} height={96} />
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* SocialLink */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="SocialLink"
+                description="Accessible social link pairing a registry-mapped Icon with an accessible label. purpose='share' vs 'profile' tunes the rel/aria semantics."
+                features={["zero-js", "wcag-aa"]}
+                codeSnippet={'&lt;SocialLink platform="github" href="https://github.com/you" /&gt;'}
+              >
+                <div class="flex items-center gap-4">
+                  <SocialLink platform="github" href="https://github.com/clownware/astro-performance-starter" />
+                  <SocialLink platform="linkedin" href="https://linkedin.com/in/example" />
+                  <SocialLink platform="twitter" href="https://twitter.com/example" />
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* ThemeToggle */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="ThemeToggle"
+                description="Dark/light switch backed by a tiny inline script — no framework. It flips the .dark class and persists the choice; the whole page re-themes through the tokens. Progressive enhancement: a real button that works the instant JS runs."
+                features={["progressive-enhancement", "wcag-aa"]}
+                a11yNote="Real <button> with aria-label — keyboard and screen-reader operable"
+                codeSnippet={'&lt;ThemeToggle /&gt;'}
+              >
+                <ThemeToggle />
+              </ShowcaseExample>
+            </ScrollReveal>
           </div>
         </Container>
       </Section>
@@ -554,6 +659,71 @@ const spySections = [
                 </Tabs>
               </ShowcaseExample>
             </ScrollReveal>
+
+            {/* ExpandableFeatureCard */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="ExpandableFeatureCard"
+                description="Feature card with a headline metric and an expandable detail list, built on native <details>/<summary> — no JS for the disclosure. Icon from the registry (ADR-055)."
+                features={["zero-js", "wcag-aa"]}
+                a11yNote="Native <details> disclosure — keyboard operable, announced as expandable"
+                codeSnippet={'&lt;ExpandableFeatureCard\n  icon="gauge"\n  title="Performance"\n  description="Fast by default"\n  metric="99 Lighthouse"\n  expandedDetails={["Zero-JS baseline", "AVIF images"]}\n/&gt;'}
+              >
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <ExpandableFeatureCard
+                    icon="gauge"
+                    title="Performance"
+                    description="Fast by default, measured not assumed."
+                    metric="99 Lighthouse"
+                    expandedDetails={["Zero-JS baseline", "AVIF/WebP images", "Metric-matched font fallbacks"]}
+                  />
+                  <ExpandableFeatureCard
+                    icon="shield-check"
+                    title="Security"
+                    description="Hardened headers and CI scanning."
+                    metric="CSP + HSTS"
+                    expandedDetails={["Header-based CSP", "Gitleaks + Semgrep in CI", "No third-party requests"]}
+                  />
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* PostCard */}
+            {demoPost && (
+              <ScrollReveal>
+                <ShowcaseExample
+                  title="PostCard"
+                  description="Blog index card — cover, reading time, relative date, tags — driven by a content-collection entry plus computed metadata. Renders a real published post."
+                  features={["zero-js"]}
+                  codeSnippet={'const posts = await getPublishedPosts();\nconst post = { ...posts[0], metadata: formatPostMetadata(posts[0].data.date, posts[0].body) };\n&lt;PostCard post={post} /&gt;'}
+                >
+                  <div class="max-w-md">
+                    <PostCard post={demoPost} />
+                  </div>
+                </ShowcaseExample>
+              </ScrollReveal>
+            )}
+
+            {/* ProjectCard */}
+            {demoProject && (
+              <ScrollReveal>
+                <ShowcaseExample
+                  title="ProjectCard"
+                  description="Portfolio card — cover, title, description, and a tech-stack row — rendered from a real entry in the projects collection (ADR-056)."
+                  features={["zero-js"]}
+                  codeSnippet={'&lt;ProjectCard\n  title={p.data.title}\n  description={p.data.description}\n  image={p.data.cover}\n  techStack={p.data.technologies}\n/&gt;'}
+                >
+                  <div class="max-w-md">
+                    <ProjectCard
+                      title={demoProject.data.title}
+                      description={demoProject.data.description}
+                      image={demoProject.data.cover}
+                      techStack={demoProject.data.technologies}
+                    />
+                  </div>
+                </ShowcaseExample>
+              </ScrollReveal>
+            )}
 
           </div>
         </Container>
@@ -744,6 +914,93 @@ const spySections = [
                     </p>
                   </Dialog>
                 </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionSeparator />
+
+      {/* ================================================================
+          CONTENT / MDX SECTION — components Astro maps into MDX content
+          ================================================================ */}
+      <Section id="content" class="py-16">
+        <Container>
+          <ScrollReveal>
+            <p class="text-xs font-semibold text-link uppercase tracking-wider mb-2">Content</p>
+            <h2 class="text-3xl font-bold text-foreground mb-2">MDX components</h2>
+            <p class="text-muted-foreground mb-8 max-w-2xl">
+              The components Astro maps into MDX content (ADR-027). Authors write Markdown; these render the rich parts — callouts, pull quotes, figures, file-sourced code — all token-styled and zero-JS.
+            </p>
+          </ScrollReveal>
+
+          <div class="flex flex-col gap-8">
+            {/* Callout */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Callout"
+                description="MDX admonition — note / info / success / warning / danger. Status colours come from the role tokens; the icon is optional."
+                features={["zero-js", "wcag-aa"]}
+                codeSnippet={'&lt;Callout type="warning" title="Heads up"&gt;\n  Body content here.\n&lt;/Callout&gt;'}
+              >
+                <div class="flex flex-col gap-3">
+                  <Callout type="note" title="Note">A neutral aside for extra context.</Callout>
+                  <Callout type="success" title="Shipped">The build cleared every quality gate.</Callout>
+                  <Callout type="warning" title="Heads up">Amber is held to the large-text contrast bar (ADR-047).</Callout>
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* Blockquote */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Blockquote"
+                description="Pull quote with optional attribution — semantic <blockquote> + <cite>, styled from the border and muted-foreground tokens."
+                features={["zero-js"]}
+                codeSnippet={'&lt;Blockquote author="Pulci Nella" source="Resident Ghost Dev"&gt;\n  Ship the artifact, not the apology.\n&lt;/Blockquote&gt;'}
+              >
+                <Blockquote author="Pulci Nella" source="Resident Ghost Dev">
+                  Ship the artifact, not the apology.
+                </Blockquote>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* Figure */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Figure"
+                description="Content image with a semantic <figcaption>. Pairs src/alt with an optional caption."
+                features={["zero-js", "wcag-aa"]}
+                codeSnippet={'&lt;Figure src="/og-default.png" alt="…" caption="The default OG card" /&gt;'}
+              >
+                <Figure src={withBase("/og-default.png")} alt="The default Open Graph card showing the gradient spark mark" caption="The default OG card — generated from source SVG by og:build." />
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* Link */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Link"
+                description="The anchor MDX maps to. Internal links stay plain; external links get target=_blank + rel=noopener and a screen-reader 'opens in new tab' note."
+                features={["zero-js", "wcag-aa"]}
+                codeSnippet={'[Astro](https://astro.build)  {/* in MDX, rendered by Link */}'}
+              >
+                <p class="text-foreground">
+                  An <MdxLink href="/about/">internal link</MdxLink> and an <MdxLink href="https://astro.build">external link</MdxLink>.
+                </p>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* CodeFromFile */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="CodeFromFile"
+                description="Renders a real source file as a syntax-highlighted block at build time (Expressive Code). The snippet can't drift from the file — it IS the file. src resolves against parentUrl; anchor it to the project root so the path is stable through the bundle."
+                features={["zero-js"]}
+                codeSnippet={'&lt;CodeFromFile\n  src="./src/components/mdx/examples/greet.ts"\n  lang="ts"\n  title="greet.ts"\n  parentUrl={`file://${process.cwd()}/`}\n/&gt;'}
+              >
+                <CodeFromFile src="./src/components/mdx/examples/greet.ts" lang="ts" title="greet.ts" parentUrl={`file://${process.cwd()}/`} />
               </ShowcaseExample>
             </ScrollReveal>
           </div>
