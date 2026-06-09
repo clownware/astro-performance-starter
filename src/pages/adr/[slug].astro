@@ -22,7 +22,6 @@ if (!adr) {
   return Astro.redirect(withBase("/404/"));
 }
 
-// biome-ignore lint/style/useNamingConvention: render() returns Content; PascalCase required to use as JSX tag
 const { Content } = await render(adr);
 ---
 
