@@ -98,7 +98,7 @@
   "devDependencies": {
     "@astrojs/check": "^0.9.9",
     "@astrojs/ts-plugin": "^1.10.7",
-    "@biomejs/biome": "^2.4.11",
+    "@biomejs/biome": "^2.4.16",
     "@commitlint/cli": "^20.5.0",
     "@commitlint/config-conventional": "^20.5.0",
     "@lhci/cli": "^0.15.1",
