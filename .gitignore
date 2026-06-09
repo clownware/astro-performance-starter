@@ -57,6 +57,8 @@ playwright/.cache/
 # Lighthouse
 lighthouse-report.html
 lighthouse-report.json
+.lighthouseci/
+lighthouse-ci-reports/
 
 # ---------------------------------------------
 # Image Processing
