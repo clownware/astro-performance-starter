@@ -12,7 +12,6 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
-    // biome-ignore lint/style/useNamingConvention: Playwright requires baseURL
     baseURL: "http://localhost:4321",
     trace: "on-first-retry",
   },

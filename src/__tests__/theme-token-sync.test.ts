@@ -22,8 +22,11 @@ const themeBlock = (() => {
   let i = globalCss.indexOf("{", start);
   const open = i;
   for (; i < globalCss.length; i++) {
-    if (globalCss[i] === "{") depth++;
-    else if (globalCss[i] === "}" && --depth === 0) break;
+    if (globalCss[i] === "{") {
+      depth++;
+    } else if (globalCss[i] === "}" && --depth === 0) {
+      break;
+    }
   }
   return globalCss.slice(open, i + 1);
 })();

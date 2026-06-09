@@ -1,0 +1,46 @@
+{
+  "$comment": "Raw-size performance budgets enforced by `pnpm perf:budgets` (scripts/src/track-performance-budgets.ts). Sizes are uncompressed bytes. CSS is budgeted by gzipped size elsewhere (Lighthouse / docs), not here, because this script measures raw size only.",
+  "budgets": [
+    {
+      "name": "JavaScript (raw, bundled)",
+      "path": "_astro",
+      "ignore": [
+        "**/*.css",
+        "**/*.woff",
+        "**/*.woff2",
+        "**/*.png",
+        "**/*.jpg",
+        "**/*.jpeg",
+        "**/*.gif",
+        "**/*.svg",
+        "**/*.webp",
+        "**/*.avif",
+        "**/*.map"
+      ],
+      "maxSizeKb": 64,
+      "maxTotalSizeKb": 160
+    },
+    {
+      "name": "Fonts (raw, self-hosted)",
+      "path": "_astro/fonts",
+      "maxSizeKb": 64,
+      "maxTotalSizeKb": 150
+    },
+    {
+      "name": "Images (raw, per-file)",
+      "path": "",
+      "ignore": [
+        "**/*.js",
+        "**/*.css",
+        "**/*.woff",
+        "**/*.woff2",
+        "**/*.html",
+        "**/*.json",
+        "**/*.xml",
+        "**/*.txt",
+        "**/*.map"
+      ],
+      "maxSizeKb": 200
+    }
+  ]
+}

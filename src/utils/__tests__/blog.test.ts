@@ -7,7 +7,6 @@ import { draftPost, publishedPosts } from "../../../tests/fixtures/posts";
 // getFeaturedPosts without Astro's runtime. The stub also exports
 // __setMockCollection / __resetMockCollection for controlling fixtures.
 
-// biome-ignore lint/suspicious/noExplicitAny: virtual module isn't typed here
 const stub = (await import("astro:content")) as any;
 const { getPublishedPosts, getFeaturedPosts } = await import("@utils/blog");
 
