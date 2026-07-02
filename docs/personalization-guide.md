@@ -38,7 +38,7 @@ Replace the demo entries with your actual work history. Delete entries you don't
 
 | File | What to replace |
 |------|----------------|
-| `src/images/avatar-placeholder.png` | Your photo (used on About page) |
+| `src/content/bio/default.mdx` (`avatar:` field) | Your photo — point it at an image in `src/assets/` (rendered on the About page) |
 | `public/logo.svg` | Your logo or wordmark (used in header) |
 
 ---

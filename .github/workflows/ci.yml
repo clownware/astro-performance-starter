@@ -87,6 +87,9 @@ jobs:
             exit 1
           fi
 
+      - name: Enforce per-image size budget (ADR-057)
+        run: pnpm run images:gate
+
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 

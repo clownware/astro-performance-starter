@@ -248,7 +248,7 @@ pnpm test:mutate      # Stryker mutation testing — slow; nightly in CI (ADR-04
 
 - **JavaScript:** < 160KB total raw (enforced in CI)
 - **CSS:** < 50KB total
-- **Images:** < 200KB each after optimisation
+- **Images:** < 200KB each per raster file (enforced in CI — ADR-057)
 - **Lighthouse:** Performance 95+, Accessibility 98+
 - **Core Web Vitals:** LCP < 2.5s, FID < 100ms, CLS < 0.1
 
@@ -256,7 +256,7 @@ Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding
 
 ### Key ADRs
 
-57 ADRs in `docs/adr/`. The structurally important ones:
+58 ADRs in `docs/adr/`. The structurally important ones:
 
 - **ADR-001:** Preact island usage policy — never `client:load` without justification
 - **ADR-023:** Testing strategy and coverage targets
