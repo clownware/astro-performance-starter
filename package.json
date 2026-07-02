@@ -55,7 +55,7 @@
     "test:a11y": "playwright test --grep=\"@a11y\"",
     "clean": "rm -rf dist .astro tokens/dist",
     "clean:all": "rm -rf dist .astro tokens/dist node_modules/.cache",
-    "prepare": "husky install",
+    "prepare": "husky",
     "//2": "─── Maintainer & advanced: template upkeep — cloners rarely run these (see ADR-052) ───",
     "test:mutate": "SITE_URL=http://localhost:4321 stryker run",
     "design:validate": "tsx scripts/src/validate-contrast.ts",

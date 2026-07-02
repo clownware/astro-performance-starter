@@ -10,7 +10,9 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted — amended by [ADR-059](./059-docs-drift-gate.md): for cross-repo stack claims on the
+external docs site, the review cadence is replaced by an enforced CI drift gate. Frontmatter
+review dates remain in force for in-repo documentation.
 
 ## Context
 
