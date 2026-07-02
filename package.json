@@ -6,13 +6,13 @@
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Clownware/astro-performance-starter.git"
+    "url": "git+https://github.com/clownware/astro-performance-starter.git"
   },
   "author": "Chris Pezza",
   "license": "MIT",
   "homepage": "https://clownware.github.io/astro-performance-starter/",
   "bugs": {
-    "url": "https://github.com/Clownware/astro-performance-starter/issues"
+    "url": "https://github.com/clownware/astro-performance-starter/issues"
   },
   "keywords": [
     "astro",

@@ -37,7 +37,7 @@
     },
     {
       "label": "GitHub",
-      "href": "https://github.com/Clownware/astro-performance-starter",
+      "href": "https://github.com/clownware/astro-performance-starter",
       "isExternal": true,
       "icon": "github-logo",
       "order": 8
