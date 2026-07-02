@@ -75,6 +75,7 @@
     "bundle:analyze": "pnpm run build && tsx scripts/src/analyze-bundle.ts",
     "images:analyze": "tsx scripts/src/optimize-images.ts",
     "images:gate": "tsx scripts/src/check-image-budget.ts",
+    "fonts:gate": "tsx scripts/src/check-font-preloads.ts",
     "images:optimize": "tsx scripts/src/optimize-images-interactive.ts",
     "docs:sync": "tsx scripts/src/sync-docs.ts",
     "docs:update": "tsx scripts/src/sync-docs.ts --update-versions",

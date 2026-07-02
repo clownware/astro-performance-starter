@@ -113,9 +113,10 @@ and `src/`, wired into GitHub Actions CI alongside the JS bundle-size gate.
 - **Anti-pattern called out explicitly**: generating multi-MB PNG _fallbacks_
   alongside AVIF/WebP. Astro's `<Picture>`/`<Image>` pipeline emits modern
   formats; a heavyweight PNG fallback re-introduces exactly the weight this
-  gate exists to stop. Adopters must not add such fallbacks. Enforcing this at
-  the build-output level is tracked as a follow-up (extend the same gate to
-  scan `dist/`).
+  gate exists to stop. Adopters must not add such fallbacks. This is enforced at
+  the build-output level too: CI runs the same gate again with
+  `IMAGE_GATE_ROOTS=dist` after the build, so any oversized emitted raster fails
+  regardless of source (added alongside ADR-058).
 
 ### Implementation Details
 
@@ -167,10 +168,10 @@ export function findImageBudgetViolations(
 
 ## Notes
 
-The gate scans source (`public/`, `src/`) rather than `dist/` so feedback needs
-no build and violation messages point at a real source file. Extending it to
-scan `dist/` for emitted raster fallbacks is the natural next step and is
-called out in the format anti-pattern above.
+By default the gate scans source (`public/`, `src/`) so feedback needs no build
+and violation messages point at a real source file. CI additionally runs it with
+`IMAGE_GATE_ROOTS=dist` after the build to catch oversized emitted raster (e.g.
+PNG fallbacks), as called out in the format anti-pattern above.
 
 ---
 **Date**: 2026-07-02\

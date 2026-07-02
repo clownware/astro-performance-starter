@@ -5,7 +5,7 @@ one decision — its context, the options weighed, the choice, and the consequen
 
 ## Provenance — what a cloner inherits
 
-ADRs `000`–`057` are the **founding architecture of the Astro Performance Starter
+ADRs `000`–`058` are the **founding architecture of the Astro Performance Starter
 itself**, recorded by the template's maintainers. When you clone this template:
 
 - These records explain _why the starter is built the way it is_. They are the

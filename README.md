@@ -229,6 +229,7 @@ pnpm run tokens:build     # Rebuild design tokens (rarely needed)
 | `pnpm run budgets:validate` | Validate budget override configuration |
 | `pnpm run images:analyze` | Analyze image sizes and formats |
 | `pnpm run images:gate` | Fail on any raster image over the per-file budget (CI gate, ADR-057) |
+| `pnpm run fonts:gate` | Fail on any built page over the font-preload budget (CI gate, ADR-058) |
 | `pnpm run images:optimize` | Interactive image optimization |
 
 **Release & Maintenance**
@@ -247,7 +248,8 @@ Budgets (see `.claude/stack.md`):
 
 - **JavaScript**: < 160KB raw total
 - **CSS**: < 50KB
-- **Images**: < 200KB per raster file — enforced in CI ([ADR-057](./docs/adr/057-image-budget-gate.md)); override with `IMAGE_BUDGET_KB`
+- **Images**: < 200KB per raster file, source + build output — enforced in CI ([ADR-057](./docs/adr/057-image-budget-gate.md)); override with `IMAGE_BUDGET_KB`
+- **Font preloads**: ≤ 2 per page — enforced in CI ([ADR-058](./docs/adr/058-font-preload-budget.md)); override with `MAX_FONT_PRELOADS`
 - **Lighthouse**: 95+ Performance, 98+ Accessibility
 
 The default starter ships well under budget — measured on a production build:

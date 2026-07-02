@@ -51,10 +51,12 @@ describe("findImageBudgetViolations", () => {
 });
 
 describe("collectRasterAssets", () => {
-  it("finds raster files and ignores SVG", () => {
+  it("finds raster files recursively and ignores SVG", () => {
     const assets = collectRasterAssets([fixturesDir]);
     const names = assets.map((a) => a.path.split("/").pop()).sort();
-    expect(names).toEqual(["tiny-ok.png", "too-big.png"]);
+    // nested/deep-raster.png proves the walk recurses — the same way it must
+    // catch emitted raster under dist/_astro when CI scans the build output.
+    expect(names).toEqual(["deep-raster.png", "tiny-ok.png", "too-big.png"]);
     expect(names).not.toContain("vector.svg");
   });
 

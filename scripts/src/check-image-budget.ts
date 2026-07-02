@@ -108,7 +108,14 @@ function main(): void {
   const budgetKb = Number.parseInt(process.env.IMAGE_BUDGET_KB ?? "", 10) || DEFAULT_BUDGET_KB;
   const budgetBytes = budgetKb * 1024;
 
-  const assets = collectRasterAssets(DEFAULT_ROOTS.map((r) => join(root, r)));
+  // Default scans source (public/, src/). IMAGE_GATE_ROOTS overrides — CI also
+  // runs it with `dist` after build so emitted raster (e.g. heavyweight PNG
+  // fallbacks alongside AVIF/WebP) is caught at the output level (ADR-057).
+  const roots = process.env.IMAGE_GATE_ROOTS?.split(",")
+    .map((r) => r.trim())
+    .filter(Boolean) ?? [...DEFAULT_ROOTS];
+
+  const assets = collectRasterAssets(roots.map((r) => join(root, r)));
   const violations = findImageBudgetViolations(assets, budgetBytes);
 
   if (violations.length) {
@@ -124,7 +131,9 @@ function main(): void {
     process.exit(1);
   }
 
-  console.log(`✅ ${assets.length} raster asset(s) all within the ${budgetKb}KB per-image budget.`);
+  console.log(
+    `✅ ${assets.length} raster asset(s) in ${roots.join(", ")} all within the ${budgetKb}KB per-image budget.`,
+  );
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
