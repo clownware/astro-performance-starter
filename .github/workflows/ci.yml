@@ -87,6 +87,17 @@ jobs:
             exit 1
           fi
 
+      - name: Enforce per-image size budget — source (ADR-057)
+        run: pnpm run images:gate
+
+      - name: Enforce per-image size budget — build output (ADR-057)
+        # Catches oversized emitted raster, e.g. heavyweight PNG fallbacks
+        # generated alongside AVIF/WebP.
+        run: IMAGE_GATE_ROOTS=dist pnpm run images:gate
+
+      - name: Enforce font preload budget (ADR-058)
+        run: pnpm run fonts:gate
+
       - name: Install Playwright browsers
         run: pnpm exec playwright install --with-deps chromium
 

@@ -1,6 +1,6 @@
 ---
 title: 'ADR-054: Demo persona & brand mascot (Pulci Nella)'
-lastUpdated: 2026-06-07T00:00:00.000Z
+lastUpdated: 2026-07-02T00:00:00.000Z
 description: >-
   Adopt Pulci Nella — a reusable Clownware ghost-dev mascot derived from
   Pulcinella — as the swappable demo identity. Source bio, experience, and
@@ -111,8 +111,9 @@ We will go with **Option 3** — Pulci Nella as the demo persona.
 
 - `src/content/bio/default.mdx` — Pulci Nella's bio (name, title, location,
   social, categorized skills, intro prose). Avatar uses
-  `../../images/avatar-placeholder.png` temporarily; will swap to
-  `../../assets/brand/pulci-nella.svg` when the mascot artwork lands.
+  `../../assets/brand/state-idle.svg` (an animated state portrait). The interim
+  `src/images/avatar-placeholder.png` has been removed — it went unused once the
+  brand SVGs shipped and it exceeded the per-image budget (ADR-057).
 - `src/content/experience/{ghost-dev,travelling-maschera,bundle-size-exorcist}.mdx`
   — three experience entries ordered 1–3, replacing the prior
   senior/frontend/junior-developer placeholders.
@@ -184,9 +185,10 @@ copy-paste drift becomes a real maintenance burden.
 
 ## Notes
 
-The mascot SVG (`src/assets/brand/pulci-nella.svg`) is pending. Until it
-lands, `bio/default.mdx` uses `avatar-placeholder.png` with a
-`TODO(brand):` MDX comment marking the swap target.
+The mascot artwork shipped as the `state-*.svg` portraits in
+`src/assets/brand/`; `bio/default.mdx` uses `state-idle.svg` as the avatar. The
+interim `avatar-placeholder.png` was removed once those SVGs landed (see the
+per-image budget gate, ADR-057).
 
 ---
 **Date**: 2026-06-07\

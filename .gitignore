@@ -59,6 +59,7 @@ lighthouse-report.html
 lighthouse-report.json
 .lighthouseci/
 lighthouse-ci-reports/
+lighthouse-ci-reports-mobile/
 
 # ---------------------------------------------
 # Image Processing

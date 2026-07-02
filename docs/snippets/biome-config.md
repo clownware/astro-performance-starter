@@ -88,5 +88,5 @@ pagefind: true
 > The project config also defines a `useNamingConvention` rule and an `overrides`
 > array (per-glob rules for Markdown, scripts, Astro, CSS, tests, and config files).
 > See the repo's
-> [`biome.json`](https://github.com/Clownware/astro-performance-starter/blob/main/biome.json)
+> [`biome.json`](https://github.com/clownware/astro-performance-starter/blob/master/biome.json)
 > for the authoritative, complete configuration.

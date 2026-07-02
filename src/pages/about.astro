@@ -78,7 +78,7 @@ const formatPeriod = (start: Date, end: Date | undefined, current: boolean) => {
     </section>
 
     <!-- Bio Section -->
-    <section class="pt-16 sm:pt-12">
+    <section class="pt-16 pb-16 sm:pt-12 sm:pb-24">
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl">
           <div class="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground">
@@ -182,13 +182,25 @@ const formatPeriod = (start: Date, end: Date | undefined, current: boolean) => {
             />
             )}
             {configSocialLinks.twitter && (
-            <SocialLink 
-              platform="twitter" 
+            <SocialLink
+              platform="twitter"
               href={configSocialLinks.twitter}
               class="text-lg"
             />
             )}
           </div>
+          {bio.data.social?.email && (
+            <div class="mt-8">
+              <Button
+                href={`mailto:${bio.data.social.email}`}
+                variant="primary"
+                size="lg"
+                class="inline-flex items-center"
+              >
+                Email Me Directly
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </section>

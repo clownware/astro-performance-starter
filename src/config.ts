@@ -26,7 +26,7 @@ export const siteLinks = {
   /**
    * GitHub repository URL. Used in header, footer, and CTA links.
    */
-  github: "https://github.com/Clownware/astro-performance-starter",
+  github: "https://github.com/clownware/astro-performance-starter",
   /**
    * Documentation site URL. Set to "" to hide docs links, or point to your own docs site.
    */

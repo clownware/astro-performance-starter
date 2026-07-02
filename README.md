@@ -1,6 +1,6 @@
 # Astro Performance Starter
 
-**Zero-JS baseline • 95+ Lighthouse scores • Built for speed**
+**Hard performance budgets, enforced on every PR • Zero-JS baseline • Astro 6**
 
 [![CI](https://github.com/clownware/astro-performance-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/clownware/astro-performance-starter/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE.txt)
@@ -15,13 +15,22 @@
 
 ## Why This Starter?
 
-Most Astro templates sacrifice performance for features. This one delivers **95+ Lighthouse scores** without the bloat.
+Most Astro templates hand you a fast first commit and no way to keep it fast. This one ships a **performance ratchet** — hard budgets wired into CI that fail the build when a change regresses them. The Lighthouse score is the _evidence_; the enforcement is the point.
 
-- **Performance-first** — ~17KB JS, ~18KB CSS gzipped out of the box (99 Lighthouse, CLS 0)
-- **Agentic discipline built in** — Layered AI constitution (`CLAUDE.md` + `.claude/`), role-separated workflow, halt-on-violation CI gates. Your agent works under the same rules you do.
-- **Modern stack** — Astro 6.x + TypeScript 5.x + Tailwind 4.x + Biome 2.x
-- **Accessible** — WCAG AA compliance via semantic HTML, ARIA labels, and validated contrast ratios
-- **Solo dev optimized** — Build portfolios and client sites fast
+- **Enforced, not aspirational** — halt-on-violation CI gates on JS bundle size, per-image size (source _and_ build output), font-preload count, and Lighthouse on **both mobile and desktop**. A regression fails the PR — it doesn't ship. ([ADR-039](./docs/adr/039-halt-on-violation-enforcement.md))
+- **Images can't sink you** — the #1 real-world perf killer is gated: Astro `<Image>` → AVIF with responsive `srcset`, plus a 200KB-per-raster ceiling checked in CI (details in the next section).
+- **Agentic discipline built in** — Layered AI constitution (`CLAUDE.md` + `.claude/`), role-separated workflow. Your agent clears the same gates you do.
+- **Fast by default, measured** — ~48KB raw JS (~17KB gzipped) _total_ across the site; ~18KB gzipped CSS per page; 99 Performance / CLS 0 on home and blog, **desktop and mobile**.
+- **Modern stack** — Astro 6.x · TypeScript 5.x (strict) · Tailwind 4.x · Biome 2.x · Node 24.x · pnpm 10.x
+- **Accessible** — WCAG AA via semantic HTML, ARIA, and validated contrast; accessibility gated ≥ 95 in CI (most routes score 100).
+
+## 🖼️ The image pipeline (the #1 perf killer)
+
+One oversized hero image can cost more Lighthouse points than every other issue combined — it's the single most common regression adopters hit. So images are a first-class, gated concern here, not an afterthought:
+
+- **Modern formats by default** — [`src/components/atoms/Image.astro`](./src/components/atoms/Image.astro) wraps Astro's `<Image>`, emitting **AVIF** with responsive `srcset` and lazy loading. Raw `<img>` for raster is discouraged; SVG passes through untouched. ([ADR-030](./docs/adr/030-image-optimisation-defaults.md))
+- **A hard per-image ceiling** — **200KB per raster file**, enforced in CI on both source (`public/`, `src/`) _and_ build output (`dist/`) — so a heavyweight PNG, including an accidental fallback emitted alongside AVIF/WebP, fails the build. Override with `IMAGE_BUDGET_KB`. ([ADR-057](./docs/adr/057-image-budget-gate.md))
+- **Font preloads capped** — ≤ 2 preloaded fonts per page, so preloads don't crowd out the LCP image. ([ADR-058](./docs/adr/058-font-preload-budget.md))
 
 ## ⚡ Quick Start
 
@@ -152,6 +161,39 @@ Entry points:
 
 See [AI Context Setup Guide](docs/ai-context/ai-rules-setup.md) for the multi-tool sync workflow.
 
+## 🔍 Use as an audit reference
+
+You don't have to _build on_ this template to benefit from it — you can point an agent at an **existing** site and use this repo as the standard to audit against. In one real case that workflow took a personal site from **Lighthouse 73 to 100** (desktop) by surfacing exactly the regressions these gates encode.
+
+The workflow:
+
+1. Clone this repo next to your project (or open both side by side).
+2. Tell your agent: _"Audit this site against the norms in the astro-performance-starter repo — its ADRs, `.claude/stack.md` budgets, and CI gates. Report deviations ranked by performance impact."_
+3. Have it check what this template treats as non-negotiable:
+   - **Images** — modern formats, responsive `srcset`, every raster under the 200KB ceiling (source _and_ shipped). Usually the single biggest win.
+   - **Islands** — Preact for interactive islands ([ADR-001](./docs/adr/001-preact-island-usage-policy.md)), hydrated as late as possible up the ladder **`client:visible` → `client:idle` → `client:media` → `client:load`** (`client:load` only with ADR justification).
+   - **Fonts** — subset `woff2`, ≤ 2 preloads per page so preloads don't fight the LCP image ([ADR-053](./docs/adr/053-fonts-via-astro-fonts-api.md)).
+   - **Budgets & gates** — JS/CSS/image/font budgets and Lighthouse floors, run on every PR so nothing silently regresses.
+
+Because each norm has an ADR behind it, the agent can justify every recommendation from the _why_ rather than cargo-culting it.
+
+## 🎚️ Minimum viable gate (solo / personal sites)
+
+The full apparatus is built for a template that must never regress. A personal site rarely needs all of it. **Keep the ratchet, drop the ceremony** — this is subtraction from one config, not a second maintained tier:
+
+**Keep** — this _is_ the performance ratchet, and it's cheap to run:
+
+- `lighthouserc.json` + `lighthouserc.mobile.json` — the Lighthouse gates
+- the JS bundle-size step, `images:gate`, and `fonts:gate` in CI
+- `pnpm test:e2e` as a smoke test that pages actually render
+
+**Safe to drop** for less overhead:
+
+- **Mutation testing** — remove `.github/workflows/mutation.yml`, the `test:mutate` script, and Stryker from devDependencies ([ADR-042](./docs/adr/042-mutation-testing-with-stryker.md)).
+- **The full ADR apparatus** — `docs/adr/` and the `docs:count` guard keep a _shared_ template honest; a solo project can keep a lightweight `DECISIONS.md` (or nothing) and drop `docs:count` from `quality:ci`.
+- **Cross-tool agent spine** — if you use only one agent, drop `agents:build` / `agents:check` and keep just `CLAUDE.md`.
+- **Template-invariant guards** — `version:check` and `og:check` protect template-specific invariants; trim them from `quality:ci` as needed.
+
 ## 🔧 Key Commands
 
 ```bash
@@ -228,6 +270,8 @@ pnpm run tokens:build     # Rebuild design tokens (rarely needed)
 | `pnpm run design:validate` | Validate semantic color contrast ratios |
 | `pnpm run budgets:validate` | Validate budget override configuration |
 | `pnpm run images:analyze` | Analyze image sizes and formats |
+| `pnpm run images:gate` | Fail on any raster image over the per-file budget (CI gate, ADR-057) |
+| `pnpm run fonts:gate` | Fail on any built page over the font-preload budget (CI gate, ADR-058) |
 | `pnpm run images:optimize` | Interactive image optimization |
 
 **Release & Maintenance**
@@ -246,14 +290,17 @@ Budgets (see `.claude/stack.md`):
 
 - **JavaScript**: < 160KB raw total
 - **CSS**: < 50KB
-- **Lighthouse**: 95+ Performance, 98+ Accessibility
+- **Images**: < 200KB per raster file, source + build output — enforced in CI ([ADR-057](./docs/adr/057-image-budget-gate.md)); override with `IMAGE_BUDGET_KB`
+- **Font preloads**: ≤ 2 per page — enforced in CI ([ADR-058](./docs/adr/058-font-preload-budget.md)); override with `MAX_FONT_PRELOADS`
+- **Lighthouse**: gated on **desktop _and_ mobile** — Performance ≥ 90, Accessibility ≥ 95, Best-Practices ≥ 95, SEO ≥ 90 (CI floors; see `lighthouserc.json` + `lighthouserc.mobile.json`)
 
 The default starter ships well under budget — measured on a production build:
 
 - **JavaScript**: ~48KB raw (~17KB gzipped) _total_ across the whole site; a
   typical page loads only the view-transition router plus a tiny page script.
 - **CSS**: ~18KB gzipped per page (≈22KB on pages with code blocks).
-- **Lighthouse**: 99 Performance, CLS 0 on the home and blog routes.
+- **Lighthouse**: 99 Performance / CLS 0 on home and blog — **desktop and mobile**
+  (measured); accessibility 96–100 across all gated routes.
 
 ## 🤝 Contributing
 
