@@ -54,10 +54,20 @@ jobs:
       - name: Build site
         run: pnpm run build
 
-      - name: Run Lighthouse CI
-        run: pnpm exec lhci autorun
+      # Gate on BOTH form factors. Mobile throttling routinely drops a site
+      # 15-25 points below desktop, so desktop-only was a soft ratchet; the
+      # demo passes mobile at Performance 0.98-1.00 (measured), so both gates
+      # hold the same strict floors. The build is shared — only the ~2-min
+      # Lighthouse runs are duplicated.
+      - name: Run Lighthouse CI (desktop)
+        run: pnpm exec lhci autorun --config=lighthouserc.json
         env:
           # lhci picks this up when present and writes a status check on the PR
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Run Lighthouse CI (mobile)
+        run: pnpm exec lhci autorun --config=lighthouserc.mobile.json
+        env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
       - name: Upload Lighthouse reports
@@ -65,6 +75,8 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: lighthouse-reports
-          path: lighthouse-ci-reports/
+          path: |
+            lighthouse-ci-reports/
+            lighthouse-ci-reports-mobile/
           retention-days: 14
           if-no-files-found: ignore

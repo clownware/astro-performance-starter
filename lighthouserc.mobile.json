@@ -1,5 +1,5 @@
 {
-  "$comment": "Lighthouse CI gate — DESKTOP form factor (ADR-039 spirit: halt on real regressions, not on run variance). Its mobile companion is lighthouserc.mobile.json; CI runs and gates on BOTH. Thresholds set at the documented NON-NEGOTIABLE floor in `.claude/stack.md` — perf>=90, a11y>=95, BP>=95, SEO>=90. The headline 95+ Lighthouse claim is verified in the manual #246 pass; CI catches drops BELOW the floor. /adr a11y dips to 97 due to a transient theme-init flash tracked in #279; the floor accommodates it without masking real defects.",
+  "$comment": "Mobile Lighthouse CI gate. Companion to lighthouserc.json (desktop); CI gates on BOTH form factors. Omitting the desktop preset makes Lighthouse apply its default mobile profile (Moto G4, 4x CPU + slow-4G simulated throttling), which is far harsher than desktop. The demo nonetheless measures mobile Performance 0.98-1.00 and Accessibility 0.96-1.00, so the floors here are held IDENTICAL to the desktop gate (perf>=0.90, a11y>=0.95, BP>=0.95, SEO>=0.90) — strict, with ~8 points of headroom for single-run variance and the tracked /adr theme-init flash (#279). Do NOT loosen these to make a heavier demo pass; fix the demo (ADR-039).",
   "ci": {
     "collect": {
       "startServerCommand": "pnpm preview",
@@ -18,7 +18,6 @@
       ],
       "numberOfRuns": 1,
       "settings": {
-        "preset": "desktop",
         "chromeFlags": "--headless=new --no-sandbox"
       }
     },
@@ -32,7 +31,7 @@
     },
     "upload": {
       "target": "filesystem",
-      "outputDir": "lighthouse-ci-reports"
+      "outputDir": "lighthouse-ci-reports-mobile"
     }
   }
 }
