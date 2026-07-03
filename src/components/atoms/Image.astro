@@ -1,6 +1,7 @@
 ---
 import { Image as AstroImage } from "astro:assets";
 import type { ImageMetadata } from "astro";
+import { resolveImageFormat } from "@/utils/resolveImageFormat";
 
 interface Props {
   src: ImageMetadata | string | Promise<{ default: ImageMetadata }>;
@@ -59,17 +60,9 @@ const effectiveWidths: number[] | undefined =
 const effectiveDensities: number[] | undefined =
   densitiesProp ?? (useFixedDimensions ? [...defaultDensities] : undefined);
 
-// Normalize format and quality to match AstroImage prop types
-const normalizeFormat = (fmt: Props["format"]) => {
-  if (fmt === "jpg") {
-    return "jpeg" as const;
-  }
-  if (fmt === "svg" || fmt === "gif") {
-    // not processed by sharp; fallback to a processed format
-    return "png" as const;
-  }
-  return (fmt ?? "avif") as "avif" | "webp" | "png" | "jpeg";
-};
+// SVG sources pass through unprocessed (Astro 6.4+ disables SVG
+// rasterization, and a vector should stay a vector anyway).
+const isSvgSource = resolvedSrc?.format === "svg";
 
 const qualityMap = { low: 40, mid: 60, high: 75, max: 90 } as const;
 const normalizedQuality: number =
@@ -79,7 +72,7 @@ const normalizedQuality: number =
 
 // Base defaults
 const baseDefaults = {
-  format: normalizeFormat(format),
+  format: resolveImageFormat(format, resolvedSrc?.format),
   quality: normalizedQuality,
   loading: (loading ?? "lazy") as "lazy" | "eager",
   decoding: (decoding ?? "async") as "async" | "sync" | "auto",
@@ -94,7 +87,18 @@ const composedClass = [...baseClasses, ...shadowClasses, className].filter(Boole
 ---
 
 {resolvedSrc ? (
-  useFixedDimensions ? (
+  isSvgSource ? (
+    <AstroImage
+      src={resolvedSrc as ImageMetadata}
+      alt={alt}
+      class={composedClass}
+      format="svg"
+      loading={baseDefaults.loading}
+      decoding={baseDefaults.decoding}
+      width={width}
+      height={height}
+    />
+  ) : useFixedDimensions ? (
     <AstroImage
       src={resolvedSrc as ImageMetadata}
       alt={alt}
