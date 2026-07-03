@@ -9,7 +9,7 @@ pagefind: true
 ---
 ## Status
 
-Accepted
+Superseded by [ADR-059: Docs Drift Gate Replaces Push-Sync](./059-docs-drift-gate.md)
 
 ## Context
 
@@ -203,4 +203,4 @@ Future considerations:
 ---
 **Date**: 2025-09-30\
 **Participants**: Template maintainers\
-**Outcome**: Accepted
+**Outcome**: Superseded by ADR-059
