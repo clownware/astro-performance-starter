@@ -1,17 +1,17 @@
 {
   "template": "v0.2.0",
-  "astro": "6.0.8",
+  "astro": "6.4.8",
   "tailwindcss": "4.2.2",
   "node": "24.14.1",
   "pnpm": "10.x",
-  "biome": "2.4.11",
+  "biome": "2.5.2",
   "typescript": "5.9.3",
-  "preact": "10.29.0",
+  "preact": "10.29.4",
   "astro-mdx": "5.x",
   "tailwindcss-vite": "4.2.2",
   "astro-sitemap": "3.x",
   "astro-check": "0.9.9",
-  "playwright": "1.59.1",
+  "playwright": "1.61.1",
   "vitest": "4.x",
   "lighthouse-ci": "13.x",
   "sharp": "0.34.x",
@@ -22,5 +22,5 @@
   "node-minimum": "24.0.0",
   "style-dictionary": "5.x",
   "tailwindcss-themer": "4.x",
-  "tailwindcss-typography": "0.5.19"
+  "tailwindcss-typography": "0.5.20"
 }
