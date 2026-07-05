@@ -132,7 +132,9 @@ never been one.
 
 - ADR-008's Considered Options analysis remains a useful record; its chosen mechanism is retired
 - ADR-006's frontmatter review dates remain in force for in-repo documentation; for cross-repo
-  stack claims the cadence is replaced by this gate
+  stack claims the cadence is replaced by this gate. *(Update 2026-07-05: ADR-006 was
+  subsequently Withdrawn — an audit found its mechanism was never implemented, so there were
+  no review dates in force to retain.)*
 
 ## Validation
 
