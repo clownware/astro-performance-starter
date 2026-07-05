@@ -1,12 +1,18 @@
 // Contact form progressive enhancement
 // This script adds client-side validation and enhanced UX
-// Form works without JavaScript (native submission)
+// Form works without JavaScript (native constraint validation + native submission)
+
+type FormField = HTMLInputElement | HTMLTextAreaElement;
 
 export function initContactForm() {
   const form = document.querySelector(".contact-form") as HTMLFormElement;
   if (!form) {
     return;
   }
+
+  // Take over from native validation only once the enhanced handlers are
+  // attached — without JS the browser's required/minlength checks still run.
+  form.setAttribute("novalidate", "");
 
   const submitButton = form.querySelector(".contact-form__submit") as HTMLButtonElement;
   const submitText = form.querySelector(".contact-form__submit-text") as HTMLElement;
@@ -15,9 +21,19 @@ export function initContactForm() {
   const successMessage = form.querySelector(".contact-form__success") as HTMLElement;
   const errorMessage = form.querySelector(".contact-form__error-message") as HTMLElement;
 
+  const fields = Array.from(form.querySelectorAll<FormField>("input, textarea"));
+
   // Form submission handler
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
+    // Validate everything before sending; blur validation only covers
+    // fields the user has visited.
+    const invalidFields = fields.filter((field) => !validateField(field));
+    if (invalidFields.length > 0) {
+      invalidFields[0].focus();
+      return;
+    }
 
     // Clear previous status
     statusContainer.classList.add("hidden");
@@ -59,17 +75,17 @@ export function initContactForm() {
   });
 
   // Real-time validation
-  const inputs = form.querySelectorAll("input, textarea");
-  inputs.forEach((input) => {
-    input.addEventListener("blur", validateField);
-    input.addEventListener("input", clearFieldError);
+  fields.forEach((field) => {
+    field.addEventListener("blur", () => validateField(field));
+    field.addEventListener("input", () => clearFieldError(field));
   });
 
-  function validateField(e: Event) {
-    const field = e.target as HTMLInputElement | HTMLTextAreaElement;
+  // Returns true when the field is valid; renders or clears its error message.
+  function validateField(field: FormField): boolean {
     const errorElement = document.getElementById(`${field.name}-error`);
     if (!errorElement) {
-      return;
+      // Fields without an error slot (e.g. the honeypot) are not validated.
+      return true;
     }
 
     let errorMessage = "";
@@ -93,13 +109,14 @@ export function initContactForm() {
         "focus:border-secondary-500",
         "focus:ring-secondary-500",
       );
-    } else {
-      clearFieldError(e);
+      return false;
     }
+
+    clearFieldError(field);
+    return true;
   }
 
-  function clearFieldError(e: Event) {
-    const field = e.target as HTMLInputElement | HTMLTextAreaElement;
+  function clearFieldError(field: FormField) {
     const errorElement = document.getElementById(`${field.name}-error`);
     if (!errorElement) {
       return;
