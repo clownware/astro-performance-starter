@@ -123,12 +123,6 @@ export default defineConfig({
         optional: true,
         default: "Mon-Fri, 9AM-6PM PST",
       }),
-      PUBLIC_CONTACT_CHAT_HOURS: envField.string({
-        context: "client",
-        access: "public",
-        optional: true,
-        default: "Mon-Fri, 9AM-5PM EST",
-      }),
       PUBLIC_SOCIAL_GITHUB: envField.string({
         context: "client",
         access: "public",

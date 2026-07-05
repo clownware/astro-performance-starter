@@ -1,7 +1,6 @@
 ---
 // Type-safe, schema-validated env (astro:env) — defaults live in astro.config (ADR-050)
 import {
-  PUBLIC_CONTACT_CHAT_HOURS,
   PUBLIC_CONTACT_EMAIL,
   PUBLIC_CONTACT_LOCATION,
   PUBLIC_CONTACT_PHONE,
@@ -28,7 +27,6 @@ const contactPhone = PUBLIC_CONTACT_PHONE;
 const contactPhoneDisplay = PUBLIC_CONTACT_PHONE_DISPLAY;
 const contactLocation = PUBLIC_CONTACT_LOCATION;
 const contactTimezone = PUBLIC_CONTACT_TIMEZONE;
-const contactChatHours = PUBLIC_CONTACT_CHAT_HOURS;
 
 // Social media links
 const socialGithub = PUBLIC_SOCIAL_GITHUB;
@@ -61,17 +59,6 @@ const contactMethods: ContactMethod[] = [
     action: {
       href: `mailto:${contactEmail}`,
       label: contactEmail,
-    },
-  },
-  {
-    icon: "message-circle",
-    iconLabel: "Chat icon",
-    title: "Live Chat",
-    description: "Quick questions? Chat with us in real-time",
-    badge: {
-      text: "Online now",
-      role: "status",
-      additionalInfo: contactChatHours,
     },
   },
   {
