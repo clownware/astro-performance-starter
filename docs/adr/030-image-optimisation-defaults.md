@@ -110,6 +110,24 @@ image: {
 }
 ```
 
+### Raw `<img>` exemptions (amendment 2026-07-05)
+
+Constitution rule 8 ("images use the Astro Image component") is enforced with these
+exemptions, which the codebase already practised without a record:
+
+1. **The wrapper's own fallback**: `src/components/atoms/Image.astro` (and the card
+   molecules that follow the same pattern) render `AstroImage` for `ImageMetadata`
+   sources and fall back to a raw `<img>` for plain-string sources (public/ paths,
+   remote URLs outside `domains`), which the pipeline cannot type or transform.
+2. **SVGs that must not be rasterised**: the pipeline converts SVG to raster formats,
+   destroying embedded CSS animation and self-painted backgrounds. Files like the
+   Pulci Nella state portraits (ADR-054) and the site logo (`public/logo.svg` in
+   Header/Footer) use raw `<img>` deliberately. Each such usage carries an inline
+   comment stating the reason; the Header/Footer logo usages are covered by this
+   amendment.
+
+Anything outside these two cases still halts on rule 8.
+
 ## Consequences
 
 ### Positive

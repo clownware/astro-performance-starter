@@ -31,7 +31,7 @@ These rules apply with halt-on-violation force. If a rule fires and you cannot s
 5. Linting and formatting use Biome. Do not introduce ESLint or Prettier.
 6. The package manager is pnpm. Do not use npm or yarn commands.
 7. Prefer CSS solutions over JavaScript. JS for static behaviour requires ADR justification.
-8. Images use the Astro Image component. Raw `<img>` tags are forbidden.
+8. Images use the Astro Image component. Raw `<img>` is forbidden outside the two exemptions recorded in ADR-030 (the wrapper's string-src fallback; unrasterisable SVGs with an inline justifying comment).
 9. Before claiming a change is complete, run `pnpm quality:ci`. If it exits non-zero, halt and fix the failure. Do not propose the change as complete.
 10. Production code follows a failing test. If you generate production code without a corresponding failing test, halt and write the test (ADR-037).
 

@@ -24,6 +24,7 @@ const currentPath = normalizePath(Astro.url.pathname);
   <div class="border-b border-border bg-background/95 supports-backdrop-filter:backdrop-blur-sm supports-backdrop-filter:bg-background/60">
     <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href={withBase("/")} class="flex items-center" aria-label="Homepage">
+      {/* Raw <img>: public/ SVG logo must not be rasterised by the image pipeline (ADR-030 exemption 2) */}
       <img
         src={withBase("/logo.svg")}
         alt="Astro Performance Starter"
