@@ -8,7 +8,9 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-07-05: coverage and Lighthouse numbers corrected to match the
+enforced configuration — see the annotated sections below. The hybrid-strategy decision
+itself is unchanged.)
 
 ## Context
 
@@ -104,11 +106,16 @@ We will implement **Option 3 (Hybrid Approach)** with the following strategy:
 
 | Layer | Target | Tools |
 |-------|--------|-------|
-| **Unit** | 80% | Vitest |
-| **Integration** | 60% | Vitest + Astro test utils |
+| **Unit** | 80% lines / 75% functions / 70% branches, scoped to `src/utils/**` | Vitest (v8) |
 | **E2E** | Critical paths | Playwright |
 | **Performance** | 100% of budgets | Lighthouse CI |
 | **Accessibility** | 100% of pages | axe-core |
+
+> **Amendment (2026-07-05):** the enforced thresholds live in `vitest.config.ts` and are
+> scoped to pure-logic modules (`src/utils/**`) — components are covered by Container API
+> microtests (ADR-040) and Playwright, not v8 instrumentation. The originally recorded
+> "Integration 60%" target was never enforced anywhere and has been dropped rather than
+> silently retained.
 
 ### 3. What to Test
 
@@ -219,24 +226,25 @@ test('homepage is accessible', async ({ page }) => {
 
 ### 4. Performance Testing
 
-```typescript
-// lighthouse-ci.config.js
-module.exports = {
-  ci: {
-    collect: {
-      url: ['http://localhost:4321/', 'http://localhost:4321/blog'],
-      numberOfRuns: 3,
-    },
-    assert: {
-      assertions: {
-        'categories:performance': ['error', { minScore: 0.95 }],
-        'categories:accessibility': ['error', { minScore: 0.98 }],
-        'categories:best-practices': ['error', { minScore: 1.0 }],
-        'categories:seo': ['error', { minScore: 1.0 }],
-      },
-    },
-  },
-};
+> **Amendment (2026-07-05):** the config below was a sketch; the shipped configuration
+> lives in `lighthouserc.json` (desktop) and `lighthouserc.mobile.json`, with CI floors of
+> performance 0.9 / accessibility 0.95 / best-practices 0.95 / SEO 0.9. Floors are set
+> below the aspirational targets so transient variance doesn't flake the gate.
+
+```jsonc
+// lighthouserc.json (excerpt of the enforced assertions)
+{
+  "ci": {
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.9 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["error", { "minScore": 0.95 }],
+        "categories:seo": ["error", { "minScore": 0.9 }]
+      }
+    }
+  }
+}
 ```
 
 ### 5. Test Data Management
@@ -267,6 +275,12 @@ export const mockTokens = {
 ```
 
 ### 6. CI Integration
+
+> **Amendment (2026-07-05):** this sketch was superseded by ADR-039's `quality:ci` gate.
+> The shipped workflow (`.github/workflows/ci.yml`) runs `pnpm quality:ci` (which chains
+> `test:unit`) plus `test:coverage` for the artefact upload; there is no `test:perf`
+> script and no codecov upload — Lighthouse runs in its own workflow
+> (`.github/workflows/lighthouse.yml`). Kept for history:
 
 ```yaml
 # .github/workflows/ci.yml

@@ -114,7 +114,7 @@ For trivial changes (typo fix, single-line refactor, single-rename), the three-p
 - No test changes that weren't in the architect's plan
 - No ADR edits (architect's pass already settled those)
 
-**Pass 3: Reviewer.** Driven by `.claude/roles/coder.md`. Produces:
+**Pass 3: Reviewer.** Driven by `.claude/roles/reviewer.md`. Produces:
 
 - A `pnpm quality:ci` report
 - A summary of what changed vs. the architect's plan
