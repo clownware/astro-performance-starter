@@ -257,7 +257,7 @@ Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding
 
 ### Key ADRs
 
-60 ADRs in `docs/adr/`. The structurally important ones:
+61 ADRs in `docs/adr/`. The structurally important ones:
 
 - **ADR-001:** Preact island usage policy — never `client:load` without justification
 - **ADR-023:** Testing strategy and coverage targets
