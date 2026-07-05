@@ -40,7 +40,4 @@ PUBLIC_SOCIAL_GITHUB=https://github.com/example
 PUBLIC_SOCIAL_LINKEDIN=https://linkedin.com/company/example
 PUBLIC_SOCIAL_TWITTER=https://twitter.com/example
 
-# Docs Sync (only needed if using scripts/src/sync-docs.ts)
-# DOCS_REPO_URL=https://github.com/your-org/your-docs-repo
-# DOCS_REPO_RAW_URL=https://raw.githubusercontent.com/your-org/your-docs-repo/main
 ```
