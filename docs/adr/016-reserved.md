@@ -16,6 +16,11 @@ Withdrawn
 
 ADR-016 was skipped during the initial creation of the ADR sequence. This stub preserves the numbering audit trail per ADR best practices — gaps in numbering should be documented rather than silently ignored.
 
+For the record: the number was originally earmarked for a "Badge Component" ADR (ADRs 017
+and 018 cited it in advance), but that record was never written — the Badge atom's design
+is covered by the atomic-design rules in [ADR-003](./003-unified-component-structure.md).
+The advance citations in 017/018 were corrected on 2026-07-05.
+
 ## Decision
 
 This number is reserved. If a decision needs to be documented that logically fits between ADR-015 and ADR-017, this number should be used.

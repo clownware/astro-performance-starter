@@ -152,7 +152,7 @@ Is the badge announcing a live status change?
 ## Related ADRs
 
 - [ADR 000: Starter Decisions](./000-starter-decisions.md) - WCAG AA compliance requirement
-- [ADR 016: Badge Component](./016-badge-component.md) - Atomic design pattern (if exists)
+- [ADR 003: Unified Component Structure](./003-unified-component-structure.md) - Atomic design pattern (the planned "ADR-016: Badge Component" was never written; see the [016 stub](./016-reserved.md))
 - [ADR 019: Accessibility Patterns & Standards](./019-accessibility-patterns-standards.md) - Consolidated accessibility guidelines
 
 ## References
