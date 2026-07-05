@@ -73,6 +73,12 @@ const { icon, title, description, metric, expandedDetails } = Astro.props;
   </div>
 </div>
 
+<script>
+  // Keeps all feature cards' <details> state in lockstep (ADR-014). Astro
+  // dedupes this module script, so it loads once per page, not per card.
+  import "@/scripts/featureCardSync";
+</script>
+
 <style>
   /* Toggle text visibility based on details open state */
   .details-hide {
