@@ -14,13 +14,12 @@ pagefind: true
 | Metric | Target | Maximum | Measurement |
 |--------|--------|---------|-------------|
 | **LCP** (Largest Contentful Paint) | < 1.5s | 2.5s | 75th percentile |
-| **FID** (First Input Delay) | < 75ms | 100ms | 75th percentile |
 | **CLS** (Cumulative Layout Shift) | < 0.05 | 0.1 | Session window |
 | **INP** (Interaction to Next Paint) | < 150ms | 200ms | 75th percentile |
 | **TTFB** (Time to First Byte) | < 400ms | 800ms | 75th percentile |
 | **FCP** (First Contentful Paint) | < 1.0s | 1.8s | 75th percentile |
 
-> **Note on Targets**: The `Target` values aim for an excellent user experience, while the `Maximum` values align with Google's "good" threshold. Targets for INP and FID have been set pragmatically to provide a high-performance goal without causing excessive CI noise for minor fluctuations.
+> **Note on Targets**: The `Target` values aim for an excellent user experience, while the `Maximum` values align with Google's "good" threshold. The INP target is set pragmatically to provide a high-performance goal without causing excessive CI noise for minor fluctuations. (FID was removed from this table when Google retired it in favour of INP.)
 
 ### Lighthouse Score Requirements
 

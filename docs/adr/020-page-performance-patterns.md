@@ -10,7 +10,9 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-07-05: Core Web Vitals updated FID→INP, the JavaScript budget
+corrected to raw bytes as CI enforces, and the Lighthouse targets qualified against the
+enforced CI floors — see the annotated sections below)
 
 ## Context
 
@@ -19,16 +21,21 @@ The Astro Performance Starter targets **95+ Lighthouse scores** with minimal Jav
 ## Performance Target
 
 **Lighthouse Scores**: 95+ Performance, 98+ Accessibility, 100 Best Practices, 100 SEO
+(aspirational targets; the enforced CI floors are 0.9 / 0.95 / 0.95 / 0.9 in
+`lighthouserc.json` — see ADR-023's amendment)
 
 **Core Web Vitals**:
 
 - **LCP** (Largest Contentful Paint): < 2.5s
-- **FID** (First Input Delay): < 100ms
+- **INP** (Interaction to Next Paint): < 200ms *(amended: replaces FID, which Google
+  retired in 2024)*
 - **CLS** (Cumulative Layout Shift): < 0.1
 
 **Bundle Budgets**:
 
-- **JavaScript**: < 160KB gzipped
+- **JavaScript**: < 160KB total **raw** *(amended: originally stated "gzipped"; CI
+  enforces raw bytes — `JS_SIZE_LIMIT_BYTES=163840` in `.github/workflows/ci.yml` —
+  matching `.claude/stack.md`)*
 - **CSS**: < 50KB uncompressed
 - **Default starter**: ~90KB JS, ~15KB CSS (gzipped)
 

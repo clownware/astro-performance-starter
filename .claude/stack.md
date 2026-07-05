@@ -42,7 +42,7 @@ pnpm test:mutate      # Stryker mutation testing — slow; nightly in CI (ADR-04
 - **Images:** < 200KB each per raster file — source and build output (enforced in CI — ADR-057)
 - **Font preloads:** ≤ 2 per page (enforced in CI — ADR-058)
 - **Lighthouse:** Performance 95+, Accessibility 98+ — gated on desktop and mobile
-- **Core Web Vitals:** LCP < 2.5s, FID < 100ms, CLS < 0.1
+- **Core Web Vitals:** LCP < 2.5s, INP < 200ms, CLS < 0.1
 
 Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding dependencies.
 

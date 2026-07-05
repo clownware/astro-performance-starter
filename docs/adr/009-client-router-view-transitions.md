@@ -3,14 +3,17 @@ title: 'ADR-009: ClientRouter and View Transitions API Usage'
 lastUpdated: 2025-09-30T00:00:00.000Z
 description: >-
   Decision to use Astro's ClientRouter for View Transitions API in BaseLayout,
-  justifying the ~2-3KB JavaScript addition against zero-JS philosophy
+  justifying the ~5KB gzipped JavaScript addition against zero-JS philosophy
 tableOfContents: true
 pagefind: true
 ---
 
 ## Status
 
-Accepted
+Accepted (amended 2026-07-05: the "~2-3KB gzipped" size claim understated the measured
+cost — ADR-014's build measurement records ClientRouter at 15.12 kB raw / 5.18 kB gzip —
+and the per-link opt-out mechanism is `data-astro-reload`, not `transition:persist={false}`.
+Corrections annotated inline; the decision to ship ClientRouter is unchanged.)
 
 ## Context
 
@@ -25,7 +28,7 @@ We need to document whether this JavaScript addition is justified and ensure it 
 - **Performance requirements**: Target 95+ Lighthouse scores with minimal JavaScript
 - **User experience**: Smooth navigation transitions improve perceived performance
 - **Progressive enhancement**: Features should work without JavaScript, then enhance
-- **Bundle size**: ClientRouter adds ~2-3KB gzipped to the bundle
+- **Bundle size**: ClientRouter adds ~5KB gzipped (15.12 kB raw) to the bundle *(amended; originally understated as ~2-3KB)*
 - **Accessibility**: View Transitions must respect `prefers-reduced-motion`
 
 ## Considered Options
@@ -57,7 +60,7 @@ We need to document whether this JavaScript addition is justified and ensure it 
 - Faster perceived navigation (no white flash)
 - Preserves shared layout state (header, footer)
 - Respects `prefers-reduced-motion` automatically
-- Minimal JavaScript cost (~2-3KB gzipped)
+- Minimal JavaScript cost (~5KB gzipped) *(amended)*
 
 **Cons**:
 
@@ -87,7 +90,7 @@ We will **keep ClientRouter in BaseLayout** (Option 2) with the following justif
 
 1. **Progressive Enhancement**: The site works perfectly without JavaScript (SSR renders all content). ClientRouter only enhances navigation, it doesn't break functionality.
 
-2. **Performance Trade-off**: The ~2-3KB cost is justified by improved perceived performance through instant navigation and reduced layout shift.
+2. **Performance Trade-off**: The ~5KB gzipped cost *(amended)* is justified by improved perceived performance through instant navigation and reduced layout shift.
 
 3. **Accessibility Built-in**: Astro's View Transitions API automatically respects `prefers-reduced-motion` and maintains focus management.
 
@@ -115,18 +118,18 @@ The `ClientRouter` is placed in the `<head>` to initialize before page content l
 - Modern, polished user experience with smooth transitions
 - Automatic accessibility features (reduced motion support)
 - Maintains SSR benefits (SEO, initial load speed)
-- Small JavaScript footprint (~2-3KB) is acceptable trade-off
+- Small JavaScript footprint (~5KB gzipped) is acceptable trade-off *(amended)*
 
 ### Negative
 
 - Violates strict "zero JavaScript" interpretation
-- Adds ~2-3KB to every page load
+- Adds ~5KB gzipped to every page load *(amended)*
 - Requires JavaScript for optimal navigation experience
 - May need additional testing for JavaScript-disabled scenarios
 
 ### Neutral
 
-- Pages can still opt out using `transition:persist={false}` if needed
+- Individual links can opt out of client routing with `data-astro-reload` *(amended: originally misattributed to `transition:persist={false}`, which controls element persistence, not routing)*
 - View Transitions API is progressive enhancement, not requirement
 - Developers must be aware of transition lifecycle hooks
 
@@ -136,7 +139,7 @@ How will we know if this decision was correct?
 
 - **Lighthouse Score**: Maintain 95+ performance score despite JavaScript addition
 - **Bundle Size**: Total JavaScript remains under 5KB for base pages
-- **Core Web Vitals**: LCP < 2.5s, FID < 100ms, CLS < 0.1
+- **Core Web Vitals**: LCP < 2.5s, INP < 200ms, CLS < 0.1 *(amended: FID retired)*
 - **User Feedback**: Positive response to navigation smoothness
 - **Accessibility Audit**: No regressions in a11y testing
 
