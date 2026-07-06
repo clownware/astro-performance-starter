@@ -12,7 +12,8 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted — supersedes [ADR-004: Optional Design System Tooling](./004-optional-design-system-tooling.md)
+(the `build:mvp` / tooling-toggle concept was tied to the dual-track model this record retires)
 
 ## Context
 
@@ -239,6 +240,7 @@ graph TD
 ## References
 
 - [ADR-000: Starter Template Architecture](/adr/000-starter-decisions/) — Original dual-track decision
+- [ADR-004: Optional Design System Tooling](/adr/004-optional-design-system-tooling/) — superseded by this ADR
 - Track Comparison — removed per this ADR
 - [Implementation Guide Master Index](https://github.com/clownware/astro-performance-starter/tree/master/docs/implementation-guides)
 

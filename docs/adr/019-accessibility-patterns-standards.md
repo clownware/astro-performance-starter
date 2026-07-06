@@ -29,6 +29,14 @@ Key principles:
 - **Understandable**: Information and UI operation must be understandable
 - **Robust**: Content must be robust enough for assistive technologies
 
+## Decision
+
+Adopt the patterns catalogued below as the binding accessibility standard for every page
+and component in the template. This record is deliberately a pattern catalogue rather than
+a single choice: the decision is that these patterns — and only these — are the sanctioned
+way to meet the compliance target above. *(Section added 2026-07-05; the record predated
+the template's required Decision heading.)*
+
 ## Accessibility Patterns
 
 ### 1. Decorative Content
@@ -596,3 +604,8 @@ All atomic components follow these patterns:
 - [Lighthouse](https://developers.google.com/web/tools/lighthouse)
 - [axe DevTools](https://www.deque.com/axe/devtools/)
 - [WAVE Browser Extension](https://wave.webaim.org/extension/)
+
+---
+**Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

@@ -24,7 +24,11 @@ pagefind: false
   Body rules:
     - First heading must be h2 (## Status), never h1
     - No emoji in section headers
-    - Use plain text for Status values (Proposed, Accepted, Deprecated, Superseded by ADR-NNN)
+    - Use plain text for Status values (Proposed, Accepted, Superseded by ADR-NNN, Withdrawn).
+      A parenthetical qualifier after the canonical word is allowed, e.g.
+      "Proposed (aspirational)", "Proposed (deferred — revisit trigger)",
+      "Accepted (amended YYYY-MM-DD: summary)". Only the canonical word carries
+      binding force (see docs/adr/README.md).
     - Use pnpm (never npm) in all script references
     
   Architecture diagrams (optional):
@@ -34,7 +38,7 @@ pagefind: false
 
 ## Status
 
-[Proposed | Accepted | Deprecated | Superseded by ADR-NNN]
+[Proposed | Accepted | Superseded by ADR-NNN | Withdrawn]
 
 ## Context
 

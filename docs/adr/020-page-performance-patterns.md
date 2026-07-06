@@ -39,6 +39,14 @@ The Astro Performance Starter targets **95+ Lighthouse scores** with minimal Jav
 - **CSS**: < 50KB uncompressed
 - **Default starter**: ~90KB JS, ~15KB CSS (gzipped)
 
+## Decision
+
+Adopt the per-page-type patterns catalogued below as the binding performance playbook —
+each page in the template follows the pattern for its type, and new pages pick the
+matching section before writing code. This record is deliberately a pattern catalogue
+rather than a single choice. *(Section added 2026-07-05; the record predated the
+template's required Decision heading.)*
+
 ## Performance Patterns by Page Type
 
 ### 1. Static Pages (About, Contact)
@@ -568,3 +576,8 @@ pnpm run perf:lighthouse:ci
 - [The Cost of JavaScript](https://v8.dev/blog/cost-of-javascript-2019)
 - [Lazy Loading Images](https://web.dev/lazy-loading-images/)
 - [Optimize LCP](https://web.dev/optimize-lcp/)
+
+---
+**Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

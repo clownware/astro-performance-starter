@@ -251,3 +251,8 @@ pnpm run build --verbose
 - [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
 - [Image Decoding Performance](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/decoding)
 - Build-time vs Runtime Optimization Principles
+
+---
+**Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

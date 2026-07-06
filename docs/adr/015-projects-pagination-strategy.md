@@ -189,3 +189,8 @@ If the project count exceeds 20-30 projects:
 - Improved First Contentful Paint (FCP)
 - Better Long Task avoidance
 - Maintains progressive enhancement
+
+---
+**Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

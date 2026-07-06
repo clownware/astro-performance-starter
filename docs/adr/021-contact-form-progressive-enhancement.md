@@ -615,3 +615,8 @@ const contactMethods: ContactMethod[] = [
 - [Defer vs Async](https://javascript.info/script-async-defer)
 - [Environment Variables in Astro](https://docs.astro.build/en/guides/environment-variables/)
 - [TypeScript Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)
+
+---
+**Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
+**Participants**: Template maintainers\
+**Outcome**: Accepted
