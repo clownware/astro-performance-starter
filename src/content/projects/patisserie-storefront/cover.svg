@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Maison Pulci storefront cover">
   <defs>
     <linearGradient id="patisserie-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="oklch(0.55 0.22 256)"/>
-      <stop offset="100%" stop-color="oklch(0.65 0.20 344)"/>
+      <stop offset="0%" stop-color="#006aed"/>
+      <stop offset="100%" stop-color="#dd51ad"/>
     </linearGradient>
     <linearGradient id="patisserie-fade" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" stop-color="oklch(0 0 0 / 0)"/>
-      <stop offset="100%" stop-color="oklch(0 0 0 / 0.35)"/>
+      <stop offset="0%" stop-color="rgba(0,0,0,0)"/>
+      <stop offset="100%" stop-color="rgba(0,0,0,0.35)"/>
     </linearGradient>
   </defs>
   <rect width="1600" height="900" fill="url(#patisserie-grad)"/>
