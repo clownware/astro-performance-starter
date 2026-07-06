@@ -10,7 +10,7 @@ pagefind: true
 
 ## Status
 
-Rejected (built-in CSP) / Accepted (header-based CSP)
+Accepted (header-based CSP via `public/_headers`; the evaluated alternative — Astro's built-in `security.csp` — was rejected, see Decision)
 
 ## Context
 

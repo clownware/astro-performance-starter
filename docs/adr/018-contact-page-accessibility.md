@@ -161,3 +161,8 @@ Is the badge announcing a live status change?
 - [ARIA: presentation role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/presentation_role)
 - [ARIA: status role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/status_role)
 - [Accessible Emoji Guidelines](https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA24)
+
+---
+**Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

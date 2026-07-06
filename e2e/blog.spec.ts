@@ -22,14 +22,15 @@ test.describe("Blog Index Page", () => {
 	test("should display featured posts section on first page", async ({
 		page,
 	}) => {
+		// The demo content ships a featured post, so the section must render on
+		// page 1. If a forked instance removes all featured posts this fails
+		// loudly — the correct signal (ADR-037 forbids conditional assertions).
+		// Heading reads "Featured" (count-neutral: it may hold a single card).
 		const featuredHeading = page.getByRole("heading", {
-			name: "Featured Posts",
+			name: "Featured",
+			exact: true,
 		});
-		// Featured section may or may not exist depending on content
-		const isVisible = await featuredHeading.isVisible().catch(() => false);
-		if (isVisible) {
-			await expect(featuredHeading).toBeVisible();
-		}
+		await expect(featuredHeading).toBeVisible();
 	});
 
 	test("should display all posts section", async ({ page }) => {

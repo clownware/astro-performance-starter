@@ -149,3 +149,8 @@ Apply this pattern to all dynamic routes:
 - [Astro Dynamic Routes](https://docs.astro.build/en/core-concepts/routing/#dynamic-routes)
 - [Astro Redirects](https://docs.astro.build/en/guides/routing/#redirects)
 - Defensive Programming Principles
+
+---
+**Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

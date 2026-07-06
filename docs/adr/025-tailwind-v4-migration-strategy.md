@@ -11,7 +11,7 @@ pagefind: true
 
 ## Status
 
-Completed — supersedes [ADR-002: Future CSS Tooling Considerations](./002-future-css-tooling-considerations.md)
+Accepted (migration completed 2026-03-26) — supersedes [ADR-002: Future CSS Tooling Considerations](./002-future-css-tooling-considerations.md)
 
 ## Context
 

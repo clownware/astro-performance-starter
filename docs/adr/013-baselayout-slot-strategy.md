@@ -197,3 +197,8 @@ Create organism components, not layout slots:
 - ADR-003: Unified Component Structure and Atomic Design Adherence
 - Internal: `src/layouts/BaseLayout.astro`
 - Internal: `src/components/structural/Section.astro`
+
+---
+**Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
+**Participants**: Template maintainers\
+**Outcome**: Accepted

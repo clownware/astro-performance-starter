@@ -111,3 +111,8 @@ If experience data is ONLY used on the about page and won't be reused elsewhere,
 
 - [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
 - [Zod Schema Validation](https://zod.dev/)
+
+---
+**Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
+**Participants**: Template maintainers\
+**Outcome**: Superseded by ADR-027
