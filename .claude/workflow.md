@@ -34,7 +34,7 @@ pnpm quality:ci
 
 If it exits non-zero, halt and fix the failure. Do not propose the change as complete. Do not work around the failure by lowering thresholds, excluding files, or skipping git hooks with `--no-verify`.
 
-**Local↔CI parity** (per [ADR-039](../docs/adr/039-halt-on-violation-enforcement.md)): `pnpm quality:ci` runs `format:check + lint + lint:md + check + test:unit`. CI runs the same plus `test:coverage` (for the artefact upload added in PR #213). Same tests; only v8 instrumentation differs. A broken unit test fails both commands.
+**Local↔CI parity** (per [ADR-039](../docs/adr/039-halt-on-violation-enforcement.md)): `pnpm quality:ci` runs `format:check + lint + lint:md + check + test:unit`, then the repo-consistency gates `agents:check` ([ADR-045](../docs/adr/045-cross-tool-agents-spine.md)), `version:check`, `og:check`, and `docs:count`. CI runs the same plus `test:coverage` (for the artefact upload added in PR #213). Same tests; only v8 instrumentation differs. A broken unit test fails both commands.
 
 The fast inner-loop variant is `pnpm quality` (auto-fixes format and lint where possible; does NOT chain tests, so iteration stays fast). Reserve `pnpm quality:ci` for the final gate before claiming done.
 
