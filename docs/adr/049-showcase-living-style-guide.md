@@ -11,7 +11,9 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-07-05 by [ADR-060](./060-showcase-interactive-demo-islands.md):
+the page hosts two sanctioned, labelled demo islands — MotionLab `client:idle` and
+SignalsCounter `client:visible` — as a closed exception to the zero-JS validation below)
 
 ## Context
 
@@ -75,7 +77,9 @@ No live toggles. The gradient is shown as a **static A-vs-B** OKLCH comparison (
 prop on `AnimatedGradientText`) and the type specimen renders in the shipped Geist — the
 "re-themes itself" story is told in copy and the EDIT→BUILD→GATE→SHIP flow, not a runtime
 switch. This keeps the page's "0 KB new JS" property and honours ADR-026's two-faces rule
-(Space Grotesk is **not** added).
+(Space Grotesk is **not** added). *(Amended: the two labelled demo islands sanctioned by
+[ADR-060](./060-showcase-interactive-demo-islands.md) are the closed exception to the
+no-live-toggles rule.)*
 
 ### Delegation
 
@@ -106,7 +110,8 @@ corrected to v2) and links to the style guide. The site nav label changes
   `Astro 5`, `--bg`, `15KB`); specimens emit only `hsl(var(--color-…))` / `text-*` utilities.
 - **Token-driven proof**: a `PaletteBand` cell computes the live palette colour; a
   `TypeSpecimen` row renders in Geist at the token size; role chips flip with the theme.
-- **Zero-JS**: the built page adds no new `client:` island.
+- **Zero-JS**: the built page adds no new `client:` island beyond the two demo islands
+  sanctioned by [ADR-060](./060-showcase-interactive-demo-islands.md).
 - **Gate**: `pnpm quality:ci` + `pnpm design:validate` pass; CSS stays < 50KB.
 
 ## Amendment (2026-06-07) — sole component catalog

@@ -104,7 +104,8 @@ If experience data is ONLY used on the about page and won't be reused elsewhere,
 ## Related ADRs
 
 - ADR 000: Starter Decisions (Content Collections usage)
-- ADR 016: Badge Component (Atomic design pattern)
+- ADR 003: Unified Component Structure (atomic design pattern; the planned "ADR-016:
+  Badge Component" was never written — see the [016 stub](./016-reserved.md))
 
 ## References
 

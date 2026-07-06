@@ -77,8 +77,6 @@
     "images:gate": "tsx scripts/src/check-image-budget.ts",
     "fonts:gate": "tsx scripts/src/check-font-preloads.ts",
     "images:optimize": "tsx scripts/src/optimize-images-interactive.ts",
-    "docs:sync": "tsx scripts/src/sync-docs.ts",
-    "docs:update": "tsx scripts/src/sync-docs.ts --update-versions",
     "roadmap:update": "tsx scripts/src/update-roadmap-status.ts",
     "audit": "pnpm audit --production",
     "audit:ci": "tsx scripts/src/audit-filter.ts",

@@ -158,6 +158,15 @@ dist/_astro/ClientRouter.js:     15.12 kB │ gzip: 5.18 kB (View Transitions)
 
 ### 1. Keep ExpandableFeatureCard Script (Option 1)
 
+> **Amendment (2026-07-05):** The sync script was later extracted to
+> `src/scripts/featureCardSync.ts` (Option 2's file layout) but the import was
+> lost in the move, leaving the behaviour silently dead. The module is now
+> imported from `ExpandableFeatureCard.astro`'s `<script>` block — Astro dedupes
+> module scripts, so the "loaded once per page" property this decision valued
+> is preserved with either layout. The behaviour is guarded by
+> `src/scripts/__tests__/featureCardSync.test.ts` and an e2e assertion in
+> `e2e/index.spec.ts`.
+
 **Rationale:**
 
 - Current implementation is already optimal

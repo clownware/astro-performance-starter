@@ -11,7 +11,10 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-07-05 by [ADR-060](./060-showcase-interactive-demo-islands.md):
+the cursor spotlight ships as an Astro atom with a deferred module script rather than a
+`client:idle` island, and the showcase hosts two sanctioned demo islands — MotionLab and
+SignalsCounter — outside this ADR's "no other component hydrates for motion" budget)
 
 ## Context
 
@@ -84,8 +87,11 @@ cost; overkill for seven small effects
 
 ### Budget and gating contract
 
-- **JS budget**: exactly one optional island (cursor spotlight), loaded `client:idle`,
-  rAF-throttled, writing only `--mx` / `--my`. No other component hydrates for motion.
+- **JS budget**: exactly one optional JS surface (cursor spotlight), rAF-throttled,
+  writing only `--mx` / `--my`. No other component hydrates for motion. *(Amended: shipped
+  as a deferred module `<script>` in the `CursorSpotlight` atom — same deferral and no-JS
+  fallback, no hydration runtime. The showcase's MotionLab island controls a CSS animation
+  and is sanctioned separately by [ADR-060](./060-showcase-interactive-demo-islands.md).)*
 - **Decorative-loop cap**: one conic glow border per view + two slow sheen loops; all
   pausable; nothing strobes.
 - **Reduced motion**: every keyframe block sits inside

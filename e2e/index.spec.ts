@@ -201,6 +201,24 @@ test.describe("Homepage (index.astro)", () => {
 		expect(isOpen).toBe(true);
 	});
 
+	test("expandable feature cards open and close together (ADR-014)", async ({ page }) => {
+		// The featureCardSync enhancement keeps every card's <details> state in
+		// lockstep: toggling one toggles all.
+		const details = page.locator("details.feature-details");
+		const count = await details.count();
+		expect(count).toBeGreaterThan(1);
+
+		await page.locator("details.feature-details summary").first().click();
+		for (let i = 0; i < count; i++) {
+			await expect(details.nth(i)).toHaveJSProperty("open", true);
+		}
+
+		await page.locator("details.feature-details summary").first().click();
+		for (let i = 0; i < count; i++) {
+			await expect(details.nth(i)).toHaveJSProperty("open", false);
+		}
+	});
+
 	test("should have proper semantic HTML structure", async ({ page }) => {
 		// Check main landmark
 		const main = page.locator("main");

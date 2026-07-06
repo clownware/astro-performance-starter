@@ -12,7 +12,7 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-07-05 to record the v2.1 token changes shipped 2026-06-07)
 
 ## Context
 
@@ -109,18 +109,37 @@ starter is small enough to migrate atomically
 | --- | --- | --- |
 | `background` | `slate-50` | `spaceCadet` |
 | `surface` | `white` | `slate-900` |
+| `surfaceRaised` † | raw HSL (near-white) | raw HSL (raised slate) |
+| `surfaceAccent` † | raw HSL (violet tint) | raw HSL (violet tint) |
 | `foreground` | `charcoal` | `slate-50` |
 | `muted-foreground` | `slate-600` | `slate-400` |
 | `border` | `slate-200` | `slate-800` |
 | `border-emphasis` | `slate-500` | `slate-500` |
 | `primary-foreground` | `white` | `white` |
 | `link` | `violet-600` | `violet-300` |
-| `success` | `violet-600` | `violet-400` |
+| `success` † | `green-700` | `green-400` |
 | `warning` | `amber-700` | `amber-500` |
 | `error` | `rose-700` | `rose-400` |
 
-`success` deliberately shares the primary (violet) hue — the cold-minimal system treats a
-positive state as on-brand rather than introducing a separate green.
+† Amended in v2.1 — see the amendment below. As originally accepted, `success` was
+`violet-600`/`violet-400` ("a positive state is on-brand rather than introducing a
+separate green") and there were no raised/accent surface tiers.
+
+### Amendment — v2.1 tokens (shipped 2026-06-07, recorded 2026-07-05)
+
+The design-system v2.1 merge (commit `89fc9c69`) changed the semantic layer in two
+ways this record originally required an amendment for:
+
+- **`success` moved off violet onto a dedicated green family** (`green-700` light /
+  `green-400` dark, with a full green 50–950 scale added to `tokens/base.json`).
+  In practice the violet-success experiment failed the "status colour must read as
+  status" test: success states were indistinguishable from primary/link emphasis.
+- **Two additional surface tiers** were added under the Tonal-tiers escape hatch:
+  `surfaceRaised` (cards/popovers above `surface`) and `surfaceAccent` (violet-tinted
+  emphasis panels). Both are raw HSL values rather than base-palette references.
+
+The drift-guard test (`src/__tests__/design-tokens.test.ts`) pins the green mapping;
+this amendment is the "ADR-047 v2.1" it refers to.
 
 ### Utility rename map (component codemod)
 
@@ -150,7 +169,8 @@ The canonical token file ships **two** surface tiers (`background`, `surface`) a
 text tiers (`foreground`, `muted-foreground`). The Component Sheet illustrates a third
 tier; we collapse to two by default and only add `muted` (`slate-500`) or a raised surface
 token if a visual-diff regression requires it. Any such addition is recorded as an
-amendment here.
+amendment here. (Exercised by the v2.1 amendment above: `surfaceRaised` and
+`surfaceAccent`.)
 
 ## Consequences
 

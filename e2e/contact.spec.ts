@@ -55,13 +55,11 @@ test.describe("Contact Page", () => {
 		await expect(phoneLink).toBeVisible();
 	});
 
-	test("should display live chat option", async ({ page }) => {
-		const chatCard = page.getByText("Live Chat");
-		await expect(chatCard).toBeVisible();
-
-		// Check for online status badge
-		const onlineBadge = page.getByText("Online now");
-		await expect(onlineBadge).toBeVisible();
+	test("does not advertise a live chat that does not exist", async ({ page }) => {
+		// The template ships no chat integration; a "Live Chat — Online now"
+		// card was a fake affordance adopters would ship by accident.
+		await expect(page.getByText("Live Chat")).toHaveCount(0);
+		await expect(page.getByText("Online now")).toHaveCount(0);
 	});
 
 	test("should have social media links", async ({ page }) => {
@@ -148,11 +146,12 @@ test.describe("Contact Page", () => {
 	test("should display contact cards with proper structure", async ({
 		page,
 	}) => {
-		// Check for card components
+		// Exactly two contact-method cards ship: Email and Phone. The former
+		// third card (Live Chat) was removed as a fake affordance.
 		const cards = page.locator(".p-6").filter({
 			has: page.locator("h3"),
 		});
 		const count = await cards.count();
-		expect(count).toBeGreaterThan(2);
+		expect(count).toBe(2);
 	});
 });

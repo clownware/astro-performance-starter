@@ -31,11 +31,14 @@ Adopt `astro:env` for the `PUBLIC_*` surface; keep a slim placeholder guard.
 
 ### 1. Schema in `astro.config`
 
-`env.schema` declares the nine consumed `PUBLIC_*` vars (six contact, three
+`env.schema` declares the eight consumed `PUBLIC_*` vars (five contact, three
 social) as `envField.string({ context: "client", access: "public", optional: true,
 default: … })`. The **defaults are the demo values**, so consumers import the
 value directly — the scattered `|| "fallback"` literals are gone, and the demo
-fallbacks now live in exactly one place.
+fallbacks now live in exactly one place. *(Amended 2026-07-05: originally nine —
+`PUBLIC_CONTACT_CHAT_HOURS` was removed along with the contact page's fake
+"Live Chat — Online now" card, which advertised a chat integration the template
+does not ship.)*
 
 ### 2. Typed consumption
 

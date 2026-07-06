@@ -10,9 +10,18 @@ pagefind: true
 
 ## Status
 
-Accepted — amended by [ADR-059](./059-docs-drift-gate.md): for cross-repo stack claims on the
-external docs site, the review cadence is replaced by an enforced CI drift gate. Frontmatter
-review dates remain in force for in-repo documentation.
+Withdrawn (2026-07-05) — the mechanism was never built. An audit found no
+`check-review-dates` script, no `check:reviews` package script, no CI step, and zero
+`review:` frontmatter fields anywhere in `docs/` — including the three documents the
+Phase 2 checklist below marks complete (that checklist was recorded aspirationally and
+never executed; it is preserved as written, as evidence of the gap). The problem this
+ADR targeted is now covered differently: cross-repo stack claims are enforced by the
+[ADR-059](./059-docs-drift-gate.md) CI drift gate, and in-repo counts/claims by the
+`docs:count` and `agents:check` gates inside `quality:ci`. If per-document review dates
+are wanted again, reopen with a new ADR that ships the script and CI gate in the same PR.
+
+Previous status, for the record: Accepted (2025), amended by ADR-059 to scope frontmatter
+review dates to in-repo documentation only.
 
 ## Context
 

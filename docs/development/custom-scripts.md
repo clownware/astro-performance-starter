@@ -54,9 +54,10 @@ This project uses a collection of custom scripts to automate common tasks, enfor
 
 | Command | Description |
 | :--- | :--- |
-| `docs:sync` | Sync documentation from separate docs repo (available at launch) |
-| `docs:update` | Sync docs and inject current package versions for AI context |
 | `roadmap:update` | Update implementation roadmap status |
+
+The former `docs:sync` / `docs:update` push-sync scripts were retired with the
+docs drift gate ([ADR-059](../adr/059-docs-drift-gate.md)).
 
 ## Performance Scripts
 
