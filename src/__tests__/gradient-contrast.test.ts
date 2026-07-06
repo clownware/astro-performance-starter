@@ -20,7 +20,18 @@ const componentSource = readFileSync(
   resolve(here, "../components/atoms/AnimatedGradientText.astro"),
   "utf-8",
 );
-const tokensCss = readFileSync(resolve(here, "../../tokens/dist/tokens.css"), "utf-8");
+// Read the committed token sources, NOT tokens/dist/tokens.css — dist is a
+// gitignored build artifact that does not exist when CI runs the unit tests
+// (same rationale as design-tokens.test.ts).
+interface TokenLeaf {
+  value: string;
+  dark?: string;
+}
+type TokenTree = { [key: string]: TokenTree | TokenLeaf };
+const semantic = JSON.parse(readFileSync(resolve(here, "../../tokens/semantic.json"), "utf-8"))
+  .semantic as TokenTree;
+const base = JSON.parse(readFileSync(resolve(here, "../../tokens/base.json"), "utf-8"))
+  .color as TokenTree;
 
 const aaLargeText = 3;
 
@@ -36,15 +47,40 @@ function lightModeStopVars(source: string): string[] {
   return [...new Set(vars)];
 }
 
-// --- resolve HSL triplets from the built tokens (light = :root block) ---
+// --- resolve HSL triplets from the committed token sources (light values) ---
 
-function resolveLightHsl(varName: string): [number, number, number] {
-  const rootStart = tokensCss.indexOf(":root");
-  const rootEnd = tokensCss.indexOf(".dark");
-  const root = tokensCss.slice(rootStart, rootEnd === -1 ? undefined : rootEnd);
-  const match = root.match(new RegExp(`${varName}:\\s*([\\d.]+)\\s+([\\d.]+)%\\s+([\\d.]+)%`));
-  if (!match) throw new Error(`token ${varName} not found in :root`);
+function tokenLeaf(tree: TokenTree, path: string[]): TokenLeaf {
+  let node: TokenTree | TokenLeaf = tree;
+  for (const key of path) {
+    node = (node as TokenTree)[key];
+    if (!node) {
+      throw new Error(`token path ${path.join(".")} not found`);
+    }
+  }
+  return node as TokenLeaf;
+}
+
+function parseHsl(raw: string): [number, number, number] {
+  const match = raw.match(/^([\d.]+)\s+([\d.]+)%\s+([\d.]+)%$/);
+  if (!match) {
+    throw new Error(`unparseable HSL value: "${raw}"`);
+  }
   return [Number(match[1]), Number(match[2]), Number(match[3])];
+}
+
+/** Resolve a `--color-…` custom-property name to its light-mode HSL triplet. */
+function resolveLightHsl(varName: string): [number, number, number] {
+  // "--color-primary-600" → semantic primary.600; "--color-background" → semantic background
+  const name = varName.replace(/^--color-/, "");
+  const stepMatch = name.match(/^([a-z]+)-(\d+)$/);
+  const path = stepMatch ? [stepMatch[1], stepMatch[2]] : [name];
+  let raw = tokenLeaf(semantic, path).value;
+  // follow {color.family.step} / {color.name} references into base.json
+  const ref = raw.match(/^\{color\.([a-zA-Z]+)(?:\.(\w+))?\}$/);
+  if (ref) {
+    raw = tokenLeaf(base, ref[2] ? [ref[1], ref[2]] : [ref[1]]).value;
+  }
+  return parseHsl(raw);
 }
 
 // --- colour math: HSL → sRGB → OKLab/OKLCh, longer-hue interpolation, WCAG ---
