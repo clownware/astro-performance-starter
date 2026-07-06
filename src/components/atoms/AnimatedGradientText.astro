@@ -56,12 +56,19 @@ const speedMap = {
 
   .animated-gradient-text {
     --gradient-duration: 4s;
+    /* Light theme uses the darker 600 steps: the longer-hue sweep passes
+       through green-cyan, whose WCAG luminance at the 500-step lightness
+       measures 2.95:1 on the light background — under the 3:1 AA large-text
+       minimum. The 600 steps put the worst point at 3.79:1 (guarded by
+       src/__tests__/gradient-contrast.test.ts). */
+    --gradient-stop-a: var(--color-primary-600);
+    --gradient-stop-b: var(--color-secondary-600);
     /* Variant B — OKLCH longer-hue sweep (violet → crimson through the spectrum). */
     background: linear-gradient(
       var(--gradient-angle) in oklch longer hue,
-      hsl(var(--color-primary-500)),
-      hsl(var(--color-secondary-500)),
-      hsl(var(--color-primary-500))
+      hsl(var(--gradient-stop-a)),
+      hsl(var(--gradient-stop-b)),
+      hsl(var(--gradient-stop-a))
     );
     background-clip: text;
     -webkit-background-clip: text;
@@ -69,13 +76,19 @@ const speedMap = {
     -webkit-text-fill-color: transparent;
   }
 
+  /* Dark surfaces need the brighter 500 steps (the original look). */
+  :global(.dark) .animated-gradient-text {
+    --gradient-stop-a: var(--color-primary-500);
+    --gradient-stop-b: var(--color-secondary-500);
+  }
+
   /* Variant A — OKLCH shorter-hue arc (tight, vivid violet→crimson). */
   .animated-gradient-text.arc-short {
     background: linear-gradient(
       var(--gradient-angle) in oklch shorter hue,
-      hsl(var(--color-primary-500)),
-      hsl(var(--color-secondary-500)),
-      hsl(var(--color-primary-500))
+      hsl(var(--gradient-stop-a)),
+      hsl(var(--gradient-stop-b)),
+      hsl(var(--gradient-stop-a))
     );
   }
 
