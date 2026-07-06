@@ -100,7 +100,7 @@
     "@astrojs/ts-plugin": "^1.10.10",
     "@biomejs/biome": "^2.5.2",
     "@commitlint/cli": "^20.5.3",
-    "@commitlint/config-conventional": "^20.5.3",
+    "@commitlint/config-conventional": "^21.2.0",
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.61.1",
     "@stryker-mutator/core": "^9.6.1",
