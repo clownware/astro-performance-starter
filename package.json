@@ -90,7 +90,7 @@
     "@astrojs/sitemap": "^3.7.3",
     "@preact/signals": "^2.9.2",
     "@tailwindcss/vite": "^4.2.2",
-    "astro-expressive-code": "^0.42.0",
+    "astro-expressive-code": "^0.44.0",
     "preact": "^10.29.4",
     "sharp": "^0.34.5",
     "tailwindcss": "4.2.2"
