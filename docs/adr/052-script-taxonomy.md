@@ -17,7 +17,7 @@ Accepted
 
 `package.json` exposes ~45 scripts. Most maintain _the template itself_
 (`baseline-performance`, `track-performance-budgets`, `analyze-bundle`,
-`optimize-images-interactive`, `roadmap:update`, `sync-docs`, the `agents:*`
+`optimize-images-interactive`, `roadmap:update`, the `agents:*`
 spine, `release:*`, `audit:*`). A portfolio cloner needs roughly ten of them.
 Surfacing all of them as flat peers of `dev`/`build` reads as "complex to use"
 and buries the everyday commands — a real onboarding cost for a distribution

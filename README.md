@@ -20,7 +20,7 @@ Most Astro templates hand you a fast first commit and no way to keep it fast. Th
 - **Enforced, not aspirational** — halt-on-violation CI gates on JS bundle size, per-image size (source _and_ build output), font-preload count, and Lighthouse on **both mobile and desktop**. A regression fails the PR — it doesn't ship. ([ADR-039](./docs/adr/039-halt-on-violation-enforcement.md))
 - **Images can't sink you** — the #1 real-world perf killer is gated: Astro `<Image>` → AVIF with responsive `srcset`, plus a 200KB-per-raster ceiling checked in CI (details in the next section).
 - **Agentic discipline built in** — Layered AI constitution (`CLAUDE.md` + `.claude/`), role-separated workflow. Your agent clears the same gates you do.
-- **Fast by default, measured** — ~48KB raw JS (~17KB gzipped) _total_ across the site; ~18KB gzipped CSS per page; 99 Performance / CLS 0 on home and blog, **desktop and mobile**.
+- **Fast by default, measured** — ~48KB raw JS (~17KB gzipped) _total_ across the site; ~19–21KB gzipped CSS per page; 99 Performance / CLS 0 on home and blog, **desktop and mobile**.
 - **Modern stack** — Astro 6.x · TypeScript 5.x (strict) · Tailwind 4.x · Biome 2.x · Node 24.x · pnpm 10.x
 - **Accessible** — WCAG AA via semantic HTML, ARIA, and validated contrast; accessibility gated ≥ 95 in CI (most routes score 100).
 
@@ -298,9 +298,12 @@ The default starter ships well under budget — measured on a production build:
 
 - **JavaScript**: ~48KB raw (~17KB gzipped) _total_ across the whole site; a
   typical page loads only the view-transition router plus a tiny page script.
-- **CSS**: ~18KB gzipped per page (≈22KB on pages with code blocks).
+- **CSS**: ~19–21KB gzipped per page — a ~17.6KB shared stylesheet plus
+  1–3.5KB of inlined critical styles (fonts, view transitions); ≈23–24KB on
+  pages with code blocks.
 - **Lighthouse**: 99 Performance / CLS 0 on home and blog — **desktop and mobile**
-  (measured); accessibility 96–100 across all gated routes.
+  (measured; desktop re-verified at 100/CLS 0 on home, blog index, and a post,
+  July 2026); accessibility 96–100 across all gated routes.
 
 ## 🤝 Contributing
 

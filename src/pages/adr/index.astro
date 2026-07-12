@@ -14,7 +14,10 @@ const sorted = adrs.sort((a: CollectionEntry<"adr">, b: CollectionEntry<"adr">) 
 
 // Reserved entries share a frontmatter shape (tableOfContents: false,
 // pagefind: false) and a description that starts with "Placeholder". Keep
-// them in the listing but visually de-emphasized.
+// them in the listing but visually de-emphasized by demoting the title to
+// muted-foreground — NOT by dimming the row with opacity, which composites
+// the muted 12px text below the WCAG AA 4.5:1 minimum in both modes
+// (guarded by adr-index-contrast.test.ts, #279).
 const isReserved = (adr: CollectionEntry<"adr">) =>
   adr.data.tableOfContents === false && adr.data.pagefind === false;
 ---
@@ -41,7 +44,7 @@ const isReserved = (adr: CollectionEntry<"adr">) =>
 
     <ol class="flex flex-col divide-y divide-border" role="list" aria-label="All ADRs">
       {sorted.map((adr: CollectionEntry<"adr">) => (
-        <li class={isReserved(adr) ? "py-5 opacity-50" : "py-5"}>
+        <li class="py-5">
           <a
             href={withBase(`/adr/${adr.id}/`)}
             class="group block focus:outline-hidden focus-visible:ring-2 focus-visible:ring-link rounded-lg"
@@ -51,7 +54,12 @@ const isReserved = (adr: CollectionEntry<"adr">) =>
                 ADR-{adr.id.slice(0, 3)}
               </p>
               <div class="flex-1 min-w-0">
-                <h2 class="text-base sm:text-lg font-semibold text-foreground group-hover:text-link transition-colors">
+                <h2
+                  class:list={[
+                    "text-base sm:text-lg font-semibold group-hover:text-link transition-colors",
+                    isReserved(adr) ? "text-muted-foreground" : "text-foreground",
+                  ]}
+                >
                   {adr.data.title.replace(/^ADR-\d+:\s*/i, "")}
                 </h2>
                 <p class="mt-1 text-sm text-muted-foreground leading-relaxed">
