@@ -179,7 +179,7 @@ function main(): void {
     for (const message of versionsMismatches) {
       console.error(`   - ${message}`);
     }
-    console.error("   Run `pnpm run version:fix` to sync versions.json (check versions.yml too).");
+    console.error("   Run `pnpm run version:fix` to sync versions.json.");
   }
   if (templateMismatch) {
     console.error(`❌ ${templateMismatch}`);

@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `version:check` now fails on a drifted `template` field in `versions.json`; `version:fix` stamps it from `package.json` `"version"` (the field had shipped drifted: v0.2.0 vs 0.9.0)
 - GitHub Releases published automatically on `v*` tag push via `.github/workflows/release.yml`, with the body extracted from that version's CHANGELOG section (`scripts/src/extract-changelog.ts`)
 
+### Removed
+
+- `versions.yml` — no programmatic consumers and its hand-maintained fields drifted; `versions.json` is the sole version manifest (ADR-035 amended, [ADR-061](./docs/adr/061-versions-json-public-contract.md))
+
 ## [0.9.0] — 2026-05-17
 
 Release candidate. Material shift in positioning: this template is now a reference implementation of the layered AI constitution pattern with halt-on-violation enforcement.

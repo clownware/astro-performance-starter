@@ -11,7 +11,9 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-07-12: `versions.yml` removed — it had no programmatic consumers and its
+hand-maintained fields drifted; `versions.json` is the sole version manifest, see
+[ADR-061](./061-versions-json-public-contract.md))
 
 ## Context
 
@@ -142,7 +144,7 @@ The following root-level files should be evaluated against this policy:
 | `PERFORMANCE_REGRESSION_FIX.md` | **Move** → `docs/temp-guides/` or remove | One-off fix documentation |
 | `FORCED_REFLOW_FIX.md` | **Move** → `docs/temp-guides/` or remove | One-off fix documentation |
 | `CHANGELOG.md` | **Evaluate** — keep if actively maintained, move to Releases if not | Depends on release workflow |
-| `versions.json` / `versions.yml` | **Keep** — Category 1 | Build configuration |
+| `versions.json` | **Keep** — Category 1 | Build configuration (`versions.yml` removed 2026-07-12, see ADR-061) |
 | `budget-overrides.json` | **Keep** — Category 1 | Performance budget configuration |
 
 ### Decision Framework for New Features
