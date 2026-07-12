@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  findTemplateMismatch,
   findVersionMismatches,
   findVersionsJsonMismatches,
   syncVersionsJson,
@@ -73,6 +74,39 @@ describe("findVersionsJsonMismatches", () => {
 });
 
 /**
+ * Guards against the `template` field in `versions.json` drifting from
+ * package.json "version" (the drift that shipped: versions.json said
+ * "template": "v0.2.0" while package.json — and the latest git tag — was
+ * 0.9.0). versions.json is a public consumption contract (docs drift gate,
+ * clownware.org facts layer), so its self-reported version must be stamped,
+ * not hand-maintained.
+ */
+describe("findTemplateMismatch", () => {
+  it("returns null when template matches v{package.json version}", () => {
+    expect(findTemplateMismatch("0.9.0", { template: "v0.9.0" })).toBeNull();
+  });
+
+  it("flags a drifted template field", () => {
+    expect(findTemplateMismatch("0.9.0", { template: "v0.2.0" })).toBe(
+      "template: versions.json v0.2.0 ≠ package.json version 0.9.0",
+    );
+  });
+
+  it("flags a missing template field", () => {
+    expect(findTemplateMismatch("0.9.0", { astro: "6.4.8" })).toBe(
+      "template: versions.json has no template field; package.json version is 0.9.0",
+    );
+  });
+
+  it("matches prerelease versions exactly", () => {
+    expect(findTemplateMismatch("1.0.0-rc.1", { template: "v1.0.0-rc.1" })).toBeNull();
+    expect(findTemplateMismatch("1.0.0", { template: "v1.0.0-rc.1" })).toBe(
+      "template: versions.json v1.0.0-rc.1 ≠ package.json version 1.0.0",
+    );
+  });
+});
+
+/**
  * `--fix` support: rewrites drifted exact pins from package.json so Dependabot
  * bumps need one `pnpm run version:check --fix` instead of a hand edit (the
  * friction that blocked the preact 10.29.6 bump: versions.json still said
@@ -108,5 +142,16 @@ describe("syncVersionsJson", () => {
     const synced = syncVersionsJson(pkg, versions);
     expect(Object.keys(synced)).toEqual(["tailwindcss", "preact"]);
     expect(versions.preact).toBe("10.29.4");
+  });
+
+  it("stamps the template field from package.json version when provided", () => {
+    const versions = { template: "v0.2.0", preact: "10.29.4" };
+    const synced = syncVersionsJson({ ...pkg, version: "0.9.0" }, versions);
+    expect(synced.template).toBe("v0.9.0");
+  });
+
+  it("leaves the template field untouched when package.json version is absent", () => {
+    const versions = { template: "v0.2.0" };
+    expect(syncVersionsJson(pkg, versions)).toEqual({ template: "v0.2.0" });
   });
 });
