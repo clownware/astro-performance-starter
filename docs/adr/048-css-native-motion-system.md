@@ -129,7 +129,7 @@ cost; overkill for seven small effects
 ## References
 
 - `docs/2026-06_design_system/Astro Starter - Motion System.html` — the seven techniques
-- [ADR-001: Hydration Strategy](./001-hydration-strategy.md) — `client:load` restriction
+- [ADR-001: Hydration Strategy](./001-preact-island-usage-policy.md) — `client:load` restriction
 - [ADR-047: Design Tokens v2](./047-design-tokens-v2-role-based-naming.md)
 
 ## Notes
