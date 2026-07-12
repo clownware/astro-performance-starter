@@ -9,9 +9,10 @@
  *      was ^2.4.11 / ^1.59.1). Loose `.x` ranges in versions.json are ignored.
  * Runs in `quality:ci` alongside the other no-drift guards (cf. `agents:check`).
  *
- * Usage: pnpm run version:check
+ * Usage: pnpm run version:check          — assert, exit 1 on drift
+ *        pnpm run version:fix            — rewrite drifted versions.json pins
  */
-import { readFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -89,12 +90,51 @@ export function findVersionsJsonMismatches(
   return mismatches;
 }
 
+/**
+ * Returns a copy of `versions` with every drifted exact pin rewritten to the
+ * base version of its `package.json` dependency. Loose `.x` ranges and keys
+ * without a mapped dependency pass through unchanged; key order is preserved.
+ */
+export function syncVersionsJson(
+  pkg: PackageJsonDeps,
+  versions: Record<string, string>,
+): Record<string, string> {
+  const allDeps = {
+    ...pkg.dependencies,
+    ...pkg.devDependencies,
+    ...pkg.optionalDependencies,
+  };
+  const synced: Record<string, string> = {};
+  for (const [key, pinned] of Object.entries(versions)) {
+    const depName = versionsJsonToPackage[key];
+    const range = depName ? allDeps[depName] : undefined;
+    const isExactPin = !pinned.includes("x");
+    synced[key] = isExactPin && range ? baseVersion(range) : pinned;
+  }
+  return synced;
+}
+
 function main(): void {
+  const fix = process.argv.includes("--fix");
   const root = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
   const pkg = JSON.parse(readFileSync(join(root, "package.json"), "utf-8"));
   const pkgVersion = pkg.version as string;
   const readme = readFileSync(join(root, "README.md"), "utf-8");
   const versions = JSON.parse(readFileSync(join(root, "versions.json"), "utf-8"));
+
+  if (fix) {
+    const synced = syncVersionsJson(pkg, versions);
+    const changed = Object.keys(versions).filter((key) => versions[key] !== synced[key]);
+    if (changed.length) {
+      writeFileSync(join(root, "versions.json"), `${JSON.stringify(synced, null, 2)}\n`);
+      for (const key of changed) {
+        console.log(`✏️  versions.json ${key}: ${versions[key]} → ${synced[key]}`);
+      }
+    } else {
+      console.log("✅ versions.json already matches package.json — nothing to fix.");
+    }
+    return;
+  }
 
   const readmeMismatches = findVersionMismatches(pkgVersion, readme);
   const versionsMismatches = findVersionsJsonMismatches(pkg, versions);
@@ -110,7 +150,7 @@ function main(): void {
     for (const message of versionsMismatches) {
       console.error(`   - ${message}`);
     }
-    console.error("   Update versions.json (and versions.yml) to match package.json pins.");
+    console.error("   Run `pnpm run version:fix` to sync versions.json (check versions.yml too).");
   }
   if (readmeMismatches.length || versionsMismatches.length) {
     process.exit(1);
