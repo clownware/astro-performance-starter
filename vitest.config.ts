@@ -17,10 +17,12 @@ export default getViteConfig({
       // Playwright (e2e/a11y) and exercised by `pnpm build`, not here.
       include: ["src/utils/**/*.ts"],
       exclude: ["**/__tests__/**", "**/__mocks__/**", "**/*.test.ts", "**/*.spec.ts", "**/*.d.ts"],
+      // Ratcheted from 80/75/70 with utils measured at 96.9/100/99.35 (#247) —
+      // floors hold a safety margin, not the current high-water mark.
       thresholds: {
-        lines: 80,
-        functions: 75,
-        branches: 70,
+        lines: 90,
+        functions: 95,
+        branches: 90,
       },
     },
   },
