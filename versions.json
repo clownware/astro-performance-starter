@@ -6,7 +6,7 @@
   "pnpm": "10.x",
   "biome": "2.5.2",
   "typescript": "5.9.3",
-  "preact": "10.29.4",
+  "preact": "10.29.6",
   "astro-mdx": "5.x",
   "tailwindcss-vite": "4.2.2",
   "astro-sitemap": "3.x",
