@@ -27,9 +27,31 @@ export function findVersionMismatches(pkgVersion: string, readme: string): strin
 }
 
 interface PackageJsonDeps {
+  version?: string;
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
   optionalDependencies?: Record<string, string>;
+}
+
+/**
+ * Returns a diagnostic when the `template` field in `versions.json` doesn't
+ * equal `v{pkgVersion}`, or is missing entirely; null means consistent.
+ * versions.json is a public consumption contract (ADR-061) — external
+ * consumers read `template` as this template's own release version, so it is
+ * stamped from package.json rather than hand-maintained.
+ */
+export function findTemplateMismatch(
+  pkgVersion: string,
+  versions: Record<string, string>,
+): string | null {
+  const template = versions.template;
+  if (!template) {
+    return `template: versions.json has no template field; package.json version is ${pkgVersion}`;
+  }
+  if (template !== `v${pkgVersion}`) {
+    return `template: versions.json ${template} ≠ package.json version ${pkgVersion}`;
+  }
+  return null;
 }
 
 /**
@@ -92,8 +114,10 @@ export function findVersionsJsonMismatches(
 
 /**
  * Returns a copy of `versions` with every drifted exact pin rewritten to the
- * base version of its `package.json` dependency. Loose `.x` ranges and keys
- * without a mapped dependency pass through unchanged; key order is preserved.
+ * base version of its `package.json` dependency, and — when `pkg.version` is
+ * present — the `template` field stamped to `v{pkg.version}`. Loose `.x`
+ * ranges and keys without a mapped dependency pass through unchanged; key
+ * order is preserved.
  */
 export function syncVersionsJson(
   pkg: PackageJsonDeps,
@@ -106,6 +130,10 @@ export function syncVersionsJson(
   };
   const synced: Record<string, string> = {};
   for (const [key, pinned] of Object.entries(versions)) {
+    if (key === "template" && pkg.version) {
+      synced[key] = `v${pkg.version}`;
+      continue;
+    }
     const depName = versionsJsonToPackage[key];
     const range = depName ? allDeps[depName] : undefined;
     const isExactPin = !pinned.includes("x");
@@ -138,6 +166,7 @@ function main(): void {
 
   const readmeMismatches = findVersionMismatches(pkgVersion, readme);
   const versionsMismatches = findVersionsJsonMismatches(pkg, versions);
+  const templateMismatch = findTemplateMismatch(pkgVersion, versions);
 
   if (readmeMismatches.length) {
     console.error(
@@ -150,9 +179,15 @@ function main(): void {
     for (const message of versionsMismatches) {
       console.error(`   - ${message}`);
     }
-    console.error("   Run `pnpm run version:fix` to sync versions.json (check versions.yml too).");
+    console.error("   Run `pnpm run version:fix` to sync versions.json.");
   }
-  if (readmeMismatches.length || versionsMismatches.length) {
+  if (templateMismatch) {
+    console.error(`❌ ${templateMismatch}`);
+    console.error(
+      "   versions.json is a public consumption contract (ADR-061). Run `pnpm run version:fix` to stamp the template field.",
+    );
+  }
+  if (readmeMismatches.length || versionsMismatches.length || templateMismatch) {
     process.exit(1);
   }
   console.log(`✅ README footer and versions.json match package.json (v${pkgVersion}).`);

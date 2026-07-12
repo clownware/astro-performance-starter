@@ -1,0 +1,43 @@
+name: Release
+
+# Publishes a GitHub Release on v* tag push, with the body extracted from that
+# version's CHANGELOG.md section (scripts/src/extract-changelog.ts). Fails when
+# the tag has no non-empty CHANGELOG section — cut the CHANGELOG entry first.
+# Adopter-clean by design: no owner-specific values; any clone that pushes a
+# tag gets the same behaviour (see ADR-061).
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Extract release notes from CHANGELOG.md
+        run: pnpm exec tsx scripts/src/extract-changelog.ts "$GITHUB_REF_NAME" > release-notes.md
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file release-notes.md
