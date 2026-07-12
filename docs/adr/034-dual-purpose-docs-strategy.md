@@ -215,7 +215,7 @@ Start with `docs/ai-context/INDEX.md` for the full project context contract.
 
 To reduce noise for GitHub users browsing the repo:
 
-```gitattributes
+```txt
 # Collapse reference documentation in GitHub diffs
 docs/** linguist-documentation
 ```

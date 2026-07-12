@@ -185,7 +185,7 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": json
 <meta property="twitter:image" content={new URL(withBase(image), Astro.site)} />
 
 <!-- JSON-LD Structured Data: WebSite + Organization on every page, BlogPosting on articles -->
-<script type="application/ld+json" set:html={jsonLd} />
+<script is:inline type="application/ld+json" set:html={jsonLd} />
 
 <!-- Fonts (Astro 6 Fonts API, ADR-053). Emits the @font-face + metric-adjusted
      fallback faces and preloads both faces. Geist drives headlines (LCP on most
