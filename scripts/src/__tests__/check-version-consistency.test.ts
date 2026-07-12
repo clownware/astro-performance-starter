@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { findVersionMismatches, findVersionsJsonMismatches } from "../check-version-consistency.ts";
+import {
+  findVersionMismatches,
+  findVersionsJsonMismatches,
+  syncVersionsJson,
+} from "../check-version-consistency.ts";
 
 /**
  * Guards against the README footer version drifting from package.json (the
@@ -65,5 +69,44 @@ describe("findVersionsJsonMismatches", () => {
   it("skips keys whose mapped dependency is absent from package.json", () => {
     const versions = { typescript: "5.9.3" };
     expect(findVersionsJsonMismatches(pkg, versions)).toEqual([]);
+  });
+});
+
+/**
+ * `--fix` support: rewrites drifted exact pins from package.json so Dependabot
+ * bumps need one `pnpm run version:check --fix` instead of a hand edit (the
+ * friction that blocked the preact 10.29.6 bump: versions.json still said
+ * 10.29.4 and CI failed on the drift guard).
+ */
+describe("syncVersionsJson", () => {
+  const pkg = {
+    dependencies: { tailwindcss: "4.2.2", preact: "^10.29.6" },
+    devDependencies: { "@biomejs/biome": "^2.4.11" },
+  };
+
+  it("rewrites drifted exact pins to the package.json base version", () => {
+    const versions = { preact: "10.29.4", biome: "2.4.11" };
+    expect(syncVersionsJson(pkg, versions)).toEqual({ preact: "10.29.6", biome: "2.4.11" });
+  });
+
+  it("leaves loose '.x' ranges untouched", () => {
+    const versions = { preact: "10.x", vitest: "4.x" };
+    expect(syncVersionsJson(pkg, versions)).toEqual({ preact: "10.x", vitest: "4.x" });
+  });
+
+  it("leaves unmapped keys (template, node, pnpm) untouched", () => {
+    const versions = { template: "v0.2.0", node: "24.14.1", preact: "10.29.4" };
+    expect(syncVersionsJson(pkg, versions)).toEqual({
+      template: "v0.2.0",
+      node: "24.14.1",
+      preact: "10.29.6",
+    });
+  });
+
+  it("preserves key order and does not mutate the input", () => {
+    const versions = { tailwindcss: "4.2.2", preact: "10.29.4" };
+    const synced = syncVersionsJson(pkg, versions);
+    expect(Object.keys(synced)).toEqual(["tailwindcss", "preact"]);
+    expect(versions.preact).toBe("10.29.4");
   });
 });
