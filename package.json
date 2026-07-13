@@ -81,6 +81,7 @@
     "fonts:gate": "tsx scripts/src/check-font-preloads.ts",
     "images:optimize": "tsx scripts/src/optimize-images-interactive.ts",
     "roadmap:update": "tsx scripts/src/update-roadmap-status.ts",
+    "enforce": "tsx scripts/src/run-enforcement.ts",
     "audit": "pnpm audit --production",
     "audit:ci": "tsx scripts/src/audit-filter.ts",
     "release:changelog": "changelogen --output CHANGELOG.md",

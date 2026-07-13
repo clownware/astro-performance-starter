@@ -48,6 +48,9 @@ jobs:
       - name: Lint, format & type-check
         run: pnpm run quality:ci
 
+      - name: ADR enforcement suite (ADR-062, warn-only launch)
+        run: pnpm run enforce
+
       - name: Unit tests with coverage
         run: pnpm run test:coverage
 
