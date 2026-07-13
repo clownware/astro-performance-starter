@@ -118,6 +118,17 @@ const shareUrls = generateAllShareUrls({
 - Consider adding analytics tracking parameters to share URLs
 - Explore server-side share count APIs if needed
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `src/utils/socialShare.ts` unit tests (including encoding edge cases) pass.
+- **Checks:**
+  - TC-1 → `test:unit` via `quality:ci` (status: **block**, pre-existing gate)
+- **Not machine-checkable:** platform list appropriateness.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
 **Participants**: Template maintainers\

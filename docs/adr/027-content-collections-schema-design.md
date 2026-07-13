@@ -193,6 +193,17 @@ To add a new collection:
 ---
 This ADR supersedes [ADR-017](./017-experience-content-collection.md) for the experience collection schema. ADR-017 provided the initial rationale for creating the collection; the schema details here are authoritative.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: every content entry validates against its Zod schema — the build fails otherwise.
+- **Checks:**
+  - TC-1 → `astro check` + build in `quality:ci` (status: **block**, pre-existing gate)
+- **Not machine-checkable:** whether the schemas still cover the common case for new adopters.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-02-18\
 **Participants**: Template maintainers\
