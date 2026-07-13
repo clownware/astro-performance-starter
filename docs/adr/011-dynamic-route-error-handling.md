@@ -150,6 +150,13 @@ Apply this pattern to all dynamic routes:
 - [Astro Redirects](https://docs.astro.build/en/guides/routing/#redirects)
 - Defensive Programming Principles
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Not machine-checkable:** presence of the defensive redirect pattern in dynamic routes is a review concern. A grep-based check was evaluated during the enforcement retrofit and rejected as brittle (pattern text varies legitimately); see ADR-062.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
 **Participants**: Template maintainers\

@@ -190,6 +190,13 @@ The mascot artwork shipped as the `state-*.svg` portraits in
 interim `avatar-placeholder.png` was removed once those SVGs landed (see the
 per-image budget gate, ADR-057).
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Not machine-checkable:** persona voice, replaceability signal, and the no-falsifiable-claims rule are editorial judgments; collection-driven sourcing is a review concern.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-06-07\
 **Participants**: template author, Pulci Nella (persona maintainer)\

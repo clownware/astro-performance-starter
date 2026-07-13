@@ -252,6 +252,13 @@ pnpm run build --verbose
 - [Image Decoding Performance](https://developer.mozilla.org/en-US/docs/Web/API/HTMLImageElement/decoding)
 - Build-time vs Runtime Optimization Principles
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Not machine-checkable:** the compute-in-`getStaticPaths` pattern is a review concern; aggregate regressions surface via the JS bundle budget and the Lighthouse workflow rather than a static check.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
 **Participants**: Template maintainers\

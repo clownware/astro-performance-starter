@@ -250,6 +250,13 @@ The "Portfolio Checklist" reference doc mentioned in consequences should be crea
 
 The Essential/Recommended/Advanced scope labels within each phase may be implemented incrementally — start with active phases (5-8) and backfill completed phases (0-4) as needed.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Not machine-checkable:** the Foundation/Build/Polish tier model is documentation semantics; no structural invariant is derivable.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-02-22\
 **Participants**: Template maintainers\
