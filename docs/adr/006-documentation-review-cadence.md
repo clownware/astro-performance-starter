@@ -244,6 +244,13 @@ System is designed to gracefully handle missing review dates without breaking bu
 - Internal: `scripts/check-review-dates.mjs`
 - Internal: `.github/workflows/ci.yml`
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+Not enforced — this record's status is **Withdrawn**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: 2025-06-19\
 **Participants**: AI Assistant (Cascade), Development Team\

@@ -30,6 +30,13 @@ This number is reserved. If a decision needs to be documented that logically fit
 - [ADR-015: Projects Page Pagination Strategy](/adr/015-projects-pagination-strategy/)
 - [ADR-017: Experience Content Collection](/adr/017-experience-content-collection/)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+Not enforced — this record's status is **Withdrawn**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: 2025-11-15\
 **Participants**: Template maintainers\

@@ -110,6 +110,13 @@ No immediate action. This ADR is recorded for the backlog to be revisited if the
 - [ADR-000: Starter Template Architecture](/adr/000-starter-decisions/) - Foundation decisions
 - [ADR-006: Documentation Review Cadence](/adr/006-documentation-review-cadence/) - Review schedule
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+Not enforced — this record's status is **Superseded**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: 2025-06-10\
 **Participants**: Template maintainers\
