@@ -172,3 +172,15 @@ The "verify with" → "halt and fix" sweep is one-off. New documentation should 
 **Date**: 2026-05-16\
 **Participants**: Chris Pezza, Claude\
 **Outcome**: Accepted
+
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `.github/workflows/ci.yml` runs `pnpm run quality:ci`.
+  - TC-2: the `quality:ci` script retains its documented gate steps.
+- **Checks:**
+  - TC-1, TC-2 → check `ci-runs-quality` (status: **warn**)
+- **Not machine-checkable:** that operators actually run the gate locally before claiming done is process discipline; the Stop-gate hook (ADR-062) automates it for agent sessions.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
