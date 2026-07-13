@@ -85,6 +85,20 @@ dependency.
 - `astro.config.mjs` (`fonts`), `src/components/molecules/Head.astro`, `src/styles/global.css`, `src/assets/fonts/`
 - [Astro Fonts API](https://docs.astro.build/en/reference/configuration-reference/#fonts)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: the vendored variable woff2 files and their OFL licenses exist in `src/assets/fonts/`.
+  - TC-2: no `@fontsource/*` package is a dependency.
+  - TC-3: no page exceeds the font preload budget.
+- **Checks:**
+  - TC-1, TC-2 → check `fonts-vendored` (status: **warn**)
+  - TC-3 → `fonts:gate` in CI (status: **block**, pre-existing gate) — see ADR-058
+- **Not machine-checkable:** font pairing and preload composition judgment beyond the numeric cap.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-06-07\
 **Participants**: Template maintainers\

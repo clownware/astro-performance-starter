@@ -156,6 +156,17 @@ version manifest, legacy Content Collections API, wrong repository slug, malform
 deprecated deploy guidance) and near-zero coverage of the enforcement layer. Those are content
 fixes tracked in the docs repository; this ADR governs only the sync architecture.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: no `sync-docs-*` workflow exists under `.github/workflows/` — the push-sync stays retired.
+- **Checks:**
+  - TC-1 → check `no-push-sync` (status: **warn**)
+- **Not machine-checkable:** the drift gate itself runs in the docs repository's CI and is outside this repository's enforcement surface.
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+
 ---
 **Date**: 2026-07-02\
 **Participants**: Template maintainers\

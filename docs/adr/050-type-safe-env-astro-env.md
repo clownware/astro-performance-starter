@@ -81,6 +81,20 @@ lines and protects every cloner, not just the demo.)
 - `astro.config.mjs` (`env.schema`), `src/pages/contact.astro`, `scripts/src/validate-env.ts`
 - [Astro environment variables / astro:env](https://docs.astro.build/en/guides/environment-variables/)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: no `import.meta.env.PUBLIC_` reads exist in `src/` — typed access goes through `astro:env/client`.
+  - TC-2: `astro.config.mjs` declares the `PUBLIC_*` surface in `env.schema`.
+  - TC-3: the placeholder guard validates env at build.
+- **Checks:**
+  - TC-1, TC-2 → check `env-via-schema` (status: **warn**)
+  - TC-3 → `env:validate` in the build chain (status: **block**, pre-existing gate)
+- **Not machine-checkable:** which variables belong in the schema versus deliberate `process.env` reads (config-load-time values are exempt per this ADR).
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+
 ---
 **Date**: 2026-06-07\
 **Participants**: Template maintainers\

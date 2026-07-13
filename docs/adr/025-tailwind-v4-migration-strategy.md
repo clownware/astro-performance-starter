@@ -119,6 +119,19 @@ Three component style blocks that used `@apply` with custom utility classes now 
 - [ADR-002: Future CSS Tooling Considerations](./002-future-css-tooling-considerations.md) — superseded
 - [ADR-000: Starter Template Architecture](./000-starter-decisions.md)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: no `tailwind.config.{js,ts,mjs,cjs}` file exists.
+  - TC-2: `@astrojs/tailwind` is absent from dependencies and `@tailwindcss/vite` is present.
+  - TC-3: `src/styles/global.css` contains an `@theme inline` block.
+- **Checks:**
+  - TC-1, TC-2, TC-3 → check `tw4-shape` (status: **warn**)
+- **Not machine-checkable:** utility-vs-token style judgment inside components.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-03-26\
 **Participants**: Template maintainers\

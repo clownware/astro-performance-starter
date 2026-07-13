@@ -128,6 +128,17 @@ Add a guide to `docs/patterns/` documenting how to configure `preact/compat` ali
 - [ADR-001: Preact Island Usage Policy](./001-preact-island-usage-policy.md)
 - [Performance Budgets](../implementation-guides/reference/budgets-guardrails.md)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `react` and `react-dom` are not dependencies; `preact` is.
+- **Checks:**
+  - TC-1 → check `no-react-dep` (status: **warn**)
+- **Not machine-checkable:** whether `preact/compat` aliasing remains prominently documented.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-02-18\
 **Participants**: Template maintainers\
