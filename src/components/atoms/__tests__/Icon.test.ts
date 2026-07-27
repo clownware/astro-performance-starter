@@ -32,16 +32,15 @@ describe("Icon (atom)", () => {
       expect(html).not.toMatch(/stroke="currentColor"/);
     });
 
-    it.each([
-      "arrow-down",
-      "arrow-right",
-      "external-link",
-    ] as const)("uses stroke=currentColor for stroke-path icon %s", async (name) => {
-      const html = await renderIcon({ name });
-      expect(html).toContain('fill="none"');
-      expect(html).toContain('stroke="currentColor"');
-      expect(html).toContain('stroke-linecap="round"');
-    });
+    it.each(["arrow-down", "arrow-right", "external-link"] as const)(
+      "uses stroke=currentColor for stroke-path icon %s",
+      async (name) => {
+        const html = await renderIcon({ name });
+        expect(html).toContain('fill="none"');
+        expect(html).toContain('stroke="currentColor"');
+        expect(html).toContain('stroke-linecap="round"');
+      },
+    );
   });
 
   describe("accessibility", () => {

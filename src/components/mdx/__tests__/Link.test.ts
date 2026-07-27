@@ -33,16 +33,15 @@ describe("Link (mdx)", () => {
   });
 
   describe("internal links", () => {
-    it.each([
-      "/blog/",
-      "#section",
-      "relative/page",
-    ])("leaves %s without target/rel so view transitions handle it", (href) => {
-      const anchor = mount({ href });
-      expect(anchor.getAttribute("target")).toBeNull();
-      expect(anchor.getAttribute("rel")).toBeNull();
-      expect(anchor.querySelector(".sr-only")).toBeNull();
-    });
+    it.each(["/blog/", "#section", "relative/page"])(
+      "leaves %s without target/rel so view transitions handle it",
+      (href) => {
+        const anchor = mount({ href });
+        expect(anchor.getAttribute("target")).toBeNull();
+        expect(anchor.getAttribute("rel")).toBeNull();
+        expect(anchor.querySelector(".sr-only")).toBeNull();
+      },
+    );
   });
 
   it("uses the link role token, never a hardcoded colour class", () => {
