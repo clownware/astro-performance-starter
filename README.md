@@ -1,6 +1,6 @@
 # Astro Performance Starter
 
-**Hard performance budgets, enforced on every PR • Zero-JS baseline • Astro 6**
+**Hard performance budgets, enforced on every PR • Zero-JS baseline • Astro 7**
 
 [![CI](https://github.com/clownware/astro-performance-starter/actions/workflows/ci.yml/badge.svg)](https://github.com/clownware/astro-performance-starter/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](./LICENSE.txt)
@@ -21,7 +21,7 @@ Most Astro templates hand you a fast first commit and no way to keep it fast. Th
 - **Images can't sink you** — the #1 real-world perf killer is gated: Astro `<Image>` → AVIF with responsive `srcset`, plus a 200KB-per-raster ceiling checked in CI (details in the next section).
 - **Agentic discipline built in** — Layered AI constitution (`CLAUDE.md` + `.claude/`), role-separated workflow. Your agent clears the same gates you do.
 - **Fast by default, measured** — ~48KB raw JS (~17KB gzipped) _total_ across the site; ~19–21KB gzipped CSS per page; 99 Performance / CLS 0 on home and blog, **desktop and mobile**.
-- **Modern stack** — Astro 6.x · TypeScript 5.x (strict) · Tailwind 4.x · Biome 2.x · Node 24.x · pnpm 10.x
+- **Modern stack** — Astro 7.x · TypeScript 5.x (strict) · Tailwind 4.x · Biome 2.x · Node 24.x · pnpm 10.x
 - **Accessible** — WCAG AA via semantic HTML, ARIA, and validated contrast; accessibility gated ≥ 95 in CI (most routes score 100).
 
 ## 🖼️ The image pipeline (the #1 perf killer)

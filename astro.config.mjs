@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
@@ -39,6 +40,13 @@ export default defineConfig({
   site,
   base,
   trailingSlash: "always",
+
+  // Astro 7's default. Stated explicitly because it changes shipped bytes:
+  // measured ~31KB smaller raw HTML site-wide than the old `true` mode, with
+  // zero text-content differences across all 89 pages (verified by tag-strip
+  // diff). NOTE: this option is top-level; under `build:` it is silently
+  // ignored.
+  compressHTML: "jsx",
 
   prefetch: true,
 
@@ -157,32 +165,37 @@ export default defineConfig({
   ],
 
   markdown: {
+    // Astro 7 defaults to the Sätteri processor, which drops the remark
+    // pipeline. Keep the unified/remark processor: the two custom plugins
+    // below (link validation, snippet includes) depend on it. Porting them
+    // to Sätteri is a separate decision — see the Astro 7 upgrade ADR.
+    processor: unified({
+      remarkPlugins: [
+        [
+          remarkValidateLinks,
+          {
+            rootDir: rootDir,
+            basePaths: ["/docs", "/adr"],
+            routeMap: {
+              "/adr/": "docs/adr/",
+            },
+            excludePaths: ["docs"],
+          },
+        ],
+        [
+          remarkSnippetIncludes,
+          {
+            rootDir: process.cwd(),
+            snippetsDir: "docs/snippets",
+            strict: true,
+          },
+        ],
+      ],
+    }),
     syntaxHighlight: "shiki",
     shikiConfig: {
       theme: "dark-plus",
     },
-    remarkPlugins: [
-      [
-        remarkValidateLinks,
-        {
-          rootDir: rootDir,
-          basePaths: ["/docs", "/adr"],
-          routeMap: {
-            "/adr/": "docs/adr/",
-          },
-          excludePaths: ["docs"],
-        },
-      ],
-      [
-        remarkSnippetIncludes,
-        {
-          rootDir: process.cwd(),
-          snippetsDir: "docs/snippets",
-          strict: true,
-        },
-      ],
-    ],
-    rehypePlugins: [],
   },
 
   // Enhanced build configuration
@@ -198,7 +211,6 @@ export default defineConfig({
 
   build: {
     inlineStylesheets: "auto",
-    compressHTML: true,
   },
 
   // Image optimization configuration using Sharp

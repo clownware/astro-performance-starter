@@ -85,8 +85,9 @@
     "release:changelog:dry": "changelogen --dry"
   },
   "dependencies": {
-    "@astrojs/mdx": "^5.0.6",
-    "@astrojs/preact": "^5.1.5",
+    "@astrojs/markdown-satteri": "^0.3.1",
+    "@astrojs/mdx": "^7.0.4",
+    "@astrojs/preact": "^6.0.1",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.3",
     "@preact/signals": "^2.10.0",
@@ -98,6 +99,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@astrojs/markdown-remark": "^7.2.1",
     "@astrojs/ts-plugin": "^1.10.10",
     "@biomejs/biome": "^2.5.5",
     "@commitlint/cli": "^20.5.3",
@@ -110,7 +112,7 @@
     "@types/mdast": "^4.0.4",
     "@types/node": "^24.13.2",
     "@vitest/coverage-v8": "^4.1.10",
-    "astro": "^6.4.8",
+    "astro": "^7.1.4",
     "chalk": "^5.6.2",
     "changelogen": "^0.6.2",
     "glob": "^11.1.0",
