@@ -106,13 +106,13 @@ function contrastRatio(a: Rgb, b: Rgb): number {
 }
 
 describe("ADR index muted text contrast (WCAG AA normal text)", () => {
-  it.each([
-    "light",
-    "dark",
-  ] as const)("keeps composited muted-foreground at or above 4.5:1 on the %s background", (mode) => {
-    const fg = hslToRgb(resolveHsl("mutedForeground", mode));
-    const bg = hslToRgb(resolveHsl("background", mode));
-    const effective = composite(fg, bg, worstOpacity);
-    expect(contrastRatio(effective, bg)).toBeGreaterThanOrEqual(aaNormalText);
-  });
+  it.each(["light", "dark"] as const)(
+    "keeps composited muted-foreground at or above 4.5:1 on the %s background",
+    (mode) => {
+      const fg = hslToRgb(resolveHsl("mutedForeground", mode));
+      const bg = hslToRgb(resolveHsl("background", mode));
+      const effective = composite(fg, bg, worstOpacity);
+      expect(contrastRatio(effective, bg)).toBeGreaterThanOrEqual(aaNormalText);
+    },
+  );
 });

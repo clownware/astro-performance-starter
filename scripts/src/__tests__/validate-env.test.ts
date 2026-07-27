@@ -18,11 +18,10 @@ describe("isPlaceholderUrl", () => {
     expect(isPlaceholderUrl(url)).toBe(true);
   });
 
-  it.each([
-    "https://clownware.github.io",
-    "https://chrispezza.com",
-    "https://acme.dev",
-  ])("passes real URL %s", (url) => {
-    expect(isPlaceholderUrl(url)).toBe(false);
-  });
+  it.each(["https://clownware.github.io", "https://chrispezza.com", "https://acme.dev"])(
+    "passes real URL %s",
+    (url) => {
+      expect(isPlaceholderUrl(url)).toBe(false);
+    },
+  );
 });
