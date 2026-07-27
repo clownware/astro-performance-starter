@@ -841,6 +841,25 @@ const { preconnect = [], prefetch = [], preload = [] } = Astro.props;
 )}
 ```
 
+### 5. ❌ User Data in Attribute-Name Positions
+
+```astro
+<!-- Never bind user-supplied strings into transition:name or spread them
+     as attribute names — both render outside normal HTML escaping -->
+<h3 transition:name={userProvidedTitle}>...</h3>
+<div {...objectWithUserControlledKeys}>...</div>
+
+<!-- Safe: derive from build-time data you control -->
+<h3 transition:name={"post-title-" + post.id}>...</h3>
+```
+
+The template's own `transition:name` bindings and spread attributes are
+content-collection- or config-derived, which is why this is safe as shipped.
+The pattern only stays safe if that invariant holds: route params, query
+strings, form input, and CMS-authored fields do not belong in `transition:*`
+values or spread-attribute keys. (Astro <7.1 had escaping gaps here —
+patched since, but defense in depth costs nothing.)
+
 ## Component Documentation Template
 
 When documenting components, include:

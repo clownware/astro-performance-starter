@@ -1,5 +1,6 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
+import { unified } from "@astrojs/markdown-remark";
 import mdx from "@astrojs/mdx";
 import preact from "@astrojs/preact";
 import sitemap from "@astrojs/sitemap";
@@ -157,32 +158,37 @@ export default defineConfig({
   ],
 
   markdown: {
+    // Astro 7 defaults to the Sätteri processor, which drops the remark
+    // pipeline. Keep the unified/remark processor: the two custom plugins
+    // below (link validation, snippet includes) depend on it. Porting them
+    // to Sätteri is a separate decision — see the Astro 7 upgrade ADR.
+    processor: unified({
+      remarkPlugins: [
+        [
+          remarkValidateLinks,
+          {
+            rootDir: rootDir,
+            basePaths: ["/docs", "/adr"],
+            routeMap: {
+              "/adr/": "docs/adr/",
+            },
+            excludePaths: ["docs"],
+          },
+        ],
+        [
+          remarkSnippetIncludes,
+          {
+            rootDir: process.cwd(),
+            snippetsDir: "docs/snippets",
+            strict: true,
+          },
+        ],
+      ],
+    }),
     syntaxHighlight: "shiki",
     shikiConfig: {
       theme: "dark-plus",
     },
-    remarkPlugins: [
-      [
-        remarkValidateLinks,
-        {
-          rootDir: rootDir,
-          basePaths: ["/docs", "/adr"],
-          routeMap: {
-            "/adr/": "docs/adr/",
-          },
-          excludePaths: ["docs"],
-        },
-      ],
-      [
-        remarkSnippetIncludes,
-        {
-          rootDir: process.cwd(),
-          snippetsDir: "docs/snippets",
-          strict: true,
-        },
-      ],
-    ],
-    rehypePlugins: [],
   },
 
   // Enhanced build configuration
