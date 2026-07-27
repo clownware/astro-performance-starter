@@ -41,6 +41,13 @@ export default defineConfig({
   base,
   trailingSlash: "always",
 
+  // Astro 7's default. Stated explicitly because it changes shipped bytes:
+  // measured ~31KB smaller raw HTML site-wide than the old `true` mode, with
+  // zero text-content differences across all 89 pages (verified by tag-strip
+  // diff). NOTE: this option is top-level; under `build:` it is silently
+  // ignored.
+  compressHTML: "jsx",
+
   prefetch: true,
 
   // --- Fonts (Astro 6 Fonts API) — see ADR-053 (supersedes ADR-026) ---
@@ -204,7 +211,6 @@ export default defineConfig({
 
   build: {
     inlineStylesheets: "auto",
-    compressHTML: true,
   },
 
   // Image optimization configuration using Sharp
