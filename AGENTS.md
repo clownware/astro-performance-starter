@@ -236,7 +236,17 @@ pnpm test:a11y        # Accessibility tests (@a11y tag, axe-core)
 pnpm perf:lighthouse  # Lighthouse HTML report
 pnpm design:validate  # Semantic color contrast validation
 pnpm budgets:validate # Budget override validation
+pnpm dev:agent        # Background dev server (detached, JSON status lines) — ADR-063
+pnpm dev:agent:stop   # Stop the background dev server
 ```
+
+Agent dev-server contract (ADR-063): `pnpm dev:agent` detaches; manage with
+`pnpm exec astro dev status` / `astro dev logs --follow`; `GET /_astro/status`
+returns `{"ok":true}`. That endpoint is **liveness-only** — it does not prove
+the responding server belongs to *this* project. Port 4321 collisions have
+silently pointed Playwright and Lighthouse at unrelated sites before: verify
+ownership (`astro dev status` pid, or fetch a route unique to this site)
+before running anything against the port.
 
 Advanced/optional (not on the clone critical path, not in `quality:ci`):
 
@@ -257,7 +267,7 @@ Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding
 
 ### Key ADRs
 
-63 ADRs in `docs/adr/`. The structurally important ones:
+64 ADRs in `docs/adr/`. The structurally important ones:
 
 - **ADR-001:** Preact island usage policy — never `client:load` without justification
 - **ADR-023:** Testing strategy and coverage targets
