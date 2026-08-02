@@ -138,8 +138,7 @@
   },
   "optionalDependencies": {
     "@axe-core/playwright": "^4.12.1",
-    "style-dictionary": "^5.5.0",
-    "tailwindcss-themer": "^4.1.1"
+    "style-dictionary": "^5.5.0"
   },
   "lint-staged": {
     "*.{astro,ts,tsx,js,jsx,json,yml,yaml}": "biome check --write --no-errors-on-unmatched",

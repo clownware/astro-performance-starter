@@ -42,6 +42,8 @@
   // Ignore patterns
   "ignores": [
     "node_modules/**",
+    "**/node_modules/**",
+    ".claude/worktrees/**",
     ".pnpm/**",
     "dist/**",
     ".astro/**",

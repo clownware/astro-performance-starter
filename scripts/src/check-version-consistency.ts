@@ -72,7 +72,6 @@ const versionsJsonToPackage: Record<string, string> = {
   sharp: "sharp",
   husky: "husky",
   "style-dictionary": "style-dictionary",
-  "tailwindcss-themer": "tailwindcss-themer",
   "tailwindcss-typography": "@tailwindcss/typography",
 };
 
