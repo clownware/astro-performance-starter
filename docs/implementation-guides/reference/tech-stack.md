@@ -244,8 +244,7 @@ Runtime:
   },
   "optionalDependencies": {
     "@axe-core/playwright": "^4.11.3",
-    "style-dictionary": "^5.4.0",
-    "tailwindcss-themer": "^4.1.1"
+    "style-dictionary": "^5.4.0"
   },
   "engines": {
     "node": ">=24.0.0"

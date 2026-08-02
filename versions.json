@@ -21,6 +21,5 @@
   "node-current": "24.x",
   "node-minimum": "24.0.0",
   "style-dictionary": "5.x",
-  "tailwindcss-themer": "4.x",
   "tailwindcss-typography": "0.5.20"
 }

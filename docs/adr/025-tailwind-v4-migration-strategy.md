@@ -109,7 +109,7 @@ Three component style blocks that used `@apply` with custom utility classes now 
 
 ### Neutral
 
-- `tailwindcss-themer` (optional dependency) has a peer dependency warning against tailwindcss ^3. If theme switching features are used, this package needs to be replaced with v4-native theming (which has built-in multi-theme support via `@variant`).
+- `tailwindcss-themer` (optional dependency) has a peer dependency warning against tailwindcss ^3. If theme switching features are used, this package needs to be replaced with v4-native theming (which has built-in multi-theme support via `@variant`). *(Resolved 2026-07-27: the package was unused — zero references in src/, tokens/, or scripts/ — and was removed rather than replaced. v4-native `@variant` theming remains the documented path if multi-theme support is ever needed.)*
 
 ## References
 
