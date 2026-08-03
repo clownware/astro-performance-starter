@@ -370,3 +370,16 @@ test:
 **Date**: 2025-11-15  
 **Participants**: Development Team  
 **Outcome**: Accepted
+
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: the unit suite passes with coverage thresholds enforced.
+  - TC-2: the Chromium E2E suite passes in CI.
+- **Checks:**
+  - TC-1 → `test:coverage` in CI (status: **block**, pre-existing gate)
+  - TC-2 → Playwright step in CI (status: **block**, pre-existing gate)
+- **Not machine-checkable:** pyramid proportions and per-layer test quality (see ADR-037, ADR-042).
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_

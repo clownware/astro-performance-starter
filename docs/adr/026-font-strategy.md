@@ -196,6 +196,13 @@ Users who want a different font should:
 - [ADR-000: Starter Template Architecture](./000-starter-decisions.md)
 - [ADR-020: Page Performance Patterns](./020-page-performance-patterns.md)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+Not enforced — this record's status is **Superseded**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: 2026-02-18\
 **Participants**: Template maintainers\

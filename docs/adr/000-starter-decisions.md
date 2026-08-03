@@ -125,6 +125,19 @@ This ADR represents the initial decisions for v1.0 of the Astro performance star
 
 The dual-track approach (MVP vs Showcase) has been refined by ADR-033 into a progressive tier model (Foundation/Build/Polish) that better maps to how users actually consume the template. Teams work through phases sequentially and stop when they've reached their goals.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `package.json` pins pnpm via `packageManager` and no `package-lock.json` or `yarn.lock` exists.
+  - TC-2: no ESLint or Prettier config files or dependencies exist — Biome is the only lint/format tool.
+- **Checks:**
+  - TC-1 → check `pnpm-only` (status: **warn**)
+  - TC-2 → check `biome-only` (status: **warn**)
+- **Not machine-checkable:** the 95+ Lighthouse target is evidenced by the Lighthouse workflow on the deployed site, not asserted per-commit; tier progression is guidance.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2024-01-15\
 **Participants**: Template maintainers\

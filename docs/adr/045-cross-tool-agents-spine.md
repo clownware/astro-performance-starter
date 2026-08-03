@@ -167,3 +167,16 @@ ADR-041 (Gherkin / BDD-style specs) was declined in the testing-philosophy work 
 **Date**: 2026-05-17\
 **Participants**: Chris Pezza, Claude\
 **Outcome**: Accepted
+
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `AGENTS.md` and `.windsurfrules` are exactly what the build script generates from the constitution layers.
+  - TC-2: hand-edits to the generated files are rejected at edit time.
+- **Checks:**
+  - TC-1 → `agents:check` in `quality:ci` (status: **block**, pre-existing gate)
+  - TC-2 → PreToolUse guard on generated files (hook; see ADR-062)
+- **Not machine-checkable:** whether new constitution content lands in the correct layer (see ADR-036).
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_

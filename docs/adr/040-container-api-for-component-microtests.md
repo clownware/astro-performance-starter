@@ -198,3 +198,14 @@ Molecule-tier microtests (Card, PostCard, ProjectCard, Tabs) build on this helpe
 **Date**: 2026-05-16\
 **Participants**: Chris Pezza, Claude\
 **Outcome**: Accepted
+
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `experimental_AstroContainer` is imported in exactly one place — the shared test helper (`src/components/__tests__/_helpers/container.ts`).
+- **Checks:**
+  - TC-1 → check `container-single-import` (status: **warn**)
+- **Not machine-checkable:** whether new component tests actually use the helper idiomatically is a review concern.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_

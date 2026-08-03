@@ -200,6 +200,17 @@ absence of HTTP Basic Auth are GitHub Pages platform concerns, and the "form dis
 entries are crawler attack-surface mapping. These are documented as known not-applicable in
 [`SECURITY.md`](../../SECURITY.md) so future scans do not refile them.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: Semgrep, gitleaks, dependency-audit, and Trivy jobs run in CI and fail on findings.
+- **Checks:**
+  - TC-1 → CI security jobs (status: **block**, pre-existing gate)
+- **Not machine-checkable:** allowlist entries' justification quality is a review concern.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-05-28\
 **Participants**: Chris Pezza\

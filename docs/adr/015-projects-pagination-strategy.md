@@ -195,6 +195,13 @@ If the project count exceeds 20-30 projects:
 - Better Long Task avoidance
 - Maintains progressive enhancement
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Not machine-checkable:** the hybrid pagination/filtering approach is a UX decision; no invariant is derivable beyond the repo-wide budgets that already gate shipped JS.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
 **Participants**: Template maintainers\

@@ -96,6 +96,18 @@ compatibility, or if the template drops view transitions and Shiki.
 - `public/_headers`
 - [Astro CSP documentation](https://docs.astro.build/en/reference/configuration-reference/#security)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `public/_headers` sets a `Content-Security-Policy` header.
+  - TC-2: Astro's built-in `security.csp` is not enabled in `astro.config.mjs`.
+- **Checks:**
+  - TC-1, TC-2 → check `csp-shape` (status: **warn**)
+- **Not machine-checkable:** policy strength and directive appropriateness for a given deployment.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-06-07\
 **Participants**: Template maintainers\

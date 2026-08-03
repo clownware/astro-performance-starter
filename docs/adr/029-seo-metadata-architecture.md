@@ -167,6 +167,19 @@ JSON-LD is not injected on every page — only where it provides meaningful SEO 
 - [ADR-010: Social Share URL Utility](./010-social-share-url-utility.md)
 - [ADR-020: Page Performance Patterns](./020-page-performance-patterns.md)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `<title>` and OG meta tags are emitted only by `Head.astro` — no other layout or page declares them.
+  - TC-2: generated OG images are current with their inputs.
+- **Checks:**
+  - TC-1 → check `head-single-source` (status: **warn**)
+  - TC-2 → `og:check` in `quality:ci` (status: **block**, pre-existing gate)
+- **Not machine-checkable:** metadata quality (title/description wording, default appropriateness).
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-02-18\
 **Participants**: Template maintainers\

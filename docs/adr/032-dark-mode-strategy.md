@@ -181,6 +181,17 @@ This means the class-based strategy is required — the token system cannot be c
 - [ADR-000: Starter Template Architecture](./000-starter-decisions.md)
 - `src/components/ThemeSetup.astro` — implementation
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: dark mode is class-scoped — `src/styles/global.css` declares the `.dark`-based variant (`@variant dark (&:where(.dark, .dark *))`), not a media-query-only strategy.
+- **Checks:**
+  - TC-1 → check `dark-mode-shape` (status: **warn**)
+- **Not machine-checkable:** FOIT-prevention behaviour of the inline theme script is a runtime concern exercised in the browser, not statically assertable.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-02-18\
 **Participants**: Template maintainers\

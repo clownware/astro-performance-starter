@@ -219,6 +219,21 @@ palette names (`gray/moonstone/imperialRed/orangeWeb`) and is reference/intent o
 the `wiring/*` pair is copied into `tokens/base.json` + `tokens/semantic.json` and wired
 into the build.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: every gated token pair passes the WCAG contrast sweep.
+  - TC-2: no `dark:` variant utilities appear in `src/` — role tokens flip in `.dark` via generated CSS.
+  - TC-3: no hardcoded colour literals (hex/rgb/hsl) appear outside `tokens/` and generated token CSS.
+- **Checks:**
+  - TC-1 → `design:validate` in CI (status: **block**, pre-existing gate)
+  - TC-2 → check `no-dark-variants` (status: **warn**)
+  - TC-3 → check `no-hardcoded-colors` (status: **warn**)
+- **Not machine-checkable:** whether a token name is intent-revealing is a naming judgment.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-06-06\
 **Participants**: Chris Pezza, template maintainers\

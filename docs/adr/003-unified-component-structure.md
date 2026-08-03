@@ -99,6 +99,17 @@ No new top-level component categorization folders (e.g., `src/components/ui/`, `
 - [Atomic Design by Brad Frost](https://atomicdesign.bradfrost.com/)
 - Internal: `docs/implementation-guides/reference/directory-structure.md`
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: every file under `src/components/` lives in `atoms/`, `molecules/`, `organisms/`, `structural/`, or `__tests__/`.
+- **Checks:**
+  - TC-1 → check `atomic-dirs` (status: **warn**)
+- **Not machine-checkable:** whether a given component is correctly classified between atoms, molecules, and organisms is a judgment call.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-06-10\
 **Participants**: Template maintainers\

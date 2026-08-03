@@ -112,6 +112,13 @@ If experience data is ONLY used on the about page and won't be reused elsewhere,
 - [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
 - [Zod Schema Validation](https://zod.dev/)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+Not enforced — this record's status is **Superseded**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
 **Participants**: Template maintainers\

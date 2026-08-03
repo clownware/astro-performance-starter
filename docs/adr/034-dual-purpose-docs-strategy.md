@@ -261,6 +261,17 @@ The term "AI Context Layer" is proposed as a marketable name for this feature. I
 
 This is distinct from `.windsurfrules` / `.cursorrules` files (which are IDE-specific rule files) and from MCP servers (which require infrastructure). The AI Context Layer is simply well-structured markdown that any filesystem-reading AI can consume. Its power comes from being co-located, comprehensive, and contractual.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `docs/README.md` exists and the documented zone directories are present.
+- **Checks:**
+  - TC-1 → check `scope-boundary` (status: **warn**)
+- **Not machine-checkable:** whether new documentation lands in the correct zone is a review concern.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-02-22\
 **Participants**: Template maintainers\

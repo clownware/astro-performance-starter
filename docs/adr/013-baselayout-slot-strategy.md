@@ -198,6 +198,17 @@ Create organism components, not layout slots:
 - Internal: `src/layouts/BaseLayout.astro`
 - Internal: `src/components/structural/Section.astro`
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `src/layouts/BaseLayout.astro` defines no named slots.
+- **Checks:**
+  - TC-1 → check `baselayout-no-named-slots` (status: **warn**)
+- **Not machine-checkable:** whether a page composes hero/CTA sections appropriately is a review concern.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
 **Participants**: Template maintainers\

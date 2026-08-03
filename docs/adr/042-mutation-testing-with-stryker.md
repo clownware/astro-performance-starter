@@ -214,3 +214,14 @@ Future enhancements deliberately deferred:
 **Date**: 2026-05-16\
 **Participants**: Chris Pezza, Claude\
 **Outcome**: Accepted
+
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: the scheduled mutation workflow exists and runs against the Vitest suite.
+- **Checks:**
+  - TC-1 → `mutation.yml` workflow (status: **warn** — deliberately never graduates; this ADR forbids PR gating on mutation score)
+- **Not machine-checkable:** mutation-score trend interpretation is a maintainer judgment.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_

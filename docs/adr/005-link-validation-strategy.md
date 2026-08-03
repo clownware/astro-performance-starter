@@ -208,6 +208,19 @@ All existing relative links continue working without the plugin.
 - [Astro Content Collections](https://docs.astro.build/en/guides/content-collections/)
 - [Unified AST Explorer](https://unifiedjs.com/explore/)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: every internal markdown link resolves to an existing file — the build fails otherwise.
+  - TC-2: the repo-wide markdown link-check job passes in CI.
+- **Checks:**
+  - TC-1 → `remark-validate-links` in the build (status: **block**, pre-existing gate)
+  - TC-2 → CI `link-check` job (status: **block**, pre-existing gate)
+- **Not machine-checkable:** external-URL liveness policy nuances (rate limits, transient failures) are handled by the job's configuration, not asserted absolutely.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-06-10\
 **Participants**: Template maintainers\

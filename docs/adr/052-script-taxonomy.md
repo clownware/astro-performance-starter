@@ -63,6 +63,18 @@ scheme.**
 - [ADR-045: Cross-Tool Agents Spine](045-cross-tool-agents-spine.md) — `agents:*` scripts must keep their names
 - `package.json`, `README.md`
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: every stable cloner-facing script name exists in `package.json`.
+  - TC-2: the `//1`/`//2` separator keys are present, preserving the two-group ordering.
+- **Checks:**
+  - TC-1, TC-2 → check `script-contract` (status: **warn**)
+- **Not machine-checkable:** which group a new script belongs to is a judgment call.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-06-07\
 **Participants**: Template maintainers\

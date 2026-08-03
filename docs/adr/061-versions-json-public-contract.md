@@ -168,6 +168,17 @@ stamped by its release flow), so cross-product consumers can treat every Clownwa
 identically. Consumers deliberately read raw GitHub URLs rather than a hosted endpoint — see
 Option 2 for why.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `versions.json` is consistent with `package.json` (stamped `template` field; no drift).
+- **Checks:**
+  - TC-1 → `version:check` in `quality:ci` (status: **block**, pre-existing gate)
+- **Not machine-checkable:** whether a key rename/removal is justified — a contract break requires a superseding or amending ADR, which is a governance act.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-07-12\
 **Participants**: Template maintainers\

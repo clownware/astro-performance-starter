@@ -168,6 +168,17 @@ Is the badge announcing a live status change?
 - [ARIA: status role](https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Roles/status_role)
 - [Accessible Emoji Guidelines](https://www.w3.org/WAI/WCAG21/Techniques/aria/ARIA24)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: the contact page passes the automated axe sweep in the E2E suite.
+- **Checks:**
+  - TC-1 → `@a11y` Playwright suite in CI (status: **block**, pre-existing gate)
+- **Not machine-checkable:** whether a given emoji is decorative or meaningful is a content judgment.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
 **Participants**: Template maintainers\

@@ -627,6 +627,13 @@ const contactMethods: ContactMethod[] = [
 - [Environment Variables in Astro](https://docs.astro.build/en/guides/environment-variables/)
 - [TypeScript Interfaces](https://www.typescriptlang.org/docs/handbook/interfaces.html)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Not machine-checkable:** that the form remains functional without JavaScript is exercised manually and in E2E review, not statically; script externalization is a review concern.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
 **Participants**: Template maintainers\

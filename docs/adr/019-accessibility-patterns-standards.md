@@ -605,6 +605,17 @@ All atomic components follow these patterns:
 - [axe DevTools](https://www.deque.com/axe/devtools/)
 - [WAVE Browser Extension](https://wave.webaim.org/extension/)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: every page passes the automated axe checks in the E2E suite.
+- **Checks:**
+  - TC-1 → `@a11y` Playwright suite in CI (status: **block**, pre-existing gate)
+- **Not machine-checkable:** pattern selection for novel UI (which sanctioned pattern applies) is a judgment; axe coverage is necessary, not sufficient, for WCAG AA.
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
 **Participants**: Template maintainers\

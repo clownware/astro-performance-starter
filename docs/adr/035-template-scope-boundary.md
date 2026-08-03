@@ -224,6 +224,18 @@ The `docs/temp-guides/` directory currently contains `github-template-structure.
 
 The PR template (`.github/PULL_REQUEST_TEMPLATE.md`) should include a checkbox: "Files added/modified are in the correct category per ADR-035."
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: the repo root contains only Category-1 files, standard dotfiles, and `docs/`.
+  - TC-2: no maintenance-artifact files (`*_FIX.md`, `*_ANALYSIS.md`, and similar one-off reports) exist at the root.
+- **Checks:**
+  - TC-1, TC-2 → check `scope-boundary` (status: **warn**)
+- **Not machine-checkable:** category judgment for genuinely novel additions still follows the decision framework by hand.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-02-22\
 **Participants**: Template maintainers\

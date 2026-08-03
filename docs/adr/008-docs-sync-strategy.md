@@ -200,6 +200,13 @@ Future considerations:
 4. **GitHub App**: For production at scale, consider GitHub App instead of PAT for better security
 5. **Notification Integration**: Add Slack/Discord webhooks for sync PR notifications
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+Not enforced — this record's status is **Superseded**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: 2025-09-30\
 **Participants**: Template maintainers\

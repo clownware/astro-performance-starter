@@ -197,6 +197,13 @@ exceeded the marginal fidelity gain for a starter template at this scale
 (~17 icons total). Re-evaluate if the curated set grows past ~30 glyphs or if
 upstream Lucide changes meaningfully affect visual recognition.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Not machine-checkable:** icon family fidelity (Lucide-aligned strokes) and the one-gradient-per-view rule are visual judgments; a single-registry grep was evaluated and rejected because inline SVG is legitimately present outside `Icon.astro` (ADR-030 exemption).
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-06-07\
 **Participants**: Pulci Nella (demo persona maintainer), template author\

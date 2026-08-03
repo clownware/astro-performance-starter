@@ -209,6 +209,13 @@ exercise), or move the demo entries to a `_drafts/` folder so the schema
 reference stays available. The CUSTOMIZE markers in each demo entry
 point at the field they're filling.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Not machine-checkable:** replaceability signal, voice consistency (ADR-054), and no-falsifiable-claims are editorial judgments; full schema exercise is visible in review, not statically.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-06-07\
 **Participants**: template author, Pulci Nella (persona maintainer)\

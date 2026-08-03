@@ -182,3 +182,14 @@ The rule "Never lower a coverage threshold to make CI pass" exists because the a
 **Date**: 2026-05-16\
 **Participants**: Chris Pezza, Claude\
 **Outcome**: Accepted
+
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: coverage thresholds hold (weak-assertion drift is measured separately by mutation runs, ADR-042).
+- **Checks:**
+  - TC-1 → `test:coverage` in CI (status: **block**, pre-existing gate)
+- **Not machine-checkable:** the test-first sequence and F.I.R.S.T. discipline are process facts not derivable from repo state; they are enforced socially and via the Stop-gate running the suite.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
