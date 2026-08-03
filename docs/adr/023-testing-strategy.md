@@ -10,7 +10,8 @@ pagefind: true
 
 Accepted (amended 2026-07-05: coverage and Lighthouse numbers corrected to match the
 enforced configuration — see the annotated sections below. The hybrid-strategy decision
-itself is unchanged.)
+itself is unchanged. Amended 2026-08-02: unit coverage thresholds ratcheted from 80/75/70
+to 90/95/90 in #247.)
 
 ## Context
 
@@ -106,7 +107,7 @@ We will implement **Option 3 (Hybrid Approach)** with the following strategy:
 
 | Layer | Target | Tools |
 |-------|--------|-------|
-| **Unit** | 80% lines / 75% functions / 70% branches, scoped to `src/utils/**` | Vitest (v8) |
+| **Unit** | 90% lines / 95% functions / 90% branches, scoped to `src/utils/**` | Vitest (v8) |
 | **E2E** | Critical paths | Playwright |
 | **Performance** | 100% of budgets | Lighthouse CI |
 | **Accessibility** | 100% of pages | axe-core |
@@ -116,6 +117,11 @@ We will implement **Option 3 (Hybrid Approach)** with the following strategy:
 > microtests (ADR-040) and Playwright, not v8 instrumentation. The originally recorded
 > "Integration 60%" target was never enforced anywhere and has been dropped rather than
 > silently retained.
+>
+> **Amendment (2026-08-02):** the thresholds were ratcheted from 80/75/70 to 90/95/90
+> (lines/functions/branches) in #247, with `src/utils` measured at 96.9/100/99.35 — the
+> floors hold a safety margin, not the high-water mark. The table above reflects the
+> enforced values.
 
 ### 3. What to Test
 

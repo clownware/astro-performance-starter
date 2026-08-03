@@ -88,6 +88,11 @@ const hasMoreProjects = projects.length > projectsPerPage;
 
 ### Progressive Enhancement
 
+> **Amendment (2026-08-02):** the filter controls have since been rewritten as
+> native `<button type="button">` elements with `aria-pressed` — the
+> `role="button"`/`tabindex="0"` pattern noted below no longer exists in
+> `projects/index.astro`.
+
 - Works without JavaScript (shows first 6 projects)
 - Filter badges have `role="button"` and `tabindex="0"`
 - Semantic HTML with proper ARIA labels

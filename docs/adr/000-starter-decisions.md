@@ -117,7 +117,7 @@ Success metrics:
 - [Astro Documentation](https://docs.astro.build)
 - [Biome Benchmarks](https://biomejs.dev/blog/biome-wins-prettier-challenge)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
-- [Performance Budget Research](https://github.com/clownware/astro-performance-starter/tree/master/docs/implementation-guides/00-overview-budgets-guardrails)
+- [Performance Budget Research](https://github.com/clownware/astro-performance-starter/blob/master/docs/implementation-guides/reference/budgets-guardrails.md)
 
 ## Notes
 
