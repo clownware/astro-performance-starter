@@ -117,7 +117,7 @@ We will implement **Option 3 (Hybrid Approach)** with the following strategy:
 > microtests (ADR-040) and Playwright, not v8 instrumentation. The originally recorded
 > "Integration 60%" target was never enforced anywhere and has been dropped rather than
 > silently retained.
-
+>
 > **Amendment (2026-08-02):** the thresholds were ratcheted from 80/75/70 to 90/95/90
 > (lines/functions/branches) in #247, with `src/utils` measured at 96.9/100/99.35 — the
 > floors hold a safety margin, not the high-water mark. The table above reflects the
