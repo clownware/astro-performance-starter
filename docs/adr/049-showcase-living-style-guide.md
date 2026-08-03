@@ -132,6 +132,13 @@ the per-component coverage of that section is tracked separately as Found Work.
 - `src/pages/showcase.astro`, `src/components/molecules/PaletteBand.astro`,
   `src/components/molecules/TypeSpecimen.astro`
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Not machine-checkable:** that the showcase faithfully renders the live token system is drift-resistant by construction (specimens source tokens); completeness and structure are review concerns.
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+
 ---
 **Date**: 2026-06-06\
 **Participants**: Chris Pezza, template maintainers\

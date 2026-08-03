@@ -75,6 +75,19 @@ This ADR addresses the need for clear guidelines on when and how Preact componen
 - [ADR-000: Starter Template Architecture](/adr/000-starter-decisions/) - Foundation decisions
 - Internal: `docs/ai-context/INDEX.md` - Windsurf Project Rules
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: no `client:load` directive exists in `src/` unless the usage site is listed in the enforcement config's island allowlist naming a justifying ADR.
+  - TC-2: every `client:*` hydration directive in `src/` appears in the enumerated island allowlist (shared with ADR-060).
+- **Checks:**
+  - TC-1 → check `no-client-load` (status: **warn**)
+  - TC-2 → check `island-allowlist` (status: **warn**)
+- **Not machine-checkable:** whether a Preact island is demonstrably more efficient than a vanilla alternative, and whether a new ecosystem dependency is justified, remain judgment calls.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2025-06-10\
 **Participants**: Template maintainers\

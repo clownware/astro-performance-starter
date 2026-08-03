@@ -166,6 +166,17 @@ No migration needed - this ADR documents existing implementation. If we decide t
 2. Update this ADR status to "Superseded by ADR-XXX"
 3. Document performance impact in new ADR
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: shipped JS including ClientRouter stays within the bundle budget.
+- **Checks:**
+  - TC-1 → JS bundle-size gate in CI (status: **block**, pre-existing gate)
+- **Not machine-checkable:** perceived-performance value of transitions and reduced-motion behaviour are runtime/review concerns.
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+
 ---
 **Date**: 2025-09-30  
 **Participants**: Development team  

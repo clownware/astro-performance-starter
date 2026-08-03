@@ -151,6 +151,17 @@ The cap counts links, deliberately. The point is to stop _preload proliferation_
 competing with LCP, not to police individual font size (the variable-subset
 `woff2` strategy already keeps each face small).
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: no emitted page exceeds the font preload cap.
+- **Checks:**
+  - TC-1 → `fonts:gate` in CI (status: **block**, pre-existing gate)
+- **Not machine-checkable:** which fonts deserve the scarce preload slots.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-07-02\
 **Participants**: Engineering\

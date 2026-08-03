@@ -40,6 +40,13 @@ records the same decision in the ADR audit trail.
 - [ADR-040: Container API for Component Microtests](/adr/040-container-api-for-component-microtests/)
 - [ADR-042: Mutation Testing with Stryker](/adr/042-mutation-testing-with-stryker/)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+Not enforced — this record's status is **Withdrawn**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: 2026-06-07\
 **Participants**: Template maintainers\

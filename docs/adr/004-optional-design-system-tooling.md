@@ -96,6 +96,13 @@ A CLI flag during project initialization (Option 3) is a desirable future enhanc
 - Internal: `docs/implementation-guides/01-foundation-phase-2-design-system.md` (mentions token build and WCAG checks)
 - Internal: `scripts/build-tokens.ts` (and the contrast validation script/logic)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+Not enforced — this record's status is **Superseded**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: 2025-06-10\
 **Participants**: Template maintainers\

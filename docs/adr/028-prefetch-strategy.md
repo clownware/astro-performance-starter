@@ -138,6 +138,13 @@ On touch devices, hover events don't fire before click. Prefetch therefore provi
 - [ADR-009: ClientRouter and View Transitions](./009-client-router-view-transitions.md)
 - [ADR-001: Preact Island Usage Policy](./001-preact-island-usage-policy.md) — JS justification pattern
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+Not enforced — this record's status is **Superseded**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: 2026-02-18\
 **Participants**: Template maintainers\

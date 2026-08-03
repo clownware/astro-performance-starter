@@ -192,3 +192,16 @@ The choice of `.claude/` as the directory name (rather than tool-agnostic `.agen
 **Date**: 2026-05-16\
 **Participants**: Chris Pezza, Claude\
 **Outcome**: Accepted
+
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `CLAUDE.md`, `.claude/engineering.md`, `.claude/workflow.md`, and `.claude/stack.md` all exist.
+  - TC-2: the generated agent spine is current with the constitution layers.
+- **Checks:**
+  - TC-1 → check `constitution-shape` (status: **warn**)
+  - TC-2 → `agents:check` in `quality:ci` (status: **block**, pre-existing gate) — see ADR-045
+- **Not machine-checkable:** tone separation (rules read binding, facts read informational) is editorial.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_

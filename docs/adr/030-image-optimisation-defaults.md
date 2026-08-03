@@ -162,6 +162,19 @@ Anything outside these two cases still halts on rule 8.
 - [ADR-020: Page Performance Patterns](./020-page-performance-patterns.md)
 - [Performance Budgets](../implementation-guides/reference/budgets-guardrails.md)
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: no raw `<img` appears in `src/` outside the two recorded exemptions (the wrapper's string-src fallback; unrasterisable SVGs carrying an inline justifying comment).
+  - TC-2: every raster asset in source and build output is within the per-image size budget.
+- **Checks:**
+  - TC-1 → check `no-raw-img` (status: **warn**)
+  - TC-2 → `images:gate` in CI (status: **block**, pre-existing gate) — see ADR-057
+- **Not machine-checkable:** per-image layout/format choices remain judgment calls.
+- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
 ---
 **Date**: 2026-02-18\
 **Participants**: Template maintainers\

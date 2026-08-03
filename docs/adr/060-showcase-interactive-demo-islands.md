@@ -173,6 +173,17 @@ match it.
 SignalsCounter predates ADR-049 and was arguably grandfathered; it is listed
 here so the exception set is closed rather than partially implicit.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: the set of hydrated islands (`client:*` directives) in `src/` exactly matches the enumerated allowlist in the enforcement config.
+- **Checks:**
+  - TC-1 → check `island-allowlist` (status: **warn**)
+- **Not machine-checkable:** whether each demo island is honestly labelled as hydrated in the UI is an editorial concern.
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+
 ---
 **Date**: 2026-07-05\
 **Participants**: Chris Pezza, Claude (audit follow-up)\

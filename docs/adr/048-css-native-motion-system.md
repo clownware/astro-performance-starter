@@ -137,6 +137,18 @@ cost; overkill for seven small effects
 The headline gradient morph (technique 2) uses the **Variant B (OKLCH longer-hue)** sweep
 selected for this starter.
 
+## Enforcement
+
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: keyframe and animation declarations in `src/` touch only compositor-safe properties (`transform`, `opacity`, `background-position`, registered custom properties).
+  - TC-2: every animation is gated behind `prefers-reduced-motion: no-preference`.
+- **Checks:**
+  - TC-1, TC-2 → check `motion-gated` (status: **warn**) — flagged medium-brittle at creation; calibrate in warn before any promotion
+- **Not machine-checkable:** meaningful resting states and the boundedness of decorative motion are judgments.
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+
 ---
 **Date**: 2026-06-06\
 **Participants**: Chris Pezza, template maintainers\
