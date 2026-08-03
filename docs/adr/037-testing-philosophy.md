@@ -11,11 +11,12 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-08-02: coverage numbers in Context updated for the #247 threshold
+ratchet — the discipline rules themselves are unchanged)
 
 ## Context
 
-[ADR-023](023-testing-strategy.md) set the testing strategy (hybrid Vitest + Playwright + axe-core); the enforced unit-coverage thresholds are 80/75/70 (lines/functions/branches, from `vitest.config.ts`, recorded in ADR-023 by its 2026-07-05 amendment). What ADR-023 did not codify is the **discipline** that determines whether those tests carry signal:
+[ADR-023](023-testing-strategy.md) set the testing strategy (hybrid Vitest + Playwright + axe-core); the enforced unit-coverage thresholds are 90/95/90 (lines/functions/branches, from `vitest.config.ts`, recorded in ADR-023 by its amendments) *(amended 2026-08-02: originally 80/75/70, ratcheted in #247)*. What ADR-023 did not codify is the **discipline** that determines whether those tests carry signal:
 
 - Whether the test is written before the production code (Three Laws of TDD in spirit)
 - Whether each test asserts exactly one logical thing (AAA + single assertion)

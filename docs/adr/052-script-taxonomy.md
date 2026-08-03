@@ -16,9 +16,12 @@ Accepted
 ## Context
 
 `package.json` exposes ~45 scripts. Most maintain _the template itself_
-(`baseline-performance`, `track-performance-budgets`, `analyze-bundle`,
-`optimize-images-interactive`, `roadmap:update`, the `agents:*`
-spine, `release:*`, `audit:*`). A portfolio cloner needs roughly ten of them.
+(`perf:baseline`, `perf:budgets`, `bundle:analyze`,
+`images:optimize`, `roadmap:update`, the `agents:*`
+spine, `release:*`, `audit:*`) *(amended 2026-08-02: the first four originally
+cited the `scripts/src/*.ts` file basenames — `baseline-performance`,
+`track-performance-budgets`, `analyze-bundle`, `optimize-images-interactive` —
+which were never script names)*. A portfolio cloner needs roughly ten of them.
 Surfacing all of them as flat peers of `dev`/`build` reads as "complex to use"
 and buries the everyday commands — a real onboarding cost for a distribution
 template (applies the scope framework of [ADR-035](035-template-scope-boundary.md)).

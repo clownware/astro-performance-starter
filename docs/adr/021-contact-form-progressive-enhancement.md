@@ -10,7 +10,10 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-08-02: the contact-info wiring under "Contact Page Structure
+Decisions" has since evolved — env access moved to `astro:env` per ADR-050, the Live
+Chat method was removed, and emoji icons were replaced by the Icon atom; see the note
+there)
 
 ## Context
 
@@ -297,6 +300,14 @@ pnpm run perf:lighthouse
 - [ADR 019: Accessibility Patterns & Standards](./019-accessibility-patterns-standards.md) - Form accessibility
 
 ## Contact Page Structure Decisions
+
+> **Amendment (2026-08-02):** this section records the original implementation; the
+> shipped contact page has since evolved. Env access moved from `import.meta.env` with
+> `||` fallbacks to type-safe `astro:env/client` imports with schema defaults in
+> `astro.config.mjs` (ADR-050). `PUBLIC_CONTACT_CHAT_HOURS` and the "Live Chat" contact
+> method were removed — `contactMethods` now contains Email and Phone only — and the
+> emoji icons were replaced by the `Icon` atom (ADR-055), completing the "easy to
+> replace with icon components later" intent noted below.
 
 ### Problem: Hardcoded Contact Information
 

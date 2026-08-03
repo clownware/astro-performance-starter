@@ -193,6 +193,12 @@ dist/_astro/ClientRouter.js:     15.12 kB │ gzip: 5.18 kB (View Transitions)
 
 ### 2. No Additional Lazy Loading Needed
 
+> **Amendment (2026-08-02):** `index.astro` has since gained three SVG lifecycle
+> portraits ([ADR-054](./054-demo-persona-pulci-nella.md)), rendered deliberately
+> via native `<img>` rather than `<Image>` — Astro's Image component rasterizes
+> SVG, which would kill their embedded CSS animations. The "no images" analysis
+> in this record reflects the page at decision time.
+
 **Rationale:**
 
 - Index page has no images (only inline SVG icons)
@@ -302,8 +308,8 @@ const metrics: LighthouseMetric[] = [
 
 **Budget status:**
 
-- ✅ JS Budget: 50KB (using ~6KB = 12%)
-- ✅ CSS Budget: 20KB (using ~4KB = 20%)
+- ✅ JS Budget: 160KB total raw (using ~17KB raw = ~11%)
+- ✅ CSS Budget: 50KB (using ~4KB = 8%)
 - ✅ Image Budget: 200KB (using 0KB = 0%)
 
 ## Consequences

@@ -175,7 +175,7 @@ logger.info({ email: 'user@example.com', action: 'signup' }, 'User signed up');
 ### 4. Build-Time Logging
 
 ```typescript
-// scripts/build-tokens.ts
+// scripts/src/build-tokens.ts
 import { logger } from './logger';
 
 export async function buildTokens() {
@@ -271,8 +271,8 @@ async function handleSubmit(event: Event) {
 
 - [ ] Install Pino and pino-pretty
 - [ ] Create `scripts/logger.ts` with redaction config
-- [ ] Update `scripts/build-tokens.ts` to use logger
-- [ ] Update `scripts/check-review-dates.mjs` to use logger
+- [ ] Update `scripts/src/build-tokens.ts` to use logger
+- [ ] Update `scripts/check-review-dates.mjs` to use logger *(amended 2026-08-02: this script was never created — ADR-006, which planned it, was withdrawn)*
 - [ ] Add error handling to dynamic routes (`[slug].astro`)
 - [ ] Document logging patterns in CONTRIBUTING.md
 - [ ] Add log level configuration to `.env.example`

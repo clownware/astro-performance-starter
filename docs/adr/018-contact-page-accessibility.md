@@ -26,6 +26,12 @@ These issues violated WCAG 2.1 Level AA guidelines for perceivable and operable 
 
 ## Decision
 
+> **Amendment (2026-08-02):** the contact page no longer contains these emojis or
+> any `role="status"` badge — the emoji icons were replaced by the `Icon` atom,
+> whose `decorative` prop applies `aria-hidden` internally
+> ([ADR-055](./055-icon-system.md)), and the remaining badges all use
+> `role="presentation"`. The patterns below are preserved as the decision record.
+
 We will implement the following accessibility enhancements:
 
 ### 1. Decorative Emojis with `aria-hidden="true"`

@@ -10,7 +10,9 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-08-02: badge wiring updated to match the shipped configuration —
+the PageSpeed link is now optional and off by default; see the note under Badge
+Locations)
 
 ## Context
 
@@ -46,6 +48,15 @@ Implement **hybrid static badges with live verification links**:
 4. **Multiple placements** – Index page, Footer, and README
 
 ### Badge Locations
+
+> **Amendment (2026-08-02):** the PageSpeed link is now optional configuration:
+> `siteLinks.pagespeed` in `src/config.ts` ships as `""`, which hides it. With the
+> default config the "View Live Scores" button does not render (`index.astro` gates it
+> on `siteLinks.pagespeed`), the footer renders a plain non-linked "95+ Lighthouse" span
+> (the 🎯 emoji is gone from both variants), and "Verified by CI" is now a link to
+> `${siteLinks.github}/actions` rather than a static badge. The README Shields.io badge
+> links to the README's own `#-performance-budgets` anchor instead of PageSpeed
+> Insights. The sections below record the original implementation.
 
 #### 1. Index Page (Primary)
 
@@ -243,7 +254,7 @@ Added Shields.io badge at top:
 - [x] Add badge to index.astro performance section
 - [x] Add badge to Footer component
 - [x] Add Shields.io badge to README
-- [x] Verify PageSpeed Insights URL works
+- [x] Verify PageSpeed Insights URL works *(amended 2026-08-02: applies only when `siteLinks.pagespeed` is set; the shipped default is `""`)*
 - [x] Test accessibility (ARIA labels, keyboard navigation)
 - [x] Test responsive layout (mobile, tablet, desktop)
 - [x] Document in ADR

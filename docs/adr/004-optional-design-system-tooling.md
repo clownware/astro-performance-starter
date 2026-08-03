@@ -93,8 +93,8 @@ A CLI flag during project initialization (Option 3) is a desirable future enhanc
 
 ## References
 
-- Internal: `docs/implementation-guides/01-foundation-phase-2-design-system.md` (mentions token build and WCAG checks)
-- Internal: `scripts/build-tokens.ts` (and the contrast validation script/logic)
+- Internal: `docs/implementation-guides/completed/phase-2-design-system.md` (mentions token build and WCAG checks)
+- Internal: `scripts/src/build-tokens.ts` (and the contrast validation script/logic; run via `pnpm run tokens:build`)
 
 ---
 **Date**: 2025-06-10\

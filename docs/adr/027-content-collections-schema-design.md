@@ -2,20 +2,21 @@
 title: 'ADR-027: Content Collections Schema Design'
 lastUpdated: 2026-02-18T00:00:00.000Z
 description: >-
-  Documents the design decisions behind the five content collections (blog,
-  projects, bio, experience, navigation), their schema fields, storage formats,
-  and the rationale for each choice.
+  Documents the design decisions behind the five original content collections
+  (blog, projects, bio, experience, navigation), their schema fields, storage
+  formats, and the rationale for each choice.
 tableOfContents: true
 pagefind: true
 ---
 
 ## Status
 
-Accepted
+Accepted (amended 2026-08-02: collection count updated — ADR-062 added a sixth
+collection, `adr`; the draft-support driver is scoped to `blog` and `projects`)
 
 ## Context
 
-Astro's Content Collections API provides type-safe, schema-validated content management. The starter ships with five collections pre-configured in `src/content.config.ts`. These represent the most common content types for portfolio and small production sites — the primary audience for this template.
+Astro's Content Collections API provides type-safe, schema-validated content management. The starter ships with six collections pre-configured in `src/content.config.ts` *(amended 2026-08-02: originally five — ADR-062 later added the `adr` collection, which publishes `docs/adr/` as web routes and is documented there)*. These represent the most common content types for portfolio and small production sites — the primary audience for this template.
 
 The schema design decisions are non-obvious and affect how users extend the template. Without documentation, users frequently ask: why these collections, why these fields, why JSON for some and MDX for others.
 
@@ -25,7 +26,7 @@ The schema design decisions are non-obvious and affect how users extend the temp
 - **Type safety**: All fields must be validated with Zod at build time
 - **Extensibility**: Schemas should be easy to extend without breaking existing content
 - **Format appropriateness**: MDX for rich content, JSON for structured data
-- **Draft support**: All content collections support a `draft` field to hide unpublished content
+- **Draft support**: All content collections support a `draft` field to hide unpublished content *(amended 2026-08-02: in practice only `blog` and `projects` carry `draft` — `bio`, `experience`, `navigation`, and `adr` have no draft field)*
 
 ## Collections and Rationale
 
@@ -172,7 +173,7 @@ To add a new collection:
 - Users can ship a portfolio site without writing any schema code
 - All content is type-safe — typos in frontmatter are caught at build time
 - JSON collections are easily edited by non-developers
-- Consistent `draft` pattern across all collections
+- Consistent `draft` pattern across all collections *(amended 2026-08-02: `blog` and `projects` only)*
 
 ### Negative
 
