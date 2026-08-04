@@ -31,6 +31,7 @@ interface PackageJsonDeps {
   dependencies?: Record<string, string>;
   devDependencies?: Record<string, string>;
   optionalDependencies?: Record<string, string>;
+  engines?: Record<string, string>;
 }
 
 /**
@@ -112,6 +113,33 @@ export function findVersionsJsonMismatches(
 }
 
 /**
+ * Returns a message for each Node field in `versions.json` that drifted from
+ * its source of truth: `node` mirrors `.nvmrc`, `node-minimum` mirrors the
+ * `engines.node` floor. Neither is a package.json dependency, so the dep-pin
+ * check above can't see them — this drift shipped in the 2026-08 Node bump.
+ * Fields absent from versions.json, or inputs that are unavailable, are
+ * skipped rather than flagged.
+ */
+export function findNodeFieldMismatches(
+  nvmrc: string | undefined,
+  enginesNode: string | undefined,
+  versions: Record<string, string>,
+): string[] {
+  const mismatches: string[] = [];
+  const nvmrcVersion = nvmrc?.trim();
+  if (nvmrcVersion && versions.node && versions.node !== nvmrcVersion) {
+    mismatches.push(`node: versions.json ${versions.node} ≠ .nvmrc ${nvmrcVersion}`);
+  }
+  const minimum = versions["node-minimum"];
+  if (enginesNode && minimum && minimum !== baseVersion(enginesNode)) {
+    mismatches.push(
+      `node-minimum: versions.json ${minimum} ≠ package.json engines.node ${enginesNode}`,
+    );
+  }
+  return mismatches;
+}
+
+/**
  * Returns a copy of `versions` with every drifted exact pin rewritten to the
  * base version of its `package.json` dependency, and — when `pkg.version` is
  * present — the `template` field stamped to `v{pkg.version}`. Loose `.x`
@@ -121,6 +149,7 @@ export function findVersionsJsonMismatches(
 export function syncVersionsJson(
   pkg: PackageJsonDeps,
   versions: Record<string, string>,
+  nvmrc?: string,
 ): Record<string, string> {
   const allDeps = {
     ...pkg.dependencies,
@@ -131,6 +160,14 @@ export function syncVersionsJson(
   for (const [key, pinned] of Object.entries(versions)) {
     if (key === "template" && pkg.version) {
       synced[key] = `v${pkg.version}`;
+      continue;
+    }
+    if (key === "node" && nvmrc?.trim()) {
+      synced[key] = nvmrc.trim();
+      continue;
+    }
+    if (key === "node-minimum" && nvmrc?.trim() && pkg.engines?.node) {
+      synced[key] = baseVersion(pkg.engines.node);
       continue;
     }
     const depName = versionsJsonToPackage[key];
@@ -148,9 +185,10 @@ function main(): void {
   const pkgVersion = pkg.version as string;
   const readme = readFileSync(join(root, "README.md"), "utf-8");
   const versions = JSON.parse(readFileSync(join(root, "versions.json"), "utf-8"));
+  const nvmrc = readFileSync(join(root, ".nvmrc"), "utf-8");
 
   if (fix) {
-    const synced = syncVersionsJson(pkg, versions);
+    const synced = syncVersionsJson(pkg, versions, nvmrc);
     const changed = Object.keys(versions).filter((key) => versions[key] !== synced[key]);
     if (changed.length) {
       writeFileSync(join(root, "versions.json"), `${JSON.stringify(synced, null, 2)}\n`);
@@ -166,6 +204,7 @@ function main(): void {
   const readmeMismatches = findVersionMismatches(pkgVersion, readme);
   const versionsMismatches = findVersionsJsonMismatches(pkg, versions);
   const templateMismatch = findTemplateMismatch(pkgVersion, versions);
+  const nodeMismatches = findNodeFieldMismatches(nvmrc, pkg.engines?.node, versions);
 
   if (readmeMismatches.length) {
     console.error(
@@ -186,7 +225,19 @@ function main(): void {
       "   versions.json is a public consumption contract (ADR-061). Run `pnpm run version:fix` to stamp the template field.",
     );
   }
-  if (readmeMismatches.length || versionsMismatches.length || templateMismatch) {
+  if (nodeMismatches.length) {
+    console.error("❌ versions.json Node fields drifted from .nvmrc / engines:");
+    for (const message of nodeMismatches) {
+      console.error(`   - ${message}`);
+    }
+    console.error("   Run `pnpm run version:fix` to sync them.");
+  }
+  if (
+    readmeMismatches.length ||
+    versionsMismatches.length ||
+    templateMismatch ||
+    nodeMismatches.length
+  ) {
     process.exit(1);
   }
   console.log(`✅ README footer and versions.json match package.json (v${pkgVersion}).`);

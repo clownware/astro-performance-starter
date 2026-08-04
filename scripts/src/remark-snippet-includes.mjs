@@ -74,53 +74,9 @@ export function remarkSnippetIncludes(options = {}) {
       }
     });
 
-    visit(tree, ["code", "inlineCode", "html"], (node) => {
-      if (!node.value) {
-        return;
-      }
-
-      const snippetRegex = /{%\s*snippet\s+"([^"]+)"\s*%}/g;
-      let hasReplacements = false;
-      let newValue = node.value;
-
-      let match = snippetRegex.exec(node.value);
-      while (match !== null) {
-        const [fullMatch, snippetName] = match;
-
-        if (!safeSnippetName.test(snippetName)) {
-          const error = `Invalid snippet name: "${snippetName}" — only alphanumeric, hyphens, and underscores are allowed`;
-          errors.push(error);
-          console.error(`❌ ${error} in ${file.path}`);
-          match = snippetRegex.exec(node.value);
-          continue;
-        }
-
-        const snippetFile = join(snippetsPath, `${snippetName}.md`);
-
-        if (!existsSync(snippetFile)) {
-          const error = `Snippet not found: ${snippetName} (looked for ${snippetFile})`;
-          errors.push(error);
-          console.error(`❌ ${error} in ${file.path}`);
-          match = snippetRegex.exec(node.value); // Update match before continuing
-          continue;
-        }
-
-        try {
-          const snippetContent = readFileSync(snippetFile, "utf-8").trim();
-          newValue = newValue.replace(fullMatch, snippetContent);
-          hasReplacements = true;
-        } catch (err) {
-          const error = `Failed to read snippet: ${snippetName} - ${err.message}`;
-          errors.push(error);
-          console.error(`❌ ${error} in ${file.path}`);
-        }
-        match = snippetRegex.exec(node.value); // Update match at the end of the loop body
-      }
-
-      if (hasReplacements) {
-        node.value = newValue;
-      }
-    });
+    // Deliberately no visit of code/inlineCode/html nodes: code contexts are
+    // where the shortcode syntax is documented (e.g. ADR-062's literal
+    // `{% snippet "name" %}` example) and must never be expanded.
 
     if (errors.length > 0 && options.strict !== false) {
       throw new Error(`Snippet include errors found:\n${errors.join("\n")}`);

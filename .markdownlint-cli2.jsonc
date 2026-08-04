@@ -50,9 +50,9 @@
     "CHANGELOG.md", // Often auto-generated
     "**/CHANGELOG.md"
   ],
-  
-  // Fix mode settings
-  "fix": true,
+
+  // No config-level "fix": lint:md must be a pure check (quality:ci runs it);
+  // fixing is opt-in via the explicit --fix flag in lint:md:fix and lint-staged.
   "outputFormatters": [
     ["markdownlint-cli2-formatter-default"]
   ]

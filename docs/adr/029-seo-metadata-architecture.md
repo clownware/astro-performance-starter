@@ -178,7 +178,7 @@ JSON-LD is not injected on every page — only where it provides meaningful SEO 
   - TC-1 → check `head-single-source` (status: **warn**)
   - TC-2 → `og:check` in `quality:ci` (status: **block**, pre-existing gate)
 - **Not machine-checkable:** metadata quality (title/description wording, default appropriateness).
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-02-18\

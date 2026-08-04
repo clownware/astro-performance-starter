@@ -150,7 +150,7 @@ clone-and-ship critical path. It is deliberately:
   Advanced/optional in the README and `.claude/stack.md`.
 
 A cloner can use the template, pass CI, and ship without ever running Stryker.
-The wedge value is the _trend signal for template maintainers_; nothing here
+The wedge value is the *trend signal for template maintainers*; nothing here
 requires cloners to adopt it.
 
 ### Out of scope (for this ADR)
@@ -198,7 +198,7 @@ requires cloners to adopt it.
 
 ## Notes
 
-The choice to scope mutations to `src/utils/**` (matching Vitest coverage scope) is deliberate. Stryker can mutate broader paths, but doing so without proportional test coverage produces high "no-coverage mutants" counts that obscure the real signal. Phase 3's success criterion is _running mutation testing_, not _achieving X score on every file_.
+The choice to scope mutations to `src/utils/**` (matching Vitest coverage scope) is deliberate. Stryker can mutate broader paths, but doing so without proportional test coverage produces high "no-coverage mutants" counts that obscure the real signal. Phase 3's success criterion is *running mutation testing*, not *achieving X score on every file*.
 
 The 50% break threshold is low by design. It exists to catch a catastrophic test-suite regression (e.g. someone deletes half the assertions), not to enforce quality at every change. The `high: 80` threshold is the aspirational target that maps to the current baseline. Both will be revisited quarterly.
 
@@ -224,4 +224,4 @@ Future enhancements deliberately deferred:
 - **Checks:**
   - TC-1 → `mutation.yml` workflow (status: **warn** — deliberately never graduates; this ADR forbids PR gating on mutation score)
 - **Not machine-checkable:** mutation-score trend interpretation is a maintainer judgment.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*

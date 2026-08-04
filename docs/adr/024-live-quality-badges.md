@@ -286,7 +286,7 @@ Added Shields.io badge at top:
 <!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
 
 - **Not machine-checkable:** badge honesty (claimed scores matching reality) is periodically evidenced by the Lighthouse workflow but is not asserted per-commit.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-02-17 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\
