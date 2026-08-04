@@ -14,7 +14,7 @@ Accepted
 
 ## Context
 
-The current `docs/implementation-guides/00-overview/directory-structure.md` defines a clear Atomic Design methodology for organizing components within the `src/components/` directory. This structure includes subdirectories such as `atoms/`, `molecules/`, `organisms/`, `structural/`, and `mdx/`.
+The current `docs/implementation-guides/reference/directory-structure.md` defines a clear Atomic Design methodology for organizing components within the `src/components/` directory. This structure includes subdirectories such as `atoms/`, `molecules/`, `organisms/`, `structural/`, and `mdx/`.
 
 There is a potential for future development phases (e.g., a hypothetical "Phase 5 UI Components" or similar initiatives) to introduce new, potentially overlapping component categorization schemes, such as a `src/components/ui/` directory. This could lead to:
 
@@ -47,6 +47,14 @@ This ADR aims to proactively prevent such fragmentation by reinforcing a unified
 
 ## Decision
 
+> **Amendment (2026-08-02):** `src/components/organisms/` has never actually been
+> created — `directory-structure.md` lists it as a category created when first
+> needed, so "existing" below overstates it (`atoms/`, `molecules/`,
+> `structural/`, and `mdx/` exist). The tree has since gained two additional
+> sanctioned subdirectories outside this taxonomy: `islands/` for hydrated Preact
+> demo components ([ADR-060](./060-showcase-interactive-demo-islands.md)) and
+> `a11y/` for accessibility utilities (`SkipLink.astro`).
+
 **Option 2 is chosen.**
 
 All new UI components, regardless of the project phase or feature initiative they belong to, **must** be categorized and placed within the existing `src/components/atoms/`, `src/components/molecules/`, or `src/components/organisms/` subdirectories. The choice of subdirectory should be based on the component's complexity, reusability, and its role in the Atomic Design hierarchy:
@@ -78,7 +86,7 @@ No new top-level component categorization folders (e.g., `src/components/ui/`, `
 
 - Developers must be familiar with Atomic Design principles to correctly categorize new components
 - Any future documentation for phases that introduce UI components (e.g., "Phase 5 UI Components") must explicitly instruct developers to follow this established Atomic Design structure
-- The `docs/implementation-guides/00-overview/directory-structure.md` should be considered the primary source of truth for component organization and may need minor clarifications to reinforce this decision if any ambiguity is found
+- The `docs/implementation-guides/reference/directory-structure.md` should be considered the primary source of truth for component organization and may need minor clarifications to reinforce this decision if any ambiguity is found
 
 ## Validation
 
@@ -89,7 +97,7 @@ No new top-level component categorization folders (e.g., `src/components/ui/`, `
 ## References
 
 - [Atomic Design by Brad Frost](https://atomicdesign.bradfrost.com/)
-- Internal: `docs/implementation-guides/00-overview/directory-structure.md`
+- Internal: `docs/implementation-guides/reference/directory-structure.md`
 
 ## Enforcement
 

@@ -140,8 +140,10 @@ Mutation testing is a **maintainer/advanced** capability, not part of the
 clone-and-ship critical path. It is deliberately:
 
 - **Not in `quality:ci`** — the gate a cloner (or their agent) must clear is
-  `format → lint → lint:md → check → test:unit → agents:check`. `test:mutate` is
-  absent and stays absent.
+  `format:check → lint → lint:md → check → test:unit → agents:check → version:check → og:check → docs:count`
+  *(amended 2026-08-02: chain updated to the current `quality:ci`; as originally
+  written it listed the six gates of the day, ending at `agents:check`)*.
+  `test:mutate` is absent and stays absent.
 - **Nightly + on-demand only** — it runs in `.github/workflows/mutation.yml` on a
   schedule and via `workflow_dispatch`, never on PRs.
 - **Grouped as a maintainer script** in `package.json` (see ADR-052) and labelled
