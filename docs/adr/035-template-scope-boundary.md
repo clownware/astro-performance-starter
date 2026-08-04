@@ -13,7 +13,8 @@ pagefind: true
 
 Accepted (amended 2026-07-12: `versions.yml` removed — it had no programmatic consumers and its
 hand-maintained fields drifted; `versions.json` is the sole version manifest, see
-[ADR-061](./061-versions-json-public-contract.md))
+[ADR-061](./061-versions-json-public-contract.md). Amended 2026-08-02: `docs/temp-guides/`
+has since been removed — the notes referencing it are annotated below)
 
 ## Context
 
@@ -202,7 +203,7 @@ This guidance should be reflected in `.windsurfrules` and `docs/ai-context/INDEX
 
 - This policy applies to the template repository specifically. A rendered docs site (if deployed separately) can include any content regardless of this policy.
 - The policy doesn't change what content exists — only where it lives and how it's categorized
-- `docs/temp-guides/` already exists and can serve as the landing spot for relocated maintenance artifacts pending further cleanup
+- `docs/temp-guides/` already exists and can serve as the landing spot for relocated maintenance artifacts pending further cleanup *(amended 2026-08-02: the cleanup is complete — `docs/temp-guides/` has since been removed)*
 
 ## Validation
 
@@ -219,7 +220,7 @@ This guidance should be reflected in `.windsurfrules` and `docs/ai-context/INDEX
 
 ## Notes
 
-The `docs/temp-guides/` directory currently contains `github-template-structure.md` and serves as a natural holding area for maintenance artifacts that haven't been formally categorized yet. As part of implementing this ADR, that directory should be reviewed and either formalized (if it serves an ongoing purpose) or cleared (if its contents have been resolved).
+The `docs/temp-guides/` directory currently contains `github-template-structure.md` and serves as a natural holding area for maintenance artifacts that haven't been formally categorized yet. As part of implementing this ADR, that directory should be reviewed and either formalized (if it serves an ongoing purpose) or cleared (if its contents have been resolved). *(Amended 2026-08-02: this review happened — `docs/temp-guides/` and `github-template-structure.md` have been removed.)*
 
 The PR template (`.github/PULL_REQUEST_TEMPLATE.md`) should include a checkbox: "Files added/modified are in the correct category per ADR-035."
 

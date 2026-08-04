@@ -186,8 +186,8 @@ This does NOT apply to:
 
 ## References
 
-- [Documentation Sync Setup Guide](../development/docs-sync-setup.md)
-- [GitHub Actions Workflow](.github/workflows/sync-docs-to-starlight.yml)
+- Documentation Sync Setup Guide (`docs/development/docs-sync-setup.md`) — removed with the push-sync retirement ([ADR-059](./059-docs-drift-gate.md))
+- GitHub Actions Workflow (`.github/workflows/sync-docs-to-starlight.yml`) — removed with the push-sync retirement ([ADR-059](./059-docs-drift-gate.md))
 - Starlight Documentation Repository (configured via `STARLIGHT_REPO` secret)
 
 ## Notes
