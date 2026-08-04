@@ -140,8 +140,10 @@ export function findTemplateMismatch(
 
 ### Neutral
 
-- `versions.yml` is untouched by this ADR; it has no programmatic consumers and is legacy
-  (candidate for removal under its own change)
+- `versions.yml` had no programmatic consumers and was legacy; it was removed by this
+  ADR's implementing change (#305) *(amended 2026-08-02: originally said the file was
+  "untouched by this ADR" and a candidate for removal under its own change; the
+  implementing commit deleted it — recorded in ADR-035's 2026-07-12 amendment)*
 - Existing tags (v0.9.0 and earlier) predate the workflow; backfilling their Releases is a
   manual one-time action
 

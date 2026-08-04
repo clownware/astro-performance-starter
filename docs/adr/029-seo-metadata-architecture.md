@@ -11,7 +11,9 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-08-02: Props interface and title composition updated to match the
+shipped `Head.astro` — see the annotated sections; the Head-molecule decision itself is
+unchanged)
 
 ## Context
 
@@ -92,9 +94,16 @@ interface Props {
 }
 ```
 
+> **Amendment (2026-08-02):** the shipped interface has evolved: `type` is now `ogType`
+> (same union), `publishDate` was replaced by an `ogArticle` object
+> (`{ publishedTime, modifiedTime, author, tags }`), `canonicalUrl` is typed `URL`
+> (defaulting to `new URL(Astro.url.pathname, Astro.site)`), and a
+> `preconnectDomains?: string[]` prop was added. `src/components/molecules/Head.astro`
+> is authoritative for the current shape.
+
 ### Title Format
 
-Page titles are formatted as `{title} | {siteName}` where `siteName` comes from `astro.config.mjs` site metadata. The `BaseLayout` appends the suffix — individual pages pass only their own title string.
+Page titles are formatted as `{title} | {siteName}` where `siteName` comes from `siteMetadata.title` in `src/config.ts` *(amended 2026-08-02: originally attributed to `astro.config.mjs`, which only holds the `site` URL)*. `Head.astro` itself appends the suffix — skipping it when the page title already starts with the site name — and individual pages pass only their own title string *(amended 2026-08-02: originally attributed the suffixing to `BaseLayout`, which merely forwards the `title` prop)*.
 
 **Why not include the site name in each page's title prop?** Prevents duplication when the site name changes, and keeps page-level titles clean.
 

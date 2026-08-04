@@ -134,6 +134,13 @@ graph TD
 
 ## Implementation Plan
 
+> **Amendment (2026-08-02):** Phase 1's "validation script in package.json" was
+> never shipped — validation runs inside `astro build` via the strict remark
+> plugin, and CI's build job executes it, so Phase 2's "add validation to CI
+> pipeline" is effectively complete. The dedicated `link-check` CI job is
+> advisory only (`continue-on-error: true`); the enforced gate is the plugin
+> failing the build.
+
 ### Phase 1: Foundation (Complete)
 
 - \[x] Create remark plugin for link validation
@@ -156,6 +163,12 @@ graph TD
 - \[ ] Update link validation config for new structure
 
 ## Configuration
+
+> **Amendment (2026-08-02):** the shipped configuration has since evolved.
+> `astro.config.mjs` now passes `{ rootDir, basePaths: ["/docs", "/adr"],
+> routeMap: { "/adr/": "docs/adr/" }, excludePaths: ["docs"] }` — `strict: true`
+> and `validateAnchors: false` are no longer passed explicitly; they are the
+> plugin defaults in `scripts/src/remark-validate-links.mjs`.
 
 ```javascript
 // astro.config.mjs
