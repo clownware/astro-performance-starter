@@ -1,0 +1,38 @@
+name: Link Check
+
+# External-link rot detection. Internal links are already a build-time gate
+# (ADR-005: the remark plugin fails `astro build` on a broken internal link),
+# so this job's unique value is catching external URLs that have died — which
+# happens on calendar time, not PR time. Weekly schedule, plus PRs that
+# actually touch markdown. No continue-on-error: a silent canary is no canary;
+# this is not a required status check, so a red run informs without blocking.
+on:
+  schedule:
+    - cron: '0 6 * * 1'
+  pull_request:
+    branches: [master, develop]
+    paths:
+      - '**/*.md'
+      - '**/*.mdx'
+      - '.markdown-link-check.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Check markdown links
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          use-verbose-mode: 'no'
+          config-file: '.markdown-link-check.json'
+          folder-path: 'docs/'
+          file-extension: '.md'

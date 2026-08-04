@@ -561,7 +561,7 @@ pnpm run perf:lighthouse:ci
 
 ### Performance
 
-- [Astro Performance Guide](https://docs.astro.build/en/guides/performance-optimization/)
+- [Astro Islands Architecture](https://docs.astro.build/en/concepts/islands/) (the performance-optimization guide this ADR originally cited was removed in a docs restructure)
 - [Web.dev Performance](https://web.dev/performance/)
 - [Core Web Vitals](https://web.dev/vitals/)
 
