@@ -15,6 +15,7 @@ permissions:
 
 jobs:
   lighthouse:
+    name: lighthouse (${{ matrix.form-factor }})
     runs-on: ubuntu-latest
     # Gate on BOTH form factors. Mobile throttling routinely drops a site
     # 15-25 points below desktop, so desktop-only was a soft ratchet; the

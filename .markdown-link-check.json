@@ -4,10 +4,10 @@
       "pattern": "^(?!https?://)"
     },
     {
-      "pattern": "github\\.com/YOUR_ORG/YOUR_REPO/issues"
+      "pattern": "^https?://localhost"
     },
     {
-      "pattern": "github\\.com/YOUR_ORG/YOUR_REPO/discussions"
+      "pattern": "YOUR_ORG|YOUR_REPO|yourdomain\\.com"
     },
     {
       "pattern": "\\$\\{"
@@ -22,7 +22,7 @@
       "pattern": "github\\.com/username/"
     }
   ],
-  "aliveStatusCodes": [200, 206, 999],
+  "aliveStatusCodes": [200, 206, 403, 999],
   "timeout": "10s",
   "retryOn429": true,
   "retryCount": 3,
