@@ -1,6 +1,6 @@
 ---
 title: biome config
-description: "```json\r // biome.json\r {\r   \"$schema\": \"https://biomejs.dev/schemas/2.4.9/schema.json\",\r   \"vcs\": {\r     \"enabled\": true,\r     \"clientKind\": \"git\",\r     \"useIg"
+description: "The repo's biome.json: schema, VCS-aware ignores, and the lint/format rule set."
 lastUpdated: true
 tableOfContents: true
 pagefind: true

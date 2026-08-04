@@ -17,7 +17,7 @@ Accepted — supersedes [ADR-008](./008-docs-sync-strategy.md); amends [ADR-006]
 
 ADR-008 established an automated push-sync: on every `docs/**` change pushed to `master`, the
 `sync-docs-to-starlight.yml` workflow copies `docs/` into the Starlight documentation repository
-(`clownware/astro-starter-docs`, which deploys to <https://astro.clownware.org>) and opens a PR.
+(`clownware/astro-starter-docs`, which deployed to `astro.clownware.org` — domain since retired) and opens a PR.
 
 A full audit on 2026-07-02 found the pipeline dead in practice and broken by design:
 
