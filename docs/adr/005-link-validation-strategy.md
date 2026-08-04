@@ -140,6 +140,13 @@ graph TD
 > pipeline" is effectively complete. The dedicated `link-check` CI job is
 > advisory only (`continue-on-error: true`); the enforced gate is the plugin
 > failing the build.
+>
+> **Amendment (2026-08-03):** the advisory job moved from `ci.yml` to its own
+> `link-check.yml` running weekly and on markdown-touching PRs, since its
+> unique value is external-URL rot detection — a calendar-time failure mode
+> the per-PR run could not surface (internal links were already gated by the
+> build). `continue-on-error` was dropped so a failed run is visible; the job
+> is not a required status check, so it informs without blocking.
 
 ### Phase 1: Foundation (Complete)
 
@@ -217,9 +224,10 @@ All existing relative links continue working without the plugin.
   - TC-2: the repo-wide markdown link-check job passes in CI.
 - **Checks:**
   - TC-1 → `remark-validate-links` in the build (status: **block**, pre-existing gate)
-  - TC-2 → CI `link-check` job (status: **block**, pre-existing gate)
+  - TC-2 → `link-check.yml` workflow, weekly + markdown-touching PRs (status: **warn**, visible failure but not a required check)
 - **Not machine-checkable:** external-URL liveness policy nuances (rate limits, transient failures) are handled by the job's configuration, not asserted absolutely.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:**
+  - 2026-08-03: TC-2 recorded as **block** at creation but the job had `continue-on-error: true` since inception — it could never fail the build. Corrected to **warn** and moved to a scheduled workflow (see amendment above); TC-1 remains the blocking gate for internal links.
 
 ---
 **Date**: 2025-06-10\

@@ -101,8 +101,28 @@ jobs:
       - name: Enforce font preload budget (ADR-058)
         run: pnpm run fonts:gate
 
+      # Chromium is ~130MB per run uncached; key on the resolved Playwright
+      # version so the cache invalidates exactly when the browser build does.
+      # System libraries can't live in the cache, so a hit still needs the
+      # (fast) install-deps pass.
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "version=$(node -p "require('@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Playwright browsers
+        id: playwright-cache
+        uses: actions/cache@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
+
       - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm exec playwright install --with-deps chromium
+
+      - name: Install Playwright system deps (cache hit)
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm exec playwright install-deps chromium
 
       - name: Run E2E tests (Chromium)
         run: pnpm exec playwright test --project=chromium
@@ -124,22 +144,6 @@ jobs:
         with:
           sarif_file: 'trivy-results.sarif'
 
-  link-check:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Check markdown links
-        uses: gaurav-nelson/github-action-markdown-link-check@v1
-        continue-on-error: true
-        with:
-          use-quiet-mode: 'yes'
-          use-verbose-mode: 'no'
-          config-file: '.markdown-link-check.json'
-          folder-path: 'docs/'
-          file-extension: '.md'
 
   # SAST + secret scanning (ADR-046). Both are halt-on-violation gates (ADR-039):
   # the scan command exits non-zero on a finding and fails the build.
