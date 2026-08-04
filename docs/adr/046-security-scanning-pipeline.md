@@ -123,7 +123,7 @@ semgrep:
   container:
     image: semgrep/semgrep
   steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v7
     - run: semgrep scan --config p/javascript --config p/typescript --config p/secrets --error
 
 gitleaks:
@@ -133,9 +133,12 @@ gitleaks:
   container:
     image: ghcr.io/gitleaks/gitleaks:v8.30.1
   steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v7
     - run: gitleaks dir . --config .gitleaks.toml --exit-code 1 --verbose
 ```
+
+*(amended 2026-08-02: `actions/checkout` updated v5 → v7 to match `ci.yml`, which
+Dependabot has bumped since acceptance.)*
 
 Why containers rather than marketplace actions: Semgrep's own CI guidance mandates the
 `semgrep/semgrep` image (do not substitute), and `semgrep scan --error` exits non-zero on
