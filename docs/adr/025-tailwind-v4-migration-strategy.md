@@ -130,7 +130,7 @@ Three component style blocks that used `@apply` with custom utility classes now 
 - **Checks:**
   - TC-1, TC-2, TC-3 → check `tw4-shape` (status: **warn**)
 - **Not machine-checkable:** utility-vs-token style judgment inside components.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-03-26\

@@ -75,7 +75,7 @@ The "Uncle Bob lenses" rationale doc cited in the planning notes does not exist 
 
 ### Option 3: Adopt the principles, not the strict cycle (this ADR)
 
-**Description**: Adopt the Three Laws _in spirit_ (test before code, scope minimal), F.I.R.S.T. (Fast, Independent, Repeatable, Self-validating, Timely) as the test review checklist, AAA + single assertion, no conditional assertions, behaviour-describing names. Codify as five rules in `.claude/engineering.md`, one constitution clause, and a companion conventions doc.
+**Description**: Adopt the Three Laws *in spirit* (test before code, scope minimal), F.I.R.S.T. (Fast, Independent, Repeatable, Self-validating, Timely) as the test review checklist, AAA + single assertion, no conditional assertions, behaviour-describing names. Codify as five rules in `.claude/engineering.md`, one constitution clause, and a companion conventions doc.
 
 **Pros**:
 
@@ -166,7 +166,7 @@ The five rules collapse Robert C. Martin's Three Laws, F.I.R.S.T., and the "test
 - [ADR-023: Testing Strategy and Coverage Targets](023-testing-strategy.md) — extended, not superseded
 - [ADR-036: Layered Constitution](036-layered-constitution.md) — establishes the file structure these rules populate
 - [ADR-038: Agent Roles and Handoff Patterns](038-agent-roles.md) — the Architect pass produces the failing test required by Rule 1
-- Robert C. Martin, _Clean Code_ (2008), Chapter 9: Unit Tests
+- Robert C. Martin, *Clean Code* (2008), Chapter 9: Unit Tests
 - Robert C. Martin and Justin Martin, [Clean AI: Agentic Discipline series](https://cleancoders.com)
 - Existing exemplar: `src/utils/__tests__/formatDate.test.ts`
 - Existing anti-pattern: `e2e/index.spec.ts` lines 21-24 and 92-97 (addressed in Phase 2)
@@ -192,4 +192,4 @@ The rule "Never lower a coverage threshold to make CI pass" exists because the a
 - **Checks:**
   - TC-1 → `test:coverage` in CI (status: **block**, pre-existing gate)
 - **Not machine-checkable:** the test-first sequence and F.I.R.S.T. discipline are process facts not derivable from repo state; they are enforced socially and via the Stop-gate running the suite.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*

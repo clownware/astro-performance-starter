@@ -234,7 +234,7 @@ The PR template (`.github/PULL_REQUEST_TEMPLATE.md`) should include a checkbox: 
 - **Checks:**
   - TC-1, TC-2 → check `scope-boundary` (status: **warn**)
 - **Not machine-checkable:** category judgment for genuinely novel additions still follows the decision framework by hand.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-02-22\

@@ -203,7 +203,7 @@ This ADR supersedes [ADR-017](./017-experience-content-collection.md) for the ex
 - **Checks:**
   - TC-1 → `astro check` + build in `quality:ci` (status: **block**, pre-existing gate)
 - **Not machine-checkable:** whether the schemas still cover the common case for new adopters.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-02-18\

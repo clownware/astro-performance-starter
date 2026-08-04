@@ -209,7 +209,7 @@ entries are crawler attack-surface mapping. These are documented as known not-ap
 - **Checks:**
   - TC-1 → CI security jobs (status: **block**, pre-existing gate)
 - **Not machine-checkable:** allowlist entries' justification quality is a review concern.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-05-28\

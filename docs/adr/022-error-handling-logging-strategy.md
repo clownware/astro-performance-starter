@@ -272,7 +272,7 @@ async function handleSubmit(event: Event) {
 - [ ] Install Pino and pino-pretty
 - [ ] Create `scripts/logger.ts` with redaction config
 - [ ] Update `scripts/src/build-tokens.ts` to use logger
-- [ ] Update `scripts/check-review-dates.mjs` to use logger *(amended 2026-08-02: this script was never created — ADR-006, which planned it, was withdrawn)*
+- [ ] Update `scripts/check-review-dates.mjs` to use logger _(amended 2026-08-02: this script was never created — ADR-006, which planned it, was withdrawn)_
 - [ ] Add error handling to dynamic routes (`[slug].astro`)
 - [ ] Document logging patterns in CONTRIBUTING.md
 - [ ] Add log level configuration to `.env.example`

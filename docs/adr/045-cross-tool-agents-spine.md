@@ -138,10 +138,10 @@ We will go with **Option 3 (Generated `AGENTS.md`)** because it is the only opti
 - `pnpm quality:ci` includes `agents:check` and fails when any source file is edited without regeneration.
 - `wc -l .windsurfrules` returns ≤ 40 (currently 20). No section of `.windsurfrules` re-encodes content present in `AGENTS.md`.
 - `grep -r "airules.example"` outside historical mentions returns zero matches — no setup
-  doc or config references the deleted file. *(amended 2026-08-02: the surviving mentions
+  doc or config references the deleted file. _(amended 2026-08-02: the surviving mentions
   are the `CHANGELOG.md` v0.2.0 and v0.9.0 notes, the `ai-optimized-means-ai-ready` blog
   post's retrospective, and this ADR's own text; the original carve-out named only the
-  v0.2.0 note.)*
+  v0.2.0 note.)_
 - A trial Cursor / Codex CLI / Copilot session in the repo, asked "what's our package manager?", references pnpm 10.x from the Stack section of `AGENTS.md`.
 - A trial Claude Code session asked the same question references pnpm 10.x from `.claude/stack.md`.
 - `docs/ai-context/INDEX.md` does not duplicate the halt-on-violation rules list; it points at `AGENTS.md`.

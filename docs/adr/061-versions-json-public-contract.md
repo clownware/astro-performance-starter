@@ -177,7 +177,7 @@ Option 2 for why.
 - **Checks:**
   - TC-1 → `version:check` in `quality:ci` (status: **block**, pre-existing gate)
 - **Not machine-checkable:** whether a key rename/removal is justified — a contract break requires a superseding or amending ADR, which is a governance act.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-07-12\

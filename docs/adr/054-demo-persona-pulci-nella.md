@@ -166,10 +166,10 @@ copy-paste drift becomes a real maintenance burden.
 ## Validation
 
 - **Metric 1**: `rg "Alex|Christopher Pezza|Tech Innovations|Acme Corp" src/`
-  returns zero hits outside test fixtures. *(amended 2026-08-02: originally
+  returns zero hits outside test fixtures. _(amended 2026-08-02: originally
   claimed zero hits outright;
   `src/components/molecules/__tests__/ProjectCard.test.ts` uses "Acme Corp" as a
-  fixture client name — no persona-surface content matches.)*
+  fixture client name — no persona-surface content matches.)_
 - **Metric 2**: `pnpm build` succeeds with the bio and experience
   collections populated; `/about` renders Pulci Nella end-to-end.
 - **Metric 3**: every persona MDX surface contains a `CUSTOMIZE:` marker.

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  findNodeFieldMismatches,
   findTemplateMismatch,
   findVersionMismatches,
   findVersionsJsonMismatches,
@@ -153,5 +154,57 @@ describe("syncVersionsJson", () => {
   it("leaves the template field untouched when package.json version is absent", () => {
     const versions = { template: "v0.2.0" };
     expect(syncVersionsJson(pkg, versions)).toEqual({ template: "v0.2.0" });
+  });
+
+  it("rewrites node and node-minimum when nvmrc and engines are provided", () => {
+    const versions = { node: "24.14.1", "node-minimum": "24.0.0", preact: "10.29.4" };
+    const withEngines = { ...pkg, engines: { node: ">=24.15.0" } };
+    expect(syncVersionsJson(withEngines, versions, "24.19.0")).toEqual({
+      node: "24.19.0",
+      "node-minimum": "24.15.0",
+      preact: "10.29.6",
+    });
+  });
+
+  it("leaves node fields untouched when nvmrc is not provided (back-compat)", () => {
+    const versions = { node: "24.14.1", "node-minimum": "24.0.0" };
+    expect(syncVersionsJson(pkg, versions)).toEqual({ node: "24.14.1", "node-minimum": "24.0.0" });
+  });
+});
+
+/**
+ * Guards the drift that shipped in the 2026-08 Node bump: versions.json still
+ * said node 24.14.1 / node-minimum 24.0.0 after .nvmrc moved to 24.19.0 and
+ * engines to >=24.15.0 — version:check only compared package.json deps, so the
+ * ADR-061 consumption contract silently lied about the Node floor.
+ */
+describe("findNodeFieldMismatches", () => {
+  it("returns no mismatches when node matches .nvmrc and node-minimum matches the engines floor", () => {
+    const versions = { node: "24.19.0", "node-minimum": "24.15.0" };
+    expect(findNodeFieldMismatches("24.19.0", ">=24.15.0", versions)).toEqual([]);
+  });
+
+  it("flags a node field that drifted from .nvmrc", () => {
+    const versions = { node: "24.14.1", "node-minimum": "24.15.0" };
+    expect(findNodeFieldMismatches("24.19.0", ">=24.15.0", versions)).toEqual([
+      "node: versions.json 24.14.1 ≠ .nvmrc 24.19.0",
+    ]);
+  });
+
+  it("flags a node-minimum field that drifted from the engines floor", () => {
+    const versions = { node: "24.19.0", "node-minimum": "24.0.0" };
+    expect(findNodeFieldMismatches("24.19.0", ">=24.15.0", versions)).toEqual([
+      "node-minimum: versions.json 24.0.0 ≠ package.json engines.node >=24.15.0",
+    ]);
+  });
+
+  it("tolerates surrounding whitespace in the .nvmrc content", () => {
+    const versions = { node: "24.19.0", "node-minimum": "24.15.0" };
+    expect(findNodeFieldMismatches("24.19.0\n", ">=24.15.0", versions)).toEqual([]);
+  });
+
+  it("skips fields that are absent from versions.json or inputs that are unavailable", () => {
+    expect(findNodeFieldMismatches("24.19.0", ">=24.15.0", {})).toEqual([]);
+    expect(findNodeFieldMismatches(undefined, undefined, { node: "24.19.0" })).toEqual([]);
   });
 });
