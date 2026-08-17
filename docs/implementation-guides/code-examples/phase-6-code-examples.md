@@ -12,11 +12,7 @@ pagefind: true
 ### Hero Section (Essential)
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/Hero.astro
 import Container from '@/components/structural/Container.astro';
 import Section from '@/components/structural/Section.astro';
@@ -36,12 +32,7 @@ export interface Props {
 }
 
 const { title, subtitle, primaryCTA, secondaryCTA } = Astro.props;
-
-
-***
-
-
-
+---
 <Section size="xl" class="hero-section">
   <Container size="md" class="text-center">
     <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-balance">
@@ -93,11 +84,7 @@ const { title, subtitle, primaryCTA, secondaryCTA } = Astro.props;
 ### Features Grid Section
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/Features.astro
 import Container from '@/components/structural/Container.astro';
 import Section from '@/components/structural/Section.astro';
@@ -117,12 +104,7 @@ export interface Props {
 }
 
 const { title = "Features", subtitle, features } = Astro.props;
-
-
-***
-
-
-
+---
 <Section size="lg">
   <Container>
     <div class="text-center mb-12">
@@ -138,7 +120,7 @@ const { title = "Features", subtitle, features } = Astro.props;
       {features.map((feature) => (
         <Card padding="lg" hover>
           {feature.icon && (
-            <div class="w-12 h-12 mb-4 text-primary-600 dark:text-primary-400">
+            <div class="w-12 h-12 mb-4 text-primary-600">
               <!-- Icon implementation -->
               <svg class="w-full h-full" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M12 2L2 7v10c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-10-5z" />
@@ -157,11 +139,7 @@ const { title = "Features", subtitle, features } = Astro.props;
 ### CTA Section
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/CTA.astro
 import Container from '@/components/structural/Container.astro';
 import Section from '@/components/structural/Section.astro';
@@ -182,21 +160,16 @@ const {
   buttonHref,
   variant = 'default' 
 } = Astro.props;
-
-
-***
-
-
-
+---
 <Section size="md" background={variant === 'gradient' ? 'default' : 'subtle'}>
   <Container size="sm">
     <div class={`
       rounded-2xl p-8 md:p-12 text-center
-      ${variant === 'gradient' ? 'cta-gradient text-white' : 'bg-white dark:bg-gray-900'}
+      ${variant === 'gradient' ? 'cta-gradient text-primary-foreground' : 'bg-surface'}
     `}>
       <h2 class="text-2xl md:text-3xl font-bold mb-4">{title}</h2>
       {description && (
-        <p class={`mb-8 ${variant === 'gradient' ? 'text-white/90' : 'text-foreground/80'}`}>
+        <p class={`mb-8 ${variant === 'gradient' ? 'text-primary-foreground/90' : 'text-foreground/80'}`}>
           {description}
         </p>
       )}
@@ -225,11 +198,7 @@ const {
 ### About Section
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/About.astro
 import { Image } from 'astro:assets';
 import Container from '@/components/structural/Container.astro';
@@ -250,12 +219,7 @@ const {
   imageAlt,
   imagePosition = 'right' 
 } = Astro.props;
-
-
-***
-
-
-
+---
 <Section size="lg">
   <Container>
     <div class={`grid gap-12 lg:grid-cols-2 items-center ${
@@ -280,7 +244,7 @@ const {
           />
         </div>
         <!-- Decorative element -->
-        <div class="absolute -bottom-4 -right-4 w-72 h-72 bg-primary-100 dark:bg-primary-900/20 rounded-lg -z-10" />
+        <div class="absolute -bottom-4 -right-4 w-72 h-72 bg-primary-100/20 rounded-lg -z-10" />
       </div>
     </div>
   </Container>
@@ -290,11 +254,7 @@ const {
 ### Advanced: Animated Hero
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/AnimatedHero.astro
 import Container from '@/components/structural/Container.astro';
 import Section from '@/components/structural/Section.astro';
@@ -314,12 +274,7 @@ const { title, subtitle, primaryCTA, backgroundPattern = true } = Astro.props;
 
 // Split title into words for animation
 const titleWords = title.split(' ');
-
-
-***
-
-
-
+---
 <Section size="xl" class="animated-hero">
   {backgroundPattern && (
     <div class="pattern-overlay" aria-hidden="true">
@@ -468,11 +423,7 @@ const titleWords = title.split(' ');
 ### Advanced: Testimonials Section
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/Testimonials.astro
 import Container from '@/components/structural/Container.astro';
 import Section from '@/components/structural/Section.astro';
@@ -497,12 +448,7 @@ const {
   subtitle,
   testimonials 
 } = Astro.props;
-
-
-***
-
-
-
+---
 <Section size="lg" background="subtle">
   <Container>
     <div class="text-center mb-12">
@@ -523,7 +469,7 @@ const {
         >
           <div class="flex flex-col h-full">
             <div class="mb-4">
-              <svg class="w-8 h-8 text-primary-600 dark:text-primary-400" fill="currentColor" viewBox="0 0 24 24">
+              <svg class="w-8 h-8 text-primary-600" fill="currentColor" viewBox="0 0 24 24">
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
               </svg>
             </div>
@@ -587,11 +533,7 @@ const {
 ### Advanced: Stats Section
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/Stats.astro
 import Container from '@/components/structural/Container.astro';
 import Section from '@/components/structural/Section.astro';
@@ -608,12 +550,7 @@ export interface Props {
 }
 
 const { stats, title } = Astro.props;
-
-
-***
-
-
-
+---
 <Section size="md">
   <Container>
     {title && (
@@ -623,7 +560,7 @@ const { stats, title } = Astro.props;
     <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
       {stats.map((stat) => (
         <div class="text-center stat-item">
-          <div class="text-4xl md:text-5xl font-bold text-primary-600 dark:text-primary-400">
+          <div class="text-4xl md:text-5xl font-bold text-primary-600">
             <span class="stat-number" data-value={stat.value}>0</span>
             {stat.suffix && <span>{stat.suffix}</span>}
           </div>
@@ -641,11 +578,7 @@ const { stats, title } = Astro.props;
 ### Blog Listing Section
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/BlogListing.astro
 import { getCollection } from 'astro:content';
 import Container from '@/components/structural/Container.astro';
@@ -674,12 +607,7 @@ const posts = await getCollection('blog', ({ data }) => !data.draft);
 const sortedPosts = posts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
   .slice(0, limit);
-
-
-***
-
-
-
+---
 <Section size="lg">
   <Container>
     <div class="text-center mb-12">
@@ -716,7 +644,7 @@ const sortedPosts = posts
               <h3 class="text-xl font-semibold mb-2">
                 <a 
                   href={`/blog/${post.slug}`}
-                  class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                  class="hover:text-primary-600 transition-colors"
                 >
                   {post.data.title}
                 </a>
@@ -759,11 +687,7 @@ const sortedPosts = posts
 ### Project Grid Section
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/ProjectGrid.astro
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
@@ -792,12 +716,7 @@ const projects = await getCollection('projects', ({ data }) =>
 const sortedProjects = projects.sort((a, b) => 
   (a.data.sortOrder || 999) - (b.data.sortOrder || 999)
 );
-
-
-***
-
-
-
+---
 <Section size="lg" background="subtle">
   <Container>
     <div class="text-center mb-12">
@@ -830,7 +749,7 @@ const sortedProjects = projects.sort((a, b) =>
                 <h3 class="text-xl font-semibold">
                   <a 
                     href={`/projects/${project.slug}`}
-                    class="hover:text-primary-600 dark:hover:text-primary-400 transition-colors"
+                    class="hover:text-primary-600 transition-colors"
                   >
                     {project.data.title}
                   </a>
@@ -878,11 +797,7 @@ const sortedProjects = projects.sort((a, b) =>
 ### 1. Page Assembly
 
 ```astro
-
-
-***
-
-
+---
 // src/pages/index.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Hero from '@/components/sections/Hero.astro';
@@ -912,12 +827,7 @@ const features = [
     icon: "accessibility"
   }
 ];
-
-
-***
-
-
-
+---
 <BaseLayout 
   title="Your Name - Web Developer"
   description="Creating beautiful, performant web experiences"
@@ -967,11 +877,7 @@ const features = [
 ### 2. Dynamic Section Loading
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/DynamicSections.astro
 const sections = [
   { component: 'Hero', props: { title: 'Welcome' } },
@@ -985,12 +891,7 @@ const sectionComponents = {
   Features: await import('./Features.astro'),
   CTA: await import('./CTA.astro'),
 };
-
-
-***
-
-
-
+---
 {sections.map(({ component, props }) => {
   const Component = sectionComponents[component]?.default;
   return Component ? <Component {...props} /> : null;
@@ -1000,11 +901,7 @@ const sectionComponents = {
 ### 3. Section Variants
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/SectionWrapper.astro
 export interface Props {
   variant?: 'default' | 'wide' | 'narrow' | 'full';
@@ -1028,9 +925,9 @@ const variantClasses = {
 };
 
 const themeClasses = {
-  light: 'bg-white dark:bg-gray-900',
-  dark: 'bg-gray-900 text-white',
-  primary: 'bg-primary-600 text-white'
+  light: 'bg-surface',
+  dark: 'bg-surface text-primary-foreground',
+  primary: 'bg-primary-600 text-primary-foreground'
 };
 
 const spacingClasses = {
@@ -1038,12 +935,7 @@ const spacingClasses = {
   normal: 'py-12 md:py-20',
   spacious: 'py-20 md:py-32'
 };
-
-
-***
-
-
-
+---
 <section 
   id={id}
   class:list={[
@@ -1061,11 +953,7 @@ const spacingClasses = {
 ### 1. Lazy Loading Sections
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/LazySection.astro
 export interface Props {
   name: string;
@@ -1074,12 +962,7 @@ export interface Props {
 
 const { name, threshold = 0.1 } = Astro.props;
 const sectionId = `lazy-${name}-${Math.random().toString(36).slice(2)}`;
-
-
-***
-
-
-
+---
 <div 
   id={sectionId}
   class="lazy-section min-h-[400px] flex items-center justify-center"
@@ -1088,8 +971,8 @@ const sectionId = `lazy-${name}-${Math.random().toString(36).slice(2)}`;
 >
   <div class="loading-skeleton">
     <div class="animate-pulse">
-      <div class="h-8 bg-gray-200 dark:bg-gray-700 rounded w-3/4 mx-auto mb-4"></div>
-      <div class="h-4 bg-gray-200 dark:bg-gray-700 rounded w-1/2 mx-auto"></div>
+      <div class="h-8 bg-surface rounded w-3/4 mx-auto mb-4"></div>
+      <div class="h-4 bg-surface rounded w-1/2 mx-auto"></div>
     </div>
   </div>
 </div>
@@ -1149,11 +1032,7 @@ export function getSectionLoadPriority(sectionName: string): 'eager' | 'lazy' {
 ### 1. Section Navigation
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/SkipToSection.astro
 const sections = [
   { id: 'hero', label: 'Hero' },
@@ -1162,12 +1041,7 @@ const sections = [
   { id: 'projects', label: 'Projects' },
   { id: 'contact', label: 'Contact' }
 ];
-
-
-***
-
-
-
+---
 <nav class="sr-only" aria-label="Skip to section">
   <ul>
     {sections.map(section => (
@@ -1184,11 +1058,7 @@ const sections = [
 ### 2. Section Announcements
 
 ```astro
-
-
-***
-
-
+---
 // src/components/sections/AccessibleSection.astro
 export interface Props {
   title: string;
@@ -1197,12 +1067,7 @@ export interface Props {
 
 const { title, announceOnScroll = false } = Astro.props;
 const sectionId = `section-${Math.random().toString(36).slice(2)}`;
-
-
-***
-
-
-
+---
 <section 
   id={sectionId}
   aria-labelledby={`${sectionId}-title`}
@@ -1330,7 +1195,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 
     <ClientRouter />
   </head>
-  <body class="flex min-h-screen flex-col bg-background-primary text-foreground-primary antialiased">
+  <body class="flex min-h-screen flex-col bg-background text-foreground antialiased">
     <!-- Theme Detection & Setup -->
     <ThemeSetup />
     <SkipLink />
@@ -1435,9 +1300,9 @@ const shareUrls = {
     <header class="mb-12">
       <!-- Breadcrumb -->
       <nav class="mb-6 text-sm" aria-label="Breadcrumb">
-        <ol class="flex items-center space-x-2 text-foreground-secondary">
+        <ol class="flex items-center space-x-2 text-muted-foreground">
           <li>
-            <a href="/" class="hover:text-foreground-primary transition-colors">
+            <a href="/" class="hover:text-foreground transition-colors">
               Home
             </a>
           </li>
@@ -1447,7 +1312,7 @@ const shareUrls = {
             </svg>
           </li>
           <li>
-            <a href="/blog/" class="hover:text-foreground-primary transition-colors">
+            <a href="/blog/" class="hover:text-foreground transition-colors">
               Blog
             </a>
           </li>
@@ -1456,19 +1321,19 @@ const shareUrls = {
               <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
             </svg>
           </li>
-          <li class="text-foreground-primary" aria-current="page">
+          <li class="text-foreground" aria-current="page">
             {title}
           </li>
         </ol>
       </nav>
 
       <!-- Article Title -->
-      <h1 class="mb-6 text-4xl font-bold tracking-tight text-foreground-primary sm:text-5xl lg:text-6xl">
+      <h1 class="mb-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
         {title}
       </h1>
 
       <!-- Article Meta -->
-      <div class="mb-8 flex flex-wrap items-center gap-4 text-sm text-foreground-secondary">
+      <div class="mb-8 flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
         <div class="flex items-center">
           <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
@@ -1496,7 +1361,7 @@ const shareUrls = {
           <span>{readingTime}</span>
         </div>
         {isRecent && (
-          <Badge class="bg-secondary-600 text-white">New</Badge>
+          <Badge class="bg-secondary-600 text-primary-foreground">New</Badge>
         )}
       </div>
 
@@ -1539,8 +1404,8 @@ const shareUrls = {
         <div class="sticky top-8 space-y-8">
           <!-- Table of Contents -->
           {headings.length > 0 && (
-            <nav class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6">
-              <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
+            <nav class="rounded-lg border border-default bg-surface p-6">
+              <h3 class="mb-4 text-sm font-semibold text-foreground">
                 Table of Contents
               </h3>
               <ul class="space-y-2 text-sm">
@@ -1548,7 +1413,7 @@ const shareUrls = {
                   <li style={`margin-left: ${(heading.depth - 1) * 12}px`}>
                     <a
                       href={`#${heading.slug}`}
-                      class="text-foreground-secondary hover:text-primary-600 transition-colors"
+                      class="text-muted-foreground hover:text-primary-600 transition-colors"
                     >
                       {heading.text}
                     </a>
@@ -1559,8 +1424,8 @@ const shareUrls = {
           )}
 
           <!-- Social Sharing -->
-          <div class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6">
-            <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
+          <div class="rounded-lg border border-default bg-surface p-6">
+            <h3 class="mb-4 text-sm font-semibold text-foreground">
               Share this post
             </h3>
             <div class="flex flex-col space-y-3">
@@ -1580,20 +1445,20 @@ const shareUrls = {
         <div class="grid gap-8 md:grid-cols-2">
           {prevPost && (
             <div class="group">
-              <p class="mb-2 text-sm font-medium text-foreground-secondary">Previous Post</p>
+              <p class="mb-2 text-sm font-medium text-muted-foreground">Previous Post</p>
               <Button
                 href={`/blog/${prevPost.slug}/`}
                 variant="ghost"
-                class="h-auto p-4 text-left justify-start group-hover:bg-background-secondary"
+                class="h-auto p-4 text-left justify-start group-hover:bg-surface"
               >
                 <div>
-                  <div class="flex items-center text-sm text-foreground-secondary mb-1">
+                  <div class="flex items-center text-sm text-muted-foreground mb-1">
                     <svg class="mr-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                     </svg>
                     Previous
                   </div>
-                  <div class="text-base font-medium text-foreground-primary group-hover:text-primary-600">
+                  <div class="text-base font-medium text-foreground group-hover:text-primary-600">
                     {prevPost.data.title}
                   </div>
                 </div>
@@ -1602,20 +1467,20 @@ const shareUrls = {
           )}
           {nextPost && (
             <div class="group md:text-right">
-              <p class="mb-2 text-sm font-medium text-foreground-secondary">Next Post</p>
+              <p class="mb-2 text-sm font-medium text-muted-foreground">Next Post</p>
               <Button
                 href={`/blog/${nextPost.slug}/`}
                 variant="ghost"
-                class="h-auto p-4 text-right justify-end group-hover:bg-background-secondary"
+                class="h-auto p-4 text-right justify-end group-hover:bg-surface"
               >
                 <div>
-                  <div class="flex items-center justify-end text-sm text-foreground-secondary mb-1">
+                  <div class="flex items-center justify-end text-sm text-muted-foreground mb-1">
                     Next
                     <svg class="ml-2 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                     </svg>
                   </div>
-                  <div class="text-base font-medium text-foreground-primary group-hover:text-primary-600">
+                  <div class="text-base font-medium text-foreground group-hover:text-primary-600">
                     {nextPost.data.title}
                   </div>
                 </div>
@@ -1631,7 +1496,7 @@ const shareUrls = {
 <style>
   /* Enhanced prose styling for blog content */
   .prose {
-    @apply text-foreground-primary;
+    @apply text-foreground;
   }
   
   .prose h1,
@@ -1640,7 +1505,7 @@ const shareUrls = {
   .prose h4,
   .prose h5,
   .prose h6 {
-    @apply text-foreground-primary font-bold;
+    @apply text-foreground font-bold;
   }
   
   .prose h2 {
@@ -1660,11 +1525,11 @@ const shareUrls = {
   }
   
   .prose code {
-    @apply bg-background-secondary px-1.5 py-0.5 rounded text-sm;
+    @apply bg-surface px-1.5 py-0.5 rounded text-sm;
   }
   
   .prose pre {
-    @apply bg-background-secondary rounded-lg p-4 overflow-x-auto;
+    @apply bg-surface rounded-lg p-4 overflow-x-auto;
   }
   
   .prose pre code {
@@ -1795,11 +1660,11 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
           <div class="project-info">
             <!-- Breadcrumb Navigation -->
             <nav class="breadcrumb mb-6" aria-label="Breadcrumb">
-              <ol class="flex items-center space-x-2 text-sm text-foreground-secondary">
+              <ol class="flex items-center space-x-2 text-sm text-muted-foreground">
                 <li>
                   <a 
                     href="/projects/" 
-                    class="hover:text-foreground-primary transition-colors duration-200"
+                    class="hover:text-foreground transition-colors duration-200"
                     aria-label="Back to projects"
                   >
                     Projects
@@ -1807,18 +1672,18 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
                 </li>
                 <li class="flex items-center">
                   <span class="mx-2" aria-hidden="true">→</span>
-                  <span class="text-foreground-primary font-medium">{project.title}</span>
+                  <span class="text-foreground font-medium">{project.title}</span>
                 </li>
               </ol>
             </nav>
 
             <!-- Project Title -->
-            <h1 class="project-title text-4xl lg:text-5xl font-bold text-foreground-primary mb-4 leading-tight">
+            <h1 class="project-title text-4xl lg:text-5xl font-bold text-foreground mb-4 leading-tight">
               {project.title}
             </h1>
 
             <!-- Project Description -->
-            <p class="project-description text-lg text-foreground-secondary mb-6 leading-relaxed">
+            <p class="project-description text-lg text-muted-foreground mb-6 leading-relaxed">
               {project.description}
             </p>
 
@@ -1830,19 +1695,19 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
                 </Badge>
               )}
               {project.role && (
-                <span class="text-sm text-foreground-secondary">
+                <span class="text-sm text-muted-foreground">
                   {project.role}
                 </span>
               )}
               {publishedDate && (
-                <span class="text-sm text-foreground-secondary">
+                <span class="text-sm text-muted-foreground">
                   <time datetime={project.date?.toString()}>
                     {publishedDate}
                   </time>
                 </span>
               )}
               {project.duration && (
-                <span class="text-sm text-foreground-secondary">
+                <span class="text-sm text-muted-foreground">
                   {project.duration}
                 </span>
               )}
@@ -1899,12 +1764,12 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
     <main class="project-content mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
       <!-- Tech Stack Section -->
       <section class="tech-stack-section mb-12" aria-labelledby="tech-stack-heading">
-        <h2 id="tech-stack-heading" class="text-2xl font-bold text-foreground-primary mb-6">
+        <h2 id="tech-stack-heading" class="text-2xl font-bold text-foreground mb-6">
           Tech Stack
         </h2>
         <div class="tech-stack-grid grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
           {(project.technologies ?? []).map((tech: string) => (
-             <div class="tech-item text-center p-4 bg-background-secondary border border-primary rounded-lg hover:border-primary-300 transition-colors duration-200">
+             <div class="tech-item text-center p-4 bg-surface border border-primary rounded-lg hover:border-primary-300 transition-colors duration-200">
                <Badge class="w-full justify-center text-sm font-medium">
                  {tech}
                </Badge>
@@ -1915,10 +1780,10 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 
       <!-- Project Details -->
       <section class="project-details mb-12" aria-labelledby="details-heading">
-        <h2 id="details-heading" class="text-2xl font-bold text-foreground-primary mb-6">
+        <h2 id="details-heading" class="text-2xl font-bold text-foreground mb-6">
           Project Details
         </h2>
-        <div class="prose prose-lg max-w-none text-foreground-secondary">
+        <div class="prose prose-lg max-w-none text-muted-foreground">
           <!-- Slot for additional content -->
           <slot />
         </div>
@@ -1953,24 +1818,24 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
 
   .tech-stack-grid .tech-item:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px hsl(var(--color-foreground-primary) / 0.1);
+    box-shadow: 0 4px 12px hsl(var(--color-foreground) / 0.1);
   }
 
   .prose {
-    @apply text-foreground-primary;
+    @apply text-foreground;
     line-height: 1.7;
   }
 
   .prose h2 {
-    @apply text-2xl font-bold text-foreground-primary mt-10 mb-5;
+    @apply text-2xl font-bold text-foreground mt-10 mb-5;
   }
 
   .prose h3 {
-    @apply text-xl font-semibold text-foreground-primary mt-8 mb-4;
+    @apply text-xl font-semibold text-foreground mt-8 mb-4;
   }
 
   .prose p {
-    @apply mb-6 leading-relaxed text-foreground-secondary;
+    @apply mb-6 leading-relaxed text-muted-foreground;
   }
 
   .prose ul, .prose ol {
@@ -1978,7 +1843,7 @@ const publishedDate = project.date ? formatDate(project.date, "full") : null;
   }
 
   .prose code {
-    @apply bg-background-secondary px-1.5 py-0.5 rounded text-sm font-mono;
+    @apply bg-surface px-1.5 py-0.5 rounded text-sm font-mono;
   }
 
   .prose blockquote {

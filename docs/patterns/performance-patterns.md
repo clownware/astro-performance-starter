@@ -37,11 +37,7 @@ pagefind: true
 ### 1. Responsive Image Component
 
 ```astro
-
-
-***
-
-
+---
 // OptimizedImage.astro
 import { Image } from 'astro:assets';
 
@@ -61,12 +57,7 @@ const {
 
 // Generate widths for different screen sizes
 const widths = [320, 640, 800, 1024, 1280, 1600];
-
-
-***
-
-
-
+---
 <Image
   src={src}
   alt={alt}
@@ -90,11 +81,7 @@ const widths = [320, 640, 800, 1024, 1280, 1600];
 ### 2. Progressive Image Loading
 
 ```astro
-
-
-***
-
-
+---
 // ProgressiveImage.astro
 import { Image } from 'astro:assets';
 
@@ -113,12 +100,7 @@ const placeholderSrc = await getImage({
   quality: 10,
   format: 'webp'
 });
-
-
-***
-
-
-
+---
 <div class="progressive-image">
   <img 
     class="placeholder"
@@ -167,19 +149,10 @@ const placeholderSrc = await getImage({
 ### 1. Critical CSS Extraction
 
 ```astro
-
-
-***
-
-
+---
 // CriticalStyles.astro
 // Inline critical CSS for above-the-fold content
-
-
-***
-
-
-
+---
 <style is:inline>
   /* Reset and base styles */
   *, *::before, *::after { box-sizing: border-box; }
@@ -204,18 +177,9 @@ const placeholderSrc = await getImage({
 ### 2. CSS Loading Strategy
 
 ```astro
-
-
-***
-
-
+---
 // OptimizedStyles.astro
-
-
-***
-
-
-
+---
 <!-- Critical CSS (inline) -->
 <style is:inline>
   /* Minimal styles for initial paint */
@@ -236,18 +200,10 @@ const placeholderSrc = await getImage({
 ### 3. Scoped Animation Styles
 
 ```astro
-
-
-***
-
-
+---
 // AnimationStyles.astro
 // Only load animation CSS when needed
-
-
-***
-
-
+---
 <style>
   /* Check for motion preference first */
   @media (prefers-reduced-motion: no-preference) {
@@ -277,11 +233,7 @@ const placeholderSrc = await getImage({
 ### 1. Conditional Client Directives
 
 ```astro
-
-
-***
-
-
+---
 // ConditionalIsland.astro
 import InteractiveComponent from './InteractiveComponent.astro';
 
@@ -291,12 +243,7 @@ export interface Props {
 }
 
 const { loadWhen, mediaQuery = '(min-width: 768px)' } = Astro.props;
-
-
-***
-
-
-
+---
 <section>
   <h2>Conditionally Loaded Island</h2>
   
@@ -317,18 +264,9 @@ const { loadWhen, mediaQuery = '(min-width: 768px)' } = Astro.props;
 ### 2. Debounced Event Handlers
 
 ```astro
-
-
-***
-
-
+---
 // DebouncedSearch.astro
-
-
-***
-
-
-
+---
 <input 
   type="search" 
   id="search-input"
@@ -365,18 +303,9 @@ const { loadWhen, mediaQuery = '(min-width: 768px)' } = Astro.props;
 ### 3. Intersection Observer for Lazy Loading
 
 ```astro
-
-
-***
-
-
+---
 // LazyLoadContainer.astro
-
-
-***
-
-
-
+---
 <div class="lazy-container" data-src="/api/content">
   <div class="skeleton">Loading...</div>
 </div>
@@ -414,17 +343,9 @@ const { loadWhen, mediaQuery = '(min-width: 768px)' } = Astro.props;
 ### 1. Modern Font Loading
 
 ```astro
-
-
-***
-
-
+---
 // FontLoader.astro
-
-
-***
-
-
+---
 <!-- Preconnect to Google Fonts (if used) -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -593,18 +514,9 @@ self.addEventListener('fetch', event => {
 ### 1. Performance Observer
 
 ```astro
-
-
-***
-
-
+---
 // PerformanceMonitor.astro
-
-
-***
-
-
-
+---
 <script>
   // Monitor Core Web Vitals
   if ('PerformanceObserver' in window) {

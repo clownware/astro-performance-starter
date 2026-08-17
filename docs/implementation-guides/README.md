@@ -110,7 +110,7 @@ Stop here when you need an enterprise-grade deployment.
 
 > **"Completed" vs "Active" is from _your_ perspective as a cloner, not the template's.**
 > This template already ships a fully-built reference implementation of every phase
-> (44 components, content collections, an e2e suite, performance budgets, CI, and
+> (~45 components, content collections, an e2e suite, performance budgets, CI, and
 > deployment config). The Foundation phases below are marked "Complete" because they're
 > shared infrastructure you inherit as-is; the "Active" phases are the customization work
 > _you_ do to make the site yours (your components, your content, your QA pass). Read each
@@ -187,10 +187,10 @@ Each active phase includes practical code examples:
 
 ## Common Patterns
 
-- [Islands Architecture](/implementation-guides/patterns/islands-architecture/) - When to add interactivity
-- [Content Collections](/implementation-guides/patterns/content-collections/) - Advanced content patterns
-- [Performance Patterns](/implementation-guides/patterns/performance-patterns/) - Optimization techniques
-- [Component Patterns](/implementation-guides/patterns/component-patterns/) - Reusable UI patterns
+- [Islands Architecture](/patterns/islands-architecture/) - When to add interactivity
+- [Content Collections](/patterns/content-collections/) - Advanced content patterns
+- [Performance Patterns](/patterns/performance-patterns/) - Optimization techniques
+- [Component Patterns](/patterns/component-patterns/) - Reusable UI patterns
 
 ## Scope Decision Matrix
 

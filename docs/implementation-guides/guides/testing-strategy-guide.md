@@ -499,9 +499,9 @@ jobs:
         uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
-            http://localhost:3000
-            http://localhost:3000/about
-            http://localhost:3000/contact
+            http://localhost:4321
+            http://localhost:4321/about
+            http://localhost:4321/contact
           uploadArtifacts: true
           temporaryPublicStorage: true
 ```

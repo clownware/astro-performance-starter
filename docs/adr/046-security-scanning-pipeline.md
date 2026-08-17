@@ -202,7 +202,7 @@ entries are crawler attack-surface mapping. These are documented as known not-ap
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: Semgrep, gitleaks, dependency-audit, and Trivy jobs run in CI and fail on findings.

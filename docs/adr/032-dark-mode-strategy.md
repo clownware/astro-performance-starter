@@ -103,6 +103,14 @@ explicit user choice still wins, persisted in `localStorage`).
 
 ### Implementation
 
+*(Amended 2026-08-13: the shipped implementation has grown beyond these founding
+snippets — `ThemeSetup.astro` now handles three states (light/dark/system), sets
+both the `.dark` class and `data-theme` on `<html>`, and syncs the choice across
+tabs; `ThemeToggle.astro` cycles the three states; token variables use the
+ADR-047 role names (`--color-surface`, `--color-foreground`), not the
+`--color-background-primary` shape below. The snippets record the original
+mechanism; the source files are the reference.)*
+
 `src/components/ThemeSetup.astro` contains the inline script:
 
 ```astro
@@ -183,14 +191,14 @@ This means the class-based strategy is required — the token system cannot be c
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: dark mode is class-scoped — `src/styles/global.css` declares the `.dark`-based variant (`@variant dark (&:where(.dark, .dark *))`), not a media-query-only strategy.
 - **Checks:**
   - TC-1 → check `dark-mode-shape` (status: **warn**)
 - **Not machine-checkable:** FOIT-prevention behaviour of the inline theme script is a runtime concern exercised in the browser, not statically assertable.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-02-18\

@@ -80,26 +80,23 @@ Work through phases sequentially and stop when you've reached your goals. See [I
 
 ### Progress Tracking
 
-> This checklist is automatically updated based on the `status: complete` frontmatter in each phase guide.
+> This checklist is synced by running `pnpm run roadmap:update` — a phase counts as complete when its guide lives in `implementation-guides/completed/` (or carries a `status: complete` frontmatter override).
 
 <!-- ROADMAP_STATUS_START -->
-
-<!-- The script will automatically update this section. Do not manually edit. -->
-
-- \[x] Phase 0: Foundation
-- \[x] Phase 1: Content Architecture
-- \[x] Phase 2: Design System
-- \[x] Phase 3: Tooling
-- \[x] Phase 4: Skeleton
-- \[x] Phase 5: Components
-- \[ ] Phase 6: Sections
-- \[ ] Phase 7: Content
-- \[ ] Phase 8: QA
-- \[ ] Phase 9: Performance
-- \[ ] Phase 10: Deployment
-- \[ ] Phase 11: Documentation
-- \[ ] Phase 12: Post-Launch
-
+<!-- Synced by `pnpm run roadmap:update`. Do not manually edit. -->
+- [x] Phase 0: Foundation
+- [x] Phase 1: Content Architecture
+- [x] Phase 2: Design System
+- [x] Phase 3: Tooling
+- [x] Phase 4: Skeleton
+- [ ] Phase 5: Components
+- [ ] Phase 6: Sections
+- [ ] Phase 7: Content
+- [ ] Phase 8: QA
+- [ ] Phase 9: Performance
+- [ ] Phase 10: Deployment
+- [ ] Phase 11: Documentation
+- [ ] Phase 12: Post-Launch
 <!-- ROADMAP_STATUS_END -->
 
 ## Architecture & Patterns

@@ -66,7 +66,7 @@ This rule prohibits raw `<script>` tags directly in HTML output that are not man
 For client-side JavaScript:
 
 1. **Astro Islands (Preact, React, Vue, Svelte, SolidJS)**: This is the PREFERRED METHOD.
-   Use client directives like `client:load`, `client:idle`, or `client:visible`.
+   Use `client:idle` or `client:visible` — `client:load` is forbidden without ADR justification (ADR-001).
    Astro processes these island scripts, bundles them, and they can be managed with a Content Security Policy (CSP)
    that allows Astro's generated script hashes or uses nonces.
 2. **Astro `<script>` tags (NOT `is:inline`)**: Astro processes, bundles, and hashes these scripts.
@@ -236,22 +236,22 @@ else
   JS_SIZE=${JS_FILES_TOTAL_SIZE:-0}
 
   if [ "$JS_SIZE" -gt "$JS_SIZE_LIMIT_BYTES" ]; then
-    echo "❌ JavaScript bundle RAW size ($JS_SIZE bytes) is being compared against a GZIPPED target of $JS_SIZE_LIMIT_BYTES bytes in '$JS_BUNDLE_PATH'. This indicates a likely budget overrun."
+    echo "❌ JavaScript bundle RAW size ($JS_SIZE bytes) exceeds the RAW budget of $JS_SIZE_LIMIT_BYTES bytes in '$JS_BUNDLE_PATH'."
     exit 1
   else
-    echo "✅ JavaScript bundle RAW size: $JS_SIZE bytes (GZIPPED Target: $JS_SIZE_LIMIT_BYTES bytes). Ensure gzipped size is checked separately."
+    echo "✅ JavaScript bundle RAW size: $JS_SIZE bytes (raw budget: $JS_SIZE_LIMIT_BYTES bytes)."
   fi
 fi
 
-# Lighthouse CI assertion
+# Lighthouse CI assertion — mirrors lighthouserc.json (the real config;
+# lighthouserc.mobile.json is the mobile companion, CI gates on BOTH)
 lighthouse:ci:
   assert:
-    preset: lighthouse:recommended
     assertions:
-      performance: [error, {minScore: 0.95}]
-      accessibility: [error, {minScore: 0.98}]
-      best-practices: [error, {minScore: 1}]
-      seo: [error, {minScore: 0.95}]
+      categories:performance: [error, {minScore: 0.90}]
+      categories:accessibility: [error, {minScore: 0.95}]
+      categories:best-practices: [error, {minScore: 0.95}]
+      categories:seo: [error, {minScore: 0.90}]
 ```
 
 ### Pre-commit Hooks

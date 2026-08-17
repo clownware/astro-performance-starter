@@ -14,20 +14,16 @@ pnpm exec husky init
 echo 'pnpm exec lint-staged' > .husky/pre-commit
 ```
 
+Husky v9 hooks are plain one-line scripts — no shebang or `husky.sh` sourcing:
+
 **`.husky/pre-commit`:**
 
 ```bash
-#!/usr/bin/env sh
-. "$(dirname "$0")/_/husky.sh"
-
 pnpm exec lint-staged
 ```
 
 **`.husky/commit-msg`:**
 
 ```bash
-#!/usr/bin/env sh
-. "$(dirname "$0")/_/husky.sh"
-
-pnpm exec commitlint --edit $1
+pnpm exec commitlint --edit "$1"
 ```

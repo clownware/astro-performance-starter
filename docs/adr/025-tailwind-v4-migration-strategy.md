@@ -30,6 +30,8 @@ The original concerns from the deferred decision were:
 
 ## What Changed
 
+*(Dependency versions below are as of the migration; current pins live in `package.json` and `versions.json`.)*
+
 ### Integration
 
 | Before | After |
@@ -121,7 +123,7 @@ Three component style blocks that used `@apply` with custom utility classes now 
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: no `tailwind.config.{js,ts,mjs,cjs}` file exists.

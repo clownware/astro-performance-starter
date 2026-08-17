@@ -125,7 +125,7 @@ The schema design decisions are non-obvious and affect how users extend the temp
 
 ### `navigation` — JSON data
 
-**Purpose**: Header and footer navigation link lists
+**Purpose**: Header navigation link list *(amended 2026-08-13: the footer's links are hardcoded in `Footer.astro`, not sourced from this collection)*
 
 **Format**: JSON — pure structured data; no content, no MDX needed
 
@@ -196,7 +196,7 @@ This ADR supersedes [ADR-017](./017-experience-content-collection.md) for the ex
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: every content entry validates against its Zod schema — the build fails otherwise.

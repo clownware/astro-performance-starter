@@ -1,5 +1,5 @@
 /**
- * Unit tests for the ADR enforcement suite's pure check registry (ADR-062).
+ * Unit tests for the ADR enforcement suite's pure check registry (ADR-064).
  * Written before the implementation per ADR-037.
  *
  * Each check is exercised against a minimal compliant snapshot (`clean()`)
@@ -194,6 +194,19 @@ describe("structure invariants", () => {
   it("atomic-dirs flags a component outside the sanctioned directories", () => {
     const snap = withFile(clean(), "src/components/ui/Fancy.astro", "<div />");
     expect(runCheck("atomic-dirs", snap, config).join()).toContain("ui/Fancy.astro");
+  });
+
+  it("atomic-dirs accepts every sanctioned location (ADR-003 amendment)", () => {
+    let snap = clean();
+    for (const p of [
+      "src/components/a11y/SkipLink.astro",
+      "src/components/mdx/Callout.astro",
+      "src/components/ThemeSetup.astro",
+      "src/components/CLAUDE.md",
+    ]) {
+      snap = withFile(snap, p, "<div />");
+    }
+    expect(runCheck("atomic-dirs", snap, config)).toEqual([]);
   });
 
   it("baselayout-no-named-slots flags a named slot", () => {

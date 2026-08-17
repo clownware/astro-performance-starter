@@ -74,6 +74,10 @@ const versionsJsonToPackage: Record<string, string> = {
   husky: "husky",
   "style-dictionary": "style-dictionary",
   "tailwindcss-typography": "@tailwindcss/typography",
+  "astro-mdx": "@astrojs/mdx",
+  "astro-sitemap": "@astrojs/sitemap",
+  "lighthouse-ci": "@lhci/cli",
+  lighthouse: "lighthouse",
 };
 
 /** Strips a leading range operator (^, ~, >=, etc.) from a semver range. */

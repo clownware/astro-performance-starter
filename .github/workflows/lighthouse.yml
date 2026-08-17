@@ -8,7 +8,7 @@ name: Lighthouse CI
 
 on:
   pull_request:
-    branches: [master, develop]
+    branches: [master]
 
 permissions:
   contents: read

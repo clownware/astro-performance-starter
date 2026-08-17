@@ -216,7 +216,7 @@ This guidance should be reflected in `.windsurfrules` and `docs/ai-context/INDEX
 
 - [ADR-034: Dual-Purpose Docs Strategy](/adr/034-dual-purpose-docs-strategy/) — Formalizes the role of `docs/` as AI context
 - [ADR-033: Track Consolidation](/adr/033-track-consolidation/) — Simplifies the documentation structure
-- [ADR-008: Documentation Sync Strategy](/adr/008-docs-sync-strategy/) — Handles docs propagation to Starlight
+- [ADR-008: Documentation Sync Strategy](/adr/008-docs-sync-strategy/) — Superseded by ADR-059's drift gate; the Starlight push-sync is retired
 
 ## Notes
 
@@ -226,7 +226,7 @@ The PR template (`.github/PULL_REQUEST_TEMPLATE.md`) should include a checkbox: 
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: the repo root contains only Category-1 files, standard dotfiles, and `docs/`.

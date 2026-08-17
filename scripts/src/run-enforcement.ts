@@ -1,12 +1,12 @@
 #!/usr/bin/env tsx
 /**
- * ADR enforcement suite runner (ADR-062).
+ * ADR enforcement suite runner (ADR-064).
  *
  * Builds a repo snapshot, applies every internal check from
  * `checks/enforcement.config.json`, and reports in the house format:
  * BLOCKER | WARNING | PASS | DELEGATED. Exit is non-zero only when a
  * block-status check fails — warn-status findings are report-only while
- * the check calibrates (graduation rules in ADR-062).
+ * the check calibrates (graduation rules in ADR-064).
  *
  * Mirrors the gate-script pattern (ADR-057/058): the checks themselves are
  * pure and unit-tested in `enforcement-checks.ts`; this file is the I/O shell.
@@ -162,7 +162,7 @@ function main(): void {
   if (jsonOnly) {
     console.log(JSON.stringify({ summary, results: rows }));
   } else {
-    console.log("ADR Enforcement Suite (ADR-062)\n");
+    console.log("ADR Enforcement Suite (ADR-064)\n");
     for (const row of rows) {
       const head = `${row.outcome.padEnd(9)} ${row.id} (${row.adr} ${row.tc})`;
       if (row.outcome === "DELEGATED") {
@@ -179,7 +179,7 @@ function main(): void {
       `\nSummary: ${summary.passes} pass, ${summary.warnings} warning, ${summary.blockers} blocker, ${summary.delegated} delegated → ${reportPath}`,
     );
     if (summary.warnings > 0) {
-      console.log("Warn-status findings do not fail the run (graduation rules: ADR-062).");
+      console.log("Warn-status findings do not fail the run (graduation rules: ADR-064).");
     }
   }
 

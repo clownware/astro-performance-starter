@@ -101,14 +101,14 @@ No new top-level component categorization folders (e.g., `src/components/ui/`, `
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
-  - TC-1: every file under `src/components/` lives in `atoms/`, `molecules/`, `organisms/`, `structural/`, or `__tests__/`.
+  - TC-1: every file under `src/components/` lives in `atoms/`, `molecules/`, `organisms/`, `structural/`, `islands/` (ADR-060), `mdx/`, `a11y/`, or `__tests__/` — plus the sanctioned root-level files `ThemeSetup.astro` and `CLAUDE.md` (2026-08-02 amendment above).
 - **Checks:**
   - TC-1 → check `atomic-dirs` (status: **warn**)
 - **Not machine-checkable:** whether a given component is correctly classified between atoms, molecules, and organisms is a judgment call.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** 2026-08-13 — calibration fix, not a graduation: `atomic-dirs` was firing on 17 files this ADR's own amendment sanctions (`a11y/`, `mdx/`, root-level `ThemeSetup.astro`/`CLAUDE.md`); the check's sanctioned set was corrected to match the record (ADR-064 rule: fix the check, don't graduate a miscalibrated one).
 
 ---
 **Date**: 2025-06-10\

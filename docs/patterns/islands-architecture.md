@@ -81,27 +81,14 @@ graph TD
 
 ```astro
 // ❌ Bad: JavaScript required for basic functionality
-
-
-***
-
-
+---
 <div id="menu" class="hidden">
   <nav>...</nav>
 </div>
 <button onclick="toggleMenu()">Menu</button>
-
-
-
-***
-
-
+---
 // ✅ Good: Works without JavaScript
-
-
-***
-
-
+---
 <details>
   <summary>Menu</summary>
   <nav>...</nav>
@@ -123,74 +110,27 @@ graph TD
 
 ```astro
 // ❌ Bad: Loading immediately when not needed
-
-
-***
-
-
+---
 import Counter from './Counter.jsx';
-
-
-***
-
-
+---
 <Counter client:load />
-
-
-
-***
-
-
+---
 // ✅ Good: Load when user will likely interact
-
-
-***
-
-
+---
 import Counter from './Counter.jsx';
-
-
-***
-
-
+---
 <Counter client:visible />
-
-
-
-***
-
-
+---
 // ✅ Better: Load during idle time
-
-
-***
-
-
+---
 import Counter from './Counter.jsx';
-
-
-***
-
-
+---
 <Counter client:idle />
-
-
-
-***
-
-
+---
 // ✅ Best: Load only on larger screens where it's used
-
-
-***
-
-
+---
 import InteractiveChart from './Chart.jsx';
-
-
-***
-
-
+---
 <InteractiveChart client:media="(min-width: 768px)" />
 ```
 
@@ -212,21 +152,12 @@ export function ProductPage({ products }) {
 
 // ✅ Good: Only interactive parts as islands
 // Static shell in Astro:
-
-
-***
-
-
+---
 import Header from './Header.astro';
 import ProductGrid from './ProductGrid.astro';
 import FilterIsland from './FilterIsland.jsx';
 import CartIsland from './CartIsland.jsx';
-
-
-***
-
-
-
+---
 <Header />
 <FilterIsland client:visible />
 <ProductGrid products={...} />
@@ -290,18 +221,9 @@ const searchIsland: IslandAnalysis = {
 ### 1. Search Island
 
 ```astro
-
-
-***
-
-
+---
 // SearchIsland.astro - Progressive enhancement approach
-
-
-***
-
-
-
+---
 <!-- Works without JavaScript -->
 <form action="/search" method="get" class="search-form">
   <input 
@@ -365,19 +287,10 @@ export function FilterIsland({ initialFilters }) {
 ### 3. Comments Island
 
 ```astro
-
-
-***
-
-
+---
 // CommentsSection.astro
 import CommentsIsland from './Comments.jsx';
-
-
-***
-
-
-
+---
 <section>
   <h3>Comments</h3>
   
@@ -504,11 +417,7 @@ test('islands hydrate when expected', async ({ page }) => {
 
 ```astro
 // Before: Monolithic component
-
-
-***
-
-
+---
 // app.jsx
 export function App() {
   return (
@@ -524,11 +433,7 @@ export function App() {
 }
 
 // After: Only islands for interactive parts
-
-
-***
-
-
+---
 // app.astro
 import Header from './Header.astro';
 import SearchIsland from './SearchIsland.jsx';
@@ -536,12 +441,7 @@ import FilterIsland from './FilterIsland.jsx';
 import ProductGrid from './ProductGrid.astro';
 import CartIsland from './CartIsland.jsx';
 import Footer from './Footer.astro';
-
-
-***
-
-
-
+---
 <Header />
 <SearchIsland client:idle />
 <div class="layout">
@@ -557,17 +457,9 @@ import Footer from './Footer.astro';
 ### Custom Island Metrics
 
 ```astro
-
-
-***
-
-
+---
 // IslandMonitor.astro
-
-
-***
-
-
+---
 <script>
   // Track custom metrics for each island
   document.addEventListener('astro:after-swap', () => {

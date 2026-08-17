@@ -283,7 +283,7 @@ Create onboarding guide for [Role/Team]:
 - Resource links
 - Getting started tasks
 
-Reference team guides from docs/team/
+Reference the development guides in docs/development/
 ```
 
 ### Knowledge Transfer
@@ -299,7 +299,7 @@ Document [Feature/System] for knowledge transfer:
 - Contact information
 - Related documentation
 
-Use knowledge transfer template from docs/knowledge-base/
+Use the AI context docs in docs/ai-context/ as the knowledge-transfer baseline
 ```
 
 ## Maintenance Prompts

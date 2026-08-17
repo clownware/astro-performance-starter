@@ -21,21 +21,26 @@ The template includes a basic content collection structure that you can extend:
 
 ```typescript
 // src/content.config.ts
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
-const blog = defineCollection({
-  type: 'content',
-  schema: z.object({
-    title: z.string(),
-    description: z.string(),
-    publishDate: z.date(),
-    author: z.string().optional(),
-    tags: z.array(z.string()).optional(),
-    draft: z.boolean().default(false),
-  }),
+const blogCollection = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().max(160),
+      date: z.date(),
+      draft: z.boolean().default(false),
+      cover: image().optional(),
+      coverAlt: z.string(),
+      tags: z.array(z.string()).default([]),
+      author: z.string().default('Your Name'),
+    }),
 });
 
-export const collections = { blog };
+export const collections = { blog: blogCollection };
 ```
 
 ### Creating Content
@@ -53,7 +58,9 @@ The template supports MDX for rich content with React-like components:
 ---
 title: "Example Post"
 description: "Demonstrating MDX components"
-publishDate: 2024-01-01
+date: 2026-01-01
+coverAlt: ""
+tags: []
 ---
 
 # My Post

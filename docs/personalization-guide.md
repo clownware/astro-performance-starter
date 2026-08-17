@@ -63,9 +63,9 @@ Blog schema supports: title, description, date, tags, technologies, cover/card i
 
 Replace demo projects with your own case studies. The existing "Building This Template" entry demonstrates the full schema — keep it as a reference or replace it.
 
-### 9. `astro.config.mjs`
+### 9. `SITE_URL` environment variable
 
-Set the `site` URL to your production domain. This controls canonical URLs, sitemap generation, and OG image paths.
+Set `SITE_URL` (in `.env` locally; in your platform's settings for deploys) to your production domain — `astro.config.mjs` derives `site` from it, and production builds fail without it. This controls canonical URLs, sitemap generation, and OG image paths. The shipped GitHub Pages workflow sets it automatically.
 
 ---
 

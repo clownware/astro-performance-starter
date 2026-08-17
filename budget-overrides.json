@@ -1,5 +1,6 @@
 {
   "$schema": "./schemas/budget-override.schema.json",
+  "$comment": "Temporary budget lifts applied by `pnpm perf:budgets` (metric matches a budgets.json name; temporary is bytes). `budgets:validate` fails CI on unexpired hygiene: any entry left in `overrides` past its `expires` date must be fixed or archived to `expired_overrides`.",
   "overrides": [],
   "expired_overrides": [
     {

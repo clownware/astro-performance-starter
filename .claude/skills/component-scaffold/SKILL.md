@@ -102,7 +102,7 @@ export default function ComponentName({ ...props }: Props) {
 
 ### 5. Apply project conventions
 
-- **Design tokens:** Use semantic Tailwind classes — `text-foreground-primary`, `bg-background-secondary`, `border-border-primary`. Never hardcode colors.
+- **Design tokens:** Use semantic Tailwind classes (ADR-047) — `text-foreground`, `text-muted-foreground`, `bg-background`, `bg-surface`, `border-border`, `border-border-emphasis`. Never hardcode colors.
 - **Dark mode:** Handled automatically by token system. No manual `dark:` variants needed.
 - **Accessibility:** Include `role`, `aria-*` attributes, and keyboard event handlers where applicable. Generate unique IDs for `aria-labelledby` relationships.
 - **Motion:** Respect `prefers-reduced-motion` with `motion-reduce:` Tailwind variant.

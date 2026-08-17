@@ -152,9 +152,9 @@ Apply this pattern to all dynamic routes:
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
-- **Not machine-checkable:** presence of the defensive redirect pattern in dynamic routes is a review concern. A grep-based check was evaluated during the enforcement retrofit and rejected as brittle (pattern text varies legitimately); see ADR-062.
+- **Not machine-checkable:** presence of the defensive redirect pattern in dynamic routes is a review concern. A grep-based check was evaluated during the enforcement retrofit and rejected as brittle (pattern text varies legitimately); see ADR-064.
 - **Graduation log:** _(empty at creation; entries added when a check changes status)_
 
 ---

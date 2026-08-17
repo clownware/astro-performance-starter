@@ -166,7 +166,7 @@ The AI Context Index (`docs/ai-context/INDEX.md`) will be updated to include a f
 
 ### Current Project State
 - Location: `docs/ai-context/INDEX.md` frontmatter (`current_phase`)
-- Contract: CI updates this value on phase completion
+- Contract: updated manually on phase completion, then `pnpm run roadmap:update` syncs the checklist _(amended 2026-08-13: no CI automation exists — INDEX.md documents the manual flow)_
 
 ### Rules of Engagement
 1. Read `docs/adr/` before suggesting architectural changes
@@ -238,7 +238,7 @@ docs/** linguist-documentation
 
 ### Neutral
 
-- The docs sync workflow (ADR-008) continues to work unchanged — it syncs `docs/` to the Starlight repo regardless of the dual-purpose framing
+- ~~The docs sync workflow (ADR-008) continues to work unchanged~~ _(amended 2026-08-13: the push-sync was retired by ADR-059's drift gate; ADR-008 is superseded)_
 - No changes to the build pipeline or deployment process
 - The `docs/ai-context/` subdirectory already exists — this ADR formalizes its role rather than creating something new
 
@@ -263,7 +263,7 @@ This is distinct from `.windsurfrules` / `.cursorrules` files (which are IDE-spe
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: `docs/README.md` exists and the documented zone directories are present.

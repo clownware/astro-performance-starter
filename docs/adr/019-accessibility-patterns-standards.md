@@ -271,7 +271,7 @@ Is the badge announcing a live status change?
 **Requirements**:
 
 - Focus indicators must have 3:1 contrast ratio with background
-- Never use `outline-solid: none` without replacement
+- Never use `outline: none` without replacement
 - Use `focus-visible:` for keyboard-only indicators
 - Test with keyboard navigation
 
@@ -607,10 +607,10 @@ All atomic components follow these patterns:
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
-  - TC-1: every page passes the automated axe checks in the E2E suite.
+  - TC-1: every key page (the seven top-level routes in `e2e/a11y-axe.spec.ts`) passes the automated axe WCAG 2.1 A/AA scan with zero serious or critical violations, measured under reduced motion. *(The axe integration shipped 2026-08-13 — this section predated it by a month; the hand-written `@a11y` structural tests covered the gap.)*
 - **Checks:**
   - TC-1 → `@a11y` Playwright suite in CI (status: **block**, pre-existing gate)
 - **Not machine-checkable:** pattern selection for novel UI (which sanctioned pattern applies) is a judgment; axe coverage is necessary, not sufficient, for WCAG AA.

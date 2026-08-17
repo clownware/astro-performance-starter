@@ -150,24 +150,24 @@ graph TD
 
 ### Phase 1: Foundation (Complete)
 
-- \[x] Create remark plugin for link validation
-- \[x] Integrate with Astro config (MDX + markdown)
-- \[x] Add validation script to package.json
-- \[x] Document migration strategy
+- [x] Create remark plugin for link validation
+- [x] Integrate with Astro config (MDX + markdown)
+- [x] Add validation script to package.json
+- [x] Document migration strategy
 
 ### Phase 2: Validation (Next)
 
-- \[ ] Test validation with existing documentation
-- \[ ] Fix any broken links discovered
-- \[ ] Add validation to CI pipeline
-- \[ ] Create monitoring for link health
+- [ ] Test validation with existing documentation
+- [ ] Fix any broken links discovered
+- [ ] Add validation to CI pipeline
+- [ ] Create monitoring for link health
 
 ### Phase 3: Future Migration (Optional)
 
-- \[ ] Convert relative links to absolute references
-- \[ ] Implement Content Collections schema
-- \[ ] Migrate documentation to `src/content/`
-- \[ ] Update link validation config for new structure
+- [ ] Convert relative links to absolute references
+- [ ] Implement Content Collections schema
+- [ ] Migrate documentation to `src/content/`
+- [ ] Update link validation config for new structure
 
 ## Configuration
 
@@ -217,7 +217,7 @@ All existing relative links continue working without the plugin.
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: every internal markdown link resolves to an existing file — the build fails otherwise.

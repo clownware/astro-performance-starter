@@ -10,9 +10,10 @@ This project uses a collection of custom scripts to automate common tasks, enfor
 
 | Command | Description |
 | :--- | :--- |
-| `start` | Start development server |
-| `start:host` | Start development server with network access |
-| `start:debug` | Start development server with verbose logging |
+| `dev` | Start development server (builds tokens first via `predev`) |
+| `dev:host` | Start development server with network access |
+| `dev:debug` | Start development server with verbose logging |
+| `dev:agent` / `dev:agent:stop` | Background dev server for coding agents (ADR-063) |
 | `preview` | Preview production build locally |
 | `clean` | Remove build artifacts (dist, .astro) |
 | `clean:all` | Remove build artifacts and node_modules cache |

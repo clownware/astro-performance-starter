@@ -21,7 +21,7 @@ The _Astro Performance Starter_ gives you a production-ready foundation focused 
 | Footer | `src/components/structural/Footer.astro` | Dynamic copyright year. |
 | Skip link | `src/components/a11y/SkipLink.astro` | Keyboard-friendly “skip to content”. |
 | Error pages | `src/pages/404.astro`, `src/pages/500.astro` | Custom, accessible error templates. |
-| Global font setup | Astro 6 Fonts API (`src/assets/fonts/`) | Self-hosted Geist + Inter, preloaded WOFF2 & CSS vars (ADR-053). |
+| Global font setup | Astro Fonts API (`src/assets/fonts/`) | Self-hosted Geist + Inter, preloaded WOFF2 & CSS vars (ADR-053). |
 | Security headers | `public/_headers` | CSP, HSTS, referrer-policy, etc. |
 | Robots rules | `src/pages/robots.txt.ts` | Dynamic robots.txt generation with sitemap reference. |
 | Favicon | `public/favicon.svg`, `public/favicon.ico`, `public/apple-touch-icon.png` | Replace with your own brand assets. |
@@ -91,18 +91,17 @@ pnpm dev       # start local dev server
 
 ## Customizing the skeleton
 
-1. **Branding:** update logo text in `Header.astro` and swap `public/favicon.svg`.
-2. **Navigation:** edit links in `Header.astro` and wire the mobile menu panel.
+1. **Branding:** swap `public/logo.svg` and `public/favicon.svg`; the header renders the logo from `public/`.
+2. **Navigation:** edit `src/content/navigation/header.json` — the header and mobile menu render from the navigation collection.
 3. **Pages:** start new pages under `src/pages/` or copy the demo landing page.
-4. **SEO defaults:** change `siteTitle` and related fields in `src/config.ts`.
+4. **SEO defaults:** change `siteMetadata.title` and related fields in `src/config.ts`.
 
 ## Excluded by default
 
 | Item | Reason |
 |------|--------|
 | `.github/FUNDING.yml` | Funding links vary; add your own if desired |
-| Documentation-specific files | Markdown linting configs, frontmatter validation scripts removed for general use |
 
 ## Next phases
 
-**Phases 0-5 are complete.** Content collections for blog, projects, experience, and navigation are connected and working. Follow the [implementation guides](../implementation-guides/) for step-by-step progress on remaining phases.
+**Phases 0-4 ship complete.** Content collections for blog, projects, experience, and navigation are connected and working. Follow the [implementation guides](../implementation-guides/) for step-by-step progress on remaining phases.

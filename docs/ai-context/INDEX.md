@@ -6,7 +6,7 @@ description: >-
 lastUpdated: true
 tableOfContents: true
 pagefind: true
-current_phase: 6
+current_phase: 12
 ---
 
 
@@ -70,7 +70,7 @@ When working on this project, follow this priority order:
 
 This is a modern Astro static site with:
 
-- **Framework**: Astro 6.x with zero JavaScript by default
+- **Framework**: Astro 7.x with zero JavaScript by default
 - **Styling**: Tailwind CSS 4.x with CSS-native `@theme` design tokens
 - **Content**: MDX with Astro Content Collections
 - **Performance**: Lighthouse 95+ target
@@ -167,12 +167,12 @@ Update this value manually when a phase is complete, then run `pnpm run roadmap:
 2. `src/styles/global.css` - Tailwind v4 CSS-native config with `@theme inline` design tokens
 3. `tsconfig.json` - TypeScript settings
 4. `biome.json` - Linting/formatting rules
-5. `src/content.config.ts` - Content schemas (Astro 6 Content Layer API)
+5. `src/content.config.ts` - Content schemas (Astro Content Layer API)
 
 ### Performance Monitoring
 
-1. `budget-overrides.json` - Performance budget configuration
-2. `public/_headers` - Security headers
+1. `budgets.json` + `budget-overrides.json` - Performance budgets and sanctioned overrides
+2. `public/_headers` - Security headers (header-capable hosts; no-op on the GitHub Pages demo — ADR-051)
 
 ## Design System Reference
 
@@ -185,7 +185,7 @@ Update this value manually when a phase is complete, then run `pnpm run roadmap:
 ### Typography Scale
 
 - Sizes: xs, sm, base, lg, xl, 2xl, 3xl, 4xl
-- Font: Inter Variable (self-hosted)
+- Fonts: Geist (display) + Inter (text), self-hosted via the Astro Fonts API (ADR-053)
 - Line heights: Included in tokens
 
 ### Spacing System
@@ -268,29 +268,29 @@ This context should be updated when:
 When any of the following occur, update this file immediately:
 
 1. **Phase Completion**
-   - \[ ] Check the box for the completed phase
-   - \[ ] Update "Active Phase" to the next phase
-   - \[ ] Add any new constraints or rules discovered
+   - [ ] Check the box for the completed phase
+   - [ ] Update "Active Phase" to the next phase
+   - [ ] Add any new constraints or rules discovered
 
 2. **New ADR Accepted**
-   - \[ ] Add to "Critical Constraints" if it affects development
-   - \[ ] Update relevant sections (e.g., new performance budgets)
-   - \[ ] Link to the ADR in the appropriate section
+   - [ ] Add to "Critical Constraints" if it affects development
+   - [ ] Update relevant sections (e.g., new performance budgets)
+   - [ ] Link to the ADR in the appropriate section
 
 3. **Dependency Changes**
-   - \[ ] Update version numbers in "Project Overview"
-   - \[ ] Add migration notes if breaking changes
-   - \[ ] Update any affected code examples
+   - [ ] Update version numbers in "Project Overview"
+   - [ ] Add migration notes if breaking changes
+   - [ ] Update any affected code examples
 
 4. **Content Model Changes**
-   - \[ ] Update "Content Types" section
-   - \[ ] Add new fields or collections
-   - \[ ] Note any migration requirements
+   - [ ] Update "Content Types" section
+   - [ ] Add new fields or collections
+   - [ ] Note any migration requirements
 
 5. **New Patterns or Anti-patterns**
-   - \[ ] Add to "Common Pitfalls to Avoid"
-   - \[ ] Update "Common AI Tasks" with new examples
-   - \[ ] Create new pattern documents if needed
+   - [ ] Add to "Common Pitfalls to Avoid"
+   - [ ] Update "Common AI Tasks" with new examples
+   - [ ] Create new pattern documents if needed
 
 ### Review Schedule
 

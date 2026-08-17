@@ -113,6 +113,15 @@ The contract:
   `.github/workflows/release.yml`, which publishes a Release whose body is that version's
   `CHANGELOG.md` section (extracted by the unit-tested `scripts/src/extract-changelog.ts`).
   Consumers use `releases/latest`; a tag without a non-empty changelog section fails the workflow.
+- **Dependency-derived values are exact pins.** *(Amended 2026-08-13.)* `version:check`
+  deliberately skips any value containing `x`, so loose ranges were exactly where drift
+  accumulated undetected (the 2026-08 audit found `astro-mdx: 5.x` against an installed 7.0.5,
+  plus stale `sharp`/`vite` ranges). Every key that maps to a `package.json` dependency now
+  holds the exact installed version and is guarded by the extended
+  `check-version-consistency.ts` mapping; `pnpm run version:fix` maintains the pins. Only
+  ecosystem facts with no dependency to check against (`node-lts`, `node-current`) may stay
+  ranges. The `lighthouse` key was added (additive, non-breaking) so `lighthouse-ci` can pin
+  the `@lhci/cli` version its name actually refers to.
 
 ### Implementation Details
 
@@ -170,7 +179,7 @@ Option 2 for why.
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: `versions.json` is consistent with `package.json` (stamped `template` field; no drift).

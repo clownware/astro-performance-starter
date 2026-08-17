@@ -73,6 +73,15 @@ describe("Tabs (molecule)", () => {
       expect(html).toMatch(/<input[^>]*aria-hidden="true"/);
       expect(html).toMatch(/<input[^>]*tabindex="-1"/);
     });
+
+    it("radios are siblings of the labels, not nested inside them (axe nested-interactive)", async () => {
+      const html = await renderTabs();
+      // An input nested inside a role="tab" label trips axe's serious
+      // nested-interactive rule — the label must reference its radio via
+      // `for`, never wrap it.
+      expect(html).not.toMatch(/<label[^>]*>(?:(?!<\/label>).)*<input/s);
+      expect(html).toMatch(/<label[^>]*\bfor="[^"]+"/);
+    });
   });
 
   describe("slot rendering", () => {

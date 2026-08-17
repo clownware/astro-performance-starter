@@ -170,10 +170,10 @@ Is the badge announcing a live status change?
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
-  - TC-1: the contact page passes the automated axe sweep in the E2E suite.
+  - TC-1: the contact page passes the automated axe sweep in the E2E suite (`e2e/a11y-axe.spec.ts`, wired 2026-08-13 — the claim predated the integration).
 - **Checks:**
   - TC-1 → `@a11y` Playwright suite in CI (status: **block**, pre-existing gate)
 - **Not machine-checkable:** whether a given emoji is decorative or meaningful is a content judgment.

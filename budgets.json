@@ -1,5 +1,5 @@
 {
-  "$comment": "Raw-size performance budgets enforced by `pnpm perf:budgets` (scripts/src/track-performance-budgets.ts). Sizes are uncompressed bytes. CSS is budgeted by gzipped size elsewhere (Lighthouse / docs), not here, because this script measures raw size only.",
+  "$comment": "Raw-size performance budgets enforced by `pnpm perf:budgets` (scripts/src/track-performance-budgets.ts), which runs as a CI gate after the build and applies any unexpired entries from budget-overrides.json. Sizes are uncompressed. CSS has no enforced size budget; the 50KB figure in .claude/stack.md is advisory.",
   "budgets": [
     {
       "name": "JavaScript (raw, bundled)",

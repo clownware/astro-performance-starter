@@ -258,7 +258,7 @@ Added Shields.io badge at top:
 - [x] Test accessibility (ARIA labels, keyboard navigation)
 - [x] Test responsive layout (mobile, tablet, desktop)
 - [x] Document in ADR
-- [ ] Update CI workflow to fail on performance regression
+- [x] Update CI workflow to fail on performance regression *(implemented since: Lighthouse CI floors on both form factors + JS/image/font gates)*
 - [ ] Add performance monitoring to deployment pipeline
 
 ## Future Enhancements
@@ -283,7 +283,7 @@ Added Shields.io badge at top:
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Not machine-checkable:** badge honesty (claimed scores matching reality) is periodically evidenced by the Lighthouse workflow but is not asserted per-commit.
 - **Graduation log:** *(empty at creation; entries added when a check changes status)*

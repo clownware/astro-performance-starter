@@ -12,20 +12,11 @@ pagefind: true
 ### Homepage Content
 
 ```mdx
-
-
-***
-
-
+---
 # src/content/pages/home.mdx
 title: "Home"
 description: "I create fast, accessible, and beautiful web experiences that users love"
-
-
-***
-
-
-
+---
 # Crafting Digital Experiences That Matter
 
 I'm a web developer specializing in **performance-focused** websites that don't compromise on design or accessibility. With expertise in modern frameworks and a passion for clean code, I help businesses create web experiences that engage users and drive results.
@@ -51,21 +42,12 @@ Whether you need a portfolio site, business platform, or complex web application
 ### About Page Content
 
 ```mdx
-
-
-***
-
-
+---
 # src/content/pages/about.mdx
 title: "About"
 description: "Learn about my journey in web development and the values that drive my work"
 image: "./images/profile.jpg"
-
-
-***
-
-
-
+---
 # About Me
 
 Hi, I'm **[Your Name]**, a web developer based in [Location] with a passion for creating exceptional digital experiences.
@@ -106,11 +88,7 @@ I'm always interested in new projects and opportunities. Whether you need a webs
 ### Project Case Study
 
 ````mdx
-
-
-***
-
-
+---
 # src/content/projects/ecommerce-redesign.mdx
 title: "E-commerce Platform Redesign"
 description: "Increased conversion rates by 40% through performance optimization and UX improvements"
@@ -135,12 +113,7 @@ outcomes:
     description: "Better mobile experience drove more users"
 externalUrl: "https://example.com"
 sortOrder: 1
-
-
-***
-
-
-
+---
 ## Project Overview
 
 TechStyle Fashion came to me with a problem: their e-commerce platform was losing customers due to slow load times and a dated user interface. Mobile users were particularly affected, with conversion rates 60% lower than desktop.
@@ -299,11 +272,7 @@ The redesign exceeded all target metrics:
 ### Blog Post Example
 
 ````mdx
-
-
-***
-
-
+---
 # src/content/blog/web-performance-2024.mdx
 title: "Web Performance in 2024: What Really Matters"
 description: "Core Web Vitals are just the beginning. Here's what you need to know about modern web performance."
@@ -315,12 +284,7 @@ cover: "./images/blog/performance-hero.jpg"
 coverAlt: "Dashboard showing performance metrics and Core Web Vitals scores"
 canonicalUrl: "https://yourdomain.com/blog/web-performance-2024"
 relatedPosts: ["optimizing-images-astro", "lazy-loading-patterns"]
-
-
-***
-
-
-
+---
 Performance isn't just about speed—it's about creating experiences that feel instant and effortless. In 2024, with users expecting native-app-like performance from web apps, the stakes have never been higher.
 
 ## The State of Web Performance
@@ -580,11 +544,7 @@ await Promise.all(images.map(optimizeImage));
 ### 2. Art Direction for Images
 
 ```astro
-
-
-***
-
-
+---
 // src/components/OptimizedPicture.astro
 import { getImage } from 'astro:assets';
 
@@ -611,12 +571,7 @@ const {
 const avif = await getImage({ src, format: 'avif' });
 const webp = await getImage({ src, format: 'webp' });
 const fallback = await getImage({ src, format: 'jpg' });
-
-
-***
-
-
-
+---
 <picture>
   <!-- Art direction sources -->
   {artDirection.map(async ({ media, src: artSrc }) => {
@@ -772,11 +727,7 @@ for (const item of content) {
 ### SEO Component
 
 ```astro
-
-
-***
-
-
+---
 // src/components/SEO.astro
 export interface Props {
   title: string;
@@ -804,12 +755,7 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const imageURL = new URL(image, Astro.site);
-
-
-***
-
-
-
+---
 <!-- Primary Meta Tags -->
 <title>{title}</title>
 <meta name="title" content={title} />
@@ -989,21 +935,12 @@ const imageURL = new URL(image, Astro.site);
 ### Privacy Policy
 
 ```mdx
-
-
-***
-
-
+---
 # src/content/pages/privacy.mdx
 title: "Privacy Policy"
 description: "How we collect, use, and protect your information"
 noindex: true
-
-
-***
-
-
-
+---
 # Privacy Policy
 
 
@@ -1057,21 +994,12 @@ For privacy concerns, contact: privacy@yourdomain.com
 ### Terms of Service
 
 ```mdx
-
-
-***
-
-
+---
 # src/content/pages/terms.mdx
 title: "Terms of Service"
 description: "Terms and conditions for using this website"
 noindex: true
-
-
-***
-
-
-
+---
 # Terms of Service
 
 
@@ -1111,11 +1039,7 @@ For questions about these terms: legal@yourdomain.com
 ## 404 Error Page
 
 ```astro
-
-
-***
-
-
+---
 // src/pages/404.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Container from '@/components/structural/Container.astro';
@@ -1128,12 +1052,7 @@ const popularPages = [
   { title: 'Blog', href: '/blog', description: 'Read my latest articles' },
   { title: 'Contact', href: '/contact', description: 'Get in touch' }
 ];
-
-
-***
-
-
-
+---
 <BaseLayout
   title="404 - Page Not Found"
   description="The page you're looking for doesn't exist"
@@ -1142,7 +1061,7 @@ const popularPages = [
   <Section size="xl">
     <Container size="sm" class="text-center">
       <div class="mb-8">
-        <div class="text-8xl font-bold text-primary-600 dark:text-primary-400">
+        <div class="text-8xl font-bold text-primary-600">
           404
         </div>
         <h1 class="mt-4 text-3xl font-bold">Page Not Found</h1>
@@ -1163,7 +1082,7 @@ const popularPages = [
           {popularPages.map(page => (
             <a
               href={page.href}
-              class="block p-4 rounded-lg border border-border hover:border-primary-600 dark:hover:border-primary-400 transition-colors"
+              class="block p-4 rounded-lg border border-border hover:border-primary-600 transition-colors"
             >
               <div class="font-medium">{page.title}</div>
               <div class="text-sm text-foreground/60">{page.description}</div>
@@ -1310,7 +1229,7 @@ const metrics = [
   </Section>
 
   <!-- Metrics Section -->
-  <Section class="bg-background-secondary">
+  <Section class="bg-surface">
     <Container>
       <h2>Lighthouse Performance Scores</h2>
       <div class="grid grid-cols-4 gap-4">
@@ -1337,9 +1256,9 @@ const metrics = [
   </Section>
 
   <!-- CTA Section -->
-  <Section class="bg-foreground-primary">
+  <Section class="bg-foreground">
     <Container>
-      <h2 class="text-background-primary">Ready to Build?</h2>
+      <h2 class="text-primary-foreground">Ready to Build?</h2>
       <Button href="..." variant="primary" size="lg">Get Started</Button>
     </Container>
   </Section>
@@ -1434,7 +1353,7 @@ const featuredPostsWithMetadata = featuredPosts.map(post => ({
                 <h3 class="text-xl font-semibold mb-3">
                   <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
                 </h3>
-                <p class="text-foreground-secondary mb-4">
+                <p class="text-muted-foreground mb-4">
                   {post.data.description}
                 </p>
                 <div class="flex justify-between text-sm">
@@ -1456,7 +1375,7 @@ const featuredPostsWithMetadata = featuredPosts.map(post => ({
       
       {posts.length === 0 ? (
         <div class="text-center py-16">
-          <p class="text-lg text-foreground-secondary">No blog posts found.</p>
+          <p class="text-lg text-muted-foreground">No blog posts found.</p>
           <Button href="/" variant="secondary" class="mt-4">Back to Home</Button>
         </div>
       ) : (
@@ -1604,7 +1523,7 @@ const allTechStack = [...new Set(projects.flatMap(p => p.techStack))].sort();
     <div id="empty-state" class="hidden text-center py-12">
       <div class="text-6xl mb-4">🔍</div>
       <h3 class="text-xl font-semibold mb-2">No projects found</h3>
-      <p class="text-foreground-secondary mb-6">
+      <p class="text-muted-foreground mb-6">
         Try selecting a different technology filter.
       </p>
       <Button variant="primary" class="reset-filter-btn">
@@ -1651,7 +1570,7 @@ const allTechStack = [...new Set(projects.flatMap(p => p.techStack))].sort();
 <style>
   .filter-btn.active,
   .filter-badge.active {
-    @apply bg-primary-600 text-white;
+    @apply bg-primary-600 text-primary-foreground;
   }
   
   [data-tech-stack] {
@@ -1697,14 +1616,14 @@ import Container from "@/components/structural/Container.astro";
     <Container size="md">
       <div class="text-center mb-12">
         <h1 class="text-4xl font-bold mb-4">Get In Touch</h1>
-        <p class="text-lg text-foreground-secondary">
+        <p class="text-lg text-muted-foreground">
           Have a question or want to work together? Send us a message.
         </p>
       </div>
 
       <ContactForm action="/api/contact" />
 
-      <div class="mt-12 text-center text-sm text-foreground-secondary">
+      <div class="mt-12 text-center text-sm text-muted-foreground">
         <p>Or email us directly at: <a href="mailto:hello@example.com" class="text-primary-600 hover:underline">hello@example.com</a></p>
       </div>
     </Container>
@@ -1721,7 +1640,7 @@ import Container from "@/components/structural/Container.astro";
 ```astro
 <BaseLayout>
   <Section id="hero">...</Section>
-  <Section id="features" class="bg-background-secondary">...</Section>
+  <Section id="features" class="bg-surface">...</Section>
   <Section id="cta">...</Section>
 </BaseLayout>
 ```

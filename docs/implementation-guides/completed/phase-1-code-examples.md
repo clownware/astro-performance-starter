@@ -16,7 +16,7 @@ import { defineCollection, z } from 'astro:content';
 
 // Portfolio/Case Studies Schema
 const projectsCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/projects' }),
   schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string().max(160), // SEO meta description
@@ -42,7 +42,7 @@ const projectsCollection = defineCollection({
 
 // Blog Posts Schema
 const blogCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
   schema: ({ image }) => z.object({
     title: z.string(),
     description: z.string().max(160),
@@ -75,7 +75,7 @@ const navigationCollection = defineCollection({
 
 // Bio/About Content
 const bioCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
   schema: ({ image }) => z.object({
     name: z.string(),
     title: z.string(),
@@ -168,11 +168,7 @@ export const mdxComponents = {
 ### Content Fixtures
 
 ```mdx
-
-
-***
-
-
+---
 # src/content/projects/example-project.mdx
 title: "E-commerce Platform Redesign"
 description: "Increased conversion rate by 40% through user-centered design"
@@ -194,12 +190,7 @@ outcomes:
     value: "-60%"
     description: "Optimized assets and lazy loading"
 sortOrder: 1
-
-
-***
-
-
-
+---
 ## Project Overview
 
 <Callout type="success">

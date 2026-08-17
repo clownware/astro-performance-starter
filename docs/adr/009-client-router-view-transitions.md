@@ -138,7 +138,7 @@ The `ClientRouter` is placed in the `<head>` to initialize before page content l
 How will we know if this decision was correct?
 
 - **Lighthouse Score**: Maintain 95+ performance score despite JavaScript addition
-- **Bundle Size**: Total JavaScript remains under 5KB for base pages
+- **Bundle Size**: Total JavaScript remains under 5KB for base pages *(founding target; superseded by the amended bundle figures above — the enforced ceiling is the CI 160KB raw JS gate)*
 - **Core Web Vitals**: LCP < 2.5s, INP < 200ms, CLS < 0.1 *(amended: FID retired)*
 - **User Feedback**: Positive response to navigation smoothness
 - **Accessibility Audit**: No regressions in a11y testing
@@ -168,7 +168,7 @@ No migration needed - this ADR documents existing implementation. If we decide t
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: shipped JS including ClientRouter stays within the bundle budget.

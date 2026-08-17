@@ -187,7 +187,7 @@ const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": json
 <!-- JSON-LD Structured Data: WebSite + Organization on every page, BlogPosting on articles -->
 <script is:inline type="application/ld+json" set:html={jsonLd} />
 
-<!-- Fonts (Astro 6 Fonts API, ADR-053). Emits the @font-face + metric-adjusted
+<!-- Fonts (Astro Fonts API, ADR-053). Emits the @font-face + metric-adjusted
      fallback faces and preloads both faces. Geist drives headlines (LCP on most
      pages); Inter is the body face. -->
 <Font cssVariable="--font-geist" preload />

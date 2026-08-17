@@ -122,16 +122,11 @@ The `site` value in `astro.config.mjs` must be set to the production URL before 
 
 A default OG image (`/og-default.png`) is used when no page-specific image is provided. This ensures every page has a valid OG image for social sharing without requiring per-page image creation.
 
-For blog posts and projects with a `heroImage`, the layout passes the optimised image URL as the `image` prop.
+For blog posts and projects with a `cover` image (the schema field), the layout passes the optimised image URL as the `image` prop.
 
 ### Structured Data (JSON-LD)
 
-JSON-LD is injected for two content types:
-
-- **Blog posts**: `Article` schema with `headline`, `datePublished`, `dateModified`, `author`, `image`
-- **Site root**: `WebSite` schema with `name`, `url`, `description`
-
-JSON-LD is not injected on every page — only where it provides meaningful SEO value. Project pages do not use JSON-LD by default (no standard schema fits portfolio projects cleanly).
+*(Amended 2026-08-13 to ship-truth:)* `Head.astro` injects a JSON-LD `@graph` with `WebSite` + `Organization` on **every** page, adding `BlogPosting` (headline, dates, author, image) on article pages via `ogType="article"`. Project pages get the site-level graph but no project-specific schema (no standard schema fits portfolio projects cleanly).
 
 ## Consequences
 
@@ -169,7 +164,7 @@ JSON-LD is not injected on every page — only where it provides meaningful SEO 
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: `<title>` and OG meta tags are emitted only by `Head.astro` — no other layout or page declares them.

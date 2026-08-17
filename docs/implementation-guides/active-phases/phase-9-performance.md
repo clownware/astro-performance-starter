@@ -60,7 +60,7 @@ pagefind: true
 ### Essential (all projects)
 
 - [ ] Lighthouse scores meet targets (95+ performance)
-- [ ] Core Web Vitals pass (LCP < 2.5s, FID < 100ms, CLS < 0.1)
+- [ ] Core Web Vitals pass (LCP < 2.5s, INP < 200ms, CLS < 0.1)
 - [ ] All images optimized with modern formats
 - [ ] Fonts subsetted and preloaded
 - [ ] Caching strategy implemented via `public/_headers`

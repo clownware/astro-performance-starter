@@ -77,7 +77,7 @@ This ADR addresses the need for clear guidelines on when and how Preact componen
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: no `client:load` directive exists in `src/` unless the usage site is listed in the enforcement config's island allowlist naming a justifying ADR.

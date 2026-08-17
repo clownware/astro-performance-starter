@@ -28,7 +28,7 @@
   ],
   "packageManager": "pnpm@10.13.1",
   "scripts": {
-    "//1": "─── Everyday: the scripts you'll actually use as a cloner ───",
+    "//1": "\u2500\u2500\u2500 Everyday: the scripts you'll actually use as a cloner \u2500\u2500\u2500",
     "predev": "pnpm run tokens:build",
     "dev": "astro dev",
     "dev:host": "astro dev --host",
@@ -58,7 +58,7 @@
     "clean": "rm -rf dist .astro tokens/dist",
     "clean:all": "rm -rf dist .astro tokens/dist node_modules/.cache",
     "prepare": "husky",
-    "//2": "─── Maintainer & advanced: template upkeep — cloners rarely run these (see ADR-052) ───",
+    "//2": "\u2500\u2500\u2500 Maintainer & advanced: template upkeep \u2014 cloners rarely run these (see ADR-052) \u2500\u2500\u2500",
     "test:mutate": "SITE_URL=http://localhost:4321 stryker run",
     "design:validate": "tsx scripts/src/validate-contrast.ts",
     "budgets:validate": "tsx scripts/src/validate-budget-overrides.ts",
@@ -104,6 +104,7 @@
     "@astrojs/check": "^0.9.10",
     "@astrojs/markdown-remark": "^7.2.2",
     "@astrojs/ts-plugin": "^1.10.10",
+    "@axe-core/playwright": "^4.13.0",
     "@biomejs/biome": "^2.5.8",
     "@commitlint/cli": "^21.2.1",
     "@commitlint/config-conventional": "^21.2.0",
@@ -138,7 +139,6 @@
     "vitest": "^4.1.10"
   },
   "optionalDependencies": {
-    "@axe-core/playwright": "^4.13.0",
     "style-dictionary": "^5.5.1"
   },
   "lint-staged": {

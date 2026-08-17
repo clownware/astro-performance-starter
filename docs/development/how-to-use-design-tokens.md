@@ -29,13 +29,13 @@ Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual c
 ### Tailwind utilities
 
 ```astro
-<div class="bg-background-primary text-foreground-primary p-4 rounded-lg shadow-md">
+<div class="bg-background text-foreground p-4 rounded-lg shadow-md">
   …
 </div>
 ```
 
-- `bg-background-primary` – maps to `semantic.background.primary` (uses `--color-background-primary`).
-- `text-foreground-primary` – semantic text color with automatic dark mode.
+- `bg-background` – maps to `semantic.background` (uses `--color-background`).
+- `text-foreground` – semantic text color with automatic dark mode.
 - `shadow-md` – from `shadow` scale in base tokens.
 - All color tokens use the `--color-` prefix for consistency.
 
@@ -43,14 +43,14 @@ Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual c
 
 ```css
 .card {
-  background-color: hsl(var(--color-background-primary));
-  color: hsl(var(--color-foreground-primary));
+  background-color: hsl(var(--color-background));
+  color: hsl(var(--color-foreground));
   border-radius: var(--border-radius-lg);
 }
 ```
 
 - Access any token via CSS custom property – **wrap color tokens with `hsl()`**.
-- All color variables use the `--color-` prefix (e.g., `--color-primary-500`, `--color-background-primary`).
+- All color variables use the `--color-` prefix (e.g., `--color-primary-500`, `--color-background`).
 - Dark-mode handled automatically via `.dark` class overrides.
 
 ## 3. Adding / updating tokens
@@ -67,34 +67,28 @@ Manual compilation (if needed): `pnpm run tokens:build`
 
 ### JSON tokens (source)
 
-- **Base tokens**: camelCase in JSON (`borderRadius.lg`, `color.moonstone.500`).
-- **Semantic tokens**: purpose-based naming (`background.primary`, `foreground.secondary`).
+- **Base tokens**: camelCase in JSON (`borderRadius.lg`, `color.slate.500` — the base palette is `slate`, `violet`, `rose`, `amber`, `green`, `spaceCadet`, `white`, `charcoal`).
+- **Semantic tokens**: role-based naming per ADR-047 (`surface`, `foreground`, `mutedForeground`, `borderEmphasis`).
 
 ### CSS variables (generated)
 
 - **All color tokens**: `--color-` prefix for consistency.
-  - Base: `--color-gray-500`, `--color-moonstone-600`
-  - Semantic: `--color-primary-500`, `--color-background-primary`
+  - Base: `--color-slate-500`, `--color-violet-600`
+  - Semantic: `--color-primary-500`, `--color-surface`, `--color-foreground`
 - **Non-color tokens**: category prefix (`--spacing-4`, `--border-radius-lg`).
 
 ### Tailwind utilities
 
-- Match CSS variable names: `bg-primary-500`, `text-foreground-primary`.
-- Dark mode: handled automatically via `.dark` class (no manual `dark:` variants needed for semantic tokens).
+- Match CSS variable names: `bg-primary-500`, `text-foreground`, `bg-surface`, `border-border-emphasis`.
+- Dark mode: handled automatically via the `.dark` class (no manual `dark:` variants needed for semantic tokens).
 
 ## 5. Dark mode strategies
 
-- System preference: enabled automatically via `prefers-color-scheme`.
-- Manual toggle: add `.dark` class to `html` / `body`.
+Dark mode ships with the template (ADR-032) — you don't build it:
 
-```ts
-// Example: toggle
-import { useEffect } from "preact/hooks";
-
-useEffect(() => {
-  document.documentElement.classList.toggle("dark");
-});
-```
+- `ThemeSetup.astro` (in `BaseLayout`) applies the stored choice before paint: it sets the `.dark` class and `data-theme` attribute on `<html>` from `localStorage`, falling back to `prefers-color-scheme`.
+- `ThemeToggle.astro` cycles light → dark → system and persists the choice.
+- Tailwind's `dark:` variants activate via `@variant dark (&:where(.dark, .dark *))` in `src/styles/global.css`; semantic role tokens flip automatically in `tokens.css`, so components using them need no `dark:` variants at all.
 
 ## 6. Lint & validation
 

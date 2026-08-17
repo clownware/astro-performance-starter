@@ -246,7 +246,7 @@ System is designed to gracefully handle missing review dates without breaking bu
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 Not enforced — this record's status is **Withdrawn**; only Accepted ADRs are binding
 (see the status table in the ADR README and ADR-039).

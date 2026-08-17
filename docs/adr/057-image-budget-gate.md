@@ -175,7 +175,7 @@ PNG fallbacks), as called out in the format anti-pattern above.
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: every raster in `public/`/`src/` and in the build output is under the per-file ceiling.

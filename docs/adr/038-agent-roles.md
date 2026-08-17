@@ -172,7 +172,7 @@ The hand-off announcements (e.g. "Architect pass complete. ADR-NNN drafted; test
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Not machine-checkable:** whether the Architect/Coder/Reviewer passes actually happened is visible in PR artefacts by convention but is not machine-assertable from the repo state.
 - **Graduation log:** _(empty at creation; entries added when a check changes status)_
