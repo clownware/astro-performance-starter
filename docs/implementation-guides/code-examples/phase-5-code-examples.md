@@ -12,11 +12,7 @@ pagefind: true
 ### Button Component (Essential)
 
 ```astro
-
-
-***
-
-
+---
 // src/components/atoms/Button.astro
 import type { HTMLAttributes } from 'astro/types';
 
@@ -41,10 +37,10 @@ const {
 } = Astro.props;
 
 const variants = {
-  primary: 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500',
-  secondary: 'bg-gray-100 text-gray-900 hover:bg-gray-200 focus:ring-gray-500 dark:bg-gray-800 dark:text-gray-100 dark:hover:bg-gray-700',
-  ghost: 'text-gray-700 hover:bg-gray-100 focus:ring-gray-500 dark:text-gray-300 dark:hover:bg-gray-800',
-  danger: 'bg-red-600 text-white hover:bg-red-700 focus:ring-red-500',
+  primary: 'bg-primary-600 text-primary-foreground hover:bg-primary-700 focus:ring-primary-500',
+  secondary: 'bg-surface text-foreground hover:bg-surface focus:ring-primary-500',
+  ghost: 'text-foreground hover:bg-surface focus:ring-primary-500',
+  danger: 'bg-rose-600 text-primary-foreground hover:bg-rose-700 focus:ring-rose-500',
 };
 
 const sizes = {
@@ -67,12 +63,7 @@ const linkProps = Tag === 'a' ? {
   href,
   ...(external && { target: '_blank', rel: 'noopener noreferrer' })
 } : {};
-
-
-***
-
-
-
+---
 <Tag
   class:list={classes}
   disabled={disabled}
@@ -91,11 +82,7 @@ const linkProps = Tag === 'a' ? {
 ### Card Component
 
 ```astro
-
-
-***
-
-
+---
 // src/components/molecules/Card.astro
 export interface Props {
   variant?: 'default' | 'outline-solid' | 'ghost';
@@ -114,9 +101,9 @@ const {
 } = Astro.props;
 
 const variants = {
-  default: 'bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800',
-  outline: 'border-2 border-gray-200 dark:border-gray-800',
-  ghost: 'bg-gray-50 dark:bg-gray-900/50',
+  default: 'bg-surface border border-border',
+  outline: 'border-2 border-border',
+  ghost: 'bg-surface/50',
 };
 
 const paddings = {
@@ -133,12 +120,7 @@ const classes = [
   hover && 'transition-shadow hover:shadow-lg',
   className,
 ];
-
-
-***
-
-
-
+---
 <Tag class:list={classes}>
   <slot />
 </Tag>
@@ -147,11 +129,7 @@ const classes = [
 ### Section Component
 
 ```astro
-
-
-***
-
-
+---
 // src/components/structural/Section.astro
 export interface Props {
   size?: 'sm' | 'md' | 'lg' | 'xl';
@@ -174,8 +152,8 @@ const sizes = {
 
 const backgrounds = {
   default: '',
-  subtle: 'bg-gray-50 dark:bg-gray-900/50',
-  muted: 'bg-gray-100 dark:bg-gray-900',
+  subtle: 'bg-surface/50',
+  muted: 'bg-surface',
 };
 
 const classes = [
@@ -183,12 +161,7 @@ const classes = [
   backgrounds[background],
   className,
 ];
-
-
-***
-
-
-
+---
 <section class:list={classes}>
   <slot />
 </section>
@@ -197,11 +170,7 @@ const classes = [
 ### Container Component
 
 ```astro
-
-
-***
-
-
+---
 // src/components/structural/Container.astro
 export interface Props {
   size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -226,15 +195,10 @@ const sizes = {
 const classes = [
   'mx-auto px-4 sm:px-6 lg:px-8',
   sizes[size],
-  prose && 'prose prose-gray dark:prose-invert max-w-none',
+  prose && 'prose prose-slate dark:prose-invert max-w-none',
   className,
 ];
-
-
-***
-
-
-
+---
 <div class:list={classes}>
   <slot />
 </div>
@@ -243,11 +207,7 @@ const classes = [
 ### Grid Component
 
 ```astro
-
-
-***
-
-
+---
 // src/components/structural/Grid.astro
 export interface Props {
   cols?: 1 | 2 | 3 | 4 | 6 | 12;
@@ -284,12 +244,7 @@ const classes = [
   gaps[gap],
   className,
 ];
-
-
-***
-
-
-
+---
 <div class:list={classes}>
   <slot />
 </div>
@@ -298,11 +253,7 @@ const classes = [
 ### Image Component Wrapper
 
 ```astro
-
-
-***
-
-
+---
 // src/components/atoms/Image.astro
 import { Image as AstroImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
@@ -343,12 +294,7 @@ const wrapperClass = [
   'overflow-hidden rounded-lg',
   aspectRatio && aspects[aspectRatio],
 ];
-
-
-***
-
-
-
+---
 <figure class="space-y-2">
   <div class:list={wrapperClass}>
     <AstroImage
@@ -360,7 +306,7 @@ const wrapperClass = [
     />
   </div>
   {caption && (
-    <figcaption class="text-sm text-gray-600 dark:text-gray-400 text-center">
+    <figcaption class="text-sm text-muted-foreground text-center">
       {caption}
     </figcaption>
   )}
@@ -370,11 +316,7 @@ const wrapperClass = [
 ### Badge Component
 
 ````astro
-
-
-***
-
-
+---
 // src/components/atoms/Badge.astro
 export interface Props {
   variant?: 'default' | 'primary' | 'success' | 'warning' | 'danger';
@@ -391,11 +333,11 @@ const {
 } = Astro.props;
 
 const variants = {
-  default: 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200',
-  primary: 'bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200',
-  success: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-  warning: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-  danger: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
+  default: 'bg-surface text-foreground',
+  primary: 'bg-primary-100 text-primary-800',
+  success: 'bg-green-100 text-green-800',
+  warning: 'bg-yellow-100 text-yellow-800',
+  danger: 'bg-rose-100 text-rose-800',
 };
 
 const sizes = {
@@ -410,12 +352,7 @@ const classes = [
   sizes[size],
   className,
 ];
-
-
-***
-
-
-
+---
 <span class:list={classes}>
   <slot />
 </span>
@@ -472,13 +409,13 @@ const linkText = `${config.name} profile`;
     "inline-flex items-center group",
     "px-3 py-2",
     "text-sm font-medium",
-    "text-foreground-secondary",
+    "text-muted-foreground",
     "border border-transparent",
     "rounded-md",
     "transition-colors duration-200 motion-safe:transition-transform",
     "focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500",
     // Semantic, accessible hover states
-    "hover:text-foreground-primary hover:bg-background-secondary",
+    "hover:text-foreground hover:bg-surface",
     // Respect reduced motion
     "motion-reduce:transition-none",
     className
@@ -580,7 +517,7 @@ const tooltipId = `tooltip-${Math.random().toString(36).slice(2, 10)}`;
 
 function getArrowClasses(pos: Position) {
   const map: Record<Position, string> = {
-    top: "top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-background-secondary",
+    top: "top-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-b-transparent border-t-surface",
     bottom:
       "bottom-full left-1/2 transform -translate-x-1/2 border-l-transparent border-r-transparent border-t-transparent border-b-background-secondary",
     left: "left-full top-1/2 transform -translate-y-1/2 border-t-transparent border-b-transparent border-r-transparent border-l-background-secondary",
@@ -595,7 +532,7 @@ function getArrowClasses(pos: Position) {
   <slot />
   <div 
     class:list={[
-      "absolute z-50 px-3 py-2 text-[0.8125rem] sm:text-xs text-foreground-primary bg-background-secondary rounded-md shadow-lg opacity-0 invisible pointer-events-none transition-opacity duration-200 motion-reduce:transition-none whitespace-normal wrap-break-word max-w-[80vw] sm:max-w-xs group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
+      "absolute z-50 px-3 py-2 text-[0.8125rem] sm:text-xs text-foreground bg-surface rounded-md shadow-lg opacity-0 invisible pointer-events-none transition-opacity duration-200 motion-reduce:transition-none whitespace-normal wrap-break-word max-w-[80vw] sm:max-w-xs group-hover:opacity-100 group-focus-within:opacity-100 group-hover:visible group-focus-within:visible group-hover:pointer-events-auto group-focus-within:pointer-events-auto",
       positionClasses[position]
     ]}
     data-tooltip-content
@@ -671,7 +608,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
     "max-w-lg mx-auto",
     "space-y-6",
     "p-6",
-    "bg-background-secondary",
+    "bg-surface",
     "border border-primary",
     "rounded-lg",
     "shadow-sm",
@@ -693,7 +630,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   <div class="contact-form__field">
     <label 
       for="contact-name" 
-      class="block text-sm font-medium text-foreground-primary mb-2"
+      class="block text-sm font-medium text-foreground mb-2"
     >
       Name <span class="text-secondary-600" aria-label="required">*</span>
     </label>
@@ -715,7 +652,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   <div class="contact-form__field">
     <label 
       for="contact-email" 
-      class="block text-sm font-medium text-foreground-primary mb-2"
+      class="block text-sm font-medium text-foreground mb-2"
     >
       Email <span class="text-secondary-600" aria-label="required">*</span>
     </label>
@@ -736,7 +673,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   <div class="contact-form__field">
     <label 
       for="contact-subject" 
-      class="block text-sm font-medium text-foreground-primary mb-2"
+      class="block text-sm font-medium text-foreground mb-2"
     >
       Subject
     </label>
@@ -755,7 +692,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   <div class="contact-form__field">
     <label 
       for="contact-message" 
-      class="block text-sm font-medium text-foreground-primary mb-2"
+      class="block text-sm font-medium text-foreground mb-2"
     >
       Message <span class="text-secondary-600" aria-label="required">*</span>
     </label>
@@ -770,7 +707,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
       placeholder="Tell us more about your inquiry..."
       aria-describedby="message-error message-help"
     ></textarea>
-    <div id="message-help" class="mt-1 text-sm text-foreground-secondary">
+    <div id="message-help" class="mt-1 text-sm text-muted-foreground">
       Minimum 10 characters, maximum 2000 characters
     </div>
     <div id="message-error" class="contact-form__error mt-1 text-sm text-secondary-600" role="alert" aria-live="polite"></div>
@@ -779,7 +716,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   <div class="contact-form__actions">
     <button
       type="submit"
-      class="contact-form__submit w-full flex justify-center items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+      class="contact-form__submit w-full flex justify-center items-center px-4 py-2 text-sm font-medium text-primary-foreground bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
       aria-describedby="submit-help"
     >
       <span class="contact-form__submit-text">Send Message</span>
@@ -790,7 +727,7 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
         </svg>
       </span>
     </button>
-    <div id="submit-help" class="mt-2 text-sm text-foreground-secondary text-center">
+    <div id="submit-help" class="mt-2 text-sm text-muted-foreground text-center">
       Your message will be sent securely
     </div>
   </div>
@@ -1014,12 +951,12 @@ function wrapTechTerms(text: string, _terms?: Record<string, string>): string {
 const processedDescription = wrapTechTerms(description, techTerms);
 ---
 
-<Card data-card class="relative p-6 bg-background-primary border border-primary hover:border-primary-300 transition-colors group">
+<Card data-card class="relative p-6 bg-background border border-primary hover:border-primary-300 transition-colors group">
   <div class="flex items-start justify-between mb-4">
     <div class="flex items-start space-x-4 flex-1">
       <div class="text-2xl" aria-hidden="true">{icon}</div>
       <div class="flex-1">
-        <h3 class="text-lg font-semibold text-foreground-primary pr-4">
+        <h3 class="text-lg font-semibold text-foreground pr-4">
           {title}
         </h3>
       </div>
@@ -1030,7 +967,7 @@ const processedDescription = wrapTechTerms(description, techTerms);
   </div>
   
   <div class="pl-12">
-    <p class="text-foreground-secondary mb-4" set:html={processedDescription}></p>
+    <p class="text-muted-foreground mb-4" set:html={processedDescription}></p>
     
     <!-- Expandable details with working CSS-only solution -->
     <details class="feature-details group">
@@ -1042,7 +979,7 @@ const processedDescription = wrapTechTerms(description, techTerms);
       </summary>
       
       <div class="expand-content">
-        <ul class="space-y-2 text-sm text-foreground-secondary">
+        <ul class="space-y-2 text-sm text-muted-foreground">
           {expandedDetails.map((detail) => (
             <li class="flex items-start gap-2">
               <span class="text-primary-500 mt-1 text-xs">▸</span>
@@ -1226,7 +1163,7 @@ const img = post.data.cardImage ?? post.data.cover;
       }
     </div>
 
-    <h3 class="mb-3 text-xl font-semibold text-foreground-default">
+    <h3 class="mb-3 text-xl font-semibold text-foreground">
       <a
         href={`/blog/${post.slug}/`}
         class:list={[
@@ -1238,11 +1175,11 @@ const img = post.data.cardImage ?? post.data.cover;
       </a>
     </h3>
 
-    <p class="mb-4 text-foreground-subtle line-clamp-3">
+    <p class="mb-4 text-muted-foreground line-clamp-3">
       {post.data.description}
     </p>
 
-    <div class="flex items-center justify-between text-sm text-foreground-subtle">
+    <div class="flex items-center justify-between text-sm text-muted-foreground">
       <span>{post.metadata.publishedDate}</span>
       <span>{post.metadata.readingTime}</span>
     </div>
@@ -1368,7 +1305,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
     <article 
       class:list={["w-full", 
         "project-card",
-        "bg-background-secondary",
+        "bg-surface",
         "border border-primary",
         "rounded-lg",
         "overflow-hidden",
@@ -1391,39 +1328,39 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
       
       <div class="project-card__content p-6">
         <header class="project-card__header mb-4">
-          <div class="project-card__meta flex flex-wrap items-center gap-2 mb-3 text-sm text-foreground-secondary">
+          <div class="project-card__meta flex flex-wrap items-center gap-2 mb-3 text-sm text-muted-foreground">
             {formattedDate && (
               <time datetime={date instanceof Date ? date.toISOString() : date}>
                 {formattedDate}
               </time>
             )}
             {isRecent && (
-              <Badge class="bg-secondary-600 text-white text-xs px-2 py-0.5">New</Badge>
+              <Badge class="bg-secondary-600 text-primary-foreground text-xs px-2 py-0.5">New</Badge>
             )}
             {client && (
               <span class="flex items-center gap-1">
-                <span class="text-foreground-secondary">•</span>
+                <span class="text-muted-foreground">•</span>
                 <span class="font-medium">{client}</span>
               </span>
             )}
             {projectRole && (
               <span class="flex items-center gap-1">
-                <span class="text-foreground-secondary">•</span>
+                <span class="text-muted-foreground">•</span>
                 <span>{projectRole}</span>
               </span>
             )}
             {duration && (
               <span class="flex items-center gap-1">
-                <span class="text-foreground-secondary">•</span>
+                <span class="text-muted-foreground">•</span>
                 <span>{duration}</span>
               </span>
             )}
           </div>
           
-          <h3 class="project-card__title text-xl font-semibold text-foreground-primary mb-2">
+          <h3 class="project-card__title text-xl font-semibold text-foreground mb-2">
             {title}
           </h3>
-          <p class="project-card__description text-foreground-secondary leading-relaxed">
+          <p class="project-card__description text-muted-foreground leading-relaxed">
             {description}
           </p>
         </header>
@@ -1431,7 +1368,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
         {tags.length > 0 && (
           <div class="project-card__tags mb-4">
             <div class="flex items-center gap-2 mb-2">
-              <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Categories</span>
+              <span class="text-xs font-medium text-muted-foreground uppercase tracking-wide">Categories</span>
             </div>
             <ul class="flex flex-wrap gap-2" role="list">
               {tags.map((tag) => (
@@ -1445,7 +1382,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
         
         <div class="project-card__tech-stack mb-6">
           <div class="flex items-center gap-2 mb-2">
-            <span class="text-xs font-medium text-foreground-secondary uppercase tracking-wide">Technologies</span>
+            <span class="text-xs font-medium text-muted-foreground uppercase tracking-wide">Technologies</span>
           </div>
           <ul class="flex flex-wrap gap-2" role="list">
             {techStack.map((tech) => (
@@ -1463,7 +1400,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             {demoUrl && (
               <a 
                 href={demoUrl}
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-primary-foreground bg-primary-600 border border-transparent rounded-md hover:bg-primary-700 focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`View live demo of ${title} project`}
@@ -1475,7 +1412,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             {githubUrl && (
               <a 
                 href={githubUrl}
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground-primary bg-background-secondary border border-primary rounded-md hover:bg-background-primary focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-foreground bg-surface border border-primary rounded-md hover:bg-background focus:outline-hidden focus:ring-2 focus:ring-offset-2 focus:ring-primary-500 transition-colors duration-200"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`View ${title} source code on GitHub`}
@@ -1494,7 +1431,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
   <article 
     class:list={["w-full", 
       "project-card",
-      "bg-background-subtle",
+      "bg-surface",
       "border border-default",
       "rounded-lg",
       "overflow-hidden",
@@ -1602,11 +1539,7 @@ import ProjectCard from "@/components/molecules/ProjectCard.astro";
 #### Modal Component (Advanced)
 
 ```astro
-
-
-***
-
-
+---
 // src/components/molecules/Modal.astro
 export interface Props {
   id: string;
@@ -1621,12 +1554,7 @@ const sizes = {
   md: 'max-w-lg',
   lg: 'max-w-2xl',
 };
-
-
-***
-
-
-
+---
 <div
   id={id}
   class="fixed inset-0 z-50 hidden overflow-y-auto"
@@ -1637,20 +1565,20 @@ const sizes = {
   <div class="flex min-h-screen items-end justify-center p-4 text-center sm:items-center sm:p-0">
     <!-- Backdrop -->
     <div
-      class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
+      class="fixed inset-0 bg-charcoal/75 transition-opacity"
       aria-hidden="true"
     ></div>
 
     <!-- Modal -->
-    <div class={`relative transform overflow-hidden rounded-lg bg-white dark:bg-gray-900 text-left shadow-xl transition-all sm:my-8 sm:w-full ${sizes[size]}`}>
-      <div class="bg-white dark:bg-gray-900 px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+    <div class={`relative transform overflow-hidden rounded-lg bg-surface text-left shadow-xl transition-all sm:my-8 sm:w-full ${sizes[size]}`}>
+      <div class="bg-surface px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
         <div class="flex items-center justify-between mb-4">
           <h3 id={`${id}-title`} class="text-lg font-medium leading-6">
             {title}
           </h3>
           <button
             type="button"
-            class="text-gray-400 hover:text-gray-500 focus:outline-hidden focus:ring-2 focus:ring-primary-500"
+            class="text-muted-foreground hover:text-muted-foreground focus:outline-hidden focus:ring-2 focus:ring-primary-500"
             onclick={`document.getElementById('${id}').classList.add('hidden')`}
           >
             <span class="sr-only">Close</span>
@@ -1663,7 +1591,7 @@ const sizes = {
           <slot />
         </div>
       </div>
-      <div class="bg-gray-50 dark:bg-gray-800 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+      <div class="bg-surface px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
         <slot name="actions" />
       </div>
     </div>
@@ -1674,11 +1602,7 @@ const sizes = {
 #### Tabs Component (Advanced)
 
 ```astro
-
-
-***
-
-
+---
 // src/components/molecules/Tabs.astro
 export interface Props {
   items: Array<{
@@ -1690,14 +1614,9 @@ export interface Props {
 }
 
 const { items, defaultTab = items[0]?.id } = Astro.props;
-
-
-***
-
-
-
+---
 <div class="tabs" data-default-tab={defaultTab}>
-  <div class="border-b border-gray-200 dark:border-gray-700">
+  <div class="border-b border-border">
     <nav class="-mb-px flex space-x-8" aria-label="Tabs" role="tablist">
       {items.map((item) => (
         <button
@@ -1743,12 +1662,12 @@ const { items, defaultTab = items[0]?.id } = Astro.props;
         buttons.forEach((btn) => {
           btn.setAttribute('aria-selected', 'false');
           btn.classList.remove('border-primary-500', 'text-primary-600');
-          btn.classList.add('border-transparent', 'text-gray-500');
+          btn.classList.add('border-transparent', 'text-muted-foreground');
         });
         
         button.setAttribute('aria-selected', 'true');
         button.classList.add('border-primary-500', 'text-primary-600');
-        button.classList.remove('border-transparent', 'text-gray-500');
+        button.classList.remove('border-transparent', 'text-muted-foreground');
         
         // Update panels
         panels.forEach((panel) => {
@@ -1761,11 +1680,11 @@ const { items, defaultTab = items[0]?.id } = Astro.props;
 
 <style>
   .tab-button[aria-selected="true"] {
-    @apply border-primary-500 text-primary-600 dark:text-primary-400;
+    @apply border-primary-500 text-primary-600;
   }
   
   .tab-button[aria-selected="false"] {
-    @apply border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300;
+    @apply border-transparent text-muted-foreground hover:border-border hover:text-foreground;
   }
 </style>
 ```

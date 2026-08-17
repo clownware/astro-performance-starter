@@ -1,6 +1,6 @@
 ---
 title: Technology Stack
-lastUpdated: 2026-04-02T00:00:00.000Z
+lastUpdated: 2026-08-13T00:00:00.000Z
 description: Details the core technology stack used in the Astro Performance Starter
 tableOfContents: true
 pagefind: true
@@ -12,7 +12,7 @@ pagefind: true
 ```yaml
 Framework: 
   name: Astro
-  version: ^6.0.0
+  version: ^7.2.1
   features:
     - Static Site Generation (SSG) by default
     - Server-Side Rendering (SSR) optional
@@ -22,7 +22,7 @@ Framework:
     - Server Islands (stable)
 
 Build:
-  bundler: Vite 7.x
+  bundler: Vite 8.x
   runtime: Node.js 24.x LTS
   package_manager: pnpm 10.x (required)
   typescript: ^5.9.3
@@ -63,9 +63,9 @@ Assets:
   images: 
     - Astro <Image> component
     - Sharp for processing
-    - AVIF + WebP output
+    - Single-format output, AVIF by default (ADR-030)
   fonts:
-    - Astro 6 Fonts API with local provider (ADR-053)
+    - Astro Fonts API with local provider (ADR-053)
     - Vendored WOFF2 in src/assets/fonts/
     - Variable fonts preferred
 ```
@@ -150,18 +150,16 @@ API_Docs:
 ### Hosting
 
 ```yaml
-Primary: Cloudflare Pages
+Primary: GitHub Pages
   benefits:
-    - Global CDN
-    - Automatic builds
-    - Preview deployments
-    - Web Analytics included
-    - Generous free tier
+    - Ships preconfigured (.github/workflows/deploy.yml, push to master)
+    - SITE_URL and base path handled by the workflow
+    - Free for public repos
 
 Alternatives:
+  - Cloudflare Pages (global CDN; honours public/_headers)
   - Vercel (great DX)
   - Netlify (mature platform)
-  - AWS Amplify (enterprise)
 ```
 
 ### Performance & Monitoring
@@ -188,79 +186,24 @@ Runtime:
 
 ## Package Versions
 
-### Dependencies
+Exact pins live in two guarded sources — this doc deliberately duplicates none
+of them (duplicated version tables are how this file drifted a full major
+behind before the 2026-08 audit):
 
-```json
-{
-  "dependencies": {
-    "@astrojs/mdx": "^5.0.2",
-    "@astrojs/preact": "^5.1.3",
-    "@astrojs/rss": "^4.0.18",
-    "@astrojs/sitemap": "^3.7.1",
-    "@preact/signals": "^2.9.0",
-    "@tailwindcss/vite": "^4.2.2",
-    "astro-expressive-code": "^0.42.0",
-    "preact": "^10.29.0",
-    "sharp": "^0.34.5",
-    "tailwindcss": "4.2.2"
-  }
-}
-```
-
-### Scripts
-
-```json
-{
-  "scripts": {
-    "dev": "astro dev",
-    "build": "pnpm run env:validate && pnpm run tokens:build && astro build",
-    "preview": "astro preview",
-    "preview:build": "pnpm run build && astro preview",
-    "check": "astro check",
-    "format": "biome format . --write",
-    "lint": "biome check .",
-    "tokens:build": "tsx scripts/src/build-tokens.ts",
-    "design:validate": "tsx scripts/src/validate-contrast.ts",
-    "perf:baseline": "tsx scripts/src/baseline-performance.ts",
-    "prepare": "husky install"
-  }
-}
-```
-
-### Dev Dependencies
-
-```json
-{
-  "devDependencies": {
-    "@astrojs/check": "^0.9.9",
-    "@biomejs/biome": "^2.4.11",
-    "@playwright/test": "^1.59.1",
-    "husky": "^9.1.7",
-    "lighthouse": "^13.0.3",
-    "lint-staged": "^16.4.0",
-    "tsx": "^4.22.3",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.6"
-  },
-  "optionalDependencies": {
-    "@axe-core/playwright": "^4.11.3",
-    "style-dictionary": "^5.4.0"
-  },
-  "engines": {
-    "node": ">=24.0.0"
-  }
-}
-```
+- [`package.json`](../../../package.json) — dependencies and the full script
+  set (see [Custom Scripts](../../development/custom-scripts.md))
+- [`versions.json`](../../../versions.json) — the public version contract
+  (ADR-061), kept in sync by the `version:check` gate in `quality:ci`
 
 ## Technology Decision Rationale
 
 ### Why These Choices?
 
-1. **Astro 6.x**: Best-in-class static site generator with minimal JavaScript
+1. **Astro 7.x**: Best-in-class static site generator with minimal JavaScript
 2. **Tailwind v4**: CSS-native config with `@theme inline` design token integration, 100x faster incremental builds
 3. **Biome**: Massive speed improvement over ESLint/Prettier
 4. **Preact**: Smaller than React for islands that need state
-5. **Cloudflare Pages**: Fast global CDN with great free tier
+5. **GitHub Pages**: Zero-setup deploys via the shipped workflow (header-capable hosts like Cloudflare Pages remain first-class alternatives)
 6. **`/showcase` style guide**: Living component catalog in-app, no separate story runner (ADR-049)
 
 ### What We Avoid
@@ -276,7 +219,8 @@ Runtime:
 
 When updating from older versions:
 
-1. **Astro 5 → 6**: Content Layer API stable, Zod v4, Node.js 24+ minimum
-2. **Tailwind 3 → 4**: CSS-native `@theme` config replaces `tailwind.config.js`
-3. **ESLint → Biome**: Run migration command: `npx @biomejs/biome migrate`
-4. **React → Preact**: Update imports in island components
+1. **Astro 6 → 7**: unified/remark processor retained (ADR-062); background dev server (`dev:agent`, ADR-063)
+2. **Astro 5 → 6**: Content Layer API stable, Zod v4, Node.js 24+ minimum
+3. **Tailwind 3 → 4**: CSS-native `@theme` config replaces `tailwind.config.js`
+4. **ESLint → Biome**: Run migration command: `npx @biomejs/biome migrate`
+5. **React → Preact**: Update imports in island components

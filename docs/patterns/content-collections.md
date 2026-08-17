@@ -36,7 +36,9 @@ pagefind: true
 
 ```typescript
 // src/content.config.ts
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 // Base schema for all posts
 const basePostSchema = z.object({
@@ -69,7 +71,7 @@ const videoSchema = basePostSchema.extend({
 
 // Combined schema using discriminated union
 const blogCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
   schema: z.discriminatedUnion('type', [
     articleSchema,
     tutorialSchema,
@@ -99,7 +101,7 @@ const authorsCollection = defineCollection({
 });
 
 const postsCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/posts' }),
   schema: ({ image }) => z.object({
     title: z.string(),
     date: z.date(),
@@ -136,7 +138,7 @@ export async function getPostWithAuthor(post: any) {
 import readingTime from 'reading-time';
 
 const blogCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
   schema: ({ image }) => z.object({
     title: z.string(),
     date: z.date(),
@@ -148,7 +150,7 @@ const blogCollection = defineCollection({
 
 // utils/content.ts
 export async function getEnhancedPost(post: any) {
-  const { Content } = await post.render();
+  const { Content } = await render(post); // `render` from 'astro:content'
   const stats = readingTime(post.body);
   
   return {
@@ -170,7 +172,7 @@ export async function getEnhancedPost(post: any) {
 // Complex nested schemas
 
 const projectsCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/projects' }),
   schema: ({ image }) => z.object({
     title: z.string(),
     client: z.string(),
@@ -409,7 +411,7 @@ const i18nSchema = z.object({
 });
 
 const blogCollection = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
   schema: baseSchema.merge(i18nSchema),
 });
 
@@ -521,11 +523,7 @@ export const components = {
 ### 2. Dynamic Component Loading
 
 ```astro
-
-
-***
-
-
+---
 // DynamicContent.astro
 const { componentName, props } = Astro.props;
 
@@ -540,12 +538,7 @@ const componentMap = {
 const Component = componentMap[componentName] 
   ? (await componentMap[componentName]()).default 
   : null;
-
-
-***
-
-
-
+---
 {Component && <Component {...props} />}
 ```
 
@@ -611,11 +604,7 @@ if (import.meta.env.DEV) {
 ### 2. Lazy Content Loading
 
 ```astro
-
-
-***
-
-
+---
 // LazyContent.astro
 export interface Props {
   collection: string;
@@ -623,12 +612,7 @@ export interface Props {
 }
 
 const { collection, id } = Astro.props;
-
-
-***
-
-
-
+---
 <div 
   class="lazy-content"
   data-collection={collection}

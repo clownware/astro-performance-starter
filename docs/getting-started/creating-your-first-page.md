@@ -64,13 +64,18 @@ If you want your new page to appear in the site's main navigation menu, you need
 
 1. **Navigate** to `src/content/navigation/`.
 2. **Edit** the `header.json` file.
-3. **Add a new entry** to the JSON array:
+3. **Add a new entry** to the `items` array (the schema requires `label` and `href`; `order` controls position):
 
     ```json
     {
-      "text": "About",
-      "href": "/about"
+      "items": [
+        {
+          "label": "About",
+          "href": "/about/",
+          "order": 6
+        }
+      ]
     }
     ```
 
-Your new page will now automatically appear in the header and footer navigation. This separation of content and configuration makes it easy to manage your site's structure.
+The entry is validated against the navigation collection's Zod schema at build time — a wrong shape fails the build with a clear error. Your new page will then appear in the header navigation. This separation of content and configuration makes it easy to manage your site's structure.

@@ -173,7 +173,7 @@ const { src, alt, caption } = Astro.props;
     class="rounded-lg"
   />
   {caption && (
-    <figcaption class="text-sm text-gray-600 mt-2 text-center">
+    <figcaption class="text-sm text-muted-foreground mt-2 text-center">
       {caption}
     </figcaption>
   )}

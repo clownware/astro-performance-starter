@@ -175,7 +175,7 @@ here so the exception set is closed rather than partially implicit.
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: the set of hydrated islands (`client:*` directives) in `src/` exactly matches the enumerated allowlist in the enforcement config.

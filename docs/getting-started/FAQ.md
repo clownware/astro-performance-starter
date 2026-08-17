@@ -29,7 +29,7 @@ The documentation structure is optimized for AI context, so your agent can effic
 
 This is a **production-ready foundation** with:
 
-- Complete Astro 6.x setup with zero JavaScript by default
+- Complete Astro 7.x setup with zero JavaScript by default
 - Essential UI component library (buttons, cards, grids, forms, and more)
 - Design token system with Tailwind CSS integration
 - Performance optimization (targets 95+ Lighthouse scores)
@@ -66,10 +66,10 @@ Contributions that improve performance, accessibility, or developer experience a
 
 The template targets **95+ Lighthouse scores** across all metrics:
 
-- Performance: 95+ (CI enforced minimum)
-- Accessibility: 98+
-- Best Practices: 100
-- SEO: 95+
+- Performance: 95+ measured (CI enforces a 0.90 floor on desktop and mobile)
+- Accessibility: 98+ measured (CI floor 0.95)
+- Best Practices: 100 (CI floor 0.95)
+- SEO: 95+ (CI floor 0.90)
 
 Actual scores may vary ±3 points depending on device and network conditions.
 
@@ -143,6 +143,6 @@ The template is designed to be upgrade-friendly:
 
 - **Minimal dependencies** reduce breaking change surface area
 - **Standard Astro patterns** align with framework evolution
-- **Version pinning** in package.json prevents unexpected breaks
+- **A committed lockfile** (`pnpm-lock.yaml`) plus the `versions.json` contract keep upgrades deliberate
 
 Upgrade guides will be provided for major Astro releases that affect the template.

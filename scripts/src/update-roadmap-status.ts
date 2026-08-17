@@ -1,12 +1,24 @@
 #!/usr/bin/env node
 
-import { readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+/**
+ * Sync the roadmap checklist in docs/README.md (between the
+ * ROADMAP_STATUS markers) from the implementation guides.
+ *
+ * A phase counts as completed when its guide lives in
+ * docs/implementation-guides/completed/, or when the guide's frontmatter
+ * carries an explicit `status: complete` override (the documented contract
+ * in docs/README.md). Phases 0-4 ship completed from the template's
+ * perspective; the split is cloner-facing (see ADR-034 and the
+ * implementation-guides README).
+ */
 
-// --- CONFIGURATION ---
-const docsDir = join(process.cwd(), "src", "content", "docs");
-const guidesDir = join(docsDir, "implementation-guides");
-const readmePath = join(docsDir, "README.md");
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import matter from "gray-matter";
+
+const guidesDir = join(process.cwd(), "docs", "implementation-guides");
+const readmePath = join(process.cwd(), "docs", "README.md");
+
 const phases = [
   { id: 0, name: "Foundation", pathMatcher: /phase-0-foundation\.md$/i },
   { id: 1, name: "Content Architecture", pathMatcher: /phase-1-content-arch\.md$/i },
@@ -23,105 +35,58 @@ const phases = [
   { id: 12, name: "Post-Launch", pathMatcher: /phase-12-post-launch\.md$/i },
 ];
 
-interface Phase {
+interface PhaseStatus {
   id: number;
   name: string;
-  pathMatcher: RegExp;
-  completed?: boolean;
-  found?: boolean;
+  completed: boolean;
+  found: boolean;
 }
 
-function findPhaseFile(phase: Phase): Promise<string | null> {
-  return new Promise((resolve) => {
-    const fs = require("node:fs");
-    const path = require("node:path");
-    fs.readdir(
-      guidesDir,
-      { withFileTypes: true },
-      (err: NodeJS.ErrnoException | null, directories: any[]) => {
-        if (err) {
-          resolve(null);
-        } else {
-          for (const dirent of directories) {
-            if (dirent.isDirectory()) {
-              const subDir = path.join(guidesDir, dirent.name);
-              fs.readdir(subDir, (err: NodeJS.ErrnoException | null, files: string[]) => {
-                if (err) {
-                  resolve(null);
-                } else {
-                  const matchedFile = files.find((file: string) => phase.pathMatcher.test(file));
-                  if (matchedFile) {
-                    resolve(path.join(subDir, matchedFile));
-                  } else {
-                    resolve(null);
-                  }
-                }
-              });
-            }
-          }
-        }
-      },
-    );
-  });
+function locateGuide(matcherRe: RegExp): { path: string; dir: string } | null {
+  for (const dirent of readdirSync(guidesDir, { withFileTypes: true })) {
+    if (!dirent.isDirectory()) continue;
+    const subDir = join(guidesDir, dirent.name);
+    const match = readdirSync(subDir).find((file) => matcherRe.test(file));
+    if (match) return { path: join(subDir, match), dir: dirent.name };
+  }
+  return null;
 }
 
-function getPhaseStatus(phase: Phase): Promise<Phase> {
-  return new Promise((resolve) => {
-    findPhaseFile(phase).then((filePath) => {
-      if (!filePath) {
-        resolve({ ...phase, completed: false, found: false });
-      } else {
-        const fs = require("node:fs");
-        const matter = require("gray-matter");
-        fs.readFile(filePath, "utf-8", (err: NodeJS.ErrnoException | null, fileContent: string) => {
-          if (err) {
-            resolve({ ...phase, completed: false, found: true });
-          } else {
-            const { data } = matter(fileContent);
-            const isComplete = data.status === "complete" || data.status === "Completed";
-            resolve({ ...phase, completed: isComplete, found: true });
-          }
-        });
-      }
-    });
-  });
+function getPhaseStatus(phase: (typeof phases)[number]): PhaseStatus {
+  const guide = locateGuide(phase.pathMatcher);
+  if (!guide) return { id: phase.id, name: phase.name, completed: false, found: false };
+  const { data } = matter(readFileSync(guide.path, "utf-8"));
+  const frontmatterComplete = data.status === "complete" || data.status === "Completed";
+  const completed = guide.dir === "completed" || frontmatterComplete;
+  return { id: phase.id, name: phase.name, completed, found: true };
 }
 
-async function main() {
+function main() {
   console.log("Starting roadmap status update...");
-  const phaseStatuses = await Promise.all(phases.map(getPhaseStatus));
+  const checklistMarkdown = phases
+    .map(getPhaseStatus)
+    .map(
+      (p) =>
+        `- ${p.completed ? "[x]" : "[ ]"} Phase ${p.id}: ${p.name}${p.found ? "" : " (Guide not found)"}`,
+    )
+    .join("\n");
 
-  let checklistMarkdown = "";
-  for (const phase of phaseStatuses) {
-    const checkbox = phase.completed ? "[x]" : "[ ]";
-    const statusMarker = phase.found ? "" : " (Guide not found)";
-    checklistMarkdown += `- ${checkbox} Phase ${phase.id}: ${phase.name}${statusMarker}\n`;
+  const readmeContent = readFileSync(readmePath, "utf-8");
+  const startMarker = "<!-- ROADMAP_STATUS_START -->";
+  const endMarker = "<!-- ROADMAP_STATUS_END -->";
+  const startIndex = readmeContent.indexOf(startMarker);
+  const endIndex = readmeContent.indexOf(endMarker);
+  if (startIndex === -1 || endIndex === -1 || startIndex >= endIndex) {
+    console.error("Error: Roadmap status markers not found or in wrong order in docs/README.md.");
+    process.exit(1);
   }
 
-  try {
-    let readmeContent = readFileSync(readmePath, "utf-8");
-    const startMarker = "<!-- ROADMAP_STATUS_START -->";
-    const endMarker = "<!-- ROADMAP_STATUS_END -->";
+  const contentBefore = readmeContent.substring(0, startIndex + startMarker.length);
+  const contentAfter = readmeContent.substring(endIndex);
+  const updated = `${contentBefore}\n<!-- Synced by \`pnpm run roadmap:update\`. Do not manually edit. -->\n${checklistMarkdown}\n${contentAfter}`;
 
-    const startIndex = readmeContent.indexOf(startMarker);
-    const endIndex = readmeContent.indexOf(endMarker);
-
-    if (startIndex === -1 || endIndex === -1 || startIndex >= endIndex) {
-      console.error("Error: Roadmap status markers not found or in wrong order in docs/README.md.");
-      console.error(`StartIndex: ${startIndex}, EndIndex: ${endIndex}`);
-      return;
-    }
-
-    const contentBefore = readmeContent.substring(0, startIndex + startMarker.length);
-    const contentAfter = readmeContent.substring(endIndex);
-
-    readmeContent = `${contentBefore}\n<!-- The script will automatically update this section. Do not manually edit. -->\n${checklistMarkdown.trim()}\n${contentAfter}`;
-
-    writeFileSync(readmePath, readmeContent, "utf-8");
-    console.log("Successfully updated roadmap status in docs/README.md");
-  } catch (error) {
-    console.error("Error updating docs/README.md:", error);
-  }
+  writeFileSync(readmePath, updated, "utf-8");
+  console.log("Successfully updated roadmap status in docs/README.md");
 }
 
 main();

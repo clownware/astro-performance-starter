@@ -57,7 +57,7 @@ Open **<http://localhost:4321/>** — you're up and running.
 
 > **First build?** Token compilation happens automatically on first `dev` or `build` command.
 >
-> **No pnpm?** Run `corepack enable` first, or see [troubleshooting](./docs/getting-started/onboarding.md#troubleshooting).
+> **No pnpm?** Run `corepack enable` first, or see the [onboarding guide](./docs/getting-started/onboarding.md).
 
 ### One-click deploy
 
@@ -85,12 +85,12 @@ After cloning, update these files to make the template yours:
 
 ## ✨ What's Inside
 
-- **Astro** 6.x with zero-JS by default (islands when needed)
+- **Astro** 7.x with zero-JS by default (islands when needed)
 - **TypeScript** 5.x in strict mode for type safety
 - **Tailwind CSS** 4.x with CSS-native `@theme` design token system
 - **Biome** 2.x for formatting and linting (20x faster than ESLint+Prettier)
 - **Node.js** 24.x (locked via `.nvmrc`)
-- **pnpm** 10.x (enforced via `engine-strict`)
+- **pnpm** 10.x (pinned via `packageManager` + Corepack; `engines` declares the floor)
 - Atomic design structure in `src/components/`
 - Content collections with MDX support
 - GitHub Actions CI/CD (build, lint, type-check, security audit)
@@ -107,7 +107,7 @@ Everything you need to customize and extend lives in `docs/`:
 - **[Implementation Roadmap](./docs/README.md#implementation-roadmap)** — Phased development guide
 - **[AI Context Guides](./docs/ai-context/)** — Optimized for AI assistants
 
-> The `docs/` folder contains extensive reference material. These files never ship to production.
+> The `docs/` folder contains extensive reference material. Only `docs/adr/` is published (rendered at `/adr/` — ADR-062); everything else stays out of the build.
 
 ## 🎨 Progressive Implementation
 

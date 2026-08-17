@@ -256,6 +256,8 @@ const metrics: LighthouseMetric[] = [
 
 ### 5. Implement Prefetch/Preconnect for External Links
 
+*(Amended 2026-08-13: the homepage no longer passes `preconnectDomains` — the GitHub preconnect was removed in a later pass. The `Head.astro` prop remains available; this section records the founding implementation.)*
+
 **Rationale:**
 
 - External links to GitHub and documentation domains benefit from DNS prefetch
@@ -398,10 +400,10 @@ pnpm run perf:budgets
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Not machine-checkable:** per-component hydration judgment calls; the aggregate is protected by the JS bundle budget gate (pre-existing) and the Lighthouse workflow.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2025-10-01 (footer backfilled 2026-07-05 from git history; this record predates the footer convention)\

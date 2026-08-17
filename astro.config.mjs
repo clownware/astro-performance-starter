@@ -9,7 +9,6 @@ import { defineConfig, envField, fontProviders } from "astro/config";
 import astroExpressiveCode from "astro-expressive-code";
 import { remarkSnippetIncludes } from "./scripts/src/remark-snippet-includes.mjs";
 import { remarkValidateLinks } from "./scripts/src/remark-validate-links.mjs";
-import { viteInjectVersions } from "./scripts/src/vite-plugin-inject-versions.mjs";
 import { components as mdxComponents } from "./src/components/mdx/index.ts";
 
 const rootDir = fileURLToPath(new URL(".", import.meta.url));
@@ -200,7 +199,7 @@ export default defineConfig({
 
   // Enhanced build configuration
   vite: {
-    plugins: [tailwindcss(), viteInjectVersions({ rootDir })],
+    plugins: [tailwindcss()],
     build: {
       cssMinify: "lightningcss",
     },

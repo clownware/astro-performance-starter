@@ -90,9 +90,9 @@ function average(numbers: number[]): number {
 // Run audits
 async function performFullAudit() {
   const pages = [
-    { url: 'https://localhost:3000/', name: 'home' },
-    { url: 'https://localhost:3000/projects', name: 'projects' },
-    { url: 'https://localhost:3000/blog', name: 'blog' },
+    { url: 'http://localhost:4321/', name: 'home' },
+    { url: 'http://localhost:4321/projects', name: 'projects' },
+    { url: 'http://localhost:4321/blog', name: 'blog' },
   ];
   
   const timestamp = format(new Date(), 'yyyy-MM-dd-HHmm');
@@ -179,9 +179,9 @@ import critical from 'critical';
 
 async function extractCriticalCSS() {
   const pages = [
-    { url: 'http://localhost:3000/', output: 'home-critical.css' },
-    { url: 'http://localhost:3000/projects', output: 'projects-critical.css' },
-    { url: 'http://localhost:3000/blog', output: 'blog-critical.css' },
+    { url: 'http://localhost:4321/', output: 'home-critical.css' },
+    { url: 'http://localhost:4321/projects', output: 'projects-critical.css' },
+    { url: 'http://localhost:4321/blog', output: 'blog-critical.css' },
   ];
   
   for (const page of pages) {
@@ -199,7 +199,7 @@ async function extractCriticalCSS() {
     const purged = await new PurgeCSS().purge({
       content: [
         {
-          raw: readFileSync(`dist${page.url.replace('http://localhost:3000', '')}/index.html`, 'utf8'),
+          raw: readFileSync(`dist${page.url.replace('http://localhost:4321', '')}/index.html`, 'utf8'),
           extension: 'html',
         },
       ],
@@ -351,18 +351,9 @@ async function optimizeFonts() {
 ```
 
 ```astro
-
-
-***
-
-
+---
 // src/components/FontLoader.astro
-
-
-***
-
-
-
+---
 <style is:inline>
   /* Critical font loading */
   @font-face {
@@ -688,7 +679,7 @@ async function auditSEO(siteUrl: string): Promise<SEOIssue[]> {
 }
 
 // Run audit
-auditSEO('https://localhost:3000').then(issues => {
+auditSEO('http://localhost:4321').then(issues => {
   if (issues.length === 0) {
     console.log('✅ No SEO issues found!');
   } else {
@@ -704,11 +695,7 @@ auditSEO('https://localhost:3000').then(issues => {
 ### 2. Schema Markup Implementation
 
 ```astro
-
-
-***
-
-
+---
 // src/components/SchemaOrg.astro
 export interface Props {
   type: 'WebSite' | 'Person' | 'BlogPosting' | 'Article';
@@ -788,12 +775,7 @@ const schemas = {
 };
 
 const schema = schemas[type];
-
-
-***
-
-
-
+---
 <script type="application/ld+json" set:html={JSON.stringify(schema)} />
 ```
 
@@ -844,18 +826,9 @@ export default defineConfig({
 ### 1. Core Web Vitals Monitoring
 
 ```astro
-
-
-***
-
-
+---
 // src/components/WebVitals.astro
-
-
-***
-
-
-
+---
 <script>
   import { getCLS, getFID, getLCP, getFCP, getTTFB } from 'web-vitals';
   
@@ -940,9 +913,9 @@ jobs:
       - name: Run Lighthouse CI        uses: treosh/lighthouse-ci-action@v10
         with:
           urls: |
-            http://localhost:3000/
-            http://localhost:3000/projects
-            http://localhost:3000/blog
+            http://localhost:4321/
+            http://localhost:4321/projects
+            http://localhost:4321/blog
           uploadArtifacts: true
           temporaryPublicStorage: true
           budgetPath: ./lighthouse-budget.json

@@ -144,7 +144,7 @@ The five rules collapse Robert C. Martin's Three Laws, F.I.R.S.T., and the "test
 ### Negative
 
 - New file (`testing-conventions.md`) to maintain
-- Existing tests in `e2e/` that violate Rule 3 are now visible debt (addressed in Phase 2 of the plan)
+- Existing tests in `e2e/` that violate Rule 3 are now visible debt *(amended 2026-08-13: still open — conditional assertions persist in `e2e/blog.spec.ts` and `e2e/contact.spec.ts`)*
 - Five rules to internalise (offset: they're verifiable, not vibes)
 
 ### Neutral
@@ -169,7 +169,7 @@ The five rules collapse Robert C. Martin's Three Laws, F.I.R.S.T., and the "test
 - Robert C. Martin, *Clean Code* (2008), Chapter 9: Unit Tests
 - Robert C. Martin and Justin Martin, [Clean AI: Agentic Discipline series](https://cleancoders.com)
 - Existing exemplar: `src/utils/__tests__/formatDate.test.ts`
-- Existing anti-pattern: `e2e/index.spec.ts` lines 21-24 and 92-97 (addressed in Phase 2)
+- Existing anti-pattern: conditional assertions in `e2e/blog.spec.ts` and `e2e/contact.spec.ts` (open debt; the original `index.spec.ts` instances were fixed)
 
 ## Notes
 
@@ -185,7 +185,7 @@ The rule "Never lower a coverage threshold to make CI pass" exists because the a
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: coverage thresholds hold (weak-assertion drift is measured separately by mutation runs, ADR-042).

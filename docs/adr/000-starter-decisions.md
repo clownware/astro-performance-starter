@@ -28,9 +28,9 @@ This Astro performance starter template aims to provide a production-ready found
 
 ### Build Tool and Framework
 
-This starter template is specifically designed as an **Astro Performance Starter** to achieve 95+ Lighthouse scores (targeting 100) with zero JavaScript by default. The framework choice is Astro 6.x, and the decisions below focus on optimal tooling choices within the Astro ecosystem.
+This starter template is specifically designed as an **Astro Performance Starter** to achieve 95+ Lighthouse scores (targeting 100) with zero JavaScript by default. The framework choice is Astro 6.x *(amended 2026-08-13: now 7.x — ADR-062)*, and the decisions below focus on optimal tooling choices within the Astro ecosystem.
 
-#### Astro 6.x + Vite Build System
+#### Astro + Vite Build System
 
 - **Pros**: Zero JS by default, excellent performance, built-in optimizations, perfect for static sites, islands architecture for selective hydration
 - **Rationale**: Astro is specifically chosen for performance-first static sites, making this the ideal foundation for a performance-focused starter template
@@ -64,7 +64,7 @@ This starter template is specifically designed as an **Astro Performance Starter
 
 We will use:
 
-- **Astro 6.x with Vite** for the build system
+- **Astro with Vite** for the build system *(6.x at founding; 7.x since ADR-062)*
 - **Biome** for linting and formatting
 - **Tailwind CSS 4.x** with CSS-native `@theme` design tokens
 - **TypeScript** in strict mode
@@ -79,6 +79,8 @@ We will use:
   }
 }
 ```
+
+*(Amended 2026-08-13: the enforced floor is now `>=24.15.0` — see `package.json` `engines`.)*
 
 ## Consequences
 
@@ -127,7 +129,7 @@ The dual-track approach (MVP vs Showcase) has been refined by ADR-033 into a pro
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: `package.json` pins pnpm via `packageManager` and no `package-lock.json` or `yarn.lock` exists.
@@ -136,7 +138,7 @@ The dual-track approach (MVP vs Showcase) has been refined by ADR-033 into a pro
   - TC-1 → check `pnpm-only` (status: **warn**)
   - TC-2 → check `biome-only` (status: **warn**)
 - **Not machine-checkable:** the 95+ Lighthouse target is evidenced by the Lighthouse workflow on the deployed site, not asserted per-commit; tier progression is guidance.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2024-01-15\

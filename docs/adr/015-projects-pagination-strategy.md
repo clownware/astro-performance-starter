@@ -197,7 +197,7 @@ If the project count exceeds 20-30 projects:
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Not machine-checkable:** the hybrid pagination/filtering approach is a UX decision; no invariant is derivable beyond the repo-wide budgets that already gate shipped JS.
 - **Graduation log:** _(empty at creation; entries added when a check changes status)_

@@ -252,7 +252,7 @@ The Essential/Recommended/Advanced scope labels within each phase may be impleme
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Not machine-checkable:** the Foundation/Build/Polish tier model is documentation semantics; no structural invariant is derivable.
 - **Graduation log:** _(empty at creation; entries added when a check changes status)_

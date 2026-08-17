@@ -28,6 +28,9 @@ const activeTab = defaultTab ?? tabs[0]?.id;
   - Roving tabindex on the labels keeps focus inside the tablist per WCAG
     2.1; the inputs are aria-hidden and tabindex="-1" so they no longer
     appear in the focus order.
+  - The radios are *siblings* of their labels (linked via `for`), never
+    nested inside them — an input inside a role="tab" element trips axe's
+    serious nested-interactive rule regardless of aria-hidden/tabindex.
 
   A ~30-line inline script handles arrow-key navigation, click-to-state
   syncing, and panel id/aria wiring (panel ids depend on the runtime groupId).
@@ -35,30 +38,32 @@ const activeTab = defaultTab ?? tabs[0]?.id;
 <div class:list={["tabs", className]} data-tabs data-tabs-group={groupId}>
   <div class="tabs__list" role="tablist" aria-label="Tab navigation">
     {tabs.map((tab) => (
-      <label
-        class="tabs__tab"
-        data-tab-label
-        data-tab-id={tab.id}
-        role="tab"
-        id={`tab-${groupId}-${tab.id}`}
-        aria-selected={tab.id === activeTab ? "true" : "false"}
-        aria-controls={`panel-${groupId}-${tab.id}`}
-        tabindex={tab.id === activeTab ? 0 : -1}
-      >
+      <>
         <input
           type="radio"
           name={`tabs-${groupId}`}
           value={tab.id}
-          class="sr-only peer"
+          id={`tab-input-${groupId}-${tab.id}`}
+          class="sr-only"
           checked={tab.id === activeTab}
           tabindex="-1"
           aria-hidden="true"
           data-tab-radio
         />
-        <span class="tabs__tab-label peer-checked:text-link peer-checked:border-link">
-          {tab.label}
-        </span>
-      </label>
+        <label
+          class="tabs__tab"
+          for={`tab-input-${groupId}-${tab.id}`}
+          data-tab-label
+          data-tab-id={tab.id}
+          role="tab"
+          id={`tab-${groupId}-${tab.id}`}
+          aria-selected={tab.id === activeTab ? "true" : "false"}
+          aria-controls={`panel-${groupId}-${tab.id}`}
+          tabindex={tab.id === activeTab ? 0 : -1}
+        >
+          <span class="tabs__tab-label">{tab.label}</span>
+        </label>
+      </>
     ))}
   </div>
 
@@ -111,6 +116,13 @@ const activeTab = defaultTab ?? tabs[0]?.id;
 
   .tabs__tab-label:hover {
     color: hsl(var(--color-foreground));
+  }
+
+  /* Checked-state styling: the sr-only radio precedes its label, so the
+     adjacent-sibling selector replaces the old peer-checked utilities. */
+  input:checked + .tabs__tab .tabs__tab-label {
+    color: hsl(var(--color-link));
+    border-color: hsl(var(--color-link));
   }
 
   .tabs__panels {

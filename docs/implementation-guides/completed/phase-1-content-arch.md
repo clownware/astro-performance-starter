@@ -16,10 +16,10 @@ pagefind: true
 
 ## Entry Criteria
 
-- \[x] Astro project initialized
-- \[x] TypeScript configured in strict mode
-- \[x] Development environment functional
-- \[x] Content requirements gathered
+- [x] Astro project initialized
+- [x] TypeScript configured in strict mode
+- [x] Development environment functional
+- [x] Content requirements gathered
 
 ## Implementation Steps
 
@@ -54,17 +54,17 @@ pagefind: true
 
 ## Exit Criteria
 
-- \[x] All content types identified and documented
-- \[x] URL structure defined and consistent
-- \[x] Content collections configured with schemas
-- \[x] TypeScript types generating correctly
-- \[x] Draft mechanism implemented and tested
-- \[x] Slug generation utilities working
-- \[x] MDX components configured
-- \[x] At least one fixture per content type
-- \[x] Validation passing with `astro check`
-- \[x] Content model changelog created
-- \[x] Author guidelines documented
+- [x] All content types identified and documented
+- [x] URL structure defined and consistent
+- [x] Content collections configured with schemas
+- [x] TypeScript types generating correctly
+- [x] Draft mechanism implemented and tested
+- [x] Slug generation utilities working
+- [x] MDX components configured
+- [x] At least one fixture per content type
+- [x] Validation passing with `astro check`
+- [x] Content model changelog created
+- [x] Author guidelines documented
 
 ## Rollback Strategy
 

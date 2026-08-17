@@ -2,9 +2,9 @@ name: CI
 
 on:
   push:
-    branches: [master, develop]
+    branches: [master]
   pull_request:
-    branches: [master, develop]
+    branches: [master]
 
 permissions:
   contents: read
@@ -48,7 +48,7 @@ jobs:
       - name: Lint, format & type-check
         run: pnpm run quality:ci
 
-      - name: ADR enforcement suite (ADR-062, warn-only launch)
+      - name: ADR enforcement suite (ADR-064, warn-only launch)
         run: pnpm run enforce
 
       - name: Unit tests with coverage
@@ -89,6 +89,9 @@ jobs:
             echo "::error::JavaScript bundle size ($JS_SIZE bytes) exceeds limit ($JS_SIZE_LIMIT_BYTES bytes)"
             exit 1
           fi
+
+      - name: Enforce raw-size budgets — budgets.json (with budget-overrides applied)
+        run: pnpm run perf:budgets
 
       - name: Enforce per-image size budget — source (ADR-057)
         run: pnpm run images:gate

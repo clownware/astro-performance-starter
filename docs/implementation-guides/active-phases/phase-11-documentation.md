@@ -17,10 +17,10 @@ pagefind: true
 
 ## Entry Criteria
 
-- \[ ] Site deployed and live
-- \[ ] All features implemented
-- \[ ] Testing complete
-- \[ ] Monitoring active
+- [ ] Site deployed and live
+- [ ] All features implemented
+- [ ] Testing complete
+- [ ] Monitoring active
 
 ## Implementation Steps
 
@@ -48,9 +48,8 @@ pagefind: true
 
 ### 1. README.md (Main Documentation)
 
-markdown
-
-# \[Project Name]
+````markdown
+# [Project Name]
 
 ![Build Status](https://img.shields.io/github/workflow/status/username/repo/CI)
 ![License](https://img.shields.io/github/license/username/repo)
@@ -73,34 +72,31 @@ A lightning-fast portfolio site built with Astro, achieving Lighthouse target be
 
 ### Prerequisites
 
-- Node.js \{\{versions.node-current}} or later
-- pnpm \{\{versions.pnpm}} or later
+- Node.js 24.15 or later
+- pnpm 10 or later
 
 ### Installation
 
-bash
-
+```bash
 # Clone the repository
-
-git clone <https://github.com/YOUR_ORG/YOUR_REPO.git>
-cd astro-performance-starter
+git clone https://github.com/YOUR_ORG/YOUR_REPO.git
+cd YOUR_REPO
 
 # Install dependencies
-
 pnpm install
 
 # Copy environment variables
-
 cp .env.example .env
 
 # Start development server
-
 pnpm dev
+```
 
-Visit `http://localhost:3000` to see your site.
+Visit `http://localhost:4321` to see your site.
 
 ## 📁 Project Structure
 
+```text
 src/
 ├── components/     # Reusable UI components
 ├── content/        # Markdown/MDX content
@@ -108,6 +104,7 @@ src/
 ├── pages/          # Route pages
 ├── styles/         # Global styles
 └── utils/          # Helper functions
+```
 
 ## 🛠️ Available Scripts
 
@@ -126,13 +123,15 @@ src/
 
 Edit design tokens in `tokens/base.json`:
 
-json
-\{
-"color": \{
-"primary": \{
-"500": \{ "value": "210 100% 50%" }
+```json
+{
+  "color": {
+    "primary": {
+      "500": { "value": "210 100% 50%" }
+    }
+  }
 }
-}
+```
 
 ### Content
 
@@ -143,18 +142,16 @@ Add content in `src/content/`:
 
 ## 🚀 Deployment
 
-### Cloudflare Pages
+### GitHub Pages
 
 1. Fork this repository
-2. Create new Cloudflare Pages project
-3. Set build command: `pnpm build`
-4. Set output directory: `dist`
-5. Add environment variables
+2. Enable GitHub Pages (Settings → Pages → Source: GitHub Actions)
+3. Set the `SITE_URL` environment variable for the build
+4. Push to `master` — the deploy workflow builds and publishes `dist/`
 
 ### Other Platforms
 
-- [Vercel](/deployment/vercel/)
-- [Netlify](/deployment/netlify/)
+Vercel, Netlify, and Cloudflare Pages all work with build command `pnpm build` and output directory `dist`.
 
 ## 📖 Documentation
 
@@ -169,18 +166,18 @@ Contributions are welcome! Please read our [Contributing Guide](/implementation-
 
 ## 📄 License
 
-MIT \{\{versions.license}} \[Your Name]
+MIT © [Your Name]
 
 ## 🙏 Acknowledgments
 
 - [Astro](https://astro.build) - The web framework
 - [Tailwind CSS](https://tailwindcss.com) - For styling
 - [Heroicons](https://heroicons.com) - For icons
+````
 
 ### 2. Architecture Documentation
 
-markdown
-
+````markdown
 # Architecture Overview
 
 ## System Design
@@ -189,8 +186,8 @@ This project follows a component-based architecture with clear separation of con
 
 ### Technology Stack
 
-- **Framework**: Astro \{\{versions.astro}}
-- **Styling**: Tailwind CSS \{\{versions.tailwindcss}} with design tokens
+- **Framework**: Astro 7
+- **Styling**: Tailwind CSS 4 with design tokens
 - **Language**: TypeScript (strict mode)
 - **Build Tool**: Vite
 - **Package Manager**: pnpm
@@ -205,6 +202,7 @@ This project follows a component-based architecture with clear separation of con
 
 ## Directory Structure
 
+```text
 project-root/
 ├── src/
 │   ├── components/          # UI components (Atomic Design)
@@ -212,35 +210,39 @@ project-root/
 │   │   ├── molecules/      # Composite components
 │   │   └── organisms/      # Complex sections
 │   ├── content/            # Content collections
-│   │   ├── config.ts       # Schema definitions
 │   │   ├── blog/           # Blog posts (MDX)
 │   │   └── projects/       # Project case studies
+│   ├── content.config.ts   # Schema definitions
 │   ├── layouts/            # Page layouts
 │   ├── pages/              # File-based routing
 │   ├── styles/             # Global styles
 │   └── utils/              # Helper functions
 ├── public/                 # Static assets
 ├── tokens/                 # Design tokens
-└── tests/                  # Test suites
+├── tests/                  # Unit tests
+└── e2e/                    # End-to-end tests
+```
 
 ## Component Architecture
 
 ### Atomic Design Structure
 
+```text
 atoms/
-Button.astro      # Single-purpose components
-Badge.astro
-Link.astro
+  Button.astro      # Single-purpose components
+  Badge.astro
+  Link.astro
 
 molecules/
-Card.astro        # Combinations of atoms
-FormField.astro
-SearchBar.astro
+  Card.astro        # Combinations of atoms
+  FormField.astro
+  SearchBar.astro
 
 organisms/
-Header.astro      # Complete sections
-Hero.astro
-Footer.astro
+  Header.astro      # Complete sections
+  Hero.astro
+  Footer.astro
+```
 
 ### Component Guidelines
 
@@ -251,16 +253,14 @@ Footer.astro
 
 ## Data Flow
 
-mermaid
+```mermaid
 graph TD
-A\[Content Files]-->|Markdown/MDX| B\[Content Collections]
-B -->|Type-safe schemas| C\[Page Components]
-C -->|Props| D\[UI Components]
-D -->|Slots| E\[Rendered HTML]
-
-```text
-F[Design Tokens] -->|Build process| G[CSS Variables]
-G -->|Tailwind config| D
+  A[Content Files] -->|Markdown/MDX| B[Content Collections]
+  B -->|Type-safe schemas| C[Page Components]
+  C -->|Props| D[UI Components]
+  D -->|Slots| E[Rendered HTML]
+  F[Design Tokens] -->|Build process| G[CSS Variables]
+  G -->|Tailwind config| D
 ```
 
 ## Performance Strategy
@@ -283,9 +283,11 @@ G -->|Tailwind config| D
 
 ### Headers Configuration
 
+```text
 X-Frame-Options: DENY
 X-Content-Type-Options: nosniff
 Content-Security-Policy: strict
+```
 
 ### Environment Variables
 
@@ -297,22 +299,21 @@ Content-Security-Policy: strict
 
 ### CI/CD Pipeline
 
-1. Push to main branch
+1. Push to master branch
 2. GitHub Actions triggered
 3. Tests run (type, lint, build)
-4. Deploy to Cloudflare Pages
-5. Invalidate CDN cache
+4. Deploy to GitHub Pages
+5. CDN serves the new build
 
 ### Environments
 
-- **Production**: main branch
-- **Staging**: staging branch
-- **Preview**: PR deployments
+- **Production**: master branch
+- **Preview**: PR checks (build, tests, Lighthouse)
+````
 
 ### 3. Component Documentation
 
-markdown
-
+````markdown
 # Component Documentation
 
 ## Overview
@@ -327,25 +328,24 @@ All components follow Atomic Design principles and are built with TypeScript for
 
 The base button component supporting multiple variants and sizes.
 
-## astro
-
-## import Button from '@/components/atoms/Button.astro'
+```astro
+---
+import Button from '@/components/atoms/Button.astro';
+---
 
 <!-- Primary button -->
-
-<Button href="./contact">Get Started</Button>
+<Button href="/contact">Get Started</Button>
 
 <!-- Secondary variant -->
-
-<Button variant="secondary" href="./learn-more">
+<Button variant="secondary" href="/learn-more">
   Learn More
 </Button>
 
 <!-- Large size -->
-
-<Button size="lg" href="./cta">
+<Button size="lg" href="/cta">
   Call to Action
 </Button>
+```
 
 **Props:**
 
@@ -353,32 +353,37 @@ The base button component supporting multiple variants and sizes.
 - `size`: 'sm' | 'md' | 'lg'
 - `href?`: string (renders as link if provided)
 - `disabled?`: boolean
-- `external?`: boolean (adds target="\_blank")
+- `external?`: boolean (adds target="_blank")
 
-### Atom: Badge
+#### Atom: Badge
 
 Small labeling component for tags and statuses.
 
-astro <Badge variant="success">Active</Badge> <Badge variant="warning" size="sm">Beta</Badge>
+```astro
+<Badge variant="primary">Active</Badge>
+<Badge variant="neutral" size="sm">Beta</Badge>
+```
 
 **Props:**
 
-- `variant`: 'default' | 'outline-solid' | 'ghost'
-- `padding`: 'none' | 'sm' | 'md' | 'lg'
-- `hover?`: boolean
+- `variant`: 'primary' | 'secondary' | 'neutral'
+- `size`: 'xs' | 'sm' | 'md'
+- `role?`: ARIA role when the badge conveys status
 - `as?`: HTML element tag name
 
 #### Atom: FormField
 
 Accessible form field with label and error handling.
 
-astro <FormField
-label="Email Address"
-name="email"
-type="email"
-required
-error={errors.email}
+```astro
+<FormField
+  label="Email Address"
+  name="email"
+  type="email"
+  required
+  error={errors.email}
 />
+```
 
 **Props:**
 
@@ -395,72 +400,71 @@ error={errors.email}
 
 Full-width hero section with optional background pattern.
 
-astro
-\<Hero
-title="Welcome to My Site"
-subtitle="Building amazing web experiences"
-primaryCTA=\{\{ text: "Get Started", href: "/start" }}
-secondaryCTA=\{\{ text: "Learn More", href: "/about" }}
+```astro
+<Hero
+  title="Welcome to My Site"
+  subtitle="Building amazing web experiences"
+  primaryCTA={{ text: "Get Started", href: "/start" }}
+  secondaryCTA={{ text: "Learn More", href: "/about" }}
 />
+```
 
 **Props:**
 
 - `title`: string
 - `subtitle?`: string
-- `primaryCTA?`: \{ text: string, href: string }
-- `secondaryCTA?`: \{ text: string, href: string }
+- `primaryCTA?`: { text: string, href: string }
+- `secondaryCTA?`: { text: string, href: string }
 - `backgroundPattern?`: boolean
 
 ## Component Patterns
 
 ### Composition Pattern
 
-astro
-
+```astro
 <!-- Prefer composition with slots -->
-
 <Card>
   <h3 slot="header">Title</h3>
   <p>Content goes here</p>
   <Button slot="footer">Action</Button>
 </Card>
+```
 
 ### Variant Pattern
 
-typescript
+```typescript
 // Define variants with const assertion
-const variants = \{
-primary: 'bg-primary-600 text-white',
-secondary: 'bg-gray-100 text-gray-900',
-ghost: 'bg-transparent hover:bg-gray-100',
+const variants = {
+  primary: 'bg-primary-600 text-primary-foreground hover:bg-primary-700',
+  secondary: 'bg-surface text-foreground border border-border-emphasis',
+  ghost: 'text-muted-foreground hover:bg-surface hover:text-foreground',
 } as const;
 
 type Variant = keyof typeof variants;
+```
 
 ### Accessibility Pattern
 
-astro
-
+```astro
 <!-- Always include ARIA labels -->
-
-\<button
-aria-label=\{ariaLabel || children}
-aria-pressed=\{isActive}
-aria-expanded=\{isOpen}
-
+<button
+  aria-label={ariaLabel || children}
+  aria-pressed={isActive}
+  aria-expanded={isOpen}
 >
-
   <slot />
 </button>
+```
 
 ## Testing Components
 
 ### Visual Testing
 
-```typescript
+```astro
+---
 // components/Button/Button.test.astro
-
-import Button from './Button.astro'
+import Button from './Button.astro';
+---
 
 <div class="test-grid">
   <!-- Test all variants -->
@@ -471,15 +475,15 @@ import Button from './Button.astro'
   ))}
 
   <!-- Test all sizes -->
-
-\{\['sm', 'md', 'lg'].map(size => ( <Button size={size}>
-Size \{size} </Button>
-))}
+  {['sm', 'md', 'lg'].map(size => (
+    <Button size={size}>
+      Size {size}
+    </Button>
+  ))}
 
   <!-- Test states -->
-
-<Button disabled>Disabled</Button> <Button href="./link">Link Button</Button>
-
+  <Button disabled>Disabled</Button>
+  <Button href="/link">Link Button</Button>
 </div>
 ```
 
@@ -491,11 +495,11 @@ Size \{size} </Button>
 4. **Include focus states** for keyboard navigation
 5. **Test with screen readers**
 6. **Document edge cases**
+````
 
 ### 4. API Documentation (If Applicable)
 
-markdown
-
+````markdown
 # API Documentation
 
 ## Overview
@@ -504,14 +508,16 @@ The API provides endpoints for dynamic functionality like form submissions and a
 
 ## Base URL
 
-Production: <https://api.yourdomain.com>
-Development: <http://localhost:3000/api>
+Production: `https://api.yourdomain.com`
+Development: `http://localhost:4321/api`
 
 ## Authentication
 
 API requests require an API key passed in the header:
 
+```text
 X-API-Key: your-api-key
+```
 
 ## Endpoints
 
@@ -522,9 +528,9 @@ Submit a contact form message.
 ```json
 {
   "name": "John Doe",
-  "email": "<john@example.com>",
+  "email": "john@example.com",
   "message": "Your message here",
-  "honeypot": "" // Must be empty
+  "honeypot": ""
 }
 ```
 
@@ -597,7 +603,8 @@ All errors follow this format:
   "error": {
     "code": "VALIDATION_ERROR",
     "message": "Human-readable error message",
-    "details": {} // Optional additional info
+    "details": {}
   }
 }
 ```
+````

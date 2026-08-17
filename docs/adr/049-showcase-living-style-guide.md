@@ -69,7 +69,7 @@ Specimens read live token output, so the page always portrays exactly what ships
 - Unit tests assert these components emit **no** hardcoded colour/size literals (drift guards).
 
 Narrative copy is corrected to ship-truth (`slate/violet/rose/amber`, `--color-*`, **Geist**,
-**Astro 6**, ~26KB CSS / 50KB budget, two faces).
+**Astro 7** *(amended 2026-08-13 with the ADR-062 upgrade)*, ~26KB CSS / 50KB budget, two faces).
 
 ### Zero-JS, static comparisons
 
@@ -134,7 +134,7 @@ the per-component coverage of that section is tracked separately as Found Work.
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Not machine-checkable:** that the showcase faithfully renders the live token system is drift-resistant by construction (specimens source tokens); completeness and structure are review concerns.
 - **Graduation log:** *(empty at creation; entries added when a check changes status)*

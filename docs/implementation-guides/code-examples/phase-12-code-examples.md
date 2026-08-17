@@ -128,11 +128,7 @@ class PerformanceDashboard {
 ### 2. Analytics Dashboard
 
 ```astro
-
-
-***
-
-
+---
 // src/pages/admin/analytics.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getAnalytics } from '@/lib/analytics';
@@ -146,38 +142,33 @@ const analytics = await getAnalytics({
   startDate: new Date(Date.now() - 30 * 24 * 60 * 60 * 1000),
   endDate: new Date()
 });
-
-
-***
-
-
-
+---
 <BaseLayout title="Analytics Dashboard">
   <div class="container py-8">
     <h1 class="text-3xl font-bold mb-8">Analytics Dashboard</h1>
     
     <!-- Key Metrics -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-      <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
-        <h3 class="text-sm font-medium text-gray-500">Page Views</h3>
+      <div class="bg-surface rounded-lg p-6">
+        <h3 class="text-sm font-medium text-muted-foreground">Page Views</h3>
         <p class="text-3xl font-bold">{analytics.pageViews.toLocaleString()}</p>
         <p class="text-sm text-green-600">+12% from last period</p>
       </div>
       
-      <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
-        <h3 class="text-sm font-medium text-gray-500">Unique Visitors</h3>
+      <div class="bg-surface rounded-lg p-6">
+        <h3 class="text-sm font-medium text-muted-foreground">Unique Visitors</h3>
         <p class="text-3xl font-bold">{analytics.uniqueVisitors.toLocaleString()}</p>
         <p class="text-sm text-green-600">+8% from last period</p>
       </div>
       
-      <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
-        <h3 class="text-sm font-medium text-gray-500">Avg. Duration</h3>
+      <div class="bg-surface rounded-lg p-6">
+        <h3 class="text-sm font-medium text-muted-foreground">Avg. Duration</h3>
         <p class="text-3xl font-bold">{analytics.avgDuration}</p>
-        <p class="text-sm text-red-600">-5% from last period</p>
+        <p class="text-sm text-rose-600">-5% from last period</p>
       </div>
       
-      <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
-        <h3 class="text-sm font-medium text-gray-500">Bounce Rate</h3>
+      <div class="bg-surface rounded-lg p-6">
+        <h3 class="text-sm font-medium text-muted-foreground">Bounce Rate</h3>
         <p class="text-3xl font-bold">{analytics.bounceRate}%</p>
         <p class="text-sm text-green-600">-3% from last period</p>
       </div>
@@ -186,13 +177,13 @@ const analytics = await getAnalytics({
     <!-- Charts -->
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
       <!-- Traffic Chart -->
-      <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
+      <div class="bg-surface rounded-lg p-6">
         <h3 class="text-lg font-semibold mb-4">Traffic Over Time</h3>
         <canvas id="traffic-chart"></canvas>
       </div>
       
       <!-- Top Pages -->
-      <div class="bg-white dark:bg-gray-800 rounded-lg p-6">
+      <div class="bg-surface rounded-lg p-6">
         <h3 class="text-lg font-semibold mb-4">Top Pages</h3>
         <div class="space-y-3">
           {analytics.topPages.map((page) => (
@@ -236,22 +227,13 @@ const analytics = await getAnalytics({
 ### 1. User Feedback Widget
 
 ```astro
-
-
-***
-
-
+---
 // src/components/FeedbackWidget.astro
-
-
-***
-
-
-
+---
 <div class="feedback-widget">
   <button
     id="feedback-trigger"
-    class="fixed bottom-4 right-4 bg-primary-600 text-white rounded-full p-3 shadow-lg hover:bg-primary-700 transition-colors"
+    class="fixed bottom-4 right-4 bg-primary-600 text-primary-foreground rounded-full p-3 shadow-lg hover:bg-primary-700 transition-colors"
     aria-label="Send feedback"
   >
     <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -260,7 +242,7 @@ const analytics = await getAnalytics({
   </button>
   
   <div id="feedback-modal" class="hidden fixed inset-0 z-50 items-center justify-center p-4 bg-black bg-opacity-50">
-    <div class="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full">
+    <div class="bg-surface rounded-lg p-6 max-w-md w-full">
       <h3 class="text-lg font-semibold mb-4">Send Feedback</h3>
       
       <form id="feedback-form">
@@ -270,7 +252,7 @@ const analytics = await getAnalytics({
             {['😞', '😐', '😊', '😍'].map((emoji, i) => (
               <button
                 type="button"
-                class="rating-btn text-2xl p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700"
+                class="rating-btn text-2xl p-2 rounded hover:bg-surface"
                 data-rating={i + 1}
               >
                 {emoji}
@@ -286,7 +268,7 @@ const analytics = await getAnalytics({
           <textarea
             id="feedback-message"
             rows="3"
-            class="w-full rounded-md border-gray-300 dark:border-gray-600"
+            class="w-full rounded-md border-border"
             placeholder="Tell us what you think..."
           ></textarea>
         </div>
@@ -294,14 +276,14 @@ const analytics = await getAnalytics({
         <div class="flex gap-3">
           <button
             type="submit"
-            class="flex-1 bg-primary-600 text-white rounded-md py-2 hover:bg-primary-700"
+            class="flex-1 bg-primary-600 text-primary-foreground rounded-md py-2 hover:bg-primary-700"
           >
             Send Feedback
           </button>
           <button
             type="button"
             id="cancel-feedback"
-            class="flex-1 bg-gray-200 dark:bg-gray-700 rounded-md py-2 hover:bg-gray-300 dark:hover:bg-gray-600"
+            class="flex-1 bg-surface rounded-md py-2 hover:bg-background"
           >
             Cancel
           </button>
@@ -333,9 +315,9 @@ const analytics = await getAnalytics({
     btn.addEventListener('click', () => {
       selectedRating = parseInt(btn.dataset.rating || '0');
       document.querySelectorAll('.rating-btn').forEach(b => {
-        b.classList.remove('bg-primary-100', 'dark:bg-primary-900');
+        b.classList.remove('bg-primary-100', '');
       });
-      btn.classList.add('bg-primary-100', 'dark:bg-primary-900');
+      btn.classList.add('bg-primary-100', '');
     });
   });
   
@@ -360,7 +342,7 @@ const analytics = await getAnalytics({
     
     // Show thank you message
     const thanks = document.createElement('div');
-    thanks.className = 'fixed bottom-4 right-4 bg-green-600 text-white rounded-lg p-4';
+    thanks.className = 'fixed bottom-4 right-4 bg-green-600 text-primary-foreground rounded-lg p-4';
     thanks.textContent = 'Thank you for your feedback!';
     document.body.appendChild(thanks);
     
@@ -578,22 +560,13 @@ class SEOMonitor {
 ### 2. Content Performance Tracking
 
 ```astro
-
-
-***
-
-
+---
 // src/pages/admin/content-performance.astro
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getContentMetrics } from '@/lib/analytics';
 
 const metrics = await getContentMetrics();
-
-
-***
-
-
-
+---
 <BaseLayout title="Content Performance">
   <div class="container py-8">
     <h1 class="text-3xl font-bold mb-8">Content Performance</h1>
@@ -601,28 +574,28 @@ const metrics = await getContentMetrics();
     <!-- Blog Post Performance -->
     <section class="mb-12">
       <h2 class="text-2xl font-semibold mb-6">Blog Posts</h2>
-      <div class="bg-white dark:bg-gray-800 rounded-lg overflow-hidden">
+      <div class="bg-surface rounded-lg overflow-hidden">
         <table class="w-full">
-          <thead class="bg-gray-50 dark:bg-gray-700">
+          <thead class="bg-surface">
             <tr>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Title
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Views
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Avg. Time
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Shares
               </th>
-              <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th class="px-6 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Conversion
               </th>
             </tr>
           </thead>
-          <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+          <tbody class="divide-y divide-border">
             {metrics.posts.map((post) => (
               <tr>
                 <td class="px-6 py-4 whitespace-nowrap">
@@ -641,7 +614,7 @@ const metrics = await getContentMetrics();
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <span class={`px-2 py-1 text-xs rounded-full ${
-                    post.conversion > 5 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                    post.conversion > 5 ? 'bg-green-100 text-green-800' : 'bg-surface text-foreground'
                   }`}>
                     {post.conversion}%
                   </span>
@@ -658,9 +631,9 @@ const metrics = await getContentMetrics();
       <h2 class="text-2xl font-semibold mb-6">Optimization Recommendations</h2>
       <div class="grid gap-6">
         {metrics.recommendations.map((rec) => (
-          <div class="bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg p-4">
+          <div class="bg-yellow-50/20 border border-yellow-200 rounded-lg p-4">
             <h3 class="font-semibold mb-2">{rec.title}</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-3">{rec.description}</p>
+            <p class="text-sm text-muted-foreground mb-3">{rec.description}</p>
             <div class="flex items-center justify-between">
               <span class="text-sm">
                 Potential impact: <strong>{rec.impact}</strong>

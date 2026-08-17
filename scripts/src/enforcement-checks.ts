@@ -1,5 +1,5 @@
 /**
- * ADR enforcement suite — pure check registry (ADR-062).
+ * ADR enforcement suite — pure check registry (ADR-064).
  *
  * Every check derives from a Testable Consequence recorded in an ADR's
  * Enforcement section. Checks are pure functions over a `RepoSnapshot`
@@ -113,15 +113,21 @@ function islandTags(snap: RepoSnapshot): TagHit[] {
 }
 
 /** Sanctioned component subdirectories: ADR-003 trio + structural, plus
- *  `islands/` (ADR-060) and colocated `__tests__/` (ADR-040). */
+ *  `islands/` (ADR-060), `mdx/` and `a11y/` (ADR-003 amendment), and
+ *  colocated `__tests__/` (ADR-040). */
 const componentDirs = new Set([
   "atoms",
   "molecules",
   "organisms",
   "structural",
   "islands",
+  "mdx",
+  "a11y",
   "__tests__",
 ]);
+
+/** Sanctioned root-level files directly under src/components/. */
+const componentRootFiles = new Set(["ThemeSetup.astro", "CLAUDE.md"]);
 
 /** Compositor-safe animatable properties per ADR-048. */
 const compositorSafe = new Set([
@@ -259,13 +265,14 @@ export const CHECKS: CheckDef[] = [
     adr: "ADR-003",
     tc: "TC-1",
     remedy:
-      "Components live in atoms/, molecules/, organisms/, or structural/ (ADR-003; islands/ per ADR-060). Move the file or supersede ADR-003.",
+      "Components live in atoms/, molecules/, organisms/, structural/, islands/ (ADR-060), mdx/, or a11y/ (ADR-003 amendment). Move the file or supersede ADR-003.",
     run: (snap) =>
       paths(snap)
         .filter((p) => p.startsWith("src/components/"))
         .filter((p) => {
           const seg = p.split("/")[2];
-          return seg.includes(".") || !componentDirs.has(seg);
+          if (seg.includes(".")) return !componentRootFiles.has(seg);
+          return !componentDirs.has(seg);
         })
         .map(
           (p) =>
@@ -608,7 +615,7 @@ export const CHECKS: CheckDef[] = [
   },
   {
     id: "adr-log-valid",
-    adr: "ADR-062",
+    adr: "ADR-064",
     tc: "TC-1..4",
     remedy:
       "ADRs follow the log conventions (docs/adr/README.md): canonical status word, gapless numbering, forward links on supersession, an Enforcement section.",

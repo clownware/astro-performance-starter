@@ -12,11 +12,7 @@ pagefind: true
 ### Base Layout Component
 
 ```astro
-
-
-***
-
-
+---
 // src/layouts/BaseLayout.astro
 import { ClientRouter } from 'astro:transitions';
 import { Font } from 'astro:assets';
@@ -25,7 +21,7 @@ import Footer from '@/components/structural/Footer.astro';
 import SkipLink from '@/components/a11y/SkipLink.astro';
 import ThemeSetup from '@/components/ThemeSetup.astro'; // ADDED: Import for theme setup component
 import '@/styles/global.css';
-// Fonts use the Astro 6 Fonts API (<Font> below), not a CSS import — see ADR-053.
+// Fonts use the Astro Fonts API (<Font> below), not a CSS import — see ADR-053.
 
 export interface Props {
   title: string;
@@ -45,12 +41,7 @@ const {
 
 const siteTitle = 'Your Site Name';
 const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
-
-
-***
-
-
-
+---
 <!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
@@ -86,7 +77,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={new URL(image, Astro.site)} />
     
-    <!-- Fonts (Astro 6 Fonts API, ADR-053): emits @font-face + preload automatically -->
+    <!-- Fonts (Astro Fonts API, ADR-053): emits @font-face + preload automatically -->
     <Font cssVariable="--font-geist" preload />
     <Font cssVariable="--font-inter" preload />
     
@@ -137,11 +128,7 @@ const fullTitle = title === siteTitle ? title : `${title} | ${siteTitle}`;
 ### Header Component
 
 ```astro
-
-
-***
-
-
+---
 // src/components/structural/Header.astro
 import { getCollection } from 'astro:content';
 import ThemeToggle from '@/components/ThemeToggle.astro';
@@ -149,17 +136,12 @@ import MobileMenu from '@/components/MobileMenu.astro';
 
 const navigation = await getCollection('navigation');
 const navItems = navigation[0]?.data.items || [];
-
-
-***
-
-
-
+---
 <header class="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/60">
   <div class="container flex h-16 items-center justify-between">
     <a href="./" class="flex items-center space-x-2" aria-label="Home">
       <svg
-        class="h-8 w-8 text-primary-600 dark:text-primary-400"
+        class="h-8 w-8 text-primary-600"
         viewBox="0 0 32 32"
         fill="currentColor"
         aria-hidden="true"
@@ -193,11 +175,7 @@ const navItems = navigation[0]?.data.items || [];
 ### Mobile Navigation Component
 
 ```astro
-
-
-***
-
-
+---
 // src/components/MobileMenu.astro
 // This Astro component now delegates its interactive parts to a client-side island.
 import MobileMenuIsland from '@/components/islands/MobileMenuIsland.tsx'; // Or .jsx, .vue, .svelte
@@ -211,11 +189,7 @@ export interface Props {
 }
 
 const { items } = Astro.props;
-
-
-***
-
-
+---
 {/* 
   The visual structure and interactive logic for the mobile menu are now handled by 
   the 'MobileMenuIsland' client component. This approach adheres to the 'inline_scripts: 0' 
@@ -235,11 +209,7 @@ const { items } = Astro.props;
 ### Footer Component
 
 ```astro
-
-
-***
-
-
+---
 // src/components/structural/Footer.astro
 const currentYear = new Date().getFullYear();
 
@@ -254,10 +224,7 @@ const socialLinks = [
   { label: 'LinkedIn', href: 'https://linkedin.com/in/yourusername', icon: 'linkedin' },
   { label: 'Twitter', href: 'https://twitter.com/yourusername', icon: 'twitter' },
 ];
-
-
-***
-
+---
 <footer class="border-t border-border bg-background">
   <div class="container py-8">
     <div class="grid gap-8 md:grid-cols-3">
@@ -332,7 +299,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const projects = await getCollection('projects', ({ data }) => !data.draft);
-***
+---
 <BaseLayout
   title="Projects"
   description="A showcase of my recent work and side projects."
@@ -368,7 +335,7 @@ const projects = await getCollection('projects', ({ data }) => !data.draft);
   Permissions-Policy: camera=(), microphone=(), geolocation=()
   Content-Security-Policy: default-src 'self'; script-src 'self' 'strict-dynamic' https:; style-src 'self' 'nonce-<ASTRO_NONCE>'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://vitals.vercel-insights.com; frame-ancestors 'none';
 
-# Font preloading is handled by the Astro 6 Fonts API (<Font preload /> in Head.astro,
+# Font preloading is handled by the Astro Fonts API (<Font preload /> in Head.astro,
 # ADR-053), which emits the correct hashed-filename preload links — no manual _headers
 # entries needed.
 // src/components/a11y/SkipLink.astro
@@ -414,7 +381,7 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
     </p>
     <a
       href="./"
-      class="rounded-lg bg-primary-600 px-6 py-3 text-white hover:bg-primary-700 focus-visible-ring"
+      class="rounded-lg bg-primary-600 px-6 py-3 text-primary-foreground hover:bg-primary-700 focus-visible-ring"
     >
       Go Home
     </a>

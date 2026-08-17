@@ -1,23 +1,61 @@
 #!/usr/bin/env node
 
-import { readFileSync, statSync } from "node:fs";
+import { existsSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { glob } from "glob";
 
 // --- CONFIGURATION ---
 const buildDir = "dist";
 const budgetConfigPath = "budgets.json";
+const overridesPath = "budget-overrides.json";
 const bytesInKb = 1024;
 // --- END CONFIGURATION ---
 
 type FileType = "js" | "css" | "html" | "images" | "fonts" | "other";
 
-interface Budget {
+export interface Budget {
   name: string;
   path: string;
   maxSizeKb: number;
   maxTotalSizeKb?: number;
   ignore?: string[];
+}
+
+interface BudgetOverride {
+  metric: string;
+  temporary: number; // bytes
+  expires: string; // YYYY-MM-DD
+}
+
+interface OverridesFile {
+  overrides: BudgetOverride[];
+}
+
+/**
+ * Apply unexpired budget overrides (budget-overrides.json) to the budget set.
+ * An override's `metric` matches a budget's `name`; its `temporary` value
+ * (bytes) becomes the effective total limit — or the per-file limit when the
+ * budget has no total. Expired or unmatched overrides are ignored (expiry
+ * hygiene is `budgets:validate`'s job).
+ */
+export function applyOverrides(
+  budgets: Budget[],
+  overridesFile: OverridesFile,
+  today: string,
+): Budget[] {
+  return budgets.map((budget) => {
+    const active = overridesFile.overrides.find(
+      (o) => o.metric === budget.name && o.expires >= today,
+    );
+    if (!active) return budget;
+    const liftedKb = active.temporary / bytesInKb;
+    console.log(
+      `\x1b[33m⚠ Override active for "${budget.name}": limit lifted to ${liftedKb.toFixed(2)} KB until ${active.expires}\x1b[0m`,
+    );
+    return budget.maxTotalSizeKb !== undefined
+      ? { ...budget, maxTotalSizeKb: liftedKb }
+      : { ...budget, maxSizeKb: liftedKb };
+  });
 }
 
 interface BudgetConfig {
@@ -125,6 +163,17 @@ function main() {
     process.exit(1);
   }
 
+  if (existsSync(overridesPath)) {
+    try {
+      const overridesFile = JSON.parse(readFileSync(overridesPath, "utf-8")) as OverridesFile;
+      const today = new Date().toISOString().split("T")[0];
+      config.budgets = applyOverrides(config.budgets, overridesFile, today);
+    } catch (error) {
+      console.error(`Error reading or parsing ${overridesPath}:`, error);
+      process.exit(1);
+    }
+  }
+
   const success = checkBudgets(config);
 
   console.log("\n-----------------------------------");
@@ -161,4 +210,6 @@ function _formatSize(sizeKb: number): string {
   return `${sizeKb.toFixed(2)} KB`;
 }
 
-main();
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main();
+}

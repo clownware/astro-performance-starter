@@ -82,17 +82,9 @@ Content must be robust enough to work with various assistive technologies.
 ### 1. Semantic HTML Structure
 
 ```astro
-
-
-***
-
-
+---
 // src/layouts/BaseLayout.astro
-
-
-***
-
-
+---
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -150,11 +142,7 @@ Content must be robust enough to work with various assistive technologies.
 ### 2. Accessible Navigation
 
 ```astro
-
-
-***
-
-
+---
 // src/components/Navigation.astro
 export interface Props {
   items: Array<{
@@ -166,12 +154,7 @@ export interface Props {
 
 const { items } = Astro.props;
 const currentPath = Astro.url.pathname;
-
-
-***
-
-
-
+---
 <nav role="navigation" aria-label="Main">
   <ul class="nav-list">
     {items.map((item) => {
@@ -217,18 +200,9 @@ const currentPath = Astro.url.pathname;
 ### 3. Accessible Forms
 
 ```astro
-
-
-***
-
-
+---
 // src/components/ContactForm.astro
-
-
-***
-
-
-
+---
 <form method="POST" action="/api/contact" novalidate>
   <fieldset>
     <legend class="sr-only">Contact Information</legend>
@@ -468,11 +442,7 @@ const currentPath = Astro.url.pathname;
 ### 5. Images and Media
 
 ```astro
-
-
-***
-
-
+---
 // src/components/AccessibleImage.astro
 import { Image } from 'astro:assets';
 
@@ -484,12 +454,7 @@ export interface Props {
 }
 
 const { src, alt, caption, decorative = false } = Astro.props;
-
-
-***
-
-
-
+---
 {decorative ? (
   <Image 
     src={src} 
@@ -514,11 +479,7 @@ const { src, alt, caption, decorative = false } = Astro.props;
 ### 6. Interactive Components
 
 ```astro
-
-
-***
-
-
+---
 // src/components/AccessibleModal.astro
 export interface Props {
   id: string;
@@ -526,12 +487,7 @@ export interface Props {
 }
 
 const { id, title } = Astro.props;
-
-
-***
-
-
-
+---
 <div 
   id={id}
   class="modal"
@@ -612,11 +568,7 @@ const { id, title } = Astro.props;
 ### 7. Tables
 
 ```astro
-
-
-***
-
-
+---
 // src/components/AccessibleTable.astro
 export interface Props {
   caption: string;
@@ -629,12 +581,7 @@ export interface Props {
 }
 
 const { caption, data, columns } = Astro.props;
-
-
-***
-
-
-
+---
 <table>
   <caption>{caption}</caption>
   <thead>
@@ -693,7 +640,7 @@ const { caption, data, columns } = Astro.props;
   
   th {
     font-weight: bold;
-    background-color: var(--color-background-alt);
+    background-color: var(--color-surface);
   }
   
   .sort-button {
@@ -782,17 +729,17 @@ Table of Contents uses explicit ARIA landmarks:
 
 ```astro
 <nav 
-  class="rounded-lg border border-default bg-gray-50 dark:bg-gray-800 p-6 shadow-lg" 
+  class="rounded-lg border border-default bg-surface p-6 shadow-lg" 
   role="navigation" 
   aria-label="Table of contents"
 >
-  <h3 class="mb-4 text-sm font-semibold text-foreground-primary">
+  <h3 class="mb-4 text-sm font-semibold text-foreground">
     Table of Contents
   </h3>
   <ul class="space-y-2 text-sm">
     {headings.map((heading) => (
       <li style={`margin-left: ${(heading.depth - 1) * 12}px`}>
-        <a href={`#${heading.slug}`} class="text-foreground-secondary hover:text-primary-600">
+        <a href={`#${heading.slug}`} class="text-muted-foreground hover:text-primary-600">
           {heading.text}
         </a>
       </li>
@@ -812,7 +759,7 @@ The `Button` component includes visible focus states:
 <Button
   href={`/blog/${prevPost.slug}/`}
   variant="ghost"
-  class="h-auto p-4 text-left justify-start group-hover:bg-background-secondary"
+  class="h-auto p-4 text-left justify-start group-hover:bg-surface"
 >
   <!-- Button content -->
 </Button>
@@ -848,20 +795,20 @@ Proper semantic structure with `aria-current`:
 
 ```astro
 <nav class="mb-6 text-sm" aria-label="Breadcrumb">
-  <ol class="flex items-center space-x-2 text-foreground-secondary">
+  <ol class="flex items-center space-x-2 text-muted-foreground">
     <li>
-      <a href="/" class="hover:text-foreground-primary transition-colors">Home</a>
+      <a href="/" class="hover:text-foreground transition-colors">Home</a>
     </li>
     <li>
       <svg aria-hidden="true"><!-- chevron --></svg>
     </li>
     <li>
-      <a href="/blog/" class="hover:text-foreground-primary transition-colors">Blog</a>
+      <a href="/blog/" class="hover:text-foreground transition-colors">Blog</a>
     </li>
     <li>
       <svg aria-hidden="true"><!-- chevron --></svg>
     </li>
-    <li class="text-foreground-primary" aria-current="page">
+    <li class="text-foreground" aria-current="page">
       {title}
     </li>
   </ol>
@@ -878,7 +825,7 @@ Design tokens ensure theme-aware contrast:
 </div>
 ```
 
-- Uses semantic color variables (`text-foreground-primary`, `bg-background-secondary`)
+- Uses semantic color variables (`text-foreground`, `bg-surface`)
 - `prose-invert` for dark mode
 - `leading-relaxed` for improved readability
 

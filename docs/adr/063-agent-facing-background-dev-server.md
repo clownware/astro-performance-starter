@@ -125,3 +125,14 @@ server. Before driving tests against a port, agents must verify ownership (e.g. 
 - Two more scripts in the everyday section (accepted trade under ADR-052)
 - The contract tracks upstream CLI behavior; an Astro change to the subcommands would need a
   doc update (drift is caught by humans, not a gate — accepted for a two-line surface)
+
+## Enforcement
+
+<!-- Added 2026-08-13 under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `dev:agent` and `dev:agent:stop` exist in `package.json` and wrap the documented `astro dev` subcommands.
+- **Checks:**
+  - TC-1 → check `script-contract` (status: **warn**)
+- **Not machine-checkable:** upstream CLI behavior drift is caught by humans, not a gate (accepted above for a two-line surface).
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*

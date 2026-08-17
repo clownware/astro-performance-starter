@@ -32,17 +32,13 @@ pagefind: true
 </Card>
 ```
 
-### 2. 5.9.3-First
+### 2. TypeScript-First
 
 ```astro
-
-
-***
-
-
+---
 // Always define props interface
 export interface Props {
-  variant?: 'default' | 'outline-solid';
+  variant?: 'default' | 'outline';
   size?: 'sm' | 'md' | 'lg';
 }
 
@@ -51,29 +47,16 @@ const {
   variant = 'default',
   size = 'md' 
 } = Astro.props;
-
-
-***
-
-
+---
 ```
 
 ### 3. Accessibility Built-In
 
 ```astro
-
-
-***
-
-
+---
 // Components handle their own a11y
 const uniqueId = `component-${Math.random().toString(36).substr(2, 9)}`;
-
-
-***
-
-
-
+---
 <div 
   role="region"
   aria-labelledby={uniqueId}
@@ -92,23 +75,14 @@ const uniqueId = `component-${Math.random().toString(36).substr(2, 9)}`;
 Allow components to render as different HTML elements:
 
 ```astro
-
-
-***
-
-
+---
 // PolymorphicBox.astro
 export interface Props {
   as?: keyof HTMLElementTagNameMap;
 }
 
 const { as: Tag = 'div', ...props } = Astro.props;
-
-
-***
-
-
-
+---
 <Tag {...props}>
   <slot />
 </Tag>
@@ -127,36 +101,19 @@ Usage:
 Components that work together as a group:
 
 ```astro
-
-
-***
-
-
+---
 // Tabs/TabGroup.astro
-
-
-***
-
-
+---
 <div class="tab-group" role="tablist">
   <slot />
 </div>
-
-
-
-***
-
-
+---
 // Tabs/Tab.astro
 export interface Props {
   id: string;
   active?: boolean;
 }
-
-
-***
-
-
+---
 <button
   role="tab"
   aria-selected={active}
@@ -164,22 +121,13 @@ export interface Props {
 >
   <slot />
 </button>
-
-
-
-***
-
-
+---
 // Tabs/TabPanel.astro
 export interface Props {
   id: string;
   active?: boolean;
 }
-
-
-***
-
-
+---
 <div
   role="tabpanel"
   id={`panel-${id}`}
@@ -194,11 +142,7 @@ export interface Props {
 For dynamic content rendering:
 
 ```astro
-
-
-***
-
-
+---
 // List.astro
 export interface Props {
   items: any[];
@@ -206,12 +150,7 @@ export interface Props {
 }
 
 const { items, renderItem } = Astro.props;
-
-
-***
-
-
-
+---
 <ul>
   {items.map((item, index) => (
     <li>{renderItem(item, index)}</li>
@@ -224,11 +163,7 @@ const { items, renderItem } = Astro.props;
 Encapsulate data fetching logic:
 
 ```astro
-
-
-***
-
-
+---
 // FeaturedPosts.astro
 import { getCollection } from 'astro:content';
 import PostCard from './PostCard.astro';
@@ -236,12 +171,7 @@ import PostCard from './PostCard.astro';
 const posts = await getCollection('blog', ({ data }) => 
   data.featured && !data.draft
 );
-
-
-***
-
-
-
+---
 <section>
   <h2>Featured Posts</h2>
   <div class="grid">
@@ -257,11 +187,7 @@ const posts = await getCollection('blog', ({ data }) =>
 Graceful error handling:
 
 ```astro
-
-
-***
-
-
+---
 // SafeComponent.astro
 let content;
 let error;
@@ -273,12 +199,7 @@ try {
   error = e;
   console.error('Component error:', e);
 }
-
-
-***
-
-
-
+---
 {error ? (
   <div class="error-fallback">
     <p>Unable to load content</p>
@@ -306,7 +227,7 @@ Astro offers powerful tools for creating dynamic user experiences: View Transiti
 | Component needs to run JS immediately on page load    |                              |  ✅ (`client:load`)         | Use with caution due to performance impact. Ensure it's justified by the Preact Island Usage Policy ADR.                   |
 
 **Concluding Note:**
-This matrix provides general guidelines. Always consider the specific requirements of your feature, the desired user experience, performance implications (especially JavaScript bundle sizes and Core Web Vitals), and accessibility. Sometimes, a combination of both might be appropriate, but strive to avoid mixing metaphors in a way that complicates the codebase or degrades performance. Refer to the [Astro 6.0.8 View Transitions documentation](https://docs.astro.build/en/guides/view-transitions/) and [Island architecture concepts](https://docs.astro.build/en/concepts/islands/) for more details.
+This matrix provides general guidelines. Always consider the specific requirements of your feature, the desired user experience, performance implications (especially JavaScript bundle sizes and Core Web Vitals), and accessibility. Sometimes, a combination of both might be appropriate, but strive to avoid mixing metaphors in a way that complicates the codebase or degrades performance. Refer to the [Astro View Transitions documentation](https://docs.astro.build/en/guides/view-transitions/) and [Island architecture concepts](https://docs.astro.build/en/concepts/islands/) for more details.
 
 ## Responsive Patterns
 
@@ -315,17 +236,9 @@ This matrix provides general guidelines. Always consider the specific requiremen
 Modern responsive design:
 
 ```astro
-
-
-***
-
-
+---
 // ResponsiveCard.astro
-
-
-***
-
-
+---
 <div class="card-container">
   <article class="card">
     <slot />
@@ -355,11 +268,7 @@ Modern responsive design:
 Optimal image loading:
 
 ```astro
-
-
-***
-
-
+---
 // ResponsiveImage.astro
 import { Image } from 'astro:assets';
 
@@ -374,12 +283,7 @@ const {
   alt,
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
 } = Astro.props;
-
-
-***
-
-
-
+---
 <Image 
   src={src}
   alt={alt}
@@ -397,20 +301,11 @@ const {
 Using URL for component state:
 
 ```astro
-
-
-***
-
-
+---
 // FilterableList.astro
 const currentFilter = Astro.url.searchParams.get('filter') || 'all';
 const items = await getFilteredItems(currentFilter);
-
-
-***
-
-
-
+---
 <div>
   <nav>
     <a href="?filter=all" aria-current={currentFilter === 'all'}>All</a>
@@ -429,17 +324,9 @@ const items = await getFilteredItems(currentFilter);
 Progressive form enhancement:
 
 ```astro
-
-
-***
-
-
+---
 // EnhancedForm.astro
-
-
-***
-
-
+---
 <form 
   method="POST" 
   action="/api/submit"
@@ -489,17 +376,9 @@ Progressive form enhancement:
 Prefer CSS over JavaScript:
 
 ```astro
-
-
-***
-
-
+---
 // AnimatedCard.astro
-
-
-***
-
-
+---
 <article class="animated-card">
   <slot />
 </article>
@@ -534,19 +413,10 @@ Prefer CSS over JavaScript:
 For lists and grids:
 
 ```astro
-
-
-***
-
-
+---
 // StaggeredList.astro
 const items = Astro.props.items;
-
-
-***
-
-
-
+---
 <ul class="staggered-list">
   {items.map((item, i) => (
     <li style={`--index: ${i}`}>
@@ -578,18 +448,9 @@ const items = Astro.props.items;
 
 ```typescript
 // components/Button/Button.test.astro
-
-
-***
-
-
+---
 import Button from './Button.astro';
-
-
-***
-
-
-
+---
 <div class="test-grid">
   <h2>Button Variants</h2>
   
@@ -636,19 +497,10 @@ import Button from './Button.astro';
 ### Accessibility Testing
 
 ```astro
-
-
-***
-
-
+---
 // TestAccessibility.astro
 // Component to verify a11y compliance
-
-
-***
-
-
-
+---
 <div class="a11y-test">
   <h2>Accessibility Checklist</h2>
   
@@ -683,11 +535,7 @@ import Button from './Button.astro';
 ### 1. Lazy Loading Components
 
 ```astro
-
-
-***
-
-
+---
 // LazySection.astro
 export interface Props {
   threshold?: number;
@@ -700,12 +548,7 @@ const {
 } = Astro.props;
 
 const id = `lazy-${Math.random().toString(36).slice(2)}`;
-
-
-***
-
-
-
+---
 <div 
   id={id}
   class="lazy-section"
@@ -749,11 +592,7 @@ const id = `lazy-${Math.random().toString(36).slice(2)}`;
 ### 2. Resource Hints
 
 ```astro
-
-
-***
-
-
+---
 // ResourceHints.astro
 export interface Props {
   preconnect?: string[];
@@ -766,12 +605,7 @@ export interface Props {
 }
 
 const { preconnect = [], prefetch = [], preload = [] } = Astro.props;
-
-
-***
-
-
-
+---
 <!-- Preconnect to external domains -->
 {preconnect.map(domain => (
   <link rel="preconnect" href={domain} crossorigin />
@@ -865,11 +699,7 @@ patched since, but defense in depth costs nothing.)
 When documenting components, include:
 
 ```astro
-
-
-***
-
-
+---
 // Component.astro
 /**
  * @component ComponentName
@@ -899,11 +729,7 @@ export interface Props {
   variant?: 'primary' | 'secondary';
   size?: 'sm' | 'md' | 'lg';
 }
-
-
-***
-
-
+---
 ```
 
 ## Migration Guide

@@ -72,6 +72,26 @@ describe("findVersionsJsonMismatches", () => {
     const versions = { typescript: "5.9.3" };
     expect(findVersionsJsonMismatches(pkg, versions)).toEqual([]);
   });
+
+  it("guards the formerly-loose keys once pinned exactly (2026-08 audit)", () => {
+    const auditPkg = {
+      dependencies: { "@astrojs/mdx": "^7.0.5" },
+      devDependencies: {
+        "@astrojs/sitemap": "^3.7.3",
+        "@lhci/cli": "^0.15.1",
+        lighthouse: "^13.4.1",
+      },
+    };
+    const versions = {
+      "astro-mdx": "5.0.0",
+      "astro-sitemap": "3.7.3",
+      "lighthouse-ci": "0.15.1",
+      lighthouse: "13.4.1",
+    };
+    expect(findVersionsJsonMismatches(auditPkg, versions)).toEqual([
+      "astro-mdx: versions.json 5.0.0 ≠ package.json @astrojs/mdx ^7.0.5",
+    ]);
+  });
 });
 
 /**

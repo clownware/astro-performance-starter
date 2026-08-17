@@ -15,7 +15,7 @@ Accepted
 
 ## Context
 
-`package.json` exposes ~45 scripts. Most maintain _the template itself_
+`package.json` exposes ~56 scripts. Most maintain _the template itself_
 (`perf:baseline`, `perf:budgets`, `bundle:analyze`,
 `images:optimize`, `roadmap:update`, the `agents:*`
 spine, `release:*`, `audit:*`) _(amended 2026-08-02: the first four originally
@@ -65,7 +65,7 @@ scheme.**
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: every stable cloner-facing script name exists in `package.json`.

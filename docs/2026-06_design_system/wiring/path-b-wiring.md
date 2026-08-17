@@ -104,7 +104,7 @@ Run as a scoped codemod across `src/components/**` and `src/pages/**`, then `pnp
 
 ## 6. Fonts
 
-Self-host **Space Grotesk** (display) and **Inter** (text); subset to used weights, `font-display: swap`. Two faces max — confirm CSS stays < 15KB gzipped after.
+Self-host **Space Grotesk** (display) and **Inter** (text); subset to used weights, `font-display: swap`. Two faces max — confirm CSS stays < 15KB gzipped after. _(Shipped: Geist replaced Space Grotesk as the display face — ADR-053.)_
 
 ## Gate
 

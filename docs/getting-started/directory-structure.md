@@ -70,9 +70,10 @@ astro-performance-starter/
 │   │   │   ├── Header.astro
 │   │   │   ├── ParallaxSection.astro
 │   │   │   └── Section.astro
-│   │   ├── islands/                 # Preact island components (1)
+│   │   ├── islands/                 # Preact island components (2)
+│   │   │   ├── MotionLab.tsx
 │   │   │   └── SignalsCounter.tsx
-│   │   ├── mdx/                     # MDX components (7)
+│   │   ├── mdx/                     # MDX components (7 + examples/)
 │   │   │   ├── Blockquote.astro
 │   │   │   ├── Callout.astro
 │   │   │   ├── CodeFromFile.astro
@@ -118,15 +119,19 @@ astro-performance-starter/
 │   ├── styles/
 │   │   └── global.css               # Global styles with tokens
 │   ├── types/
-│   │   └── navigation.ts            # Type definitions
+│   │   ├── astro-content.d.ts       # Content type augmentation
+│   │   ├── content.ts               # Collection entry types
+│   │   ├── icons.ts                 # Icon name union (ADR-055)
+│   │   └── navigation.ts            # Navigation types
 │   ├── utils/
 │   │   ├── blog.ts                  # Blog post queries and sorting
 │   │   ├── formatDate.ts            # Date formatting and reading time
+│   │   ├── resolveImageFormat.ts    # Image format resolution (ADR-030)
 │   │   ├── socialShare.ts           # Social media share URLs
 │   │   ├── url-utils.ts             # URL helpers
 │   │   └── validateOgImage.ts       # OG image validation
 │   ├── config.ts                    # Site metadata and social links
-│   └── content.config.ts            # Content Collections schema (Astro 6 Content Layer API)
+│   └── content.config.ts            # Content Collections schema (Astro Content Layer API)
 │
 ├── public/                          # Static assets
 │   ├── _headers                     # Security headers
@@ -145,10 +150,6 @@ astro-performance-starter/
 │   └── tsconfig.json
 │
 ├── docs/                            # 📚 See Documentation Structure below
-│
-├── .vscode/                         # Editor configuration
-│   ├── extensions.json              # Recommended extensions
-│   └── settings.json                # Workspace settings
 │
 ├── astro.config.mjs                 # Astro configuration
 ├── biome.json                       # Linting & formatting
@@ -297,7 +298,6 @@ docs/
 │   ├── recommended-extensions.md    # VS Code extensions
 │   ├── git-workflow.md              # Branching & commit conventions
 │   ├── author-guidelines.md         # Content authoring guide
-│   └── TESTING_COVERAGE.md          # Test strategy & coverage
 │
 ├── patterns/                        # Design patterns
 │   ├── component-patterns.md        # Component design

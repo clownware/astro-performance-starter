@@ -41,8 +41,8 @@ pnpm run dev
 
 Once you're up and running, consider these initial configuration steps:
 
-- [ ] **Configure Analytics**: This template is privacy-first. See our guide on [Adding Web Analytics](/implementation-guides/06-optional-features/01-analytics) to add Plausible or Fathom.
-- [ ] **Customize Content**: Edit the example blog post in `src/content/blog/` and update your site configuration in `.env`.
+- [ ] **Configure Analytics**: This template is privacy-first. See [Optional Analytics](../implementation-guides/reference/optional-analytics.md) to add Plausible or Fathom.
+- [ ] **Customize Content**: Edit the example blog post in `src/content/blog/` and update `SITE_URL` in `.env` and your site metadata in `src/config.ts`.
 - [ ] **Review the Guides**: The `docs/implementation-guides/active-phases/` contain current development phase instructions. Start with [Phase 5 Components](../implementation-guides/active-phases/phase-5-components.md) which has optional elements you can customize.
 
 ## Essential Commands
@@ -115,7 +115,7 @@ Create a file in `src/pages/`:
 import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="Example Page">
+<BaseLayout title="Example Page" description="A minimal example page.">
   <h1>Hello World</h1>
 </BaseLayout>
 ```
@@ -159,7 +159,7 @@ This supports **markdown** and components.
 ## Getting Help
 
 - **Framework Guide**: See [Implementation Overview](../implementation-guides/README.md)
-- **Component Docs**: Run `pnpm run docs:components` (Advanced scope — optional)
+- **Component Docs**: Browse the `/showcase` living style guide (`pnpm dev`, then open `/showcase` — ADR-049)
 - **GitHub Discussions**: Community Support (open a Discussion on your repo)
 
 ## Next Steps

@@ -234,7 +234,7 @@ If critical issues found:
 
 ### Key Files to Reference
 
-- `tests/e2e/*` - End-to-end test suites
+- `e2e/*` - End-to-end test suites (Playwright `testDir` is `./e2e`)
 - `playwright.config.ts` - Test configuration
 - Test utilities and helpers
 - Bug tracking templates

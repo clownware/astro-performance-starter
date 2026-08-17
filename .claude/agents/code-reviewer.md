@@ -24,9 +24,9 @@ You are a code reviewer for the Astro Performance Starter. Review changes agains
 4. **Review against project rules:**
 
    **Performance budgets:**
-   - JS bundle must stay under 160KB gzipped
-   - CSS under 50KB, images under 200KB each
-   - Lighthouse targets: Performance 95+, Accessibility 98+
+   - JS bundle must stay under 160KB raw (CI gate)
+   - Images under 200KB each — source and build output (CI gate, ADR-057)
+   - Lighthouse CI floors: Performance 0.90, Accessibility 0.95 on desktop and mobile (the 95+ scores are the measured headline, not the gate)
 
    **Component patterns:**
    - TypeScript-first: every component needs a Props interface
@@ -36,7 +36,7 @@ You are a code reviewer for the Astro Performance Starter. Review changes agains
 
    **Design tokens:**
    - No hardcoded colors (`bg-white`, `text-gray-600`, `#hex`, `rgb()`)
-   - Must use semantic tokens: `text-foreground-primary`, `bg-background-secondary`, etc.
+   - Must use semantic role tokens (ADR-047): `text-foreground`, `text-muted-foreground`, `bg-background`, `bg-surface`, `border-border`, `border-border-emphasis`, and the `primary-*`/`secondary-*` scales
    - No manual dark mode variants (`dark:bg-gray-800`)
 
    **TypeScript:**

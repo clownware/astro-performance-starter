@@ -21,7 +21,7 @@ Accepted
 - Halt-on-violation rules (e.g. "never `client:load` without ADR justification")
 - Engineering defaults (component conventions, design-token usage, TypeScript settings)
 - Process guidance (scope boundaries, quality gates, git hooks)
-- Stack facts (Astro 6.x, pnpm 10.x, Node 24.x, command references)
+- Stack facts (Astro 7.x, pnpm 10.x, Node 24.x, command references)
 
 The four categories have different tones, different update cadences, and different audiences. Stack facts change with every dependency upgrade. Halt-on-violation rules should change once a year. Conflating them into a single file makes the rules read as advisory and the facts read as binding — exactly the wrong message for both.
 
@@ -195,7 +195,7 @@ The choice of `.claude/` as the directory name (rather than tool-agnostic `.agen
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: `CLAUDE.md`, `.claude/engineering.md`, `.claude/workflow.md`, and `.claude/stack.md` all exist.

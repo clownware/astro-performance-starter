@@ -85,17 +85,9 @@ This injects a small CSS snippet that applies `max-width: 100%` and `height: aut
 
 **Why global rather than per-component?** The alternative is adding `class="w-full h-auto"` to every `<Image />` usage. Global styles are less error-prone and consistent with how browsers handle `<img>` elements by default.
 
-### Output Formats: AVIF + WebP
+### Output Formats: single format, AVIF by default
 
-Astro generates AVIF and WebP variants automatically when Sharp is configured. The `<picture>` element serves the most efficient format the browser supports:
-
-```
-AVIF  → ~50% smaller than JPEG
-WebP  → ~30% smaller than JPEG
-JPEG  → fallback for older browsers
-```
-
-No explicit format configuration is needed — Astro handles format selection automatically based on the source image type and browser support.
+*(Amended 2026-08-13 to ship-truth: the founding text described multi-format `<picture>` output, which the wrapper does not produce.)* The `Image` wrapper emits a **single** `<img>` per source: `resolveImageFormat` defaults to AVIF (~50% smaller than JPEG), honours an explicit `format` prop, and passes SVGs through unrasterised. There is no `<picture>`/multi-format fallback — AVIF support is universal in the template's supported browsers, and one variant keeps the build and the image cache small.
 
 ### `domains: []` and `remotePatterns: []`
 
@@ -164,7 +156,7 @@ Anything outside these two cases still halts on rule 8.
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
   - TC-1: no raw `<img` appears in `src/` outside the two recorded exemptions (the wrapper's string-src fallback; unrasterisable SVGs carrying an inline justifying comment).
@@ -173,7 +165,7 @@ Anything outside these two cases still halts on rule 8.
   - TC-1 → check `no-raw-img` (status: **warn**)
   - TC-2 → `images:gate` in CI (status: **block**, pre-existing gate) — see ADR-057
 - **Not machine-checkable:** per-image layout/format choices remain judgment calls.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-02-18\

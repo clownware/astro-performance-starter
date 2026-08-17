@@ -9,6 +9,7 @@ Hierarchy in `src/components/`:
 - `atoms/` — basic UI elements (Button, Badge, Icon)
 - `molecules/` — combinations (Card, ContactForm, PostCard)
 - `structural/` — layout (Container, Header, Footer, Section)
+- `islands/` — hydrated Preact islands (SignalsCounter, MotionLab — ADR-060)
 - `a11y/` — accessibility primitives (SkipLink)
 - `mdx/` — MDX-specific (Callout, Figure, CodeFromFile)
 
@@ -53,9 +54,9 @@ Forbidden:
 
 ## Images
 
-The Astro `Image` component is required for all images. Raw `<img>` tags are forbidden. Reasoning:
+The Astro `Image` component is required for all images. Raw `<img>` tags are forbidden outside the two ADR-030 exemptions (the wrapper's string-src fallback; unrasterisable SVGs with an inline justifying comment). Reasoning:
 
-- Automatic AVIF + WebP output
+- Optimised single-format output (AVIF by default — ADR-030)
 - Width/height attributes prevent CLS
 - Lazy loading by default
 

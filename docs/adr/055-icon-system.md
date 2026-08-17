@@ -199,7 +199,7 @@ upstream Lucide changes meaningfully affect visual recognition.
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Not machine-checkable:** icon family fidelity (Lucide-aligned strokes) and the one-gradient-per-view rule are visual judgments; a single-registry grep was evaluated and rejected because inline SVG is legitimately present outside `Icon.astro` (ADR-030 exemption).
 - **Graduation log:** _(empty at creation; entries added when a check changes status)_

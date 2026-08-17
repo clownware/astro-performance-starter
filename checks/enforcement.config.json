@@ -1,5 +1,5 @@
 {
-  "$comment": "ADR enforcement config (ADR-062). Entry schema {id, adr, tc, status, added, graduated} is shared with go-performance-starter — keep it portable. status: warn|block; graduation rules live in ADR-062. Entries with `external` are enforced by pre-existing gates and reported as delegated, not run here.",
+  "$comment": "ADR enforcement config (ADR-064). Entry schema {id, adr, tc, status, added, graduated} is shared with go-performance-starter — keep it portable. status: warn|block; graduation rules live in ADR-064. Entries with `external` are enforced by pre-existing gates and reported as delegated, not run here.",
   "islands": [
     {
       "file": "src/pages/showcase.astro",
@@ -61,7 +61,7 @@
     { "id": "constitution-shape", "adr": "ADR-036", "tc": "TC-1", "status": "warn", "added": "2026-07-12", "graduated": null },
     { "id": "ci-runs-quality", "adr": "ADR-039", "tc": "TC-1..2", "status": "warn", "added": "2026-07-12", "graduated": null },
     { "id": "script-contract", "adr": "ADR-052", "tc": "TC-1..2", "status": "warn", "added": "2026-07-12", "graduated": null },
-    { "id": "adr-log-valid", "adr": "ADR-062", "tc": "TC-1..4", "status": "warn", "added": "2026-07-12", "graduated": null },
+    { "id": "adr-log-valid", "adr": "ADR-064", "tc": "TC-1..4", "status": "warn", "added": "2026-07-12", "graduated": null },
     { "id": "link-validation", "adr": "ADR-005", "tc": "TC-1..2", "status": "block", "added": "pre-existing", "graduated": null, "external": "remark-validate-links in build + CI link-check job" },
     { "id": "bundle-budget", "adr": "ADR-009", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "CI: JS bundle-size gate" },
     { "id": "unit-coverage", "adr": "ADR-023", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "CI: pnpm test:coverage (thresholds)" },
@@ -70,7 +70,7 @@
     { "id": "og-check", "adr": "ADR-029", "tc": "TC-2", "status": "block", "added": "pre-existing", "graduated": null, "external": "quality:ci: og:check" },
     { "id": "design-validate", "adr": "ADR-047", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "CI: design:validate (WCAG contrast sweep)" },
     { "id": "agents-check", "adr": "ADR-045", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "quality:ci: agents:check" },
-    { "id": "security-scans", "adr": "ADR-046", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "CI: semgrep + gitleaks + audit:ci + Trivy" },
+    { "id": "security-scans", "adr": "ADR-046", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "CI: semgrep + gitleaks + audit:ci (blocking); Trivy SBOM scan is report-only (SARIF upload, continue-on-error)" },
     { "id": "images-gate", "adr": "ADR-057", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "CI: images:gate (source + dist)" },
     { "id": "fonts-gate", "adr": "ADR-058", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "CI: fonts:gate" },
     { "id": "version-check", "adr": "ADR-061", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "quality:ci: version:check" },

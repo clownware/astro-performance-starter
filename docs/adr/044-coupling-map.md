@@ -12,7 +12,7 @@ pagefind: true
 
 ## Status
 
-Proposed (deferred — revisit at next Astro major upgrade)
+Proposed (deferred — revisit at next Astro major upgrade; 2026-08-13: the Astro 7 upgrade (ADR-062) shipped without reopening this record — the deferral rolls forward to the next major)
 
 ## Context
 
@@ -27,7 +27,7 @@ Purpose: tell future contributors (and Claude sessions) which files are safe to 
 
 **Deferred until the next major Astro upgrade.** At template scale (under 50 production source files), the coupling pattern is small enough to discover by `grep -r "from \"astro" src/`. Building a maintained document for that size is overhead without payoff.
 
-When Astro 7 or another major version is on the horizon, reopen this ADR and:
+When the next major version is on the horizon, reopen this ADR and *(2026-08-13: the Astro 7 upgrade skipped this step — see Status)*:
 
 1. Run the grep + categorise into framework-coupled / framework-free
 2. Document migration cost per coupled file
@@ -54,7 +54,7 @@ Until then, the implicit rule applies: framework-free files (utilities, fixtures
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 Not enforced — this record's status is **Proposed**; only Accepted ADRs are binding
 (see the status table in the ADR README and ADR-039).

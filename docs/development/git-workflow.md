@@ -11,10 +11,9 @@ This document outlines the branching strategy, commit conventions, and pull requ
 
 ## Branch Strategy
 
-### Main Branches
+### Main Branch
 
-- `master` - Stable releases and production-ready code
-- `develop` - Active development and integration branch
+- `master` - The single long-lived branch. Every change lands via a reviewed pull request; there is no `develop` integration branch.
 
 ### Feature Branches
 
@@ -25,12 +24,11 @@ This document outlines the branching strategy, commit conventions, and pull requ
 
 ### Workflow for Template Development
 
-1. Create feature branch from `develop`
+1. Create a feature branch from `master`
 2. Make changes with conventional commits
-3. Test locally with `pnpm dev` and `pnpm build`
-4. Open PR to `develop` with clear description
-5. Merge after review and CI checks pass
-6. Periodic merges from `develop` to `master` for releases
+3. Test locally with `pnpm dev` and run `pnpm quality:ci` before claiming done
+4. Open a PR to `master` with a clear description
+5. **Squash-merge** after review and CI checks pass — one conventional-commit subject per PR
 
 ### Workflow for Template Users
 
@@ -53,7 +51,7 @@ This document outlines the branching strategy, commit conventions, and pull requ
 
 ### For Template Development
 
-- Open PR from feature branch to `develop`
+- Open PR from feature branch to `master`
 - Fill out PR template with context and screenshots if relevant
 - Assign reviewers and wait for approval
 - Ensure all checks (CI, lint, build) pass before merge

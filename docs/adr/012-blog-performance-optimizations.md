@@ -254,7 +254,7 @@ pnpm run build --verbose
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Not machine-checkable:** the compute-in-`getStaticPaths` pattern is a review concern; aggregate regressions surface via the JS bundle budget and the Lighthouse workflow rather than a static check.
 - **Graduation log:** _(empty at creation; entries added when a check changes status)_

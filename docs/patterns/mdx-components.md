@@ -61,7 +61,7 @@ const citeId = `quote-cite-${crypto.randomUUID()}`;
 
 <blockquote
   class:list={[
-    "border-l-4 border-primary-500 bg-primary-50 dark:bg-primary-950 px-6 py-4 my-6 text-foreground-primary",
+    "border-l-4 border-primary-500 bg-primary-50 dark:bg-primary-950 px-6 py-4 my-6 text-foreground",
     className,
   ]}
   cite={cite}
@@ -88,9 +88,9 @@ const citeId = `quote-cite-${crypto.randomUUID()}`;
       <!-- Attribution -->
       {(author || source) && (
         <footer
-          class="mt-4 text-sm text-foreground-secondary not-italic"
+          class="mt-4 text-sm text-muted-foreground not-italic"
         >
-          <cite id={citeId} class="font-medium text-foreground-primary">
+          <cite id={citeId} class="font-medium text-foreground">
             {author && <span>— {author}</span>}
             {author && source && <span>, </span>}
             {source && <span>{source}</span>}
@@ -623,7 +623,7 @@ For Content Collections with MDX:
 import { defineCollection, z } from 'astro:content';
 
 const blog = defineCollection({
-  type: 'content',
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
   schema: z.object({
     title: z.string(),
     description: z.string(),
@@ -696,8 +696,8 @@ All components use design tokens for consistent theming:
 
 ```css
 /* Components use semantic tokens */
-text-foreground-primary
-bg-background-secondary
+text-foreground
+bg-surface
 border-primary-500
 ```
 
@@ -801,7 +801,7 @@ export const components = {
 
 **Issue**: TypeScript errors when using components in MDX
 
-**Solution**: Add MDX types to `src/env.d.ts`:
+**Solution**: Add MDX types to a declaration file under `src/types/` (the template keeps its type augmentation in `src/types/astro-content.d.ts`):
 
 ```typescript
 /// <reference types="astro/client" />
@@ -837,10 +837,10 @@ pnpm run tokens:build
 
 ## Related Documentation
 
-- [Component Patterns](/patterns/component-patterns) - General component design patterns
-- [Content Collections](/implementation-guides/07-content/01-content-collections) - Using MDX with Content Collections
-- [Design Tokens](/architecture/design-tokens) - Customizing component styling
-- [Accessibility](/patterns/accessibility) - WCAG compliance guidelines
+- [Component Patterns](./component-patterns.md) - General component design patterns
+- [Content Collections](./content-collections.md) - Using MDX with Content Collections
+- [How to Use Design Tokens](../development/how-to-use-design-tokens.md) - Customizing component styling
+- [Accessibility Guide](../implementation-guides/guides/accessibility-guide.md) - WCAG compliance guidelines
 
 ---
 

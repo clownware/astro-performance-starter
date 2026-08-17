@@ -461,11 +461,7 @@ console.log('✅ Design tokens built successfully');
 ### Accessibility Utilities
 
 ```astro
-
-
-***
-
-
+---
 // src/components/a11y/VisuallyHidden.astro
 export interface Props {
   as?: keyof HTMLElementTagNameMap;
@@ -473,12 +469,7 @@ export interface Props {
 }
 
 const { as: Tag = 'span', class: className } = Astro.props;
-
-
-***
-
-
-
+---
 <Tag class:list={['sr-only', className]}>
   <slot />
 </Tag>
@@ -712,22 +703,13 @@ validateContrast();
 ### Dark Mode Implementation
 
 ```astro
-
-
-***
-
-
+---
 // src/components/ThemeToggle.astro
-
-
-***
-
-
-
+---
 <button
   id="theme-toggle"
   type="button"
-  class="focus-visible-ring rounded-lg p-2 hover:bg-gray-100 dark:hover:bg-gray-800"
+  class="focus-visible-ring rounded-lg p-2 hover:bg-surface"
   aria-label="Toggle dark mode"
 >
   <svg class="h-5 w-5 dark:hidden" fill="currentColor" viewBox="0 0 20 20">

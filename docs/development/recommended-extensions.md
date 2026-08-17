@@ -7,7 +7,7 @@ pagefind: true
 
 # Recommended VS Code Extensions
 
-This project includes a `.vscode/extensions.json` file that automatically prompts you to install recommended extensions when you open the workspace in VS Code.
+The extensions below give the best developer experience with this template. The repo deliberately ships no `.vscode/` directory (editor config is personal); to get automatic install prompts, create `.vscode/extensions.json` in your clone listing the IDs below.
 
 ## Essential Extensions
 

@@ -195,7 +195,7 @@ per-image budget gate, ADR-057).
 
 ## Enforcement
 
-<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-062). The original record above is unmodified. -->
+<!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Not machine-checkable:** persona voice, replaceability signal, and the no-falsifiable-claims rule are editorial judgments; collection-driven sourcing is a review concern.
 - **Graduation log:** _(empty at creation; entries added when a check changes status)_

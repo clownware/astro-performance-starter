@@ -144,3 +144,16 @@ the MDX integration routes plugin execution through the configured unified proce
 Port the plugins to Sätteri (superseding the processor choice here, not this upgrade) when
 either: Astro deprecates `@astrojs/markdown-remark`, or Markdown build time becomes a measured
 bottleneck in the perf baselines.
+
+## Enforcement
+
+<!-- Added 2026-08-13 under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
+
+- **Testable consequences:**
+  - TC-1: `astro` stays on the 7.x major with `markdown.processor` explicitly configured for the unified/remark pipeline.
+  - TC-2: the snippet-include plugin survives a cold rebuild (the failure this upgrade surfaced).
+- **Checks:**
+  - TC-1 → `version-check` in `quality:ci` (status: **block**, pre-existing gate)
+  - TC-2 → `scripts/src/__tests__/remark-snippet-includes.test.ts` via `test:unit` (status: **block**, pre-existing gate)
+- **Not machine-checkable:** whether a future Astro major warrants re-evaluating the Sätteri port is the Revisit Trigger above.
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*

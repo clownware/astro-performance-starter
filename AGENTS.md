@@ -50,6 +50,7 @@ Hierarchy in `src/components/`:
 - `atoms/` — basic UI elements (Button, Badge, Icon)
 - `molecules/` — combinations (Card, ContactForm, PostCard)
 - `structural/` — layout (Container, Header, Footer, Section)
+- `islands/` — hydrated Preact islands (SignalsCounter, MotionLab — ADR-060)
 - `a11y/` — accessibility primitives (SkipLink)
 - `mdx/` — MDX-specific (Callout, Figure, CodeFromFile)
 
@@ -94,9 +95,9 @@ Forbidden:
 
 ### Images
 
-The Astro `Image` component is required for all images. Raw `<img>` tags are forbidden. Reasoning:
+The Astro `Image` component is required for all images. Raw `<img>` tags are forbidden outside the two ADR-030 exemptions (the wrapper's string-src fallback; unrasterisable SVGs with an inline justifying comment). Reasoning:
 
-- Automatic AVIF + WebP output
+- Optimised single-format output (AVIF by default — ADR-030)
 - Width/height attributes prevent CLS
 - Lazy loading by default
 
@@ -257,17 +258,17 @@ pnpm test:mutate      # Stryker mutation testing — slow; nightly in CI (ADR-04
 ### Performance Budgets
 
 - **JavaScript:** < 160KB total raw (enforced in CI)
-- **CSS:** < 50KB total
+- **CSS:** < 50KB total (advisory — tracked, not CI-gated)
 - **Images:** < 200KB each per raster file — source and build output (enforced in CI — ADR-057)
 - **Font preloads:** ≤ 2 per page (enforced in CI — ADR-058)
-- **Lighthouse:** Performance 95+, Accessibility 98+ — gated on desktop and mobile
+- **Lighthouse:** CI floors — Performance ≥ 0.90, Accessibility ≥ 0.95, Best-Practices ≥ 0.95, SEO ≥ 0.90, gated on desktop and mobile (`lighthouserc.json` + `.mobile`); the 95+/98+ scores are the measured headline, not the gate
 - **Core Web Vitals:** LCP < 2.5s, INP < 200ms, CLS < 0.1
 
 Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding dependencies.
 
 ### Key ADRs
 
-64 ADRs in `docs/adr/`. The structurally important ones:
+65 ADRs in `docs/adr/`. The structurally important ones:
 
 - **ADR-001:** Preact island usage policy — never `client:load` without justification
 - **ADR-023:** Testing strategy and coverage targets
@@ -278,9 +279,9 @@ Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding
 
 ### Deployment
 
-- **Target:** Cloudflare Pages (global CDN)
+- **Target:** GitHub Pages via `.github/workflows/deploy.yml` (push to `master`); `SITE_URL` is set by the workflow
 - **Output:** `dist/`
-- **Security headers:** `public/_headers`
+- **Security headers:** `public/_headers` — honoured by header-capable hosts (Cloudflare Pages, Netlify); a no-op on the GitHub Pages demo (ADR-051)
 
 ### Cross-tool spine
 

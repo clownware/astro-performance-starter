@@ -16,10 +16,10 @@ _What performance challenges are you facing? I'd love to hear about your optimiz
 
 ## Entry Criteria
 
-- \[ ] Content architecture defined (Phase 1)
-- \[ ] Page sections built (Phase 6)
-- \[ ] Image optimization pipeline ready
-- \[ ] Content schemas validated
+- [ ] Content architecture defined (Phase 1)
+- [ ] Page sections built (Phase 6)
+- [ ] Image optimization pipeline ready
+- [ ] Content schemas validated
 
 ## Implementation Steps
 

@@ -133,101 +133,60 @@ Copy this into your notes and check off as you go:
 
 ### 1.1 Site Configuration
 
-**File**: `astro.config.mjs` (project root)  
-**Why**: Defines your site URL for SEO, sitemaps, and asset linking  
-**Lines**: ~15-20
+**Mechanism**: the `SITE_URL` environment variable — **not** a config-file edit
+**Why**: Defines your site URL for canonical links, sitemaps, and OG image paths
 
-#### Before
-
-```js
-// astro.config.mjs
-export default defineConfig({
-  site: 'https://example.com', // ← Change this
-  // ...
-});
-```
-
-#### After
-
-```js
-// astro.config.mjs
-export default defineConfig({
-  site: 'https://your-domain.com', // Your actual domain
-  // OR use Cloudflare Pages URL initially:
-  // site: 'https://your-project.pages.dev',
-  // ...
-});
-```
+`astro.config.mjs` derives `site` from `SITE_URL` (or `PUBLIC_SITE_URL`). In
+dev it falls back to `http://localhost:4321`; a **production build fails
+without it** — `pnpm build` runs `scripts/src/validate-env.ts`, which exits
+with an error if `SITE_URL` is missing or still a placeholder.
 
 #### Action Steps
 
-1. Open `astro.config.mjs` in your editor
-2. Find the `site` property (around line 15-20)
-3. Replace with your domain or `https://your-project.pages.dev`
-4. Save the file
+1. Create a `.env` file in the project root (or copy `.env.example`):
+
+    ```bash
+    # .env
+    SITE_URL="https://your-username.github.io"
+    ```
+
+2. Use your real production origin — for the default GitHub Pages deploy that
+   is `https://<your-username>.github.io`; for a custom domain, that domain.
+3. The shipped deploy workflow (`.github/workflows/deploy.yml`) sets
+   `SITE_URL` for CI builds from your repository owner automatically; if you
+   deploy elsewhere, set `SITE_URL` in that platform's environment settings.
 
 :::tip[Don't Have a Domain Yet?]
-Use a placeholder like `https://my-project.pages.dev` for now. You'll update it after deployment with your actual Cloudflare Pages URL.
+Your GitHub Pages origin (`https://<your-username>.github.io`) works from day
+one. Swap `SITE_URL` to the custom domain later and rebuild.
 :::
 
 ### 1.2 Site Metadata & SEO
 
-**File**: `src/layouts/BaseLayout.astro`  
-**Why**: Controls site title, description, and social sharing  
-**Lines**: ~5-30 (frontmatter and head section)
+**File**: `src/config.ts` (marked "UPDATE THESE VALUES when you fork/clone")
+**Why**: Single source of truth for site title, description, author, and links
+
+`Head.astro` builds every page's `<title>` ("Page Title | Site Title"), meta
+description, Open Graph/Twitter tags, and JSON-LD from two places: the
+`siteMetadata` object in `src/config.ts`, and the `title`/`description` props
+each page passes to `BaseLayout`. There are no meta tags to hand-edit.
 
 #### Quick Checklist: What to Update
 
-Open `src/layouts/BaseLayout.astro` and find these lines:
+- [ ] `src/config.ts` → `siteMetadata.title` — your site name
+- [ ] `src/config.ts` → `siteMetadata.description` — fallback description
+- [ ] `src/config.ts` → `siteMetadata.author` — meta author string
+- [ ] `src/config.ts` → `siteLinks.github` (and optional `docs`, `demo`, `pagespeed`)
+- [ ] Each page in `src/pages/` — the `title`/`description` props on `<BaseLayout>`
 
-- [ ] **Line ~8**: Default `title` in Props interface → `'Your Site Name'`
-- [ ] **Line ~9**: Default `description` → `'Your site description'`
-- [ ] **Line ~15**: `<title>` tag → `Your Brand`
-- [ ] **Line ~17**: `<meta name="description">` content
-- [ ] **Lines ~20-25**: Open Graph tags
-- [ ] **Lines ~27-30**: Twitter Card tags
-
-<details>
-<summary>Show full diff with before/after</summary>
-
-#### What to Change
-
-```diff
----
-// src/layouts/BaseLayout.astro
-interface Props {
--  title?: string = 'Astro Starter Template';
-+  title?: string = 'Your Site Name';
--  description?: string = 'A performance-focused Astro starter';
-+  description?: string = 'Your site description for SEO';
-  // ...
-}
-
-const { title, description } = Astro.props;
----
-
-<head>
--  <title>{title} | Astro Starter</title>
-+  <title>{title} | Your Brand</title>
-  
--  <meta name="description" content="A performance-focused Astro starter template" />
-+  <meta name="description" content="Your compelling site description" />
-  
-  <!-- Open Graph / Facebook -->
--  <meta property="og:title" content={title} />
-+  <meta property="og:title" content="Your Site Name" />
--  <meta property="og:description" content={description} />
-+  <meta property="og:description" content="Your site description" />
-  
-  <!-- Twitter -->
--  <meta property="twitter:title" content={title} />
-+  <meta property="twitter:title" content="Your Site Name" />
--  <meta property="twitter:description" content={description} />
-+  <meta property="twitter:description" content="Your site description" />
-</head>
+```ts
+// src/config.ts
+export const siteMetadata = {
+  title: "Your Site Name",
+  description: "Your compelling site description",
+  author: "Your Name",
+} as const;
 ```
-
-</details>
 
 :::caution[Keep Descriptions Concise]
 
@@ -312,28 +271,37 @@ Open `src/layouts/BaseLayout.astro` and add these lines in the `<head>` section 
 
 **Files**:
 
-- `tokens/semantic.json` - Brand colors
-- `src/components/structural/Header.astro` - Logo text
+- `tokens/base.json` - Raw color palette (HSL channel values)
+- `tokens/semantic.json` - Maps brand roles to the palette
+- `public/logo.svg` + `src/components/structural/Header.astro` - Logo
 
 **Quick Color Change:**
 
+Token values are HSL channel triples (`"H S% L%"`), not hex. To rebrand, edit the base scale your primary role points at, or repoint the role:
+
 ```json
-// tokens/semantic.json
+// tokens/base.json — change the palette
 {
   "color": {
-    "brand": {
-      "primary": { 
-        "value": "#your-primary-color",
-        "description": "Primary brand color"
-      },
-      "secondary": { 
-        "value": "#your-secondary-color",
-        "description": "Secondary brand color"
-      }
+    "violet": {
+      "500": { "value": "257 92% 61%" }
     }
   }
 }
 ```
+
+```json
+// tokens/semantic.json — or repoint the role to another scale
+{
+  "semantic": {
+    "primary": {
+      "500": { "value": "{color.violet.500}" }
+    }
+  }
+}
+```
+
+Dark-mode values use a `"dark"` key alongside `"value"` — see `semantic.surface` for the pattern. Run `pnpm run design:validate` after color changes; CI enforces WCAG-AA contrast on semantic pairs.
 
 **Rebuild tokens:**
 
@@ -419,8 +387,8 @@ git commit -m "feat: personalize site configuration and branding"
 # Add remote (replace with your GitHub username and repo name)
 git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
 
-# Rename branch to main (if needed)
-git branch -M main
+# The shipped CI/deploy workflows trigger on the master branch.
+# If you prefer main, also update the branch filters in .github/workflows/.
 
 # Push to GitHub
 git push -u origin main
@@ -439,7 +407,7 @@ This template uses [Conventional Commits](https://www.conventionalcommits.org/):
 
 ### 2.2 Platform Configuration
 
-#### Option A: Cloudflare Pages (Recommended)
+#### Option A: Cloudflare Pages
 
 ##### Step 1: Create Cloudflare Account
 
@@ -483,22 +451,11 @@ Your site is now live, but it's using the placeholder URL from Step 1. Let's fix
 
 1. **Copy your actual URL** from Cloudflare (e.g., `https://my-project-abc.pages.dev`)
 
-2. **Update config:**
+2. **Set `SITE_URL`** in the Cloudflare Pages project settings (Settings →
+   Environment variables) to that URL — `astro.config.mjs` reads it at build
+   time; there is no config file to edit.
 
-   ```js
-   // astro.config.mjs
-   export default defineConfig({
-     site: 'https://my-project-abc.pages.dev', // ← Your actual Cloudflare URL
-   });
-   ```
-
-3. **Commit and push:**
-
-   ```bash
-   git add astro.config.mjs
-   git commit -m "fix: update site URL with Cloudflare Pages domain"
-   git push
-   ```
+3. **Retry the deployment** so the build picks up the new variable.
 
 4. **Wait for rebuild** (1-2 min) - Cloudflare auto-deploys on push
 
@@ -520,31 +477,23 @@ Astro uses `site` for generating sitemaps, canonical URLs, and `og:image` paths.
 - CMS endpoints
 - Feature flags
 
-**Astro v6.x Type-Safe Environment Variables:**
+**Astro v7.x Type-Safe Environment Variables:**
 
-Astro v6 includes built-in type-safe environment variable handling via `astro:env`.
+Astro v7 includes built-in type-safe environment variable handling via `astro:env`.
 
 **1. Define in `astro.config.mjs`:**
 
-```js
-import { defineConfig, envField } from 'astro/config';
+The template already ships an `astro:env` schema (ADR-050) with typed
+`PUBLIC_CONTACT_*` fields. `SITE_URL` is deliberately **not** in the schema —
+it's read at config-load time, before `astro:env` exists, and validated by
+`env:validate` instead. Add new variables to the existing schema:
 
-export default defineConfig({
-  site: import.meta.env.SITE_URL || 'https://example.com',
-  env: {
-    schema: {
-      SITE_URL: envField.string({
-        context: 'server',
-        access: 'public',
-        default: 'https://example.com',
-      }),
-      API_KEY: envField.string({
-        context: 'server',
-        access: 'secret',
-      }),
-    },
-  },
-});
+```js
+// astro.config.mjs — inside the existing env.schema block
+API_KEY: envField.string({
+  context: 'server',
+  access: 'secret',
+}),
 ```
 
 **2. Add to your hosting platform:**
@@ -569,9 +518,12 @@ export default defineConfig({
 
 ```astro
 ---
-import { SITE_URL, API_KEY } from 'astro:env/server';
+import { PUBLIC_CONTACT_EMAIL } from 'astro:env/client';
+import { API_KEY } from 'astro:env/server';
 
-const response = await fetch(`${API_KEY}/endpoint`);
+const response = await fetch('https://api.example.com/endpoint', {
+  headers: { authorization: `Bearer ${API_KEY}` },
+});
 ---
 ```
 
@@ -623,68 +575,30 @@ See [Netlify Deployment Guide](../implementation-guides/active-phases/phase-10-d
 
 **Pros:** Free SSL, global CDN, preview environments
 
-#### Option E: GitHub Pages
+#### Option E: GitHub Pages (Recommended — ships preconfigured)
 
-**Best for:** Open source projects, documentation sites
+**Best for:** The zero-setup path — this template deploys to GitHub Pages out of the box
 
-**Setup with GitHub Actions:**
+<details>
+<summary><strong>GitHub Pages Setup</strong></summary>
 
-1. **Create `.github/workflows/deploy.yml`:**
+The repo **ships** `.github/workflows/deploy.yml` — do not write your own.
+It builds with `pnpm run build` and publishes `dist/` on every push to
+`master` (plus manual runs via workflow_dispatch), setting `SITE_URL` to
+`https://<repository-owner>.github.io` and `DEPLOY_TARGET=gh-pages`
+automatically.
 
-   ```yaml
-   name: Deploy to GitHub Pages
-
-   on:
-     push:
-       branches: [main]
-
-   permissions:
-     contents: read
-     pages: write
-     id-token: write
-
-   jobs:
-     build:
-       runs-on: ubuntu-latest
-       steps:
-         - uses: actions/checkout@v4
-         - uses: pnpm/action-setup@v3
-         - uses: actions/setup-node@v4
-           with:
-             node-version-file: '.nvmrc'
-             cache: 'pnpm'
-         - run: pnpm install --frozen-lockfile
-      - run: pnpm run build
-      - uses: actions/upload-pages-artifact@v3
-           with:
-             path: dist
-     
-     deploy:
-       needs: build
-       runs-on: ubuntu-latest
-       environment:
-         name: github-pages
-         url: ${{ steps.deployment.outputs.page_url }}
-       steps:
-         - uses: actions/deploy-pages@v4
-           id: deployment
-   ```
-
-2. **Enable GitHub Pages:**
+1. **Enable GitHub Pages:**
 
    - Repo → Settings → Pages
-   - Source: GitHub Actions
+   - Source: **GitHub Actions**
 
-3. **Update `astro.config.mjs`:**
+2. **Push to `master`.** The workflow builds and deploys; your site appears at
+   `https://<your-username>.github.io/<repo-name>/`.
 
-   ```js
-   export default defineConfig({
-     site: 'https://username.github.io',
-     base: '/repo-name', // Only if not using custom domain
-   });
-   ```
-
-   **Note:** GitHub Pages requires `base` path if using `username.github.io/repo-name` format.
+3. **Base path is automatic:** with `DEPLOY_TARGET=gh-pages`,
+   `astro.config.mjs` derives the `/repo-name` base path from the package
+   name. Rename the `name` field in `package.json` if you rename the repo.
 
 </details>
 
@@ -700,22 +614,11 @@ See [Netlify Deployment Guide](../implementation-guides/active-phases/phase-10-d
    - Or use Cloudflare nameservers (recommended)
 5. Wait for DNS propagation (5-30 minutes)
 
-**Update astro.config.mjs:**
+**Update the site URL:**
 
-```js
-export default defineConfig({
-  site: 'https://yourdomain.com', // ← Your custom domain
-  // ...
-});
-```
-
-**Commit and push:**
-
-```bash
-git add astro.config.mjs
-git commit -m "fix: update site URL with custom domain"
-git push
-```
+Set `SITE_URL` to `https://yourdomain.com` wherever your builds run — the
+platform's environment settings for Cloudflare/Vercel/Netlify, or your local
+`.env` plus the deploy workflow for GitHub Pages — then redeploy.
 
 :::tip[SSL Certificate]
 Cloudflare automatically provisions SSL certificates for custom domains. Your site will be HTTPS-enabled within minutes.
@@ -947,7 +850,7 @@ Run a Lighthouse audit to verify performance:
 <details>
 <summary><strong>Staying Updated with Astro Releases</strong></summary>
 
-**Current version:** Astro v6.x (as of 2026)
+**Current version:** Astro v7.x (as of 2026)
 
 **Monitoring updates:**
 
@@ -1050,7 +953,7 @@ git push
 
 #### Cause 1: Incorrect `site` URL
 
-**Fix:** Verify URL in `astro.config.mjs` matches deployment URL exactly (including `https://`)
+**Fix:** Verify the `SITE_URL` environment variable of the deploying build matches the deployment URL exactly (including `https://`)
 
 ```js
 // ✅ Correct

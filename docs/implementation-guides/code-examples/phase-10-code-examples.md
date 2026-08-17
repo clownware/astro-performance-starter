@@ -21,7 +21,7 @@ Cloudflare Pages is the recommended deployment platform for this project due to 
 
 **Watch-outs & Tweaks**:
 
-- **SSR Islands & Cloudflare Functions**: If using SSR for Astro 6.0.8 islands or implementing API routes via Cloudflare Functions (either through Pages Functions or dedicated Workers), be mindful of potential cold starts. These can impact the initial response time for dynamic parts of your site.
+- **SSR Islands & Cloudflare Functions**: If using SSR for Astro islands or implementing API routes via Cloudflare Functions (either through Pages Functions or dedicated Workers), be mindful of potential cold starts. These can impact the initial response time for dynamic parts of your site.
 - **Performance Budgeting**: Factor in potential cold start times into your performance targets, especially for critical user interactions relying on server-side execution. Optimize functions for quick boot-up where possible.
 - **Configuration**: Ensure `wrangler.toml` is correctly configured for your project's needs, including environment variables, redirects, and custom headers.
 
@@ -237,7 +237,7 @@ PUBLIC_ENABLE_NEWSLETTER=false
 const env = {
   // Public variables (available in browser)
   public: {
-    siteUrl: import.meta.env.PUBLIC_SITE_URL || 'http://localhost:3000',
+    siteUrl: import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321',
     siteName: import.meta.env.PUBLIC_SITE_NAME || 'Default Site Name',
     analyticsId: import.meta.env.PUBLIC_ANALYTICS_ID,
     gtmId: import.meta.env.PUBLIC_GTM_ID,
@@ -281,7 +281,7 @@ import { loadEnv } from 'vite';
 const { PUBLIC_SITE_URL } = loadEnv(process.env.NODE_ENV, process.cwd(), '');
 
 export default defineConfig({
-  site: PUBLIC_SITE_URL || 'https://localhost:3000',
+  site: PUBLIC_SITE_URL || 'http://localhost:4321',
   
   build: {
     // Generate sitemap with correct URL
@@ -446,19 +446,10 @@ export function measurePerformance(name: string, fn: () => void | Promise<void>)
 ### 3. Analytics Setup
 
 ```astro
-
-
-***
-
-
+---
 // src/components/Analytics.astro
 const { analyticsId, gtmId, enableAnalytics } = Astro.props;
-
-
-***
-
-
-
+---
 {enableAnalytics && (
   <>
     <!-- Google Tag Manager -->

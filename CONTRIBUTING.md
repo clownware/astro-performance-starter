@@ -230,25 +230,12 @@ feat(tokens): add motion timing tokens
 
 ### PR Description Template
 
-```markdown
-## Summary
-Brief description of changes
-
-## Type of Change
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Documentation update
-- [ ] Performance improvement
-
-## Testing
-- [ ] Tested locally
-- [ ] Lighthouse scores verified
-- [ ] Accessibility checked
-- [ ] Bundle size checked
-
-## Related Issues
-Closes #123
-```
+The repo ships the canonical template at
+[`.github/PULL_REQUEST_TEMPLATE.md`](.github/PULL_REQUEST_TEMPLATE.md) —
+GitHub pre-fills it on every new PR. Its structure: **What / Why / How**, a
+**Testing** checklist (`pnpm run check`, `pnpm run lint`, manual testing), and
+a **Checklist** tying the change to the constitution (ADR-035 scope, budgets,
+ADR-001 island policy).
 
 ### Review Process
 
