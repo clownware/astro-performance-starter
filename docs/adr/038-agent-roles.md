@@ -120,6 +120,33 @@ For trivial changes (typo fix, single-line refactor, single-rename), the three-p
 - A summary of what changed vs. the architect's plan
 - No commits (the human decides whether to merge)
 
+### Pass sequence
+
+```mermaid
+flowchart TD
+    T{"Trigger?<br/>multi-ADR · non-obvious AC ·<br/>beyond one function · new dep · public API"}
+    T -->|No: trivial change| O["One-pass operation"]
+    T -->|Yes| A
+    subgraph A["Pass 1 — Architect (.claude/roles/architect.md)"]
+        A1["ADR new or updated"]
+        A2["Test scaffold / acceptance criteria"]
+        A3["No production code"]
+    end
+    A -->|announce hand-off| C
+    subgraph C["Pass 2 — Coder (.claude/roles/coder.md)"]
+        C1["Minimum implementation to pass the scaffold"]
+        C2["No test edits beyond the plan"]
+        C3["No ADR edits"]
+    end
+    C -->|announce hand-off| R
+    subgraph R["Pass 3 — Reviewer (.claude/roles/reviewer.md)"]
+        R1["pnpm quality:ci report"]
+        R2["Delta vs. Architect plan"]
+        R3["No commits"]
+    end
+    R --> H["Human decides: merge, or refuse if a pass was skipped"]
+```
+
 ### Hand-off contract
 
 Each pass announces what it produced before yielding to the next. The human's job is to enforce the hand-off: refuse to merge work that skipped a pass.

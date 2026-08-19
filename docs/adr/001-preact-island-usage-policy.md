@@ -42,6 +42,30 @@ This ADR addresses the need for clear guidelines on when and how Preact componen
 
 5. **ADR for Significant Preact Ecosystem Dependencies**: If a Preact Island introduces a significant new Preact ecosystem dependency (e.g., a state management library, a routing library, a large data grid library), a brief ADR or a documented decision within the relevant component's documentation should justify its inclusion, outlining why it's necessary and how its performance impact is managed.
 
+### Decision path
+
+The five points above collapse into one escalation path. Every step that adds client-side JavaScript must still clear the performance budgets (point 4).
+
+```mermaid
+flowchart TD
+    A["UI need"] --> B{"Needs client-side interactivity?"}
+    B -->|No| C["Astro component, zero JS (default)"]
+    B -->|Yes| D{"Astro-native or vanilla JS is reasonable?"}
+    D -->|Yes| E["Astro component + minimal targeted script"]
+    D -->|No: complex state / data sync / rich UI| F["Preact island"]
+    F --> G{"Hydration directive"}
+    G -->|"client:visible or client:idle"| H["Ship"]
+    G -->|"client:load"| I["Requires an ADR or documented justification"]
+    I --> H
+    F --> J{"Significant new Preact-ecosystem dependency?"}
+    J -->|Yes| K["Brief ADR / documented decision"]
+    J -->|No| H
+    K --> H
+    H --> L{"Within JS bundle + Lighthouse budgets?"}
+    L -->|Yes| M["Accepted"]
+    L -->|No| N["Halt: budgets are non-negotiable"]
+```
+
 ## Consequences
 
 ### Positive

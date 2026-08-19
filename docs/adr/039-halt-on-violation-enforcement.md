@@ -114,6 +114,24 @@ Replace any remaining "verify with" softness with explicit halt-on-violation for
 
 The form is consistent: condition → halt → corrective action → forbidden workaround.
 
+### Gate shape
+
+The same condition → halt → corrective action → forbidden workaround form applies at every link of the `quality:ci` chain (later ADRs append further links — ADR-045 `agents:check`, ADR-061 `version:check`, and so on — without changing the shape):
+
+```mermaid
+flowchart TD
+    S["pnpm quality:ci"] --> G1["format:check"]
+    G1 -->|exit 0| G2["lint"]
+    G2 -->|exit 0| G3["lint:md"]
+    G3 -->|exit 0| G4["check (types)"]
+    G4 -->|exit 0| G5["test:unit"]
+    G5 -->|exit 0| G6["repo-consistency gates<br/>(appended by later ADRs)"]
+    G6 -->|exit 0| DONE["Change may be proposed as complete"]
+    G1 & G2 & G3 & G4 & G5 & G6 -->|exit non-zero| HALT["HALT — fix the failure, rerun"]
+    HALT -.->|forbidden| X["lower thresholds · exclude files ·<br/>skip hooks with --no-verify · claim done anyway"]
+    HALT --> S
+```
+
 ### Trigger conditions for future re-evaluation
 
 Open a successor ADR proposing parallel CI jobs when:

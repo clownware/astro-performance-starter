@@ -114,6 +114,25 @@ never been one.
   than from the docs repository's own installed dependencies
 - `docs/development/docs-sync-setup.md` is retired alongside the workflow
 
+### Data flow
+
+```mermaid
+flowchart LR
+    subgraph T["This repository"]
+        V["versions.json<br/>(public contract, ADR-061)"]
+        PS["sync-docs-to-starlight.yml"]
+    end
+    subgraph D["Docs repository (independently authored)"]
+        M["Site version manifest<br/>(sourced from versions.json)"]
+        CI{"CI drift gate:<br/>fetch raw versions.json,<br/>compare"}
+    end
+    V -->|fetched at every deploy| CI
+    M --> CI
+    CI -->|match| DEPLOY["Deploy"]
+    CI -->|mismatch| STOP["Exit non-zero — docs cannot silently freeze"]
+    PS -. "retired: push-sync deleted,<br/>open sync PRs closed" .-> D
+```
+
 ## Consequences
 
 ### Positive
