@@ -5,6 +5,10 @@ name: Mutation Testing
 #
 # Cadence: Mondays 07:00 UTC (~midnight Pacific; nightly until 2026-08-19 — see ADR-042 amendment). Single run; the result
 # is uploaded as an artefact and surfaced in the workflow summary.
+#
+# A failed SCHEDULED run files (or comments on) a tracking issue so a dead
+# canary is noticed without watching the Actions tab — ~half the August
+# nightly runs failed silently for days (#346).
 
 on:
   schedule:
@@ -14,6 +18,7 @@ on:
 
 permissions:
   contents: read
+  issues: write # scheduled-run failures file/comment a tracking issue
 
 jobs:
   mutation:
@@ -62,6 +67,24 @@ jobs:
           path: reports/mutation/
           retention-days: 14
           if-no-files-found: warn
+
+      - name: File or update a tracking issue on scheduled-run failure
+        if: failure() && github.event_name == 'schedule'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        shell: bash
+        run: |
+          TITLE="mutation: scheduled run failed"
+          BODY="Scheduled Stryker run failed: ${RUN_URL}
+
+          The mutation workflow is a tracked metric, not a PR gate (ADR-042), so this issue is the only push notification. Pull the run log, fix the cause, and close this issue; a later failure reopens the conversation by commenting here."
+          EXISTING=$(gh issue list --repo "${GITHUB_REPOSITORY}" --state open --search "\"${TITLE}\" in:title" --json number --jq '.[0].number // empty')
+          if [ -n "${EXISTING}" ]; then
+            gh issue comment "${EXISTING}" --repo "${GITHUB_REPOSITORY}" --body "Another scheduled run failed: ${RUN_URL}"
+          else
+            gh issue create --repo "${GITHUB_REPOSITORY}" --title "${TITLE}" --body "${BODY}"
+          fi
 
       - name: Surface mutation score in summary
         if: always()
