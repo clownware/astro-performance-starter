@@ -67,7 +67,9 @@ export function buildSnapshot(root: string): RepoSnapshot {
       const full = join(dir, entry.name);
       const rel = relative(root, full);
       if (entry.isDirectory()) {
-        if (!skipDirs.has(entry.name)) walk(full);
+        if (!skipDirs.has(entry.name)) {
+          walk(full);
+        }
         continue;
       }
       const isText = textExts.some((e) => entry.name.endsWith(e)) || entry.name === "_headers";
@@ -144,6 +146,7 @@ function main(): void {
     }
   }
 
+  // biome-ignore lint/style/useNamingConvention: keys mirror the CONSTANT_CASE outcome literals
   const order = { BLOCKER: 0, WARNING: 1, DELEGATED: 2, PASS: 3 } as const;
   rows.sort((a, b) => order[a.outcome] - order[b.outcome] || a.id.localeCompare(b.id));
 
@@ -171,8 +174,12 @@ function main(): void {
         console.log(head);
       } else {
         console.log(head);
-        for (const f of row.findings) console.log(`          ${f}`);
-        if (row.remedy) console.log(`          ↳ remedy: ${row.remedy}`);
+        for (const f of row.findings) {
+          console.log(`          ${f}`);
+        }
+        if (row.remedy) {
+          console.log(`          ↳ remedy: ${row.remedy}`);
+        }
       }
     }
     console.log(
@@ -183,7 +190,9 @@ function main(): void {
     }
   }
 
-  if (summary.blockers > 0 || configError) process.exit(1);
+  if (summary.blockers > 0 || configError) {
+    process.exit(1);
+  }
 }
 
 main();
