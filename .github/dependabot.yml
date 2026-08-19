@@ -6,6 +6,12 @@ updates:
       interval: "weekly"
     target-branch: "master"
     rebase-strategy: "auto"
+    # One PR for all action bumps: each separate PR costs a full CI +
+    # Lighthouse run plus a master-push CI run when merged.
+    groups:
+      github-actions:
+        patterns: ["*"]
+
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
@@ -13,3 +19,10 @@ updates:
     target-branch: "master"
     registries: []
     rebase-strategy: "auto"
+    # Dev-only tooling lands as one weekly PR; production dependencies stay
+    # individual so a runtime bump is reviewed on its own and one failing
+    # bump doesn't block the rest.
+    groups:
+      dev-dependencies:
+        dependency-type: "development"
+        patterns: ["*"]
