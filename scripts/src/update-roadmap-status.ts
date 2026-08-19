@@ -16,10 +16,20 @@ import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import matter from "gray-matter";
 
-const guidesDir = join(process.cwd(), "docs", "implementation-guides");
-const readmePath = join(process.cwd(), "docs", "README.md");
+export interface Phase {
+  id: number;
+  name: string;
+  pathMatcher: RegExp;
+}
 
-const phases = [
+export interface PhaseStatus {
+  id: number;
+  name: string;
+  completed: boolean;
+  found: boolean;
+}
+
+export const phases: Phase[] = [
   { id: 0, name: "Foundation", pathMatcher: /phase-0-foundation\.md$/i },
   { id: 1, name: "Content Architecture", pathMatcher: /phase-1-content-arch\.md$/i },
   { id: 2, name: "Design System", pathMatcher: /phase-2-design-system\.md$/i },
@@ -35,14 +45,11 @@ const phases = [
   { id: 12, name: "Post-Launch", pathMatcher: /phase-12-post-launch\.md$/i },
 ];
 
-interface PhaseStatus {
-  id: number;
-  name: string;
-  completed: boolean;
-  found: boolean;
-}
+const startMarker = "<!-- ROADMAP_STATUS_START -->";
+const endMarker = "<!-- ROADMAP_STATUS_END -->";
+const syncNotice = "<!-- Synced by `pnpm run roadmap:update`. Do not manually edit. -->";
 
-function locateGuide(matcherRe: RegExp): { path: string; dir: string } | null {
+function locateGuide(guidesDir: string, matcherRe: RegExp): { path: string; dir: string } | null {
   for (const dirent of readdirSync(guidesDir, { withFileTypes: true })) {
     if (!dirent.isDirectory()) continue;
     const subDir = join(guidesDir, dirent.name);
@@ -52,8 +59,9 @@ function locateGuide(matcherRe: RegExp): { path: string; dir: string } | null {
   return null;
 }
 
-function getPhaseStatus(phase: (typeof phases)[number]): PhaseStatus {
-  const guide = locateGuide(phase.pathMatcher);
+/** Resolve one phase's completion from the guide's directory or frontmatter override. */
+export function getPhaseStatus(phase: Phase, guidesDir: string): PhaseStatus {
+  const guide = locateGuide(guidesDir, phase.pathMatcher);
   if (!guide) return { id: phase.id, name: phase.name, completed: false, found: false };
   const { data } = matter(readFileSync(guide.path, "utf-8"));
   const frontmatterComplete = data.status === "complete" || data.status === "Completed";
@@ -61,32 +69,52 @@ function getPhaseStatus(phase: (typeof phases)[number]): PhaseStatus {
   return { id: phase.id, name: phase.name, completed, found: true };
 }
 
-function main() {
-  console.log("Starting roadmap status update...");
-  const checklistMarkdown = phases
-    .map(getPhaseStatus)
+/** Render the markdown checklist for every phase. */
+export function buildRoadmapChecklist(guidesDir: string, phaseList: Phase[] = phases): string {
+  return phaseList
+    .map((phase) => getPhaseStatus(phase, guidesDir))
     .map(
       (p) =>
         `- ${p.completed ? "[x]" : "[ ]"} Phase ${p.id}: ${p.name}${p.found ? "" : " (Guide not found)"}`,
     )
     .join("\n");
+}
 
-  const readmeContent = readFileSync(readmePath, "utf-8");
-  const startMarker = "<!-- ROADMAP_STATUS_START -->";
-  const endMarker = "<!-- ROADMAP_STATUS_END -->";
+/**
+ * Replace the block between the ROADMAP_STATUS markers with the checklist.
+ * Throws when the markers are missing or out of order.
+ */
+export function replaceRoadmapSection(readmeContent: string, checklistMarkdown: string): string {
   const startIndex = readmeContent.indexOf(startMarker);
   const endIndex = readmeContent.indexOf(endMarker);
   if (startIndex === -1 || endIndex === -1 || startIndex >= endIndex) {
-    console.error("Error: Roadmap status markers not found or in wrong order in docs/README.md.");
-    process.exit(1);
+    throw new Error("Roadmap status markers not found or in wrong order in docs/README.md.");
   }
 
   const contentBefore = readmeContent.substring(0, startIndex + startMarker.length);
   const contentAfter = readmeContent.substring(endIndex);
-  const updated = `${contentBefore}\n<!-- Synced by \`pnpm run roadmap:update\`. Do not manually edit. -->\n${checklistMarkdown}\n${contentAfter}`;
+  return `${contentBefore}\n${syncNotice}\n${checklistMarkdown}\n${contentAfter}`;
+}
+
+function main() {
+  const guidesDir = join(process.cwd(), "docs", "implementation-guides");
+  const readmePath = join(process.cwd(), "docs", "README.md");
+
+  console.log("Starting roadmap status update...");
+  const checklistMarkdown = buildRoadmapChecklist(guidesDir);
+
+  let updated: string;
+  try {
+    updated = replaceRoadmapSection(readFileSync(readmePath, "utf-8"), checklistMarkdown);
+  } catch (error) {
+    console.error(`Error: ${error instanceof Error ? error.message : String(error)}`);
+    process.exit(1);
+  }
 
   writeFileSync(readmePath, updated, "utf-8");
   console.log("Successfully updated roadmap status in docs/README.md");
 }
 
-main();
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main();
+}
