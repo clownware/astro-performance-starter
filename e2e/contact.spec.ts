@@ -117,30 +117,55 @@ test.describe("Contact Page", () => {
 	});
 
 	test("should have accessible form labels", async ({ page }) => {
-		// Check that form has proper labels (if form exists)
+		// The page always mounts ContactForm, so the form and its fields are
+		// asserted unconditionally (ADR-037 Rule 3): every visible input or
+		// textarea must be reachable through a <label> — either by wrapping or
+		// via for/id — so assistive tech can name it.
 		const form = page.locator("form");
-		const hasForm = await form.isVisible().catch(() => false);
+		await expect(form).toBeVisible();
 
-		if (hasForm) {
-			// Verify form has input fields
-			const inputs = form.locator("input, textarea");
-			const count = await inputs.count();
-			expect(count).toBeGreaterThan(0);
-		}
+		const fields = form.locator(
+			"input:not([type='hidden']):not([name='bot-field']), textarea",
+		);
+		const count = await fields.count();
+		expect(count).toBeGreaterThan(0);
+
+		const unlabelled = await fields.evaluateAll((nodes) =>
+			nodes
+				.filter((n) => {
+					const el = n as HTMLInputElement | HTMLTextAreaElement;
+					return el.labels === null || el.labels.length === 0;
+				})
+				.map((n) => (n as HTMLElement).getAttribute("name") ?? n.tagName),
+		);
+		expect(unlabelled, `fields without a <label>: ${unlabelled}`).toEqual([]);
 	});
 
 	test("should have proper link attributes for external links", async ({
 		page,
 	}) => {
-		// Check external social links have proper security attributes
+		// The contact page ships three social links (GitHub, LinkedIn, Twitter)
+		// that open in a new tab, so external links are guaranteed present.
+		// Every http(s) link must carry the noopener/noreferrer pairing — the
+		// security attribute this test's name has always promised to check.
 		const externalLinks = page.locator('a[href^="http"]');
 		const count = await externalLinks.count();
+		expect(count).toBeGreaterThan(0);
 
-		if (count > 0) {
-			// Sample check on first external link
-			const firstLink = externalLinks.first();
-			await expect(firstLink).toBeVisible();
-		}
+		const offenders = await externalLinks.evaluateAll((nodes) =>
+			nodes
+				.filter((n) => {
+					const rel = (n.getAttribute("rel") ?? "").split(/\s+/);
+					return (
+						n.getAttribute("target") === "_blank" &&
+						!(rel.includes("noopener") && rel.includes("noreferrer"))
+					);
+				})
+				.map((n) => n.getAttribute("href")),
+		);
+		expect(offenders, `target=_blank links missing rel: ${offenders}`).toEqual(
+			[],
+		);
 	});
 
 	test("should display contact cards with proper structure", async ({

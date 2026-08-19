@@ -144,7 +144,7 @@ The five rules collapse Robert C. Martin's Three Laws, F.I.R.S.T., and the "test
 ### Negative
 
 - New file (`testing-conventions.md`) to maintain
-- Existing tests in `e2e/` that violate Rule 3 are now visible debt *(amended 2026-08-13: still open — conditional assertions persist in `e2e/blog.spec.ts` and `e2e/contact.spec.ts`)*
+- Existing tests in `e2e/` that violate Rule 3 are now visible debt *(amended 2026-08-13: still open — conditional assertions persist in `e2e/blog.spec.ts` and `e2e/contact.spec.ts`; amended 2026-08-19: closed — the remaining guarded assertions were restructured so the precondition is asserted, #347)*
 - Five rules to internalise (offset: they're verifiable, not vibes)
 
 ### Neutral
@@ -169,7 +169,7 @@ The five rules collapse Robert C. Martin's Three Laws, F.I.R.S.T., and the "test
 - Robert C. Martin, *Clean Code* (2008), Chapter 9: Unit Tests
 - Robert C. Martin and Justin Martin, [Clean AI: Agentic Discipline series](https://cleancoders.com)
 - Existing exemplar: `src/utils/__tests__/formatDate.test.ts`
-- Existing anti-pattern: conditional assertions in `e2e/blog.spec.ts` and `e2e/contact.spec.ts` (open debt; the original `index.spec.ts` instances were fixed)
+- Former anti-pattern: conditional assertions in `e2e/blog.spec.ts` and `e2e/contact.spec.ts` (closed 2026-08-19 in #347; the original `index.spec.ts` instances were fixed earlier)
 
 ## Notes
 
