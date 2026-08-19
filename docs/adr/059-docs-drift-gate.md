@@ -17,7 +17,8 @@ Accepted — supersedes [ADR-008](./008-docs-sync-strategy.md); amends [ADR-006]
 
 ADR-008 established an automated push-sync: on every `docs/**` change pushed to `master`, the
 `sync-docs-to-starlight.yml` workflow copies `docs/` into the Starlight documentation repository
-(`clownware/astro-starter-docs`, which deployed to `astro.clownware.org` — domain since retired) and opens a PR.
+(`clownware/astro-starter-docs`, which deployed to `astro.clownware.org` — since renamed
+`clownware/clownware-docs` and publishing at `docs.clownware.org/astro/`; the old domain is retired) and opens a PR.
 
 A full audit on 2026-07-02 found the pipeline dead in practice and broken by design:
 
@@ -113,6 +114,25 @@ never been one.
 - The docs repository's version manifest sources from this repository's `versions.json` rather
   than from the docs repository's own installed dependencies
 - `docs/development/docs-sync-setup.md` is retired alongside the workflow
+
+### Data flow
+
+```mermaid
+flowchart LR
+    subgraph T["This repository"]
+        V["versions.json<br/>(public contract, ADR-061)"]
+        PS["sync-docs-to-starlight.yml"]
+    end
+    subgraph D["Docs repository (independently authored)"]
+        M["Site version manifest<br/>(sourced from versions.json)"]
+        CI{"CI drift gate:<br/>fetch raw versions.json,<br/>compare"}
+    end
+    V -->|fetched at every deploy| CI
+    M --> CI
+    CI -->|match| DEPLOY["Deploy"]
+    CI -->|mismatch| STOP["Exit non-zero — docs cannot silently freeze"]
+    PS -. "retired: push-sync deleted,<br/>open sync PRs closed" .-> D
+```
 
 ## Consequences
 

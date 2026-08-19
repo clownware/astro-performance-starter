@@ -53,7 +53,7 @@ Let's walk through each one.
 
 ## CLAUDE.md — The Project Brain
 
-`CLAUDE.md` is the always-on context file Claude Code reads at the start of every session. It's the equivalent of `.windsurfrules` for Claude Code — and we derive both from the same source of truth in `docs/ai-context/INDEX.md`.
+`CLAUDE.md` is the always-on context file Claude Code reads at the start of every session. It's the Claude Code counterpart of the cross-tool `AGENTS.md` — and both encode the same source of truth, the AI Assistant Contract in `docs/ai-context/INDEX.md`.
 
 Here's the top of the actual file:
 
@@ -99,14 +99,14 @@ A few design decisions worth noting:
 
 **Neutral tone.** This ships to every developer who forks the template. No personal interaction preferences, no "treat me as a senior engineer." Project conventions only.
 
-The same `client:load` rule that appears in `CLAUDE.md` as rule #2 shows up in `.windsurfrules` like this:
+The same `client:load` rule that appears in `CLAUDE.md` as rule #2 shows up in `AGENTS.md` (the file Cursor, Copilot, Codex CLI and friends read natively) like this:
 
 ```text
 - **Never**: `client:load` unless justified in ADR
 ```
 
 <Callout type="info" title="One Source of Truth, Multiple Formats">
-Both `CLAUDE.md` and `.windsurfrules` are derived from the AI Assistant Contract in `docs/ai-context/INDEX.md`. Update your conventions there, and every AI tool picks them up. See `docs/ai-context/ai-rules-setup.md` for the full multi-tool setup.
+Both `CLAUDE.md` and `AGENTS.md` are derived from the AI Assistant Contract in `docs/ai-context/INDEX.md`. Update your conventions there, and every AI tool picks them up. See `docs/ai-context/ai-rules-setup.md` for the full multi-tool setup.
 </Callout>
 
 ## The Code Reviewer Subagent
@@ -278,8 +278,7 @@ AI Context Architecture
 ├── docs/ai-context/INDEX.md          # Canonical AI contract
 ├── docs/ai-context/ai-rules-setup.md # Setup guide (all tools)
 ├── CLAUDE.md                         # Claude Code entry point
-├── .windsurfrules                    # Windsurf entry point
-├── airules.example                   # Template for Cursor/Cline
+├── AGENTS.md                         # Cross-tool entry point (Cursor, Copilot, Codex CLI, …)
 └── .claude/
     ├── settings.json                 # Tool permissions
     ├── agents/code-reviewer.md       # Subagent
@@ -289,7 +288,7 @@ AI Context Architecture
 ```
 
 <Callout type="info" title="Multi-Tool Setup">
-Every AI tool points to the same project conventions through its own entry point. For the full setup guide covering Claude Code, Windsurf, Cursor, and Cline, see `docs/ai-context/ai-rules-setup.md`.
+Every AI tool points to the same project conventions through its own entry point. For the full setup guide covering Claude Code, Cursor, Copilot, and the other `AGENTS.md`-native tools, see `docs/ai-context/ai-rules-setup.md`.
 </Callout>
 
 ## Building Your Own

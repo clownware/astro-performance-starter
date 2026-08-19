@@ -41,7 +41,7 @@ The drift gate runs in `pnpm quality:ci`. A PR that edits a source file but forg
 | Cursor | `AGENTS.md` natively | None — works out of the box |
 | Codex CLI | `AGENTS.md` natively | None |
 | GitHub Copilot | `AGENTS.md` natively | None |
-| Windsurf | `AGENTS.md` natively + `.windsurfrules` overlay | None — the thin `.windsurfrules` shipped with the template handles the Cascade rule-citation directive |
+| Windsurf | `AGENTS.md` natively | None |
 | Aider | `AGENTS.md` natively | None |
 | Devin | `AGENTS.md` natively | None |
 | Zed | `AGENTS.md` natively | None |
@@ -51,13 +51,13 @@ The drift gate runs in `pnpm quality:ci`. A PR that edits a source file but forg
 | Claude Code | `CLAUDE.md` + layered `.claude/*.md` | None — Claude reads the layered files directly; `AGENTS.md` is the cross-tool mirror |
 | Gemini CLI | `GEMINI.md` (does not read `AGENTS.md`) | Not currently shipped; add a `GEMINI.md` symlink or generation target if needed |
 
-For tools not listed: if the tool reads `AGENTS.md` natively, no setup is needed. If it requires its own file, add a thin overlay that points to `AGENTS.md` (mirror the [`.windsurfrules`](/.windsurfrules) pattern) and — if you want CI to keep that overlay in sync — extend [`scripts/src/build-agents-md.ts`](/scripts/src/build-agents-md.ts) with an additional generation target.
+For tools not listed: if the tool reads `AGENTS.md` natively, no setup is needed. If it requires its own file, add a thin overlay that points to `AGENTS.md` (a one-paragraph "read `AGENTS.md` first; this file adds only tool-specific directives" pointer — never a copy) and — if you want CI to keep that overlay in sync — extend [`scripts/src/build-agents-md.ts`](/scripts/src/build-agents-md.ts) with an additional generation target.
 
 ## Adding a new AI tool to your project
 
 1. Check whether the tool reads `AGENTS.md` natively (most do — see matrix above)
 2. If yes: clone the repo, open it in the tool, done
-3. If no: create a thin overlay file using the [`.windsurfrules`](/.windsurfrules) template — a pointer to `AGENTS.md` plus any genuinely tool-specific directives — and document the new tool in this file's matrix
+3. If no: create a thin overlay file — a pointer to `AGENTS.md` plus any genuinely tool-specific directives — and document the new tool in this file's matrix
 
 **Never copy `AGENTS.md` content into a tool-specific file.** That was the pre-2026 pattern; it produces drift, which is the exact problem this architecture solves.
 
@@ -92,7 +92,7 @@ The response should cite ADR-001 and the halt-on-violation rule from the Constit
 
 - **Rules not applied** — Verify `AGENTS.md` exists at the repo root (`ls AGENTS.md`); restart the AI tool to reload context; test with an explicit reference ("Per AGENTS.md, ...")
 - **CI failing on `agents:check`** — Run `pnpm agents:build` locally and commit the regenerated `AGENTS.md`. This means a source file was edited without regeneration
-- **Conflicting guidance between tools** — Should not happen with the cross-tool spine. If it does, the tool-specific overlay file (`.windsurfrules`) has accumulated shared content; remove the shared content and put it in the appropriate source layer
+- **Conflicting guidance between tools** — Should not happen with the cross-tool spine. If it does, a tool-specific overlay file has accumulated shared content; remove the shared content and put it in the appropriate source layer
 - **Tool ignores `AGENTS.md`** — Check the tool's documentation; some tools support it behind a flag. If the tool doesn't support `AGENTS.md` at all, add a tool-specific overlay or generation target
 
 ## Related ADRs

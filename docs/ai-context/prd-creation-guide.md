@@ -95,15 +95,9 @@ A great PRD serves three audiences:
 
 ### Configuration Files
 
-**For Windsurf/Cursor:**
+**For Claude Code and `AGENTS.md`-native tools (Cursor, Copilot, Codex CLI, …):**
 
-```bash
-# Add to .windsurfrules or .cursorrules
-contextFiles: [
-  "docs/PRD-*.md",
-  "docs/ai-context/INDEX.md"
-]
-```
+No per-tool rules file to edit. Link the PRD from `docs/ai-context/INDEX.md` (the AI context entry point — see `docs/README.md`) so every tool that follows the constitution's pointers finds it; for a session-scoped nudge, just reference the PRD path in the prompt.
 
 **For VS Code + Copilot:**
 

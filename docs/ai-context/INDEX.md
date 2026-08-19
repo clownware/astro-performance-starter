@@ -25,8 +25,7 @@ This contract specifies what AI assistants can expect to find and where. Read th
 
 - **Cross-tool spine**: `AGENTS.md` (project root) — canonical context for every modern AI coding tool. Generated from `CLAUDE.md` + `.claude/engineering.md` + `.claude/workflow.md` + `.claude/stack.md` via `pnpm agents:build`. Do not edit directly.
 - **Claude Code**: `CLAUDE.md` (project root) + the layered `.claude/{engineering,workflow,stack}.md` files + the `.claude/` directory (skills, agents, settings, roles)
-- **Windsurf**: `.windsurfrules` (thin overlay; full context comes from `AGENTS.md`)
-- **Cursor, Codex CLI, Copilot, Aider, Devin, Zed, Continue**: read `AGENTS.md` natively; no per-tool setup
+- **Cursor, Codex CLI, Copilot, Windsurf, Aider, Devin, Zed, Continue**: read `AGENTS.md` natively; no per-tool setup
 - See `docs/ai-context/ai-rules-setup.md` for the cross-tool setup pattern and ADR-045 for the rationale
 
 ### Architectural Constraints

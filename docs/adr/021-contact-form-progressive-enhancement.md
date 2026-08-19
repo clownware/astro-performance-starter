@@ -172,7 +172,7 @@ if (typeof document !== 'undefined') {
 
 ### Before Optimization
 
-```
+```text
 Initial HTML: 15KB
 Inline script: 2.5KB (blocks parsing)
 Total: 17.5KB
@@ -181,7 +181,7 @@ Parse time: +50ms (script blocks)
 
 ### After Optimization
 
-```
+```text
 Initial HTML: 12.5KB (no inline script)
 External module: 2.5KB (deferred, cached)
 Total: 15KB (same size, better loading)

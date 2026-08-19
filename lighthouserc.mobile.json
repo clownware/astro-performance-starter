@@ -1,5 +1,5 @@
 {
-  "$comment": "Mobile Lighthouse CI gate. Companion to lighthouserc.json (desktop); CI gates on BOTH form factors. Omitting the desktop preset makes Lighthouse apply its default mobile profile (Moto G4, 4x CPU + slow-4G simulated throttling), which is far harsher than desktop. The demo nonetheless measures mobile Performance 0.98-1.00 and Accessibility 0.96-1.00, so the floors here are held IDENTICAL to the desktop gate (perf>=0.90, a11y>=0.95, BP>=0.95, SEO>=0.90) — strict, with ~8 points of headroom for single-run variance and the tracked /adr theme-init flash (#279). Do NOT loosen these to make a heavier demo pass; fix the demo (ADR-039).",
+  "$comment": "Mobile Lighthouse CI gate. Companion to lighthouserc.json (desktop); CI gates on BOTH form factors. Omitting the desktop preset makes Lighthouse apply its default mobile profile (Moto G4, 4x CPU + slow-4G simulated throttling), which is far harsher than desktop. The demo nonetheless measures mobile Performance 0.98-1.00 and Accessibility 0.96-1.00, so the floors here are held IDENTICAL to the desktop gate (perf>=0.90, a11y>=0.95, BP>=0.95, SEO>=0.90) — strict, with ~8 points of headroom for the tracked /adr theme-init flash (#279). Mobile is asserted on the MEDIAN of 3 runs per URL (numberOfRuns + assert.aggregationMethod): on loaded shared runners a single mobile run swings TBT/Speed Index enough to fail zero-runtime-impact changes (0.78 vs 0.97 on identical content, #339), while FCP/LCP/CLS stay stable; desktop has not shown this variance and stays at 1 run. Do NOT loosen the floors to make a heavier demo pass; fix the demo (ADR-039).",
   "ci": {
     "collect": {
       "startServerCommand": "pnpm preview",
@@ -16,12 +16,13 @@
         "http://localhost:4321/contact/",
         "http://localhost:4321/adr/"
       ],
-      "numberOfRuns": 1,
+      "numberOfRuns": 3,
       "settings": {
         "chromeFlags": "--headless=new --no-sandbox"
       }
     },
     "assert": {
+      "aggregationMethod": "median",
       "assertions": {
         "categories:performance": ["error", { "minScore": 0.9 }],
         "categories:accessibility": ["error", { "minScore": 0.95 }],

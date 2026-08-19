@@ -14,7 +14,9 @@ pagefind: true
 Accepted (amended 2026-07-12: `versions.yml` removed — it had no programmatic consumers and its
 hand-maintained fields drifted; `versions.json` is the sole version manifest, see
 [ADR-061](./061-versions-json-public-contract.md). Amended 2026-08-02: `docs/temp-guides/`
-has since been removed — the notes referencing it are annotated below)
+has since been removed — the notes referencing it are annotated below. Amended 2026-08-19:
+`.windsurfrules` removed from the scope table, #309 — Windsurf is no longer supported and reads
+`AGENTS.md` natively regardless)
 
 ## Context
 
@@ -99,7 +101,6 @@ These files ship in the template and users are expected to customize them for th
 | `.env.example` | Environment variable documentation |
 | `README.md` | User-facing project README |
 | `LICENSE.txt` | License file |
-| `.windsurfrules` | Windsurf-specific overlay (thin; full context lives in `AGENTS.md` per ADR-045) |
 | `AGENTS.md` | Cross-tool AI agent context (generated from the layered constitution; see ADR-045) |
 
 ### Category 2: Reference Documentation (Files AI/Humans Read)
@@ -152,7 +153,7 @@ The following root-level files should be evaluated against this policy:
 
 When considering whether to add something to the template, apply this test:
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │ Would removing this file break the build             │
 │ or degrade the running site?                         │
@@ -181,7 +182,7 @@ Based on this policy, AI assistants operating in the project should:
 2. **Read but don't modify**: Files in Category 2 (`docs/`) unless explicitly updating documentation
 3. **Suggest but don't create**: Files that would fall into Category 3 — recommend adding to docs site instead
 
-This guidance should be reflected in `.windsurfrules` and `docs/ai-context/INDEX.md`.
+This guidance should be reflected in `AGENTS.md` (via the layered constitution) and `docs/ai-context/INDEX.md`. *(amended 2026-08-19: originally named `.windsurfrules`, removed in #309)*
 
 ## Consequences
 

@@ -130,7 +130,6 @@ astro-performance-starter/
 ├── .gitignore                       # Comprehensive ignore
 ├── .lintstagedignore                # Lint staged ignore
 ├── .nvmrc                           # Node version
-├── .windsurfrules                   # Windsurf overlay (thin; see AGENTS.md)
 ├── AGENTS.md                        # Cross-tool AI spine (generated; see ADR-045)
 ├── CHANGELOG.md                     # Release notes
 ├── CONTRIBUTING.md                  # Contribution guide
