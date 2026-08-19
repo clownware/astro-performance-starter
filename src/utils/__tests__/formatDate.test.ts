@@ -118,9 +118,19 @@ describe("formatDate utilities", () => {
     });
 
     it("handles future dates", () => {
-      const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
-      const result = formatDateRelative(tomorrow);
-      expect(result).toBe("tomorrow");
+      // Freeze the clock: formatDateRelative reads its own `new Date()`, so a
+      // real-clock read milliseconds after this one makes the diff 24h minus a
+      // sliver, which floors to 0 days and misreports "today". (This is exactly
+      // how the 2026-08-18 barback-website Stryker dry run failed — the
+      // instrumented run was slow enough to cross the millisecond.)
+      vi.useFakeTimers();
+      try {
+        const tomorrow = new Date(Date.now() + 24 * 60 * 60 * 1000);
+        const result = formatDateRelative(tomorrow);
+        expect(result).toBe("tomorrow");
+      } finally {
+        vi.useRealTimers();
+      }
     });
 
     it("returns null for invalid date", () => {
