@@ -11,7 +11,7 @@ pagefind: true
 This directory contains reference documentation that serves two purposes:
 
 1. **Rendered documentation** via Starlight (if you deploy a separate docs site)
-2. **AI assistant context** read directly from the filesystem by IDE-integrated AI tools (Windsurf, Cursor, VS Code Copilot)
+2. **AI assistant context** read directly from the filesystem by IDE-integrated AI tools (Claude Code, Cursor, VS Code Copilot)
 
 See [ADR-034](/adr/034-dual-purpose-docs-strategy/) for the rationale behind this dual-purpose approach.
 

@@ -12,7 +12,7 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-08-19: the `.windsurfrules` overlay described below was removed in #309 — Windsurf is no longer a supported tool for this repo and reads `AGENTS.md` natively anyway; the AGENTS.md spine, the generator, and the `agents:check` gate are unchanged)
 
 ## Context
 
@@ -99,7 +99,7 @@ We will go with **Option 3 (Generated `AGENTS.md`)** because it is the only opti
   - `check` — fail with exit code 1 if `AGENTS.md` differs from the regenerated output
 - [`package.json`](../../package.json) gains `agents:build` and `agents:check` scripts; `quality:ci` chains `agents:check` after `test:unit`.
 - [`AGENTS.md`](../../AGENTS.md) is committed to the repo so external tools can read it without running a build. The file's banner names it as generated and points at the regenerate command.
-- [`.windsurfrules`](../../.windsurfrules) shrinks from 179 lines to ~20: a pointer to `AGENTS.md` plus the Cascade-specific "explicitly state the rule" directive.
+- `.windsurfrules` shrinks from 179 lines to ~20: a pointer to `AGENTS.md` plus the Cascade-specific "explicitly state the rule" directive. _(Amended 2026-08-19: file deleted in #309; no tool-specific overlay ships any more.)_
 - [`docs/ai-context/INDEX.md`](../ai-context/INDEX.md) stops duplicating the Rules of Engagement (the 7-vs-10 drift was the motivating example for this ADR); it points at `AGENTS.md` instead.
 - [`docs/ai-context/ai-rules-setup.md`](../ai-context/ai-rules-setup.md) is rewritten for the AGENTS.md pattern with a 2026 tool-support matrix.
 - `airules.example` is deleted along with its 8 references across the docs/CHANGELOG/README/CONTRIBUTING surface. ADR-035's Category 1 enumeration loses the `airules.example` row and gains an `AGENTS.md` row.
@@ -173,7 +173,7 @@ ADR-041 (Gherkin / BDD-style specs) was declined in the testing-philosophy work 
 <!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
 
 - **Testable consequences:**
-  - TC-1: `AGENTS.md` is exactly what the build script generates from the constitution layers. _(Amended 2026-08-13: `.windsurfrules` is a hand-maintained Windsurf overlay that defers to `AGENTS.md` — the build script never writes it.)_
+  - TC-1: `AGENTS.md` is exactly what the build script generates from the constitution layers. _(Amended 2026-08-13: `.windsurfrules` is a hand-maintained Windsurf overlay that defers to `AGENTS.md` — the build script never writes it. Amended 2026-08-19: `.windsurfrules` removed, #309 — `AGENTS.md` is the only cross-tool file.)_
   - TC-2: hand-edits to the generated files are caught before merge.
 - **Checks:**
   - TC-1 → `agents:check` in `quality:ci` (status: **block**, pre-existing gate)
