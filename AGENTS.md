@@ -140,7 +140,7 @@ How work moves through the repo. These rules apply with the same force as `CLAUD
 
 | Category | Paths | Rule |
 |---|---|---|
-| Modify freely | `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `tokens/`, `public/`, `.github/workflows/`, `.windsurfrules` | Full read/write |
+| Modify freely | `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `tokens/`, `public/`, `.github/workflows/` | Full read/write |
 | Read-only | `docs/` | Don't modify unless explicitly asked to update documentation |
 | Don't create | Maintenance artifacts, deployment workflows, marketing content | Suggest adding to docs site instead |
 

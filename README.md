@@ -145,9 +145,8 @@ The constitution is the canonical source. The same rules ship in multiple format
 
 | Tool | File(s) | What it does |
 |------|---------|-------------|
-| All modern AI tools | `AGENTS.md` (root) | Cross-tool spine — read natively by Cursor, Codex CLI, Copilot, Aider, Devin, Zed, Continue, Amp, Amazon Q |
+| All modern AI tools | `AGENTS.md` (root) | Cross-tool spine — read natively by Cursor, Codex CLI, Copilot, Windsurf, Aider, Devin, Zed, Continue, Amp, Amazon Q |
 | Claude Code | `CLAUDE.md` + `.claude/` | Constitution, layered engineering/workflow/stack files, skills, subagents |
-| Windsurf | `.windsurfrules` (root) | Thin overlay for Cascade-specific directives; full context comes from `AGENTS.md` |
 | Maintenance | `pnpm agents:build` | Regenerates `AGENTS.md` from the layered source files; CI fails on drift |
 
 One source of truth, every tool stays in sync. Edit the layered files in `.claude/` (or `CLAUDE.md` for halt-on-violation rules) and run `pnpm agents:build`. See [ADR-045](docs/adr/045-cross-tool-agents-spine.md) for the cross-tool spine rationale and [ADR-036](docs/adr/036-layered-constitution.md) for the layering.

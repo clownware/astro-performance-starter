@@ -99,7 +99,7 @@ Run as a scoped codemod across `src/components/**` and `src/pages/**`, then `pnp
 
 - `ColorTokenSwatch` usages in `showcase.astro` — point at the new token names; add `surface`, `muted-foreground`, `link`, `primary-foreground` swatches.
 - `src/__tests__/design-tokens.test.ts` — assert the new token set.
-- **AI constitution** (the easy miss): `CLAUDE.md`, `.claude/engineering.md`, `AGENTS.md`, `.windsurfrules` — any example using `bg-background-primary` etc. is now a dead class. Update + `pnpm agents:build` (CI fails on drift).
+- **AI constitution** (the easy miss): `CLAUDE.md`, `.claude/engineering.md`, `AGENTS.md` — any example using `bg-background-primary` etc. is now a dead class. Update + `pnpm agents:build` (CI fails on drift).
 - New ADR: "Design tokens v2 — role-based semantic naming" (record the rename + the scale-retention rationale).
 
 ## 6. Fonts
