@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
   estimateReadingTime,
   formatDate,
@@ -11,6 +11,19 @@ import {
 } from "../formatDate";
 
 describe("formatDate utilities", () => {
+  // Freeze the clock (ADR-037 Rule 3: deterministic fixtures). The relative
+  // tests build inputs from Date.now() and the implementation reads new Date()
+  // a moment later; without a frozen clock an exact "+24h" input floors to
+  // 0 days whenever ≥1 ms elapses between the two reads — which is what made
+  // the Stryker dry run fail on ~half of nightly runs (#346).
+  beforeEach(() => {
+    vi.useFakeTimers({ now: new Date("2026-03-15T12:00:00.000Z") });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   describe("formatDateFull", () => {
     it("formats a valid date in full format", () => {
       const date = new Date("2024-03-15T10:30:00Z");
