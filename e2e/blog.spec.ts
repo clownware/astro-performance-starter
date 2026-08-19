@@ -39,22 +39,14 @@ test.describe("Blog Index Page", () => {
 	});
 
 	test("should display blog post cards with metadata", async ({ page }) => {
-		// Check if posts exist (may be empty in starter)
-		const noPosts = await page
-			.getByText("No blog posts found")
-			.isVisible()
-			.catch(() => false);
+		// The demo content ships four posts, so the empty state must NOT render
+		// and at least one card must. Asserting the precondition (rather than
+		// guarding on it) is what ADR-037 Rule 3 requires: a fork that deletes
+		// every post fails here loudly instead of passing silently.
+		await expect(page.getByText("No blog posts found")).toHaveCount(0);
 
-		if (!noPosts) {
-			// If posts exist, verify card structure
-			const postCards = page.locator("article, .group");
-			const count = await postCards.count();
-			if (count > 0) {
-				// Verify first post has title and metadata
-				const firstCard = postCards.first();
-				await expect(firstCard).toBeVisible();
-			}
-		}
+		const postCards = page.locator("article.post-card");
+		await expect(postCards.first()).toBeVisible();
 	});
 
 	test("@a11y should have proper semantic structure", async ({ page }) => {
@@ -67,20 +59,25 @@ test.describe("Blog Index Page", () => {
 		await expect(h1).toHaveCount(1);
 	});
 
-	test("should have pagination controls if multiple pages", async ({
+	test("should not render pagination when all posts fit on one page", async ({
 		page,
 	}) => {
-		const pagination = page.locator('nav[aria-label="Blog pagination"]');
-		const hasPagination = await pagination.isVisible().catch(() => false);
+		// The index paginates at 6 posts per page (src/pages/blog/index.astro)
+		// and the demo content ships fewer than that, so the pagination nav must
+		// be absent. Both halves are asserted: the precondition (≤ 6 posts in
+		// the All Posts grid) and the consequence (no pagination nav). If a fork
+		// adds a seventh post this fails loudly and the test gets rewritten to
+		// cover the multi-page case — ADR-037 Rule 3, not a silent skip.
+		const allPostsCards = page.locator(
+			'section[aria-labelledby="all-posts-heading"] article.post-card',
+		);
+		const count = await allPostsCards.count();
+		expect(count).toBeGreaterThan(0);
+		expect(count).toBeLessThanOrEqual(6);
 
-		if (hasPagination) {
-			// Verify pagination buttons
-			const prevButton = page.getByRole("button", { name: /Previous/ });
-			const nextButton = page.getByRole("button", { name: /Next/ });
-
-			await expect(prevButton).toBeVisible();
-			await expect(nextButton).toBeVisible();
-		}
+		await expect(
+			page.locator('nav[aria-label="Blog pagination"]'),
+		).toHaveCount(0);
 	});
 });
 
@@ -102,60 +99,40 @@ test.describe("Blog Post Layout", () => {
 	});
 
 	test("@a11y should have accessible table of contents", async ({ page }) => {
-		await page.goto("/blog/");
+		// This post has several h2 sections, so BlogLayout renders the TOC
+		// (it is omitted only when a post has no headings). The nav and its
+		// sibling "Table of Contents" heading are asserted unconditionally —
+		// ADR-037 Rule 3 — so a layout regression fails instead of being skipped.
+		await page.goto("/blog/why-astro-in-2026/");
 
-		const firstPostLink = page.locator('a[href^="/blog/"]').first();
-		const hasPost = await firstPostLink.isVisible().catch(() => false);
+		const toc = page.locator('nav[aria-label="Table of contents"]');
+		await expect(toc).toBeVisible();
+		await expect(toc.getByRole("link").first()).toBeVisible();
 
-		if (hasPost) {
-			await firstPostLink.click();
-
-			// Check for TOC if it exists
-			const toc = page.locator('nav[aria-label="Table of contents"]');
-			const hasToc = await toc.isVisible().catch(() => false);
-
-			if (hasToc) {
-				await expect(toc).toBeVisible();
-				// Verify TOC has heading
-				const tocHeading = toc.getByRole("heading", {
-					name: "Table of Contents",
-				});
-				await expect(tocHeading).toBeVisible();
-			}
-		}
+		const tocHeading = page.getByRole("heading", {
+			name: "Table of Contents",
+		});
+		await expect(tocHeading).toBeVisible();
 	});
 
 	test("should have social sharing buttons", async ({ page }) => {
-		await page.goto("/blog/");
+		// The share panel is unconditional in BlogLayout, so every post has it.
+		await page.goto("/blog/why-astro-in-2026/");
 
-		const firstPostLink = page.locator('a[href^="/blog/"]').first();
-		const hasPost = await firstPostLink.isVisible().catch(() => false);
-
-		if (hasPost) {
-			await firstPostLink.click();
-
-			// Check for social sharing section
-			const shareHeading = page.getByRole("heading", {
-				name: "Share this post",
-			});
-			const hasShare = await shareHeading.isVisible().catch(() => false);
-
-			if (hasShare) {
-				await expect(shareHeading).toBeVisible();
-			}
-		}
+		const shareHeading = page.getByRole("heading", {
+			name: "Share this post",
+		});
+		await expect(shareHeading).toBeVisible();
 	});
 
 	test("should have post navigation (prev/next)", async ({ page }) => {
+		// BlogLayout renders the nav whenever an adjacent post exists; the demo
+		// content ships four posts, so every post has at least one neighbour.
 		await page.goto("/blog/why-astro-in-2026/");
 
-		// Post navigation is optional — depends on whether adjacent posts exist
 		const postNav = page.locator('nav[aria-label="Post navigation"]');
-		const hasNav = await postNav.isVisible().catch(() => false);
-
-		if (hasNav) {
-			await expect(postNav).toBeVisible();
-		}
+		await expect(postNav).toBeVisible();
+		await expect(postNav.getByRole("link").first()).toBeVisible();
 	});
 
 	test("should display post metadata correctly", async ({ page }) => {
