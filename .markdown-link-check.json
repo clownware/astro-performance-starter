@@ -22,7 +22,7 @@
       "pattern": "github\\.com/username/"
     }
   ],
-  "aliveStatusCodes": [200, 206, 403, 999],
+  "aliveStatusCodes": [200, 206, 403, 429, 999],
   "timeout": "10s",
   "retryOn429": true,
   "retryCount": 3,
