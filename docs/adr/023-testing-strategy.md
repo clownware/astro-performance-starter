@@ -88,7 +88,7 @@ We will implement **Option 3 (Hybrid Approach)** with the following strategy:
 
 ### 1. Testing Pyramid
 
-```
+```text
         /\
        /  \     E2E (10%)
       /____\    - Critical user flows

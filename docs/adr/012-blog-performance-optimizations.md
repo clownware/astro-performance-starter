@@ -146,7 +146,7 @@ const { post, headings } = Astro.props;
 
 ### Why Not Alternative Approaches?
 
-**Alternative 1: Client-side navigation**
+#### Alternative 1: Client-side navigation
 
 ```typescript
 // Fetch prev/next via API
@@ -154,7 +154,7 @@ const { post, headings } = Astro.props;
 
 ❌ Breaks static generation, adds runtime overhead
 
-**Alternative 2: Precompute everything in content schema**
+#### Alternative 2: Precompute everything in content schema
 
 ```typescript
 // Store metadata in frontmatter
@@ -162,7 +162,7 @@ const { post, headings } = Astro.props;
 
 ❌ Over-engineering for current scale, harder to maintain
 
-**Alternative 3: Cache sorted posts globally**
+#### Alternative 3: Cache sorted posts globally
 
 ```typescript
 // Use module-level cache

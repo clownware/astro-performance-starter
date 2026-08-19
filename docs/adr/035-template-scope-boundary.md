@@ -152,7 +152,7 @@ The following root-level files should be evaluated against this policy:
 
 When considering whether to add something to the template, apply this test:
 
-```
+```text
 ┌─────────────────────────────────────────────────────┐
 │ Would removing this file break the build             │
 │ or degrade the running site?                         │

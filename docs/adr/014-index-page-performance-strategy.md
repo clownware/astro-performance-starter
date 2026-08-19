@@ -31,7 +31,7 @@ This ADR documents the current performance status and optimization decisions.
 
 **Build output (production):**
 
-```
+```text
 dist/_astro/page.CY1iZwUD.js:     2.07 kB │ gzip: 1.04 kB
 dist/_astro/ClientRouter.js:     15.12 kB │ gzip: 5.18 kB (View Transitions)
 ```

@@ -127,7 +127,7 @@ We will implement an automated documentation sync using GitHub Actions that:
 
 ### Workflow Sequence
 
-```
+```text
 Template Repo (docs/ changes) 
   → Push to main/master
   → GitHub Actions detects docs/** changes

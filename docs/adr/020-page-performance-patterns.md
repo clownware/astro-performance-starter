@@ -211,7 +211,7 @@ import ExpandableFeatureCard from '@/components/molecules/ExpandableFeatureCard.
 
 **Client Directive Decision Tree**:
 
-```
+```text
 Is the component interactive?
 ├─ NO → Don't use client directive (static Astro component)
 └─ YES → Is it above the fold?

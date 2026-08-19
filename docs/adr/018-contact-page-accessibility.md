@@ -129,7 +129,7 @@ Added HTML comments documenting that grid layouts follow natural DOM order for k
 
 ### Badge Role Decision Tree
 
-```
+```text
 Is the badge announcing a live status change?
 ├─ YES → role="status" (e.g., "Online now", "Processing")
 └─ NO → Is it purely decorative?
