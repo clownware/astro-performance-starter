@@ -102,6 +102,24 @@ Adopt Option 3. The enforcement architecture is:
   shipped**; no hook mechanism exists in this repo. If they land later, they
   extend this record via amendment.
 
+### Check lifecycle
+
+```mermaid
+stateDiagram-v2
+    [*] --> warn: check added to checks/enforcement.config.json
+    warn --> block: graduated (14+ days AND 20 consecutive clean CI runs, zero false positives) via manual edit + dated Graduation-log entry
+    block --> warn: demoted (same logged process)
+    warn --> warn: fires on sanctioned code - fix the check and log it, do not graduate
+    warn --> never: owning ADR forbids gating
+    state "never-graduating (permanent exception, e.g. mutation-trend per ADR-042)" as never
+    note right of warn
+        report-only: findings land in enforcement-report.json, exit 0
+    end note
+    note right of block
+        pnpm enforce / CI exit non-zero on any failing block check
+    end note
+```
+
 ## Consequences
 
 ### Positive

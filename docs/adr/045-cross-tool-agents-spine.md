@@ -105,6 +105,25 @@ We will go with **Option 3 (Generated `AGENTS.md`)** because it is the only opti
 - `airules.example` is deleted along with its 8 references across the docs/CHANGELOG/README/CONTRIBUTING surface. ADR-035's Category 1 enumeration loses the `airules.example` row and gains an `AGENTS.md` row.
 - [`.claude/stack.md`](../../.claude/stack.md) "Multi-tool sync" footer is replaced with a "Cross-tool spine" note pointing at `AGENTS.md` and this ADR.
 
+### Data flow
+
+```mermaid
+flowchart LR
+    subgraph SRC["Layered constitution (hand-edited, ADR-036)"]
+        C1["CLAUDE.md"]
+        C2[".claude/engineering.md"]
+        C3[".claude/workflow.md"]
+        C4[".claude/stack.md"]
+    end
+    SRC -->|"pnpm agents:build<br/>(concatenate, demote headings)"| A["AGENTS.md (committed, generated)"]
+    A --> T["Cursor · Codex CLI · Copilot · Aider · Devin · Zed · Continue · …<br/>(read AGENTS.md natively)"]
+    C1 --> CC["Claude Code (reads the layers directly)"]
+    SRC -->|"pnpm agents:check<br/>(regenerate in memory, diff)"| G{"Matches committed AGENTS.md?"}
+    G -->|Yes| OK["quality:ci continues"]
+    G -->|No| FAIL["quality:ci fails — run agents:build, commit"]
+    HAND["Hand-edit of AGENTS.md"] -.->|diverges| G
+```
+
 ### Constraint
 
 `AGENTS.md` is **not** edited by hand. The pre-commit and CI gates enforce this. To change content that appears in `AGENTS.md`, edit the source layer in `CLAUDE.md` or `.claude/*.md` and run `pnpm agents:build`.
