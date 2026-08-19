@@ -133,13 +133,19 @@ jobs:
           path: ~/.cache/ms-playwright
           key: ${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}
 
+      # Browser download comes from Playwright's CDN — no apt on the critical path.
+      # (`--with-deps` ran apt first; the runner's apt mirror stalled it for 5–20 min
+      # repeatedly on 2026-08-19.)
       - name: Install Playwright browsers
         if: steps.playwright-cache.outputs.cache-hit != 'true'
         timeout-minutes: 5
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install chromium
 
-      - name: Install Playwright system deps (cache hit)
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+      # Safety net on both cache paths: ubuntu-latest already ships Chromium's shared
+      # libraries (Chrome is preinstalled), so a stalled apt mirror must not fail the
+      # job — capped and tolerated; a genuinely missing library fails the E2E step
+      # visibly a moment later.
+      - name: Install Playwright OS dependencies
         timeout-minutes: 3
         continue-on-error: true
         run: pnpm exec playwright install-deps chromium
