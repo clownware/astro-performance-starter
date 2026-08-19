@@ -252,7 +252,7 @@ before running anything against the port.
 Advanced/optional (not on the clone critical path, not in `quality:ci`):
 
 ```bash
-pnpm test:mutate      # Stryker mutation testing — slow; nightly in CI (ADR-042)
+pnpm test:mutate      # Stryker mutation testing — slow; weekly in CI (ADR-042)
 ```
 
 ### Performance Budgets

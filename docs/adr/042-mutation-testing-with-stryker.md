@@ -5,14 +5,18 @@ description: >-
   test-quality verification layer on top of Vitest coverage. Establishes
   thresholds at the measured baseline of 81% (well above the 50% break),
   runs nightly in CI as a tracked metric, and does NOT gate PRs.
-lastUpdated: 2026-05-16T00:00:00.000Z
+lastUpdated: 2026-08-19T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
 
 ## Status
 
-Accepted
+Accepted (amended 2026-08-19: cadence changed from nightly to weekly — Mondays
+07:00 UTC. The mutation score only moves when `src/utils/**` changes, which is
+a few times a month; nightly runs re-measured an unchanged tree ~30 times a
+month, and every clone of this template inherited that cost. Everything else
+in this record stands.)
 
 ## Context
 
@@ -121,7 +125,7 @@ The 19% of survived/no-coverage mutants are concentrated in string literals (err
 
 **`.github/workflows/mutation.yml`:**
 
-- Cron: `0 7 * * *` (nightly at 07:00 UTC, ~midnight Pacific)
+- Cron: `0 7 * * 1` (weekly, Monday 07:00 UTC, ~midnight Pacific; was nightly `0 7 * * *` until 2026-08-19)
 - Also triggerable via `workflow_dispatch`
 - Uploads `reports/mutation/` as artefact (14-day retention)
 - Does NOT gate PRs
@@ -144,7 +148,7 @@ clone-and-ship critical path. It is deliberately:
   *(amended 2026-08-02: chain updated to the current `quality:ci`; as originally
   written it listed the six gates of the day, ending at `agents:check`)*.
   `test:mutate` is absent and stays absent.
-- **Nightly + on-demand only** — it runs in `.github/workflows/mutation.yml` on a
+- **Scheduled + on-demand only** (weekly since 2026-08-19, nightly before) — it runs in `.github/workflows/mutation.yml` on a
   schedule and via `workflow_dispatch`, never on PRs.
 - **Grouped as a maintainer script** in `package.json` (see ADR-052) and labelled
   Advanced/optional in the README and `.claude/stack.md`.
