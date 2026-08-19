@@ -1,1 +1,7 @@
-[]
+[
+  {
+    "module": "extract-zip",
+    "reason": "GHSA-jmr9-qjv8-65gv (unvalidated symlink path traversal, high). Dev-only: reached solely via @lhci/cli > lighthouse > puppeteer-core > @puppeteer/browsers > extract-zip, exercised only when Lighthouse CI downloads a browser. No patched release exists (patched range <0.0.0), so there is nothing to bump; audit --prod is clean. Tracked in #353 — adopt the next @lhci/cli publish as soon as it lands.",
+    "expires": "2027-02-19"
+  }
+]
