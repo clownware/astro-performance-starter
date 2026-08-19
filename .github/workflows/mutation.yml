@@ -1,15 +1,15 @@
 name: Mutation Testing
 
-# Runs Stryker mutation testing nightly (and on demand via workflow_dispatch).
+# Runs Stryker mutation testing weekly (and on demand via workflow_dispatch).
 # This is a tracked-metric workflow, NOT a PR gate — see ADR-042.
 #
-# Cadence: nightly at 07:00 UTC (~midnight Pacific). Single run; the result
+# Cadence: Mondays 07:00 UTC (~midnight Pacific; nightly until 2026-08-19 — see ADR-042 amendment). Single run; the result
 # is uploaded as an artefact and surfaced in the workflow summary.
 
 on:
   schedule:
-    # Nightly at 07:00 UTC
-    - cron: '0 7 * * *'
+    # Weekly, Monday 07:00 UTC
+    - cron: '0 7 * * 1'
   workflow_dispatch:
 
 permissions:
