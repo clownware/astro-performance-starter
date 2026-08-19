@@ -3,8 +3,9 @@ name: Lighthouse CI
 # Gates PRs on the documented NON-NEGOTIABLE Lighthouse floor (see
 # `.claude/stack.md` and `lighthouserc.json`). The headline "95+" claim is
 # verified by the manual Wave-3 pass and recorded in #246; this workflow keeps
-# PRs from silently dropping below the floor, while accommodating single-run
-# variance and the tracked /adr theme-init flash (#279).
+# PRs from silently dropping below the floor, while accommodating run variance
+# (the mobile pass asserts the median of 3 runs per URL — #339) and the tracked
+# /adr theme-init flash (#279).
 
 on:
   pull_request:
@@ -28,6 +29,8 @@ jobs:
     # earlier desktop/mobile matrix saved ~2 min of wall-clock but paid a
     # duplicated install + build plus a second per-job minute rounding on
     # every PR — real money for the (mostly private) clones of this template.
+    # The mobile pass is the longer one (3 runs per URL, median-asserted —
+    # #339); desktop stays at 1 run. Budget: ~10 min of the 20-min cap.
     env:
       # The Astro config validates SITE_URL at load time (ADR-050); the
       # documented placeholder values would trip validate-env.ts, so we use a
