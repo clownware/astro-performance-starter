@@ -35,11 +35,30 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
         
+      # Default: the repo's project-Pages origin (https://<owner>.github.io)
+      # with the /<repo-name> base path (DEPLOY_TARGET=gh-pages). Set the
+      # repository variable SITE_URL (Settings → Secrets and variables →
+      # Actions → Variables) to a custom Pages domain and both flip together:
+      # a custom domain serves the project site from the domain root, so the
+      # base path must be "/" or every asset URL 404s. Canonical/OG URLs and
+      # the sitemap bake SITE_URL into the build (ADR-050), so this cannot be a
+      # post-deploy setting. Leave the variable unset for the stock behaviour.
+      - name: Resolve SITE_URL
+        shell: bash
+        run: |
+          if [ -n "${SITE_URL_OVERRIDE}" ]; then
+            echo "SITE_URL=${SITE_URL_OVERRIDE}" >> "$GITHUB_ENV"
+            echo "Using custom SITE_URL=${SITE_URL_OVERRIDE} (base path /)"
+          else
+            echo "SITE_URL=https://${{ github.repository_owner }}.github.io" >> "$GITHUB_ENV"
+            echo "DEPLOY_TARGET=gh-pages" >> "$GITHUB_ENV"
+            echo "Using default project-Pages SITE_URL (base path /${{ github.event.repository.name }})"
+          fi
+        env:
+          SITE_URL_OVERRIDE: ${{ vars.SITE_URL }}
+
       - name: Build site
         run: pnpm run build
-        env:
-          DEPLOY_TARGET: gh-pages
-          SITE_URL: https://${{ github.repository_owner }}.github.io
         
       - name: Setup Pages
         uses: actions/configure-pages@v6

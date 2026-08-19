@@ -600,6 +600,14 @@ automatically.
    `astro.config.mjs` derives the `/repo-name` base path from the package
    name. Rename the `name` field in `package.json` if you rename the repo.
 
+4. **Custom domain (optional):** add the CNAME at your DNS provider, set it
+   under Settings → Pages → Custom domain (enable *Enforce HTTPS*), then add
+   a repository variable `SITE_URL=https://your-domain.example` (Settings →
+   Secrets and variables → Actions → Variables). The workflow reads that
+   variable, drops the `/repo-name` base path (a custom domain serves the
+   project site from the root), and bakes the new origin into canonical/OG
+   URLs and the sitemap. Unset the variable to return to the default origin.
+
 </details>
 
 ### 2.4 Custom Domain (Optional, +15 min)
