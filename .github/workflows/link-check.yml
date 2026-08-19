@@ -22,6 +22,7 @@ permissions:
 jobs:
   link-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Checkout

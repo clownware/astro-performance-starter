@@ -6,6 +6,12 @@ on:
   pull_request:
     branches: [master]
 
+# A newer push to the same PR supersedes the running one; master pushes are
+# never cancelled so the deploy-truth signal always completes.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 permissions:
   contents: read
   security-events: write
@@ -13,6 +19,9 @@ permissions:
 jobs:
   build-test:
     runs-on: ubuntu-latest
+    # Every job carries a hard cap: a hung step otherwise runs to GitHub's
+    # 360-minute default and burns the account's minute budget.
+    timeout-minutes: 20
     env:
       SITE_URL: https://${{ github.repository_owner }}.github.io
 
@@ -155,6 +164,7 @@ jobs:
   semgrep:
     name: Semgrep SAST
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     # Dependabot PRs only touch manifests and run with a restricted token; skip.
     if: github.actor != 'dependabot[bot]'
     container:
@@ -170,6 +180,7 @@ jobs:
   gitleaks:
     name: Secret scan
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     if: github.actor != 'dependabot[bot]'
     container:
       image: ghcr.io/gitleaks/gitleaks:v8.30.1
