@@ -72,7 +72,7 @@ const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1]
 
 ### Why Not Alternative Approaches?
 
-**Alternative 1: Throw errors**
+#### Alternative 1: Throw errors
 
 ```typescript
 if (!post) throw new Error("Post not found");
@@ -80,7 +80,7 @@ if (!post) throw new Error("Post not found");
 
 ❌ Breaks build process, poor user experience
 
-**Alternative 2: Silent fallback**
+#### Alternative 2: Silent fallback
 
 ```typescript
 const post = Astro.props.post ?? defaultPost;
@@ -88,7 +88,7 @@ const post = Astro.props.post ?? defaultPost;
 
 ❌ Masks bugs, creates confusing behavior
 
-**Alternative 3: No error handling**
+#### Alternative 3: No error handling
 
 ```typescript
 const { post } = Astro.props; // Trust getStaticPaths

@@ -152,7 +152,7 @@ the template's required Decision heading.)*
 
 **Decision tree**:
 
-```
+```text
 Is the badge announcing a live status change?
 ├─ YES → role="status"
 │   Examples: "Online now", "Processing", "3 unread"

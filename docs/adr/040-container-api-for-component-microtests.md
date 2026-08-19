@@ -103,7 +103,7 @@ We will go with **Option 3 (Retroactive ratification + helper extraction)** beca
 
 ### What lands
 
-**New file: `src/components/__tests__/_helpers/container.ts`**
+#### New file: `src/components/__tests__/_helpers/container.ts`
 
 Exports:
 
