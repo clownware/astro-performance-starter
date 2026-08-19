@@ -13,26 +13,21 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: lighthouse-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   lighthouse:
-    name: lighthouse (${{ matrix.form-factor }})
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     # Gate on BOTH form factors. Mobile throttling routinely drops a site
     # 15-25 points below desktop, so desktop-only was a soft ratchet; the
     # demo passes mobile at Performance 0.98-1.00 (measured), so both gates
-    # hold the same strict floors. The matrix runs them in parallel: each leg
-    # re-builds (~35s of duplicated runner time) but wall-clock drops by a
-    # full ~2-min Lighthouse pass.
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - form-factor: desktop
-            config: lighthouserc.json
-            reports: lighthouse-ci-reports
-          - form-factor: mobile
-            config: lighthouserc.mobile.json
-            reports: lighthouse-ci-reports-mobile
+    # hold the same strict floors. One job, one build, two lhci passes: the
+    # earlier desktop/mobile matrix saved ~2 min of wall-clock but paid a
+    # duplicated install + build plus a second per-job minute rounding on
+    # every PR — real money for the (mostly private) clones of this template.
     env:
       # The Astro config validates SITE_URL at load time (ADR-050); the
       # documented placeholder values would trip validate-env.ts, so we use a
@@ -71,17 +66,26 @@ jobs:
       - name: Build site
         run: pnpm run build
 
-      - name: Run Lighthouse CI (${{ matrix.form-factor }})
-        run: pnpm exec lhci autorun --config=${{ matrix.config }}
+      - name: Run Lighthouse CI (desktop)
+        run: pnpm exec lhci autorun --config=lighthouserc.json
         env:
           # lhci picks this up when present and writes a status check on the PR
+          LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
+
+      - name: Run Lighthouse CI (mobile)
+        # Runs even if desktop failed so a PR gets both verdicts in one run.
+        if: ${{ !cancelled() }}
+        run: pnpm exec lhci autorun --config=lighthouserc.mobile.json
+        env:
           LHCI_GITHUB_APP_TOKEN: ${{ secrets.LHCI_GITHUB_APP_TOKEN }}
 
       - name: Upload Lighthouse reports
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: lighthouse-reports-${{ matrix.form-factor }}
-          path: ${{ matrix.reports }}/
+          name: lighthouse-reports
+          path: |
+            lighthouse-ci-reports/
+            lighthouse-ci-reports-mobile/
           retention-days: 14
           if-no-files-found: ignore
