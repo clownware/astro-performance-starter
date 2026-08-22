@@ -151,10 +151,6 @@
   },
   "pnpm": {
     "overrides": {
-      "baseline-browser-mapping": "^2.10.34",
-      "brace-expansion@^1": "^1.1.18",
-      "brace-expansion@^5": "^5.0.9",
-      "glob@^11": "^11.1.0",
       "qs@6.15.1": "^6.15.2",
       "sharp": "^0.35.3",
       "tmp@<0.2.6": "^0.2.6",
