@@ -5,6 +5,9 @@ on:
     branches: [master]
   pull_request:
     branches: [master]
+  # versions-sync.yml re-dispatches CI after it pushes a versions.json sync
+  # commit to a Dependabot branch; GITHUB_TOKEN pushes never trigger runs.
+  workflow_dispatch:
 
 # A newer push to the same PR supersedes the running one; master pushes are
 # never cancelled so the deploy-truth signal always completes.

@@ -163,6 +163,31 @@ export function findTemplateMismatch(
 - **Metric 3**: docs drift gate and clownware.org sync run without key-mapping changes across
   template releases
 
+## Amendment (2026-09-02) — Dependabot bumps sync `versions.json` automatically
+
+`version:check` fails `quality:ci` on any drift between `versions.json` and
+`package.json`, and Dependabot cannot run `version:fix`, so every Dependabot
+bump of a tracked dependency arrived red and needed a hand commit before it
+could merge — the drift class this ADR exists to prevent was being reintroduced
+by the tool meant to keep dependencies current.
+
+`.github/workflows/versions-sync.yml` closes the gap. On a Dependabot PR that
+touches `package.json` it runs the guard script's `--fix` mode, commits only
+`versions.json` back to the Dependabot branch, and re-dispatches CI for the new
+head (`workflow_dispatch` is the one event a `GITHUB_TOKEN` push may trigger;
+`ci.yml` gained that trigger for this purpose). The job runs under
+`pull_request_target` with a write token, so it executes nothing from the PR
+head: no install, and the script is taken from the base commit. The
+`version:check` gate is unchanged and still blocks — a failed sync leaves the
+PR red rather than letting drift through.
+
+Cost accepted: after the job has pushed, Dependabot refuses `@dependabot
+rebase`; `@dependabot recreate` (or the Update branch button) is the path, and
+the job runs again on the new head. Alternatives rejected: loosening the pins
+to `.x` (the drift gate in the docs site consumes exact values); a post-merge
+sync on `master` (branch protection requires a review, so a bot cannot push
+there); a PAT-backed sync (works, but adds a secret every adopter must mint).
+
 ## References
 
 - [ADR-059: Docs Drift Gate Replaces Push-Sync](./059-docs-drift-gate.md)
