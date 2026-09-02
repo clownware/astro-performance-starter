@@ -21,6 +21,6 @@
   "node-lts": "24.x",
   "node-current": "24.x",
   "node-minimum": "24.15.0",
-  "style-dictionary": "5.5.1",
+  "style-dictionary": "5.5.2",
   "tailwindcss-typography": "0.5.20"
 }
