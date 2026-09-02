@@ -1,0 +1,87 @@
+name: Versions sync
+
+# Keeps versions.json — the public consumption contract (ADR-061) — in step
+# with Dependabot's package.json bumps. version:check fails quality:ci on any
+# drift between the two, and Dependabot cannot run version:fix, so every bump
+# of a tracked dependency used to need a hand commit before it could merge.
+#
+# This job runs the guard script's --fix mode against the PR's files, commits
+# only versions.json back to the Dependabot branch, then re-dispatches CI for
+# the new head: GITHUB_TOKEN pushes never start workflow runs on their own, and
+# workflow_dispatch is the documented exception to that rule.
+#
+# pull_request_target runs with a write token, so nothing from the PR head is
+# executed: there is no install, and the script itself is taken from the base
+# commit rather than the head. The script has no dependencies beyond node:*.
+# Adopter-clean by design: no owner-specific values.
+#
+# Known cost: once this job has pushed, Dependabot will refuse
+# `@dependabot rebase` ("edited by someone other than Dependabot"). Use
+# `@dependabot recreate`, or the Update branch button; this job then runs
+# again against the new head.
+
+on:
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+    paths: [package.json]
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: versions-sync-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  sync:
+    if: >-
+      github.event.pull_request.user.login == 'dependabot[bot]' &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      HEAD_REF: ${{ github.event.pull_request.head.ref }}
+      BASE_SHA: ${{ github.event.pull_request.base.sha }}
+
+    steps:
+      - name: Checkout the Dependabot branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.head.ref }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Take the guard script from the base commit
+        run: |
+          git fetch --depth=1 origin "$BASE_SHA"
+          git checkout "$BASE_SHA" -- scripts/src/check-version-consistency.ts
+
+      - name: Sync versions.json
+        id: sync
+        run: |
+          node scripts/src/check-version-consistency.ts --fix
+          git checkout HEAD -- scripts/src/check-version-consistency.ts
+          if git diff --quiet -- versions.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push versions.json
+        if: steps.sync.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add versions.json
+          git commit -m "chore(versions): sync versions.json with package.json"
+          git push origin "HEAD:$HEAD_REF"
+
+      - name: Re-run CI for the new head
+        if: steps.sync.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run ci.yml --ref "$HEAD_REF"

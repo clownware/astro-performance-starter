@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `versions.json` declared a public consumption contract — additive keys fine, renames/removals breaking ([ADR-061](./docs/adr/061-versions-json-public-contract.md))
 - `version:check` now fails on a drifted `template` field in `versions.json`; `version:fix` stamps it from `package.json` `"version"` (the field had shipped drifted: v0.2.0 vs 0.9.0)
 - GitHub Releases published automatically on `v*` tag push via `.github/workflows/release.yml`, with the body extracted from that version's CHANGELOG section (`scripts/src/extract-changelog.ts`)
+- `.github/workflows/versions-sync.yml` — Dependabot PRs that bump a tracked dependency get a `versions.json` sync commit and a re-dispatched CI run, so they no longer arrive red at `version:check` ([ADR-061 amendment](./docs/adr/061-versions-json-public-contract.md))
 
 ### Removed
 
