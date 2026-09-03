@@ -1,29 +1,35 @@
 ---
 title: .env.example
-description: '```bash'
+description: The template's .env.example environment variables file
 lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 ```bash
-# .env.example
-# Copy this file to .env and fill in your values. DO NOT commit .env.
+# Environment Variables Template
+# Copy this file to .env and fill in your values
+# DO NOT commit .env to version control
 
 # Site Configuration
 #
-# SITE_URL (required for production builds) — canonical origin, no trailing slash.
-# The build fails if it is unset or contains placeholder values.
+# SITE_URL (required for production builds)
+# The canonical origin URL where your site will be hosted. No trailing slash.
+# The build will fail if this is not set or contains placeholder values.
+# For GitHub Pages: https://<your-github-username>.github.io
+# For custom domains: https://your-domain.com
 # SITE_URL=https://your-username.github.io
 #
-# Alternatively use PUBLIC_SITE_URL (exposed to client-side code via Astro):
+# Alternatively, use PUBLIC_SITE_URL (exposed to client-side code via Astro):
 PUBLIC_SITE_URL=http://localhost:4321
 
 # Deployment Target
-# Set to "gh-pages" for GitHub Pages (derives base path from package.json "name").
+# Set to "gh-pages" when deploying to GitHub Pages.
+# This derives the base path from the package.json "name" field automatically.
 # Leave unset for root deployments (Cloudflare Pages, Netlify, Vercel, etc.)
 # DEPLOY_TARGET=gh-pages
 
-# Analytics (optional) — not yet implemented; uncomment when adding support.
+# Analytics (optional) - See docs/implementation-guides/06-optional-features/01-analytics.md
+# Not yet implemented — uncomment and set when adding analytics support.
 # PUBLIC_PLAUSIBLE_DOMAIN="your-domain.com"
 # PUBLIC_FATHOM_SITE_ID="YOUR_FATHOM_SITE_ID"
 
@@ -40,3 +46,9 @@ PUBLIC_SOCIAL_LINKEDIN=https://linkedin.com/company/example
 PUBLIC_SOCIAL_TWITTER=https://twitter.com/example
 
 ```
+
+> **Note:** The starter's typed environment schema lives in `astro.config.mjs`
+> (`env.schema` via `astro:env`, [ADR-050](/adr/050-type-safe-env-astro-env/))
+> and defines the `PUBLIC_CONTACT_*` and `PUBLIC_SOCIAL_*` variables;
+> `SITE_URL` / `PUBLIC_SITE_URL` is read at config-load time and
+> `env:validate` (part of `build`) rejects placeholder values.

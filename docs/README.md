@@ -43,8 +43,9 @@ Start with `docs/ai-context/INDEX.md` for the full project context contract.
 | `docs/implementation-guides/` | Phase guides, code examples, reference | Medium — implementation context |
 | `docs/patterns/` | Component, performance, accessibility patterns | High — conventions AI must follow |
 | `docs/development/` | Development workflows, setup guides | Low — primarily human-facing |
-| `docs/getting-started/` | Onboarding documentation | Low — primarily human-facing |
 | `docs/snippets/` | Reusable code snippet includes | Medium — code examples |
+
+Human onboarding (launch demo, quick deploy, FAQ, onboarding) lives on the docs site at [docs.clownware.org/astro/getting-started/](https://docs.clownware.org/astro/getting-started/), which owns those pages.
 
 ## Implementation Roadmap
 

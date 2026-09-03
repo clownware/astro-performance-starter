@@ -1,6 +1,6 @@
 ---
 title: Performance Budgets & Quality Guardrails
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: >-
   Defines performance budgets, Core Web Vitals targets, and quality guardrails
   for the project
@@ -34,7 +34,8 @@ pagefind: true
 
 ```yaml
 JavaScript:
-  total_gzipped: 160KB maximum
+  total_raw: 160KB maximum   # ENFORCED — uncompressed bytes in dist/_astro (ci.yml inline gate + budgets.json maxTotalSizeKb via perf:budgets)
+  per_file_raw: 64KB maximum # ENFORCED — budgets.json maxSizeKb via perf:budgets
   breakdown:
     - Framework (Preact): ~10KB
     - Custom code: ~20KB
@@ -46,7 +47,7 @@ JavaScript:
     - Interactive pages: 100KB
 
 CSS:
-  total_uncompressed: 50KB maximum # Uncompressed size, aligns with general web perf advice for initial CSS payload
+  total_uncompressed: 50KB # ADVISORY ONLY — tracked, not CI-gated. budgets.json carries no CSS budget; the figure comes from .claude/stack.md
   breakdown:
     - Tailwind base: ~20KB
     - Components: ~20KB
@@ -54,18 +55,28 @@ CSS:
   
   critical_css: 14KB maximum (above fold, uncompressed when inlined)
 
+Fonts:
+  per_file_raw: 64KB maximum   # ENFORCED — budgets.json (path _astro/fonts) via perf:budgets
+  total_raw: 150KB maximum     # ENFORCED — budgets.json via perf:budgets
+  preloads: fonts:gate         # ENFORCED — scripts/src/check-font-preloads.ts (ADR-058)
+
+Images:
+  per_file_raw: 200KB maximum  # ENFORCED — images:gate on source (public/, src/) AND dist/ (ADR-057)
+
 HTML:
   per_page: 25KB gzipped
   inline_scripts: 0 (security) # Strictly enforced. See note below.
   inline_styles: Critical CSS only # For critical, above-the-fold styling.
 ```
 
+Only the lines marked ENFORCED fail CI. `budgets.json` is the source of truth for the raw-size budgets (`pnpm run perf:budgets`, which also applies any unexpired entries from `budget-overrides.json`); the CSS figure is guidance you check by hand with `pnpm run bundle:analyze`.
+
 ## Note on inline_scripts: 0
 
 This rule prohibits raw `<script>` tags directly in HTML output that are not managed by Astro's build process or explicitly allowed via CSP hashes/nonces.
 For client-side JavaScript:
 
-1. **Astro Islands (Preact, React, Vue, Svelte, SolidJS)**: This is the PREFERRED METHOD.
+1. **Astro Islands (Preact — the only UI integration the starter ships)**: This is the PREFERRED METHOD.
    Use `client:idle` or `client:visible` — `client:load` is forbidden without ADR justification (ADR-001).
    Astro processes these island scripts, bundles them, and they can be managed with a Content Security Policy (CSP)
    that allows Astro's generated script hashes or uses nonces.
@@ -81,17 +92,17 @@ For client-side JavaScript:
 
 ```yaml
 Images:
-  formats: AVIF > WebP > JPEG
-  max_size: 200KB after optimization
+  formats: AVIF > WebP > JPEG (the Image atom emits single-format AVIF by default — ADR-030)
+  max_size: 200KB per raster file, enforced on source and build output (images:gate, ADR-057)
   loading: lazy (except above fold)
   dimensions: Responsive srcset required
   quality: 75-85 (balanced)
 
 Fonts:
-  format: WOFF2 only
+  format: WOFF2 only (latin variable files vendored in src/assets/fonts/)
   subsetting: Required
-  loading: font-display: swap
-  limit: 2 font families maximum
+  loading: Astro Fonts API — preload + metric-adjusted fallbacks (ADR-053); preload count gated by fonts:gate (ADR-058)
+  limit: 2 font families maximum (Geist for display, Inter for body)
   variable_fonts: Preferred
 
 Icons:
@@ -118,7 +129,13 @@ TypeScript:
   strict: true
   no_any: true
   no_explicit_any: Error
-  coverage: 90% of components
+
+Unit test coverage (vitest.config.ts — ENFORCED by `pnpm run test:coverage` in CI):
+  scope: src/utils/**/*.ts only # .astro components and build scripts are excluded from v8 coverage
+  lines: 90%
+  functions: 95%
+  branches: 90%
+  # Components are covered by Container API microtests (ADR-040) and Playwright, not by these thresholds.
 
 Complexity:
   max_file_lines: 300
@@ -158,9 +175,11 @@ Dependencies:
 |------|-----------|-------------|----------|
 | **Lighthouse CI** | Manual | Every commit | Every commit + RUM |
 | **Accessibility** | Browser tools | Automated axe-core | Automated axe-core |
-| **Visual Regression** | None | None | `/showcase` review (ADR-049) |
+| **Visual Regression** | None | None | Manual `/showcase` review (ADR-049) |
 | **E2E Critical Paths** | Manual checklist | Playwright automated | Playwright automated |
 | **Performance** | Local only | CI | CI + monitoring |
+
+No automated visual-regression suite ships with the starter — there is no `toHaveScreenshot` (or third-party snapshot service) anywhere in the repo. The `/showcase` page is the visual review surface; add Playwright screenshot assertions yourself if your component churn justifies them.
 
 ## Monitoring Thresholds
 
@@ -191,8 +210,8 @@ Tracking:
    - CSS animations/transitions
 
 2. **Tier 1: Minimal Enhancement** (< 20KB)
-   - View Transitions API
-   - Progressive form enhancement
+   - `<ClientRouter />` from `astro:transitions` (view transitions)
+   - Progressive form enhancement (ADR-021)
    - Vanilla JS for simple state
 
 3. **Tier 2: Interactive Islands** (< 50KB per island)
@@ -211,14 +230,13 @@ Tracking:
 
 ```bash
 # Bundle size check
-# This script is an example of how you might enforce bundle size limits in a CI environment.
-# It checks if the total RAW size of .js files in dist/assets exceeds a limit.
-# NOTE: The JS_SIZE_LIMIT_BYTES (160KB) is a TARGET for GZIPPED assets. This script measures RAW file sizes.
-# As raw sizes are typically 3-4x larger than gzipped, this script provides a very rough check.
-# For accurate gzipped size validation, use tools that measure gzipped output.
+# CI enforces this gate inline in .github/workflows/ci.yml: the total RAW
+# (uncompressed) size of .js files emitted to dist/_astro must stay under
+# 160KB (163840 bytes), matching budgets.json (maxTotalSizeKb: 160).
+# `pnpm run perf:budgets` applies the same raw-size budgets locally.
 
-JS_BUNDLE_PATH="dist/assets"
-JS_SIZE_LIMIT_BYTES=163840 # 160KB (GZIPPED target)
+JS_BUNDLE_PATH="dist/_astro"
+JS_SIZE_LIMIT_BYTES=163840 # 160KB raw (uncompressed)
 JS_SIZE=0
 
 if [ ! -d "$JS_BUNDLE_PATH" ]; then
@@ -236,33 +254,54 @@ else
   JS_SIZE=${JS_FILES_TOTAL_SIZE:-0}
 
   if [ "$JS_SIZE" -gt "$JS_SIZE_LIMIT_BYTES" ]; then
-    echo "❌ JavaScript bundle RAW size ($JS_SIZE bytes) exceeds the RAW budget of $JS_SIZE_LIMIT_BYTES bytes in '$JS_BUNDLE_PATH'."
+    echo "❌ JavaScript bundle raw size ($JS_SIZE bytes) exceeds the $JS_SIZE_LIMIT_BYTES-byte budget in '$JS_BUNDLE_PATH'."
     exit 1
   else
-    echo "✅ JavaScript bundle RAW size: $JS_SIZE bytes (raw budget: $JS_SIZE_LIMIT_BYTES bytes)."
+    echo "✅ JavaScript bundle raw size: $JS_SIZE bytes (limit: $JS_SIZE_LIMIT_BYTES bytes)."
   fi
 fi
-
-# Lighthouse CI assertion — mirrors lighthouserc.json (the real config;
-# lighthouserc.mobile.json is the mobile companion, CI gates on BOTH)
-lighthouse:ci:
-  assert:
-    assertions:
-      categories:performance: [error, {minScore: 0.90}]
-      categories:accessibility: [error, {minScore: 0.95}]
-      categories:best-practices: [error, {minScore: 0.95}]
-      categories:seo: [error, {minScore: 0.90}]
 ```
 
-### Pre-commit Hooks
+The same CI job then runs `pnpm run perf:budgets` (every `budgets.json` budget, with overrides applied), `pnpm run images:gate` twice (source tree, then `IMAGE_GATE_ROOTS=dist`), and `pnpm run fonts:gate`.
+
+### Lighthouse CI Assertions
+
+The enforced gate lives in `lighthouserc.json` (desktop) with a mirrored `lighthouserc.mobile.json` companion — `lighthouse.yml` runs `lhci autorun` against both and gates on both. Thresholds are set at the non-negotiable floor from the table above (no `lighthouse:recommended` preset):
+
+```json
+{
+  "assert": {
+    "assertions": {
+      "categories:performance": ["error", { "minScore": 0.9 }],
+      "categories:accessibility": ["error", { "minScore": 0.95 }],
+      "categories:best-practices": ["error", { "minScore": 0.95 }],
+      "categories:seo": ["error", { "minScore": 0.9 }]
+    }
+  }
+}
+```
+
+### Git Hooks
 
 ```yaml
-checks:
-  - Image size validation
-  - TypeScript strict check
-  - Import cost analysis
-  - CSS size check
-  - Accessibility lint
+pre-commit: # .husky/pre-commit runs `pnpm exec lint-staged`
+  - biome check --write (staged .astro/.ts/.tsx/.js/.jsx/.json/.yml files)
+  - markdownlint-cli2 --fix (staged Markdown/MDX)
+
+commit-msg: # .husky/commit-msg
+  - commitlint --edit (conventional commits)
+
+pre-push: # .husky/pre-push
+  - pnpm run test:unit
+
+# Heavier checks run in CI, not in git hooks:
+ci:
+  - quality:ci (format:check, lint, lint:md, astro check, test:unit, agents:check, version:check, og:check, docs:count)
+  - enforce (ADR enforcement suite, ADR-064)
+  - test:coverage (src/utils thresholds above)
+  - budgets:validate + design:validate (override expiry, token contrast)
+  - images:gate (source + dist), fonts:gate, perf:budgets, inline JS gate
+  - playwright test --project=chromium
 ```
 
 ## Budget Exception Process

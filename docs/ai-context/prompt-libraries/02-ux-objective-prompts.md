@@ -1,7 +1,7 @@
 ---
-title: UX Problem Prompt Templates
+title: UX Define Objectives
 lastUpdated: true
-description: Copy-paste prompts for common UX problem discovery using AI assistants
+description: Copy-paste prompts for common UX objective discovery using AI assistants
 tableOfContents: true
 pagefind: true
 ---

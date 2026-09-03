@@ -57,7 +57,7 @@ Open **<http://localhost:4321/>** — you're up and running.
 
 > **First build?** Token compilation happens automatically on first `dev` or `build` command.
 >
-> **No pnpm?** Run `corepack enable` first, or see the [onboarding guide](./docs/getting-started/onboarding.md).
+> **No pnpm?** Run `corepack enable` first, or see the [onboarding guide](https://docs.clownware.org/astro/getting-started/onboarding/).
 
 ### One-click deploy
 
@@ -101,9 +101,9 @@ After cloning, update these files to make the template yours:
 
 Everything you need to customize and extend lives in `docs/`:
 
-- **[Onboarding Guide](./docs/getting-started/onboarding.md)** — Detailed setup and concepts
-- **[Launch Demo](./docs/getting-started/launch-demo.md)** — Get running in 5-10 minutes
-- **[Quick Deploy](./docs/getting-started/quick-deploy.md)** — Ship to production in under an hour
+- **[Onboarding Guide](https://docs.clownware.org/astro/getting-started/onboarding/)** — Detailed setup and concepts
+- **[Launch Demo](https://docs.clownware.org/astro/getting-started/launch-demo/)** — Get running in 5-10 minutes
+- **[Quick Deploy](https://docs.clownware.org/astro/getting-started/quick-deploy/)** — Ship to production in under an hour
 - **[Implementation Roadmap](./docs/README.md#implementation-roadmap)** — Phased development guide
 - **[AI Context Guides](./docs/ai-context/)** — Optimized for AI assistants
 

@@ -1,8 +1,8 @@
 ---
 title: Documentation Snippets
 description: >-
-  This directory contains reusable code snippets and configuration blocks that
-  are referenced across multiple documentation files
+  Reusable configuration blocks that are embedded into the implementation
+  guides at build time via the snippet shortcode
 lastUpdated: true
 tableOfContents: true
 pagefind: true
@@ -13,40 +13,50 @@ This directory contains reusable code snippets and configuration blocks that are
 
 ## Usage
 
-Snippets are embedded using a shortcode syntax:
+Snippets are embedded in other documentation pages with a shortcode written on its own paragraph:
 
 ```markdown
-{{% snippet "git-hooks" %}}
+{% snippet "biome-config" %}
 ```
 
-_Note: The actual implementation uses `{%` and `%}` delimiters._
+The name is the snippet's file name without `.md`, in straight double quotes. Only
+letters, digits, hyphens, and underscores are allowed. The shortcode is expanded only
+in regular paragraph text — the include resolver deliberately skips code blocks and
+inline code, which is why the example above renders literally.
+
+Snippet includes resolve at build time: the
+[`remark-snippet-includes`](https://github.com/clownware/astro-performance-starter/blob/master/scripts/src/remark-snippet-includes.mjs)
+plugin replaces each shortcode with the current content of `docs/snippets/<name>.md`
+(the whole file, trimmed), so referencing pages always render the snippet as it exists
+when the site is built. A shortcode that names a missing snippet fails the build.
 
 ## Available Snippets
 
 | Snippet | Description | Used In |
 |---------|-------------|---------|
-| `git-hooks` | Husky + lint-staged setup | Phase 0, Phase 3, Tech Stack |
-| `biome-config` | Complete Biome configuration | Phase 0, Phase 3, Tech Stack |
-| `package-scripts` | Standard npm scripts configuration | Phase 0, Phase 3 |
-| `essential-scripts` | Minimal package.json scripts section | Phase 0, Phase 3 |
-| `tsconfig-paths` | TypeScript path mapping setup | Phase 0, Tech Stack |
-| `adr-template` | Standard ADR structure template | Phase 0, ADR Template |
-| `lint-staged-config` | Lint-staged configuration | Phase 3, Git Workflow |
-| `commitlint-config` | Conventional commits setup | Phase 3, Git Workflow |
+| `adr-template` | Mirror of the canonical ADR template (`docs/adr/template.md`) | [Phase 0](/implementation-guides/completed/phase-0-foundation/) |
+| `biome-config` | Biome formatter and linter configuration (`biome.json`, excerpt) | [Phase 0](/implementation-guides/completed/phase-0-foundation/), [Phase 3](/implementation-guides/completed/phase-3-code-examples/) |
+| `commitlint-config` | Conventional-commits commitlint setup (`.commitlintrc.cjs`) | [Phase 3](/implementation-guides/completed/phase-3-code-examples/) |
+| `env-example` | Environment variables template (`.env.example`) | [Phase 0](/implementation-guides/completed/phase-0-foundation/) |
+| `essential-scripts` | Minimal `package.json` scripts subset | not currently embedded |
+| `git-hooks` | Husky install steps and the three hook files | [Phase 0](/implementation-guides/completed/phase-0-foundation/), [Phase 3](/implementation-guides/completed/phase-3-code-examples/) |
+| `lint-staged-config` | lint-staged configuration (`package.json` section) | [Phase 0](/implementation-guides/completed/phase-0-foundation/), [Phase 3](/implementation-guides/completed/phase-3-code-examples/) |
+| `package-scripts` | The everyday scripts section of `package.json`, verbatim | [Phase 3](/implementation-guides/completed/phase-3-code-examples/) |
+| `tsconfig-paths` | TypeScript path aliases (`tsconfig.json` excerpt) | [Phase 0](/implementation-guides/completed/phase-0-foundation/) |
 
 ## Snippet Structure
 
 Each snippet file should:
 
-- Be standalone and complete
-- Include necessary context comments
+- Reproduce its source file verbatim, or be clearly labelled as an excerpt
+- Include a comment naming the source file
 - Follow the project's code style
 - Be version-agnostic where possible
 
 ## Maintenance
 
-When updating a snippet:
+When a config file changes:
 
-1. Update the snippet file directly
-2. Changes propagate automatically to all references
-3. No need to update multiple documentation files
+1. Regenerate the matching snippet from the real file
+2. Changes propagate to every referencing page at the next build
+3. No need to update the referencing documentation files

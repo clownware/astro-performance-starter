@@ -1,9 +1,9 @@
 ---
 title: Phase 2 - Design System & Tokens
-lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers design tokens, Tailwind configuration, CSS architecture, and
   accessibility primitives — Foundation tier, essential for all projects
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
@@ -11,9 +11,11 @@ pagefind: true
 ## Overview
 
 - **Tier**: Foundation (Phase 2 of 12)
+- **Scope**: Essential — every project completes this phase (scope labels follow [ADR-033](/adr/033-track-consolidation/))
 - **Duration**: 1-2 days
 - **Dependencies**: Phase 0-1 completed
 - **Deliverables**: Design tokens, Tailwind config, CSS architecture, accessibility primitives
+- **Code examples**: [Phase 2 - Code Examples](/implementation-guides/completed/phase-2-code-examples/)
 
 ## Entry Criteria
 
@@ -31,7 +33,7 @@ pagefind: true
 | 2.03 | Create spacing system | Essential | Consistent scale |
 | 2.04 | Define radius tokens | Essential | Border radius system |
 | 2.05 | Add shadow system | Essential | Elevation tokens |
-| 2.06 | Create motion tokens | Essential | Transitions/animations (ensure surfaced in tailwind.config.ts for utility classes like transition-base, duration-fast, etc.) |
+| 2.06 | Create motion tokens | Essential | Transitions/animations (surface them via `@theme inline` in `src/styles/global.css` so utilities like `duration-fast` and `ease-out` exist) |
 | 2.07 | Set up dark mode | Essential | CSS variables approach |
 | 2.08 | Add a11y primitives | Essential | Focus, contrast |
 | 2.09 | Configure Tailwind | Essential | Extend with tokens |
@@ -41,9 +43,9 @@ pagefind: true
 
 ### Tailwind CSS Considerations
 
-Tailwind CSS is now stable and provides significant improvements over v3, including better performance, enhanced design token integration, and improved developer experience.
+Tailwind CSS v4 is stable and provides significant improvements over v3, including better performance, enhanced design token integration, and improved developer experience.
 
-**Key v4.2.2 Benefits:**
+**Key Tailwind v4 Benefits:**
 
 - **Better Performance**: Faster build times and smaller CSS output
 - **Enhanced Design Tokens**: Native CSS variables support
@@ -51,7 +53,7 @@ Tailwind CSS is now stable and provides significant improvements over v3, includ
 - **Migration Path**: Clear upgrade path from v3 configurations
 
 **Current Implementation:**
-The project uses `tailwindcss: "^4.2.2"` which ensures you get the latest stable v4 patches while maintaining compatibility.
+The project pins the current Tailwind v4 release (exact version in `versions.json`), so you get the latest stable v4 patches while maintaining compatibility. Configuration is CSS-first: there is no `tailwind.config.ts`; tokens are mapped in `src/styles/global.css` via `@theme inline`.
 
 ### Image Optimization and Future Scalability
 
@@ -107,14 +109,14 @@ If design system needs major changes:
    ```bash
    # Keep old tokens
    cp tokens/base.json tokens/base.json.backup
-   # Test new tokens
-   pnpm run tokens:build # Note: You'll need to create the './scripts/build-tokens.js' file as part of this phase.
-   # Validate contrast
+   # Rebuild tokens/dist/ (scripts/src/build-tokens.ts ships with the starter)
+   pnpm run tokens:build
+   # Validate contrast in light and dark mode (scripts/src/validate-contrast.ts)
    pnpm run design:validate
    ```
 
 2. **Tailwind Config Issues**:
-   - Revert tailwind.config.ts
+   - Revert the `@theme inline` token mapping in `src/styles/global.css`
    - Clear Tailwind cache
    - Rebuild CSS
 
@@ -127,10 +129,11 @@ If design system needs major changes:
 
 ### Key Files to Reference
 
-- `tokens/base.json` - Core design tokens
-- `tailwind.config.ts` - Tailwind configuration
-- `src/styles/global.css` - Global styles
-- Token build script
+- `tokens/base.json` - Core design tokens (palette, type, spacing, radius, shadow, motion)
+- `tokens/semantic.json` - Role tokens with light `value` / `dark` overrides
+- `src/styles/global.css` - Global styles and Tailwind v4 CSS-first configuration (`@theme inline`)
+- `scripts/src/build-tokens.ts` - Token build (`pnpm run tokens:build` → `tokens/dist/`)
+- `scripts/src/validate-contrast.ts` - WCAG AA gate (`pnpm run design:validate`)
 
 ### Common Prompts for This Phase
 

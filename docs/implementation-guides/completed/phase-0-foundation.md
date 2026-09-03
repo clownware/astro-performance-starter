@@ -1,9 +1,9 @@
 ---
 title: Phase 0 - Foundation Decisions
-lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers core architecture decisions, repository setup, and development
   environment — Foundation tier, essential for all projects
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
@@ -12,6 +12,7 @@ pagefind: true
 ## Overview
 
 - **Tier**: Foundation (Phase 0 of 12)
+- **Scope**: Essential — every project completes this phase (scope labels follow [ADR-033](/adr/033-track-consolidation/))
 - **Effort**: Minimal, foundational setup
 - **Dependencies**: None
 - **Deliverables**: Core architecture decisions, repository setup, development environment
@@ -29,8 +30,8 @@ pagefind: true
 |------|------|-------|-------|
 | 0.01 | Initialize repository | Essential | Include .gitignore, README |
 | 0.02 | Choose package manager | Essential | pnpm recommended for speed |
-| 0.03 | Set up Node.js version | Essential | Use .nvmrc with Node 24.14.1 LTS |
-| 0.04 | Select framework version | Essential | Astro 6.0.8 stable |
+| 0.03 | Set up Node.js version | Essential | `.nvmrc` pinned to the Node release listed in `versions.json` |
+| 0.04 | Select framework version | Essential | Current stable Astro release (see `versions.json`) |
 | 0.05 | Configure TypeScript | Essential | Strict mode from start |
 | 0.05a | Configure Biome (lint/format) | Essential | Init @biomejs/biome & VSCode extension |
 | 0.06 | Initialize Astro project | Essential | Use create-astro CLI |
@@ -59,23 +60,27 @@ pnpm install
 ### Package Manager Configuration
 
 ```json
-// package.json
+// package.json — copy the exact pins from the starter's versions.json:
+//   packageManager ← "pnpm", engines.node ← "node-minimum"
 {
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@<version>",
   "engines": {
-    "node": ">=24.0.0",
-    "pnpm": ">=10.0.0"
+    "node": ">=<node-minimum>",
+    "pnpm": ">=<pnpm major>"
   },
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check && tsc --noEmit",
-    "format": "biome format --write .",
-    "lint": "biome check --write ."
+    "check": "SITE_URL=${SITE_URL:-http://localhost:4321} astro check",
+    "check:types": "tsc --noEmit",
+    "format": "biome format . --write",
+    "lint": "biome check ."
   }
 }
 ```
+
+Astro and TypeScript checking are split into separate scripts (`check` and `check:types`), and `lint` is check-only — autofixing happens via lint-staged in the pre-commit hook, not in the `lint` script itself. The `build` script grows `env:validate` and `tokens:build` prefixes in later phases; the full everyday script set is in the [Phase 3 code examples](/implementation-guides/completed/phase-3-code-examples/).
 
 ### Biome Configuration
 
@@ -98,8 +103,9 @@ trim_trailing_whitespace = true
 ### Node Version File
 
 ```bash
-# .nvmrc
-24.14.1
+# .nvmrc — copy the exact value from the starter's .nvmrc
+# (it matches the "node" entry in versions.json)
+<node version>
 ```
 
 ### TypeScript Configuration
@@ -123,24 +129,26 @@ trim_trailing_whitespace = true
 ### Branch Strategy Documentation
 
 ```markdown
-# docs/git-workflow.md
+# docs/development/git-workflow.md
 
 ## Branch Strategy
 
 ### Main Branches
-- `main` - Production-ready code
-- `develop` - Integration branch (optional, for team projects)
+- `master` - Production-ready code (the starter's single long-lived branch; use `main` in your own fork if you prefer)
+- `develop` - Integration branch (optional, for team projects — the starter itself has none)
 
 ### Feature Branches
 - `feature/*` - New features
 - `fix/*` - Bug fixes
 - `docs/*` - Documentation updates
+- `chore/*` - Maintenance and tooling
 
 ### Workflow
-1. Create feature branch from main
+1. Create feature branch from the default branch
 2. Make changes with conventional commits
-3. Open PR with description
-4. Merge after review (team projects) or self-merge (solo)
+3. Run `pnpm run quality:ci` before opening a PR
+4. Open PR with description
+5. Squash-merge after review (team projects) or self-merge (solo)
 
 ### Commit Convention
 - `feat:` - New feature
@@ -156,7 +164,7 @@ trim_trailing_whitespace = true
 ## Common Pitfalls
 
 1. **Wrong Package Manager**: Mixing npm/yarn/pnpm causes lockfile conflicts
-   - **Solution**: Commit `.npmrc` with `engine-strict=true`
+   - **Solution**: Pin `packageManager` and `engines` in `package.json` (as the starter does) and commit only `pnpm-lock.yaml`; an `.npmrc` with `engine-strict=true` makes the engine range fail fast
 
 2. **Loose TypeScript**: Starting without strict mode makes it hard to enable later
    - **Solution**: Always start with strict mode, add `// @ts-expect-error` sparingly
@@ -210,11 +218,11 @@ If critical issues found after Phase 0:
 - `package.json` - Verify scripts and dependencies
 - `tsconfig.json` - TypeScript configuration
 - `.husky/pre-commit` - Git hooks
-- `docs/adr/001-preact-island-usage-policy.md` - Key decisions
+- [ADR-000: Starter Decisions](/adr/000-starter-decisions/) - Key decisions
 
 ### Common Prompts for This Phase
 
-- "Set up Astro 6.0.8 project with TypeScript strict mode"
+- "Set up an Astro project on the current stable release with TypeScript strict mode"
 - "Configure Biome for Astro project"
 - "Create Git hooks for code quality"
 - "Write ADR for foundation decisions"

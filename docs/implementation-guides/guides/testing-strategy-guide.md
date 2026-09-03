@@ -21,7 +21,7 @@ This guide outlines testing strategies using the Essential / Recommended / Advan
 | **Coverage** | Critical paths only | Key user flows | Comprehensive |
 | **Time Investment** | 1-2 days | 2-3 days | 3-5 days |
 | **Maintenance** | Minimal | Moderate | Ongoing |
-| **Tools** | Browser DevTools | Playwright, axe-core | Playwright, Vitest 4.1.1, Percy |
+| **Tools** | Browser DevTools | Playwright, axe-core | Playwright, Vitest (Container API), Stryker |
 | **CI Integration** | Basic checks | E2E on critical paths | Full test suite |
 
 ## Essential Testing
@@ -93,16 +93,16 @@ Critical Paths:
 
 ### 3. Quick Regression Tests
 
-Before each deployment:
+Before each deployment, run a quick smoke test script (guide-authored — save it as `scripts/smoke-test.sh` and invoke it with `bash scripts/smoke-test.sh`; it is not a package script):
 
 ```bash
-# Quick smoke test script
 #!/bin/bash
+# scripts/smoke-test.sh
 
 echo "Running smoke tests..."
 
 # Build the site
-npm run build || exit 1
+pnpm run build || exit 1
 
 # Check for build errors
 if [ -d "dist" ]; then
@@ -119,7 +119,7 @@ critical_files=(
   "dist/contact/index.html"
   "dist/404.html"
   "dist/robots.txt"
-  "dist/sitemap.xml"
+  "dist/sitemap-index.xml"
 )
 
 for file in "${critical_files[@]}"; do
@@ -142,25 +142,62 @@ Implement automated testing with continuous integration to catch regressions ear
 
 ### 1. Testing Stack
 
-```json
-{
-  "devDependencies": {
-    "@playwright/test": "1.58.2",
-    "vitest": "4.1.1",
-    "@vitest/ui": "4.1.1",
-    "@percy/playwright": "^1.0.0",
-    "axe-playwright": "^1.2.0",
-    "@testing-library/preact": "^3.0.0"
-  }
-}
-```
+The starter ships its testing stack — `package.json` is the source of truth and every pinned version is published in `versions.json`, so this guide names packages, not numbers:
+
+| Layer | Package(s) | Where it runs |
+|-------|------------|---------------|
+| Unit + component microtests | `vitest`, `@vitest/coverage-v8`, `jsdom`, Astro's Container API (`astro/container`, [ADR-040](/adr/040-container-api-for-component-microtests/)) | `pnpm run test:unit`, pre-push hook, CI (`quality:ci`, `test:coverage`) |
+| End-to-end | `@playwright/test` | `pnpm run test:e2e`, CI (Chromium project) |
+| Accessibility engine | `@axe-core/playwright` (a **devDependency**, not optional) | `pnpm run test:a11y`, CI via the e2e run |
+| Mutation testing | `@stryker-mutator/core`, `@stryker-mutator/vitest-runner` ([ADR-042](/adr/042-mutation-testing-with-stryker/)) | `pnpm run test:mutate`, scheduled `mutation.yml` |
+| Performance | `@lhci/cli`, `lighthouse` | `pnpm run perf:lhci`, `lighthouse.yml` |
+
+Not shipped, by design: no `@testing-library/preact` (`.astro` components cannot be rendered by it — the Container API covers them, and the two Preact islands are exercised through Playwright), and no Percy or other snapshot service (see [Visual Regression Testing](#4-visual-regression-testing)).
 
 ### 2. E2E Testing with Playwright
 
-#### Basic Test Structure
+#### Configuration (shipped)
+
+`playwright.config.ts` defines three desktop browser projects from Playwright's `devices` presets, points `testDir` at `e2e/`, and starts `astro preview` for you:
 
 ```typescript
-// tests/e2e/navigation.spec.ts
+// playwright.config.ts (shipped)
+import { defineConfig, devices } from "@playwright/test";
+
+export default defineConfig({
+  testDir: "./e2e",
+  fullyParallel: true,
+  forbidOnly: !!process.env.CI,
+  retries: process.env.CI ? 2 : 0,
+  workers: process.env.CI ? 1 : undefined,
+  reporter: "html",
+  use: {
+    baseURL: "http://localhost:4321",
+    trace: "on-first-retry",
+  },
+
+  projects: [
+    { name: "chromium", use: { ...devices["Desktop Chrome"] } },
+    { name: "firefox", use: { ...devices["Desktop Firefox"] } },
+    { name: "webkit", use: { ...devices["Desktop Safari"] } },
+  ],
+
+  webServer: {
+    command: "pnpm run preview",
+    url: "http://localhost:4321",
+    reuseExistingServer: !process.env.CI,
+  },
+});
+```
+
+Run `pnpm run build` first (preview serves `dist/`). CI runs only the `chromium` project (`pnpm exec playwright test --project=chromium`); run `pnpm run test:e2e` locally for all three. Because `trailingSlash: "always"` is set in `astro.config.mjs`, assert on `/about/`, not `/about`.
+
+#### Basic Test Structure
+
+The shipped page specs (`e2e/index.spec.ts`, `about.spec.ts`, `header.spec.ts`, …) are the reference; this example is illustrative and uses the real selectors from `Header.astro`:
+
+```typescript
+// e2e/navigation.spec.ts (illustrative)
 import { test, expect } from '@playwright/test';
 
 test.describe('Navigation', () => {
@@ -169,70 +206,65 @@ test.describe('Navigation', () => {
   });
 
   test('should navigate to all main pages', async ({ page }) => {
-    // Test navigation to About
-    await page.click('text=About');
-    await expect(page).toHaveURL('/about');
-    await expect(page.locator('h1')).toContainText('About');
+    const nav = page.getByRole('navigation', { name: 'Main navigation' });
 
-    // Test navigation to Projects
-    await page.click('text=Projects');
-    await expect(page).toHaveURL('/projects');
-    await expect(page.locator('h1')).toContainText('Projects');
+    await nav.getByRole('link', { name: 'About' }).click();
+    await expect(page).toHaveURL(/\/about\/$/);
+    await expect(page.locator('h1')).toBeVisible();
 
-    // Test navigation to Contact
-    await page.click('text=Contact');
-    await expect(page).toHaveURL('/contact');
-    await expect(page.locator('h1')).toContainText('Contact');
+    await nav.getByRole('link', { name: 'Projects' }).click();
+    await expect(page).toHaveURL(/\/projects\/$/);
+
+    await nav.getByRole('link', { name: 'Contact' }).click();
+    await expect(page).toHaveURL(/\/contact\/$/);
   });
 
   test('mobile menu should work', async ({ page }) => {
-    // Set mobile viewport
-    await page.setViewportSize({ width: 375, height: 667 });
+    // Header switches to the sandwich menu below lg (1024px)
+    await page.setViewportSize({ width: 390, height: 844 });
     
-    // Open mobile menu
-    await page.click('[aria-label="Open menu"]');
-    await expect(page.locator('nav[aria-label="Mobile navigation"]')).toBeVisible();
+    // Open mobile menu (label button marked data-mobile-menu-button in Header.astro)
+    await page.locator('[data-mobile-menu-button]').click();
+    await expect(page.locator('#mobile-menu')).toBeVisible();
     
     // Navigate via mobile menu
-    await page.click('nav[aria-label="Mobile navigation"] >> text=About');
-    await expect(page).toHaveURL('/about');
+    await page.locator('#mobile-menu').getByRole('link', { name: 'About' }).click();
+    await expect(page).toHaveURL(/\/about\/$/);
   });
 });
 ```
 
 #### Form Testing
 
+The shipped `e2e/contact.spec.ts` covers the contact page; the form itself works without JavaScript and is progressively enhanced by `ContactFormScript.ts` ([ADR-021](/adr/021-contact-form-progressive-enhancement/)). Selectors below are the real BEM classes from `src/components/molecules/ContactForm.astro`:
+
 ```typescript
-// tests/e2e/contact-form.spec.ts
+// e2e/contact-form.spec.ts (illustrative)
 import { test, expect } from '@playwright/test';
 
 test.describe('Contact Form', () => {
-  test('should submit successfully with valid data', async ({ page }) => {
-    await page.goto('/contact');
+  test('should show inline validation errors', async ({ page }) => {
+    await page.goto('/contact/');
     
-    // Fill form
-    await page.fill('[name="name"]', 'Test User');
-    await page.fill('[name="email"]', 'test@example.com');
-    await page.fill('[name="message"]', 'This is a test message');
+    // Submit empty form — the script adds `novalidate` and renders inline errors
+    await page.click('.contact-form__submit');
     
-    // Submit
-    await page.click('button[type="submit"]');
-    
-    // Check success message
-    await expect(page.locator('.success-message')).toBeVisible();
-    await expect(page.locator('.success-message')).toContainText('Thank you');
+    // Each field has an aria-live error container: #name-error, #email-error, …
+    await expect(page.locator('#name-error')).not.toBeEmpty();
+    await expect(page.locator('#email-error')).not.toBeEmpty();
+    await expect(page.locator('#message-error')).not.toBeEmpty();
   });
 
-  test('should show validation errors', async ({ page }) => {
-    await page.goto('/contact');
+  test('should announce success after submission', async ({ page }) => {
+    await page.goto('/contact/');
     
-    // Submit empty form
-    await page.click('button[type="submit"]');
+    await page.fill('#contact-name', 'Test User');
+    await page.fill('#contact-email', 'test@example.com');
+    await page.fill('#contact-message', 'This is a test message');
+    await page.click('.contact-form__submit');
     
-    // Check error messages
-    await expect(page.locator('[data-error="name"]')).toContainText('Required');
-    await expect(page.locator('[data-error="email"]')).toContainText('Required');
-    await expect(page.locator('[data-error="message"]')).toContainText('Required');
+    // The status region (role="status") reveals the success message
+    await expect(page.locator('.contact-form__success')).toBeVisible();
   });
 });
 ```
@@ -240,7 +272,7 @@ test.describe('Contact Form', () => {
 #### Performance Testing
 
 ```typescript
-// tests/e2e/performance.spec.ts
+// e2e/performance.spec.ts (illustrative — budgets are enforced by Lighthouse CI and perf:budgets, not by Playwright)
 import { test, expect } from '@playwright/test';
 
 test.describe('Performance', () => {
@@ -286,22 +318,33 @@ test.describe('Performance', () => {
 
 ### 3. Accessibility Testing
 
+The shipped engine sweep is `e2e/a11y-axe.spec.ts`: it scans `/`, `/about/`, `/blog/`, `/projects/`, `/contact/`, `/how-it-works/` and `/showcase/` against the WCAG 2.1 A/AA rulesets under `reducedMotion: "reduce"`, and fails on any **serious** or **critical** violation. Its titles carry the `@a11y` tag, as do the structural checks (landmarks, heading order) in the page specs, so `pnpm run test:a11y` (`playwright test --grep="@a11y"`) runs the whole accessibility slice.
+
 ```typescript
-// tests/e2e/accessibility.spec.ts
+// e2e/a11y-axe.spec.ts (shipped — per-page loop trimmed)
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
+
+test(`@a11y / has no serious or critical axe violations`, async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/");
+  const results = await new AxeBuilder({ page })
+    .withTags(["wcag2a", "wcag2aa"])
+    .analyze();
+  const blocking = results.violations.filter((v) =>
+    ["serious", "critical"].includes(v.impact ?? ""),
+  );
+  expect(blocking).toEqual([]);
+});
+```
+
+Hand-written checks in the same spirit (illustrative):
+
+```typescript
+// e2e/accessibility.spec.ts (illustrative)
 import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
 
 test.describe('Accessibility', () => {
-  test('should have no accessibility violations on homepage', async ({ page }) => {
-    await page.goto('/');
-    
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa'])
-      .analyze();
-    
-    expect(accessibilityScanResults.violations).toEqual([]);
-  });
-
   test('should be keyboard navigable', async ({ page }) => {
     await page.goto('/');
     
@@ -342,298 +385,246 @@ test.describe('Accessibility', () => {
 
 ### 4. Visual Regression Testing
 
-```typescript
-// playwright.config.ts
-import { defineConfig } from '@playwright/test';
-
-export default defineConfig({
-  use: {
-    // Percy integration
-    percy: {
-      enable: true,
-    },
-  },
-  
-  projects: [
-    {
-      name: 'Desktop Chrome',
-      use: {
-        browserName: 'chromium',
-        viewport: { width: 1920, height: 1080 },
-      },
-    },
-    {
-      name: 'Mobile Safari',
-      use: {
-        browserName: 'webkit',
-        viewport: { width: 375, height: 667 },
-      },
-    },
-  ],
-});
-```
+**Not shipped.** The starter has no visual-regression suite — there is no `toHaveScreenshot` call and no snapshot service anywhere in the repo. The `/showcase` living style guide ([ADR-049](/adr/049-showcase-living-style-guide/)) is the manual review surface. If your component churn justifies automating it, Playwright's built-in screenshot assertions need no external service or extra dependency:
 
 ```typescript
-// tests/e2e/visual.spec.ts
-import { test } from '@playwright/test';
-import percySnapshot from '@percy/playwright';
+// e2e/visual.spec.ts (illustrative — add only if you want snapshot baselines committed)
+import { test, expect } from '@playwright/test';
 
 test.describe('Visual Regression', () => {
   test('homepage should match visual snapshot', async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: 'reduce' }); // settle ADR-048 animations
     await page.goto('/');
-    await page.waitForLoadState('networkidle');
-    await percySnapshot(page, 'Homepage');
+    await expect(page).toHaveScreenshot('homepage.png', { fullPage: true });
   });
 
-  test('dark mode should match visual snapshot', async ({ page }) => {
+  test('light theme should match visual snapshot', async ({ page }) => {
+    // The site is dark-first (ADR-032); an explicit stored preference wins
+    await page.addInitScript(() => localStorage.setItem('theme', 'light'));
     await page.goto('/');
-    await page.click('[aria-label="Toggle dark mode"]');
-    await page.waitForTimeout(300); // Wait for transition
-    await percySnapshot(page, 'Homepage - Dark Mode');
+    await expect(page).toHaveScreenshot('homepage-light.png', { fullPage: true });
   });
 });
 ```
 
 ### 5. Component Testing
 
+`.astro` components render on the server, so they cannot be mounted with `@testing-library/preact` (not installed). The starter tests them through Astro's Container API ([ADR-040](/adr/040-container-api-for-component-microtests/)) via the shared helper `src/components/__tests__/_helpers/container.ts` — the only file that imports `experimental_AstroContainer`, so an upstream API change means one edit. Tests sit beside the component in `__tests__/` and run in Vitest's `node` environment:
+
 ```typescript
-// tests/unit/Button.test.tsx
-import { render, fireEvent } from '@testing-library/preact';
-import { expect, test } from 'vitest';
-import Button from '../../src/components/atoms/Button';
+// src/components/atoms/__tests__/Button.test.ts (shipped — excerpt)
+// @vitest-environment node
+// Astro container renders components on the server — needs node, not jsdom.
 
-test('Button renders with correct text', () => {
-  const { getByText } = render(<Button>Click me</Button>);
-  expect(getByText('Click me')).toBeTruthy();
-});
+import { describe, expect, it } from "vitest";
+import { render } from "../../__tests__/_helpers/container";
+import Button from "../Button.astro";
 
-test('Button handles click events', () => {
-  const handleClick = vi.fn();
-  const { getByText } = render(
-    <Button onClick={handleClick}>Click me</Button>
-  );
-  
-  fireEvent.click(getByText('Click me'));
-  expect(handleClick).toHaveBeenCalledTimes(1);
-});
+const renderButton = (props: Record<string, unknown> = {}, slot = "Click me") =>
+  render(Button, props, { default: slot });
 
-test('Button applies variant classes', () => {
-  const { container } = render(
-    <Button variant="secondary">Secondary</Button>
-  );
-  
-  const button = container.querySelector('button');
-  expect(button?.className).toContain('btn-secondary');
+describe("Button (atom)", () => {
+  it("renders a <button> by default", async () => {
+    const html = await renderButton();
+    expect(html).toMatch(/<button[^>]*type="button"/);
+    expect(html).not.toMatch(/<a /);
+  });
+
+  it("renders an <a> when href is provided", async () => {
+    const html = await renderButton({ href: "/about" });
+    expect(html).toMatch(/<a [^>]*href="\/about"/);
+  });
+
+  it("applies secondary variant classes", async () => {
+    const html = await renderButton({ variant: "secondary" });
+    expect(html).toContain("bg-surface");
+    expect(html).toContain("border-border-emphasis");
+  });
 });
 ```
 
-### 6. Integration Testing
+Pure logic in `src/utils/` is tested directly — this is the layer the coverage thresholds apply to:
 
 ```typescript
-// tests/integration/content-collections.test.ts
-import { expect, test } from 'vitest';
-import { getCollection } from 'astro:content';
+// src/utils/__tests__/formatDate.test.ts (shipped — excerpt)
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { formatDateFull } from "../formatDate";
 
-test('all blog posts have required fields', async () => {
-  const posts = await getCollection('blog');
-  
-  posts.forEach(post => {
-    expect(post.data.title).toBeTruthy();
-    expect(post.data.description).toBeTruthy();
-    expect(post.data.date).toBeInstanceOf(Date);
-    expect(post.data.draft).toBe(false);
+describe("formatDate utilities", () => {
+  // Freeze the clock (ADR-037 Rule 3: deterministic fixtures)
+  beforeEach(() => {
+    vi.useFakeTimers({ now: new Date("2026-03-15T12:00:00.000Z") });
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
+  it("formats a valid date in full format", () => {
+    expect(formatDateFull(new Date("2024-03-15T10:30:00Z"))).toBe("March 15, 2024");
+  });
+
+  it("returns null for invalid date", () => {
+    expect(formatDateFull("invalid-date")).toBeNull();
   });
 });
+```
 
-test('no draft content in production build', async () => {
-  const posts = await getCollection('blog');
-  const drafts = posts.filter(post => post.data.draft);
-  
-  expect(drafts).toHaveLength(0);
+The two Preact islands (`src/components/islands/*.tsx`) are exercised through Playwright on `/showcase`. If you want DOM-level unit tests for an island, add `@testing-library/preact` yourself (it is not part of the stack) and run those files under the default `jsdom` environment.
+
+### 6. Content Integrity Checks
+
+`astro:content` is a virtual module, so `vitest.config.ts` aliases it to the stub in `src/__mocks__/astro-content.ts` — unit tests that import `getCollection()` get a fixture dataset controlled by the stub's `setMockCollection()` / `resetMockCollection()` exports, which is how `src/utils/__tests__/blog.test.ts` covers `getPublishedPosts()` and `getFeaturedPosts()` with the fixtures in `tests/fixtures/posts.ts`. Schema validation of the real content is a **build** concern: `pnpm run build` (and `pnpm run check`) fail on any entry that violates `src/content.config.ts`, so a "no drafts in production" rule belongs in the page query (`data.draft !== true`, see `src/utils/blog.ts`) plus an e2e assertion, not in Vitest:
+
+```typescript
+// src/utils/__tests__/blog.test.ts (shipped — excerpt)
+import { sortPostsByDate } from "@utils/blog";
+import { describe, expect, it } from "vitest";
+
+// Build a minimal post shape — only the fields sortPostsByDate accesses.
+const makePost = (date: Date, title = "Test Post") =>
+  ({
+    data: { date, draft: false as const, title },
+  }) as unknown as Parameters<typeof sortPostsByDate>[0][number];
+
+describe("sortPostsByDate", () => {
+  it("sorts posts by date in descending order (newest first)", () => {
+    const posts = [
+      makePost(new Date("2024-01-01")),
+      makePost(new Date("2024-03-01")),
+      makePost(new Date("2024-02-01")),
+    ];
+
+    const sorted = sortPostsByDate(posts);
+
+    expect(sorted[0].data.date).toEqual(new Date("2024-03-01"));
+    expect(sorted[1].data.date).toEqual(new Date("2024-02-01"));
+    expect(sorted[2].data.date).toEqual(new Date("2024-01-01"));
+  });
+
+  it("handles empty array", () => {
+    expect(sortPostsByDate([])).toEqual([]);
+  });
 });
+```
+
+### 7. Mutation Testing (Advanced)
+
+Coverage says a line ran; mutation testing says a test would notice if it broke. Stryker is wired up ([ADR-042](/adr/042-mutation-testing-with-stryker/)) with the same scope as coverage — `src/utils/**/*.ts` — and a `break` threshold of 50% (`stryker.conf.json`). It is slow, so it runs on a schedule in `mutation.yml` rather than on every PR:
+
+```bash
+pnpm run test:mutate   # SITE_URL=http://localhost:4321 stryker run
 ```
 
 ## CI/CD Integration
 
-### GitHub Actions — Essential
+The starter ships its CI, so there is nothing to author per tier — you *remove* steps if you scope down, you do not add them. Every gate is halt-on-violation ([ADR-039](/adr/039-halt-on-violation-enforcement/)).
 
-> **Note:** The CI workflows below reference scripts like `test:smoke` that are proposed additions to `package.json`. Add them as you implement each testing tier. The project ships with `check:types`, `test:unit`, `test:e2e`, and `test:a11y` — see the Test Scripts section below for the full proposed set.
-
-```yaml
-# .github/workflows/test-essential.yml
-name: Essential Tests
-
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: 'pnpm'
-          
-      - run: pnpm install
-      
-      - name: Type Check
-        run: pnpm run check:types
-
-      - name: Lint
-        run: pnpm run lint
-
-      - name: Build
-        run: pnpm run build
-
-      - name: Smoke Tests
-        run: pnpm run test:smoke
-        
-      - name: Lighthouse CI
-        uses: treosh/lighthouse-ci-action@v10
-        with:
-          urls: |
-            http://localhost:4321
-            http://localhost:4321/about
-            http://localhost:4321/contact
-          uploadArtifacts: true
-          temporaryPublicStorage: true
-```
-
-### GitHub Actions — Advanced
-
-> **Note:** This workflow references proposed scripts (`test:visual`, `test:perf`) not yet in `package.json`. See the Test Scripts section below for definitions to add when implementing Advanced testing.
+### `ci.yml` (shipped — step list)
 
 ```yaml
-# .github/workflows/test-advanced.yml
-name: Advanced Tests
+# .github/workflows/ci.yml — build-test job, in order (setup steps omitted)
+- name: Lint, format & type-check
+  run: pnpm run quality:ci            # format:check, lint, lint:md, astro check, test:unit, agents:check, version:check, og:check, docs:count
 
-on: [push, pull_request]
+- name: ADR enforcement suite (ADR-064, warn-only launch)
+  run: pnpm run enforce
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        browser: [chromium, firefox, webkit]
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-          
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-          cache: 'pnpm'
-          
-      - run: pnpm install
-      
-      - name: Install Playwright 1.58.2 Browsers
-        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
-        
-      - name: Type Check
-        run: pnpm run check:types
+- name: Unit tests with coverage
+  run: pnpm run test:coverage         # vitest.config.ts thresholds: 90 lines / 95 functions / 90 branches on src/utils/**
 
-      - name: Lint
-        run: pnpm run lint
+- name: Upload coverage report
+  if: always()
+  uses: actions/upload-artifact@v7
 
-      - name: Unit Tests
-        run: pnpm run test:unit
-        
-      - name: Build
-        run: pnpm run build
-        
-      - name: E2E Tests
-        run: pnpm run test:e2e --project="${{ matrix.browser }}"
-        
-      - name: Upload Test Results
-        if: always()
-        uses: actions/upload-artifact@v3
-        with:
-          name: test-results-${{ matrix.browser }}
-          path: test-results/
-          
-      - name: Visual Tests
-        if: matrix.browser == 'chromium'
-        run: pnpm run test:visual
-        env:
-          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
-          
-      - name: Accessibility Tests
-        if: matrix.browser == 'chromium'
-        run: pnpm run test:a11y
-        
-      - name: Performance Tests
-        if: matrix.browser == 'chromium'
-        run: pnpm run test:perf
+- name: Validate budget overrides
+  run: pnpm run budgets:validate
+
+- name: Validate semantic color contrast
+  run: pnpm run design:validate
+
+- name: Build site
+  run: pnpm run build
+
+- name: Enforce JS bundle size budget     # inline: total raw JS in dist/_astro ≤ 160KB
+- name: Enforce raw-size budgets — budgets.json (with budget-overrides applied)
+  run: pnpm run perf:budgets
+- name: Enforce per-image size budget — source (ADR-057)
+  run: pnpm run images:gate
+- name: Enforce per-image size budget — build output (ADR-057)
+  run: IMAGE_GATE_ROOTS=dist pnpm run images:gate
+- name: Enforce font preload budget (ADR-058)
+  run: pnpm run fonts:gate
+
+- name: Run E2E tests (Chromium)
+  run: pnpm exec playwright test --project=chromium   # includes the @a11y axe sweep
+
+- name: Security audit (high severity)
+  run: pnpm run audit:ci
+- name: Trivy SBOM scan
 ```
+
+Two further jobs in the same workflow run Semgrep SAST and gitleaks secret scanning in their official containers ([ADR-046](/adr/046-security-scanning-pipeline/)).
+
+### Companion workflows
+
+| Workflow | Trigger | What it gates |
+|----------|---------|---------------|
+| `lighthouse.yml` | push / PR | `lhci autorun` against `lighthouserc.json` **and** `lighthouserc.mobile.json` — floors of 0.90 performance, 0.95 accessibility, 0.95 best-practices, 0.90 SEO |
+| `mutation.yml` | schedule | `pnpm run test:mutate` (Stryker, `src/utils`) |
+| `link-check.yml` | schedule | markdown-link-check over the docs |
+
+Locally, `.husky/pre-push` runs `pnpm run test:unit` before every push so unit failures surface before CI.
 
 ## Test Organization
 
 ### Directory Structure
 
+Playwright specs live in `e2e/` at the repo root (`playwright.config.ts` sets `testDir: "./e2e"`); unit tests live in `__tests__/` directories beside the code they cover, and Vitest excludes `e2e/`:
+
 ```bash
+e2e/                          # Playwright end-to-end + a11y specs (10)
+├── a11y-axe.spec.ts          # axe-core WCAG 2.1 A/AA sweep over the key pages
+├── about.spec.ts
+├── blog.spec.ts
+├── contact.spec.ts
+├── docs-adr.spec.ts
+├── header.spec.ts
+├── how-it-works.spec.ts
+├── index.spec.ts
+├── showcase.spec.ts
+└── theme.spec.ts
+src/
+├── __mocks__/astro-content.ts    # astro:content stub aliased in vitest.config.ts
+├── __tests__/                    # Design-token, contrast and policy unit tests
+├── components/**/__tests__/      # Container API component microtests (ADR-040)
+│   └── _helpers/container.ts     # The one place experimental_AstroContainer is imported
+├── scripts/__tests__/            # featureCardSync
+└── utils/__tests__/              # Pure-logic unit tests (coverage-gated)
+scripts/src/__tests__/            # Build/tooling script unit tests + fixtures/
 tests/
-├── e2e/                    # End-to-end tests
-│   ├── navigation.spec.ts
-│   ├── forms.spec.ts
-│   ├── performance.spec.ts
-│   ├── accessibility.spec.ts
-│   └── visual.spec.ts
-├── integration/            # Integration tests
-│   ├── content.test.ts
-│   ├── api.test.ts
-│   └── build.test.ts
-├── unit/                   # Unit tests
-│   ├── components/
-│   │   ├── Button.test.tsx
-│   │   └── Card.test.tsx
-│   └── utils/
-│       ├── dates.test.ts
-│       └── strings.test.ts
-├── fixtures/               # Test data
-│   ├── images/
-│   └── content/
-└── helpers/                # Test utilities
-    ├── setup.ts
-    └── utils.ts
+└── fixtures/                     # Shared test data (posts.ts, tokens.ts)
 ```
 
 ### Test Scripts
 
-> **Note:** The scripts below are proposed additions to `package.json` for a comprehensive testing setup. The project currently ships with `test:unit`, `test:e2e`, and `test:a11y`. Add the others as you implement each testing tier.
+These are the test scripts the starter ships in `package.json` (the `SITE_URL` prefix satisfies `env:validate`):
 
 ```json
 {
   "scripts": {
-    // Essential Scripts (proposed)
-    "test:smoke": "./scripts/smoke-test.sh",
-    "test:manual": "echo 'Follow manual testing checklist'",
-
-    // Advanced Scripts (some proposed, some existing)
-    "test": "vitest",
-    "test:unit": "vitest run tests/unit",
-    "test:integration": "vitest run tests/integration",
+    "test": "SITE_URL=http://localhost:4321 vitest",
+    "test:unit": "SITE_URL=http://localhost:4321 vitest run",
+    "test:coverage": "SITE_URL=http://localhost:4321 vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:visual": "percy exec -- playwright test tests/e2e/visual.spec.ts",
-    "test:a11y": "playwright test tests/e2e/accessibility.spec.ts",
-    "test:perf": "playwright test tests/e2e/performance.spec.ts",
-    "test:watch": "vitest watch",
-    "test:coverage": "vitest run --coverage",
-    "test:all": "pnpm run test:unit && pnpm run test:integration && pnpm run test:e2e"
+    "test:a11y": "playwright test --grep=\"@a11y\"",
+    "test:mutate": "SITE_URL=http://localhost:4321 stryker run"
   }
 }
 ```
+
+`test:a11y` selects every Playwright test whose title contains `@a11y`; `test:unit` runs the whole Vitest suite (utils, scripts, component microtests, token tests). The smoke script above is guide-authored — invoke it directly with `bash scripts/smoke-test.sh`.
 
 ## Testing Best Practices
 
@@ -654,7 +645,7 @@ test('performance')
 ### 2. Test Data Management
 
 ```typescript
-// tests/fixtures/test-data.ts
+// tests/fixtures/test-data.ts (illustrative — the shipped fixtures are tests/fixtures/posts.ts and tokens.ts)
 export const testUsers = {
   valid: {
     name: 'Test User',
@@ -718,7 +709,7 @@ export async function measurePageLoad(page: Page, url: string) {
     fcp: 0,
     lcp: 0,
     cls: 0,
-    fid: 0
+    inp: 0
   };
   
   await page.goto(url, { waitUntil: 'networkidle' });
@@ -771,7 +762,7 @@ export default defineConfig({
 
 ```bash
 # Run specific test in debug mode
-pnpm run test:e2e --debug tests/e2e/contact-form.spec.ts
+pnpm run test:e2e --debug e2e/contact.spec.ts
 
 # Run with UI mode for better debugging
 pnpm run test:e2e:ui
@@ -885,13 +876,13 @@ Keep tests fast by:
 
 ### Coverage Goals
 
-| Metric | Essential | Advanced |
+| Metric | Essential | Advanced (what the starter enforces) |
 |--------|-----|----------|
-| **Critical Paths** | 100% manual | 100% automated |
-| **Code Coverage** | N/A | 80%+ |
-| **Visual Coverage** | Manual review | Automated snapshots |
-| **A11y Coverage** | Basic manual | Automated WCAG AA |
-| **Performance** | Manual Lighthouse | Automated budgets |
+| **Critical Paths** | 100% manual | 100% automated (`e2e/`, Chromium in CI) |
+| **Code Coverage** | N/A | `src/utils/**` only: 90% lines / 95% functions / 90% branches (`vitest.config.ts` thresholds, run by `test:coverage` in CI); mutation score ≥ 50% via Stryker on a schedule |
+| **Visual Coverage** | Manual review | Manual `/showcase` review — no automated snapshots ship |
+| **A11y Coverage** | Basic manual | Automated WCAG 2.1 A/AA via axe (`e2e/a11y-axe.spec.ts`) + Lighthouse accessibility ≥ 0.95 |
+| **Performance** | Manual Lighthouse | Automated budgets (`budgets.json`, image/font gates) + Lighthouse CI desktop and mobile |
 
 ### Test Reports
 

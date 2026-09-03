@@ -1,6 +1,6 @@
 ---
 title: Maintaining AI Context
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: Guidelines for keeping AI context documents accurate and helpful
 tableOfContents: true
 pagefind: true
@@ -12,8 +12,8 @@ pagefind: true
 ### Immediate Updates Required
 
 1. **Phase Completion**
-   - Check off completed phase in INDEX.md
-   - Update "Active Phase" section
+   - Move the phase guide to `docs/implementation-guides/completed/` (or add `status: complete` to its frontmatter) and run `pnpm roadmap:update` so the roadmap checklist in `docs/README.md` is regenerated
+   - Bump `current_phase` in the INDEX.md frontmatter
    - Add any new patterns discovered
    - Document unexpected challenges
 
@@ -36,7 +36,7 @@ pagefind: true
    - Add migration notes
 
 5. **Dependency Updates**
-   - Update version numbers in tech-stack.md
+   - `versions.json` is the public version contract (ADR-061); `pnpm version:check` fails CI when it drifts from `package.json`, and `pnpm version:fix` rewrites it
    - Document breaking changes
    - Update installation commands
    - Test all examples still work
@@ -47,9 +47,10 @@ pagefind: true
 
 ```bash
 # After completing Phase 5
-1. Open ai-context/INDEX.md
-2. Check the Phase 5 box: [x] Phase 5: Components
-3. Update Active Phase to Phase 6
+1. Move docs/implementation-guides/active-phases/phase-5-components.md to completed/
+   (or add `status: complete` to its frontmatter)
+2. Run: pnpm roadmap:update   # regenerates the checklist in docs/README.md
+3. Set current_phase: 6 in docs/ai-context/INDEX.md frontmatter
 4. Add any new constraints discovered
 5. Commit with message: "docs: complete phase 5, update AI context"
 ```
@@ -83,11 +84,10 @@ pagefind: true
 
 ```bash
 # When metrics change
-1. Run fresh Lighthouse audit
-2. Update baseline in perf-baseline/
-3. Modify budgets if needed (with ADR)
-4. Update monitoring thresholds
-5. Document impact on development
+1. Run: pnpm perf:baseline   # writes performance-baseline.json (not committed)
+2. Compare against budgets.json; raise or lower a budget only with an ADR
+3. Adjust lighthouserc.json / lighthouserc.mobile.json floors if the ADR says so
+4. Document impact on development
 ```
 
 ## Context Validation
@@ -161,11 +161,11 @@ pagefind: true
 # Auto-update context on certain commits
 
 # Check if committing to main
-if [ "$(git branch --show-current)" = "main" ]; then
+if [ "$(git branch --show-current)" = "master" ]; then
   # Check for phase completion markers
   if git diff HEAD^ HEAD --name-only | grep -q "phase-.*-complete"; then
     echo "Phase completed! Remember to update AI context"
-    echo "Run: pnpm agents:build"
+    echo "Bump current_phase in docs/ai-context/INDEX.md and run: pnpm roadmap:update"
   fi
 fi
 ```

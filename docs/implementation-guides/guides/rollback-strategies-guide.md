@@ -34,7 +34,7 @@ These phases involve fundamental decisions that are expensive to change.
 
 ```bash
 # Detection
-npm run build # Fails with compatibility errors
+pnpm run build # Fails with compatibility errors
 
 # Rollback Steps
 1. Identify last working version
@@ -66,12 +66,13 @@ tsc --noEmit # Shows numerous type errors
 1. Restore previous config
    git checkout HEAD~1 -- tsconfig.json
    
-2. If schema issues, restore types
-   git checkout HEAD~1 -- src/env.d.ts
-   git checkout HEAD~1 -- src/content.config.ts
+2. If schema issues, restore the checked-in types and the schema
+   git checkout HEAD~1 -- src/types/ src/content.config.ts
+   # There is no src/env.d.ts in this starter: the generated declarations
+   # live in .astro/env.d.ts (git-ignored) and are rebuilt by `astro sync`.
    
 3. Regenerate types
-   pnpm run astro sync
+   pnpm astro sync
    
 4. Gradual re-implementation
    - Enable strict mode incrementally
@@ -119,11 +120,11 @@ Layout and component changes that affect the entire site.
 
 #### Issue: Component Library Breaking Changes
 
-```typescript
-// Implement backwards compatibility
-// src/components/Button.astro
+```astro
 ---
-// Support both old and new props
+// src/components/atoms/Button.astro (illustrative — the shipped Button has
+// variant/size/href/disabled props; adapt the pattern to your own component)
+// Implement backwards compatibility: support both old and new props
 export interface Props {
   // New prop
   variant?: 'primary' | 'secondary' | 'danger';
@@ -220,19 +221,19 @@ Testing and performance issues.
 
 #### Issue: Test Suite Blocking Deployment
 
+Quality gates are halt-on-violation (ADR-039) — do not bypass them with `continue-on-error`. If the test suite blocks deployment, revert the offending commit and let the gates fail the build while you fix the tests. The shipped `ci.yml` already uploads the coverage report with `if: always()`; do the same for Playwright output if you need the artefacts:
+
 ```yaml
-# Temporary bypass while fixing
-# .github/workflows/ci.yml
+# .github/workflows/ci.yml (excerpt pattern)
 jobs:
-  test:
-    continue-on-error: true # Temporary!
+  build-test:
     steps:
-      - name: Run tests
-        run: pnpm test
+      - name: Run E2E tests (Chromium)
+        run: pnpm exec playwright test --project=chromium
         
       - name: Upload failure logs
         if: failure()
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v7
         with:
           name: test-failures
           path: test-results/
@@ -240,12 +241,14 @@ jobs:
 
 #### Issue: Performance Regression
 
-```typescript
-// Feature flag approach
-// src/components/HeavyComponent.astro
+```astro
 ---
+// src/components/HeavyComponent.astro (illustrative)
+// Feature flag approach. PUBLIC_* variables are schema-validated via
+// astro:env (ADR-050) — add the flag to the env schema in astro.config.mjs.
 const enableNewFeature = import.meta.env.PUBLIC_ENABLE_HEAVY_FEATURE === 'true';
 ---
+
 {enableNewFeature ? (
   <NewHeavyComponent />
 ) : (
@@ -293,16 +296,17 @@ netlify rollback
 
 #### Issue: Production Error Spike
 
-```typescript
-// Emergency error boundary
-// src/layouts/ErrorBoundary.astro
+```astro
 ---
+// src/layouts/ErrorBoundary.astro (illustrative — not shipped)
+// Emergency error boundary
 export interface Props {
   fallback?: string;
 }
 
 const { fallback = '/maintenance' } = Astro.props;
 ---
+
 <script define:vars={{ fallback }}>
   window.addEventListener('error', (event) => {
     // Log to monitoring
@@ -327,7 +331,8 @@ const { fallback = '/maintenance' } = Astro.props;
 ### 1. Build Pipeline Rollback
 
 ```yaml
-# .github/workflows/deploy.yml
+# Illustrative — the shipped deploy.yml is a plain GitHub Pages deploy without
+# automatic rollback. Adapt this pattern if your host exposes deployment IDs.
 name: Deploy with Automatic Rollback
 
 on:
@@ -338,7 +343,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       
       - name: Get previous deployment ID
         id: previous
@@ -503,6 +508,7 @@ git gc --aggressive --prune=now
 // src/pages/maintenance.astro
 // Deploy this as index.astro in emergencies
 ---
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

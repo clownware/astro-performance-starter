@@ -1,6 +1,6 @@
 ---
-title: Project Management Prompt Templates
-lastUpdated: 2025-06-10T00:00:00.000Z
+title: Project Management Prompts
+lastUpdated: true
 description: Copy-paste prompts for documentation, troubleshooting, and project maintenance
 tableOfContents: true
 pagefind: true
@@ -22,22 +22,22 @@ Debug Astro build error:
 - Verify content collections schema
 - Check for circular dependencies
 
-Reference our tooling setup in phase-3-tooling.md
+Reference our tooling setup in /implementation-guides/completed/phase-3-tooling/
 ```
 
 ### Performance Regression
 
 ```text
 Investigate performance regression:
-- Metric that regressed: [LCP, FID, CLS, etc.]
+- Metric that regressed: [LCP, INP, CLS, etc.]
 - When it started: [commit/date]
 - Current value: [X]
 - Previous value: [Y]
 - Check: bundle sizes, image sizes, render-blocking resources
 - Use: Lighthouse CI, bundle analyzer
-- Compare with baseline in perf-baseline/
+- Compare with performance-baseline.json (regenerate with pnpm perf:baseline)
 
-Follow rollback strategy from phase-9-performance.md
+Follow rollback strategy from /implementation-guides/active-phases/phase-9-performance/
 ```
 
 ### Content Collection Issues
@@ -51,7 +51,7 @@ Debug content collection problem:
 - Verify: Content file paths, schema exports
 - Test: Individual file parsing
 
-Reference content-collections.md for troubleshooting
+Reference /patterns/content-collections/ for troubleshooting
 ```
 
 ## Migration Prompts
@@ -85,7 +85,7 @@ Migrate content schema for [Collection]:
 - Create rollback plan
 - Document in content changelog
 
-See content migration patterns in content-collections.md
+See content migration patterns in /patterns/content-collections/
 ```
 
 ### Framework Version Update
@@ -100,7 +100,7 @@ Update Astro from [current] to [target]:
 - Verify all features still work
 - Update documentation references
 
-Reference phase-3-tooling.md for configuration
+Reference /implementation-guides/completed/phase-3-tooling/ for configuration
 ```
 
 ## Documentation Prompts
@@ -116,9 +116,9 @@ Document [Component] following our standards:
 - Performance considerations
 - Common pitfalls
 - Related components
-- Add to the `/showcase` living style guide (Advanced scope only — ADR-049)
+- Add to the /showcase living style guide (ADR-049)
 
-Follow documentation pattern from phase-5-components.md
+Follow documentation pattern from /implementation-guides/active-phases/phase-5-components/
 ```
 
 ### ADR Creation
@@ -133,7 +133,7 @@ Create Architecture Decision Record for [Decision]:
 - Validation: [how to measure success]
 
 Use ADR template from docs/adr/template.md
-Number it sequentially (ADR-XXX)
+Number it sequentially (ADR-XXX — the next number after the ADRs in docs/adr/)
 ```
 
 ### API Documentation
@@ -149,7 +149,7 @@ Document [API/Integration] following our standards:
 - Environment configuration
 - Monitoring and alerts
 
-Reference integration patterns from phase-7-integrations.md
+Reference content integration patterns from /implementation-guides/active-phases/phase-7-content/
 ```
 
 ## Content Management Prompts
@@ -167,7 +167,7 @@ Audit content for [Section/Collection]:
 - Content gaps identified
 - Recommended improvements
 
-Reference content strategy from phase-1-content-arch.md
+Reference content strategy from /implementation-guides/completed/phase-1-content-arch/
 ```
 
 ### Content Migration
@@ -183,7 +183,7 @@ Migrate content from [Source] to [Target]:
 - Rollback procedures
 - Timeline and dependencies
 
-Follow migration patterns from content-collections.md
+Follow migration patterns from /patterns/content-collections/
 ```
 
 ### Editorial Workflow
@@ -199,7 +199,7 @@ Set up editorial workflow for [Content Type]:
 - Performance guidelines
 - Maintenance procedures
 
-Reference content management from phase-1-content-arch.md
+Reference content management from /implementation-guides/completed/phase-1-content-arch/
 ```
 
 ## Deployment & Operations Prompts
@@ -217,7 +217,7 @@ Configure deployment for [Environment]:
 - Backup procedures
 - Rollback strategy
 
-Reference deployment guide from phase-12-launch.md
+Reference deployment guide from /implementation-guides/active-phases/phase-10-deployment/
 ```
 
 ### Monitoring Setup
@@ -233,7 +233,7 @@ Set up monitoring for [Metrics/Services]:
 - Dashboard creation
 - Alert thresholds
 
-Follow monitoring patterns from phase-11-analytics.md
+Follow monitoring patterns from /implementation-guides/active-phases/phase-12-post-launch/
 ```
 
 ### Security Audit
@@ -249,7 +249,7 @@ Perform security audit for [Scope]:
 - Third-party integration security
 - Incident response procedures
 
-Reference security guidelines from phase-10-security.md
+Reference security guidelines from /implementation-guides/active-phases/phase-10-deployment/
 ```
 
 ## Team Collaboration Prompts
@@ -267,7 +267,7 @@ Review [Component/Feature] for:
 - Design system adherence
 - Technical debt assessment
 
-Follow review checklist from phase-3-tooling.md
+Follow review checklist from /implementation-guides/completed/phase-3-tooling/
 ```
 
 ### Onboarding Documentation
@@ -317,7 +317,7 @@ Plan dependency update strategy:
 - Timeline estimation
 - Risk mitigation
 
-Reference dependency management from phase-3-tooling.md
+Reference dependency management from /implementation-guides/completed/phase-3-tooling/
 ```
 
 ### Performance Optimization Review
@@ -333,7 +333,7 @@ Conduct performance optimization review:
 - Resource requirements
 - Timeline planning
 
-Follow optimization patterns from performance-patterns.md
+Follow optimization patterns from /patterns/performance-patterns/
 ```
 
 ### Technical Debt Assessment

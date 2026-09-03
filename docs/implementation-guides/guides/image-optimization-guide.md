@@ -1,6 +1,6 @@
 ---
 title: Image Optimization Guide
-lastUpdated: 2025-07-07T00:00:00.000Z
+lastUpdated: true
 description: >-
   Comprehensive guide to image optimization strategies for Astro projects,
   focusing on performance and visual quality
@@ -27,7 +27,7 @@ This command will:
 
 - Scan all images in `src/` and `public/` directories
 - Show current dimensions and file sizes
-- Categorize images by usage (hero, content, thumbnail, avatar)
+- Categorize images by path heuristics (`hero`, `content`, `thumbnail`, `avatar`, `icon`, `logo`, `other` — see `categorizeImage()` in `scripts/src/optimize-images.ts`)
 - Provide optimization recommendations
 
 ### 2. Interactive Optimization
@@ -58,22 +58,26 @@ This command will:
 
 ### Astro's Built-in Optimization
 
-Astro automatically handles format conversion at build time:
+Astro converts formats at build time through Sharp. Two components are involved, and they differ in what they emit:
+
+- `<Image>` (from `astro:assets`) emits **one** `<img>` in a single output format (`format` prop).
+- `<Picture>` emits a `<picture>` element with one `<source>` per entry in `formats` plus a fallback `<img>`.
+
+The starter's `src/components/atoms/Image.astro` wraps `<Image>` and defaults to **single-format AVIF** (`resolveImageFormat()` in `src/utils/resolveImageFormat.ts`, [ADR-030](/adr/030-image-optimisation-defaults/)) with `widths` `[320, 640, 1024]`, `sizes="100vw"`, lazy loading and async decoding. Prefer the atom for content images; reach for `<Picture>` only when you need a multi-format fallback chain.
 
 ```astro
 ---
-import { Image } from 'astro:assets';
+import Image from '@/components/atoms/Image.astro';
 import heroImage from '@/assets/images/hero.jpg';
 ---
 
-<!-- Astro automatically generates AVIF and WebP versions -->
+<!-- Shipped atom: AVIF by default, responsive widths, lazy unless told otherwise -->
 <Image 
   src={heroImage}
   alt="Descriptive alt text"
   widths={[480, 768, 1200, 1920]}
   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 800px"
-  formats={['avif', 'webp']}
-  quality={80}
+  quality="high"
   loading="eager"
 />
 ```
@@ -89,17 +93,19 @@ import heroImage from '@/assets/images/hero.jpg';
 - **Color space**: sRGB
 - **Dimensions**: Even numbers preferred
 
-**Size Categories:**
+**Size Categories** (the `dimensionGuidelines` table in `scripts/src/optimize-images.ts`):
 
 - **Hero images**: 1200-1920px wide
 - **Content images**: 800-1200px wide
 - **Thumbnails**: 200-400px wide
 - **Avatars**: 100-200px wide
+- **Icons**: 180-512px (touch icons, favicons)
+- **Logos**: 400-800px wide
 
 ### 2. Astro Configuration
 
-```typescript
-// astro.config.mjs
+```javascript
+// astro.config.mjs (shipped excerpt — see ADR-030 for the rationale)
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
@@ -110,17 +116,25 @@ export default defineConfig({
         limitInputPixels: 268402689, // ~16K x 16K pixels max
       },
     },
+    responsive: {
+      globalStyles: true,
+      layout: "constrained",
+    },
+    domains: [],
+    remotePatterns: [],
   },
 });
 ```
 
 ### 3. Component Patterns
 
+These are illustrative wrappers. They use `format` (singular) because `<Image>` emits one format; the starter's own wrapper is `src/components/atoms/Image.astro`.
+
 #### Hero Images
 
 ```astro
 ---
-// components/HeroImage.astro
+// components/HeroImage.astro (illustrative)
 import { Image } from 'astro:assets';
 
 export interface Props {
@@ -137,7 +151,7 @@ const { src, alt, priority = false } = Astro.props;
   alt={alt}
   widths={[768, 1200, 1920]}
   sizes="100vw"
-  formats={['avif', 'webp']}
+  format="avif"
   quality={85}
   loading={priority ? 'eager' : 'lazy'}
   decoding={priority ? 'sync' : 'async'}
@@ -149,7 +163,7 @@ const { src, alt, priority = false } = Astro.props;
 
 ```astro
 ---
-// components/ContentImage.astro
+// components/ContentImage.astro (illustrative)
 import { Image } from 'astro:assets';
 
 export interface Props {
@@ -167,7 +181,7 @@ const { src, alt, caption } = Astro.props;
     alt={alt}
     widths={[480, 768, 1200]}
     sizes="(max-width: 768px) 100vw, 768px"
-    formats={['avif', 'webp']}
+    format="avif"
     quality={78}
     loading="lazy"
     class="rounded-lg"
@@ -184,7 +198,7 @@ const { src, alt, caption } = Astro.props;
 
 ```astro
 ---
-// components/ThumbnailGrid.astro
+// components/ThumbnailGrid.astro (illustrative)
 import { Image } from 'astro:assets';
 
 export interface Props {
@@ -206,7 +220,7 @@ const { images } = Astro.props;
         alt={image.alt}
         widths={[300, 600]}
         sizes="(max-width: 768px) 50vw, 33vw"
-        formats={['avif', 'webp']}
+        format="avif"
         quality={75}
         loading="lazy"
         class="rounded-lg group-hover:opacity-90 transition-opacity"
@@ -277,33 +291,41 @@ pnpm run images:optimize
 
 ### File Size Budgets
 
-| Image Type | Target Size | Max Acceptable |
-|------------|-------------|----------------|
-| **Hero images** | < 500KB | < 800KB |
-| **Content images** | < 200KB | < 400KB |
-| **Thumbnails** | < 100KB | < 150KB |
-| **Avatars** | < 50KB | < 100KB |
+There is exactly one **enforced** image budget: **200KB per raster file** (`.png`, `.jpg`, `.jpeg`, `.webp`, `.avif`, `.gif`; SVG is exempt). It is declared in `budgets.json` (`Images (raw, per-file)`, `maxSizeKb: 200`), implemented by `scripts/src/check-image-budget.ts` (`DEFAULT_BUDGET_KB = 200`), and run twice in `ci.yml` as `pnpm run images:gate` — once over the source tree (`public/`, `src/`) and once over the build output (`IMAGE_GATE_ROOTS=dist`). A file over the ceiling fails the build ([ADR-057](/adr/057-image-budget-gate/)). Override locally with `IMAGE_BUDGET_KB=<kb>` for experiments only.
+
+The per-category numbers below are **advisory** warning thresholds from `images:analyze`; they never fail CI.
+
+| Category | Advisory warning (`images:analyze`) | Enforced ceiling (`images:gate`) |
+|----------|-------------------------------------|----------------------------------|
+| **Hero** | > 200KB → "consider reducing source size" | 200KB |
+| **Content** | > 150KB → "consider reducing dimensions" | 200KB |
+| **Thumbnail** | > 100KB → "consider reducing dimensions" | 200KB |
+| **Logo** | > 100KB → target < 50KB | 200KB |
+| **Icon** | > 32KB → touch icons should be < 32KB | 200KB |
+| **Avatar / Other** | dimension guidance only | 200KB |
 
 ### Dimension Guidelines
 
 | Category | Recommended Dimensions | Max Source Size |
 |----------|----------------------|-----------------|
 | **Hero** | 1200x675px (16:9) | 1920x1080px |
-| **Content** | 800x600px (4:3) | 1200x900px |
+| **Content** | 800x600px (4:3) | 1200x800px |
 | **Thumbnail** | 200x200px (1:1) | 400x400px |
 | **Avatar** | 100x100px (1:1) | 200x200px |
+| **Icon** | 180x180px (1:1) | 512x512px |
+| **Logo** | 400x300px (4:3) | 800x600px |
 
 ## Best Practices
 
 ### 1. Loading Strategies
 
 ```astro
-<!-- Hero image: Load immediately -->
+<!-- Hero image: Load immediately (there is no `priority` prop — eager + sync is the whole story) -->
 <Image 
   src={heroImage}
+  alt="…"
   loading="eager"
   decoding="sync"
-  priority
 />
 
 <!-- Content images: Lazy load -->
@@ -328,11 +350,16 @@ pnpm run images:optimize
 ### 3. Format Fallbacks
 
 ```astro
-<!-- Astro automatically provides fallbacks -->
-<Image 
+---
+import { Picture } from 'astro:assets';
+---
+
+<!-- <Picture> emits one <source> per format plus a fallback <img>
+     (PNG, or JPEG when the source is a JPEG). <Image> has no `formats` prop. -->
+<Picture 
   src={image}
-  formats={['avif', 'webp']} 
-  <!-- JPEG fallback is automatic -->
+  alt="…"
+  formats={['avif', 'webp']}
 />
 ```
 
@@ -372,12 +399,24 @@ pnpm run images:optimize
 **Solution**: Optimize and preload critical images
 
 ```astro
+---
+import { getImage, Image } from 'astro:assets';
+import heroImage from '@/assets/images/hero.jpg';
+
+// Resolve the same optimised asset the <Image> will render so the
+// preload URL matches (heroImage.src is the unprocessed original).
+const heroAvif = await getImage({ src: heroImage, format: 'avif', width: 1200 });
+---
+
 <!-- Preload hero image -->
-<link rel="preload" as="image" href={heroImage.src} type="image/avif">
+<link rel="preload" as="image" href={heroAvif.src} type="image/avif" />
 
 <!-- Use eager loading -->
 <Image 
   src={heroImage}
+  alt="…"
+  format="avif"
+  width={1200}
   loading="eager"
   decoding="sync"
 />
@@ -396,12 +435,15 @@ pnpm run images:optimize
 ### CI/CD Integration
 
 ```yaml
-# .github/workflows/ci.yml
-- name: Analyze Images
-  run: pnpm run images:analyze
-
-- name: Build with optimized images
+# .github/workflows/ci.yml (shipped steps — images:analyze is a local tool and does not run in CI)
+- name: Build site
   run: pnpm run build
+
+- name: Enforce per-image size budget — source (ADR-057)
+  run: pnpm run images:gate
+
+- name: Enforce per-image size budget — build output (ADR-057)
+  run: IMAGE_GATE_ROOTS=dist pnpm run images:gate
 ```
 
 ## Checklist
@@ -424,7 +466,7 @@ pnpm run images:optimize
 ### Pre-Deployment
 
 - [ ] Run `images:optimize` for final optimization
-- [ ] Validate all images meet size budgets
+- [ ] Validate all images meet the 200KB ceiling (`pnpm run images:gate`)
 - [ ] Test Core Web Vitals impact
 - [ ] Verify backup creation
 - [ ] Check build output sizes

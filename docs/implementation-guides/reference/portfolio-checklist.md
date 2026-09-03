@@ -14,7 +14,7 @@ This checklist distills the Recommended and Advanced scope items most relevant t
 
 All Foundation phases are Essential for every project. No optional items here.
 
-- [x] Repository initialized with pnpm, Node.js 24 LTS, TypeScript strict
+- [x] Repository initialized with pnpm, the Node.js release pinned in `.nvmrc` (see `versions.json`), TypeScript strict
 - [x] Content Collections schemas defined (blog, projects, pages)
 - [x] Design tokens system configured (colors, typography, spacing, motion)
 - [x] Dark mode via CSS variables with system preference detection
@@ -61,7 +61,7 @@ All Foundation phases are Essential for every project. No optional items here.
 - [ ] Cross-browser check (Chrome, Firefox, Safari)
 - [ ] Accessibility audit with browser DevTools
 - [ ] Lighthouse scores: Performance 95+, Accessibility 98+, SEO 95+
-- [ ] No broken links (`pnpm run check:links`) (proposed — not yet implemented)
+- [ ] No broken links (the scheduled `link-check.yml` workflow runs markdown-link-check over the docs; there is no local `check:links` script)
 
 ## Polish (Phases 9–12)
 
@@ -71,7 +71,7 @@ All Foundation phases are Essential for every project. No optional items here.
 - [ ] Core Web Vitals: LCP < 2.5s, CLS < 0.1
 - [ ] Fonts subsetted and preloaded
 - [ ] No render-blocking resources
-- [ ] Bundle sizes within budget (JS < 160KB, CSS < 50KB)
+- [ ] Bundle sizes within budget (JS < 160KB raw — CI-enforced; CSS < 50KB — advisory only, see [budgets & guardrails](/implementation-guides/reference/budgets-guardrails/))
 
 ### Deployment — Essential for Portfolio
 
@@ -101,7 +101,7 @@ Add these only if they serve a specific goal:
 | `/showcase` living style guide | Open source or team projects |
 | Visual regression tests | High-churn component library |
 | Playwright E2E suite | Contact form or interactive features |
-| View Transitions animations | When animation enhances UX, not just aesthetics |
+| `<ClientRouter />` view-transition animations | When animation enhances UX, not just aesthetics |
 | Preact island for stats counter | Animated numbers section |
 | Newsletter integration | Active content strategy |
 | RUM monitoring | Post-launch, when traffic justifies it |

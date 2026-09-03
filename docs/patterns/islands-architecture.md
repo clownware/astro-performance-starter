@@ -3,7 +3,7 @@ title: Islands Architecture Pattern
 description: >-
   A strategic guide for adding interactivity to Astro sites using Islands
   Architecture while maintaining top performance
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
@@ -71,7 +71,6 @@ graph TD
     H -->|Immediately| I[client:load ❌]
     H -->|When Visible| J[client:visible ✅]
     H -->|When Idle| K[client:idle ✅]
-    H -->|On Hover| L[client:hover ⚠️]
     H -->|On Media Query| M[client:media ✅]
 ```
 
@@ -80,15 +79,13 @@ graph TD
 ### 1. Progressive Enhancement First
 
 ```astro
-// ❌ Bad: JavaScript required for basic functionality
----
+<!-- ❌ Bad: JavaScript required for basic functionality -->
 <div id="menu" class="hidden">
   <nav>...</nav>
 </div>
 <button onclick="toggleMenu()">Menu</button>
----
-// ✅ Good: Works without JavaScript
----
+
+<!-- ✅ Good: Works without JavaScript -->
 <details>
   <summary>Menu</summary>
   <nav>...</nav>
@@ -109,30 +106,38 @@ graph TD
 **Policy Note**: The `client:load` directive should be used sparingly as it loads JavaScript immediately and can impact performance. Its use must be justified as per [ADR-001: Preact Island Usage Policy and `client:load` Justification](/adr/001-preact-island-usage-policy/). Prefer `client:idle` or `client:visible` whenever possible.
 
 ```astro
-// ❌ Bad: Loading immediately when not needed
 ---
-import Counter from './Counter.jsx';
+// ❌ Bad: Loading immediately when not needed
+import Counter from './Counter.tsx';
 ---
 <Counter client:load />
+```
+
+```astro
 ---
 // ✅ Good: Load when user will likely interact
----
-import Counter from './Counter.jsx';
+import Counter from './Counter.tsx';
 ---
 <Counter client:visible />
+```
+
+```astro
 ---
 // ✅ Better: Load during idle time
----
-import Counter from './Counter.jsx';
+import Counter from './Counter.tsx';
 ---
 <Counter client:idle />
+```
+
+```astro
 ---
 // ✅ Best: Load only on larger screens where it's used
----
-import InteractiveChart from './Chart.jsx';
+import InteractiveChart from './Chart.tsx';
 ---
 <InteractiveChart client:media="(min-width: 768px)" />
 ```
+
+Exactly **one** `client:*` directive per component — Astro rejects a component that carries two (for example `client:visible client:only`).
 
 ### 3. Minimal Island Components
 
@@ -155,9 +160,10 @@ export function ProductPage({ products }) {
 ---
 import Header from './Header.astro';
 import ProductGrid from './ProductGrid.astro';
-import FilterIsland from './FilterIsland.jsx';
-import CartIsland from './CartIsland.jsx';
+import FilterIsland from './FilterIsland.tsx';
+import CartIsland from './CartIsland.tsx';
 ---
+
 <Header />
 <FilterIsland client:visible />
 <ProductGrid products={...} />
@@ -200,18 +206,32 @@ const searchIsland: IslandAnalysis = {
 
 ### 3. Measuring Performance
 
+The mechanism below is **illustrative** — none of the starter's shipped islands (`src/components/islands/`) record marks today. The approach is a single User Timing convention: each island calls `performance.mark()` when it finishes mounting, and a page-level observer reads those marks. The same convention powers the `IslandMonitor` example under [Performance Monitoring](#performance-monitoring).
+
+```tsx
+// Inside a Preact island — record a mark once mounted
+import { useEffect } from 'preact/hooks';
+
+export function Counter() {
+  useEffect(() => {
+    // Marks are relative to navigation start, so `startTime` IS time-to-hydration.
+    performance.mark('island:counter:hydrated');
+  }, []);
+  // ...
+}
+```
+
 ```astro
 <script>
-  // Measure island hydration time
+  // Observe island marks as they land (dev only)
   if (import.meta.env.DEV) {
     new PerformanceObserver((list) => {
-      for (const entry of list.getEntriesByName('island-hydration')) {
-        console.log('Hydration time:', {
-          name: entry.detail.island,
-          time: entry.duration
-        });
+      for (const entry of list.getEntries()) {
+        if (entry.name.startsWith('island:')) {
+          console.log('Hydrated:', entry.name, `${Math.round(entry.startTime)}ms`);
+        }
       }
-    }).observe({ entryTypes: ['measure'] });
+    }).observe({ type: 'mark', buffered: true });
   }
 </script>
 ```
@@ -289,8 +309,9 @@ export function FilterIsland({ initialFilters }) {
 ```astro
 ---
 // CommentsSection.astro
-import CommentsIsland from './Comments.jsx';
+import CommentsIsland from './Comments.tsx';
 ---
+
 <section>
   <h3>Comments</h3>
   
@@ -299,11 +320,11 @@ import CommentsIsland from './Comments.jsx';
     <p>Loading comments...</p>
   </div>
   
-  <!-- Actual comments component -->
+  <!-- Actual comments component — one directive only. Use client:only="preact"
+       instead of client:visible if the component cannot render on the server. -->
   <CommentsIsland 
     postId={post.id} 
     client:visible
-    client:only="preact"
   />
 </section>
 ```
@@ -338,7 +359,7 @@ import CommentsIsland from './Comments.jsx';
 <UserInfo client:load userId={user.id} />
 
 <script>
-  // UserInfo.jsx fetches its own data
+  // UserInfo.tsx fetches its own data
   useEffect(() => {
     fetch(`/api/users/${userId}`).then(...);
   }, [userId]);
@@ -415,10 +436,9 @@ test('islands hydrate when expected', async ({ page }) => {
 
 ## Refactoring Example
 
-```astro
+```tsx
 // Before: Monolithic component
----
-// app.jsx
+// app.tsx
 export function App() {
   return (
     <>
@@ -431,17 +451,20 @@ export function App() {
     </>
   );
 }
+```
 
-// After: Only islands for interactive parts
+```astro
 ---
+// After: Only islands for interactive parts
 // app.astro
 import Header from './Header.astro';
-import SearchIsland from './SearchIsland.jsx';
-import FilterIsland from './FilterIsland.jsx';
+import SearchIsland from './SearchIsland.tsx';
+import FilterIsland from './FilterIsland.tsx';
 import ProductGrid from './ProductGrid.astro';
-import CartIsland from './CartIsland.jsx';
+import CartIsland from './CartIsland.tsx';
 import Footer from './Footer.astro';
 ---
+
 <Header />
 <SearchIsland client:idle />
 <div class="layout">
@@ -456,21 +479,20 @@ import Footer from './Footer.astro';
 
 ### Custom Island Metrics
 
+Illustrative aggregator for the `island:<name>:hydrated` marks described in [Measuring Performance](#3-measuring-performance). It reads existing marks — it does not fabricate measurements — and re-runs after every `<ClientRouter />` navigation via `astro:page-load`.
+
 ```astro
 ---
-// IslandMonitor.astro
+// IslandMonitor.astro (illustrative — not shipped)
 ---
+
 <script>
-  // Track custom metrics for each island
-  document.addEventListener('astro:after-swap', () => {
-    const islands = document.querySelectorAll('[data-astro-id]');
-    islands.forEach(island => {
-      performance.measure('island-hydration', {
-        start: performance.now() - 5, // FAKE
-        end: performance.now(),
-        detail: { island: island.id }
-      });
-    });
+  document.addEventListener('astro:page-load', () => {
+    for (const mark of performance.getEntriesByType('mark')) {
+      if (mark.name.startsWith('island:')) {
+        console.debug(`${mark.name} at ${Math.round(mark.startTime)}ms`);
+      }
+    }
   });
 </script>
 ```

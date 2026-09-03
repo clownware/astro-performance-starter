@@ -1,181 +1,266 @@
 ---
 title: 'Phase 1 - Code Examples'
 description: Code examples for Phase 1
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 
 ## Code Examples
 
+Companion to [Phase 1 - Content & Data Architecture](/implementation-guides/completed/phase-1-content-arch/). Blocks marked *condensed* are trimmed copies of the starter's real files; blocks marked *illustrative* are examples for your own project and do not exist in the starter.
+
 ### Content Collections Configuration
 
 ```typescript
-// src/content.config.ts
-import { defineCollection, z } from 'astro:content';
+// src/content.config.ts — Content Layer config lives at the src root,
+// not the legacy src/content/config.ts location (removed in current Astro releases).
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 // Portfolio/Case Studies Schema
 const projectsCollection = defineCollection({
   loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/projects' }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    description: z.string().max(160), // SEO meta description
-    date: z.date(),
-    draft: z.boolean().default(false),
-    featured: z.boolean().default(false),
-    cover: image(),
-    coverAlt: z.string(),
-    tags: z.array(z.string()),
-    client: z.string().optional(),
-    duration: z.string().optional(),
-    role: z.string().optional(),
-    technologies: z.array(z.string()),
-    outcomes: z.array(z.object({
-      metric: z.string(),
-      value: z.string(),
-      description: z.string().optional()
-    })).optional(),
-    externalUrl: z.string().url().optional(),
-    sortOrder: z.number().default(0)
-  })
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().max(160), // SEO meta description
+      date: z.date(),
+      draft: z.boolean().default(false),
+      featured: z.boolean().default(false),
+      cardImage: image().optional(),
+      cover: image(),
+      coverAlt: z.string(),
+      tags: z.array(z.string()),
+      client: z.string().optional(),
+      duration: z.string().optional(),
+      role: z.string().optional(),
+      technologies: z.array(z.string()),
+      outcomes: z
+        .array(
+          z.object({
+            metric: z.string(),
+            value: z.string(),
+            description: z.string().optional(),
+          }),
+        )
+        .optional(),
+      externalUrl: z.url().optional(),
+      sortOrder: z.number().default(0),
+    }),
 });
 
 // Blog Posts Schema
 const blogCollection = defineCollection({
   loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
-  schema: ({ image }) => z.object({
-    title: z.string(),
-    description: z.string().max(160),
-    date: z.date(),
-    updated: z.date().optional(),
-    draft: z.boolean().default(false),
-    cover: image().optional(),
-    coverAlt: z.string(), // Required for accessibility when cover image is used
-    tags: z.array(z.string()).default([]),
-    author: z.string().default('Your Name'),
-    readingTime: z.number().optional(), // Will calculate
-    canonicalUrl: z.string().url().optional(),
-    relatedPosts: z.array(z.string()).optional() // slugs
-  })
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      description: z.string().max(160),
+      date: z.date(),
+      updated: z.date().optional(),
+      draft: z.boolean().default(false),
+      featured: z.boolean().default(false),
+      cover: image().optional(),
+      coverAlt: z.string(), // Required for accessibility when cover image is used
+      cardImage: image().optional(),
+      tags: z.array(z.string()).default([]),
+      technologies: z.array(z.string()).default([]),
+      author: z.string().default('Your Name'),
+      readingTime: z.number().optional(), // Optional: can be calculated
+      canonicalUrl: z.url().optional(),
+      relatedPosts: z.array(z.string()).optional(), // ids of related posts
+    }),
 });
 
 // Navigation/Site Data
 const navigationCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: '**/*.{json,yaml,yml}', base: './src/content/navigation' }),
   schema: z.object({
-    items: z.array(z.object({
-      label: z.string(),
-      href: z.string(),
-      isExternal: z.boolean().default(false),
-      icon: z.string().optional(),
-      order: z.number()
-    }))
-  })
+    items: z.array(
+      z.object({
+        label: z.string(),
+        href: z.string(),
+        isExternal: z.boolean().default(false),
+        icon: z.string().optional(),
+        order: z.number().default(0),
+      }),
+    ),
+  }),
 });
 
 // Bio/About Content
 const bioCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
-  schema: ({ image }) => z.object({
-    name: z.string(),
+  loader: glob({ pattern: '**/[^_]*.{md,mdx,json}', base: './src/content/bio' }),
+  schema: ({ image }) =>
+    z.object({
+      name: z.string(),
+      title: z.string(),
+      location: z.string().optional(),
+      avatar: image(),
+      social: z
+        .object({
+          github: z.url().optional(),
+          linkedin: z.url().optional(),
+          twitter: z.url().optional(),
+          email: z.email().optional(),
+        })
+        .optional(),
+      skills: z
+        .array(
+          z.object({
+            category: z.string(),
+            items: z.array(z.string()),
+          }),
+        )
+        .optional(),
+    }),
+});
+
+// Experience/Work History Collection (see ADR-017)
+const experienceCollection = defineCollection({
+  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/experience' }),
+  schema: z.object({
     title: z.string(),
+    company: z.string(),
     location: z.string().optional(),
-    avatar: image(),
-    social: z.object({
-      github: z.string().url().optional(),
-      linkedin: z.string().url().optional(),
-      twitter: z.string().url().optional(),
-      email: z.string().email().optional()
-    }).optional(),
-    skills: z.array(z.object({
-      category: z.string(),
-      items: z.array(z.string())
-    })).optional()
-  })
+    startDate: z.date(),
+    endDate: z.date().optional(), // Optional for current positions
+    current: z.boolean().default(false),
+    description: z.string(),
+    highlights: z.array(z.string()).optional(),
+    technologies: z.array(z.string()).optional(),
+    order: z.number().default(0), // For manual ordering
+  }),
+});
+
+// Architecture Decision Records — publishes docs/adr/ as web routes under /adr/.
+// The glob only matches numbered files, so README.md and template.md are
+// excluded; the numeric prefix on the file name IS the ADR number.
+const adrCollection = defineCollection({
+  loader: glob({ pattern: '[0-9][0-9][0-9]-*.md', base: './docs/adr' }),
+  schema: z.object({
+    title: z.string(),
+    description: z.string(),
+    lastUpdated: z.date(),
+    tableOfContents: z.boolean().default(true),
+    pagefind: z.boolean().default(true),
+  }),
 });
 
 export const collections = {
   projects: projectsCollection,
   blog: blogCollection,
   navigation: navigationCollection,
-  bio: bioCollection
+  bio: bioCollection,
+  experience: experienceCollection,
+  adr: adrCollection,
 };
 ```
 
+This is the starter's real [`src/content.config.ts`](https://github.com/clownware/astro-performance-starter/blob/master/src/content.config.ts). The `experience` collection is documented in [ADR-017](/adr/017-experience-content-collection/); the schema rationale for all six collections is in [ADR-027](/adr/027-content-collections-schema-design/).
+
 ### URL Structure Strategy
 
+Every pattern is a function wrapped in `withBase()`, so URLs respect Astro's `base` config (e.g. GitHub Pages sub-path deployments), and every route ends in a trailing slash (`trailingSlash: "always"` in `astro.config.mjs`). The module also exports `resolveBasePath`, `getBlogPostUrl`, `getBlogTagUrl`, and `isTrustedUrl` (open-redirect protection for external links).
+
 ```typescript
-// src/utils/url-utils.ts
+// src/utils/url-utils.ts (condensed — see the starter for the full file)
+
+/**
+ * Prepends the configured base path to an internal URL.
+ * No-op when base is "/"; passes through external URLs, anchors, and
+ * already-prefixed paths (idempotent — never double-prefixes).
+ */
+export function withBase(path: string, base: string = import.meta.env.BASE_URL): string {
+  // ... see the starter for the full logic
+}
+
 export const urlPatterns = {
-  home: '/',
-  projects: '/projects',
-  project: (slug: string) => `/projects/${slug}`,
-  blog: '/blog',
-  blogPost: (slug: string) => `/blog/${slug}`,
-  blogTag: (tag: string) => `/blog/tag/${tag}`,
-  about: '/about',
-  contact: '/contact',
-  
-  // Archive patterns
-  blogArchive: (year: number, month?: number) => 
-    month ? `/blog/${year}/${String(month).padStart(2, '0')}` : `/blog/${year}`
+  home: () => withBase('/'),
+  projects: () => withBase('/projects/'),
+  project: (slug: string) => withBase(`/projects/${slug}/`),
+  blog: () => withBase('/blog/'),
+  blogPost: (slug: string) => withBase(`/blog/${slug}/`),
+  blogTag: (tag: string) => withBase(`/blog/tag/${tag.toLowerCase().replace(/\s+/g, '-')}/`),
+  about: () => withBase('/about/'),
+  contact: () => withBase('/contact/'),
+  blogArchive: (year: number, month?: number) =>
+    withBase(month ? `/blog/${year}/${String(month).padStart(2, '0')}/` : `/blog/${year}/`),
 } as const;
 
-// Slug generation utilities
+// Slug generation — preserves unicode letters/numbers (IRI-friendly),
+// not just ASCII \w
 export function generateSlug(title: string): string {
+  if (!title) {
+    return '';
+  }
   return title
     .toLowerCase()
-    .replace(/[^\w\s-]/g, '') // Remove special chars
-    .replace(/\s+/g, '-')      // Replace spaces with hyphens
-    .replace(/-+/g, '-')       // Remove consecutive hyphens
+    .replace(/[^\p{L}\p{N}\s-]/gu, '') // Remove special chars, preserve accented letters and numbers
+    .replace(/\s+/g, '-') // Replace spaces with hyphens
+    .replace(/-+/g, '-') // Collapse consecutive hyphens
     .trim();
 }
 
-// Type-safe URL builder
-export function getProjectUrl(project: { slug: string }): string {
-  return urlPatterns.project(project.slug);
+// Type-safe URL builder — Content Layer entries are keyed by `id`, not `slug`
+export function getProjectUrl(project: { id: string }): string {
+  return urlPatterns.project(project.id);
 }
 ```
+
+Full file: [`src/utils/url-utils.ts`](https://github.com/clownware/astro-performance-starter/blob/master/src/utils/url-utils.ts).
 
 ### MDX Components Configuration
 
 ```typescript
-// src/components/mdx/index.ts
-import { Code } from '@astrojs/starlight/components';
-import { Image } from 'astro:assets';
-import Callout from './Callout.astro';
-import Grid from './Grid.astro';
-import Figure from './Figure.astro';
+// src/components/mdx/index.ts (condensed — see the starter for the full file)
+// Code blocks are handled by the site's syntax highlighter (Shiki /
+// astro-expressive-code) — no extra `pre` mapping or Starlight import needed.
+// The .astro components are loaded via dynamic `await import()` wrappers with
+// no-op fallbacks so this module can also be evaluated in plain Node (unit
+// tests), where .astro files can't be compiled.
+let callout: unknown;
+try {
+  callout = (await import('./Callout.astro')).default;
+} catch {
+  callout = () => null;
+}
+// ... same wrapper pattern for Figure, Grid, and Blockquote ...
 
-export const mdxComponents = {
-  // Enhanced code blocks
-  pre: Code,
-  
-  // Responsive images with captions
-  img: Image,
-  Figure,
-  
-  // Layout components
-  Grid,
-  Callout,
-  
-  // Typography enhancements
-  a: (props: any) => <a {...props} class="link" />,
-  blockquote: (props: any) => <blockquote {...props} class="blockquote" />
+import Link from './Link'; // Preact component for enhanced <a> tags
+
+export const components = {
+  // Custom components referenced by tag name in MDX
+  Figure: figure,
+  Grid: grid,
+  Callout: callout,
+
+  // Override default HTML tags with custom components.
+  // <img> tags in MDX are optimized by Astro's default astro:assets handling.
+  a: Link,
+  blockquote: blockquote,
 };
+
+export default components;
 ```
+
+The exported symbol is `components` (with a default export) — `astro.config.mjs` aliases it on import: `import { components as mdxComponents } from './src/components/mdx/index.ts'` and passes it to `mdx({ components: mdxComponents })`. Full file: [`src/components/mdx/index.ts`](https://github.com/clownware/astro-performance-starter/blob/master/src/components/mdx/index.ts); usage guidance in [MDX Components](/patterns/mdx-components/).
 
 ### Content Fixtures
 
+The block below is an **illustrative fixture** for your own project — it is not a file in the starter. The starter's real project fixtures are directory routes, one folder per entry with a sibling cover image: `src/content/projects/<slug>/index.mdx` plus `cover.svg` (see [`docs-portal`](https://github.com/clownware/astro-performance-starter/blob/master/src/content/projects/docs-portal/index.mdx)). Both shapes validate against the `projects` schema above.
+
 ```mdx
 ---
-# src/content/projects/example-project.mdx
+# Illustrative — e.g. src/content/projects/example-project/index.mdx
 title: "E-commerce Platform Redesign"
 description: "Increased conversion rate by 40% through user-centered design"
 date: 2024-06-15
 draft: false
 featured: true
-cover: "./images/ecommerce-cover.jpg"
+cover: "./ecommerce-cover.jpg"
 coverAlt: "Screenshot of redesigned e-commerce platform"
 tags: ["UX Design", "Preact", "Performance"]
 client: "TechCorp Inc"
@@ -191,6 +276,7 @@ outcomes:
     description: "Optimized assets and lazy loading"
 sortOrder: 1
 ---
+
 ## Project Overview
 
 <Callout type="success">
@@ -217,13 +303,15 @@ The client needed a complete redesign of their aging e-commerce platform...
 </Grid>
 
 <Figure
-  src="./images/architecture-diagram.png"
+  src="./architecture-diagram.png"
   alt="System architecture diagram"
   caption="High-level architecture showing service boundaries"
 />
 ```
 
 ### Content Model Changelog
+
+Illustrative — the starter does not ship a content-model changelog; step 1.11 asks you to keep one for your own schema changes.
 
 ```markdown
 # Content Model Changelog
@@ -249,41 +337,6 @@ The client needed a complete redesign of their aging e-commerce platform...
 - Always test with `astro check` after changes
 ```
 
-### Validation Script
+### Content Validation
 
-```typescript
-// scripts/validate-content.ts
-import { getCollection } from 'astro:content';
-
-async function validateContent() {
-  try {
-    // Check all collections
-    const projects = await getCollection('projects');
-    const posts = await getCollection('blog');
-    
-    // Validate drafts aren't published
-    const publishedDrafts = [...projects, ...posts]
-      .filter(item => item.data.draft && !item.id.includes('draft'));
-    
-    if (publishedDrafts.length > 0) {
-      console.error('❌ Draft content in main folders:', publishedDrafts);
-      process.exit(1);
-    }
-    
-    // Check for required images
-    const missingImages = projects
-      .filter(p => !p.data.cover);
-    
-    if (missingImages.length > 0) {
-      console.warn('⚠️  Projects missing cover images:', missingImages);
-    }
-    
-    console.log('✅ Content validation passed');
-  } catch (error) {
-    console.error('❌ Content validation failed:', error);
-    process.exit(1);
-  }
-}
-
-validateContent();
-```
+The starter ships no standalone content-validation script — frontmatter validation is enforced by the Zod schemas in `src/content.config.ts`, which `astro check` (run via `pnpm run check`, part of `quality` and `quality:ci`) applies to every entry. Invalid or missing fields fail the build, so a separate validator would only duplicate the schema. Draft handling is a query-time concern: pages filter with `getCollection('projects', ({ data }) => !data.draft)`.

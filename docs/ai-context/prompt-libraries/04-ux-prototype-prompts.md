@@ -1,5 +1,5 @@
 ---
-title: UX Prototype Prompt Templates
+title: UX Prototype Planning
 lastUpdated: true
 description: Copy-paste prompts for common UX prototype discovery using AI assistants
 tableOfContents: true

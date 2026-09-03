@@ -1,11 +1,13 @@
 ---
 title: 'Phase 7 - Content'
 description: Develop high-quality content and ensure it aligns with performance goals
-lastUpdated: 2024-01-15T00:00:00.000Z
+lastUpdated: true
 tableOfContents: true
 pagefind: true
+sidebar:
+  order: 7
 ---
-_What performance challenges are you facing? I'd love to hear about your optimization wins and struggles. [Reach out on Twitter](https://twitter.com/yourusername) or [email me](/implementation-guides/mailto:your@email/)._
+_What performance challenges are you facing? I'd love to hear about your optimization wins and struggles. [Reach out on Twitter](https://twitter.com/yourusername) or [email me](mailto:your@email.example)._
 
 ## Overview
 
@@ -112,7 +114,7 @@ For blog posts:
 
 ## Key Takeaways for Performance
 
-1. **INP is the new FID** - Optimize for entire interactions
+1. **INP replaced FID (now retired)** - Optimize for entire interactions, targeting INP ≤ 200ms
 2. **Edge computing is mainstream** - Move logic closer to users
 3. **Islands architecture works** - Ship less JavaScript
 4. **Performance budgets need context** - Tie to business metrics
@@ -190,8 +192,9 @@ If content needs major revision:
 
 ### Key Files to Reference
 
-- `src/content/*` - All content collections
-- `src/assets/images/*` - Image assets
+- `src/content/*` - All content collections (images co-located with entries, e.g. `src/content/blog/<post>/`)
+- `src/assets/*` - Shared assets (`brand/`, `icons/`, `fonts/`)
+- `public/og-*.svg` → `public/og-*.png` - OG images, rendered by `pnpm run og:build` (`scripts/src/build-og.ts`)
 - Meta description templates
 - Content style guide
 

@@ -1,11 +1,13 @@
 ---
 title: Phase 9 - Performance & SEO
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: >-
   Covers site optimization, performance reports, SEO implementation, and
   monitoring setup with Essential, Recommended, and Advanced scope guidance
 tableOfContents: true
 pagefind: true
+sidebar:
+  order: 9
 ---
 ## Overview
 
@@ -25,18 +27,18 @@ pagefind: true
 
 | Step | Task | Scope | Notes |
 |------|------|-------|-------|
-| 9.01 | Audit current performance | Essential | Baseline metrics |
+| 9.01 | Audit current performance | Essential | Baseline metrics (`pnpm run perf:baseline`, `pnpm run perf:lhci`) |
 | 9.02 | Optimize critical path | Essential | CSS, fonts, scripts |
-| 9.03 | Implement caching strategy | Essential | Headers via `public/_headers` |
-| 9.04 | Minify and compress | Essential | Handled by Astro build |
-| 9.05 | Set up CDN | Essential | Cloudflare Pages default |
-| 9.06 | Optimize web fonts | Essential | Subset, preload |
+| 9.03 | Implement caching strategy | Essential | Headers via `public/_headers` (no service worker ships) |
+| 9.04 | Minify and compress | Essential | Handled by the Astro build |
+| 9.05 | Set up CDN | Essential | GitHub Pages (shipped deploy) or any static host's CDN |
+| 9.06 | Optimize web fonts | Essential | Already subset and self-hosted (ADR-053); keep preloads within `pnpm run fonts:gate` (ADR-058) |
 | 9.07 | Technical SEO audit | Essential | Crawlability, indexing |
 | 9.08 | Schema markup | Essential | Structured data |
-| 9.09 | Generate sitemap | Essential | XML sitemap |
+| 9.09 | Generate sitemap | Essential | `@astrojs/sitemap` (shipped) |
 | 9.10 | Submit to search engines | Essential | Google, Bing |
-| 9.11 | Performance monitoring | Recommended | RUM setup |
-| 9.12 | Create performance budget CI | Recommended | Lighthouse CI automated checks |
+| 9.11 | Performance monitoring | Advanced | RUM setup |
+| 9.12 | Tune performance budget CI | Recommended | `budgets.json` + `lighthouserc.json` gates already run in CI |
 
 ## Common Pitfalls
 
@@ -44,7 +46,7 @@ pagefind: true
    - **Solution**: Lazy load, use facades, or self-host
 
 2. **Unoptimized Fonts**: Loading entire font families
-   - **Solution**: Subset fonts, use variable fonts, preload critical
+   - **Solution**: Subset fonts, use variable fonts, preload critical (the shipped Geist/Inter files already are)
 
 3. **Missing Caching Headers**: Not leveraging browser cache
    - **Solution**: Set appropriate cache-control headers
@@ -59,25 +61,26 @@ pagefind: true
 
 ### Essential (all projects)
 
-- [ ] Lighthouse scores meet targets (95+ performance)
-- [ ] Core Web Vitals pass (LCP < 2.5s, INP < 200ms, CLS < 0.1)
-- [ ] All images optimized with modern formats
-- [ ] Fonts subsetted and preloaded
-- [ ] Caching strategy implemented via `public/_headers`
+- [ ] Lighthouse scores meet targets (95+ performance measured; CI floors are performance ≥ 0.90, accessibility ≥ 0.95, best-practices ≥ 0.95, SEO ≥ 0.90 in `lighthouserc.json` and `lighthouserc.mobile.json`)
+- [ ] Core Web Vitals pass (LCP < 2.5s, INP ≤ 200ms, CLS < 0.1)
+- [ ] All images optimized with modern formats (`pnpm run images:gate` passes)
+- [ ] Fonts subsetted and preloaded (`pnpm run fonts:gate` passes)
+- [ ] Caching strategy implemented via `public/_headers` (honoured by Cloudflare Pages/Netlify; a no-op on GitHub Pages — ADR-051)
 - [ ] SEO audit passes
 - [ ] Schema markup implemented
 - [ ] Sitemap generated and submitted
-- [ ] Bundle sizes within budget (JS < 160KB, CSS < 50KB)
+- [ ] Bundle sizes within budget (`pnpm run perf:budgets`: JS ≤ 160KB total raw; CSS ~50KB is advisory, not gated)
 
 ### Recommended (most projects)
 
-- [ ] Performance monitoring active (RUM)
-- [ ] Lighthouse CI integrated in GitHub Actions
+- [ ] Lighthouse CI thresholds reviewed for your site (`lighthouse.yml` already gates desktop and mobile)
+- [ ] Budgets tightened in `budgets.json` once you know your real sizes
 
 ### Advanced (portfolio/enterprise)
 
-- [ ] Service worker active for offline support
+- [ ] Performance monitoring active (RUM)
 - [ ] Performance dashboards configured
+- [ ] Service worker for offline support (optional — none ships with the starter)
 
 ## Rollback Strategy
 
@@ -94,7 +97,7 @@ If performance degrades:
    - Revert style changes
 
 3. **Image Problems**:
-   - Re-run optimization pipeline
+   - Re-run optimization pipeline (`pnpm run images:optimize`)
    - Check CDN configuration
    - Verify responsive images
 
@@ -102,17 +105,18 @@ If performance degrades:
 
 ### Key Files to Reference
 
-- `astro.config.mjs` - Build optimizations
-- `public/_headers` - Caching strategy
-- Performance audit scripts
-- Lighthouse configuration
+- `astro.config.mjs` - Build optimizations, sitemap, fonts
+- `public/_headers` - Caching and security headers
+- `budgets.json`, `budget-overrides.json` - Raw-size budgets enforced by `pnpm run perf:budgets`
+- `lighthouserc.json`, `lighthouserc.mobile.json` - Lighthouse CI floors
+- `scripts/src/baseline-performance.ts` (`pnpm run perf:baseline`) - Performance baseline script
 
 ### Common Prompts for This Phase
 
 - "Optimize bundle size for production"
 - "Implement Core Web Vitals monitoring"
 - "Set up caching headers for static assets"
-- "Create performance budget CI workflow"
+- "Tighten budgets.json and the Lighthouse CI floors for this site"
 
 ### Context Requirements
 

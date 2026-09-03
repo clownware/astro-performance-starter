@@ -25,7 +25,9 @@ function main(): void {
   if (!siteUrl) {
     console.error("❌ Missing SITE_URL: production builds require SITE_URL or PUBLIC_SITE_URL.");
     console.error("   Set it in your .env file or as a CI environment variable.");
-    console.error('   Example: SITE_URL="https://your-username.github.io"');
+    console.error(
+      '   Example: SITE_URL="https://octocat.github.io" (a real origin — placeholders like your-username are rejected)',
+    );
     process.exit(1);
   }
 

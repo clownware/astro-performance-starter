@@ -1,7 +1,7 @@
 ---
 title: 'Phase 1 - Content & Data Architecture'
 description: Establish content and data architecture for your project
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
@@ -10,9 +10,11 @@ pagefind: true
 ## Overview
 
 - **Tier**: Foundation (Phase 1 of 12)
+- **Scope**: Essential — every project completes this phase (scope labels follow [ADR-033](/adr/033-track-consolidation/))
 - **Duration**: 1-2 days
 - **Dependencies**: Phase 0 (Foundation) completed
 - **Deliverables**: Content schema, TypeScript types, URL strategy, content fixtures
+- **Code examples**: [Phase 1 - Code Examples](/implementation-guides/completed/phase-1-code-examples/)
 
 ## Entry Criteria
 
@@ -27,7 +29,7 @@ pagefind: true
 |------|------|-------|-------|
 | 1.01 | Inventory content types | Essential | List all content needs |
 | 1.02 | Design URL structure | Essential | SEO-friendly paths |
-| 1.03 | Create content collections | Essential | Define in config.ts |
+| 1.03 | Create content collections | Essential | Define in `src/content.config.ts` |
 | 1.04 | Define collection schemas | Essential | Zod schemas |
 | 1.05 | Add draft mechanism | Essential | Boolean field |
 | 1.06 | Generate TypeScript types | Essential | Auto from schemas |
@@ -35,7 +37,7 @@ pagefind: true
 | 1.08 | Set up MDX components | Essential | Custom elements |
 | 1.09 | Create content fixtures | Essential | One per type |
 | 1.10 | Add frontmatter validation | Essential | astro check |
-| 1.11 | Document content model | Essential | CHANGELOG.md |
+| 1.11 | Document content model | Essential | Content model changelog (see code examples) |
 | 1.12 | Create content guidelines | Essential | For authors |
 
 ## Common Pitfalls
@@ -73,8 +75,9 @@ If content architecture needs changes:
 1. **Schema Changes**:
 
    ```bash
-   # Create migration script
-   node scripts/migrate-content.js --from v1 --to v2
+   # Illustrative — the starter ships no migration script. Project scripts live
+   # in scripts/src/*.ts and run with tsx (ADR-052), so one would look like:
+   pnpm exec tsx scripts/src/migrate-content.ts --from v1 --to v2
    ```
 
 2. **URL Structure Changes**:
@@ -91,7 +94,7 @@ If content architecture needs changes:
 
 ### Key Files to Reference
 
-- `src/content.config.ts` - Collection schemas
+- `src/content.config.ts` - Collection schemas (Content Layer)
 - `src/utils/url-utils.ts` - URL patterns
 - `src/content/*/` - Content examples
 - Content model changelog
@@ -117,4 +120,5 @@ If content architecture needs changes:
 - [SEO-Friendly URL Structure Best Practices](https://developers.google.com/search/docs/crawling-indexing/url-structure)
 
 ---
-Return to [Phase 0: Foundation Decisions](/implementation-guides/01-foundation-phase-0-foundation/) | Proceed to [Phase 2: Design System Tokens](/implementation-guides/02-structure-phase-2-design-system/)
+
+Return to [Phase 0: Foundation Decisions](/implementation-guides/completed/phase-0-foundation/) | Proceed to [Phase 2: Design System & Tokens](/implementation-guides/completed/phase-2-design-system/)

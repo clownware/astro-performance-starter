@@ -1,13 +1,13 @@
 ---
 title: Performance Patterns
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: >-
-  Proven techniques for achieving and maintaining high Lighthouse scores (95+)
-  in Astro projects
+  Proven techniques for achieving and maintaining high Lighthouse scores (95+
+  baseline) in Astro projects
 tableOfContents: true
 pagefind: true
 ---
-> ⚡ **Purpose**: Proven techniques for achieving and maintaining 95+ Lighthouse scores
+> ⚡ **Purpose**: Proven techniques for achieving and maintaining the starter's 95+ Lighthouse baseline (`lighthouse.yml` gates at ≥90 performance / ≥95 accessibility and best-practices / ≥90 SEO, desktop and mobile)
 
 ## Core Performance Principles
 
@@ -36,64 +36,54 @@ pagefind: true
 
 ### 1. Responsive Image Component
 
+The shipped wrapper is `src/components/atoms/Image.astro` ([ADR-030](/adr/030-image-optimisation-defaults/)). It wraps `astro:assets`' `<Image>` and:
+
+- emits **one** output format, AVIF by default, chosen by `resolveImageFormat()` in `src/utils/resolveImageFormat.ts` (SVG sources pass through untouched; `jpg` normalises to `jpeg`; `svg`/`gif` requests fall back to `png` because Sharp cannot output them);
+- generates a widths-based `srcset` (`[320, 640, 1024]`, `sizes="100vw"`) when no fixed dimensions are given, and a densities-based one (`[1.5, 2]`) when `width`/`height` are set;
+- maps `quality` presets (`low`/`mid`/`high`/`max` → 40/60/75/90; default `high`);
+- defaults to `loading="lazy"` and `decoding="async"`;
+- falls back to a native `<img>` when `src` is a string path instead of `ImageMetadata`.
+
 ```astro
 ---
-// OptimizedImage.astro
-import { Image } from 'astro:assets';
-
-export interface Props {
-  src: ImageMetadata;
-  alt: string;
-  priority?: boolean;
-  sizes?: string;
-}
-
-const {
-  src,
-  alt,
-  priority = false,
-  sizes = "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
-} = Astro.props;
-
-// Generate widths for different screen sizes
-const widths = [320, 640, 800, 1024, 1280, 1600];
+import Image from '@/components/atoms/Image.astro';
+import cover from '@/assets/images/cover.jpg';
 ---
-<Image
-  src={src}
-  alt={alt}
-  widths={widths}
-  sizes={sizes}
-  formats={['avif', 'webp']}
-  loading={priority ? 'eager' : 'lazy'}
-  decoding={priority ? 'sync' : 'async'}
-  class="optimized-image"
-/>
 
-<style>
-  .optimized-image {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-  }
-</style>
+<!-- Responsive, AVIF, lazy — the defaults do the work -->
+<Image src={cover} alt="Descriptive alt text" />
+
+<!-- Above the fold: eager + sync, custom breakpoints -->
+<Image
+  src={cover}
+  alt="Descriptive alt text"
+  widths={[640, 1024, 1600]}
+  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 800px"
+  loading="eager"
+  decoding="sync"
+/>
 ```
+
+`<Image>` has no `formats` prop — if you need an AVIF → WebP → JPEG `<picture>` chain, use `<Picture formats={['avif', 'webp']}>` from `astro:assets` directly.
 
 ### 2. Progressive Image Loading
 
 ```astro
 ---
-// ProgressiveImage.astro
-import { Image } from 'astro:assets';
+// ProgressiveImage.astro (illustrative — not shipped)
+import { getImage, Image } from 'astro:assets';
 
 export interface Props {
   src: ImageMetadata;
   alt: string;
-  placeholder?: 'blur-sm' | 'dominant-color';
+  placeholder?: 'blur' | 'dominant-color';
 }
 
-const { src, alt, placeholder = 'blur-sm' } = Astro.props;
+const { src, alt, placeholder = 'blur' } = Astro.props;
 
-// Generate a low-quality placeholder
+// Generate a low-quality placeholder. It is applied as a blurred
+// background image, so no raw <img> tag is needed — the real asset
+// is rendered by the Astro Image component.
 const placeholderSrc = await getImage({
   src,
   width: 40,
@@ -101,13 +91,11 @@ const placeholderSrc = await getImage({
   format: 'webp'
 });
 ---
-<div class="progressive-image">
-  <img 
-    class="placeholder"
-    src={placeholderSrc.src}
-    alt=""
-    aria-hidden="true"
-  />
+
+<div
+  class="progressive-image"
+  style={`background-image: url('${placeholderSrc.src}');`}
+>
   <Image
     src={src}
     alt={alt}
@@ -121,18 +109,10 @@ const placeholderSrc = await getImage({
   .progressive-image {
     position: relative;
     overflow: hidden;
+    background-size: cover;
+    background-position: center;
   }
-  
-  .placeholder {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: blur(20px);
-    transform: scale(1.1);
-  }
-  
+
   .full-image {
     opacity: 0;
     transition: opacity 0.3s ease;
@@ -165,11 +145,17 @@ const placeholderSrc = await getImage({
   /* Critical typography */
   h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0; }
   
-  /* Critical colors from tokens */
-  :root {
-    --color-primary: 210 100% 48%;
-    --color-background: 210 40% 98%;
-    --color-foreground: 218 39% 11%;
+  /* Critical colors come from the generated design tokens
+     (tokens/dist/tokens.css, built by `pnpm tokens:build`). They are
+     HSL channel triplets, so wrap them in hsl(). Reference the custom
+     properties — never hardcode literals. */
+  body {
+    color: hsl(var(--color-foreground));
+    background: hsl(var(--color-background));
+  }
+
+  .hero h1 {
+    color: hsl(var(--color-primary-600));
   }
 </style>
 ```
@@ -342,43 +328,54 @@ const { loadWhen, mediaQuery = '(min-width: 768px)' } = Astro.props;
 
 ### 1. Modern Font Loading
 
+The starter uses the Astro Fonts API ([ADR-053](/adr/053-fonts-via-astro-fonts-api/)): both families (Geist for headlines, Inter for body) are declared once in `astro.config.mjs` with `fontProviders.local()`, and the latin variable woff2 files are vendored in `src/assets/fonts/` so builds stay fully offline. Astro emits the `@font-face` rules, fingerprints the files, preloads them, and generates metric-adjusted fallback faces to cut CLS. No Google Fonts preconnect and no hand-written `@font-face` are needed. The number of font preloads is gated by `pnpm run fonts:gate` ([ADR-058](/adr/058-font-preload-budget/)).
+
+```js
+// astro.config.mjs (shipped excerpt — the Geist entry is identical in shape)
+import { defineConfig, fontProviders } from 'astro/config';
+
+export default defineConfig({
+  fonts: [
+    {
+      provider: fontProviders.local(),
+      name: 'Inter',
+      cssVariable: '--font-inter',
+      fallbacks: ['ui-sans-serif', 'system-ui', 'sans-serif'],
+      optimizedFallbacks: true,
+      options: {
+        variants: [
+          {
+            weight: '100 900',
+            style: 'normal',
+            src: ['./src/assets/fonts/inter-latin-variable.woff2'],
+          },
+        ],
+      },
+    },
+  ],
+});
+```
+
 ```astro
 ---
-// FontLoader.astro
+// src/components/molecules/Head.astro (shipped excerpt)
+import { Font } from 'astro:assets';
 ---
-<!-- Preconnect to Google Fonts (if used) -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<!-- Preload critical fonts -->
-<link 
-  rel="preload" 
-  href="./fonts/inter-var-latin.woff2" 
-  as="font" 
-  type="font/woff2" 
-  crossorigin
-/>
+<Font cssVariable="--font-geist" preload />
+<Font cssVariable="--font-inter" preload />
+```
 
-<!-- Font face declarations with swap -->
-<style>
-  @font-face {
-    font-family: 'Inter';
-    src: url('/fonts/inter-var-latin.woff2') format('woff2');
-    font-weight: 100 900;
-    font-display: swap;
-    font-style: normal;
-  }
-  
-  /* Fallback font stack */
-  body {
-    font-family: 'Inter', system-ui, sans-serif;
-  }
-</style>
+```css
+/* Consume via the generated CSS variables (wired to --font-display/--font-text in global.css) */
+body {
+  font-family: var(--font-inter);
+}
 ```
 
 ### 2. Resource Hints
 
-The template includes built-in support for DNS prefetch and preconnect via the `preconnectDomains` prop:
+The template includes built-in support for DNS prefetch and preconnect via the `preconnectDomains` prop on `BaseLayout.astro`, which forwards it to `src/components/molecules/Head.astro`:
 
 ```astro
 <!-- In your page (e.g., index.astro) -->
@@ -401,7 +398,7 @@ This generates optimized resource hints in the `<head>`:
 <link rel="preconnect" href="https://api.example.com" crossorigin />
 ```
 
-For internal navigation, use `data-astro-prefetch` (via Astro's built-in prefetch):
+For internal navigation, use `data-astro-prefetch` — `prefetch: true` is set in `astro.config.mjs` ([ADR-028](/adr/028-prefetch-strategy/)), so the attribute opts a link into Astro's built-in prefetching (hover by default):
 
 ```astro
 <!-- Prefetches page on hover or viewport visibility -->
@@ -539,14 +536,15 @@ self.addEventListener('fetch', event => {
     });
     lcpObserver.observe({ type: 'largest-contentful-paint', buffered: true });
     
-    // First Input Delay
-    const fidObserver = new PerformanceObserver((list) => {
+    // Interaction to Next Paint (INP) — FID is retired.
+    // For an accurate INP value use the web-vitals library's onINP();
+    // raw event timing entries approximate it:
+    const inpObserver = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
-        const delay = entry.processingStart - entry.startTime;
-        console.log('FID:', delay);
+        console.log('Interaction duration:', entry.name, entry.duration);
       }
     });
-    fidObserver.observe({ type: 'first-input', buffered: true });
+    inpObserver.observe({ type: 'event', buffered: true, durationThreshold: 40 });
   }
 </script>
 ```
@@ -568,10 +566,10 @@ Before deploying, ensure:
 - [ ] All images use modern formats (WebP/AVIF)
 - [ ] Critical CSS is inlined
 - [ ] Fonts are subsetted and preloaded
-- [ ] JavaScript budget is under 160KB
+- [ ] JavaScript budget is under 160KB raw (CI-enforced — see [budgets & guardrails](/implementation-guides/reference/budgets-guardrails/))
 - [ ] No render-blocking scripts
 - [ ] Resource hints are configured
 - [ ] Caching headers are set
-- [ ] Lighthouse score is 95+
+- [ ] Lighthouse score meets the 95+ baseline (CI gates at ≥90)
 - [ ] Core Web Vitals pass
 - [ ] Works without JavaScript

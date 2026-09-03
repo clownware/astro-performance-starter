@@ -1,5 +1,5 @@
 ---
-title: UX Solution Hypothesis Prompt Templates
+title: UX Define Solution Hypothesis
 lastUpdated: true
 description: Copy-paste prompts for common UX solution hypothesis discovery using AI assistants
 tableOfContents: true

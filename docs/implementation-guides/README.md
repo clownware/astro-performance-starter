@@ -1,5 +1,6 @@
 ---
 title: Astro Implementation Guide - Master Index
+slug: implementation-guides
 description: >-
     Master index for the Astro Implementation Guide, outlining the progressive
     tier model (Foundation, Build, Polish).
@@ -7,8 +8,6 @@ lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
-
-<Badge variant="success">Done</Badge>
 
 ## Quick Start
 
@@ -18,63 +17,30 @@ This guide provides a structured approach to building high-performance Astro sit
 - **Build (Phases 5–8)**: Make it yours — components, content, QA
 - **Polish (Phases 9–12)**: Production-harden — performance, deployment, docs
 
-Work through phases sequentially and stop when you've reached your goals. See [ADR-033](/adr/033-track-consolidation/) for the rationale behind this model.
+Work through phases sequentially and stop when you've reached your goals. See [ADR-033](/adr/033-track-consolidation/) for the rationale behind this model (it replaced the earlier MVP/Showcase dual-track model).
 
 ## Phase Dependency Map
 
-```mermaid
-graph TD
-    P0[Phase 0: Foundation] --> P1[Phase 1: Content Architecture]
-    P1 --> P2[Phase 2: Design System]
-    P2 --> P3[Phase 3: Tooling]
-    P3 --> P4[Phase 4: Skeleton]
-    P4 --> P5[Phase 5: Components]
-    P5 --> P6[Phase 6: Sections]
-    P6 --> P7[Phase 7: Content]
-    P7 --> P8[Phase 8: QA]
-    P8 --> P9[Phase 9: Performance]
-    P9 --> P10[Phase 10: Deployment]
-    P10 --> P11[Phase 11: Documentation]
-    P11 --> P12[Phase 12: Post-Launch]
+```text
+Foundation (everyone)
+  Phase 0: Foundation
+    → Phase 1: Content Architecture
+    → Phase 2: Design System
+    → Phase 3: Tooling
+    → Phase 4: Skeleton
 
-    subgraph Foundation
-        P0
-        P1
-        P2
-        P3
-        P4
-    end
+Build (make it yours)
+    → Phase 5: Components
+    → Phase 6: Sections
+    → Phase 7: Content
+    → Phase 8: QA
 
-    subgraph Build
-        P5
-        P6
-        P7
-        P8
-    end
-
-    subgraph Polish
-        P9
-        P10
-        P11
-        P12
-    end
-
-    style P0 fill:#ff9999
-    style P1 fill:#ff9999
-    style P2 fill:#ff9999
-    style P3 fill:#ff9999
-    style P4 fill:#ff9999
-    style P5 fill:#ffcc66
-    style P6 fill:#ffcc66
-    style P7 fill:#ffcc66
-    style P8 fill:#ffcc66
-    style P9 fill:#66cc99
-    style P10 fill:#66cc99
-    style P11 fill:#66cc99
-    style P12 fill:#66cc99
+Polish (production-harden)
+    → Phase 9: Performance
+    → Phase 10: Deployment
+    → Phase 11: Documentation
+    → Phase 12: Post-Launch
 ```
-
-**Legend**: 🔴 Foundation (everyone) | 🟡 Build (make it yours) | 🟢 Polish (production-harden)
 
 ## Tier Overview
 
@@ -110,7 +76,7 @@ Stop here when you need an enterprise-grade deployment.
 
 > **"Completed" vs "Active" is from _your_ perspective as a cloner, not the template's.**
 > This template already ships a fully-built reference implementation of every phase
-> (~45 components, content collections, an e2e suite, performance budgets, CI, and
+> (40+ components, content collections, an e2e suite, performance budgets, CI, and
 > deployment config). The Foundation phases below are marked "Complete" because they're
 > shared infrastructure you inherit as-is; the "Active" phases are the customization work
 > _you_ do to make the site yours (your components, your content, your QA pass). Read each
@@ -176,6 +142,8 @@ Each active phase includes practical code examples:
 - [Phase 10 Examples](/implementation-guides/code-examples/phase-10-code-examples/) - Deployment configurations
 - [Phase 12 Examples](/implementation-guides/code-examples/phase-12-code-examples/) - Post-launch monitoring
 
+Phase 11 (Documentation) has no separate examples page — its templates are inline in the phase guide.
+
 ### 📚 Reference Documentation
 
 - [Tech Stack](/implementation-guides/reference/tech-stack/) - Complete technology overview
@@ -197,14 +165,14 @@ Each active phase includes practical code examples:
 | Need | Essential | Recommended | Advanced |
 |------|-----------|-------------|----------|
 | Interactivity | Static HTML + CSS | CSS + minimal JS for simple state | Preact islands where justified |
-| Testing | Manual checklist | Playwright critical paths | Full suite + visual regression |
+| Testing | Manual checklist | Playwright critical paths | Full e2e suite + a11y checks + visual regression |
 | Components | Core UI only | Extended component library | `/showcase` style guide + full documentation |
 | Documentation | README + basics | AI context updated | Comprehensive guides |
 | Monitoring | Basic uptime | Lighthouse CI | RUM + error tracking |
 
 ## Support & Updates
 
-- **Changelog**: [CHANGELOG.md](/CHANGELOG/)
+- **Changelog**: See [CHANGELOG.md](https://github.com/clownware/astro-performance-starter/blob/master/CHANGELOG.md) in the repository root
 - **Issues**: Create an issue in your project repo
 - **Updates**: Check monthly for Astro updates
 - **Community**: [Astro Discord](https://astro.build/chat)

@@ -71,6 +71,8 @@ A great PRD serves three audiences:
 
 #### Implementation Scope Selection (10 minutes)
 
+Scope labels follow the progressive tier model in [ADR-033](/adr/033-track-consolidation/):
+
 - **Essential scope**: Launch with core pages and functionality (2-3 weeks)
 - **Recommended scope**: Add quality and polish for most projects (3-4 weeks)
 - **Advanced scope**: Full design system, enterprise features, comprehensive content (4-6 weeks)
@@ -79,7 +81,7 @@ A great PRD serves three audiences:
 
 ### Quick Start
 
-1. **Download** the [Website PRD Template](./website-prd-template.md)
+1. **Download** the [Website PRD Template](/ai-context/website-prd-template/)
 2. **Save As** `PRD-[project-name].md` in your project's `docs/` folder
 3. **Block 90 minutes** for initial completion
 
@@ -97,7 +99,7 @@ A great PRD serves three audiences:
 
 **For Claude Code and `AGENTS.md`-native tools (Cursor, Copilot, Codex CLI, …):**
 
-No per-tool rules file to edit. Link the PRD from `docs/ai-context/INDEX.md` (the AI context entry point — see `docs/README.md`) so every tool that follows the constitution's pointers finds it; for a session-scoped nudge, just reference the PRD path in the prompt.
+No per-tool rules file to edit. Link the PRD from the [AI Context Index](/ai-context/) (`docs/ai-context/INDEX.md`, the AI context entry point) so every tool that follows the constitution's pointers finds it; for a session-scoped nudge, just reference the PRD path in the prompt.
 
 **For VS Code + Copilot:**
 
@@ -189,4 +191,4 @@ Focus: Content engagement, subscriber growth, monetization
 
 ---
 
-_See [AI Context Index](./INDEX.md) and [Website PRD Template](./website-prd-template.md) for implementation guidance._
+_See [AI Context Index](/ai-context/) and [Website PRD Template](/ai-context/website-prd-template/) for implementation guidance._

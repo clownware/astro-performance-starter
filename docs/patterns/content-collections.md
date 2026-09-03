@@ -1,6 +1,6 @@
 ---
 title: Content Collections Patterns
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: Advanced patterns for working with Astro Content Collections
 tableOfContents: true
 pagefind: true
@@ -64,14 +64,14 @@ const tutorialSchema = basePostSchema.extend({
 
 const videoSchema = basePostSchema.extend({
   type: z.literal('video'),
-  videoUrl: z.string().url(),
+  videoUrl: z.url(),
   duration: z.string(), // "10:30"
   transcript: z.string().optional(),
 });
 
 // Combined schema using discriminated union
 const blogCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/blog" }),
   schema: z.discriminatedUnion('type', [
     articleSchema,
     tutorialSchema,
@@ -85,9 +85,12 @@ const blogCollection = defineCollection({
 ```typescript
 // src/content.config.ts
 // Handle relationships between content
+import { defineCollection, getEntry } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const authorsCollection = defineCollection({
-  type: 'data',
+  loader: glob({ pattern: "**/*.{json,yaml,yml}", base: "./src/content/authors" }),
   schema: z.object({
     name: z.string(),
     bio: z.string(),
@@ -95,13 +98,13 @@ const authorsCollection = defineCollection({
     social: z.object({
       twitter: z.string().optional(),
       github: z.string().optional(),
-      website: z.string().url().optional(),
+      website: z.url().optional(),
     }).optional(),
   }),
 });
 
 const postsCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/posts' }),
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/posts" }),
   schema: ({ image }) => z.object({
     title: z.string(),
     date: z.date(),
@@ -131,6 +134,10 @@ export async function getPostWithAuthor(post: any) {
 
 ### 3. Computed Fields
 
+> ⚠️ **Illustrative example**: `reading-time` is not a starter dependency. If you adopt this
+> pattern, add it yourself and note its bundle size impact (build-time only if you keep it out
+> of client code).
+
 ```typescript
 // src/content.config.ts
 // Add computed fields to schemas
@@ -138,7 +145,7 @@ export async function getPostWithAuthor(post: any) {
 import readingTime from 'reading-time';
 
 const blogCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/blog" }),
   schema: ({ image }) => z.object({
     title: z.string(),
     date: z.date(),
@@ -149,8 +156,12 @@ const blogCollection = defineCollection({
 });
 
 // utils/content.ts
+// Content Layer entries have no .render() method — use the render()
+// function imported from astro:content instead
+import { render } from 'astro:content';
+
 export async function getEnhancedPost(post: any) {
-  const { Content } = await render(post); // `render` from 'astro:content'
+  const { Content } = await render(post);
   const stats = readingTime(post.body);
   
   return {
@@ -172,7 +183,7 @@ export async function getEnhancedPost(post: any) {
 // Complex nested schemas
 
 const projectsCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/projects' }),
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/projects" }),
   schema: ({ image }) => z.object({
     title: z.string(),
     client: z.string(),
@@ -350,6 +361,10 @@ export async function getStaticPaths() {
 
 ### 3. Search Implementation
 
+> ⚠️ **Illustrative example**: `fuse.js` is not a starter dependency. If you adopt this
+> pattern, add it yourself and note its bundle size impact (~7 kB gzipped if shipped to the
+> client).
+
 ```typescript
 // utils/search.ts
 import Fuse from 'fuse.js';
@@ -411,12 +426,12 @@ const i18nSchema = z.object({
 });
 
 const blogCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/blog" }),
   schema: baseSchema.merge(i18nSchema),
 });
 
 // Directory structure
-// content/
+// src/content/
 //   blog/
 //     en/
 //       post-1.mdx
@@ -493,32 +508,55 @@ export function createChangeLog(
 
 ### 1. Custom Components in MDX
 
+The shipped map lives in `src/components/mdx/index.ts` and is passed to the MDX integration in `astro.config.mjs` (`mdx({ components: mdxComponents })`), so every `.mdx` file gets these without importing them. The `.astro` imports are wrapped in `try/catch` dynamic imports because the module is also evaluated by plain Node (the config file imports it) where `.astro` cannot load:
+
 ```typescript
-// src/components/mdx/index.ts
-import Code from './Code.astro';
-import Callout from './Callout.astro';
-import YouTube from './YouTube.astro';
-import ComparisonTable from './ComparisonTable.astro';
+// src/components/mdx/index.ts (shipped, trimmed comments)
+
+// Dynamic import wrapper to avoid loading .astro during Node evaluation
+let callout: unknown;
+try {
+  callout = (await import("./Callout.astro")).default;
+} catch {
+  callout = () => null;
+}
+let figure: unknown;
+try {
+  figure = (await import("./Figure.astro")).default;
+} catch {
+  figure = ({ children }: { children: unknown }): unknown => children;
+}
+let grid: unknown;
+try {
+  grid = (await import("./Grid.astro")).default;
+} catch {
+  grid = ({ children }: { children: unknown }): unknown => children;
+}
+let blockquote: unknown;
+try {
+  blockquote = (await import("./Blockquote.astro")).default;
+} catch {
+  blockquote = ({ children }: { children: unknown }): unknown => children;
+}
+
+// Preact components (ensure .tsx files are processed by Preact integration)
+import Link from "./Link";
 
 export const components = {
-  // Override default elements
-  pre: Code,
-  
-  // Custom components
-  Callout,
-  YouTube,
-  ComparisonTable,
-  
-  // Shortcuts
-  Warning: (props: any) => <Callout type="warning" {...props} />,
-  Info: (props: any) => <Callout type="info" {...props} />,
+  // Custom Astro components, referenced by tag name in MDX: <Figure />, <Grid />, <Callout />
+  Figure: figure,
+  Grid: grid,
+  Callout: callout,
+
+  // Override default HTML tags with custom components.
+  a: Link,            // every Markdown link renders through Link.tsx
+  blockquote: blockquote, // every `>` blockquote renders through Blockquote.astro
 };
 
-// Usage in MDX
-// <Warning>
-//   This is important information!
-// </Warning>
+export default components;
 ```
+
+`CodeFromFile.astro` is the sixth MDX component but is intentionally not in the map — import it explicitly where you use it. There is no `Code`, `YouTube`, or `ComparisonTable` component; see the [MDX Components Guide](/patterns/mdx-components/) for each component's props.
 
 ### 2. Dynamic Component Loading
 
@@ -539,6 +577,7 @@ const Component = componentMap[componentName]
   ? (await componentMap[componentName]()).default 
   : null;
 ---
+
 {Component && <Component {...props} />}
 ```
 
@@ -613,6 +652,7 @@ export interface Props {
 
 const { collection, id } = Astro.props;
 ---
+
 <div 
   class="lazy-content"
   data-collection={collection}
@@ -700,6 +740,9 @@ async function migrate() {
 ```
 
 ### 2. Bulk Operations
+
+> ⚠️ **Illustrative example**: `reading-time` is not a starter dependency — add it yourself if
+> you adopt this script (build-time only, no client bundle impact).
 
 ```typescript
 // scripts/bulk-update.ts

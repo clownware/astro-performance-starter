@@ -2,7 +2,7 @@
 title: 'Creating Components: The Link Component'
 description: 'A step-by-step guide to creating a flexible, reusable Link component in your Astro project.'
 lastUpdated: true
-tableOfContents: true 
+tableOfContents: true
 pagefind: true
 ---
 
@@ -19,7 +19,7 @@ A custom `Link` component can handle logic that a simple `<a>` tag can't:
 
 ## Step 1: Create the Component File
 
-Create a new file at `src/components/atoms/Link.astro`.
+Create a new file at `src/components/atoms/Link.astro`. Atoms are the smallest reusable building blocks in the template's atomic design hierarchy (`atoms/`, `molecules/`, `structural/`, `islands/`, `a11y/`, `mdx/` — see `src/components/CLAUDE.md` and [ADR-003](/adr/003-unified-component-structure/)), and a Link belongs there.
 
 ## Step 2: Define the Component Props
 

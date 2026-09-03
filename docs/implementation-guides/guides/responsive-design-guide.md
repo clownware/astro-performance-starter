@@ -1,7 +1,7 @@
 ---
 title: Responsive Design Guide
 description: Comprehensive guide to responsive design patterns, breakpoints, and mobile-first development in the Astro Performance Starter
-lastUpdated: 2025-09-30T00:00:00.000Z
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
@@ -84,7 +84,7 @@ const { class: className } = Astro.props;
 
 ### 2. Grid Pattern
 
-Responsive grid layouts that adapt column count by screen size:
+The structural `Grid` adapts its column count to the width of its **container**, not the viewport — it is a container query (`@container` + `@md:`/`@lg:` variants), so the same grid works inside a sidebar or a full-width section:
 
 ```astro
 ---
@@ -96,17 +96,19 @@ interface Props {
 const { class: className } = Astro.props;
 ---
 
-<div class:list={["grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3", className]}>
+<div class:list={["@container grid grid-cols-1 gap-8 @md:grid-cols-2 @lg:grid-cols-3", className]}>
   <slot />
 </div>
 ```
 
 **Responsive behavior:**
 
-- Mobile: 1 column (`grid-cols-1`)
-- Tablet: 2 columns (`md:grid-cols-2`)
-- Desktop: 3 columns (`lg:grid-cols-3`)
-- Gap: `32px` consistent across breakpoints
+- Narrow container: 1 column (`grid-cols-1`)
+- Container ≥ `28rem` (448px): 2 columns (`@md:grid-cols-2`)
+- Container ≥ `32rem` (512px): 3 columns (`@lg:grid-cols-3`)
+- Gap: `32px` consistent across sizes
+
+Because the thresholds are container widths, the grid inside a full-width `Container` (max `1280px`) reaches three columns well before the viewport `lg:` breakpoint. Use viewport-based utilities (`md:grid-cols-2`) directly when you want the layout tied to the screen instead.
 
 **Usage:**
 
@@ -157,40 +159,50 @@ export interface Props {
 
 ### 4. Navigation Pattern
 
-Hide/show navigation based on screen size with CSS-only mobile menu:
+Hide/show navigation based on screen size with a CSS-only mobile menu. The shipped `src/components/structural/Header.astro` switches at the `lg:` breakpoint (1024px) — the eight-item nav does not fit at `md:` — and uses a hidden checkbox plus `peer-checked:` classes, with a small script that only syncs `aria-expanded`:
 
 ```astro
+<!-- Simplified from src/components/structural/Header.astro -->
 <header class="sticky top-0 z-50 w-full">
-  <div class="container flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
+  <div class="flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
     <!-- Logo -->
-    <a href="/">Logo</a>
+    <a href="/" aria-label="Homepage">Logo</a>
 
-    <!-- Desktop Navigation: hidden on mobile, visible md+ -->
-    <nav class="hidden md:flex items-center gap-8">
-      <a href="/about">About</a>
-      <a href="/blog">Blog</a>
+    <!-- Desktop Navigation: hidden on mobile, visible lg+ -->
+    <nav class="hidden lg:flex items-center gap-8" aria-label="Main navigation">
+      <a href="/about/">About</a>
+      <a href="/blog/">Blog</a>
     </nav>
 
-    <!-- Mobile Menu Toggle: visible on mobile, hidden md+ -->
-    <label class="md:hidden">
-      <input type="checkbox" class="peer sr-only" />
+    <!-- Mobile Menu Toggle: visible below lg, hidden lg+ -->
+    <label
+      for="mobile-menu-toggle"
+      class="inline-flex h-10 w-10 items-center justify-center lg:hidden"
+      aria-label="Toggle menu"
+      aria-controls="mobile-menu"
+      aria-expanded="false"
+      data-mobile-menu-button
+    >
       <!-- Hamburger icon -->
     </label>
   </div>
 
+  <!-- Hidden checkbox controls mobile nav visibility via peer-checked classes -->
+  <input id="mobile-menu-toggle" type="checkbox" class="peer sr-only" aria-controls="mobile-menu" aria-label="Toggle main menu" />
+
   <!-- Mobile Menu: hidden by default, shown when checkbox checked -->
-  <nav class="hidden peer-checked:flex md:hidden">
-    <a href="/about">About</a>
-    <a href="/blog">Blog</a>
+  <nav id="mobile-menu" class="hidden flex-col gap-6 peer-checked:flex lg:hidden" aria-label="Mobile navigation">
+    <a href="/about/">About</a>
+    <a href="/blog/">Blog</a>
   </nav>
 </header>
 ```
 
 **Key techniques:**
 
-- `hidden md:flex` - Hide on mobile, show as flex on tablet+
-- `md:hidden` - Show on mobile, hide on tablet+
-- `peer-checked:flex` - CSS-only toggle (no JavaScript)
+- `hidden lg:flex` - Hide below the desktop breakpoint, show as flex on `lg+`
+- `lg:hidden` - Show on mobile/tablet, hide on `lg+`
+- `peer-checked:flex` - CSS-only toggle (the only JavaScript keeps `aria-expanded` in sync)
 
 ### 5. Typography Scaling
 
@@ -224,7 +236,7 @@ Scale text sizes responsively for optimal readability:
 Adjust margins, padding, and gaps across breakpoints:
 
 ```astro
-<!-- Vertical spacing -->
+<!-- Vertical spacing (the structural Section defaults to py-16 sm:py-24 lg:py-32; override via class) -->
 <Section class="py-12 sm:py-16 lg:py-24">
   <Container>
     <div class="space-y-8 sm:space-y-12 lg:space-y-16">
@@ -664,7 +676,7 @@ Test on actual devices when possible:
 Use Playwright for responsive testing:
 
 ```typescript
-// tests/responsive.spec.ts
+// e2e/responsive.spec.ts (illustrative — the shipped e2e/header.spec.ts covers the mobile menu surface)
 import { test, expect } from '@playwright/test';
 
 test.describe('Responsive Design', () => {
@@ -672,11 +684,11 @@ test.describe('Responsive Design', () => {
     await page.setViewportSize({ width: 375, height: 667 });
     await page.goto('/');
     
-    // Mobile menu should be visible
-    await expect(page.locator('[aria-label="Toggle menu"]')).toBeVisible();
+    // Mobile menu button should be visible (Header.astro marks it with data-mobile-menu-button)
+    await expect(page.locator('[data-mobile-menu-button]')).toBeVisible();
     
-    // Desktop nav should be hidden
-    await expect(page.locator('nav.hidden.md\\:flex')).not.toBeVisible();
+    // Desktop nav should be hidden below lg (1024px)
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).not.toBeVisible();
   });
 
   test('desktop layout', async ({ page }) => {
@@ -684,10 +696,10 @@ test.describe('Responsive Design', () => {
     await page.goto('/');
     
     // Desktop nav should be visible
-    await expect(page.locator('nav.hidden.md\\:flex')).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
     
-    // Mobile menu toggle should be hidden
-    await expect(page.locator('[aria-label="Toggle menu"]')).not.toBeVisible();
+    // Mobile menu button should be hidden
+    await expect(page.locator('[data-mobile-menu-button]')).not.toBeVisible();
   });
 });
 ```
@@ -699,13 +711,14 @@ test.describe('Responsive Design', () => {
 | Pattern | Mobile | Tablet | Desktop |
 |---------|--------|--------|---------|
 | Container padding | `px-4` | `sm:px-6` | `lg:px-8` |
-| Grid columns | `grid-cols-1` | `md:grid-cols-2` | `lg:grid-cols-3` |
+| Grid columns (viewport) | `grid-cols-1` | `md:grid-cols-2` | `lg:grid-cols-3` |
+| Grid columns (structural `Grid`, container query) | `grid-cols-1` | `@md:grid-cols-2` | `@lg:grid-cols-3` |
 | Hero heading | `text-3xl` | `sm:text-4xl` | `lg:text-6xl` |
 | Body text | `text-base` | `sm:text-lg` | - |
-| Section padding | `py-12` | `sm:py-16` | `lg:py-24` |
+| Section padding (structural `Section` default) | `py-16` | `sm:py-24` | `lg:py-32` |
 | Button height | `h-10` | `sm:h-12` | - |
 | Flex direction | `flex-col` | `sm:flex-row` | - |
-| Navigation | `hidden` | `md:flex` | - |
+| Navigation (`Header.astro`) | `hidden` | - | `lg:flex` |
 
 ## Troubleshooting
 
@@ -718,7 +731,7 @@ test.describe('Responsive Design', () => {
 1. Check class order: `base sm: md: lg:` (mobile-first)
 2. Verify no conflicting styles
 3. Inspect in DevTools to see computed styles
-4. Ensure Tailwind is processing the file (v4 auto-detects content via Vite dependency graph)
+4. Ensure Tailwind is processing the file (the `@tailwindcss/vite` plugin auto-detects content via the Vite dependency graph)
 
 ### Issue: Layout Shift on Resize
 

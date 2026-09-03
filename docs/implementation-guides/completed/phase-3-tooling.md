@@ -1,9 +1,9 @@
 ---
 title: Phase 3 - Essential Tooling & Quality Gates
-lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Details linting setup, formatting configuration, CI pipeline, and quality
   gates — Foundation tier, essential for all projects
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
@@ -12,9 +12,11 @@ pagefind: true
 ## Overview
 
 - **Tier**: Foundation (Phase 3 of 12)
+- **Scope**: Essential, with one Recommended step (scope labels follow [ADR-033](/adr/033-track-consolidation/))
 - **Duration**: 1 day
 - **Dependencies**: Phase 0-2 completed
 - **Deliverables**: Linting setup, formatting config, CI pipeline, quality gates
+- **Code examples**: [Phase 3 - Code Examples](/implementation-guides/completed/phase-3-code-examples/)
 
 ## Entry Criteria
 
@@ -55,11 +57,12 @@ This project uses Biome as its primary tool for code formatting and linting, rep
 
 ### Before Committing
 
-Our pre-commit hooks will automatically:
+Our pre-commit hook runs `lint-staged`, which automatically:
 
-- Format your code with Biome
-- Sort Tailwind classes
-- Validate TypeScript types
+- Runs `biome check --write` on staged code files (format, lint, import sorting)
+- Runs `markdownlint-cli2 --fix` on staged Markdown files
+
+The commit-msg hook runs `commitlint`, and the pre-push hook runs the unit tests (`pnpm run test:unit`). Type checking is not part of the hooks — `tsc` and `astro check` run via `pnpm run quality` locally and `quality:ci` in CI.
 
 ### Manual Checks
 
@@ -69,13 +72,21 @@ Run all quality checks:
 pnpm run quality
 ```
 
-_Note: As the project grows, the full `pnpm run quality` suite (including tests, extensive linting, etc.) might become slower. For faster local iteration, a mechanism such as setting an environment variable (e.g., `CI=0` or `FAST_LINT=true`) might be implemented to run a quicker, focused subset of these checks. However, the complete quality suite will always be enforced by pre-commit hooks and the CI pipeline to ensure no regressions._
+The canonical gate — the same command CI runs, and the one a change must pass before it can be called complete — is:
+
+```bash
+pnpm run quality:ci
+```
+
+_Note: As the project grows, the full `pnpm run quality` suite (including tests, extensive linting, etc.) might become slower. For faster local iteration, a mechanism such as setting an environment variable (e.g., `CI=0` or `FAST_LINT=true`) might be implemented to run a quicker, focused subset of these checks. However, the complete quality suite will always be enforced by the CI pipeline (the git hooks run a faster subset: lint-staged pre-commit, unit tests pre-push) to ensure no regressions._
 
 Individual checks:
 
 - `pnpm run lint` - Check for code issues
 - `pnpm run format:check` - Verify formatting
 - `pnpm run check` - Type checking
+
+`quality:ci` chains these plus markdown linting, unit tests, and the repo's consistency gates — treat it as the single source of truth for "is this change done".
 
 ### Code Style
 
@@ -109,13 +120,16 @@ Individual checks:
 4. Push and create PR
 5. Ensure CI passes
 
-### Performance Budget
+### Performance Budgets
 
-Respect our performance budgets:
+CI enforces these raw (uncompressed) budgets on every push — see `.github/workflows/ci.yml`; the sizes live in `budgets.json` and are applied by `pnpm run perf:budgets` together with any unexpired `budget-overrides.json` entries:
 
-- JS Bundle: < 160KB
-- CSS Bundle: < 50KB
-- Images: < 200KB each
+- **JavaScript**: 160KB total (also checked by the inline "Enforce JS bundle size budget" step), 64KB per file
+- **Fonts**: 150KB total, 64KB per file
+- **Images**: 200KB per file (`budgets.json`, plus the source and build-output image gate `pnpm run images:gate` — [ADR-057](/adr/057-image-budget-gate/))
+- **Font preloads**: at most 2 per page (`pnpm run fonts:gate` — [ADR-058](/adr/058-font-preload-budget/))
+
+CSS has **no enforced size budget** — the 50KB figure quoted elsewhere is advisory (tracked, not CI-gated; see the `$comment` in `budgets.json`). Lighthouse category floors are gated by the separate `lighthouse.yml` workflow. Full targets: [Performance Budgets & Quality Guardrails](/implementation-guides/reference/budgets-guardrails/).
 
 ### Accessibility
 
@@ -132,8 +146,8 @@ Respect our performance budgets:
 2. **Slow CI**: Running unnecessary checks
    - **Solution**: Parallelize jobs, cache dependencies
 
-3. **Token Drift**: Forgetting to commit built tokens
-   - **Solution**: CI validates token builds
+3. **Token Drift**: Hand-editing generated files — `tokens/dist/` is gitignored and rebuilt by `predev` and `build`
+   - **Solution**: Edit `tokens/*.json` only; `pnpm run tokens:build` regenerates `tokens/dist/` (CI's `build` step does the same), and `design:validate` gates the source tokens for WCAG AA contrast
 
 4. **Type Errors Hidden**: Not running strict checks
    - **Solution**: Both `tsc` and `astro check` in CI
@@ -148,7 +162,6 @@ Respect our performance budgets:
 - [ ] Token validation in CI
 - [ ] Branch protection enabled
 - [ ] Security scanning active
-- [ ] VSCode settings configured
 - [ ] Contributing guide written
 
 ## Rollback Strategy
@@ -158,10 +171,9 @@ If tooling causes issues:
 1. **Biome Problems**:
 
     ```bash
-       # Temporarily disable
-       mv biome.json biome.json.backup
-       # Use basic prettier config
-       echo '{"semi": true}' > .prettierrc
+       # Revert to the last known-good Biome config — Biome is the only
+       # formatter/linter in this stack; do not fall back to Prettier or ESLint
+       git checkout HEAD~1 -- biome.json
     ```
 
 2. **CI Failures**:
@@ -174,11 +186,7 @@ If tooling causes issues:
 
 3. **Hook Issues**:
 
-    ```bash
-       # Bypass hooks temporarily
-       git commit --no-verify
-       # Fix and re-enable
-    ```
+    Do not bypass the pre-commit or commit-msg hooks with `--no-verify` — the gates are halt-on-violation by design ([ADR-039](/adr/039-halt-on-violation-enforcement/)). Fix the underlying failure (or revert the change that introduced it) so the hook passes, then commit. The pre-push hook's own header allows `--no-verify` only for a deliberate WIP backup push.
 
 ## AI Assistant Notes
 
@@ -186,8 +194,10 @@ If tooling causes issues:
 
 - `biome.json` - Linting and formatting rules
 - `.github/workflows/ci.yml` - CI pipeline
-- `package.json` - Scripts and hooks
-- `.vscode/settings.json` - Editor config
+- `package.json` - Scripts and hooks (`lint-staged` config lives here)
+- `.husky/` - Pre-commit, commit-msg, and pre-push hooks
+- `.commitlintrc.cjs` - Conventional commit rules
+- `budgets.json` - Enforced raw-size budgets
 
 ### Common Prompts for This Phase
 

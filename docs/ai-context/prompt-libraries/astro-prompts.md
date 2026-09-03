@@ -1,6 +1,6 @@
 ---
-title: Astro Prompt Templates
-lastUpdated: 2025-06-10T00:00:00.000Z
+title: Astro Prompts
+lastUpdated: true
 description: Copy-paste prompts for common development tasks using AI assistants
 tableOfContents: true
 pagefind: true
@@ -14,14 +14,14 @@ pagefind: true
 ```text
 Create an Astro component called [ComponentName] that:
 - Has TypeScript props interface
-- Uses our design tokens from tokens/base.json
+- Uses our design tokens from tokens/ (semantic roles in tokens/semantic.json, built on tokens/base.json)
 - Is fully accessible with proper ARIA labels
 - Works without JavaScript
 - Follows our atomic design pattern
 - Includes these props: [list props]
 - Has these variants: [list variants]
 
-Reference our Button component pattern from phase-5-components.md
+Reference our Button component pattern from /implementation-guides/active-phases/phase-5-components/
 ```
 
 ### Interactive Component
@@ -30,14 +30,14 @@ Reference our Button component pattern from phase-5-components.md
 Create an Astro component with optional interactivity:
 - Name: [ComponentName]
 - Static by default (zero JS)
-- Progressive enhancement with vanilla JS or Preact island for: [interaction details]
-- Use client:visible directive if needed
-- Follow islands architecture from patterns/islands-architecture.md
+- Prefer a CSS-only solution; if state is genuinely needed, use a Preact island for: [interaction details]
+- Use client:idle or client:visible (client:load is forbidden per ADR-001)
+- Follow islands architecture from /patterns/islands-architecture/
 - Maintain all functionality without JavaScript
 - Include keyboard navigation
 - Test with screen readers
 
-Performance budget: < 5KB JavaScript
+Performance budget: < 50KB per island (Tier 2 in /implementation-guides/reference/budgets-guardrails/)
 ```
 
 ### Complex Layout Component
@@ -52,7 +52,7 @@ Build a [SectionName] section component that:
 - Has these responsive breakpoints: [list breakpoints]
 - References design tokens for spacing/colors
 
-See phase-6-sections.md for section patterns
+See /implementation-guides/active-phases/phase-6-sections/ for section patterns
 ```
 
 ## Content Modeling Prompts
@@ -68,7 +68,7 @@ Create an Astro content collection schema for [ContentType]:
 - Add proper TypeScript types
 - Include image field using Astro's image helper
 - Add any computed fields needed
-- Reference our blog schema in phase-1-content-arch.md
+- Reference our blog schema in /implementation-guides/completed/phase-1-content-arch/
 
 Consider future content needs and extensibility
 ```
@@ -85,7 +85,7 @@ Create an MDX component for [Purpose]:
 - Is accessible and semantic
 - Can be used like: <ComponentName prop="value" />
 
-Follow MDX patterns from content-collections.md
+Follow MDX patterns from /patterns/mdx-components/
 ```
 
 ## Performance Optimization Prompts
@@ -99,10 +99,10 @@ Optimize images in [Component/Page]:
 - Include proper sizes attribute
 - Add loading="lazy" except above fold
 - Set width and height to prevent CLS
-- Use our OptimizedImage wrapper pattern
+- Use our src/components/atoms/Image.astro wrapper (ADR-030)
 - Keep images under 200KB after optimization
 
-Reference performance-patterns.md for examples
+Reference /patterns/performance-patterns/ for examples
 ```
 
 ### Bundle Size Reduction
@@ -115,9 +115,9 @@ Reduce JavaScript bundle size for [Feature]:
 - Use dynamic imports where appropriate
 - Consider CSS-only alternatives
 - Implement progressive enhancement
-- Stay within our 160KB total JS budget
+- Stay within our 160KB total raw JS budget
 
-See budgets-guardrails.md for limits
+See /implementation-guides/reference/budgets-guardrails/ for limits
 ```
 
 ### Lighthouse Score Improvement
@@ -132,7 +132,7 @@ Improve Lighthouse scores for [Page]:
 - Optimize critical rendering path
 - Add performance monitoring
 
-Reference phase-9-performance.md
+Reference /implementation-guides/active-phases/phase-9-performance/
 ```
 
 ## Testing & Quality Prompts
@@ -150,7 +150,7 @@ Audit [Component/Page] for accessibility:
 - Validate ARIA usage
 - Test reduced motion preferences
 
-Must meet WCAG AA standards from budgets-guardrails.md
+Must meet WCAG AA standards from /implementation-guides/reference/budgets-guardrails/
 ```
 
 ### E2E Test Creation
@@ -165,7 +165,7 @@ Write Playwright E2E test for [Feature]:
 - Measure performance impact
 - Follow our testing patterns
 
-See phase-8-qa.md for test structure
+See /implementation-guides/active-phases/phase-8-qa/ for test structure
 ```
 
 ## Architecture & Patterns Prompts
@@ -176,13 +176,13 @@ See phase-8-qa.md for test structure
 Evaluate if [Feature] needs client-side JavaScript:
 1. Can it be done with HTML/CSS only?
 2. Can it be done at build time?
-3. Can View Transitions API work?
+3. Can Astro's <ClientRouter /> (astro:transitions) cover the interaction?
 4. What specific interactivity is needed?
 5. What's the performance cost?
-6. Which island directive to use?
+6. If a Preact island is required, which directive — client:idle or client:visible?
 
 If JS is needed, document in ADR following our template
-Reference islands-architecture.md for decision framework
+Reference /patterns/islands-architecture/ for decision framework
 ```
 
 ### Performance Pattern Implementation
@@ -197,7 +197,7 @@ Implement [Pattern] for better performance:
 - How to measure success
 - Rollback plan if it fails
 
-Follow patterns from performance-patterns.md
+Follow patterns from /patterns/performance-patterns/
 ```
 
 ## Troubleshooting Prompts
@@ -214,22 +214,22 @@ Debug Astro build error:
 - Verify content collections schema
 - Check for circular dependencies
 
-Reference our tooling setup in phase-3-tooling.md
+Reference our tooling setup in /implementation-guides/completed/phase-3-tooling/
 ```
 
 ### Performance Regression
 
 ```text
 Investigate performance regression:
-- Metric that regressed: [LCP, FID, CLS, etc.]
+- Metric that regressed: [LCP, INP, CLS, etc.]
 - When it started: [commit/date]
 - Current value: [X]
 - Previous value: [Y]
 - Check: bundle sizes, image sizes, render-blocking resources
 - Use: Lighthouse CI, bundle analyzer
-- Compare with baseline in perf-baseline/
+- Compare with performance-baseline.json (regenerate with pnpm perf:baseline)
 
-Follow rollback strategy from phase-9-performance.md
+Follow rollback strategy from /implementation-guides/active-phases/phase-9-performance/
 ```
 
 ## Migration Prompts
@@ -263,7 +263,7 @@ Migrate content schema for [Collection]:
 - Create rollback plan
 - Document in content changelog
 
-See content migration patterns in content-collections.md
+See content migration patterns in /patterns/content-collections/
 ```
 
 ## Documentation Prompts
@@ -279,9 +279,9 @@ Document [Component] following our standards:
 - Performance considerations
 - Common pitfalls
 - Related components
-- Add to the `/showcase` living style guide (Advanced scope only — ADR-049)
+- Add to the /showcase living style guide (ADR-049)
 
-Follow documentation pattern from phase-5-components.md
+Follow documentation pattern from /implementation-guides/active-phases/phase-5-components/
 ```
 
 ### ADR Creation
@@ -296,7 +296,7 @@ Create Architecture Decision Record for [Decision]:
 - Validation: [how to measure success]
 
 Use ADR template from docs/adr/template.md
-Number it sequentially (ADR-XXX)
+Number it sequentially (ADR-XXX — the next number after the ADRs in docs/adr/)
 ```
 
 ## Quick Fixes
@@ -305,12 +305,12 @@ Number it sequentially (ADR-XXX)
 
 ```text
 Add dark mode support to [Component]:
-- Use our semantic color tokens
-- Add dark: variants in Tailwind
+- Use our semantic role tokens — they flip in .dark automatically
+- No manual dark: variants (ADR-047)
 - Test contrast in both modes
 - Respect system preferences
 - No flash of wrong theme
-- Reference design-system.md tokens
+- Reference /development/how-to-use-design-tokens/ for the token structure
 ```
 
 ### Make Component Responsive
@@ -341,7 +341,7 @@ Improve SEO for [Page]:
 
 ## Usage Tips
 
-1. **Always provide context** about your current phase and track
+1. **Always provide context** about your current phase and tier (Foundation, Build, or Polish — ADR-033)
 2. **Reference specific files** from the implementation guides
 3. **Include current metrics** when asking for optimization
 4. **Mention constraints** like bundle size or browser support

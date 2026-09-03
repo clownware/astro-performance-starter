@@ -1,6 +1,8 @@
 ---
-title: Install Husky
-description: '```bash'
+title: git hooks
+description: >-
+  Husky install steps and the template's three hook files (pre-commit,
+  commit-msg, pre-push)
 lastUpdated: true
 tableOfContents: true
 pagefind: true
@@ -14,8 +16,6 @@ pnpm exec husky init
 echo 'pnpm exec lint-staged' > .husky/pre-commit
 ```
 
-Husky v9 hooks are plain one-line scripts — no shebang or `husky.sh` sourcing:
-
 **`.husky/pre-commit`:**
 
 ```bash
@@ -27,3 +27,16 @@ pnpm exec lint-staged
 ```bash
 pnpm exec commitlint --edit "$1"
 ```
+
+**`.husky/pre-push`:**
+
+```bash
+#!/usr/bin/env sh
+# Run the unit test suite before pushing so failures surface locally
+# instead of in CI. Skip with --no-verify if you have a deliberate reason
+# (e.g. pushing WIP for backup).
+pnpm run test:unit
+```
+
+> Current Husky hook files are plain shell commands — the `husky.sh` sourcing
+> boilerplate from older Husky releases is gone.

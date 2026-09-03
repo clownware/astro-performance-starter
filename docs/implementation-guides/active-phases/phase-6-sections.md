@@ -1,11 +1,13 @@
 ---
 title: Phase 6 - Page Sections & Composition
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: >-
   Covers composed page sections, hero components, feature grids, and
   testimonials with Essential, Recommended, and Advanced scope guidance
 tableOfContents: true
 pagefind: true
+sidebar:
+  order: 6
 ---
 ## Overview
 
@@ -44,7 +46,7 @@ pagefind: true
 
 ## Lightweight Section Loading
 
-> **Why this change?** Earlier versions embedded large inline scripts for each section. We now extract the observer/animation logic into a tiny Preact island (`StatsObserverIsland.tsx`) imported **once**. Each section renders minimal HTML on the server so users without JavaScript still see meaningful content.
+> **Why this change?** Earlier versions embedded large inline scripts for each section. Extract the observer/animation logic into a tiny Preact island in `src/components/islands/`, imported **once** — the template's shipped islands (`SignalsCounter.tsx`, `MotionLab.tsx`) model this pattern. Each section renders minimal HTML on the server so users without JavaScript still see meaningful content.
 >
 > **Implementation tips**
 >
@@ -111,7 +113,8 @@ If section implementation causes issues:
 
 ### Key Files to Reference
 
-- `src/components/sections/*` - All section components
+- `src/components/structural/Section.astro` and `Container.astro` - Section building blocks (sections are composed in pages; there is no separate `sections/` directory)
+- `src/components/islands/*` - Preact islands for animated sections
 - `src/pages/index.astro` - Section composition
 - Section-specific assets and content
 

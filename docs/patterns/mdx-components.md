@@ -1,27 +1,29 @@
 ---
 title: MDX Components Guide
 description: Complete guide to using and customizing MDX components for enhanced content authoring
-lastUpdated: 2025-09-30
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 
 ## Overview
 
-MDX combines Markdown with JSX, allowing you to use React/Preact components directly in your content. This template includes 6 production-ready MDX components that enhance your content with interactive elements, better semantics, and improved accessibility.
+MDX combines Markdown with JSX, allowing you to use Astro and Preact components directly in your content. This template includes 6 production-ready MDX components that enhance your content with interactive elements, better semantics, and improved accessibility.
 
 **Location**: `src/components/mdx/`
 
-**Configuration**: Components are registered in `src/components/mdx/index.ts` and integrated via `astro.config.mjs`
+**Configuration**: Five components are registered in `src/components/mdx/index.ts` and passed to the MDX integration in `astro.config.mjs`; `CodeFromFile` is imported explicitly where used.
 
 ---
 
 ## Component Registry
 
-All MDX components are exported from `src/components/mdx/index.ts` and automatically available in `.mdx` files:
+The map exported from `src/components/mdx/index.ts` is what every `.mdx` file receives automatically (the `.astro` entries are loaded through guarded dynamic imports so the module can also be evaluated by Node when `astro.config.mjs` imports it):
 
 ```typescript
-// src/components/mdx/index.ts
+// src/components/mdx/index.ts (shipped — trimmed)
+import Link from "./Link";
+
 export const components = {
   // Custom components (PascalCase in MDX)
   Figure: figure,
@@ -32,7 +34,11 @@ export const components = {
   a: Link,
   blockquote: blockquote,
 };
+
+export default components;
 ```
+
+`CodeFromFile` is deliberately absent — it reads from disk at build time and takes a `parentUrl`, so it is imported per file.
 
 ---
 
@@ -71,7 +77,7 @@ const citeId = `quote-cite-${crypto.randomUUID()}`;
   <div class="flex items-start gap-4">
     <!-- Quote icon -->
     <svg
-      class="h-6 w-6 shrink-0 text-primary-400 dark:text-primary-600 mt-1"
+      class="h-6 w-6 shrink-0 text-link mt-1"
       fill="currentColor"
       viewBox="0 0 24 24"
       aria-hidden="true"
@@ -164,42 +170,44 @@ const {
   borderRadius = "0.375rem",
 } = Astro.props as Props;
 
-const baseClasses =
-  "border-l-(--callout-border-width) p-(--callout-padding) my-(--callout-margin) rounded-r-(--callout-border-radius) shadow-sm";
-const styleAttr = `--callout-padding: ${padding}; --callout-margin: ${margin}; --callout-border-width: ${borderWidth}; --callout-border-radius: ${borderRadius};`;
+// Sizing applied via inline style so dynamic prop values resolve reliably;
+// colour utility classes still drive the variant theming below.
+const baseClasses = "shadow-sm motion-reduce:transition-none";
+const styleAttr = `border-left-width: ${borderWidth}; padding: ${padding}; margin-top: ${margin}; margin-bottom: ${margin}; border-top-right-radius: ${borderRadius}; border-bottom-right-radius: ${borderRadius};`;
 
 const typeStyles: Record<
   Props["type"],
   { border: string; background: string; text: string; defaultTitle: string }
 > = {
+  // Role tokens flip light/dark automatically — no manual dark: variants.
   note: {
-    border: "border-primary-500",
-    background: "bg-primary-100",
-    text: "text-primary-800",
+    border: "border-link",
+    background: "bg-primary/10",
+    text: "text-foreground",
     defaultTitle: "Note",
   },
   info: {
-    border: "border-primary-400",
-    background: "bg-primary-50",
-    text: "text-primary-700",
+    border: "border-link",
+    background: "bg-primary/5",
+    text: "text-foreground",
     defaultTitle: "Information",
   },
   warning: {
-    border: "border-secondary-500",
-    background: "bg-secondary-100",
-    text: "text-secondary-800",
+    border: "border-warning",
+    background: "bg-warning/10",
+    text: "text-foreground",
     defaultTitle: "Warning",
   },
   danger: {
-    border: "border-secondary-600",
-    background: "bg-secondary-100",
-    text: "text-secondary-800",
+    border: "border-error",
+    background: "bg-error/10",
+    text: "text-foreground",
     defaultTitle: "Danger",
   },
   success: {
-    border: "border-primary-600",
-    background: "bg-primary-100",
-    text: "text-primary-800",
+    border: "border-success",
+    background: "bg-success/10",
+    text: "text-foreground",
     defaultTitle: "Success",
   },
 };
@@ -222,7 +230,8 @@ const iconPaths: Record<Props["type"], string> = {
 };
 const iconPath = iconPaths[type] || iconPaths.note;
 
-const legacyClass = (Astro.props as any).class as string | undefined;
+// Back-compat: accept legacy `class` prop if provided
+const legacyClass = (Astro.props as { class?: string }).class;
 const mergedClassName = className ?? legacyClass;
 ---
 
@@ -287,8 +296,8 @@ const mergedClassName = className ?? legacyClass;
 - Customizable titles (defaults provided)
 - Optional icons with SVG sprite support
 - Proper ARIA roles (`alert` for warnings/danger, `region` for others)
-- CSS custom properties for spacing customization
-- Design token integration
+- Spacing props (`padding`, `margin`, `borderWidth`, `borderRadius`) applied via an inline `style` attribute
+- Role-token colours (`border-link`, `bg-warning/10`, …) that flip with the theme — no `dark:` variants needed
 
 ---
 
@@ -509,11 +518,11 @@ const _colClasses = [
 - Tailwind CSS grid utilities
 - Flexible content (accepts any child elements)
 
-**Important**: Ensure your Tailwind configuration includes the grid classes used:
+**Important**: Tailwind only emits utilities it finds as literal strings in scanned source. `Grid.astro` builds its classes from template literals (`` `md:grid-cols-${md}` ``), so a column count is only generated if the same class appears literally somewhere else in the project. The values used on `/showcase` and in the blog content are covered today; if you use a combination nothing else uses, safelist it in `src/styles/global.css`:
 
 ```css
-/* In src/styles/global.css — use @source to safelist dynamic classes in v4 */
-@source "../components/mdx/Grid.astro";
+/* src/styles/global.css — safelist dynamic Grid classes (not currently needed by shipped content) */
+@source inline("{sm:,md:,lg:,xl:,}grid-cols-{1,2,3,4,5,6}");
 ```
 
 ---
@@ -524,20 +533,22 @@ Enhanced link component that automatically handles internal vs external links wi
 
 **File**: `src/components/mdx/Link.tsx`
 
-```typescript
+```tsx
 // src/components/mdx/Link.tsx
-import type { ComponentChildren, JSX } from "preact";
+import type { ComponentChildren } from "preact";
 
-interface LinkProps extends JSX.HTMLAttributes<HTMLAnchorElement> {
+interface LinkProps {
   children: ComponentChildren;
   href?: string;
+  class?: string;
+  [key: string]: unknown;
 }
 
 export default function Link({ children, href, class: className, ...props }: LinkProps) {
   const isExternal = href && (href.startsWith("http://") || href.startsWith("https://"));
 
   const defaultClasses =
-    "text-primary-600 dark:text-primary-400 hover:underline focus:outline-hidden focus:ring-2 focus:ring-primary-500/50 rounded-sm";
+    "text-link hover:underline focus:outline-hidden focus:ring-2 focus:ring-primary-500/50 rounded-sm";
 
   if (isExternal) {
     return (
@@ -549,6 +560,7 @@ export default function Link({ children, href, class: className, ...props }: Lin
         {...props}
       >
         {children}
+        <span class="sr-only"> (opens in new tab)</span>
       </a>
     );
   }
@@ -584,10 +596,10 @@ import Link from '@/components/mdx/Link';
 **Key Features**:
 
 - Automatic detection of external links
-- Adds `target="_blank"` and `rel="noopener noreferrer"` to external links
-- Consistent styling with design tokens
+- Adds `target="_blank"`, `rel="noopener noreferrer"` and a screen-reader-only "(opens in new tab)" hint to external links
+- Consistent styling with the `text-link` role token
 - Focus states for keyboard navigation
-- Works with Astro View Transitions
+- Plain `<a>` output, so `<ClientRouter />` view transitions work unchanged
 
 ---
 
@@ -598,21 +610,25 @@ import Link from '@/components/mdx/Link';
 MDX components are configured in `astro.config.mjs`:
 
 ```javascript
-// astro.config.mjs
+// astro.config.mjs (shipped excerpt)
 import mdx from '@astrojs/mdx';
-import { components } from './src/components/mdx/index.ts';
+import preact from '@astrojs/preact';
+import astroExpressiveCode from 'astro-expressive-code';
+import { components as mdxComponents } from './src/components/mdx/index.ts';
 
 export default defineConfig({
   integrations: [
+    // Expressive Code must precede mdx() so <Code> is available to CodeFromFile
+    astroExpressiveCode(),
     mdx({
-      // Make custom components available globally
-      remarkPlugins: [],
-      rehypePlugins: [],
-      // Components are passed via the MDX integration
+      components: mdxComponents,
     }),
+    preact(), // Link.tsx is a Preact component
   ],
 });
 ```
+
+Remark plugins (link validation, snippet includes) are configured on the top-level `markdown.processor`, not on `mdx()` — see [ADR-062](/adr/062-astro-7-upgrade-remark-retained/).
 
 ### Using Components in Content Collections
 
@@ -620,7 +636,9 @@ For Content Collections with MDX:
 
 ```typescript
 // src/content.config.ts
-import { defineCollection, z } from 'astro:content';
+import { defineCollection } from 'astro:content';
+import { glob } from 'astro/loaders';
+import { z } from 'astro/zod';
 
 const blog = defineCollection({
   loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
@@ -801,7 +819,7 @@ export const components = {
 
 **Issue**: TypeScript errors when using components in MDX
 
-**Solution**: Add MDX types to a declaration file under `src/types/` (the template keeps its type augmentation in `src/types/astro-content.d.ts`):
+**Solution**: The starter's `tsconfig.json` already loads `astro/client` types and the generated `.astro/env.d.ts`; run `pnpm astro sync` (or `pnpm run check`) to regenerate them after schema changes. The only checked-in augmentation is `src/types/astro-content.d.ts`, which re-exports `astro/content` under the `astro:content` module name. If your editor still cannot resolve `.mdx` imports, add a declaration file under `src/types/`:
 
 ```typescript
 /// <reference types="astro/client" />
@@ -837,10 +855,10 @@ pnpm run tokens:build
 
 ## Related Documentation
 
-- [Component Patterns](./component-patterns.md) - General component design patterns
-- [Content Collections](./content-collections.md) - Using MDX with Content Collections
-- [How to Use Design Tokens](../development/how-to-use-design-tokens.md) - Customizing component styling
-- [Accessibility Guide](../implementation-guides/guides/accessibility-guide.md) - WCAG compliance guidelines
+- [Component Patterns](/patterns/component-patterns/) - General component design patterns
+- [Content Collections](/patterns/content-collections/) - Using MDX with Content Collections
+- [How to Use Design Tokens](/development/how-to-use-design-tokens/) - Customizing component styling
+- [Accessibility Guide](/implementation-guides/guides/accessibility-guide/) - WCAG compliance guidelines
 
 ---
 
