@@ -35,8 +35,9 @@ export function initContactForm() {
       return;
     }
 
-    // Clear previous status
-    statusContainer.classList.add("hidden");
+    // Clear previous status. The container itself is never hidden — it is a
+    // live region and has to stay in the accessibility tree for the success
+    // and error announcements to fire reliably.
     successMessage.classList.add("hidden");
     errorMessage.classList.add("hidden");
 
@@ -54,7 +55,6 @@ export function initContactForm() {
 
       if (response.ok) {
         // Success
-        statusContainer.classList.remove("hidden");
         successMessage.classList.remove("hidden");
         form.reset();
         statusContainer.focus();
@@ -63,7 +63,6 @@ export function initContactForm() {
       }
     } catch (_error) {
       // Error
-      statusContainer.classList.remove("hidden");
       errorMessage.classList.remove("hidden");
       statusContainer.focus();
     } finally {
