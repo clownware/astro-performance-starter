@@ -168,6 +168,38 @@ test.describe("Contact Page", () => {
 		);
 	});
 
+	test("shows the success message after a successful submission", async ({
+		page,
+	}) => {
+		// Regression: the status region shipped with `invisible`
+		// (visibility: hidden) and the enhancement script only toggled
+		// `hidden`, so this message could never be seen and the role="status"
+		// live region never announced. The old suite asserted the POST and the
+		// form reset, both of which happened, which is why the gap survived.
+		await page.route("**/contact", async (route) => {
+			if (route.request().method() === "POST") {
+				await route.fulfill({ status: 200, body: "ok" });
+				return;
+			}
+			await route.continue();
+		});
+
+		await page.getByLabel(/name/i).first().fill("Pulci Nella");
+		await page.getByLabel(/email/i).first().fill("pulci@example.com");
+		await page
+			.getByLabel(/message/i)
+			.first()
+			.fill("A message comfortably past the minlength constraint.");
+		await page.getByRole("button", { name: /send message/i }).click();
+
+		const status = page.locator(".contact-form__status");
+		const success = page.locator(".contact-form__success");
+		await expect(success).toBeVisible();
+		// toBeVisible() already rejects visibility:hidden; assert the computed
+		// value too so a regression names the actual cause.
+		await expect(status).toHaveCSS("visibility", "visible");
+	});
+
 	test("should display contact cards with proper structure", async ({
 		page,
 	}) => {

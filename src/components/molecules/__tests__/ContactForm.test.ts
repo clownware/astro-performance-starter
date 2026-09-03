@@ -10,6 +10,29 @@ describe("ContactForm (molecule)", () => {
       expect(html).not.toMatch(/<form[^>]*\bnovalidate\b/);
     });
 
+    it("renders the status region visible and in the accessibility tree", async () => {
+      // Regression: the region shipped with Tailwind's `invisible`
+      // (visibility: hidden) while the enhancement script only ever toggled
+      // `hidden` on it. Nothing removed `invisible`, so the success and error
+      // messages could never be seen and the live region never announced.
+      const html = await render(ContactForm);
+      const status = html.match(/<div[^>]*class="[^"]*contact-form__status[^"]*"[^>]*>/)?.[0];
+      expect(status).toBeDefined();
+      expect(status).not.toMatch(/\binvisible\b/);
+      expect(status).not.toMatch(/\bhidden\b/);
+      expect(status).not.toMatch(/\bsr-only\b/);
+      expect(status).toMatch(/role="status"/);
+      expect(status).toMatch(/aria-live="polite"/);
+    });
+
+    it("ships both status messages hidden until a submission resolves", async () => {
+      const html = await render(ContactForm);
+      const success = html.match(/<div[^>]*class="[^"]*contact-form__success[^"]*"/)?.[0];
+      const error = html.match(/<div[^>]*class="[^"]*contact-form__error-message[^"]*"/)?.[0];
+      expect(success).toMatch(/\bhidden\b/);
+      expect(error).toMatch(/\bhidden\b/);
+    });
+
     it("keeps native constraint attributes on required fields", async () => {
       const html = await render(ContactForm);
       expect(html).toMatch(/name="name"[^>]*/);

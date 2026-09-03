@@ -31,7 +31,7 @@ function mountForm() {
         <span class="contact-form__submit-text">Send Message</span>
         <span class="contact-form__submit-loading hidden" aria-hidden="true"></span>
       </button>
-      <div class="contact-form__status invisible" role="status" tabindex="-1">
+      <div class="contact-form__status" role="status" aria-live="polite" tabindex="-1">
         <div class="contact-form__success hidden"></div>
         <div class="contact-form__error-message hidden"></div>
       </div>
@@ -122,5 +122,44 @@ describe("ContactFormScript", () => {
         false,
       ),
     );
+  });
+
+  it("never hides the status container itself — it is the live region", async () => {
+    // The container has to stay in the accessibility tree across the whole
+    // submit cycle, otherwise the announcement fires against a region the
+    // screen reader cannot see.
+    const form = mountForm();
+    initContactForm();
+    fillValid(form);
+
+    const status = form.querySelector(".contact-form__status") as HTMLElement;
+    expect(status.className).not.toMatch(/\b(hidden|invisible)\b/);
+
+    submit(form);
+    expect(status.className).not.toMatch(/\b(hidden|invisible)\b/);
+
+    await vi.waitFor(() =>
+      expect(form.querySelector(".contact-form__success")?.classList.contains("hidden")).toBe(
+        false,
+      ),
+    );
+    expect(status.className).not.toMatch(/\b(hidden|invisible)\b/);
+  });
+
+  it("reveals the error message and leaves the region visible when the request fails", async () => {
+    fetchMock.mockRejectedValueOnce(new Error("network down"));
+    const form = mountForm();
+    initContactForm();
+    fillValid(form);
+    submit(form);
+
+    await vi.waitFor(() =>
+      expect(form.querySelector(".contact-form__error-message")?.classList.contains("hidden")).toBe(
+        false,
+      ),
+    );
+    const status = form.querySelector(".contact-form__status") as HTMLElement;
+    expect(status.className).not.toMatch(/\b(hidden|invisible)\b/);
+    expect(form.querySelector(".contact-form__success")?.classList.contains("hidden")).toBe(true);
   });
 });
