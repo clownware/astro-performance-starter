@@ -1,6 +1,8 @@
 ---
 title: lint staged config
-description: "```json\r // package.json - lint-staged configuration\r {\r   \"lint-staged\": {\r     \"*.{astro,ts,tsx,js,jsx,json,yml,yaml}\": \"biome check --write --no-errors-on-unmatch"
+description: >-
+  lint-staged configuration: Biome checks staged code files, markdownlint fixes
+  staged Markdown (package.json section)
 lastUpdated: true
 tableOfContents: true
 pagefind: true

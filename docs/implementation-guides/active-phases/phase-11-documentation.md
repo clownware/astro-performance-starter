@@ -6,6 +6,8 @@ description: >-
 lastUpdated: true
 tableOfContents: true
 pagefind: true
+sidebar:
+  order: 11
 ---
 
 ## Overview
@@ -26,22 +28,22 @@ pagefind: true
 
 | Step | Task | Scope | Notes |
 |------|------|-------|-------|
-| 11.01 | Write README.md | Essential | Project overview and setup |
-| 11.02 | Document environment setup | Essential | Required variables |
+| 11.01 | Write README.md | Essential | Project overview and setup; expand with architecture as Recommended |
+| 11.02 | Document environment setup | Essential | Required variables first; comprehensive config as Recommended |
 | 11.03 | Create quick start guide | Essential | Get running in 5 mins |
 | 11.04 | List available scripts | Essential | Package.json commands |
 | 11.05 | Basic troubleshooting | Essential | Common issues |
-| 11.06 | Deployment instructions | Essential | How to deploy |
+| 11.06 | Deployment instructions | Essential | How to deploy; multi-environment guide as Advanced |
 | 11.07 | Content management guide | Essential | Adding/editing content |
 | 11.08 | License and credits | Essential | Open source attribution |
 | 11.09 | Architecture overview | Recommended | System design docs |
 | 11.10 | Component documentation | Recommended | Props, usage, examples |
-| 11.11 | API documentation | Recommended | Endpoints, responses |
+| 11.11 | API documentation | Advanced | Endpoints, responses (if applicable — the starter is static) |
 | 11.12 | Performance guide | Recommended | Optimization tips |
 | 11.13 | Security documentation | Recommended | Best practices |
 | 11.14 | Testing guide | Recommended | How to run tests |
 | 11.15 | Contributing guide | Advanced | For open source projects |
-| 11.16 | Changelog | Advanced | Version history |
+| 11.16 | Changelog | Recommended | Version history (`pnpm run release:changelog` generates it from conventional commits) |
 | 11.17 | Migration guides | Advanced | Upgrading versions |
 
 ## Documentation Structure
@@ -51,15 +53,15 @@ pagefind: true
 ````markdown
 # [Project Name]
 
-![Build Status](https://img.shields.io/github/workflow/status/username/repo/CI)
+![Build Status](https://img.shields.io/github/actions/workflow/status/username/repo/ci.yml?branch=master)
 ![License](https://img.shields.io/github/license/username/repo)
 ![Version](https://img.shields.io/github/package-json/v/username/repo)
 
-A lightning-fast portfolio site built with Astro, achieving Lighthouse target benchmarks (Performance ≥ 95, Accessibility 100, Best-Practices 100, SEO 100) through modern web development practices.
+A lightning-fast portfolio site built with Astro, achieving Lighthouse target benchmarks (Performance 95+, Accessibility 100, Best-Practices 100, SEO 100) through modern web development practices.
 
 ## ✨ Features
 
-- 🚀 **Blazing Fast**: Performance ≥ 95, Accessibility 100, Best-Practices 100, SEO 100
+- 🚀 **Blazing Fast**: Performance 95+, Accessibility 100, Best-Practices 100, SEO 100
 - 🎨 **Beautiful Design**: Tailwind CSS with custom design system
 - ♿ **Accessible**: WCAG AA compliant
 - 📱 **Responsive**: Mobile-first approach
@@ -72,8 +74,8 @@ A lightning-fast portfolio site built with Astro, achieving Lighthouse target be
 
 ### Prerequisites
 
-- Node.js 24.15 or later
-- pnpm 10 or later
+- Node.js — the release pinned in `.nvmrc` (see `versions.json`)
+- pnpm — the release pinned in `package.json` `packageManager`
 
 ### Installation
 
@@ -98,8 +100,8 @@ Visit `http://localhost:4321` to see your site.
 
 ```text
 src/
-├── components/     # Reusable UI components
-├── content/        # Markdown/MDX content
+├── components/     # Reusable UI components (atoms, molecules, structural, islands)
+├── content/        # Markdown/MDX content collections
 ├── layouts/        # Page layouts
 ├── pages/          # Route pages
 ├── styles/         # Global styles
@@ -113,21 +115,25 @@ src/
 | `pnpm dev` | Start development server |
 | `pnpm build` | Build for production |
 | `pnpm preview` | Preview production build |
-| `pnpm check` | Type check |
+| `pnpm check` | Astro type check |
 | `pnpm lint` | Lint code |
 | `pnpm format` | Format code |
+| `pnpm test` | Unit tests (Vitest) |
+| `pnpm test:e2e` | End-to-end tests (Playwright) |
 
 ## 🎨 Customization
 
 ### Design Tokens
 
-Edit design tokens in `tokens/base.json`:
+Primitive color scales (raw HSL channel values) live in `tokens/base.json`; the brand
+`primary` mapping lives in `tokens/semantic.json`, where it aliases one of those scales.
+Re-point it (or edit the underlying scale in `base.json`), then run `pnpm run tokens:build`:
 
 ```json
 {
-  "color": {
+  "semantic": {
     "primary": {
-      "500": { "value": "210 100% 50%" }
+      "500": { "value": "{color.violet.500}" }
     }
   }
 }
@@ -146,7 +152,7 @@ Add content in `src/content/`:
 
 1. Fork this repository
 2. Enable GitHub Pages (Settings → Pages → Source: GitHub Actions)
-3. Set the `SITE_URL` environment variable for the build
+3. Set the `SITE_URL` repository variable if you use a custom domain (otherwise the workflow derives `https://<owner>.github.io` and the `/<repo>` base path)
 4. Push to `master` — the deploy workflow builds and publishes `dist/`
 
 ### Other Platforms
@@ -155,14 +161,14 @@ Vercel, Netlify, and Cloudflare Pages all work with build command `pnpm build` a
 
 ## 📖 Documentation
 
-- [Architecture Overview](/architecture/)
-- [Component Guide](/components/)
-- [Performance Guide](/performance/)
-- [Contributing](/implementation-guides/CONTRIBUTING/)
+- `docs/architecture.md` — Architecture overview
+- `docs/components.md` — Component guide
+- `docs/performance.md` — Performance guide
+- `CONTRIBUTING.md` — Contributing guide
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read our [Contributing Guide](/implementation-guides/CONTRIBUTING/) first.
+Contributions are welcome! Please read `CONTRIBUTING.md` first.
 
 ## 📄 License
 
@@ -186,8 +192,8 @@ This project follows a component-based architecture with clear separation of con
 
 ### Technology Stack
 
-- **Framework**: Astro 7
-- **Styling**: Tailwind CSS 4 with design tokens
+- **Framework**: Astro (release pinned in `versions.json`)
+- **Styling**: Tailwind CSS with design tokens
 - **Language**: TypeScript (strict mode)
 - **Build Tool**: Vite
 - **Package Manager**: pnpm
@@ -208,19 +214,22 @@ project-root/
 │   ├── components/          # UI components (Atomic Design)
 │   │   ├── atoms/          # Basic building blocks
 │   │   ├── molecules/      # Composite components
-│   │   └── organisms/      # Complex sections
+│   │   ├── structural/     # Page-level structure (Header, Footer, Section)
+│   │   ├── islands/        # Preact islands (client-side interactivity)
+│   │   ├── a11y/           # Accessibility helpers
+│   │   └── mdx/            # MDX-embeddable components
+│   ├── content.config.ts   # Content Layer schemas (glob loaders)
 │   ├── content/            # Content collections
 │   │   ├── blog/           # Blog posts (MDX)
 │   │   └── projects/       # Project case studies
-│   ├── content.config.ts   # Schema definitions
 │   ├── layouts/            # Page layouts
 │   ├── pages/              # File-based routing
 │   ├── styles/             # Global styles
 │   └── utils/              # Helper functions
 ├── public/                 # Static assets
 ├── tokens/                 # Design tokens
-├── tests/                  # Unit tests
-└── e2e/                    # End-to-end tests
+├── e2e/                    # Playwright E2E suites
+└── tests/                  # Test fixtures
 ```
 
 ## Component Architecture
@@ -231,16 +240,16 @@ project-root/
 atoms/
   Button.astro      # Single-purpose components
   Badge.astro
-  Link.astro
+  Icon.astro
 
 molecules/
   Card.astro        # Combinations of atoms
-  FormField.astro
-  SearchBar.astro
+  ContactForm.astro
+  Dialog.astro
 
-organisms/
-  Header.astro      # Complete sections
-  Hero.astro
+structural/
+  Header.astro      # Page-level structure
+  Section.astro
   Footer.astro
 ```
 
@@ -277,11 +286,13 @@ graph TD
 - Zero JavaScript baseline
 - Progressive enhancement
 - Lazy loading for images
-- Service worker caching
+- Long-lived immutable caching for hashed `/_astro/*` assets (`public/_headers`)
 
 ## Security Architecture
 
 ### Headers Configuration
+
+Shipped in `public/_headers` (honoured by header-capable hosts; a no-op on GitHub Pages):
 
 ```text
 X-Frame-Options: DENY
@@ -349,29 +360,33 @@ import Button from '@/components/atoms/Button.astro';
 
 **Props:**
 
-- `variant`: 'primary' | 'secondary' | 'ghost' | 'danger'
-- `size`: 'sm' | 'md' | 'lg'
-- `href?`: string (renders as link if provided)
+- `variant?`: 'primary' | 'secondary' | 'ghost' (default 'primary')
+- `size?`: 'sm' | 'md' | 'lg' (default 'md')
+- `href?`: string (renders as `<a>` if provided, `<button>` otherwise)
 - `disabled?`: boolean
-- `external?`: boolean (adds target="_blank")
+- `class?`: string
+- Any other attribute is forwarded to the rendered element
 
 #### Atom: Badge
 
 Small labeling component for tags and statuses.
 
 ```astro
-<Badge variant="primary">Active</Badge>
-<Badge variant="neutral" size="sm">Beta</Badge>
+<Badge>Active</Badge>
+<Badge variant="neutral" size="xs">Beta</Badge>
 ```
 
 **Props:**
 
-- `variant`: 'primary' | 'secondary' | 'neutral'
-- `size`: 'xs' | 'sm' | 'md'
-- `role?`: ARIA role when the badge conveys status
-- `as?`: HTML element tag name
+- `variant?`: 'primary' | 'secondary' | 'neutral' (default 'primary')
+- `size?`: 'xs' | 'sm' | 'md' (default 'sm')
+- `class?`: string
+- Native `<span>` attributes (e.g. `role="status"` when the badge conveys state)
 
-#### Atom: FormField
+#### FormField (a component you build)
+
+The template has no shipped FormField — its contact form is the `molecules/ContactForm.astro`
+molecule. Document form components you build like this:
 
 Accessible form field with label and error handling.
 
@@ -394,9 +409,13 @@ Accessible form field with label and error handling.
 - `error?`: string
 - `helpText?`: string
 
-### Organisms
+### Section Components
 
-#### Hero
+#### Hero (a component you build)
+
+The template composes sections in pages from `structural/Section.astro` and
+`structural/Container.astro` rather than shipping a Hero — this documents the Hero pattern
+built in Phase 6.
 
 Full-width hero section with optional background pattern.
 
@@ -458,33 +477,39 @@ type Variant = keyof typeof variants;
 
 ## Testing Components
 
+### Unit Testing (Astro Container API)
+
+Component microtests render through the Astro Container API (ADR-040) and live next to the component:
+
+```typescript
+// src/components/atoms/__tests__/Button.test.ts
+// @vitest-environment node
+import { describe, expect, it } from "vitest";
+import { render } from "../../__tests__/_helpers/container";
+import Button from "../Button.astro";
+
+describe("Button (atom)", () => {
+  it("renders an <a> when href is provided", async () => {
+    const html = await render(Button, { href: "/about" }, { default: "About" });
+    expect(html).toMatch(/<a [^>]*href="\/about"/);
+  });
+});
+```
+
 ### Visual Testing
 
+Add every variant, size and state of a new component to the `/showcase` living style guide (`src/pages/showcase.astro`, ADR-049) so it is reviewed by the e2e and axe sweeps:
+
 ```astro
----
-// components/Button/Button.test.astro
-import Button from './Button.astro';
----
-
-<div class="test-grid">
-  <!-- Test all variants -->
-  {['primary', 'secondary', 'ghost'].map(variant => (
-    <Button variant={variant}>
-      {variant} Button
-    </Button>
-  ))}
-
-  <!-- Test all sizes -->
-  {['sm', 'md', 'lg'].map(size => (
-    <Button size={size}>
-      Size {size}
-    </Button>
-  ))}
-
-  <!-- Test states -->
-  <Button disabled>Disabled</Button>
-  <Button href="/link">Link Button</Button>
-</div>
+<!-- Inside a ShowcaseExample block on src/pages/showcase.astro -->
+{['primary', 'secondary', 'ghost'].map(variant => (
+  <Button variant={variant}>{variant} Button</Button>
+))}
+{['sm', 'md', 'lg'].map(size => (
+  <Button size={size}>Size {size}</Button>
+))}
+<Button disabled>Disabled</Button>
+<Button href="/link">Link Button</Button>
 ```
 
 ### Best Practices
@@ -498,6 +523,8 @@ import Button from './Button.astro';
 ````
 
 ### 4. API Documentation (If Applicable)
+
+The starter is fully static — its contact form posts to whatever `action` you configure (progressive enhancement, ADR-021) and there are no API routes. Document endpoints only if you add a backend:
 
 ````markdown
 # API Documentation

@@ -11,37 +11,55 @@ This document provides guidelines for creating and managing content within proje
 
 - **Content Location**: All structured content uses Astro's Content Collections API in `src/content/`
 - **Validation**: Run `pnpm run check` to validate TypeScript and content schemas
-- **Configuration**: Content collection schemas are defined in `src/content.config.ts`
+- **Configuration**: Content collection schemas are defined in [`src/content.config.ts`](https://github.com/clownware/astro-performance-starter/blob/master/src/content.config.ts)
 
 ## Content Collections Setup
 
-The template includes a basic content collection structure that you can extend:
+The template ships six content collections — `projects`, `blog`, `navigation`, `bio`, `experience`, and `adr` — that you can extend. The `adr` collection is unusual: it loads `docs/adr/NNN-*.md` so decision records publish as web routes ([ADR-062](/adr/062-astro-7-upgrade-remark-retained/)).
 
 ### Blog Collection Example
 
+The full `blog` schema, as defined in `src/content.config.ts`:
+
 ```typescript
-// src/content.config.ts
-import { defineCollection } from 'astro:content';
-import { glob } from 'astro/loaders';
-import { z } from 'astro/zod';
+// src/content.config.ts (excerpt — see the file for all six collections)
+import { defineCollection } from "astro:content";
+import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
 const blogCollection = defineCollection({
-  loader: glob({ pattern: '**/[^_]*.{md,mdx}', base: './src/content/blog' }),
+  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/blog" }),
   schema: ({ image }) =>
     z.object({
       title: z.string(),
       description: z.string().max(160),
       date: z.date(),
+      updated: z.date().optional(),
       draft: z.boolean().default(false),
+      featured: z.boolean().default(false),
       cover: image().optional(),
-      coverAlt: z.string(),
+      coverAlt: z.string(), // Required for accessibility when cover image is used
+      cardImage: image().optional(),
       tags: z.array(z.string()).default([]),
-      author: z.string().default('Your Name'),
+      technologies: z.array(z.string()).default([]),
+      author: z.string().default("Your Name"), // Default author
+      readingTime: z.number().optional(), // Optional: can be calculated
+      canonicalUrl: z.url().optional(),
+      relatedPosts: z.array(z.string()).optional(), // ids of related posts
     }),
 });
 
-export const collections = { blog: blogCollection };
+export const collections = {
+  projects: projectsCollection,
+  blog: blogCollection,
+  navigation: navigationCollection,
+  bio: bioCollection,
+  experience: experienceCollection,
+  adr: adrCollection,
+};
 ```
+
+Note that `coverAlt` is required even when `cover` is omitted — every post frontmatter needs it.
 
 ### Creating Content
 
@@ -52,7 +70,7 @@ export const collections = { blog: blogCollection };
 
 ## Using MDX Components
 
-The template supports MDX for rich content with React-like components:
+The template supports MDX for rich content with components:
 
 ```mdx
 ---
@@ -60,28 +78,32 @@ title: "Example Post"
 description: "Demonstrating MDX components"
 date: 2026-01-01
 coverAlt: ""
-tags: []
 ---
+
+import Image from '@/components/atoms/Image.astro';
+import exampleImage from './example.jpg';
 
 # My Post
 
 Regular markdown content works as expected.
 
-<Image src="./example.jpg" alt="Example image" />
+<Image src={exampleImage} alt="Example image" />
 
 You can also use any Astro components in your MDX files.
 ```
 
+`Figure`, `Grid`, and `Callout` (from `src/components/mdx/`) are pre-registered via `astro.config.mjs` and need no import; links and blockquotes are also rendered by the `Link` and `Blockquote` components there. Anything else — including `Image` — must be imported inside the MDX file.
+
 ## Image Guidelines
 
 - **Location**: Store images next to content files or in `src/assets/`
-- **Optimization**: Use the built-in `<Image />` component for automatic optimization
-- **Formats**: AVIF and WebP are automatically generated
+- **Optimization**: Use the template's `Image` atom ([`src/components/atoms/Image.astro`](https://github.com/clownware/astro-performance-starter/blob/master/src/components/atoms/Image.astro)), which wraps `astro:assets` with responsive `widths` / `densities` defaults, lazy loading, and async decoding
+- **Formats**: the atom outputs a single format per image — AVIF by default, overridable with the `format` prop; SVG sources pass through unchanged. Astro's raw `<Image />` from `astro:assets` does not apply this default.
 - **Alt text**: Always include descriptive alt text for accessibility
 
 ```astro
 ---
-import { Image } from 'astro:assets';
+import Image from '@/components/atoms/Image.astro';
 import myImage from '../assets/example.jpg';
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Component Patterns
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: Reusable UI patterns for creating consistent and accessible components
 tableOfContents: true
 pagefind: true
@@ -209,25 +209,25 @@ try {
 )}
 ```
 
-## View Transitions vs. Island Hydration: A Decision Guide
+## ClientRouter vs. Island Hydration: A Decision Guide
 
-Astro offers powerful tools for creating dynamic user experiences: View Transitions for seamless page navigation and Astro Islands for client-side interactivity. Choosing the right tool for the job is key to building performant and maintainable applications. This guide provides a decision matrix to help you select the best approach.
+Astro offers powerful tools for creating dynamic user experiences: the `<ClientRouter />` component (imported from `astro:transitions`, mounted in `BaseLayout.astro` — [ADR-009](/adr/009-client-router-view-transitions/)) for seamless page navigation with view transitions, and Astro Islands for client-side interactivity. Choosing the right tool for the job is key to building performant and maintainable applications. This guide provides a decision matrix to help you select the best approach.
 
-| Scenario / Goal                                       | Prefer View Transitions (VT) | Prefer Astro Island Hydration | Reasoning / Key Considerations                                                                                                |
+| Scenario / Goal                                       | Prefer ClientRouter          | Prefer Astro Island Hydration | Reasoning / Key Considerations                                                                                                |
 | :---------------------------------------------------- | :--------------------------: | :---------------------------: | :---------------------------------------------------------------------------------------------------------------------------- |
-| Full page navigation with smooth visual transitions   |              ✅              |                               | VTs excel at animating between different page states, persisting shared elements, and providing an app-like feel.             |
-| Animating specific elements across different pages    |              ✅              |                               | VTs can identify and morph elements (e.g., images, headers) between old and new pages.                                      |
+| Full page navigation with smooth visual transitions   |              ✅              |                               | ClientRouter excels at animating between different page states, persisting shared elements, and providing an app-like feel.   |
+| Animating specific elements across different pages    |              ✅              |                               | View transitions can identify and morph elements (e.g., images, headers) between old and new pages.                         |
 | Client-side interactivity within a component          |                              |               ✅              | For components like counters, dropdowns, interactive forms, or data tables that need client-side JavaScript to function.        |
 | Updating a small part of a page without full reload   |                              |               ✅              | Islands can re-render or fetch data on the client, ideal for dynamic sections within a mostly static page.                  |
 | Maintaining complex client-side state within a page   |                              |               ✅              | If a component needs to manage its own state or interact with other client-side components without page navigation.           |
 | Progressive enhancement for a static component        |                              |               ✅              | Start with static HTML, then hydrate an island to add richer JS-driven interactions (`client:idle`, `client:visible`).        |
-| Morphing elements between states on the _same_ page   |                              |        ✅ (sometimes)       | Often best handled by CSS transitions/animations. Use an Island if complex JS logic is required to manage these states. |
-| Global, app-like navigation                           |              ✅              |                               | VTs are designed for SPA-like navigation experiences across your entire Astro site or specific sections.                    |
-| Reducing JavaScript shipped for page transitions      |              ✅              |                               | VTs can often achieve sophisticated transitions with minimal or no custom JavaScript.                                       |
-| Component needs to run JS immediately on page load    |                              |  ✅ (`client:load`)         | Use with caution due to performance impact. Ensure it's justified by the Preact Island Usage Policy ADR.                   |
+| Morphing elements between states on the *same* page   |                              |        ✅ (sometimes)       | Often best handled by CSS transitions/animations. Use an Island if complex JS logic is required to manage these states. |
+| Global, app-like navigation                           |              ✅              |                               | ClientRouter is designed for SPA-like navigation experiences across your entire Astro site or specific sections.            |
+| Reducing JavaScript shipped for page transitions      |              ✅              |                               | ClientRouter can often achieve sophisticated transitions with minimal or no custom JavaScript.                              |
+| Component needs to run JS immediately on page load    |                              |  ⚠️ (`client:load`)         | `client:load` is forbidden in this starter without ADR justification ([ADR-001](/adr/001-preact-island-usage-policy/)). Prefer `client:idle`; if immediate load is truly required, open an ADR. |
 
 **Concluding Note:**
-This matrix provides general guidelines. Always consider the specific requirements of your feature, the desired user experience, performance implications (especially JavaScript bundle sizes and Core Web Vitals), and accessibility. Sometimes, a combination of both might be appropriate, but strive to avoid mixing metaphors in a way that complicates the codebase or degrades performance. Refer to the [Astro View Transitions documentation](https://docs.astro.build/en/guides/view-transitions/) and [Island architecture concepts](https://docs.astro.build/en/concepts/islands/) for more details.
+This matrix provides general guidelines. Always consider the specific requirements of your feature, the desired user experience, performance implications (especially JavaScript bundle sizes and Core Web Vitals), and accessibility. Sometimes, a combination of both might be appropriate, but strive to avoid mixing metaphors in a way that complicates the codebase or degrades performance. Refer to the [Astro view transitions documentation](https://docs.astro.build/en/guides/view-transitions/) and [Island architecture concepts](https://docs.astro.build/en/concepts/islands/) for more details.
 
 ## Responsive Patterns
 
@@ -591,42 +591,28 @@ const id = `lazy-${Math.random().toString(36).slice(2)}`;
 
 ### 2. Resource Hints
 
+There is no generic `ResourceHints.astro` in the starter — the two hint mechanisms it ships are built into the layout and into Astro:
+
 ```astro
 ---
-// ResourceHints.astro
-export interface Props {
-  preconnect?: string[];
-  prefetch?: string[];
-  preload?: Array<{
-    href: string;
-    as: string;
-    type?: string;
-  }>;
-}
-
-const { preconnect = [], prefetch = [], preload = [] } = Astro.props;
+// src/pages/example.astro — external origins: `preconnectDomains` on BaseLayout,
+// rendered by src/components/molecules/Head.astro as a dns-prefetch +
+// preconnect pair per domain
+import BaseLayout from '@/layouts/BaseLayout.astro';
 ---
-<!-- Preconnect to external domains -->
-{preconnect.map(domain => (
-  <link rel="preconnect" href={domain} crossorigin />
-))}
 
-<!-- Prefetch navigation targets -->
-{prefetch.map(url => (
-  <link rel="prefetch" href={url} />
-))}
-
-<!-- Preload critical resources -->
-{preload.map(resource => (
-  <link 
-    rel="preload" 
-    href={resource.href} 
-    as={resource.as}
-    type={resource.type}
-    crossorigin={resource.as === 'font' ? 'anonymous' : undefined}
-  />
-))}
+<BaseLayout
+  title="Example"
+  description="…"
+  preconnectDomains={["https://api.example.com"]}
+>
+  <!-- Internal navigation: opt links into Astro's built-in prefetch
+       (`prefetch: true` in astro.config.mjs — ADR-028) -->
+  <a href="/about/" data-astro-prefetch>About</a>
+</BaseLayout>
 ```
+
+Font preloads are emitted by the Fonts API (`<Font cssVariable="…" preload />` in `Head.astro`) and gated by `pnpm run fonts:gate`; see [Performance Patterns](/patterns/performance-patterns/) for the full picture.
 
 ## Common Anti-Patterns to Avoid
 
@@ -691,8 +677,9 @@ The template's own `transition:name` bindings and spread attributes are
 content-collection- or config-derived, which is why this is safe as shipped.
 The pattern only stays safe if that invariant holds: route params, query
 strings, form input, and CMS-authored fields do not belong in `transition:*`
-values or spread-attribute keys. (Astro <7.1 had escaping gaps here —
-patched since, but defense in depth costs nothing.)
+values or spread-attribute keys. (Earlier Astro releases had escaping gaps
+here — patched in the release the starter now pins, see `versions.json` — but
+defense in depth costs nothing.)
 
 ## Component Documentation Template
 

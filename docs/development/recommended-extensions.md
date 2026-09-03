@@ -1,7 +1,7 @@
 ---
 title: Recommended VS Code Extensions
 description: Essential VS Code extensions for optimal developer experience with the Astro Performance Starter
-lastUpdated: 2025-09-30
+lastUpdated: true
 pagefind: true
 ---
 
@@ -275,7 +275,7 @@ If VS Code doesn't prompt to install extensions:
 
 ## Related Documentation
 
-- [Contributing Guidelines](./CONTRIBUTING.md)
-- [Git Workflow](./git-workflow.md)
-- [Custom Scripts](./custom-scripts.md)
-- [Design Tokens](./how-to-use-design-tokens.md)
+- [Contributing Guidelines](/development/CONTRIBUTING/)
+- [Git Workflow](/development/git-workflow/)
+- [Custom Scripts](/development/custom-scripts/)
+- [Design Tokens](/development/how-to-use-design-tokens/)

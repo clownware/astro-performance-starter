@@ -1,11 +1,13 @@
 ---
 title: Phase 5 - UI Component Library
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: >-
   Details development of reusable UI components, documentation, and
   accessibility patterns with Essential, Recommended, and Advanced scope guidance
 tableOfContents: true
 pagefind: true
+sidebar:
+  order: 5
 ---
 
 ## Overview
@@ -47,8 +49,6 @@ pagefind: true
 ## Component Management Strategy
 
 Components are organised by **atomic design** (ADR-003): `src/components/{atoms,molecules,structural,islands,a11y,mdx}/`. Build Essential components first; add Recommended and Advanced components as your project scope requires. There is no separate file per scope level — a single component file is extended with additional props and variants as needed.
-
-> **Note on paths in the code examples:** the Phase 5–7 examples use a flat `src/components/ui/` path as a generic placeholder. In this template, place each component in its atomic-design folder instead — e.g. `atoms/Button.astro`, `molecules/Card.astro`, `structural/Section.astro`.
 
 ### Component Scope Reference
 

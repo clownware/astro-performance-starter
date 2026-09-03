@@ -1,14 +1,16 @@
 ---
 title: biome config
-description: "The repo's biome.json: schema, VCS-aware ignores, and the lint/format rule set."
+description: >-
+  The template's biome.json (formatter and linter rule set), reproduced from the
+  file with the naming-convention rule and per-glob overrides omitted.
 lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 ```json
-// biome.json
+// biome.json (excerpt — see the note below for what is omitted)
 {
-  "$schema": "https://biomejs.dev/schemas/2.4.9/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -85,8 +87,9 @@ pagefind: true
 }
 ```
 
-> The project config also defines a `useNamingConvention` rule and an `overrides`
-> array (per-glob rules for Markdown, scripts, Astro, CSS, tests, and config files).
-> See the repo's
+> Two sections of the real file are omitted above for brevity: the
+> `style.useNamingConvention` rule (camelCase variables, PascalCase types) and
+> the `overrides` array (per-glob rules for Markdown, scripts, Astro, CSS,
+> tests, and config files). See the repo's
 > [`biome.json`](https://github.com/clownware/astro-performance-starter/blob/master/biome.json)
 > for the authoritative, complete configuration.

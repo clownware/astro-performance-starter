@@ -27,8 +27,8 @@ The process for adding any analytics provider follows three simple steps:
 > because they load a **remote, third-party** script with custom `data-*` attributes —
 > Astro cannot bundle or hash a script it doesn't host, so `is:inline` is required here.
 > This is the documented exception to the `inline_scripts: 0` guideline in
-> [budgets-guardrails](budgets-guardrails) ("avoid `is:inline` unless manually hashed").
-> If you ship a Content Security Policy (see [ADR-051](../../adr/051-content-security-policy-strategy)),
+> [budgets-guardrails](/implementation-guides/reference/budgets-guardrails/) ("avoid `is:inline` unless manually hashed").
+> If you ship a Content Security Policy (see [ADR-051](/adr/051-content-security-policy-strategy/)),
 > add the provider's origin (e.g. `https://plausible.io`, `https://cdn.usefathom.com`) to your
 > `script-src` directive so the script is allowed.
 

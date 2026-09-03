@@ -1,6 +1,15 @@
+---
+title: Testing Conventions
+description: >-
+  How to write a good test in this repo: AAA structure, one logical assertion,
+  no conditional assertions, behaviour naming, and mock-or-not decisions
+lastUpdated: true
+tableOfContents: true
+pagefind: true
+---
 # Testing Conventions
 
-Practical companion to [ADR-037](../adr/037-testing-philosophy.md). The ADR is the decision record; this doc is the "how to write a good test in this repo" reference.
+Practical companion to [ADR-037](/adr/037-testing-philosophy/). The ADR is the decision record; this doc is the "how to write a good test in this repo" reference.
 
 ## The five rules (recap)
 
@@ -16,7 +25,7 @@ The rest of this doc shows what each rule looks like in practice.
 
 ## AAA structure
 
-The exemplar in this repo is [`src/utils/__tests__/formatDate.test.ts`](../../src/utils/__tests__/formatDate.test.ts). Each test follows three labelled sections (sometimes implicit, sometimes explicit):
+The exemplar in this repo is [`src/utils/__tests__/formatDate.test.ts`](https://github.com/clownware/astro-performance-starter/blob/master/src/utils/__tests__/formatDate.test.ts). Each test follows three labelled sections (sometimes implicit, sometimes explicit):
 
 ```typescript
 import { describe, expect, it } from "vitest";
@@ -170,10 +179,10 @@ ADR-037 Rule 5: never lower a threshold to make CI pass.
 
 The escape valve is an ADR documenting why the threshold drops (e.g. "we deleted an entire utility module and its tests; new threshold reflects remaining surface honestly"). The ADR is cheap to write but real to require, which is the point.
 
-The current thresholds are in `vitest.config.ts`. Per-directory scoping is planned in Phase 2 of [the testing+agentic-discipline plan](https://github.com/clownware/astro-performance-starter/blob/master/docs/adr/036-layered-constitution.md) (see ADR-036's notes).
+The current thresholds are in [`vitest.config.ts`](https://github.com/clownware/astro-performance-starter/blob/master/vitest.config.ts); `pnpm run test:coverage` enforces them.
 
 ## Related ADRs
 
-- [ADR-023](../adr/023-testing-strategy.md) — testing strategy and coverage targets
-- [ADR-037](../adr/037-testing-philosophy.md) — the rules this doc operationalises
-- [ADR-038](../adr/038-agent-roles.md) — the Architect pass produces the failing test
+- [ADR-023](/adr/023-testing-strategy/) — testing strategy and coverage targets
+- [ADR-037](/adr/037-testing-philosophy/) — the rules this doc operationalises
+- [ADR-038](/adr/038-agent-roles/) — the Architect pass produces the failing test

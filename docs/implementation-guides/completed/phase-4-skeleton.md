@@ -1,18 +1,20 @@
 ---
 title: Phase 4 - Skeleton Layout & Routing
-lastUpdated: 2025-06-10T00:00:00.000Z
 description: >-
   Covers base layout, routing structure, navigation, and metadata system —
   Foundation tier, essential for all projects
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 ## Overview
 
 - **Tier**: Foundation (Phase 4 of 12)
+- **Scope**: Essential, with one Recommended step (scope labels follow [ADR-033](/adr/033-track-consolidation/))
 - **Effort**: Moderate, depends on project complexity
 - **Dependencies**: Phase 0-3 completed
 - **Deliverables**: Base layout, routing structure, navigation, metadata system
+- **Code examples**: [Phase 4 - Code Examples](/implementation-guides/completed/phase-4-code-examples/)
 
 ## Entry Criteria
 
@@ -42,7 +44,7 @@ pagefind: true
 
 This template does not include analytics out-of-the-box to respect user privacy. Adding analytics is an optional step that you can take based on your project's needs. We have created a detailed guide with copy-paste recipes for popular, privacy-focused providers.
 
-- **Guide: [Adding Web Analytics](/implementation-guides/reference/optional-analytics)**
+- **Guide: [Adding Web Analytics](/implementation-guides/reference/optional-analytics/)**
 
 This approach keeps the template clean while empowering you to make the right choice for your site.
 
@@ -99,9 +101,11 @@ If skeleton needs major changes:
 ### Key Files to Reference
 
 - `src/layouts/BaseLayout.astro` - Main layout
-- `src/components/layout/*` - Header/Footer
+- `src/components/molecules/Head.astro` - Metadata, Open Graph, and font loading
+- `src/components/structural/*` - Header/Footer
+- `src/components/a11y/SkipLink.astro` - Skip link
 - `public/_headers` - Security headers
-- `perf-baseline/scores.json` - Performance targets
+- `performance-baseline.json` - Performance baseline (written to the repo root by `pnpm run perf:baseline` against an already-running preview; the starter does not commit one)
 
 ### Common Prompts for This Phase
 

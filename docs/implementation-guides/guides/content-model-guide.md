@@ -1,6 +1,6 @@
 ---
 title: Content Model Guide - Schema Design Patterns
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: >-
   Best practices for designing content schemas in Astro using Content
   Collections
@@ -211,15 +211,15 @@ const navigationCollection = defineCollection({
 
 JSON collections don't use the `({ image })` function form since they can't reference local images. The schema is passed directly as an object.
 
-Example `src/content/navigation/main.json`:
+Example `src/content/navigation/header.json` (the shipped file — trimmed):
 
 ```json
 {
   "items": [
-    { "label": "Home", "href": "/", "order": 0 },
-    { "label": "Projects", "href": "/projects", "order": 1 },
-    { "label": "Blog", "href": "/blog", "order": 2 },
-    { "label": "GitHub", "href": "https://github.com/you", "isExternal": true, "order": 3 }
+    { "label": "Home", "href": "/", "order": 1 },
+    { "label": "How It Works", "href": "/how-it-works/", "order": 2 },
+    { "label": "Blog", "href": "/blog/", "order": 4 },
+    { "label": "GitHub", "href": "https://github.com/clownware/astro-performance-starter", "isExternal": true, "icon": "github-logo", "order": 8 }
   ]
 }
 ```

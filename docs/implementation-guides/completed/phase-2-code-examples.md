@@ -1,747 +1,501 @@
 ---
-title: Phase 2 - Code Examples  
-lastUpdated: true
+title: Phase 2 - Code Examples
 description: >-
   Code examples for Phase 2
+lastUpdated: true
 tableOfContents: true
 pagefind: true
 ---
 
 ## Code Examples
 
+Companion to [Phase 2 - Design System & Tokens](/implementation-guides/completed/phase-2-design-system/). Blocks marked *condensed* are trimmed copies of the starter's real files.
+
 ### Design Tokens Structure
 
+The tokens were redesigned under [ADR-047](/adr/047-design-tokens-v2-role-based-naming/) (role-based v2, "cold minimal"): the base palette is `slate`, `violet`, `rose`, `amber`, `green`, `spaceCadet`, `white`, and `charcoal` — there is no `gray` scale and no blue `primary` ramp in `base.json` (primary is mapped in `semantic.json`).
+
 ```json
-// tokens/base.json
+// tokens/base.json (condensed — the real file also holds fontFamily,
+// fontSize, spacing, borderRadius, shadow, and motion groups)
 {
   "color": {
-    "gray": {
-      "50": { "value": "210 40% 98%" },
-      "100": { "value": "210 40% 96%" },
-      "200": { "value": "214 32% 91%" },
-      "300": { "value": "213 27% 84%" },
-      "400": { "value": "215 20% 65%" },
-      "500": { "value": "215 16% 47%" },
-      "600": { "value": "215 19% 35%" },
-      "700": { "value": "214 24% 26%" },
-      "800": { "value": "217 33% 17%" },
-      "900": { "value": "218 39% 11%" },
-      "950": { "value": "220 45% 6%" }
+    "slate": {
+      "50": { "value": "228 22% 98%" },
+      "100": { "value": "228 20% 96%" },
+      "200": { "value": "228 16% 90%" },
+      "300": { "value": "228 14% 80%" },
+      "400": { "value": "228 13% 66%" },
+      "500": { "value": "228 12% 52%" },
+      "600": { "value": "228 13% 42%" },
+      "700": { "value": "228 15% 30%" },
+      "800": { "value": "228 17% 20%" },
+      "900": { "value": "228 20% 13%" },
+      "950": { "value": "228 24% 9%" }
     },
-    "primary": {
-      "50": { "value": "210 100% 97%" },
-      "100": { "value": "210 100% 94%" },
-      "200": { "value": "210 100% 86%" },
-      "300": { "value": "210 100% 75%" },
-      "400": { "value": "210 100% 60%" },
-      "500": { "value": "210 100% 48%" },
-      "600": { "value": "210 100% 40%" },
-      "700": { "value": "210 100% 32%" },
-      "800": { "value": "210 100% 27%" },
-      "900": { "value": "210 100% 23%" },
-      "950": { "value": "210 100% 14%" }
-    }
-  },
-  "spacing": {
-    "0": { "value": "0" },
-    "1": { "value": "0.25rem" },
-    "2": { "value": "0.5rem" },
-    "3": { "value": "0.75rem" },
-    "4": { "value": "1rem" },
-    "5": { "value": "1.25rem" },
-    "6": { "value": "1.5rem" },
-    "8": { "value": "2rem" },
-    "10": { "value": "2.5rem" },
-    "12": { "value": "3rem" },
-    "16": { "value": "4rem" },
-    "20": { "value": "5rem" },
-    "24": { "value": "6rem" }
-  },
-  "fontSize": {
-    "xs": { 
-      "value": "0.75rem",
-      "lineHeight": "1rem" 
-    },
-    "sm": { 
-      "value": "0.875rem",
-      "lineHeight": "1.25rem" 
-    },
-    "base": { 
-      "value": "1rem",
-      "lineHeight": "1.5rem" 
-    },
-    "lg": { 
-      "value": "1.125rem",
-      "lineHeight": "1.75rem" 
-    },
-    "xl": { 
-      "value": "1.25rem",
-      "lineHeight": "1.75rem" 
-    },
-    "2xl": { 
-      "value": "1.5rem",
-      "lineHeight": "2rem" 
-    },
-    "3xl": { 
-      "value": "1.875rem",
-      "lineHeight": "2.25rem" 
-    },
-    "4xl": { 
-      "value": "2.25rem",
-      "lineHeight": "2.5rem" 
-    }
-  },
-  "borderRadius": {
-    "none": { "value": "0" },
-    "sm": { "value": "0.125rem" },
-    "base": { "value": "0.25rem" },
-    "md": { "value": "0.375rem" },
-    "lg": { "value": "0.5rem" },
-    "xl": { "value": "0.75rem" },
-    "2xl": { "value": "1rem" },
-    "3xl": { "value": "1.5rem" },
-    "full": { "value": "9999px" }
+    "violet": { "50": { "value": "257 100% 97%" }, "500": { "value": "256 86% 63%" }, "950": { "value": "256 50% 21%" } },
+    "rose": { "...": "accent ramp" },
+    "amber": { "...": "warning ramp" },
+    "green": { "...": "success ramp" },
+    "spaceCadet": { "value": "230 22% 7%" },
+    "white": { "value": "228 24% 99%" },
+    "charcoal": { "value": "228 24% 12%" }
   },
   "motion": {
     "duration": {
-      "base": { "value": "250ms" },
-      "fast": { "value": "150ms" },
-      "slow": { "value": "400ms" }
+      "fast": { "value": "120ms" },
+      "base": { "value": "220ms" },
+      "slow": { "value": "420ms" }
     },
     "ease": {
-      "in-out": { "value": "cubic-bezier(0.4, 0, 0.2, 1)" },
-      "in": { "value": "cubic-bezier(0.4, 0, 1, 1)" },
-      "out": { "value": "cubic-bezier(0, 0, 0.2, 1)" }
+      "in": { "value": "cubic-bezier(0.55, 0.06, 0.68, 0.19)" },
+      "out": { "value": "cubic-bezier(0.22, 0.61, 0.36, 1)" },
+      "in-out": { "value": "cubic-bezier(0.65, 0, 0.35, 1)" }
     }
   }
 }
 ```
+
+Full file: [`tokens/base.json`](https://github.com/clownware/astro-performance-starter/blob/master/tokens/base.json).
 
 ### Semantic Tokens
 
+`semantic.json` holds full 11-step `primary`/`secondary` scales (referencing the violet and rose ramps) plus flat role tokens, each with a light `value` and a `dark` override:
+
 ```json
-// tokens/semantic.json
+// tokens/semantic.json (condensed — the full set also includes
+// surfaceRaised, surfaceAccent, borderEmphasis, primaryForeground,
+// link, success, warning, and error)
 {
   "semantic": {
+    "primary": {
+      "50": { "value": "{color.violet.50}" },
+      "500": { "value": "{color.violet.500}" },
+      "950": { "value": "{color.violet.950}" }
+    },
     "background": {
-      "default": { 
-        "value": "{color.gray.50}",
-        "dark": "{color.gray.950}"
-      },
-      "subtle": {
-        "value": "{color.gray.100}",
-        "dark": "{color.gray.900}"
-      },
-      "muted": {
-        "value": "{color.gray.200}",
-        "dark": "{color.gray.800}"
-      }
+      "value": "{color.slate.50}",
+      "dark": "{color.spaceCadet}"
+    },
+    "surface": {
+      "value": "{color.white}",
+      "dark": "{color.slate.900}"
     },
     "foreground": {
-      "default": {
-        "value": "{color.gray.950}",
-        "dark": "{color.gray.50}"
-      },
-      "muted": {
-        "value": "{color.gray.600}",
-        "dark": "{color.gray.400}"
-      },
-      "subtle": {
-        "value": "{color.gray.400}",
-        "dark": "{color.gray.600}"
-      }
+      "value": "{color.charcoal}",
+      "dark": "{color.slate.50}"
+    },
+    "mutedForeground": {
+      "value": "{color.slate.600}",
+      "dark": "{color.slate.400}"
     },
     "border": {
-      "default": {
-        "value": "{color.gray.200}",
-        "dark": "{color.gray.800}"
-      },
-      "strong": {
-        "value": "{color.gray.300}",
-        "dark": "{color.gray.700}"
-      }
-    },
-    "focus": {
-      "ring-3": {
-        "value": "{color.primary.500}",
-        "dark": "{color.primary.400}"
-      }
+      "value": "{color.slate.200}",
+      "dark": "{color.slate.800}"
     }
   }
 }
 ```
+
+Full file: [`tokens/semantic.json`](https://github.com/clownware/astro-performance-starter/blob/master/tokens/semantic.json).
 
 ### Tailwind CSS Considerations
 
-Tailwind CSS is now stable and provides significant improvements over v3, including better performance, enhanced design token integration, and improved developer experience.
+Background on the Tailwind v4 choice and the image-optimization strategy lives in [Phase 2 - Design System & Tokens](/implementation-guides/completed/phase-2-design-system/) — the notes are not duplicated here.
 
-**Key v4.2.2 Benefits:**
+### Tailwind Configuration (v4, CSS-first)
 
-- **Better Performance**: Faster build times and smaller CSS output
-- **Enhanced Design Tokens**: Native CSS variables support
-- **Improved DX**: Better IDE support and error messages
-- **Migration Path**: Clear upgrade path from v3 configurations
+Tailwind v4 has no `tailwind.config.ts` and no JSON-import-into-config step. Configuration lives in CSS: `src/styles/global.css` imports Tailwind, imports the generated token stylesheet (`tokens/dist/tokens.css`, produced by `pnpm run tokens:build`), and maps those CSS variables to Tailwind utilities via `@theme inline`. The plugin is registered in `astro.config.mjs` under `vite.plugins` as `@tailwindcss/vite` — not as an Astro integration.
 
-**Current Implementation:**
-The project uses `tailwindcss: "^4.2.2"` which ensures you get the latest stable v4 patches while maintaining compatibility.
+```css
+/* src/styles/global.css (condensed) — Tailwind v4 CSS-first configuration */
 
-### Image Optimization and Future Scalability
+/* Tailwind first, so tokens.css overrides the vars it emits */
+@import 'tailwindcss';
 
-**Current Approach:**
-The project currently leverages Astro's built-in `<Image>` component for image optimization. This component, often paired with the Sharp.js library under the hood (as per default Astro configurations), handles tasks like resizing, format conversion (e.g., to AVIF, WebP), and generating responsive `srcset` attributes. This is generally sufficient for optimal performance and image handling at the current scale.
+/* Design tokens: defines --color-*, --spacing-*, etc. in :root and .dark */
+@import '../../tokens/dist/tokens.css';
 
-**Future Consideration: Image CDN Fallback/Enhancement**
-While the built-in solution is robust, if the project experiences a significant spike in traffic, or if the requirements for delivering numerous device-specific image variants become more complex, integrating a dedicated image CDN should be considered.
+/* Optional plugins are registered in CSS too */
+@plugin "@tailwindcss/typography";
 
-Services like **Cloudflare Images** (or similar offerings like Cloudinary, Imgix) provide benefits such as:
+/* Class-based dark mode (equivalent to v3 darkMode: "class") */
+@variant dark (&:where(.dark, .dark *));
 
-- **Real-time Resizing and Optimization**: Images can be transformed on-the-fly based on request parameters or device characteristics, reducing the need to pre-generate all variants.
-- **Global CDN Delivery**: Faster image delivery worldwide.
-- **Advanced Features**: Watermarking, format negotiation, and more sophisticated art direction capabilities.
+/* Map design tokens → Tailwind utilities.
+   `inline` makes Tailwind inline the values instead of emitting new
+   custom properties, avoiding a naming clash with tokens.css. */
+@theme inline {
+  /* Colors wrap the HSL channel vars from tokens.css */
+  --color-slate-50: hsl(var(--color-slate-50));
+  /* ... one line per slate / primary / secondary scale step ... */
+  --color-primary-500: hsl(var(--color-primary-500));
 
-This is not an immediate requirement but a potential future enhancement to keep in mind for scalability and advanced image manipulation needs. The decision to integrate such a service would involve cost considerations and a re-evaluation of the image delivery pipeline.
+  /* Role tokens flip in .dark via tokens.css */
+  --color-background: hsl(var(--color-background));
+  --color-surface: hsl(var(--color-surface));
+  --color-foreground: hsl(var(--color-foreground));
+  --color-muted-foreground: hsl(var(--color-muted-foreground));
+  --color-border: hsl(var(--color-border));
+  --color-link: hsl(var(--color-link));
 
-### Tailwind Configuration
+  /* Radius and motion are sourced from tokens.css the same way */
+  --radius-md: var(--border-radius-md);
+  --duration-fast: var(--motion-duration-fast);
+  --ease-out: var(--motion-ease-out);
 
-```typescript
-// tailwind.config.ts
-import type { Config } from 'tailwindcss';
-import tokens from './tokens/dist/tailwind-tokens.json';
+  /* Fonts come from the Astro Fonts API vars (ADR-053) */
+  --font-display: var(--font-geist);
+  --font-text: var(--font-inter);
+  --default-font-family: var(--font-text);
+}
 
-export default {
-  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
-  darkMode: 'class',
-  theme: {
-    extend: {
-      colors: tokens.colors,
-      spacing: tokens.spacing,
-      fontSize: tokens.fontSize,
-      borderRadius: tokens.borderRadius,
-      transitionDuration: tokens.motion.duration,
-      transitionTimingFunction: tokens.motion.ease,
-      boxShadow: {
-        'sm': '0 1px 2px 0 rgb(0 0 0 / 0.05)',
-        'base': '0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1)',
-        'md': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
-        'lg': '0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1)',
-        'xl': '0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1)',
-      },
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-in-out',
-        'slide-up': 'slideUp 0.3s ease-out',
-        'slide-down': 'slideDown 0.3s ease-out',
-      },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0' },
-          '100%': { opacity: '1' },
-        },
-        slideUp: {
-          '0%': { transform: 'translateY(10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-        slideDown: {
-          '0%': { transform: 'translateY(-10px)', opacity: '0' },
-          '100%': { transform: 'translateY(0)', opacity: '1' },
-        },
-      },
-      transitionTimingFunction: {
-        'bounce-in': 'cubic-bezier(0.68, -0.55, 0.265, 1.55)',
-      },
-    },
-  },
-  plugins: [
-    // Accessibility plugin
-    function({ addUtilities }) {
-      addUtilities({
-        '.focus-ring': {
-          '@apply focus:outline-hidden focus:ring-2 focus:ring-primary-500 focus:ring-offset-2': {},
-        },
-        '.focus-visible-ring': {
-          '@apply focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2': {},
-        },
-        '.sr-only': {
-          position: 'absolute',
-          width: '1px',
-          height: '1px',
-          padding: '0',
-          margin: '-1px',
-          overflow: 'hidden',
-          clip: 'rect(0, 0, 0, 0)',
-          whiteSpace: 'nowrap',
-          borderWidth: '0',
-        },
-      });
-    },
-  ],
-} satisfies Config;
+/* Custom utilities replace v3 plugin addUtilities() calls */
+@utility focus-visible-ring {
+  &:focus-visible {
+    outline: 2px solid hsl(var(--color-primary-500));
+    outline-offset: 2px;
+  }
+}
 ```
+
+Step 2.06's note applies here: a motion token only becomes a utility (`duration-fast`, `ease-out`) once it is mapped in this `@theme inline` block. Full file: [`src/styles/global.css`](https://github.com/clownware/astro-performance-starter/blob/master/src/styles/global.css); usage guidance in [How to Use Design Tokens](/development/how-to-use-design-tokens/).
 
 ### CSS Architecture
 
+`global.css` does **not** redeclare the token variables — `tokens/dist/tokens.css` owns every `--color-*`, `--spacing-*`, `--motion-*` declaration (light values in `:root`, overrides in `.dark`). What `global.css` adds on top of the `@theme inline` mapping is a small base layer and a handful of custom utilities:
+
 ```css
-/* src/styles/global.css */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* src/styles/global.css (condensed — base layer and utilities) */
 
 @layer base {
-  :root {
-    /* Base colors */
-    --color-gray-50: 210 40% 98%;
-    --color-gray-100: 210 40% 96%;
-    /* ... rest of colors */
-    
-    /* Semantic tokens */
-    --background: var(--color-gray-50);
-    --foreground: var(--color-gray-950);
-    
-    /* Motion tokens */
-    --transition-base: 150ms ease-in-out;
-    --transition-slow: 300ms ease-in-out;
-    --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  /* Tailwind v4 defaults border-color to currentcolor; restore the token */
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-border, currentcolor);
   }
-  
-  :root.dark {
-    --background: var(--color-gray-950);
-    --foreground: var(--color-gray-50);
+
+  /* Account for the sticky header on anchor jumps */
+  html {
+    scroll-behavior: auto;
+    scroll-padding-top: 5rem;
   }
-  
-  /* Reduced motion preferences */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.01ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.01ms !important;
-      scroll-behavior: auto !important;
-    }
+
+  /* Headings use the display face; body inherits --default-font-family */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
   }
-  
-  /* Focus visible polyfill */
-  .focus-visible {
-    outline: 2px solid var(--color-primary-500);
+
+  /* Global focus-visible baseline for interactive elements */
+  a:focus-visible,
+  button:focus-visible,
+  [role="button"]:focus-visible,
+  input:focus-visible,
+  select:focus-visible,
+  textarea:focus-visible {
+    outline: 2px solid hsl(var(--color-primary-500));
     outline-offset: 2px;
   }
-  
-  /* Base typography */
-  html {
-    font-family: system-ui, -apple-system, sans-serif;
-    font-size: 16px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Screen-reader only (the starter defines its own sr-only utility) */
+@utility sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Reduced motion: opt a component out of transitions */
+@utility motion-reduced {
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
   }
-  
-  /* Color scheme */
-  html {
-    color-scheme: light;
+}
+
+/* Semantic focus ring utilities using design token colors */
+@utility focus-ring {
+  &:focus {
+    outline: 2px solid hsl(var(--color-primary-500));
+    outline-offset: 2px;
   }
-  
-  html.dark {
+}
+
+/* OS preference as a fallback; the .dark class toggle takes precedence */
+@media (prefers-color-scheme: dark) {
+  :root {
     color-scheme: dark;
   }
 }
-
-@layer utilities {
-  /* Text balance for headings */
-  .text-balance {
-    text-wrap: balance;
-  }
-  
-  /* Fluid typography (optional) */
-  .fluid-text-sm {
-    font-size: clamp(0.875rem, 0.8rem + 0.25vw, 1rem);
-  }
-  
-  .fluid-text-base {
-    font-size: clamp(1rem, 0.925rem + 0.25vw, 1.125rem);
-  }
-  
-  .fluid-text-lg {
-    font-size: clamp(1.125rem, 1rem + 0.5vw, 1.5rem);
-  }
-}
 ```
+
+There is no global `prefers-reduced-motion` reset. Motion is gated per component with Tailwind's `motion-safe:` / `motion-reduce:` variants (see `Header.astro` and `SkipLink.astro`), and `ThemeSetup.astro` suppresses transitions during a theme switch when the user prefers reduced motion — the approach is recorded in [ADR-048](/adr/048-css-native-motion-system/).
 
 ### Token Build Script
 
-```typescript
-// scripts/build-tokens.ts
-import { readFileSync, writeFileSync } from 'fs';
-import { join } from 'path';
+`pnpm run tokens:build` runs `scripts/src/build-tokens.ts` (`predev` and `build` run it automatically). It reads `tokens/base.json` and `tokens/semantic.json`, resolves `{color.x.y}` references (including `dark` references) against the base palette, and emits two artifacts into the gitignored `tokens/dist/`:
 
-interface TokenValue {
+- `tailwind-tokens.json` — a flat token map kept for tooling that wants JSON (colors are expressed as `hsl(var(--color-…) / <alpha-value>)`).
+- `tokens.css` — the CSS custom properties Tailwind v4 consumes via `@theme inline`: a `:root { … }` block with every light value and a `.dark { … }` block with the overrides.
+
+Keys are kebab-cased on the way out (`mutedForeground` → `--color-muted-foreground`, `spaceCadet` → `--color-space-cadet`) and semantic tokens are prefixed with `color-` so role and palette variables share one namespace.
+
+```typescript
+// scripts/src/build-tokens.ts (condensed — CSS side only; see the starter for the full file)
+interface Token {
   value: string;
   dark?: string;
-  lineHeight?: string;
 }
+type TokenGroup = { [key: string]: Token | TokenGroup };
 
-interface TokenGroup {
-  [key: string]: TokenValue | TokenGroup;
-}
+const toKebabCase = (str: string) =>
+  str.replace(/([a-z0-9]|(?<=[a-z0-9]))([A-Z])/g, "$1-$2").toLowerCase();
 
-function isTokenValue(obj: any): obj is TokenValue {
-  return obj && typeof obj.value === 'string';
-}
-
-function processTokens(tokens: TokenGroup, prefix = ''): Record<string, any> {
-  const result: Record<string, any> = {};
-  
-  for (const [key, value] of Object.entries(tokens)) {
-    const tokenKey = prefix ? `${prefix}-${key}` : key;
-    
-    if (isTokenValue(value)) {
-      result[tokenKey] = value.value;
-    } else {
-      Object.assign(result, processTokens(value as TokenGroup, tokenKey));
+// Flatten nested groups into `--a-b-c: value` pairs; dark overrides are
+// tracked under a `|dark` suffix so the CSS generator can split them out.
+function flattenTokensRecursive(obj: TokenGroup, prefix: string[], acc: Record<string, string>) {
+  for (const [key, value] of Object.entries(obj)) {
+    const newPrefix = [...prefix, toKebabCase(key)];
+    if (value && typeof value === "object" && !("value" in value)) {
+      const nestedTokens = flattenTokens(value as TokenGroup, newPrefix);
+      for (const [nestedKey, nestedValue] of Object.entries(nestedTokens)) {
+        acc[nestedKey] = nestedValue;
+      }
+    } else if (value && typeof value === "object" && "value" in value) {
+      const token = value as Token;
+      const varName = `--${newPrefix.join("-")}`;
+      acc[varName] = token.value;
+      if (token.dark) {
+        acc[`${varName}|dark`] = token.dark;
+      }
     }
   }
-  
-  return result;
 }
 
-// Read token files
-const baseTokens = JSON.parse(readFileSync(join('tokens', 'base.json'), 'utf-8'));
-const semanticTokens = JSON.parse(readFileSync(join('tokens', 'semantic.json'), 'utf-8'));
-
-// Process for Tailwind
-const tailwindTokens = {
-  colors: processTokens(baseTokens.color),
-  spacing: processTokens(baseTokens.spacing),
-  fontSize: Object.entries(baseTokens.fontSize).reduce((acc, [key, value]: [string, TokenValue]) => {
-    acc[key] = [value.value, { lineHeight: value.lineHeight || '1.5' }];
-    return acc;
-  }, {} as Record<string, any>),
-  borderRadius: processTokens(baseTokens.borderRadius),
+const flattenTokens = (obj: TokenGroup, prefix: string[] = []): Record<string, string> => {
+  const acc: Record<string, string> = {};
+  flattenTokensRecursive(obj, prefix, acc);
+  return acc;
 };
 
-// Write Tailwind tokens
-writeFileSync(
-  join('tokens', 'dist', 'tailwind-tokens.json'),
-  JSON.stringify(tailwindTokens, null, 2)
-);
-
-// Generate CSS variables
-function generateCSSVariables(tokens: TokenGroup, prefix = ''): string[] {
-  const lines: string[] = [];
-  
-  for (const [key, value] of Object.entries(tokens)) {
-    const varName = prefix ? `--${prefix}-${key}` : `--${key}`;
-    
-    if (isTokenValue(value)) {
-      lines.push(`  ${varName}: ${value.value};`);
+const generateCssVariables = (tokens: Record<string, string>): string => {
+  let lightCss = ":root {\n";
+  let darkCss = ".dark {\n";
+  for (const [name, value] of Object.entries(tokens)) {
+    if (name.endsWith("|dark")) {
+      darkCss += `  ${name.replace("|dark", "")}: ${value};\n`;
     } else {
-      lines.push(...generateCSSVariables(value as TokenGroup, prefix ? `${prefix}-${key}` : key));
+      lightCss += `  ${name}: ${value};\n`;
     }
   }
-  
-  return lines;
-}
+  return `${lightCss}}\n${darkCss}}\n`;
+};
 
-// Generate CSS file
-const cssContent = `/* Auto-generated from design tokens */
-:root {
-${generateCSSVariables(baseTokens).join('\n')}
-}
+// resolveTokenReferences() dereferences {color.x.y} (value and dark) against base.json
+const resolvedSemanticForCss = resolveTokenReferences(semanticTokens.semantic ?? {}, baseTokens);
 
-/* Dark mode overrides */
-:root.dark {
-${generateCSSVariables(semanticTokens.semantic)
-  .filter(line => line.includes('dark'))
-  .join('\n')}
-}`;
+const allVars = {
+  ...flattenTokens(baseTokens as TokenGroup),
+  // Add 'color-' prefix to semantic tokens for consistent naming convention
+  ...flattenTokens(resolvedSemanticForCss, ["color"]),
+};
 
-writeFileSync(join('tokens', 'dist', 'tokens.css'), cssContent);
-
-console.log('✅ Design tokens built successfully');
+writeFileSync(join(distDir, "tokens.css"), generateCssVariables(allVars));
 ```
+
+Full file: [`scripts/src/build-tokens.ts`](https://github.com/clownware/astro-performance-starter/blob/master/scripts/src/build-tokens.ts).
 
 ### Accessibility Utilities
 
+The starter ships no `VisuallyHidden` component — `src/components/a11y/` contains only `SkipLink.astro`. Visually-hidden text uses the `sr-only` utility directly (defined in `global.css`, shown above), which removes a component's worth of indirection for a one-class pattern:
+
 ```astro
----
-// src/components/a11y/VisuallyHidden.astro
-export interface Props {
-  as?: keyof HTMLElementTagNameMap;
-  class?: string;
-}
-
-const { as: Tag = 'span', class: className } = Astro.props;
----
-<Tag class:list={['sr-only', className]}>
-  <slot />
-</Tag>
-
-<style>
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: 'rect(0, 0, 0, 0)';
-    white-space: 'nowrap';
-    border-width: 0;
-  }
-</style>
+<span class="sr-only">Toggle menu</span>
 ```
 
 ### WCAG Contrast Validation
 
+The contrast gate (`pnpm run design:validate`, run in CI as "Validate semantic color contrast") resolves the flat semantic role tokens — token references like `{color.slate.600}` and literal HSL alike — and sweeps **both** light and dark mode. It exits non-zero if any body-text pair drops below 4.5:1 or any large-text / non-text pair below 3:1:
+
 ```typescript
-// scripts/validate-contrast.ts
-interface RGB {
-  r: number;
-  g: number;
-  b: number;
+// scripts/src/validate-contrast.ts (condensed — see the starter for the full file)
+const aaNormal = 4.5; // body text
+const aaLarge = 3.0; // large text (>=18pt / 14pt bold) and non-text UI
+
+interface Pair {
+  fg: string;
+  bg: string;
+  min: number;
+  note?: string;
 }
 
-function hslToRgb(h: number, s: number, l: number): RGB {
-  h /= 360;
-  s /= 100;
-  l /= 100;
-  
-  let r, g, b;
-  
-  if (s === 0) {
-    r = g = b = l;
-  } else {
-    const hue2rgb = (p: number, q: number, t: number) => {
-      if (t < 0) t += 1;
-      if (t > 1) t -= 1;
-      if (t < 1/6) return p + (q - p) * 6 * t;
-      if (t < 1/2) return q;
-      if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
-      return p;
-    };
-    
-    const q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-    const p = 2 * l - q;
-    r = hue2rgb(p, q, h + 1/3);
-    g = hue2rgb(p, q, h);
-    b = hue2rgb(p, q, h - 1/3);
+// Body-text roles over the two surfaces they sit on.
+const pairs: Pair[] = [
+  { fg: 'foreground', bg: 'background', min: aaNormal },
+  { fg: 'foreground', bg: 'surface', min: aaNormal },
+  { fg: 'mutedForeground', bg: 'background', min: aaNormal },
+  { fg: 'mutedForeground', bg: 'surface', min: aaNormal },
+  { fg: 'link', bg: 'background', min: aaNormal },
+  { fg: 'link', bg: 'surface', min: aaNormal },
+  { fg: 'success', bg: 'background', min: aaNormal },
+  { fg: 'success', bg: 'surface', min: aaNormal },
+  { fg: 'error', bg: 'background', min: aaNormal },
+  { fg: 'error', bg: 'surface', min: aaNormal },
+  { fg: 'primaryForeground', bg: 'primary.600', min: aaNormal },
+  // warning is amber — held to the 3:1 large-text / non-text bar; its real
+  // usages are decorative marks, badge fills, and large Callout headings.
+  { fg: 'warning', bg: 'background', min: aaLarge, note: 'large-text/non-text only' },
+  { fg: 'warning', bg: 'surface', min: aaLarge, note: 'large-text/non-text only' },
+];
+
+// channel(role, mode) resolves a role (or scale step like primary.600) to an
+// HSL channel string for the given mode ('light' uses .value, 'dark' prefers
+// .dark), dereferencing {color.*} against base.json. contrast() is the
+// standard WCAG relative-luminance ratio.
+const modes = ['light', 'dark'] as const;
+const failures: string[] = [];
+
+for (const { fg, bg, min, note } of pairs) {
+  for (const mode of modes) {
+    const ratio = contrast(hslStringToRgb(channel(fg, mode)), hslStringToRgb(channel(bg, mode)));
+    if (ratio < min) {
+      const tag = note ? ` (${note})` : '';
+      failures.push(`${fg} on ${bg} [${mode}]${tag}: ${ratio.toFixed(2)}:1 (<${min})`);
+    }
   }
-  
-  return {
-    r: Math.round(r * 255),
-    g: Math.round(g * 255),
-    b: Math.round(b * 255)
-  };
 }
 
-function getLuminance(rgb: RGB): number {
-  const { r, g, b } = rgb;
-  const [rs, gs, bs] = [r, g, b].map(c => {
-    c = c / 255;
-    return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
-  });
-  return 0.2126 * rs + 0.7152 * gs + 0.0722 * bs;
+if (failures.length) {
+  console.error('❌ WCAG-AA contrast failures:');
+  for (const f of failures) {
+    console.error(`  ${f}`);
+  }
+  process.exit(1);
 }
-
-function getContrastRatio(rgb1: RGB, rgb2: RGB): number {
-  const l1 = getLuminance(rgb1);
-  const l2 = getLuminance(rgb2);
-  const lighter = Math.max(l1, l2);
-  const darker = Math.min(l1, l2);
-  return (lighter + 0.05) / (darker + 0.05);
-}
-
-// Validate key color combinations
-const validateContrast = () => {
-  // Import semantic tokens
-  const semanticTokens = JSON.parse(
-    readFileSync(join('tokens', 'semantic.json'), 'utf-8')
-  );
-  
-  // Define all semantic color pairs to check
-  const colorPairs = [
-    // Text on backgrounds
-    {
-      name: 'Default text on default background',
-      fg: 'foreground.default',
-      bg: 'background.default',
-      required: 4.5, // WCAG AA for normal text
-    },
-    {
-      name: 'Muted text on default background',
-      fg: 'foreground.muted',
-      bg: 'background.default',
-      required: 4.5,
-    },
-    {
-      name: 'Subtle text on default background',
-      fg: 'foreground.subtle',
-      bg: 'background.default',
-      required: 3.0, // WCAG AA for large text
-    },
-    // Backgrounds variations
-    {
-      name: 'Default text on subtle background',
-      fg: 'foreground.default',
-      bg: 'background.subtle',
-      required: 4.5,
-    },
-    {
-      name: 'Default text on muted background',
-      fg: 'foreground.default',
-      bg: 'background.muted',
-      required: 4.5,
-    },
-    // Interactive elements
-    {
-      name: 'Primary on white',
-      fg: { h: 210, s: 100, l: 48 }, // primary-500
-      bg: { r: 255, g: 255, b: 255 },
-      required: 3.0, // For large text/buttons
-    },
-    {
-      name: 'Primary on default background',
-      fg: { h: 210, s: 100, l: 48 }, // primary-500
-      bg: 'background.default',
-      required: 3.0,
-    },
-  ];
-  
-  console.log('🎨 Validating color contrast for all semantic pairs...\n');
-  
-  let allPassed = true;
-  const results = [];
-  
-  colorPairs.forEach(({ name, fg, bg, required }) => {
-    // Resolve color values from tokens if needed
-    const fgColor = typeof fg === 'string' ? resolveTokenValue(fg, semanticTokens) : fg;
-    const bgColor = typeof bg === 'string' ? resolveTokenValue(bg, semanticTokens) : bg;
-    
-    // Convert to RGB
-    const fgRgb = 'h' in fgColor ? hslToRgb(fgColor.h, fgColor.s, fgColor.l) : fgColor;
-    const bgRgb = 'h' in bgColor ? hslToRgb(bgColor.h, bgColor.s, bgColor.l) : bgColor;
-    
-    const ratio = getContrastRatio(fgRgb, bgRgb);
-    const passes = ratio >= required;
-    
-    if (!passes) allPassed = false;
-    
-    results.push({
-      name,
-      ratio: ratio.toFixed(2),
-      required,
-      passes,
-    });
-    
-    console.log(
-      `${passes ? '✅' : '❌'} ${name}: ${ratio.toFixed(2)}:1 (requires ${required}:1)`
-    );
-  });
-  
-  // Also check dark mode
-  console.log('\n🌙 Checking dark mode contrast...\n');
-  
-  colorPairs.forEach(({ name, fg, bg, required }) => {
-    // Get dark mode values
-    const fgColor = typeof fg === 'string' ? resolveTokenValue(fg, semanticTokens, true) : fg;
-    const bgColor = typeof bg === 'string' ? resolveTokenValue(bg, semanticTokens, true) : bg;
-    
-    const fgRgb = 'h' in fgColor ? hslToRgb(fgColor.h, fgColor.s, fgColor.l) : fgColor;
-    const bgRgb = 'h' in bgColor ? hslToRgb(bgColor.h, bgColor.s, bgColor.l) : bgColor;
-    
-    const ratio = getContrastRatio(fgRgb, bgRgb);
-    const passes = ratio >= required;
-    
-    if (!passes) allPassed = false;
-    
-    console.log(
-      `${passes ? '✅' : '❌'} [Dark] ${name}: ${ratio.toFixed(2)}:1 (requires ${required}:1)`
-    );
-  });
-  
-  // Summary
-  console.log('\n📊 Summary:');
-  console.log(`Total pairs checked: ${colorPairs.length * 2} (light + dark)`);
-  console.log(`Result: ${allPassed ? '✅ All pairs pass WCAG AA' : '❌ Some pairs fail WCAG AA'}`);
-  
-  if (!allPassed) {
-    process.exit(1);
-  }
-};
-
-// Helper to resolve token values
-function resolveTokenValue(path: string, tokens: any, dark = false): any {
-  const parts = path.split('.');
-  let value = tokens;
-  
-  for (const part of parts) {
-    value = value[part];
-    if (!value) throw new Error(`Token not found: ${path}`);
-  }
-  
-  // Check for dark mode value
-  if (dark && value.dark) {
-    // Parse the token reference (e.g., "{color.gray.950}")
-    const darkPath = value.dark.replace(/[{}]/g, '');
-    return resolveTokenValue(darkPath, tokens);
-  }
-  
-  // Parse HSL values
-  const hslMatch = value.value.match(/(\d+)\s+(\d+)%\s+(\d+)%/);
-  if (hslMatch) {
-    return {
-      h: parseInt(hslMatch[1]),
-      s: parseInt(hslMatch[2]),
-      l: parseInt(hslMatch[3]),
-    };
-  }
-  
-  throw new Error(`Could not parse color value: ${value.value}`);
-}
-
-validateContrast();
+console.log(`✅ All ${pairs.length} semantic colour pairs meet WCAG-AA contrast (light + dark).`);
 ```
+
+Full file: [`scripts/src/validate-contrast.ts`](https://github.com/clownware/astro-performance-starter/blob/master/scripts/src/validate-contrast.ts).
 
 ### Dark Mode Implementation
 
+Dark mode is class-based and **dark-first** ([ADR-032](/adr/032-dark-mode-strategy/)): `ThemeSetup.astro` runs an inline script before first paint that applies the stored choice, or `dark` when nothing is stored, by toggling `.dark` on `<html>` and exposing `window.__themeSetupApply` for later re-runs (view transitions, `storage` events, OS preference changes). `ThemeToggle.astro` (an atom, rendered by the header) never touches the DOM class itself — it writes `localStorage.theme` and calls that hook.
+
 ```astro
 ---
-// src/components/ThemeToggle.astro
+// src/components/ThemeSetup.astro (condensed — see the starter for the full file)
 ---
+
+<script is:inline>
+  (function () {
+    if (window.__themeSetupApply) {
+      window.__themeSetupApply();
+      return;
+    }
+
+    const DOC = document.documentElement;
+
+    const setTheme = (theme) => {
+      DOC.classList.remove('light', 'dark');
+      if (theme === 'dark') DOC.classList.add('dark');
+      DOC.setAttribute('data-theme', theme);
+      DOC.style.colorScheme = theme;
+    };
+
+    const getPreferredTheme = () => {
+      // Dark-first default (ADR-032): an explicit stored choice wins; otherwise
+      // default to dark rather than echoing the OS preference.
+      const fromStorage = localStorage.getItem('theme');
+      if (fromStorage) return fromStorage;
+      return 'dark';
+    };
+
+    const applyTheme = () => setTheme(getPreferredTheme());
+
+    // Single re-apply hook for the toggle and subsequent navigations
+    window.__themeSetupApply = applyTheme;
+    applyTheme();
+
+    document.addEventListener('astro:after-swap', applyTheme);
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applyTheme);
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'theme') applyTheme();
+    });
+  })();
+</script>
+```
+
+```astro
+---
+// src/components/atoms/ThemeToggle.astro (condensed — see the starter for the full file)
+// Cycles light → dark → system. The visible icon reflects the *current* mode;
+// the aria-label spells out the next state for screen-reader users.
+---
+
 <button
-  id="theme-toggle"
   type="button"
-  class="focus-visible-ring rounded-lg p-2 hover:bg-surface"
-  aria-label="Toggle dark mode"
+  data-theme-toggle
+  aria-label="Switch theme"
+  title="Switch theme"
+  class="inline-flex h-10 w-10 sm:h-9 sm:w-9 items-center justify-center rounded-md text-muted-foreground transition hover:text-foreground hover:bg-surface focus-visible-ring"
 >
-  <svg class="h-5 w-5 dark:hidden" fill="currentColor" viewBox="0 0 20 20">
-    <path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"></path>
-  </svg>
-  <svg class="hidden h-5 w-5 dark:block" fill="currentColor" viewBox="0 0 20 20">
-    <path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.706-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z" fill-rule="evenodd" clip-rule="evenodd"></path>
-  </svg>
+  <span class="sr-only">Toggle theme</span>
+  <svg data-theme-icon="light" class="h-5 w-5" aria-hidden="true"><!-- sun --></svg>
+  <svg data-theme-icon="dark" class="h-5 w-5 hidden" aria-hidden="true"><!-- moon --></svg>
+  <svg data-theme-icon="system" class="h-5 w-5 hidden" aria-hidden="true"><!-- monitor --></svg>
 </button>
 
 <script>
-  // Theme toggle logic
-  const theme = (() => {
-    if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
-      return localStorage.getItem('theme');
+  (() => {
+    function setupThemeToggle() {
+      const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+      if (!button || button.dataset.themeToggleBound === 'true') return;
+      button.dataset.themeToggleBound = 'true';
+
+      type Mode = 'light' | 'dark' | 'system';
+      const ORDER: Mode[] = ['light', 'dark', 'system'];
+
+      const readMode = (): Mode => {
+        const stored = localStorage.getItem('theme');
+        return stored === 'light' || stored === 'dark' ? stored : 'system';
+      };
+
+      const renderIcon = (mode: Mode) => {
+        for (const icon of button.querySelectorAll<HTMLElement>('[data-theme-icon]')) {
+          icon.classList.toggle('hidden', icon.dataset.themeIcon !== mode);
+        }
+        // ... update aria-label to name the next state ...
+      };
+
+      const writeMode = (mode: Mode) => {
+        if (mode === 'system') localStorage.removeItem('theme');
+        else localStorage.setItem('theme', mode);
+        // Reuse the apply hook from ThemeSetup.astro so the DOM class and
+        // color-scheme stay in sync without re-implementing the logic here.
+        (window as unknown as { __themeSetupApply?: () => void }).__themeSetupApply?.();
+        renderIcon(mode);
+      };
+
+      button.addEventListener('click', () => {
+        const current = readMode();
+        writeMode(ORDER[(ORDER.indexOf(current) + 1) % ORDER.length] as Mode);
+      });
+
+      renderIcon(readMode());
     }
-    if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      return 'dark';
-    }
-    return 'light';
+
+    setupThemeToggle();
+    document.addEventListener('astro:after-swap', setupThemeToggle);
   })();
-
-  if (theme === 'dark') {
-    document.documentElement.classList.add('dark');
-  }
-
-  window.localStorage.setItem('theme', theme);
-
-  const toggle = document.getElementById('theme-toggle');
-  toggle?.addEventListener('click', () => {
-    const isDark = document.documentElement.classList.toggle('dark');
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-  });
 </script>
 ```
+
+Full files: [`src/components/ThemeSetup.astro`](https://github.com/clownware/astro-performance-starter/blob/master/src/components/ThemeSetup.astro) and [`src/components/atoms/ThemeToggle.astro`](https://github.com/clownware/astro-performance-starter/blob/master/src/components/atoms/ThemeToggle.astro).

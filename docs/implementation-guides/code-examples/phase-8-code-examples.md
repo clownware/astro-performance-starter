@@ -1,5 +1,5 @@
 ---
-title: Phase 8 - Code Examples  
+title: Phase 8 - Code Examples
 lastUpdated: true
 description: >-
   Code examples for Phase 8
@@ -7,651 +7,744 @@ tableOfContents: true
 pagefind: true
 ---
 
-## 2. Automated E2E Tests (Advanced)
+## Code Examples
+
+Companion to [Phase 8 - Quality Assurance](/implementation-guides/active-phases/phase-8-qa/). Section 1 (the manual test checklist) lives in that guide, which is why the numbering here starts at 2. Blocks marked *condensed* are trimmed copies of the starter's real files; blocks whose leading comment says *not shipped* are examples for your own project and do not exist in the starter.
+
+Where the tests live (verified against `playwright.config.ts` and `vitest.config.ts`):
+
+- **E2E:** `e2e/` at the repo root (`testDir: "./e2e"`, `baseURL: http://localhost:4321`, projects `chromium` / `firefox` / `webkit`, `webServer` runs `pnpm run preview`). The starter ships `a11y-axe.spec.ts`, `about.spec.ts`, `blog.spec.ts`, `contact.spec.ts`, `docs-adr.spec.ts`, `header.spec.ts`, `how-it-works.spec.ts`, `index.spec.ts`, `showcase.spec.ts` and `theme.spec.ts`. Put new specs in `e2e/` — never `tests/e2e/` — so Playwright picks them up.
+- **Unit / component:** colocated `__tests__/` directories under `src/` (vitest + jsdom; `.astro` components render through the Container API helper at `src/components/__tests__/_helpers/container.ts`, ADR-040). Shared fixtures live in `tests/fixtures/`.
+- **Scripts:** `pnpm test:e2e`, `pnpm test:e2e:ui`, `pnpm test:a11y` (everything tagged `@a11y`), `pnpm test:unit`, `pnpm test:coverage`, `pnpm test:mutate`.
+
+House rules for every example below come from [ADR-037](/adr/037-testing-philosophy/) and [Testing Conventions](/development/testing-conventions/): Arrange / Act / Assert, one logical assertion per test, no conditional assertions, names describe behaviour. The tiers and scope labels follow [ADR-033](/adr/033-track-consolidation/) (Essential / Recommended / Advanced).
+
+## 2. Automated E2E Tests (Recommended)
+
+The shipped `e2e/header.spec.ts` pins the mobile menu's solid panel and `e2e/contact.spec.ts` covers the contact page's structure, labels and external-link attributes. The two specs below extend them with the navigation flow and the form's validation behaviour. Selectors are the real ones from `src/components/structural/Header.astro`, `src/content/navigation/header.json` and `src/components/molecules/ContactForm.astro`.
 
 ```typescript
-// tests/e2e/navigation.spec.ts
-import { test, expect } from '@playwright/test';
+// e2e/navigation.spec.ts (not shipped — extends the shipped e2e/header.spec.ts)
+import { expect, test } from "@playwright/test";
 
-test.describe('Navigation', () => {
+// Labels come from src/content/navigation/header.json. The external GitHub item
+// renders as an icon link outside <nav aria-label="Main navigation">, so it is
+// not part of this list.
+const NAV_ITEMS = ["Home", "How It Works", "Design System", "Blog", "Projects", "About", "Contact"];
+
+test.describe("Navigation", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/');
+    await page.goto("/");
   });
 
-  test('desktop navigation works', async ({ page }) => {
-    // Check all nav items visible
-    const nav = page.locator('nav[aria-label="Main navigation"]');
+  test("desktop nav lists every header.json item", async ({ page }) => {
+    const nav = page.getByRole("navigation", { name: "Main navigation" });
     await expect(nav).toBeVisible();
-    
-    const navItems = ['Home', 'Projects', 'Blog', 'About', 'Contact'];
-    for (const item of navItems) {
-      await expect(nav.locator(`a:has-text("${item}")`)).toBeVisible();
+
+    for (const label of NAV_ITEMS) {
+      await expect(nav.getByRole("link", { name: label, exact: true })).toBeVisible();
     }
-    
-    // Test navigation
-    await page.click('nav a:has-text("Projects")');
-    await expect(page).toHaveURL('/projects');
-    await expect(page.locator('h1')).toContainText('Projects');
   });
 
-  test('mobile navigation works', async ({ page }) => {
-    // Set mobile viewport
-    await page.setViewportSize({ width: 375, height: 667 });
-    
-    // Desktop nav should be hidden
-    const desktopNav = page.locator('nav[aria-label="Main navigation"]');
-    await expect(desktopNav).toBeHidden();
-    
-    // Open mobile menu
-    const menuButton = page.locator('button[aria-label="Toggle navigation menu"]');
-    await expect(menuButton).toBeVisible();
-    await menuButton.click();
-    
-    // Check menu opened
-    const mobileMenu = page.locator('#mobile-menu');
-    await expect(mobileMenu).toBeVisible();
-    await expect(menuButton).toHaveAttribute('aria-expanded', 'true');
-    
-    // Navigate via mobile menu
-    await page.click('#mobile-menu a:has-text("About")');
-    await expect(page).toHaveURL('/about');
-    await expect(mobileMenu).toBeHidden();
+  test("desktop nav link navigates to the target page", async ({ page }) => {
+    const nav = page.getByRole("navigation", { name: "Main navigation" });
+
+    await nav.getByRole("link", { name: "Projects", exact: true }).click();
+
+    // Astro's default build.format is "directory", so routes end with a slash.
+    await expect(page).toHaveURL("/projects/");
   });
 
-  test('keyboard navigation works', async ({ page }) => {
-    // Tab through navigation
-    await page.keyboard.press('Tab'); // Skip to main
-    await page.keyboard.press('Tab'); // Logo
-    await page.keyboard.press('Tab'); // First nav item
-    
-    // Check focus visible
-    const focusedElement = page.locator(':focus');
-    await expect(focusedElement).toHaveClass(/focus-visible/);
-    
-    // Navigate with Enter
-    await page.keyboard.press('Enter');
-    await expect(page).toHaveURL(/projects|blog|about|contact/);
+  test("keyboard tab order starts at the skip link, then the logo, then the nav", async ({ page }) => {
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
+
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("link", { name: "Homepage" })).toBeFocused();
+
+    await page.keyboard.press("Tab");
+    const nav = page.getByRole("navigation", { name: "Main navigation" });
+    await expect(nav.getByRole("link", { name: "Home", exact: true })).toBeFocused();
+  });
+
+  test.describe("mobile", () => {
+    // Same viewport the shipped header.spec.ts uses.
+    test.use({ viewport: { width: 390, height: 844 } });
+
+    test("mobile menu opens, reports aria-expanded, and navigates", async ({ page }) => {
+      // The desktop nav is `hidden lg:flex`, so it is absent below the lg breakpoint.
+      await expect(page.getByRole("navigation", { name: "Main navigation" })).toBeHidden();
+
+      // CSS-only toggle: a <label role="button"> wired to a hidden checkbox.
+      const menuButton = page.locator("[data-mobile-menu-button]");
+      await expect(menuButton).toHaveAttribute("aria-expanded", "false");
+      await menuButton.click();
+
+      const mobileMenu = page.locator("#mobile-menu");
+      await expect(mobileMenu).toBeVisible();
+      await expect(menuButton).toHaveAttribute("aria-expanded", "true");
+
+      await mobileMenu.getByRole("link", { name: "About", exact: true }).click();
+      await expect(page).toHaveURL("/about/");
+    });
   });
 });
 ```
 
 ```typescript
-// tests/e2e/forms.spec.ts
-import { test, expect } from '@playwright/test';
+// e2e/contact-form.spec.ts (not shipped — extends the shipped e2e/contact.spec.ts)
+import { expect, test } from "@playwright/test";
 
-test.describe('Contact Form', () => {
+// ContactForm.astro posts to `action` (the contact page passes withBase("/contact")).
+// The starter is static and ships no handler (ADR-021), so every submit test
+// must stub the endpoint — otherwise the fetch fails and the error branch runs.
+const FORM_ACTION = "**/contact";
+
+test.describe("Contact form", () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/contact');
+    await page.goto("/contact/");
   });
 
-  test('validates required fields', async ({ page }) => {
-    // Try to submit empty form
-    await page.click('button[type="submit"]');
-    
-    // Check validation messages
-    await expect(page.locator('text=Please enter your name')).toBeVisible();
-    await expect(page.locator('text=Please enter a valid email')).toBeVisible();
-    await expect(page.locator('text=Please enter a message')).toBeVisible();
-    
-    // Form should not submit
-    await expect(page).toHaveURL('/contact');
+  test("shows a required-field error for every empty required field on submit", async ({ page }) => {
+    // ContactFormScript.ts sets `novalidate` once it attaches, so the custom
+    // messages (not the browser bubbles) are what appears.
+    await page.getByRole("button", { name: "Send Message" }).click();
+
+    // Error slots are `<div id="<field>-error" role="alert">`; the message is
+    // "<Label> is required" (ContactFormScript.ts, validateField).
+    await expect(page.locator("#name-error")).toHaveText("Name is required");
+    await expect(page.locator("#email-error")).toHaveText("Email is required");
+    await expect(page.locator("#message-error")).toHaveText("Message is required");
   });
 
-  test('validates email format', async ({ page }) => {
-    await page.fill('input[name="name"]', 'Test User');
-    await page.fill('input[name="email"]', 'invalid-email');
-    await page.fill('textarea[name="message"]', 'Test message');
-    await page.click('button[type="submit"]');
-    
-    // Should show email validation error
-    await expect(page.locator('text=Please enter a valid email')).toBeVisible();
+  test("moves focus to the first invalid field on submit", async ({ page }) => {
+    await page.getByRole("button", { name: "Send Message" }).click();
+
+    await expect(page.locator("#contact-name")).toBeFocused();
   });
 
-  test('successfully submits form', async ({ page }) => {
-    // Fill valid form
-    await page.fill('input[name="name"]', 'Test User');
-    await page.fill('input[name="email"]', 'test@example.com');
-    await page.fill('textarea[name="message"]', 'This is a test message');
-    
-    // Submit
-    await page.click('button[type="submit"]');
-    
-    // Check success message
-    await expect(page.locator('text=Thank you! I\'ll get back to you soon.')).toBeVisible();
+  test("rejects a malformed email on blur", async ({ page }) => {
+    await page.locator("#contact-email").fill("not-an-email");
+    await page.locator("#contact-email").blur();
+
+    await expect(page.locator("#email-error")).toHaveText("Please enter a valid email address");
   });
 
-  test('honeypot prevents spam', async ({ page }) => {
-    // Fill form including honeypot
-    await page.fill('input[name="name"]', 'Test User');
-    await page.fill('input[name="email"]', 'test@example.com');
-    await page.fill('textarea[name="message"]', 'Test message');
-    
-    // Fill honeypot field (should be hidden from real users)
-    await page.evaluate(() => {
-      const honeypot = document.querySelector('input[name="website"]');
-      if (honeypot) {
-        (honeypot as HTMLInputElement).value = 'spam-value';
-      }
+  test("enforces the message minimum length", async ({ page }) => {
+    // <textarea name="message" minlength="10">
+    await page.locator("#contact-message").fill("too short");
+    await page.locator("#contact-message").blur();
+
+    await expect(page.locator("#message-error")).toHaveText("Minimum 10 characters required");
+  });
+
+  test("posts the form data to the action endpoint and resets the form", async ({ page }) => {
+    let postedBody: string | null = null;
+    await page.route(FORM_ACTION, async (route) => {
+      if (route.request().method() !== "POST") return route.fallback();
+      postedBody = route.request().postData();
+      await route.fulfill({ status: 200, body: "ok" });
     });
-    
-    await page.click('button[type="submit"]');
-    
-    // Form should not submit
-    await expect(page).toHaveURL('/contact');
+
+    await page.locator("#contact-name").fill("Test User");
+    await page.locator("#contact-email").fill("test@example.com");
+    await page.locator("#contact-message").fill("This is a long enough test message.");
+    await page.getByRole("button", { name: "Send Message" }).click();
+
+    // The enhanced handler calls form.reset() after a 2xx response. The body is
+    // multipart/form-data (fetch + FormData), so the raw value is present.
+    await expect(page.locator("#contact-name")).toHaveValue("");
+    expect(postedBody).toContain("test@example.com");
+  });
+
+  test("ships a honeypot that users and assistive tech cannot reach", async ({ page }) => {
+    // <input name="bot-field" tabindex="-1"> inside an aria-hidden, off-screen <p>.
+    // Filtering on it is the form handler's job (ADR-021) — the client never blocks.
+    const honeypot = page.locator('input[name="bot-field"]');
+
+    await expect(honeypot).toBeAttached();
+    await expect(honeypot).toBeHidden();
+    await expect(honeypot).toHaveAttribute("tabindex", "-1");
   });
 });
 ```
 
-### 3. Accessibility Testing (Advanced)
+## 3. Accessibility Testing (Recommended)
+
+The starter already ships the automated sweep — do not add a second `AxeBuilder` spec. `e2e/a11y-axe.spec.ts` runs `@axe-core/playwright` (a devDependency) over every key page with the WCAG 2.1 A/AA rulesets and fails on any *serious* or *critical* violation (ADR-018 / [ADR-019](/adr/019-accessibility-patterns-standards/)). Every test title carries the `@a11y` tag, so `pnpm test:a11y` runs it alongside the hand-written `@a11y` tests in the sibling specs; `pnpm test:e2e` and CI's Chromium run include it too.
 
 ```typescript
-// tests/e2e/accessibility.spec.ts
-import { test, expect } from '@playwright/test';
-import AxeBuilder from '@axe-core/playwright';
+// e2e/a11y-axe.spec.ts (condensed — the real file, shipped with the starter)
+import AxeBuilder from "@axe-core/playwright";
+import { expect, test } from "@playwright/test";
 
-test.describe('Accessibility', () => {
-  test('homepage has no accessibility violations', async ({ page }) => {
-    await page.goto('/');
-    
-    const accessibilityScanResults = await new AxeBuilder({ page })
-      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
-      .analyze();
-    
-    expect(accessibilityScanResults.violations).toEqual([]);
-  });
+const PAGES = ["/", "/about/", "/blog/", "/projects/", "/contact/", "/how-it-works/", "/showcase/"];
 
-  test('all pages meet WCAG standards', async ({ page }) => {
-    const pages = ['/', '/projects', '/blog', '/about', '/contact'];
-    
-    for (const path of pages) {
+test.describe("axe-core accessibility scan", () => {
+  for (const path of PAGES) {
+    test(`@a11y ${path} has no serious or critical axe violations`, async ({ page }) => {
+      // Reduced motion settles ADR-048's scroll-reveal animations, so axe
+      // measures the real text colours instead of mid-animation opacity blends.
+      await page.emulateMedia({ reducedMotion: "reduce" });
       await page.goto(path);
-      
-      const results = await new AxeBuilder({ page })
-        .withTags(['wcag2a', 'wcag2aa'])
-        .analyze();
-      
-      expect(results.violations).toEqual([]);
-    }
-  });
 
-  test('focus management works correctly', async ({ page }) => {
-    await page.goto('/');
-    
-    // Check skip link
-    await page.keyboard.press('Tab');
-    const skipLink = page.locator('a:has-text("Skip to main content")');
-    await expect(skipLink).toBeFocused();
-    
-    // Activate skip link
-    await page.keyboard.press('Enter');
-    const mainContent = page.locator('#main-content');
-    await expect(mainContent).toBeFocused();
-  });
+      const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa"]).analyze();
+      const blocking = results.violations.filter((v) =>
+        ["serious", "critical"].includes(v.impact ?? ""),
+      );
 
-  test('images have appropriate alt text', async ({ page }) => {
-    await page.goto('/projects');
-    
-    const images = page.locator('img');
-    const imageCount = await images.count();
-    
-    for (let i = 0; i < imageCount; i++) {
-      const img = images.nth(i);
-      const alt = await img.getAttribute('alt');
-      
-      // Alt text should exist and not be empty
-      expect(alt).toBeTruthy();
-      expect(alt?.length).toBeGreaterThan(0);
-      
-      // Alt text shouldn't contain "image" or "picture"
-      expect(alt?.toLowerCase()).not.toContain('image of');
-      expect(alt?.toLowerCase()).not.toContain('picture of');
-    }
+      expect(
+        blocking,
+        blocking.map((v) => `${v.id} (${v.impact}): ${v.help} — ${v.nodes.length} node(s)`).join("\n"),
+      ).toEqual([]);
+    });
+  }
+});
+```
+
+**Adding a page to the sweep** is a one-line change to `PAGES` — every new top-level route you build in Phases 6–7 belongs there:
+
+```typescript
+// e2e/a11y-axe.spec.ts — extend the shipped list
+const PAGES = [
+  "/",
+  "/about/",
+  "/blog/",
+  "/projects/",
+  "/contact/",
+  "/how-it-works/",
+  "/showcase/",
+  "/services/", // your new page
+];
+```
+
+axe already covers `image-alt`, `color-contrast`, `label`, `landmark-*`, `heading-order` and the other rule-based checks, so hand-written `@a11y` tests should cover *behaviour* axe cannot see — focus management, keyboard interaction, live regions. Tag the title with `@a11y` so `pnpm test:a11y` picks it up:
+
+```typescript
+// e2e/skip-link.spec.ts (not shipped — a hand-written @a11y test in a sibling spec)
+import { expect, test } from "@playwright/test";
+
+test.describe("Skip link", () => {
+  test("@a11y activating the skip link moves focus to the main landmark", async ({ page }) => {
+    await page.goto("/");
+
+    // SkipLink.astro is the first element in <body>; BaseLayout renders
+    // <main id="main-content" tabindex="-1"> so it can receive focus.
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("link", { name: "Skip to content" })).toBeFocused();
+
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#main-content")).toBeFocused();
   });
 });
 ```
 
-### 4. Visual Regression Testing
+For the manual side of the audit (screen-reader pass, zoom, colour-independence) use the [Accessibility Guide](/implementation-guides/guides/accessibility-guide/).
+
+## 4. Visual Regression Testing (Advanced)
+
+Playwright's built-in `toHaveScreenshot()` needs no extra package. Three things keep the snapshots stable on this starter: emulate reduced motion so the CSS-native scroll animations ([ADR-048](/adr/048-css-native-motion-system/)) settle, remember that dark is the *default* theme ([ADR-032](/adr/032-dark-mode-strategy/)) and light is the opt-in, and use `/showcase/` — the living style guide ([ADR-049](/adr/049-showcase-living-style-guide/)) — for component states.
 
 ```typescript
-// tests/visual/visual.spec.ts
-import { test, expect } from '@playwright/test';
+// e2e/visual.spec.ts (not shipped)
+import { expect, test } from "@playwright/test";
 
-test.describe('Visual Regression', () => {
-  test('homepage appearance', async ({ page }) => {
-    await page.goto('/');
-    await expect(page).toHaveScreenshot('homepage.png', {
-      fullPage: true,
-      animations: 'disabled'
-    });
+test.describe("Visual regression", () => {
+  test.beforeEach(async ({ page }) => {
+    // Freeze ADR-048's animation-timeline: view() reveals and hover transitions.
+    await page.emulateMedia({ reducedMotion: "reduce" });
   });
 
-  test('dark mode appearance', async ({ page }) => {
-    await page.goto('/');
-    
-    // Toggle dark mode
-    await page.click('button[aria-label="Toggle dark mode"]');
-    await page.waitForTimeout(300); // Wait for transition
-    
-    await expect(page).toHaveScreenshot('homepage-dark.png', {
-      fullPage: true,
-      animations: 'disabled'
-    });
+  test("homepage — dark (default) theme", async ({ page }) => {
+    await page.goto("/");
+
+    await expect(page).toHaveScreenshot("homepage-dark.png", { fullPage: true, animations: "disabled" });
   });
 
-  test('mobile appearance', async ({ page }) => {
-    await page.setViewportSize({ width: 375, height: 667 });
-    await page.goto('/');
-    
-    await expect(page).toHaveScreenshot('homepage-mobile.png', {
-      fullPage: true,
-      animations: 'disabled'
-    });
+  test("homepage — light theme", async ({ page }) => {
+    // Same mechanism the shipped e2e/theme.spec.ts uses: an explicit stored
+    // preference wins over the dark-first default.
+    await page.addInitScript(() => localStorage.setItem("theme", "light"));
+    await page.goto("/");
+
+    await expect(page).toHaveScreenshot("homepage-light.png", { fullPage: true, animations: "disabled" });
   });
 
-  test('component states', async ({ page }) => {
-    await page.goto('/styleguide');
-    
-    // Capture button states
-    const button = page.locator('button').first();
-    
-    // Normal state
-    await expect(button).toHaveScreenshot('button-normal.png');
-    
-    // Hover state
+  test("homepage — mobile viewport", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    await expect(page).toHaveScreenshot("homepage-mobile.png", { fullPage: true, animations: "disabled" });
+  });
+
+  test("showcase button states", async ({ page }) => {
+    await page.goto("/showcase/");
+    const button = page.getByRole("button").first();
+
+    await expect(button).toHaveScreenshot("button-normal.png");
+
     await button.hover();
-    await expect(button).toHaveScreenshot('button-hover.png');
-    
-    // Focus state
+    await expect(button).toHaveScreenshot("button-hover.png");
+
     await button.focus();
-    await expect(button).toHaveScreenshot('button-focus.png');
+    await expect(button).toHaveScreenshot("button-focus.png");
   });
 });
 ```
 
-### 5. Performance Testing
+Operational notes:
 
-```typescript
-// tests/performance/lighthouse.spec.ts
-import { test, expect } from '@playwright/test';
-import { playAudit } from 'playwright-lighthouse';
+- Baselines are written to `e2e/visual.spec.ts-snapshots/` and are keyed by project *and* platform (`homepage-dark-chromium-linux.png`). Commit them. `playwright-report/` and `test-results/` are already gitignored.
+- Generate or refresh baselines with `pnpm exec playwright test e2e/visual.spec.ts --update-snapshots`. CI runs Chromium on Linux, so generate the Linux baselines in CI (or a Linux container) rather than committing macOS renders — font rasterisation differs.
+- Hosted services (Percy, Chromatic) add cross-browser review UIs; neither is part of the starter.
 
-test.describe('Performance', () => {
-  test('homepage meets performance budgets', async ({ page, browserName }) => {
-    // Skip on webkit as Lighthouse doesn't support it
-    test.skip(browserName === 'webkit');
-    
-    await page.goto('/');
-    
-    const auditResult = await playAudit({
-      page,
-      thresholds: {
-        performance: 95,
-        accessibility: 98,
-        'best-practices': 95,
-        seo: 95
-      },
-      reports: {
-        formats: {
-          html: true,
-          json: true
-        },
-        name: `lighthouse-${new Date().getTime()}`
+## 5. Performance Testing (Essential)
+
+Performance is gated by the starter's own tooling, not by an ad-hoc Playwright spec. Run the same commands CI runs ([ADR-052](/adr/052-script-taxonomy/): every script lives in `scripts/src/` behind a pnpm name):
+
+| Command | What it checks | Source |
+|---|---|---|
+| `pnpm perf:lhci` | `lhci autorun` against the preview server; asserts the Lighthouse floors | `lighthouserc.json` (desktop) |
+| `pnpm exec lhci autorun --config=lighthouserc.mobile.json` | Same floors on Lighthouse's default mobile profile, median of 3 runs | `lighthouserc.mobile.json` |
+| `pnpm perf:budgets` | Raw-size budgets over `dist/` (with unexpired `budget-overrides.json` entries applied) | `scripts/src/track-performance-budgets.ts` + `budgets.json` |
+| `pnpm perf:baseline` | Records a performance baseline to compare later runs against | `scripts/src/baseline-performance.ts` |
+| `pnpm bundle:analyze` | Builds and reports what is in `dist/_astro` | `scripts/src/analyze-bundle.ts` |
+| `pnpm perf:lighthouse` | One-off HTML Lighthouse report of a running preview (`lighthouse-report.html`, gitignored) | lighthouse CLI |
+
+The floors both Lighthouse configs assert are **performance ≥ 0.90, accessibility ≥ 0.95, best-practices ≥ 0.95, SEO ≥ 0.90**. The **95+** figure quoted on the homepage is the *measured* headline, not the gate — CI catches drops below the floor and leaves headroom for run variance (ADR-039).
+
+```json
+// lighthouserc.json (condensed — the shipped desktop gate; lighthouserc.mobile.json asserts the same floors on the median of 3 runs)
+{
+  "ci": {
+    "collect": {
+      "startServerCommand": "pnpm preview",
+      "startServerReadyPattern": "Local",
+      "url": [
+        "http://localhost:4321/",
+        "http://localhost:4321/how-it-works/",
+        "http://localhost:4321/showcase/",
+        "http://localhost:4321/blog/",
+        "http://localhost:4321/projects/",
+        "http://localhost:4321/about/",
+        "http://localhost:4321/contact/",
+        "http://localhost:4321/adr/"
+      ],
+      "numberOfRuns": 1,
+      "settings": { "preset": "desktop", "chromeFlags": "--headless=new --no-sandbox" }
+    },
+    "assert": {
+      "assertions": {
+        "categories:performance": ["error", { "minScore": 0.9 }],
+        "categories:accessibility": ["error", { "minScore": 0.95 }],
+        "categories:best-practices": ["error", { "minScore": 0.95 }],
+        "categories:seo": ["error", { "minScore": 0.9 }]
       }
-    });
-    
-    expect(auditResult.lhr.categories.performance.score * 100).toBeGreaterThanOrEqual(95);
-  });
-
-  test('measures Core Web Vitals', async ({ page }) => {
-    await page.goto('/');
-    
-    // Measure LCP
-    const lcp = await page.evaluate(() => {
-      return new Promise<number>((resolve) => {
-        new PerformanceObserver((list) => {
-          const entries = list.getEntries();
-          const lastEntry = entries[entries.length - 1];
-          resolve(lastEntry.startTime);
-        }).observe({ entryTypes: ['largest-contentful-paint'] });
-      });
-    });
-    
-    expect(lcp).toBeLessThan(2500); // Good LCP threshold
-    
-    // Measure CLS
-    const cls = await page.evaluate(() => {
-      return new Promise<number>((resolve) => {
-        let clsValue = 0;
-        new PerformanceObserver((list) => {
-          for (const entry of list.getEntries()) {
-            if (!(entry as any).hadRecentInput) {
-              clsValue += (entry as any).value;
-            }
-          }
-          resolve(clsValue);
-        }).observe({ entryTypes: ['layout-shift'] });
-        
-        // Resolve after page settles
-        setTimeout(() => resolve(clsValue), 3000);
-      });
-    });
-    
-    expect(cls).toBeLessThan(0.1); // Good CLS threshold
-  });
-});
+    }
+  }
+}
 ```
 
-### 6. Security Testing
+When you add a page, add its URL to the `url` list in **both** `lighthouserc.json` and `lighthouserc.mobile.json` — the lists are duplicated deliberately so the two form factors can diverge in run count without sharing state.
+
+`budgets.json` (raw, uncompressed sizes, enforced by `pnpm perf:budgets`): JavaScript ≤ 64 KB per file and ≤ 160 KB total in `_astro`; fonts ≤ 64 KB per file and ≤ 150 KB total; images ≤ 200 KB per file. CSS has **no enforced budget** — the 50 KB figure in `.claude/stack.md` is advisory and tracked, not gated. Core Web Vitals targets are LCP < 2.5 s, INP ≤ 200 ms, CLS < 0.1; see [Performance Budgets & Quality Guardrails](/implementation-guides/reference/budgets-guardrails/) for the full table.
+
+If you still want a field-style smoke test inside the Playwright run — useful while iterating on a page, but *not* a gate — read the browser's own entries rather than pulling in a Lighthouse wrapper:
 
 ```typescript
-// tests/security/security.spec.ts
-import { test, expect } from '@playwright/test';
+// e2e/web-vitals.spec.ts (not shipped — lab numbers from a local preview; the CI gate is lighthouse.yml)
+import { expect, test } from "@playwright/test";
 
-test.describe('Security', () => {
-  test('security headers are present', async ({ page }) => {
-    const response = await page.goto('/');
-    const headers = response?.headers();
-    
-    // Check security headers
-    expect(headers?.['x-frame-options']).toBe('DENY');
-    expect(headers?.['x-content-type-options']).toBe('nosniff');
-    expect(headers?.['referrer-policy']).toBe('strict-origin-when-cross-origin');
-    expect(headers?.['permissions-policy']).toBeDefined();
-    
-    // Check CSP
-    const csp = headers?.['content-security-policy'];
-    expect(csp).toBeDefined();
-    expect(csp).toContain("default-src 'self'");
-    expect(csp).toContain("script-src 'self'");
+test.describe("Web Vitals smoke", () => {
+  // largest-contentful-paint and layout-shift entries are Chromium-only.
+  test.skip(({ browserName }) => browserName !== "chromium", "PerformanceObserver LCP/CLS entries are Chromium-only");
+
+  test("homepage LCP is under the 2.5 s target", async ({ page }) => {
+    await page.goto("/");
+
+    const lcp = await page.evaluate(
+      () =>
+        new Promise<number>((resolve) => {
+          new PerformanceObserver((list) => {
+            const entries = list.getEntries();
+            resolve(entries[entries.length - 1].startTime);
+          }).observe({ type: "largest-contentful-paint", buffered: true });
+        }),
+    );
+
+    expect(lcp).toBeLessThan(2500);
   });
 
-  test('no sensitive data exposed', async ({ page }) => {
-    await page.goto('/');
-    
-    // Check page source doesn't contain sensitive data
-    const content = await page.content();
-    
-    // No API keys
-    expect(content).not.toContain('api_key');
-    expect(content).not.toContain('apiKey');
-    expect(content).not.toContain('secret');
-    
-    // No internal paths
-    expect(content).not.toContain('/admin');
-    expect(content).not.toContain('localhost');
-    
-    // No email addresses in source
-    expect(content).not.toMatch(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-  });
+  test("homepage CLS is under the 0.1 target", async ({ page }) => {
+    await page.goto("/");
 
-  test('forms have CSRF protection', async ({ page }) => {
-    await page.goto('/contact');
-    
-    // Check for CSRF token
-    const csrfToken = await page.locator('input[name="csrf_token"]').count();
-    expect(csrfToken).toBeGreaterThan(0);
+    const cls = await page.evaluate(
+      () =>
+        new Promise<number>((resolve) => {
+          let value = 0;
+          new PerformanceObserver((list) => {
+            for (const entry of list.getEntries() as PerformanceEntry[]) {
+              const shift = entry as PerformanceEntry & { hadRecentInput: boolean; value: number };
+              if (!shift.hadRecentInput) value += shift.value;
+            }
+          }).observe({ type: "layout-shift", buffered: true });
+          // Let late-loading images and fonts settle before reporting.
+          setTimeout(() => resolve(value), 3000);
+        }),
+    );
+
+    expect(cls).toBeLessThan(0.1);
   });
 });
 ```
+
+## 6. Security Testing (Recommended)
+
+The security headers ship in `public/_headers` (CSP per [ADR-051](/adr/051-content-security-policy-strategy/)). Header-capable hosts (Cloudflare Pages, Netlify) apply the file; it is a **no-op on GitHub Pages**, the starter's default deploy target, and `astro preview` does not serve it either. A header assertion therefore has to run against a deployed URL, not the Playwright `webServer`.
+
+```text
+# public/_headers (condensed — shipped with the starter)
+/*
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=()
+  # 'unsafe-inline' is a deliberate, documented choice — see ADR-051.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  Cache-Control: public, max-age=0, must-revalidate
+
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+```
+
+```typescript
+// e2e/security-headers.spec.ts (not shipped — run against a deployed origin:
+//   SECURITY_HEADERS_URL=https://your-site.pages.dev pnpm exec playwright test e2e/security-headers.spec.ts --project=chromium)
+import { expect, test } from "@playwright/test";
+
+const ORIGIN = process.env.SECURITY_HEADERS_URL;
+
+test.describe("Security headers (public/_headers)", () => {
+  test.skip(!ORIGIN, "Set SECURITY_HEADERS_URL to a deployed origin that honours public/_headers");
+
+  test("the document response carries the ADR-051 header set", async ({ request }) => {
+    const response = await request.get(`${ORIGIN}/`);
+    const headers = response.headers();
+
+    expect(headers["x-frame-options"]).toBe("DENY");
+    expect(headers["x-content-type-options"]).toBe("nosniff");
+    expect(headers["referrer-policy"]).toBe("strict-origin-when-cross-origin");
+    expect(headers["permissions-policy"]).toContain("geolocation=()");
+    expect(headers["strict-transport-security"]).toContain("max-age=63072000");
+
+    const csp = headers["content-security-policy"] ?? "";
+    expect(csp).toContain("default-src 'self'");
+    expect(csp).toContain("frame-ancestors 'none'");
+    expect(csp).toContain("form-action 'self'");
+  });
+
+  test("hashed assets are immutable and HTML revalidates", async ({ request }) => {
+    const html = await request.get(`${ORIGIN}/`);
+    expect(html.headers()["cache-control"]).toBe("public, max-age=0, must-revalidate");
+
+    // Any file under /_astro/ — pull one from the document rather than guessing a hash.
+    const assetPath = (await html.text()).match(/\/_astro\/[^"']+\.css/)?.[0];
+    expect(assetPath, "expected at least one /_astro/*.css reference in the HTML").toBeTruthy();
+
+    const asset = await request.get(`${ORIGIN}${assetPath}`);
+    expect(asset.headers()["cache-control"]).toBe("public, max-age=31536000, immutable");
+  });
+});
+```
+
+Dependency, code and secret scanning are already CI gates ([ADR-046](/adr/046-security-scanning-pipeline/)); run the local half before opening a PR:
+
+```yaml
+# .github/workflows/ci.yml (condensed — the shipped security steps)
+      - name: Security audit (high severity)
+        run: pnpm run audit:ci            # scripts/src/audit-filter.ts
+
+      - name: Trivy SBOM scan
+        uses: aquasecurity/trivy-action@v0.36.0
+        with:
+          scan-type: 'fs'
+          format: 'sarif'
+          output: 'trivy-results.sarif'
+
+  semgrep:
+    container:
+      image: semgrep/semgrep
+    steps:
+      - run: semgrep scan --config p/javascript --config p/typescript --config p/secrets --error
+
+  gitleaks:
+    container:
+      image: ghcr.io/gitleaks/gitleaks:v8.30.1
+    steps:
+      - run: gitleaks dir . --config .gitleaks.toml --exit-code 1 --verbose
+```
+
+Two checks from older versions of this page were dropped on purpose: a *CSRF token* assertion (the form is static and posts to an external handler — anti-forgery is that handler's responsibility, and the shipped defence is the `bot-field` honeypot, [ADR-021](/adr/021-contact-form-progressive-enhancement/)) and a *"no secrets in the HTML"* grep (Gitleaks and Semgrep's `p/secrets` ruleset scan the repository; the rendered pages legitimately contain `mailto:` addresses and the GitHub URL).
 
 ## Testing Utilities
 
-### Test Data Generators
+### Shipped fixtures (`tests/fixtures/`)
+
+There is no `tests/utils/` directory and no faker-style generator — fixtures are deterministic on purpose (ADR-037 rule 3: fix the fixture, never the assertion). Two modules ship:
+
+| Module | Exports | Used by |
+|---|---|---|
+| `tests/fixtures/posts.ts` | `makePost(overrides)`, `draftPost`, `publishedPosts`, `featuredPosts`, `makePostCardPost(overrides)` | `src/utils/__tests__/blog.test.ts`, `src/components/molecules/__tests__/PostCard.test.ts` |
+| `tests/fixtures/tokens.ts` | `mockColorTokens`, `mockContrastPair`, `lowContrastPair` | contrast / token tests |
 
 ```typescript
-// tests/utils/test-data.ts
-import { faker } from '@faker-js/faker';
-
-export function generateContactFormData() {
-  return {
-    name: faker.person.fullName(),
-    email: faker.internet.email(),
-    message: faker.lorem.paragraphs(2)
+// tests/fixtures/posts.ts (condensed — shipped with the starter)
+interface BlogPostFixture {
+  id: string;
+  data: {
+    title: string;
+    description: string;
+    date: Date;
+    tags: string[];
+    draft: boolean;
+    featured?: boolean;
+    author?: string;
   };
 }
 
-export function generateBlogPost() {
-  return {
-    title: faker.lorem.sentence(),
-    description: faker.lorem.paragraph(),
-    content: faker.lorem.paragraphs(5),
-    tags: faker.helpers.arrayElements(
-      ['JavaScript', 'TypeScript', 'React', 'Astro', 'Performance'],
-      3
-    ),
-    date: faker.date.recent()
-  };
-}
+export const makePost = (overrides: Partial<BlogPostFixture> = {}): BlogPostFixture => ({
+  id: overrides.id ?? "test-post",
+  data: {
+    title: "Test Post",
+    description: "A test fixture",
+    date: new Date("2025-01-01T00:00:00Z"),
+    tags: ["test"],
+    draft: false,
+    ...overrides.data,
+  },
+});
 
-export function generateProject() {
-  return {
-    title: faker.company.catchPhrase(),
-    description: faker.lorem.paragraph(),
-    client: faker.company.name(),
-    technologies: faker.helpers.arrayElements(
-      ['React', 'Vue', 'Astro', 'Node.js', 'PostgreSQL', 'Redis'],
-      4
-    ),
-    duration: faker.helpers.arrayElement(['1 month', '3 months', '6 months'])
-  };
-}
+export const draftPost = makePost({ id: "draft-post", data: { /* … */ draft: true } });
+export const publishedPosts: BlogPostFixture[] = [/* older-published, newer-published, featured-newest */];
+export const featuredPosts = publishedPosts.filter((post) => post.data.featured === true);
+
+// PostCard needs the `metadata` block PostCard.astro expects (publishedDate /
+// readingTime / isRecent) on top of the collection entry.
+export const makePostCardPost = (overrides = {}) => ({ /* … */ });
 ```
 
-### Browser Testing Helpers
+Use them from colocated unit tests with a relative import (the starter does not alias `tests/`):
 
 ```typescript
-// tests/utils/browser-helpers.ts
-import { Page } from '@playwright/test';
+// src/utils/__tests__/blog.test.ts (condensed — shipped with the starter)
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { draftPost, publishedPosts } from "../../../tests/fixtures/posts";
 
-export async function waitForPageLoad(page: Page) {
-  await page.waitForLoadState('networkidle');
-  await page.waitForLoadState('domcontentloaded');
-}
+// astro:content is a virtual module aliased to src/__mocks__/astro-content.ts in
+// vitest.config.ts; the stub exposes setMockCollection / resetMockCollection.
+const stub = (await import("astro:content")) as any;
+const { getPublishedPosts } = await import("@utils/blog");
 
-export async function clearLocalStorage(page: Page) {
-  await page.evaluate(() => localStorage.clear());
-}
-
-export async function setDarkMode(page: Page, enabled: boolean) {
-  await page.evaluate((isDark) => {
-    localStorage.setItem('theme', isDark ? 'dark' : 'light');
-    document.documentElement.classList.toggle('dark', isDark);
-  }, enabled);
-}
-
-export async function mockAPIResponse(
-  page: Page,
-  url: string,
-  response: any
-) {
-  await page.route(url, (route) => {
-    route.fulfill({
-      status: 200,
-      contentType: 'application/json',
-      body: JSON.stringify(response)
-    });
+describe("getPublishedPosts", () => {
+  beforeEach(() => {
+    stub.setMockCollection([...publishedPosts, draftPost]);
   });
+  afterEach(() => {
+    stub.resetMockCollection();
+  });
+
+  it("excludes drafts and sorts newest-first", async () => {
+    const posts = await getPublishedPosts();
+
+    expect(posts.map((p) => p.id)).toEqual(["featured-newest", "newer-published", "older-published"]);
+  });
+});
+```
+
+```typescript
+// @vitest-environment node
+// src/components/molecules/__tests__/PostCard.test.ts (condensed — shipped; Container API per ADR-040)
+import { describe, expect, it } from "vitest";
+import { makePostCardPost } from "../../../../tests/fixtures/posts";
+import { render } from "../../__tests__/_helpers/container";
+import PostCard from "../PostCard.astro";
+
+describe("PostCard (molecule)", () => {
+  it("renders the post title in an <h3>", async () => {
+    const post = makePostCardPost({ data: { title: "Hello World" } as never });
+
+    const html = await render(PostCard, { post });
+
+    expect(html).toMatch(/<h3[^>]*>[\s\S]*Hello World[\s\S]*<\/h3>/);
+  });
+});
+```
+
+Add a fixture module per collection you introduce (`tests/fixtures/projects.ts` with a `makeProject(overrides)` factory, for example) rather than reaching for a random-data library — random input makes a failing test unreproducible.
+
+### Browser helpers (not shipped)
+
+Small Playwright helpers belong next to the specs. Name the file without `.spec.` so Playwright's default `testMatch` ignores it.
+
+```typescript
+// e2e/helpers.ts (not shipped)
+import type { Page } from "@playwright/test";
+
+/** Pin the theme the same way e2e/theme.spec.ts does (ADR-032: stored preference wins). */
+export async function setTheme(page: Page, theme: "light" | "dark") {
+  await page.addInitScript((value) => localStorage.setItem("theme", value), theme);
 }
 
-export async function checkNoConsoleErrors(page: Page) {
+/** Stub the static contact form's POST target (ADR-021 — the starter ships no handler). */
+export async function mockFormEndpoint(page: Page, pattern = "**/contact", status = 200) {
+  await page.route(pattern, (route) =>
+    route.request().method() === "POST" ? route.fulfill({ status, body: "ok" }) : route.fallback(),
+  );
+}
+
+/** Collect console errors during a test; call the returned function in an assertion. */
+export function collectConsoleErrors(page: Page) {
   const errors: string[] = [];
-  
-  page.on('console', (msg) => {
-    if (msg.type() === 'error') {
-      errors.push(msg.text());
-    }
+  page.on("console", (message) => {
+    if (message.type() === "error") errors.push(message.text());
   });
-  
-  return () => {
-    if (errors.length > 0) {
-      throw new Error(`Console errors found: ${errors.join(', ')}`);
-    }
-  };
+  return () => errors;
 }
 ```
 
-## Progressive Enhancement Testing
+```typescript
+// e2e/console.spec.ts (not shipped — uses the helper above)
+import { expect, test } from "@playwright/test";
+import { collectConsoleErrors } from "./helpers";
+
+test("homepage logs no console errors", async ({ page }) => {
+  const errors = collectConsoleErrors(page);
+
+  await page.goto("/");
+
+  expect(errors()).toEqual([]);
+});
+```
+
+## Progressive Enhancement Testing (Recommended)
+
+The starter is built to work with JavaScript off: the mobile menu is a CSS-only checkbox toggle, the contact form submits natively with browser constraint validation ([ADR-021](/adr/021-contact-form-progressive-enhancement/)), and the motion system is pure CSS with `prefers-reduced-motion` and `@supports` fallbacks ([ADR-048](/adr/048-css-native-motion-system/)). Test those guarantees directly.
 
 ```typescript
-// tests/progressive-enhancement.spec.ts
-import { test, expect } from '@playwright/test';
+// e2e/progressive-enhancement.spec.ts (not shipped)
+import { expect, test } from "@playwright/test";
 
-test.describe('Progressive Enhancement', () => {
-  test('site works without JavaScript', async ({ browser }) => {
-    const context = await browser.newContext({
-      javaScriptEnabled: false
-    });
-    const page = await context.newPage();
-    
-    // Test navigation
-    await page.goto('/');
-    await page.click('a:has-text("Projects")');
-    await expect(page).toHaveURL('/projects');
-    
-    // Test forms still submit
-    await page.goto('/contact');
-    await page.fill('input[name="name"]', 'Test User');
-    await page.fill('input[name="email"]', 'test@example.com');
-    await page.fill('textarea[name="message"]', 'Test message');
-    await page.click('button[type="submit"]');
-    
-    // Should navigate to success page or show message
-    await expect(page.locator('text=Thank you')).toBeVisible();
-    
-    await context.close();
+test.describe("Without JavaScript", () => {
+  test.use({ javaScriptEnabled: false });
+
+  test("links navigate", async ({ page }) => {
+    await page.goto("/");
+
+    await page.getByRole("navigation", { name: "Main navigation" }).getByRole("link", { name: "Projects", exact: true }).click();
+
+    await expect(page).toHaveURL("/projects/");
   });
 
-  test('CSS handles all animations', async ({ page }) => {
-    await page.goto('/');
-    
-    // Disable JavaScript
-    await page.addScriptTag({
-      content: `
-        // Override any JS animations
-        document.querySelectorAll('*').forEach(el => {
-          el.style.animation = 'none';
-          el.style.transition = 'none';
-        });
-      `
-    });
-    
-    // Hover effects should still work with CSS
-    const button = page.locator('button').first();
-    
-    // Normal state
-    await expect(button).toHaveScreenshot('button-normal.png');
-    
-    // Hover state
-    await button.hover();
-    await expect(button).toHaveScreenshot('button-hover.png');
-    
-    // Focus state
-    await button.focus();
-    await expect(button).toHaveScreenshot('button-focus.png');
+  test("the mobile menu opens through the CSS-only checkbox", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/");
+
+    // The <label for="mobile-menu-toggle"> flips the hidden checkbox natively.
+    // aria-expanded is synced by a script, so it is NOT asserted here.
+    await page.locator("[data-mobile-menu-button]").click();
+
+    await expect(page.locator("#mobile-menu")).toBeVisible();
+  });
+
+  test("the contact form is natively submittable", async ({ page }) => {
+    await page.goto("/contact/");
+    const form = page.locator("form.contact-form");
+
+    // No script ran, so `novalidate` was never added: the browser's own
+    // required / minlength / type=email checks apply on submit.
+    await expect(form).toHaveAttribute("method", "POST");
+    await expect(form).toHaveAttribute("action", /\/contact$/);
+    await expect(form).not.toHaveAttribute("novalidate", "");
+    await expect(form.locator("#contact-message")).toHaveAttribute("required", "");
+  });
+});
+
+test.describe("Reduced motion", () => {
+  test("scroll-reveal content is fully visible without animating", async ({ page }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.goto("/");
+
+    // ScrollReveal.astro only animates inside @media (prefers-reduced-motion: no-preference).
+    const reveal = page.locator(".scroll-reveal").first();
+    await expect(reveal).toBeVisible();
+    await expect(reveal).toHaveCSS("opacity", "1");
   });
 });
 ```
 
 ## CI Integration
 
-> **Note:** This workflow references proposed scripts (`test:a11y`, `test:visual`) that you would add to `package.json` when implementing the full testing strategy. See the [Testing Strategy Guide](/implementation-guides/guides/testing-strategy-guide/) for script definitions.
+No new workflow is needed for the Recommended tier — the shipped gates already cover it:
+
+- **`.github/workflows/ci.yml`** runs `quality:ci` (format, lint, `lint:md`, `astro check`, unit tests, `agents:check`, `version:check`, `og:check`, `docs:count`), the ADR enforcement suite (`pnpm enforce`), `test:coverage`, `budgets:validate`, `design:validate`, the build, the JS bundle-size gate, `perf:budgets`, `images:gate` (source and `dist`), `fonts:gate`, **Playwright on Chromium** (`pnpm exec playwright test --project=chromium` — which includes `a11y-axe.spec.ts` and every spec you add to `e2e/`), `audit:ci`, Trivy, Semgrep and Gitleaks.
+- **`.github/workflows/lighthouse.yml`** runs `lhci autorun` with `lighthouserc.json` (desktop) *and* `lighthouserc.mobile.json` (mobile) on every PR and uploads both report sets.
+
+So a separate accessibility job is redundant (axe runs inside the Chromium step), and a separate Lighthouse job is redundant (lighthouse.yml). The only thing CI does not exercise is Firefox and WebKit — `playwright.config.ts` defines the projects, but ci.yml installs Chromium alone to keep runs fast. If the Advanced tier of your project justifies the extra minutes, add a scheduled cross-browser run:
+
+> Not shipped with the starter — this deliberately duplicates the Playwright step in `ci.yml` for the two browsers CI skips. Do not copy the other `qa.yml` jobs from older versions of this page: `ci.yml` already runs unit tests with coverage, Chromium E2E, `perf:budgets`, `images:gate`, `fonts:gate` and the security scans, and `lighthouse.yml` gates desktop + mobile Lighthouse.
 
 ```yaml
-# .github/workflows/qa.yml
-name: Quality Assurance
+# .github/workflows/e2e-cross-browser.yml (not shipped — Firefox + WebKit only; Chromium already runs in ci.yml)
+name: E2E (Firefox + WebKit)
 
 on:
-  push:
-    branches: [main, develop]
-  pull_request:
-    branches: [master]
+  schedule:
+    - cron: '0 6 * * 1' # weekly; PRs stay on the Chromium gate in ci.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
-  test:
+  e2e:
     runs-on: ubuntu-latest
-    
+    timeout-minutes: 20
     strategy:
+      fail-fast: false
       matrix:
-        browser: [chromium, firefox, webkit]
-    
+        browser: [firefox, webkit]
+    env:
+      # astro.config.mjs validates SITE_URL at load time (ADR-050) — same value ci.yml uses.
+      SITE_URL: https://${{ github.repository_owner }}.github.io
+
     steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
         with:
-          node-version: '24'
-          
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        
-      - name: Install Playwright browsers
-        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
-        
-      - name: Build site
-        run: pnpm run build
-        
-      - name: Run E2E tests
-        run: pnpm exec playwright test --project=${{ matrix.browser }}
-        
-      - name: Upload test results
+          node-version-file: '.nvmrc'
+
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+
+      - run: pnpm run build
+
+      - run: pnpm exec playwright test --project=${{ matrix.browser }}
+
+      - name: Upload Playwright report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
-          name: playwright-results-${{ matrix.browser }}
+          name: playwright-report-${{ matrix.browser }}
           path: playwright-report/
-          
-  accessibility:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        
-      - name: Build site
-        run: pnpm run build
-        
-      - name: Run accessibility tests
-        run: pnpm run test:a11y
-        
-      - name: Upload accessibility report
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: accessibility-report
-          path: a11y-report/
-          
-  visual-regression:
-    runs-on: ubuntu-latest
-    
-    steps:
-      - uses: actions/checkout@v4
-      
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-        
-      - name: Build site
-        run: pnpm run build
-        
-      - name: Run visual tests
-        run: pnpm run test:visual
-        
-      - name: Upload visual diffs
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: visual-diffs
-          path: test-results/
+          retention-days: 14
+          if-no-files-found: ignore
 ```
+
+For the proposed `package.json` aliases behind the Advanced tier (visual, cross-browser) and the wider strategy, see the [Testing Strategy Guide](/implementation-guides/guides/testing-strategy-guide/); the decision record is [ADR-023](/adr/023-testing-strategy/).

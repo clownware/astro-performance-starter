@@ -211,7 +211,7 @@ pagefind: true
 
 **Examples**:
 
-- Lighthouse score: 95+ (all categories)
+- Lighthouse score: 95+ measured (all categories); the starter's CI floors are 0.90 performance / 0.95 accessibility / 0.95 best-practices / 0.90 SEO
 - Page load time: Under 2 seconds
 - Core Web Vitals: All green
 
@@ -221,7 +221,7 @@ pagefind: true
 
 ### Scope Selection
 
-Scope each phase to the level that matches your project goals (per ADR-033 progressive tier model):
+Scope each phase to the level that matches your project goals (per the [ADR-033](/adr/033-track-consolidation/) progressive tier model):
 
 - [ ] **Essential** (2-3 weeks): Core pages, basic styling, core functionality
 - [ ] **Recommended** (3-4 weeks): Quality and polish for most projects
@@ -273,7 +273,7 @@ Scope each phase to the level that matches your project goals (per ADR-033 progr
 
 1. **User Experience**: Always prioritize the primary persona's needs
 2. **Conversion Focus**: Every element should support the primary objective
-3. **Performance**: Maintain Lighthouse scores above 95
+3. **Performance**: Maintain Lighthouse scores of 95+ (CI floors: 0.90 performance / 0.95 accessibility / 0.95 best-practices / 0.90 SEO — see [Budgets & Guardrails](/implementation-guides/reference/budgets-guardrails/))
 4. **Accessibility**: Follow WCAG AA standards minimum
 5. **Brand Consistency**: Match the defined voice and visual style
 
@@ -300,7 +300,7 @@ _This PRD should be reviewed weekly during development and monthly during mainte
 > **For AI Tools**: This PRD serves as your primary context for all development decisions. When making recommendations:
 >
 > 1. **Prioritize the Primary Objective** - Every suggestion should advance the main goal
-> 2. **Respect the Performance Targets** - Maintain 95+ Lighthouse scores
+> 2. **Respect the Performance Targets** - Maintain 95+ Lighthouse scores and never drop below the CI floors
 > 3. **Match the Brand Voice** - All copy should reflect the specified tone
 > 4. **Consider the Target Audience** - Features and content should serve their needs
 > 5. **Stay Within Implementation Scope** - Don't suggest features outside the chosen Essential/Recommended/Advanced scope

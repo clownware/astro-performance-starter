@@ -1,5 +1,5 @@
 ---
-title: UX Problem Prompt Templates
+title: UX Analyze Problem
 lastUpdated: true
 description: Copy-paste prompts for common UX problem discovery using AI assistants
 tableOfContents: true

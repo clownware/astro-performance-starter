@@ -1,5 +1,5 @@
 ---
-title: UX Testing Prompt Templates
+title: UX Testing Insights
 lastUpdated: true
 description: Copy-paste prompts for common UX testing discovery using AI assistants
 tableOfContents: true

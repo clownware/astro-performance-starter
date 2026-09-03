@@ -13,30 +13,30 @@ Token sources live in `tokens/`:
 
 | File | Purpose |
 |------|---------|
-| `base.json` | **Atomic** design tokens (color, spacing, radii, motion, etc.) |
-| `semantic.json` | Light/dark _semantic_ aliases (background, border, etc.) |
-| `dist/` | Build output – **do not edit directly** |
+| `base.json` | **Atomic** design tokens (color, fontFamily, fontSize, spacing, borderRadius, shadow, motion) |
+| `semantic.json` | Role-based semantic aliases with light/dark values (background, surface, foreground, border, …) |
+| `dist/` | Build output – **do not edit directly** (gitignored) |
 
-The build process automatically generates:
+The build script (`pnpm run tokens:build`, [`scripts/src/build-tokens.ts`](https://github.com/clownware/astro-performance-starter/blob/master/scripts/src/build-tokens.ts)) generates:
 
-- `tokens/dist/tailwind-tokens.json` – retained for reference; token values are mapped to Tailwind utilities via `@theme inline` in `src/styles/global.css`.
-- `tokens/dist/tokens.css` – CSS variables (light + `.dark`).
+- `tokens/dist/tokens.css` – CSS variables in two blocks: `:root` (light values) and `.dark` (dark overrides). Imported by `src/styles/global.css` and mapped to Tailwind utilities via `@theme inline` (Tailwind is CSS-first here — there is no `tailwind.config.*`).
+- `tokens/dist/tailwind-tokens.json` – a JSON export of the token scales for tooling.
 
-Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual compilation (rarely needed): `pnpm run tokens:build`.
+Tokens compile automatically before `pnpm run dev` (`predev`) and as part of `pnpm run build`. Manual compilation (rarely needed): `pnpm run tokens:build`.
 
 ## 2. In templates/components
 
 ### Tailwind utilities
 
 ```astro
-<div class="bg-background text-foreground p-4 rounded-lg shadow-md">
+<div class="bg-background text-foreground p-4 rounded-lg shadow-md transition duration-fast">
   …
 </div>
 ```
 
-- `bg-background` – maps to `semantic.background` (uses `--color-background`).
-- `text-foreground` – semantic text color with automatic dark mode.
-- `shadow-md` – from `shadow` scale in base tokens.
+- `bg-background` / `text-foreground` – map to the semantic role tokens (`semantic.background`, `semantic.foreground`), exposed as `--color-background` / `--color-foreground` via `@theme inline`.
+- `shadow-md` – from the `shadow` scale in base tokens.
+- `duration-fast` – motion tokens (`--duration-fast` / `base` / `slow`, plus `ease-in` / `ease-out` / `ease-in-out`); `transition` itself is Tailwind's built-in utility.
 - All color tokens use the `--color-` prefix for consistency.
 
 ### CSS/SCSS
@@ -49,50 +49,48 @@ Tokens compile automatically during `pnpm run dev` or `pnpm run build`. Manual c
 }
 ```
 
-- Access any token via CSS custom property – **wrap color tokens with `hsl()`**.
+- Access any token via CSS custom property – **wrap color tokens with `hsl()`** (they are stored as raw HSL channels).
 - All color variables use the `--color-` prefix (e.g., `--color-primary-500`, `--color-background`).
-- Dark-mode handled automatically via `.dark` class overrides.
+- Dark mode is handled automatically: the `.dark` block in `tokens.css` overrides the semantic variables.
 
 ## 3. Adding / updating tokens
 
 1. Edit `tokens/base.json` or `tokens/semantic.json`.
-2. Save the file – tokens auto-compile during `dev` or `build`.
-3. Commit both source and _dist_ files.
+2. Run `pnpm run tokens:build` to regenerate outputs (`predev` and `build` do this for you).
+3. Commit only the source files — `tokens/dist/` is gitignored and regenerated on every dev/build.
 
-Manual compilation (if needed): `pnpm run tokens:build`
-
-> **Tip:** keep scales consistent (increments of `4px` for spacing, `8ms` for durations, etc.).
+> **Tip:** keep scales consistent — spacing steps of `0.25rem` (4px), and motion durations on the existing `fast` / `base` / `slow` steps rather than ad-hoc values.
 
 ## 4. Naming conventions
 
 ### JSON tokens (source)
 
 - **Base tokens**: camelCase in JSON (`borderRadius.lg`, `color.slate.500` — the base palette is `slate`, `violet`, `rose`, `amber`, `green`, `spaceCadet`, `white`, `charcoal`).
-- **Semantic tokens**: role-based naming per ADR-047 (`surface`, `foreground`, `mutedForeground`, `borderEmphasis`).
+- **Semantic tokens**: flat, role-based names per [ADR-047](/adr/047-design-tokens-v2-role-based-naming/) (`background`, `surface`, `surfaceRaised`, `foreground`, `mutedForeground`, `borderEmphasis`, `link`, `success`).
 
 ### CSS variables (generated)
 
 - **All color tokens**: `--color-` prefix for consistency.
   - Base: `--color-slate-500`, `--color-violet-600`
   - Semantic: `--color-primary-500`, `--color-surface`, `--color-foreground`
-- **Non-color tokens**: category prefix (`--spacing-4`, `--border-radius-lg`).
+- **Non-color tokens**: category prefix (`--spacing-4`, `--border-radius-lg`, `--motion-duration-fast`).
 
 ### Tailwind utilities
 
 - Match CSS variable names: `bg-primary-500`, `text-foreground`, `bg-surface`, `border-border-emphasis`.
 - Dark mode: handled automatically via the `.dark` class (no manual `dark:` variants needed for semantic tokens).
 
-## 5. Dark mode strategies
+## 5. Dark mode
 
-Dark mode ships with the template (ADR-032) — you don't build it:
+Dark mode ships with the template ([ADR-032](/adr/032-dark-mode-strategy/)) — you don't build it. The default is **dark-first**: the OS `prefers-color-scheme` setting does not pick the theme.
 
-- `ThemeSetup.astro` (in `BaseLayout`) applies the stored choice before paint: it sets the `.dark` class and `data-theme` attribute on `<html>` from `localStorage`, falling back to `prefers-color-scheme`.
-- `ThemeToggle.astro` cycles light → dark → system and persists the choice.
-- Tailwind's `dark:` variants activate via `@variant dark (&:where(.dark, .dark *))` in `src/styles/global.css`; semantic role tokens flip automatically in `tokens.css`, so components using them need no `dark:` variants at all.
+- [`src/components/ThemeSetup.astro`](https://github.com/clownware/astro-performance-starter/blob/master/src/components/ThemeSetup.astro) runs an inline script before paint. If `localStorage` has an explicit `theme` of `light` or `dark`, it applies that; otherwise it applies dark. It sets the `.dark` class and the `data-theme` attribute on `<html>`, re-applies after Astro view transitions, and syncs the choice across tabs.
+- [`src/components/atoms/ThemeToggle.astro`](https://github.com/clownware/astro-performance-starter/blob/master/src/components/atoms/ThemeToggle.astro) cycles light → dark → system. "System" clears the stored choice, which under the dark-first rule renders dark.
+- `tokens/dist/tokens.css` only contains `:root` and `.dark` blocks — there is no `prefers-color-scheme` media query. Tailwind's `dark:` variants activate via `@variant dark (&:where(.dark, .dark *))` in `src/styles/global.css`; semantic role tokens flip automatically, so components using them need no `dark:` variants at all.
 
 ## 6. Lint & validation
 
 - `pnpm run design:validate` – ensures WCAG-AA contrast for semantic pairs.
 - CI fails if new tokens break contrast budgets.
 
-Need help? Check the [Design System implementation guide](/implementation-guides/completed/phase-2-design-system/) or open an issue.
+Need help? Check the [Design System implementation guide](/implementation-guides/completed/phase-2-design-system/), the [Design System Changelog](/development/design-system-changelog/), or open an issue.

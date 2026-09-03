@@ -1,17 +1,17 @@
 ---
 title: Consolidated Table Format Guide
-lastUpdated: 2025-06-19T00:00:00.000Z
+lastUpdated: true
 description: >-
   Standard format for implementation step tables using Essential / Recommended /
   Advanced scope labels
 tableOfContents: true
 pagefind: true
 ---
-> 🎯 **Purpose**: Consistent format for implementation step tables using Essential / Recommended / Advanced scope labels per ADR-033
+> 🎯 **Purpose**: Consistent format for implementation step tables using Essential / Recommended / Advanced scope labels per [ADR-033](/adr/033-track-consolidation/)
 
 ## Standard Approach
 
-All phase guides use a single implementation steps table with a **Scope** column. This replaces the old MVP/Showcase dual-column format.
+All phase guides use a single implementation steps table with a **Scope** column. This replaces the old MVP/Showcase dual-column format retired by ADR-033.
 
 - **Essential** — required for all projects
 - **Recommended** — adds quality and polish for most projects
@@ -77,4 +77,4 @@ The original MVP/Showcase dual-column format has been consolidated into the sing
 
 ## Example Implementation
 
-See `phase-8-qa.md` for a complete example of the scope-based format in action.
+See [Phase 8 QA](/implementation-guides/active-phases/phase-8-qa/) for a complete example of the scope-based format in action.

@@ -1,8 +1,7 @@
 ---
 title: Contributing Redirect
-lastUpdated: 2025-07-04T00:00:00.000Z
-description: >
-  Redirect to the main contributing guide
+lastUpdated: true
+description: Redirect to the main contributing guide
 tableOfContents: false
 pagefind: false
 ---
@@ -11,15 +10,17 @@ pagefind: false
 
 📍 **This page has moved!**
 
-Please see the main **[CONTRIBUTING.md](../../CONTRIBUTING.md)** file in the repository root for:
+Please see the main **[CONTRIBUTING.md](https://github.com/clownware/astro-performance-starter/blob/master/CONTRIBUTING.md)** file in the repository root for:
 
-- Complete contribution workflow
-- Code standards and guidelines
-- Version management system
-- Pull request requirements
-- Testing guidelines
+- Prerequisites and working with AI agents (`AGENTS.md`, `CLAUDE.md`)
+- Ways to contribute
+- Development workflow (fork, branch, validate, commit, PR)
+- Code standards (TypeScript, components, styling, documentation, ADRs, version management)
+- Testing requirements
+- Pull request guidelines and review process
+- Code of conduct, getting help, and recognition
 
-The consolidated guide includes all template-specific requirements and general contribution standards in one place.
+The consolidated guide includes all template-specific requirements and general contribution standards in one place. The branching and commit conventions are summarised on the [Git Workflow](/development/git-workflow/) page.
 
 ---
 

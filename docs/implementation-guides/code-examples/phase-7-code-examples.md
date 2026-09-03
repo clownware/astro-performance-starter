@@ -1,5 +1,5 @@
 ---
-title: Phase 7 - Code Examples  
+title: Phase 7 - Code Examples
 lastUpdated: true
 description: >-
   Code examples for Phase 7
@@ -9,14 +9,20 @@ pagefind: true
 
 ## Content Examples
 
+The template has no `pages` content collection — static pages (home, about, privacy, terms)
+are `.astro` files in `src/pages/`, and `src/content.config.ts` defines the `projects`, `blog`,
+`navigation`, `bio`, `experience`, and `adr` collections. Use the page examples below as draft
+copy for those `.astro` pages (or add your own collection if you prefer MDX-managed pages).
+
 ### Homepage Content
 
 ```mdx
 ---
-# src/content/pages/home.mdx
+# Draft copy for src/pages/index.astro
 title: "Home"
 description: "I create fast, accessible, and beautiful web experiences that users love"
 ---
+
 # Crafting Digital Experiences That Matter
 
 I'm a web developer specializing in **performance-focused** websites that don't compromise on design or accessibility. With expertise in modern frameworks and a passion for clean code, I help businesses create web experiences that engage users and drive results.
@@ -26,7 +32,7 @@ I'm a web developer specializing in **performance-focused** websites that don't 
 ### ⚡ Lightning Fast
 Every site I build scores 95+ on Lighthouse. Your users won't wait, and neither should you.
 
-### ♿ Accessible First  
+### ♿ Accessible First
 WCAG AA compliance isn't an afterthought. Everyone deserves a great web experience.
 
 ### 📱 Truly Responsive
@@ -36,18 +42,19 @@ From phones to ultrawide monitors, your site adapts beautifully to every screen.
 
 Whether you need a portfolio site, business platform, or complex web application, I'm here to help bring your vision to life.
 
-[View My Work](./projects) [Get In Touch](./contact)
+[View My Work](/projects/) [Get In Touch](/contact/)
 ```
 
 ### About Page Content
 
 ```mdx
 ---
-# src/content/pages/about.mdx
+# Draft copy for src/pages/about.astro
 title: "About"
 description: "Learn about my journey in web development and the values that drive my work"
 image: "./images/profile.jpg"
 ---
+
 # About Me
 
 Hi, I'm **[Your Name]**, a web developer based in [Location] with a passion for creating exceptional digital experiences.
@@ -60,7 +67,7 @@ I discovered web development [X years ago] and immediately fell in love with the
 
 I specialize in:
 
-- **Frontend Development**: React, Vue, and Astro for modern web apps
+- **Frontend Development**: Astro and Preact for modern web apps
 - **Performance Optimization**: Making sites lightning fast
 - **Accessibility**: Ensuring everyone can use what I build
 - **UI/UX Design**: Creating interfaces that delight users
@@ -87,20 +94,28 @@ I'm always interested in new projects and opportunities. Whether you need a webs
 
 ### Project Case Study
 
+Project entries live in `src/content/projects/<slug>/index.mdx` with their images co-located
+(the shipped demo entries follow this layout). The frontmatter below uses only fields the
+`projects` schema in `src/content.config.ts` accepts. The MDX components (`Callout`, `Figure`,
+`Grid`) ship in `src/components/mdx/`; `Card` is a molecule and is imported explicitly.
+
+> Sample content only — the code snippets *inside* this case study describe the fictional
+> client's stack (`zustand`, a custom analytics client) and are not part of the starter.
+
 ````mdx
 ---
-# src/content/projects/ecommerce-redesign.mdx
+# src/content/projects/ecommerce-redesign/index.mdx
 title: "E-commerce Platform Redesign"
 description: "Increased conversion rates by 40% through performance optimization and UX improvements"
 date: 2024-06-15
 client: "TechStyle Fashion"
 duration: "3 months"
 role: "Lead Frontend Developer"
-cover: "./images/projects/ecommerce-cover.jpg"
+cover: "./cover.jpg"
 coverAlt: "Screenshot of the redesigned e-commerce platform showing the modern, clean interface"
 featured: true
-tags: ["E-commerce", "Performance", "React"]
-technologies: ["React", "TypeScript", "Node.js", "PostgreSQL", "Redis", "Cloudflare"]
+tags: ["E-commerce", "Performance", "Preact"]
+technologies: ["Preact", "TypeScript", "Node.js", "PostgreSQL", "Redis", "Cloudflare"]
 outcomes:
   - metric: "Page Load Time"
     value: "-65%"
@@ -114,6 +129,13 @@ outcomes:
 externalUrl: "https://example.com"
 sortOrder: 1
 ---
+
+import Callout from "@/components/mdx/Callout.astro";
+import Figure from "@/components/mdx/Figure.astro";
+import Grid from "@/components/mdx/Grid.astro";
+import Card from "@/components/molecules/Card.astro";
+import mobileCheckout from "./ecommerce-mobile.jpg";
+
 ## Project Overview
 
 TechStyle Fashion came to me with a problem: their e-commerce platform was losing customers due to slow load times and a dated user interface. Mobile users were particularly affected, with conversion rates 60% lower than desktop.
@@ -127,7 +149,7 @@ The existing platform faced several critical issues:
 - **Technical Debt**: jQuery spaghetti code, no build process
 - **Accessibility**: Failed WCAG guidelines
 
-<Callout type="stat">
+<Callout type="info" title="Key stat">
   60% of mobile users abandoned their carts due to performance issues
 </Callout>
 
@@ -136,11 +158,13 @@ The existing platform faced several critical issues:
 ### 1. Performance Audit
 
 I began with a comprehensive performance audit using:
+
 - Lighthouse CI for continuous monitoring
 - WebPageTest for real-world performance data
 - Chrome DevTools for bottleneck identification
 
 Key findings:
+
 - Render-blocking resources totaling 800KB
 - Unoptimized images (average 500KB each)
 - No caching strategy
@@ -162,7 +186,7 @@ const routes = [
     component: lazy(() => import('./pages/ProductDetail'))
   }
 ];
-````
+```
 
 ### 3. Implementation Highlights
 
@@ -184,7 +208,7 @@ const routes = [
 - Simplified checkout process (3 steps → 1 step)
 - Bottom sheet navigation pattern
 
-<Figure src="./images/projects/ecommerce-mobile.jpg" alt="Mobile interface showing the streamlined checkout process" caption="The new one-step checkout process increased mobile conversions by 125%" />
+<Figure src={mobileCheckout.src} alt="Mobile interface showing the streamlined checkout process" caption="The new one-step checkout process increased mobile conversions by 125%" />
 
 ## Technical Deep Dive
 
@@ -195,11 +219,11 @@ Moved from prop drilling to Zustand for cleaner state management:
 ```typescript
 const useCartStore = create((set) => ({
   items: [],
-  addItem: (item) => set((state) => ({ 
-    items: [...state.items, item] 
+  addItem: (item) => set((state) => ({
+    items: [...state.items, item]
   })),
-  removeItem: (id) => set((state) => ({ 
-    items: state.items.filter(item => item.id !== id) 
+  removeItem: (id) => set((state) => ({
+    items: state.items.filter(item => item.id !== id)
   }))
 }));
 ```
@@ -225,23 +249,23 @@ new PerformanceObserver((list) => {
 
 The redesign exceeded all target metrics:
 
-<Grid cols={2}>
-  <Card>
+<Grid cols={1} md={2} gap={6}>
+  <Card class="p-6">
     ### Before
 
-    * Load Time: 4.2s
-    * Conversion: 2.1%
-    * Bounce Rate: 68%
-    * Mobile Revenue: 22%
+    - Load Time: 4.2s
+    - Conversion: 2.1%
+    - Bounce Rate: 68%
+    - Mobile Revenue: 22%
   </Card>
 
-  <Card>
+  <Card class="p-6">
     ### After
 
-    * Load Time: 1.5s (-65%)
-    * Conversion: 2.9% (+40%)
-    * Bounce Rate: 41% (-40%)
-    * Mobile Revenue: 48% (+118%)
+    - Load Time: 1.5s (-65%)
+    - Conversion: 2.9% (+40%)
+    - Bounce Rate: 41% (-40%)
+    - Mobile Revenue: 48% (+118%)
   </Card>
 </Grid>
 
@@ -260,31 +284,41 @@ The redesign exceeded all target metrics:
 
 ## Technologies Used
 
-- **Frontend**: React 18, TypeScript, Zustand
-- **Styling**: Tailwind CSS, Framer Motion
+- **Frontend**: Preact, TypeScript, Zustand
+- **Styling**: Tailwind CSS, CSS animations
 - **Backend**: Node.js, Express, PostgreSQL
 - **Infrastructure**: Cloudflare Workers, Redis
 - **Testing**: Playwright, Vitest, Lighthouse CI
 - **Monitoring**: Datadog RUM, Sentry
 
-[View Live Site](https://example.com) [Next Project →](/implementation-guides/projects/saas-dashboard/)
+[View Live Site](https://example.com)
+````
 
 ### Blog Post Example
 
+Blog entries live in `src/content/blog/<slug>/` with the cover image beside the `.mdx` file,
+matching the shipped posts. Every frontmatter key below is defined by the `blog` schema.
+
+> Sample content only — the monitoring snippet inside this post imports `web-vitals`, which is
+> not part of the starter (`pnpm add web-vitals` if you adopt it on your own site).
+
 ````mdx
 ---
-# src/content/blog/web-performance-2024.mdx
+# src/content/blog/web-performance-2024/web-performance-2024.mdx
 title: "Web Performance in 2024: What Really Matters"
 description: "Core Web Vitals are just the beginning. Here's what you need to know about modern web performance."
 date: 2024-11-20
 updated: 2024-11-25
 tags: ["Performance", "Web Development", "Core Web Vitals"]
 author: "Your Name"
-cover: "./images/blog/performance-hero.jpg"
+cover: "./web-performance-2024-hero.jpg"
 coverAlt: "Dashboard showing performance metrics and Core Web Vitals scores"
 canonicalUrl: "https://yourdomain.com/blog/web-performance-2024"
 relatedPosts: ["optimizing-images-astro", "lazy-loading-patterns"]
 ---
+
+import Callout from "@/components/mdx/Callout.astro";
+
 Performance isn't just about speed—it's about creating experiences that feel instant and effortless. In 2024, with users expecting native-app-like performance from web apps, the stakes have never been higher.
 
 ## The State of Web Performance
@@ -314,16 +348,16 @@ button.addEventListener('click', () => {
 button.addEventListener('click', async () => {
   // Show immediate feedback
   button.classList.add('loading');
-  
+
   // Break up work
   await scheduler.yield();
   await processData();
   await scheduler.yield();
   await updateUI();
-  
+
   button.classList.remove('loading');
 });
-````
+```
 
 ### 2. The Rise of Edge Computing
 
@@ -387,11 +421,11 @@ Ship HTML by default, enhance with JavaScript only where needed:
 <article class="product-card">
   <h2>{product.name}</h2>
   <p>{product.description}</p>
-  
+
   <!-- Interactive island -->
-  <AddToCart 
-    client:visible 
-    productId={product.id} 
+  <AddToCart
+    client:visible
+    productId={product.id}
   />
 </article>
 ```
@@ -404,7 +438,7 @@ Make apps feel instant with optimistic updates:
 async function updateCart(item: CartItem) {
   // Update UI immediately
   setCart(prev => [...prev, item]);
-  
+
   try {
     // Sync with server
     await api.addToCart(item);
@@ -429,7 +463,7 @@ export const budgets = {
     cls: 0.05,    // 0.05 CLS = 12% longer sessions
     size: {
       js: 150_000,      // 150KB JavaScript
-      css: 50_000,      // 50KB CSS  
+      css: 50_000,      // 50KB CSS
       images: 800_000,  // 800KB images
     }
   }
@@ -473,7 +507,7 @@ export const budgets = {
 
 ```typescript
 // monitoring.ts
-import { getCLS, getFID, getLCP, getFCP, getTTFB } from 'web-vitals';
+import { onCLS, onINP, onLCP, onFCP, onTTFB } from 'web-vitals';
 
 function sendToAnalytics({name, value, rating}) {
   // Batch metrics for efficiency
@@ -486,126 +520,139 @@ function sendToAnalytics({name, value, rating}) {
   }));
 }
 
-getCLS(sendToAnalytics);
-getFID(sendToAnalytics);
-getLCP(sendToAnalytics);
-getFCP(sendToAnalytics);
-getTTFB(sendToAnalytics);
+onCLS(sendToAnalytics);
+onINP(sendToAnalytics);
+onLCP(sendToAnalytics);
+onFCP(sendToAnalytics);
+onTTFB(sendToAnalytics);
 ```
+````
 
 ## Image Optimization
 
-### 1. Image Pipeline Setup
+The starter already ships an image pipeline (ADR-030, ADR-052, ADR-057). Nothing here needs a
+new script — use the pnpm names below; every script lives in `scripts/src/`.
 
-```typescript
-// scripts/optimize-images.ts
-import sharp from 'sharp';
-import { glob } from 'glob';
-import path from 'path';
-import fs from 'fs/promises';
+### 1. Shipped Image Pipeline
 
-const FORMATS = ['avif', 'webp', 'jpg'] as const;
-const WIDTHS = [320, 640, 960, 1280, 1920, 2560];
-
-async function optimizeImage(inputPath: string) {
-  const outputDir = path.dirname(inputPath).replace('/original', '/optimized');
-  const filename = path.basename(inputPath, path.extname(inputPath));
-  
-  await fs.mkdir(outputDir, { recursive: true });
-  
-  for (const width of WIDTHS) {
-    for (const format of FORMATS) {
-      const outputPath = path.join(
-        outputDir,
-        `${filename}-${width}w.${format}`
-      );
-      
-      await sharp(inputPath)
-        .resize(width, null, {
-          withoutEnlargement: true,
-          fit: 'inside'
-        })
-        .toFormat(format, {
-          quality: format === 'avif' ? 50 : 80,
-          effort: format === 'avif' ? 4 : 6
-        })
-        .toFile(outputPath);
-    }
-  }
-  
-  console.log(`✅ Optimized: ${filename}`);
-}
-
-// Process all images
-const images = await glob('src/assets/images/original/**/*.{jpg,jpeg,png}');
-await Promise.all(images.map(optimizeImage));
-```
-
-### 2. Art Direction for Images
+Content images (anything under `src/`) are processed at build time by `astro:assets` through
+the shipped `src/components/atoms/Image.astro` wrapper. Its real Props:
 
 ```astro
 ---
-// src/components/OptimizedPicture.astro
-import { getImage } from 'astro:assets';
+// src/components/atoms/Image.astro (shipped — Props excerpt)
+interface Props {
+  src: ImageMetadata | string | Promise<{ default: ImageMetadata }>;
+  alt: string;
+  class?: string;
+  format?: "avif" | "webp" | "png" | "jpeg" | "jpg" | "svg" | "gif"; // default avif; SVG passes through
+  quality?: number | "low" | "mid" | "high" | "max";                 // default "high" (75)
+  width?: number;
+  height?: number;
+  sizes?: string;
+  widths?: number[];     // default [320, 640, 1024] when no fixed width/height
+  densities?: number[];  // default [1.5, 2] when width/height are fixed
+  loading?: "lazy" | "eager";      // default lazy
+  decoding?: "async" | "sync" | "auto";
+  hasShadow?: boolean;
+}
+---
+```
+
+Usage — a hero image that is the LCP element:
+
+```astro
+---
+// src/pages/index.astro (excerpt)
+import Image from "@/components/atoms/Image.astro";
+import hero from "@/assets/images/hero.jpg"; // src/assets/images/ is a folder you create
+---
+
+<Image
+  src={hero}
+  alt="Workspace with the redesigned storefront on a laptop"
+  widths={[640, 1024, 1600]}
+  sizes="(min-width: 1024px) 60vw, 100vw"
+  loading="eager"
+  decoding="sync"
+/>
+```
+
+Files under `public/` are served as-is and must be pre-optimised. Three shipped scripts cover
+that:
+
+```bash
+# scripts/src/optimize-images.ts — read-only inventory of every raster under public/ and src/:
+# buckets each image by category (hero, content, thumbnail, avatar, icon, logo), flags
+# oversized dimensions and poor bytes-per-pixel compression, and prints recommendations.
+pnpm images:analyze
+
+# scripts/src/optimize-images-interactive.ts — walks the same globs and, per flagged image,
+# interactively resizes/recompresses it in place with sharp using the category ceilings
+# (hero 1920x1080, content 1200x900, thumbnail 400x400, avatar 200x200, icon 512x512 ...).
+pnpm images:optimize
+
+# scripts/src/check-image-budget.ts (ADR-057) — hard gate: fails when any raster under
+# public/ or src/ exceeds 200KB (override with IMAGE_BUDGET_KB=<kb>). ci.yml runs it against
+# the source tree and again against dist/ after the build.
+pnpm images:gate
+```
+
+See the [Image Optimization Guide](/implementation-guides/guides/image-optimization-guide/)
+for the full workflow and the source-image guidelines.
+
+### 2. Art Direction for Images
+
+`Image.astro` (and Astro's built-in `<Picture>` from `astro:assets`) already handle the
+multi-format AVIF/WebP + fallback case. A custom component is only warranted when you need
+**art direction** — a different source image per breakpoint. If you build one, it is an atom:
+
+```astro
+---
+// src/components/atoms/ArtDirectedPicture.astro (not shipped — build only if you need art direction)
+import type { ImageMetadata } from "astro";
+import { getImage } from "astro:assets";
 
 export interface Props {
   src: ImageMetadata;
   alt: string;
   sizes?: string;
-  loading?: 'eager' | 'lazy';
+  loading?: "eager" | "lazy";
   artDirection?: {
     media: string;
     src: ImageMetadata;
   }[];
 }
 
-const {
-  src,
-  alt,
-  sizes = '100vw',
-  loading = 'lazy',
-  artDirection = []
-} = Astro.props;
+const { src, alt, sizes = "100vw", loading = "lazy", artDirection = [] } = Astro.props;
 
-// Generate optimized versions
-const avif = await getImage({ src, format: 'avif' });
-const webp = await getImage({ src, format: 'webp' });
-const fallback = await getImage({ src, format: 'jpg' });
+// Generate optimized versions of the default source
+const avif = await getImage({ src, format: "avif" });
+const webp = await getImage({ src, format: "webp" });
+const fallback = await getImage({ src, format: "jpeg" });
+
+// Resolve art-directed sources up front — keeps the template synchronous
+const artSources = await Promise.all(
+  artDirection.map(async ({ media, src: artSrc }) => ({
+    media,
+    avif: await getImage({ src: artSrc, format: "avif" }),
+    webp: await getImage({ src: artSrc, format: "webp" }),
+  })),
+);
 ---
+
 <picture>
-  <!-- Art direction sources -->
-  {artDirection.map(async ({ media, src: artSrc }) => {
-    const artAvif = await getImage({ src: artSrc, format: 'avif' });
-    const artWebp = await getImage({ src: artSrc, format: 'webp' });
-    
-    return (
-      <>
-        <source
-          media={media}
-          type="image/avif"
-          srcset={artAvif.src}
-        />
-        <source
-          media={media}
-          type="image/webp"
-          srcset={artWebp.src}
-        />
-      </>
-    );
-  })}
-  
+  {artSources.map(({ media, avif: artAvif, webp: artWebp }) => (
+    <>
+      <source media={media} type="image/avif" srcset={artAvif.src} />
+      <source media={media} type="image/webp" srcset={artWebp.src} />
+    </>
+  ))}
+
   <!-- Default sources -->
-  <source
-    type="image/avif"
-    srcset={avif.src}
-    sizes={sizes}
-  />
-  <source
-    type="image/webp"
-    srcset={webp.src}
-    sizes={sizes}
-  />
-  
+  <source type="image/avif" srcset={avif.src} sizes={sizes} />
+  <source type="image/webp" srcset={webp.src} sizes={sizes} />
+
   <!-- Fallback -->
   <img
     src={fallback.src}
@@ -618,202 +665,134 @@ const fallback = await getImage({ src, format: 'jpg' });
 </picture>
 ```
 
-### 3. Social Media Images
+### 3. Social Media (OG) Images
 
-```typescript
-// scripts/generate-og-images.ts
-import { createCanvas, loadImage } from 'canvas';
-import fs from 'fs/promises';
+OG images are **not generated per page at runtime**. The shipped brand raster pipeline
+(`scripts/src/build-og.ts`, ADR-047 / ADR-054) renders committed SVG artwork to PNG with
+`sharp` so the rasters can never drift from the vectors:
 
-interface OGImageOptions {
-  title: string;
-  subtitle?: string;
-  backgroundImage?: string;
-  brandColor?: string;
-}
+| Source (committed) | Target (committed) | Size |
+|---|---|---|
+| `public/og-default.svg`, `og-blog.svg`, `og-about.svg` | `public/og-*.png` | 1200×630 |
+| `src/assets/brand/app-icon-gradient.svg` | `public/apple-touch-icon.png` | 180×180 |
+| `public/favicon.svg` | `public/favicon.ico` | 16/32/48 |
 
-async function generateOGImage({
-  title,
-  subtitle,
-  backgroundImage,
-  brandColor = '#0066CC'
-}: OGImageOptions): Promise<Buffer> {
-  const canvas = createCanvas(1200, 630);
-  const ctx = canvas.getContext('2d');
-  
-  // Background
-  if (backgroundImage) {
-    const bg = await loadImage(backgroundImage);
-    ctx.drawImage(bg, 0, 0, 1200, 630);
-    
-    // Overlay for text readability
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.6)';
-    ctx.fillRect(0, 0, 1200, 630);
-  } else {
-    // Gradient background
-    const gradient = ctx.createLinearGradient(0, 0, 1200, 630);
-    gradient.addColorStop(0, brandColor);
-    gradient.addColorStop(1, adjustColor(brandColor, -30));
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, 1200, 630);
-  }
-  
-  // Title
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 72px Inter';
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  
-  // Word wrap for long titles
-  const words = title.split(' ');
-  const lines: string[] = [];
-  let currentLine = '';
-  
-  words.forEach(word => {
-    const testLine = currentLine + word + ' ';
-    const metrics = ctx.measureText(testLine);
-    
-    if (metrics.width > 1000 && currentLine !== '') {
-      lines.push(currentLine.trim());
-      currentLine = word + ' ';
-    } else {
-      currentLine = testLine;
-    }
-  });
-  lines.push(currentLine.trim());
-  
-  // Draw title lines
-  const lineHeight = 90;
-  const startY = subtitle ? 250 : 315;
-  
-  lines.forEach((line, i) => {
-    ctx.fillText(line, 600, startY + (i * lineHeight));
-  });
-  
-  // Subtitle
-  if (subtitle) {
-    ctx.font = '36px Inter';
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.fillText(subtitle, 600, 450);
-  }
-  
-  // Brand mark
-  ctx.font = 'bold 24px Inter';
-  ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
-  ctx.textAlign = 'left';
-  ctx.fillText('yourdomain.com', 60, 570);
-  
-  return canvas.toBuffer('image/png');
-}
+```bash
+pnpm og:build   # regenerate every raster + write scripts/og-manifest.json (sha256 of each source SVG)
+pnpm og:check   # re-hash the sources against the manifest; fails if an SVG changed but the
+                # PNGs were not rebuilt. Runs inside quality:ci.
+```
 
-// Generate OG images for all content
-const content = [
-  { title: 'Web Developer & Designer', subtitle: 'Creating fast, beautiful web experiences' },
-  { title: 'E-commerce Platform Redesign', subtitle: 'Case Study' },
-  { title: 'Web Performance in 2024', subtitle: 'Blog Post' },
-];
+PNG is deliberate: Facebook, LinkedIn, Discord and Slack do not render SVG previews.
 
-for (const item of content) {
-  const buffer = await generateOGImage(item);
-  await fs.writeFile(
-    `public/og/${slugify(item.title)}.png`,
-    buffer
-  );
-}
+To add a page-specific OG image (for example for `/projects/`):
+
+1. Draw `public/og-projects.svg` on a 1200×630 artboard (copy `og-default.svg` as a start).
+2. Add `"projects"` to the `ogPages` array in `scripts/src/build-og.ts`.
+3. Run `pnpm og:build` and commit `public/og-projects.png` **and** `scripts/og-manifest.json`.
+4. Pass it to the layout — `Head.astro` resolves it to an absolute URL and warns in dev if the
+   file is missing (`src/utils/validateOgImage.ts`):
+
+```astro
+---
+// src/pages/projects/index.astro (excerpt)
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Projects" description="..." image="/og-projects.png">
+  <!-- ... -->
+</BaseLayout>
 ```
 
 ## Meta Descriptions & SEO
 
-### SEO Component
+### SEO Head Component
+
+All `<head>` metadata is owned by the shipped `src/components/molecules/Head.astro` (ADR-029).
+`BaseLayout.astro` spreads its own props straight into `<Head {...Astro.props} />`, so pages
+never render `<Head>` directly — they pass SEO props to the layout. Do not add a parallel
+`SEO.astro`; extend `Head.astro` instead.
 
 ```astro
 ---
-// src/components/SEO.astro
+// src/components/molecules/Head.astro (shipped — Props excerpt)
 export interface Props {
+  /** Page title; the site title is appended unless the title already starts with it. */
   title: string;
   description: string;
+  /** OG image — relative public/ path or absolute URL. @default "/og-default.png" */
   image?: string;
-  type?: 'website' | 'article' | 'profile';
-  publishedTime?: Date;
-  modifiedTime?: Date;
-  author?: string;
-  tags?: string[];
+  /** @default new URL(Astro.url.pathname, Astro.site) */
+  canonicalUrl?: URL;
+  /** Adds <meta name="robots" content="noindex, nofollow">. @default false */
   noindex?: boolean;
+  /** @default "website" */
+  ogType?: "website" | "article";
+  /** Only emitted when ogType is "article". */
+  ogArticle?: {
+    publishedTime?: string;
+    modifiedTime?: string;
+    author?: string;
+    tags?: string[];
+  };
+  /** Emits dns-prefetch + preconnect for each domain. @default [] */
+  preconnectDomains?: string[];
 }
-
-const {
-  title,
-  description,
-  image = '/og/default.png',
-  type = 'website',
-  publishedTime,
-  modifiedTime,
-  author,
-  tags,
-  noindex = false
-} = Astro.props;
-
-const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const imageURL = new URL(image, Astro.site);
 ---
-<!-- Primary Meta Tags -->
-<title>{title}</title>
-<meta name="title" content={title} />
-<meta name="description" content={description} />
-<link rel="canonical" href={canonicalURL} />
-
-{noindex && <meta name="robots" content="noindex, nofollow" />}
-
-<!-- Open Graph -->
-<meta property="og:type" content={type} />
-<meta property="og:url" content={canonicalURL} />
-<meta property="og:title" content={title} />
-<meta property="og:description" content={description} />
-<meta property="og:image" content={imageURL} />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-
-<!-- Twitter -->
-<meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={canonicalURL} />
-<meta property="twitter:title" content={title} />
-<meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={imageURL} />
-
-<!-- Article specific -->
-{type === 'article' && (
-  <>
-    {publishedTime && (
-      <meta property="article:published_time" content={publishedTime.toISOString()} />
-    )}
-    {modifiedTime && (
-      <meta property="article:modified_time" content={modifiedTime.toISOString()} />
-    )}
-    {author && <meta property="article:author" content={author} />}
-    {tags?.map(tag => (
-      <meta property="article:tag" content={tag} />
-    ))}
-  </>
-)}
-
-<!-- Schema.org -->
-<script type="application/ld+json" set:html={JSON.stringify({
-  "@context": "https://schema.org",
-  "@type": type === 'article' ? 'BlogPosting' : 'WebPage',
-  headline: title,
-  description: description,
-  image: imageURL.toString(),
-  url: canonicalURL.toString(),
-  ...(publishedTime && { datePublished: publishedTime.toISOString() }),
-  ...(modifiedTime && { dateModified: modifiedTime.toISOString() }),
-  ...(author && {
-    author: {
-      "@type": "Person",
-      name: author
-    }
-  })
-})} />
 ```
+
+What it emits: charset/viewport/color-scheme, RSS `<link rel="alternate">`, favicons and the
+web manifest, `<title>` + description + canonical, Open Graph and Twitter cards, `article:*`
+tags for articles, a JSON-LD `@graph` (`WebSite` + `Organization` on every page, plus
+`BlogPosting` on articles), the two self-hosted font faces via the Astro Fonts API (ADR-053),
+and preconnect hints. Site-wide values come from `siteMetadata` in `src/config.ts`.
+
+Usage on a static page:
+
+```astro
+---
+// src/pages/about.astro (excerpt)
+import BaseLayout from "@/layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+  title="About"
+  description="Learn about my journey in web development and the values that drive my work"
+  image="/og-about.png"
+>
+  <!-- ... -->
+</BaseLayout>
+```
+
+Usage on an article — this is what the shipped `src/layouts/BlogLayout.astro` does with the
+post's frontmatter:
+
+```astro
+---
+// src/layouts/BlogLayout.astro (excerpt)
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/url-utils";
+
+const { title, description, date, updated, author, tags, cover } = Astro.props;
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={cover ? cover.src : withBase("/og-blog.png")}
+  ogType="article"
+  ogArticle={{
+    publishedTime: date.toISOString(),
+    modifiedTime: updated?.toISOString(),
+    author,
+    tags,
+  }}
+>
+  <slot />
+</BaseLayout>
+```
+
+Legal pages that should stay out of search results pass `noindex={true}`.
 
 ### Meta Description Guidelines
 
@@ -822,8 +801,8 @@ const imageURL = new URL(image, Astro.site);
 
 ## Character Limits
 - **Optimal**: 150-160 characters
-- **Minimum**: 120 characters  
-- **Maximum**: 160 characters (truncated after)
+- **Minimum**: 120 characters
+- **Maximum**: 160 characters (truncated after — the `blog` and `projects` schemas enforce `.max(160)`)
 
 ## Writing Formula
 1. **Start with action verb** (Discover, Learn, Create, Build)
@@ -834,10 +813,10 @@ const imageURL = new URL(image, Astro.site);
 ## Examples by Page Type
 
 ### Homepage
-"I create lightning-fast, accessible websites that delight users and drive results. Specializing in React, Astro, and modern web development. Let's build something amazing."
+"I create lightning-fast, accessible websites that delight users and drive results. Specializing in Astro, Preact, and modern web development. Let's build something amazing."
 
 ### Service Page
-"Need a blazing-fast website? I build performance-focused web applications using React, Astro, and modern tools. 100% Lighthouse scores guaranteed. Get a free consultation."
+"Need a blazing-fast website? I build performance-focused web applications using Astro, Preact, and modern tools. 100% Lighthouse scores guaranteed. Get a free consultation."
 
 ### Blog Post
 "Core Web Vitals got you down? Learn proven strategies to achieve Performance ≥ 95, Accessibility 100, Best-Practices 100, SEO 100, optimize INP, and create instant-feeling web experiences. Code examples included."
@@ -853,82 +832,77 @@ const imageURL = new URL(image, Astro.site);
 
 ### Navigation Data
 
+Header navigation lives in the `navigation` collection as `src/content/navigation/header.json`.
+The collection schema (`src/content.config.ts`) accepts a flat `items` array of
+`{ label, href, isExternal?, icon?, order }` — nothing else validates — and the matching
+TypeScript shape is `NavItem` in `src/types/navigation.ts`. `structural/Header.astro` reads the
+collection, renders every non-external item as a text link, and renders the item with
+`isExternal: true` + `icon: "github-logo"` as the icon button next to the theme toggle.
+
 ```json
-// src/content/navigation/main.json
+// src/content/navigation/header.json (shipped)
 {
   "items": [
+    { "label": "Home", "href": "/", "order": 1 },
+    { "label": "How It Works", "href": "/how-it-works/", "order": 2 },
+    { "label": "Design System", "href": "/showcase/", "order": 3 },
+    { "label": "Blog", "href": "/blog/", "order": 4 },
+    { "label": "Projects", "href": "/projects/", "order": 5 },
+    { "label": "About", "href": "/about/", "order": 6 },
+    { "label": "Contact", "href": "/contact/", "order": 7 },
     {
-      "label": "Home",
-      "href": "/",
-      "order": 1
-    },
-    {
-      "label": "Projects",
-      "href": "/projects",
-      "order": 2
-    },
-    {
-      "label": "Blog",
-      "href": "/blog",
-      "order": 3
-    },
-    {
-      "label": "About",
-      "href": "/about",
-      "order": 4
-    },
-    {
-      "label": "Contact",
-      "href": "/contact",
-      "order": 5
+      "label": "GitHub",
+      "href": "https://github.com/clownware/astro-performance-starter",
+      "isExternal": true,
+      "icon": "github-logo",
+      "order": 8
     }
   ]
 }
 ```
 
+Use trailing-slash `href`s — `Header.astro` normalises the current path to a trailing slash
+before comparing it for `aria-current="page"`, and `withBase()` is applied at render time so
+sub-path deploys (GitHub Pages) keep working.
+
 ### Footer Content
 
-```json
-// src/content/navigation/footer.json
-{
-  "sections": [
-    {
-      "title": "Quick Links",
-      "links": [
-        { "label": "Home", "href": "/" },
-        { "label": "Projects", "href": "/projects" },
-        { "label": "Blog", "href": "/blog" },
-        { "label": "About", "href": "/about" }
-      ]
-    },
-    {
-      "title": "Services",
-      "links": [
-        { "label": "Web Development", "href": "/services/development" },
-        { "label": "Performance Audit", "href": "/services/performance" },
-        { "label": "Consulting", "href": "/services/consulting" }
-      ]
-    },
-    {
-      "title": "Connect",
-      "links": [
-        { "label": "GitHub", "href": "https://github.com/yourusername", "external": true },
-        { "label": "LinkedIn", "href": "https://linkedin.com/in/yourprofile", "external": true },
-        { "label": "Twitter", "href": "https://twitter.com/yourusername", "external": true },
-        { "label": "Email", "href": "mailto:your@email.com" }
-      ]
-    }
-  ],
-  "bottom": {
-    "copyright": "© 2024 Your Name. All rights reserved.",
-    "links": [
-      { "label": "Privacy Policy", "href": "/privacy" },
-      { "label": "Terms of Service", "href": "/terms" },
-      { "label": "Sitemap", "href": "/sitemap.xml" }
-    ]
-  }
-}
+There is no `footer.json` — footer links are defined in code. Edit the `footerLinks` array in
+`src/components/structural/Footer.astro`, and configure the docs/social columns via
+`siteLinks` and `socialLinks` in `src/config.ts` (empty values auto-hide their sections):
+
+```typescript
+// src/components/structural/Footer.astro (frontmatter excerpt, shipped)
+const footerLinks = [
+  { label: "Home", href: withBase("/") },
+  { label: "Blog", href: withBase("/blog/") },
+  { label: "Projects", href: withBase("/projects/") },
+  { label: "About", href: withBase("/about/") },
+  { label: "Contact", href: withBase("/contact/") },
+];
+
+// Docs column renders only when siteLinks.docs is set; Connect column lists
+// siteLinks.github + socialLinks.linkedin/twitter, skipping empty strings.
 ```
+
+```typescript
+// src/config.ts (excerpt, shipped) — update when you clone
+export const siteLinks = {
+  github: "https://github.com/clownware/astro-performance-starter",
+  docs: "",      // "" hides the Docs column and the "View Documentation" CTAs
+  demo: "",
+  pagespeed: "", // "" renders the 95+ Lighthouse badge as static text
+} as const;
+
+export const socialLinks = {
+  github: "",
+  linkedin: "",
+  twitter: "",
+} as const;
+```
+
+If you want legal links (Privacy, Terms) in the footer, add them to `footerLinks` alongside
+the pages you create in the next section.
 
 ## Legal Pages
 
@@ -936,14 +910,13 @@ const imageURL = new URL(image, Astro.site);
 
 ```mdx
 ---
-# src/content/pages/privacy.mdx
+# Draft copy for src/pages/privacy.astro (a page you create; pass noindex={true} to BaseLayout)
 title: "Privacy Policy"
 description: "How we collect, use, and protect your information"
 noindex: true
 ---
+
 # Privacy Policy
-
-
 
 ## Introduction
 
@@ -995,14 +968,13 @@ For privacy concerns, contact: privacy@yourdomain.com
 
 ```mdx
 ---
-# src/content/pages/terms.mdx
+# Draft copy for src/pages/terms.astro (a page you create; pass noindex={true} to BaseLayout)
 title: "Terms of Service"
 description: "Terms and conditions for using this website"
 noindex: true
 ---
+
 # Terms of Service
-
-
 
 ## Acceptance of Terms
 
@@ -1038,76 +1010,81 @@ For questions about these terms: legal@yourdomain.com
 
 ## 404 Error Page
 
+The template ships a minimal `src/pages/404.astro` (heading, one line of copy, a "Go Home"
+link). This is a richer version you can replace it with. `Section` and `Container` take only
+`class` (plus `id`/`fullHeight`/`ariaLabel`/`ariaLabelledBy` on `Section`) — spacing and
+width variants are Tailwind classes, and a narrower column is an inner `max-w-*` div, the same
+pattern the shipped contact page uses.
+
 ```astro
 ---
-// src/pages/404.astro
-import BaseLayout from '@/layouts/BaseLayout.astro';
-import Container from '@/components/structural/Container.astro';
-import Section from '@/components/structural/Section.astro';
-import Button from '@/components/atoms/Button.astro';
+// src/pages/404.astro (replacement for the shipped minimal page)
+import Button from "@/components/atoms/Button.astro";
+import Container from "@/components/structural/Container.astro";
+import Section from "@/components/structural/Section.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/url-utils";
 
 const popularPages = [
-  { title: 'Homepage', href: '/', description: 'Start from the beginning' },
-  { title: 'Projects', href: '/projects', description: 'View my recent work' },
-  { title: 'Blog', href: '/blog', description: 'Read my latest articles' },
-  { title: 'Contact', href: '/contact', description: 'Get in touch' }
+  { title: "Homepage", href: withBase("/"), description: "Start from the beginning" },
+  { title: "Projects", href: withBase("/projects/"), description: "View my recent work" },
+  { title: "Blog", href: withBase("/blog/"), description: "Read my latest articles" },
+  { title: "Contact", href: withBase("/contact/"), description: "Get in touch" },
 ];
 ---
+
 <BaseLayout
   title="404 - Page Not Found"
   description="The page you're looking for doesn't exist"
   noindex={true}
 >
-  <Section size="xl">
-    <Container size="sm" class="text-center">
-      <div class="mb-8">
-        <div class="text-8xl font-bold text-primary-600">
-          404
+  <Section ariaLabel="Page not found" class="py-24 sm:py-32">
+    <Container>
+      <div class="mx-auto max-w-2xl text-center">
+        <div class="mb-8">
+          <p class="text-8xl font-bold text-primary-600 dark:text-primary-400" aria-hidden="true">
+            404
+          </p>
+          <h1 class="mt-4 text-3xl font-bold">Page Not Found</h1>
+          <p class="mt-4 text-lg text-foreground/80">
+            Sorry, we couldn't find the page you're looking for. It might have been moved, deleted, or never existed.
+          </p>
         </div>
-        <h1 class="mt-4 text-3xl font-bold">Page Not Found</h1>
-        <p class="mt-4 text-lg text-foreground/80">
-          Sorry, we couldn't find the page you're looking for. It might have been moved, deleted, or never existed.
-        </p>
-      </div>
-      
-      <div class="mb-12">
-        <Button href="./" size="lg">
-          Go Back Home
-        </Button>
-      </div>
-      
-      <div class="border-t border-border pt-12">
-        <h2 class="text-xl font-semibold mb-6">Popular Pages</h2>
-        <div class="grid gap-4 text-left max-w-md mx-auto">
-          {popularPages.map(page => (
-            <a
-              href={page.href}
-              class="block p-4 rounded-lg border border-border hover:border-primary-600 transition-colors"
-            >
-              <div class="font-medium">{page.title}</div>
-              <div class="text-sm text-foreground/60">{page.description}</div>
-            </a>
-          ))}
+
+        <div class="mb-12">
+          <Button href={withBase("/")} size="lg">
+            Go Back Home
+          </Button>
+        </div>
+
+        <div class="border-t border-border pt-12">
+          <h2 class="mb-6 text-xl font-semibold">Popular Pages</h2>
+          <div class="mx-auto grid max-w-md gap-4 text-left">
+            {popularPages.map((page) => (
+              <a
+                href={page.href}
+                class="block rounded-lg border border-border p-4 transition-colors hover:border-primary-600 dark:hover:border-primary-400"
+              >
+                <div class="font-medium">{page.title}</div>
+                <div class="text-sm text-foreground/60">{page.description}</div>
+              </a>
+            ))}
+          </div>
         </div>
       </div>
     </Container>
   </Section>
-  
+
   <script>
-    // Log 404s for monitoring
-    if (typeof window !== 'undefined') {
-      const referrer = document.referrer || 'direct';
-      const path = window.location.pathname;
-      
-      // Send to analytics
-      if (window.analytics) {
-        window.analytics.track('404_error', {
-          path,
-          referrer,
-          timestamp: new Date().toISOString()
-        });
-      }
-    }
+    // Optional: report 404s to your analytics provider. The starter ships no
+    // analytics client (see .env.example — PUBLIC_PLAUSIBLE_DOMAIN / PUBLIC_FATHOM_SITE_ID
+    // are documented but not yet wired), so `window.analytics` is whatever you add.
+    const analytics = (window as Window & { analytics?: { track: (e: string, p: object) => void } }).analytics;
+    analytics?.track("404_error", {
+      path: window.location.pathname,
+      referrer: document.referrer || "direct",
+      timestamp: new Date().toISOString(),
+    });
   </script>
 </BaseLayout>
 ```
@@ -1117,63 +1094,65 @@ const popularPages = [
 ### UI Text Patterns
 
 ```typescript
-// src/content/microcopy.ts
+// src/data/microcopy.ts (not shipped — a folder you create; import as "@/data/microcopy")
 export const microcopy = {
   // Buttons
   buttons: {
-    primary: 'Get Started',
-    secondary: 'Learn More',
-    submit: 'Send Message',
-    loading: 'Please Wait...',
-    success: 'Success!',
-    error: 'Try Again'
+    primary: "Get Started",
+    secondary: "Learn More",
+    submit: "Send Message",
+    loading: "Please Wait...",
+    success: "Success!",
+    error: "Try Again",
   },
-  
+
   // Form labels
   forms: {
     name: {
-      label: 'Your Name',
-      placeholder: 'John Doe',
-      error: 'Please enter your name'
+      label: "Your Name",
+      placeholder: "John Doe",
+      error: "Please enter your name",
     },
     email: {
-      label: 'Email Address',
-      placeholder: 'john@example.com',
-      error: 'Please enter a valid email'
+      label: "Email Address",
+      placeholder: "john@example.com",
+      error: "Please enter a valid email",
     },
     message: {
-      label: 'Your Message',
-      placeholder: 'Tell me about your project...',
-      error: 'Please enter a message'
-    }
+      label: "Your Message",
+      placeholder: "Tell me about your project...",
+      error: "Please enter a message",
+    },
   },
-  
+
   // Status messages
   status: {
-    loading: 'Loading content...',
-    error: 'Something went wrong. Please try again.',
-    offline: 'You appear to be offline. Check your connection.',
-    success: 'Thank you! I\'ll get back to you soon.'
+    loading: "Loading content...",
+    error: "Something went wrong. Please try again.",
+    offline: "You appear to be offline. Check your connection.",
+    success: "Thank you! I'll get back to you soon.",
   },
-  
+
   // Empty states
   empty: {
-    projects: 'No projects found. Check back soon!',
-    posts: 'No posts match your search. Try different keywords.',
-    comments: 'Be the first to comment!'
-  }
-};
+    projects: "No projects found. Check back soon!",
+    posts: "No posts match your search. Try different keywords.",
+    comments: "Be the first to comment!",
+  },
+} as const;
 ```
 
 ---
 
 ## Real Page Implementations
 
-Complete page examples showing how components, layouts, and content work together.
+Complete page examples showing how components, layouts, and content work together. Each one is
+a trimmed excerpt of the page the starter actually ships — open the real file for the full
+version.
 
 ### Homepage Implementation
 
-Full-featured homepage with hero, features, metrics, tech stack, and CTA sections.
+Full-featured homepage with hero, metrics, features, tech stack, and CTA sections.
 
 **File**: `src/pages/index.astro`
 
@@ -1181,27 +1160,33 @@ Full-featured homepage with hero, features, metrics, tech stack, and CTA section
 
 - Hero section with gradient background and scroll indicator
 - Lighthouse metrics showcase
-- Expandable feature cards with synchronized expansion
+- Expandable feature cards
 - Tech stack grid with category badges
-- Implementation tier overview
+- Implementation tier overview (Foundation / Build / Polish, ADR-033)
 - Call-to-action section
 
 **Pattern**: Section-based composition with reusable components
 
 ```astro
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import Section from "@/components/structural/Section.astro";
-import Container from "@/components/structural/Container.astro";
-import Button from "@/components/atoms/Button.astro";
+// src/pages/index.astro (excerpt — the shipped page has more sections)
 import Badge from "@/components/atoms/Badge.astro";
+import Button from "@/components/atoms/Button.astro";
+import Icon from "@/components/atoms/Icon.astro";
 import Card from "@/components/molecules/Card.astro";
 import ExpandableFeatureCard from "@/components/molecules/ExpandableFeatureCard.astro";
+import SectionSeparator from "@/components/molecules/SectionSeparator.astro";
+import Container from "@/components/structural/Container.astro";
+import Grid from "@/components/structural/Grid.astro";
+import Section from "@/components/structural/Section.astro";
+import { siteLinks } from "@/config";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import type { Feature, LighthouseMetric } from "@/types/content";
 
-// Data structures
-const features = [
+// Data structures — `icon` is an IconName from the Icon atom registry (ADR-055), not an emoji
+const features: Feature[] = [
   {
-    icon: "🚀",
+    icon: "gauge",
     title: "Performance-First Architecture",
     description: "Zero-JS baseline with islands architecture...",
     metric: "95+ Lighthouse",
@@ -1210,44 +1195,52 @@ const features = [
   // ... more features
 ];
 
-const metrics = [
-  { label: "Performance", score: "95+", icon: "🚀" },
-  { label: "Accessibility", score: "100", icon: "♿" },
+const metrics: LighthouseMetric[] = [
+  { label: "Performance", score: "95+", icon: "gauge" },
+  { label: "Accessibility", score: "100", icon: "accessibility" },
   // ... more metrics
 ];
 ---
 
 <BaseLayout title="..." description="...">
   <!-- Hero Section -->
-  <Section class="min-h-[calc(100vh-4rem)]">
+  <Section ariaLabel="Hero section" class="relative flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center text-center">
     <Container>
-      <Badge>🎆 Production-Ready Template</Badge>
-      <h1>Astro Performance Starter</h1>
-      <p>Build blazing-fast websites...</p>
-      <Button href="..." variant="primary">Get Started</Button>
+      <Badge>Production-Ready Template</Badge>
+      <h1 class="mt-4 text-4xl font-extrabold tracking-tight lg:text-6xl">Astro Performance Starter</h1>
+      <p class="mt-6 text-lg text-muted-foreground">Build blazing-fast websites...</p>
+      <Button href={siteLinks.github} variant="primary" class="mt-6">Get Started</Button>
     </Container>
   </Section>
 
   <!-- Metrics Section -->
-  <Section class="bg-surface">
+  <Section id="performance" ariaLabel="Performance metrics section" class="relative bg-surface">
+    <SectionSeparator />
     <Container>
-      <h2>Lighthouse Performance Scores</h2>
-      <div class="grid grid-cols-4 gap-4">
+      <h2 class="text-center text-3xl font-bold">Lighthouse Performance Scores</h2>
+      <ul class="mt-6 grid list-none grid-cols-2 gap-4 sm:grid-cols-4" role="list">
         {metrics.map((metric) => (
-          <Card>
-            <div class="text-3xl font-bold">{metric.score}</div>
-            <div>{metric.label}</div>
-          </Card>
+          <li>
+            <Card class="h-full p-6 text-center">
+              <div class="flex items-center justify-center gap-2 text-3xl font-bold text-link">
+                <Icon name={metric.icon} class="size-6" decorative />
+                {metric.score}
+              </div>
+              <div class="mt-1 text-sm text-muted-foreground">{metric.label}</div>
+            </Card>
+          </li>
         ))}
-      </div>
+      </ul>
     </Container>
   </Section>
 
   <!-- Features Section -->
-  <Section>
+  <Section id="features" ariaLabel="Key features section" class="relative">
+    <SectionSeparator />
     <Container>
-      <h2>Why Choose This Template?</h2>
-      <Grid>
+      <h2 class="text-center text-3xl font-bold">Why Choose This Template?</h2>
+      <!-- Grid = 1 / @md:2 / @lg:3 columns via container queries; extra classes append -->
+      <Grid class="mt-8 gap-8">
         {features.map((feature) => (
           <ExpandableFeatureCard {...feature} />
         ))}
@@ -1256,10 +1249,12 @@ const metrics = [
   </Section>
 
   <!-- CTA Section -->
-  <Section class="bg-foreground">
+  <Section ariaLabel="Call to action section" class="relative bg-linear-to-br from-primary-600 to-secondary-600">
     <Container>
-      <h2 class="text-primary-foreground">Ready to Build?</h2>
-      <Button href="..." variant="primary" size="lg">Get Started</Button>
+      <h2 class="text-center text-3xl font-bold text-primary-foreground">Ready to Build?</h2>
+      <div class="mt-8 flex justify-center">
+        <Button href={siteLinks.github} variant="primary" size="lg">Get Started</Button>
+      </div>
     </Container>
   </Section>
 </BaseLayout>
@@ -1267,8 +1262,8 @@ const metrics = [
 
 **Best Practices:**
 
-- Separate data from presentation
-- Use semantic section IDs for anchor links
+- Separate data from presentation (types live in `src/types/content.ts`)
+- Give every `Section` an `id` (anchor links) and an `ariaLabel`/`ariaLabelledBy`
 - Implement scroll indicators for long pages
 - Provide clear CTAs throughout
 - Use gradient backgrounds sparingly
@@ -1277,113 +1272,92 @@ const metrics = [
 
 ### Blog Index with Pagination
 
-Blog listing page with featured posts, pagination, and filtering capabilities.
+Blog listing page with featured posts, pagination, and empty-state handling.
 
 **File**: `src/pages/blog/index.astro`
 
 **Key Features:**
 
-- Featured posts section (first page only)
-- Paginated post grid
-- Reading time and date metadata
-- "New" badge for recent posts
+- Featured posts section (first page only, de-duplicated from the main grid)
+- Paginated post grid built from `PostCard`
+- Reading time and date metadata via `formatPostMetadata`
+- "New" badge for recent posts (handled inside `PostCard`)
 - Responsive card layouts
 - Empty state handling
 
-**Pattern**: Content Collections with Astro pagination
+**Pattern**: Content Collections with Astro pagination (ADR-012)
 
 ```astro
 ---
+// src/pages/blog/index.astro (excerpt)
+import type { CollectionEntry } from "astro:content";
 import type { GetStaticPaths, Page } from "astro";
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import PostCard from "@/components/molecules/PostCard.astro";
 import Button from "@/components/atoms/Button.astro";
+import PostCard from "@/components/molecules/PostCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { getFeaturedPosts, getPublishedPosts } from "@/utils/blog";
 import { formatPostMetadata } from "@/utils/formatDate";
-import { getPublishedPosts, getFeaturedPosts } from "@/utils/blog";
+import { withBase } from "@/utils/url-utils";
 
 const postsPerPage = 6;
 
 export const getStaticPaths: GetStaticPaths = async ({ paginate }) => {
-  // Use centralized blog utilities (eliminates duplicate sorting)
+  // Centralised blog utilities: filters drafts and sorts newest-first
   const sortedPosts = await getPublishedPosts();
   return paginate(sortedPosts, { pageSize: postsPerPage });
 };
 
-const { page } = Astro.props;
-const posts = page.data;
+const { page } = Astro.props as { page: Page<CollectionEntry<"blog">> };
 
-// Get featured posts (first page only, limit to 3)
-const featuredPosts = page.currentPage === 1
-  ? await getFeaturedPosts(3)
-  : [];
+// Featured posts (limit 3) are shown on page 1 and excluded from the main grid there
+const featuredPosts = await getFeaturedPosts(3);
+const featuredIds = new Set(featuredPosts.map((p) => p.id));
+const gridPosts = page.currentPage === 1
+  ? page.data.filter((post) => !featuredIds.has(post.id))
+  : page.data;
 
-const postsWithMetadata = posts.map(post => ({
+// PostCard expects `post.metadata` ({ publishedDate, readingTime, isRecent })
+const withMetadata = (post: CollectionEntry<"blog">) => ({
   ...post,
   metadata: formatPostMetadata(post.data.date, post.body),
-}));
+});
+const featuredPostsWithMetadata = featuredPosts.map(withMetadata);
+const postsWithMetadata = gridPosts.map(withMetadata);
 
-const featuredPostsWithMetadata = featuredPosts.map(post => ({
-  ...post,
-  metadata: formatPostMetadata(post.data.date, post.body),
-}));
+const pageTitle = page.currentPage === 1 ? "Blog" : `Blog - Page ${page.currentPage}`;
 ---
 
-<BaseLayout title={`Blog - Page ${page.currentPage}`} description="...">
-  <div class="max-w-7xl mx-auto px-4 py-12">
-    <!-- Header -->
-    <h1 class="text-4xl font-bold text-center mb-12">Blog</h1>
+<BaseLayout title={pageTitle} description="..." image="/og-blog.png">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <h1 class="mb-12 text-center text-4xl font-bold">Blog</h1>
 
     <!-- Featured Posts (first page only) -->
-    {page.currentPage === 1 && featuredPosts.length > 0 && (
-      <section class="mb-16">
-        <h2 class="text-2xl font-bold mb-8">Featured Posts</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-          {featuredPosts.map(post => (
-            <Card class="group">
-              <div class="aspect-video overflow-hidden">
-                <img src={post.data.cover} alt={post.data.coverAlt} 
-                     class="group-hover:scale-105 transition-transform" />
-              </div>
-              <div class="p-6">
-                <div class="flex gap-2 mb-3">
-                  {post.data.tags.slice(0, 3).map(tag => (
-                    <Badge>{tag}</Badge>
-                  ))}
-                </div>
-                <h3 class="text-xl font-semibold mb-3">
-                  <a href={`/blog/${post.slug}/`}>{post.data.title}</a>
-                </h3>
-                <p class="text-muted-foreground mb-4">
-                  {post.data.description}
-                </p>
-                <div class="flex justify-between text-sm">
-                  <span>{formatPostMetadata(post.data.date).publishedDate}</span>
-                  <span>{formatPostMetadata(post.data.date, post.body).readingTime}</span>
-                </div>
-              </div>
-            </Card>
+    {page.currentPage === 1 && featuredPostsWithMetadata.length > 0 && (
+      <section class="mb-16" aria-labelledby="featured-posts-heading">
+        <h2 id="featured-posts-heading" class="mb-8 text-2xl font-bold">Featured</h2>
+        <div class="flex flex-wrap justify-center gap-8">
+          {featuredPostsWithMetadata.map((post) => (
+            <PostCard post={post} featured={true} class="md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]" />
           ))}
         </div>
       </section>
     )}
 
     <!-- All Posts Grid -->
-    <section>
-      <h2 class="text-2xl font-bold mb-8">
+    <section aria-labelledby="all-posts-heading">
+      <h2 id="all-posts-heading" class="mb-8 text-2xl font-bold">
         {page.currentPage === 1 ? "All Posts" : `Posts - Page ${page.currentPage}`}
       </h2>
-      
-      {posts.length === 0 ? (
-        <div class="text-center py-16">
+
+      {postsWithMetadata.length === 0 ? (
+        <div class="py-16 text-center">
           <p class="text-lg text-muted-foreground">No blog posts found.</p>
-          <Button href="/" variant="secondary" class="mt-4">Back to Home</Button>
+          <Button href={withBase("/")} variant="secondary" class="mt-4">Back to Home</Button>
         </div>
       ) : (
-        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {postsWithMetadata.map(post => (
-            <Card class="group">
-              {/* Same card structure as featured posts */}
-            </Card>
+        <div class="flex flex-wrap justify-center gap-8">
+          {postsWithMetadata.map((post) => (
+            <PostCard post={post} class="md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]" />
           ))}
         </div>
       )}
@@ -1393,26 +1367,31 @@ const featuredPostsWithMetadata = featuredPosts.map(post => ({
         <nav class="mt-12 flex justify-center" aria-label="Blog pagination">
           <div class="flex items-center space-x-2">
             {page.url.prev && (
-              <Button href={page.url.prev} variant="secondary" size="sm">
+              <Button href={page.url.prev} variant="secondary" size="sm" aria-label={`Go to page ${page.currentPage - 1}`}>
                 Previous
               </Button>
             )}
-            
-            <div class="hidden sm:flex space-x-1">
-              {Array.from({ length: page.lastPage }, (_, i) => i + 1).map(pageNum => {
-                const href = pageNum === 1 ? '/blog/' : `/blog/${pageNum}/`;
+
+            <div class="hidden items-center space-x-1 sm:flex">
+              {Array.from({ length: page.lastPage }, (_, i) => i + 1).map((pageNum) => {
+                const href = pageNum === 1 ? withBase("/blog/") : withBase(`/blog/${pageNum}/`);
                 return pageNum === page.currentPage ? (
-                  <span class="px-3 py-2 bg-primary-100 text-primary-600 rounded">
+                  <span class="rounded-md border border-primary-300 bg-primary-100 px-3 py-2 text-sm font-medium text-primary-700" aria-current="page">
                     {pageNum}
                   </span>
                 ) : (
-                  <Button href={href} variant="ghost" size="sm">{pageNum}</Button>
+                  <Button href={href} variant="ghost" size="sm" aria-label={`Go to page ${pageNum}`}>{pageNum}</Button>
                 );
               })}
             </div>
-            
+
+            <!-- Mobile indicator -->
+            <div class="px-3 py-2 text-sm text-muted-foreground sm:hidden">
+              Page {page.currentPage} of {page.lastPage}
+            </div>
+
             {page.url.next && (
-              <Button href={page.url.next} variant="secondary" size="sm">
+              <Button href={page.url.next} variant="secondary" size="sm" aria-label={`Go to page ${page.currentPage + 1}`}>
                 Next
               </Button>
             )}
@@ -1426,25 +1405,26 @@ const featuredPostsWithMetadata = featuredPosts.map(post => ({
 
 **Best Practices:**
 
-- Use Astro's built-in pagination
-- Show featured content on first page only
+- Use Astro's built-in `paginate()` and the shared `getPublishedPosts` / `getFeaturedPosts` helpers
+- Show featured content on the first page only, and keep it out of the main grid there
 - Implement empty states
-- Provide clear pagination controls
+- Provide clear pagination controls with `aria-label`s and `aria-current="page"`
 - Add mobile-friendly page indicators
-- Use `line-clamp` for consistent card heights
+- Let `PostCard` own the card markup (it already uses `Image.astro`, `Badge` and `Card`)
 
 ---
 
 ### Projects Index with Filtering
 
-Projects portfolio page with client-side filtering by technology.
+Projects portfolio page with client-side filtering by technology and a "Load More" button for
+anything past the first six entries (hybrid SSR + client pagination, ADR-015).
 
 **File**: `src/pages/projects/index.astro`
 
 **Key Features:**
 
 - Client-side technology filtering
-- Dynamic filter badges
+- Dynamic filter buttons generated from the collection
 - Empty state with reset button
 - Project cards with metadata
 - Responsive grid layout
@@ -1453,132 +1433,148 @@ Projects portfolio page with client-side filtering by technology.
 
 ```astro
 ---
-import { getCollection } from "astro:content";
-import BaseLayout from "@/layouts/BaseLayout.astro";
-import ProjectCard from "@/components/molecules/ProjectCard.astro";
+// src/pages/projects/index.astro (excerpt — the shipped page also implements Load More)
+import { type CollectionEntry, getCollection } from "astro:content";
 import Button from "@/components/atoms/Button.astro";
-import Badge from "@/components/atoms/Badge.astro";
+import Icon from "@/components/atoms/Icon.astro";
+import ProjectCard from "@/components/molecules/ProjectCard.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/url-utils";
 
-const entries = await getCollection("projects", ({ data }) => !data.draft);
+const entries = await getCollection("projects", ({ data }: CollectionEntry<"projects">) => !data.draft);
 
+// Content-layer entries are addressed by `id` (the folder name), not `slug`
 const projects = entries
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .map(entry => ({
+  .map((entry) => ({
     title: entry.data.title,
     description: entry.data.description,
-    image: entry.data.cover.src,
+    image: entry.data.cardImage ?? entry.data.cover,
     techStack: entry.data.technologies,
     demoUrl: entry.data.externalUrl,
-    githubUrl: entry.data.githubUrl,
-    href: `/projects/${entry.slug}/`,
+    href: withBase(`/projects/${entry.id}/`),
     date: entry.data.date,
     tags: entry.data.tags,
   }));
 
 // Extract unique technologies for filters
-const allTechStack = [...new Set(projects.flatMap(p => p.techStack))].sort();
+const allTechStack = [...new Set(projects.flatMap((p) => p.techStack))].sort();
 ---
 
-<BaseLayout title="Projects" description="...">
-  <div class="max-w-7xl mx-auto px-4 py-12">
-    <h1 class="text-4xl font-bold text-center mb-12">Projects</h1>
+<BaseLayout title="Projects" description="..." image="/og-default.png">
+  <div class="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+    <h1 class="mb-12 text-center text-4xl font-bold">Projects</h1>
 
-    <!-- Filter Controls -->
-    <section class="mb-12">
-      <h2 class="text-xl font-bold text-center mb-4">Filter by Technology</h2>
+    <!-- Filter Controls (native buttons with aria-pressed, not Badge/Button atoms) -->
+    <section class="mb-12" aria-labelledby="filter-heading">
+      <h2 id="filter-heading" class="mb-4 text-center text-xl font-bold">Filter by Technology</h2>
       <div class="flex flex-wrap justify-center gap-3">
-        <Button 
-          variant="ghost" 
-          size="sm"
-          class="filter-btn active"
+        <button
+          type="button"
+          class="filter-btn active inline-flex items-center rounded-md border border-border bg-surface px-3 py-1.5 text-sm font-medium"
           data-filter="all"
+          aria-pressed="true"
         >
           All Projects
-        </Button>
-        {allTechStack.map(tech => (
-          <Badge 
-            class="cursor-pointer hover:bg-primary-200 filter-badge" 
+        </button>
+        {allTechStack.map((tech) => (
+          <button
+            type="button"
+            class="filter-badge inline-flex items-center rounded-full bg-primary-100 px-2.5 py-0.5 text-xs font-medium text-primary-800 dark:bg-primary-900 dark:text-primary-200"
             data-filter={tech.toLowerCase()}
+            aria-pressed="false"
           >
             {tech}
-          </Badge>
+          </button>
         ))}
       </div>
     </section>
 
     <!-- Projects Grid -->
-    <section>
-      <h2 class="text-2xl font-bold text-center mb-8">All Projects</h2>
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {projects.map(project => (
+    <section aria-labelledby="projects-heading">
+      <h2 id="projects-heading" class="mb-8 text-center text-2xl font-bold">All Projects</h2>
+      <div id="projects-grid" class="flex flex-wrap justify-center gap-8" aria-live="polite">
+        {projects.map((project) => (
           <ProjectCard
             {...project}
-            data-tech-stack={project.techStack.map(t => t.toLowerCase()).join(' ')}
+            class="w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.333rem)]"
+            data-tech-stack={project.techStack.map((t) => t.toLowerCase()).join(" ")}
           />
         ))}
       </div>
     </section>
 
     <!-- Empty State -->
-    <div id="empty-state" class="hidden text-center py-12">
-      <div class="text-6xl mb-4">🔍</div>
-      <h3 class="text-xl font-semibold mb-2">No projects found</h3>
-      <p class="text-muted-foreground mb-6">
-        Try selecting a different technology filter.
-      </p>
-      <Button variant="primary" class="reset-filter-btn">
-        Show All Projects
-      </Button>
+    <div id="empty-state" class="hidden py-12 text-center">
+      <Icon name="search" class="mx-auto mb-4 size-12 text-muted-foreground" decorative />
+      <h3 class="mb-2 text-xl font-semibold">No projects found</h3>
+      <p class="mb-6 text-muted-foreground">Try selecting a different technology filter.</p>
+      <Button variant="primary" class="reset-filter-btn">Show All Projects</Button>
     </div>
   </div>
 </BaseLayout>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const filterButtons = document.querySelectorAll('.filter-btn, .filter-badge');
-    const projectCards = document.querySelectorAll('[data-tech-stack]');
-    const emptyState = document.getElementById('empty-state');
-    const resetButton = document.querySelector('.reset-filter-btn');
+  // Named so it can re-run after every view-transition swap: ClientRouter does
+  // not re-fire DOMContentLoaded, so a bare listener would leave the filter inert
+  // after a soft navigation.
+  function setupProjectsFilter() {
+    const controls = document.querySelectorAll<HTMLElement>(".filter-btn, .filter-badge");
+    if (controls.length === 0) return; // not on the projects page
+    const cards = document.querySelectorAll<HTMLElement>("[data-tech-stack]");
+    const emptyState = document.getElementById("empty-state");
+    const resetButton = document.querySelector<HTMLElement>(".reset-filter-btn");
 
-    const filterProjects = (filterValue) => {
+    const filterProjects = (filterValue: string) => {
       let visibleCount = 0;
-
-      projectCards.forEach(card => {
-        const techStack = card.getAttribute('data-tech-stack') || '';
-        const shouldShow = filterValue === 'all' || techStack.includes(filterValue);
-        card.style.display = shouldShow ? 'block' : 'none';
+      cards.forEach((card) => {
+        const techStack = card.getAttribute("data-tech-stack") ?? "";
+        const shouldShow = filterValue === "all" || techStack.includes(filterValue);
+        card.style.display = shouldShow ? "block" : "none";
         if (shouldShow) visibleCount++;
       });
-
-      emptyState?.classList.toggle('hidden', visibleCount > 0);
-      
-      filterButtons.forEach(btn => btn.classList.remove('active'));
+      emptyState?.classList.toggle("hidden", visibleCount !== 0);
+      controls.forEach((btn) => {
+        btn.classList.remove("active");
+        btn.setAttribute("aria-pressed", "false");
+      });
     };
 
-    filterButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const filterValue = button.getAttribute('data-filter') || 'all';
-        filterProjects(filterValue);
-        button.classList.add('active');
+    controls.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterProjects(button.getAttribute("data-filter") ?? "all");
+        button.classList.add("active");
+        button.setAttribute("aria-pressed", "true");
       });
     });
 
-    resetButton?.addEventListener('click', () => filterProjects('all'));
-  });
+    resetButton?.addEventListener("click", () => {
+      filterProjects("all");
+      document.querySelector<HTMLElement>('[data-filter="all"]')?.classList.add("active");
+      document.querySelector<HTMLElement>('[data-filter="all"]')?.setAttribute("aria-pressed", "true");
+    });
+  }
+
+  setupProjectsFilter();
+  document.addEventListener("astro:after-swap", setupProjectsFilter);
 </script>
 
 <style>
+  /* Tailwind v4: @apply inside a scoped <style> needs the @reference */
+  @reference "../../styles/global.css";
+
   .filter-btn.active,
   .filter-badge.active {
     @apply bg-primary-600 text-primary-foreground;
   }
-  
+
   [data-tech-stack] {
-    transition: opacity 0.3s ease;
+    transition: opacity 0.3s ease, transform 0.3s ease;
   }
-  
+
   [data-tech-stack][style*="display: none"] {
     opacity: 0;
+    transform: scale(0.95);
   }
 </style>
 ```
@@ -1586,50 +1582,63 @@ const allTechStack = [...new Set(projects.flatMap(p => p.techStack))].sort();
 **Best Practices:**
 
 - Generate filters from actual data
-- Use `data-*` attributes for filtering
-- Implement smooth transitions
+- Use `data-*` attributes for filtering and `aria-pressed` on the toggles
+- Re-attach listeners on `astro:after-swap` (view transitions are on via `ClientRouter`)
 - Show empty states
 - Provide reset functionality
-- Keep JavaScript minimal and progressive
+- Keep JavaScript minimal and progressive — vanilla script, not an island (ADR-001)
 
 ---
 
 ### Contact Page with Form
 
-Contact page with integrated ContactForm component.
+Contact page with the shipped `ContactForm` molecule (ADR-018, ADR-021).
 
 **File**: `src/pages/contact.astro`
 
 ```astro
 ---
-import BaseLayout from "@/layouts/BaseLayout.astro";
+// src/pages/contact.astro (simplified — the shipped page adds contact methods, socials and expectations)
 import ContactForm from "@/components/molecules/ContactForm.astro";
-import Section from "@/components/structural/Section.astro";
 import Container from "@/components/structural/Container.astro";
+import Section from "@/components/structural/Section.astro";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { withBase } from "@/utils/url-utils";
 ---
 
-<BaseLayout 
-  title="Contact" 
+<BaseLayout
+  title="Contact"
   description="Get in touch with us"
 >
-  <Section>
-    <Container size="md">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl font-bold mb-4">Get In Touch</h1>
-        <p class="text-lg text-muted-foreground">
-          Have a question or want to work together? Send us a message.
-        </p>
-      </div>
+  <Section ariaLabel="Contact form section">
+    <Container>
+      <div class="mx-auto max-w-3xl">
+        <div class="mb-12 text-center">
+          <h1 class="mb-4 text-4xl font-bold">Get In Touch</h1>
+          <p class="text-lg text-muted-foreground">
+            Have a question or want to work together? Send us a message.
+          </p>
+        </div>
 
-      <ContactForm action="/api/contact" />
+        <!--
+          `action` defaults to "/contact"; wrap it in withBase() so sub-path deploys work.
+          Static hosts (GitHub Pages, Cloudflare Pages without Functions) have nothing
+          listening there — point `action` at Formspree/Netlify Forms/etc. or it POSTs to a 404.
+        -->
+        <ContactForm action={withBase("/contact")} />
 
-      <div class="mt-12 text-center text-sm text-muted-foreground">
-        <p>Or email us directly at: <a href="mailto:hello@example.com" class="text-primary-600 hover:underline">hello@example.com</a></p>
+        <div class="mt-12 text-center text-sm text-muted-foreground">
+          <p>Or email us directly at: <a href="mailto:hello@example.com" class="text-link hover:underline">hello@example.com</a></p>
+        </div>
       </div>
     </Container>
   </Section>
 </BaseLayout>
 ```
+
+The shipped page reads the address, phone and social handles from `astro:env/client`
+(`PUBLIC_CONTACT_*`, `PUBLIC_SOCIAL_*` — see `.env.example`, ADR-050) instead of hardcoding
+them.
 
 ---
 
@@ -1638,18 +1647,23 @@ import Container from "@/components/structural/Container.astro";
 ### 1. Section-Based Composition
 
 ```astro
-<BaseLayout>
-  <Section id="hero">...</Section>
-  <Section id="features" class="bg-surface">...</Section>
-  <Section id="cta">...</Section>
+<BaseLayout title="..." description="...">
+  <Section id="hero" ariaLabel="Hero">...</Section>
+  <Section id="features" ariaLabel="Features" class="bg-surface">...</Section>
+  <Section id="cta" ariaLabel="Call to action">...</Section>
 </BaseLayout>
 ```
 
 ### 2. Content Collections Integration
 
 ```astro
-const posts = await getCollection('blog', ({ data }) => !data.draft);
-const sortedPosts = posts.sort((a, b) => b.data.date - a.data.date);
+---
+import { getCollection } from "astro:content";
+
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+const sortedPosts = posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+// For blog specifically, prefer the shipped helpers: getPublishedPosts() / getFeaturedPosts()
+---
 ```
 
 ### 3. Progressive Enhancement
@@ -1657,7 +1671,7 @@ const sortedPosts = posts.sort((a, b) => b.data.date - a.data.date);
 ```astro
 <!-- Works without JavaScript -->
 <div class="grid">
-  {items.map(item => <Card {...item} />)}
+  {items.map((item) => <Card {...item} />)}
 </div>
 
 <!-- Enhanced with JavaScript -->
@@ -1669,18 +1683,19 @@ const sortedPosts = posts.sort((a, b) => b.data.date - a.data.date);
 ### 4. Responsive Layouts
 
 ```astro
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-  {items.map(item => <Card {...item} />)}
-</div>
+<!-- structural/Grid: 1 / @md:2 / @lg:3 columns by default; extend via class -->
+<Grid class="gap-6 @lg:grid-cols-4">
+  {items.map((item) => <Card {...item} />)}
+</Grid>
 ```
 
 ### 5. Empty States
 
 ```astro
 {items.length === 0 ? (
-  <div class="text-center py-16">
+  <div class="py-16 text-center">
     <p>No items found.</p>
-    <Button href="/">Go Home</Button>
+    <Button href={withBase("/")}>Go Home</Button>
   </div>
 ) : (
   <div class="grid">{/* items */}</div>
@@ -1691,7 +1706,13 @@ const sortedPosts = posts.sort((a, b) => b.data.date - a.data.date);
 
 ## Related Documentation
 
-- [Layout Components](/implementation-guides/code-examples/phase-6-code-examples#layout-components) - Layout examples
-- [Component Patterns](/patterns/component-patterns) - Component design patterns
-- [Content Collections](/implementation-guides/07-content/01-content-collections) - Content management
-- [Performance](/patterns/performance) - Optimization strategies
+- [Phase 7: Content](/implementation-guides/active-phases/phase-7-content/) - The phase guide these examples support
+- [Layout Components](/implementation-guides/code-examples/phase-6-code-examples/#layout-components) - Layout examples
+- [Component Patterns](/patterns/component-patterns/) - Component design patterns
+- [Content Collections](/patterns/content-collections/) - Content management
+- [Content Model Guide](/implementation-guides/guides/content-model-guide/) - Collection schemas
+- [Image Optimization Guide](/implementation-guides/guides/image-optimization-guide/) - The shipped image workflow
+- [Performance Patterns](/patterns/performance-patterns/) - Optimization strategies
+- [ADR-029: SEO and Metadata Architecture](/adr/029-seo-metadata-architecture/) - Why `Head.astro` owns the `<head>`
+- [ADR-030: Image Optimisation Defaults](/adr/030-image-optimisation-defaults/) - `astro:assets` configuration
+- [ADR-052: Script Taxonomy](/adr/052-script-taxonomy/) - Where scripts live and how they are named

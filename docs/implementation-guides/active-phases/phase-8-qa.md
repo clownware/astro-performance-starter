@@ -1,11 +1,13 @@
 ---
 title: Phase 8 - Quality Assurance
-lastUpdated: 2025-06-10T00:00:00.000Z
+lastUpdated: true
 description: >-
   Covers test results, bug fixes, accessibility audit, and cross-browser
   validation with Essential, Recommended, and Advanced scope guidance
 tableOfContents: true
 pagefind: true
+sidebar:
+  order: 8
 ---
 
 ## Overview
@@ -29,20 +31,21 @@ pagefind: true
 | 8.01 | Manual functionality test | Essential | All user flows |
 | 8.02 | Mobile device testing | Essential | Real devices preferred |
 | 8.03 | Cross-browser check | Essential | Chrome, Firefox, Safari |
-| 8.04 | Accessibility audit | Essential | Browser DevTools; axe-core automated is Recommended |
+| 8.04 | Accessibility audit | Essential | Browser DevTools; automate with axe-core as Recommended |
 | 8.05 | Link validation | Essential | No broken links |
 | 8.06 | Form testing | Essential | All inputs/validations |
 | 8.07 | Performance check | Essential | Lighthouse audit |
-| 8.08 | Fix critical issues | Essential | P0/P1 bugs; all severity levels for Advanced |
-| 8.09 | Automated E2E tests | Recommended | Playwright suite for critical paths |
+| 8.08 | Fix critical issues | Essential | P0 bugs first; all severity levels as Recommended |
+| 8.09 | Automated E2E tests | Recommended | Playwright suite (template ships specs in `e2e/`) |
 | 8.10 | Visual regression tests | Advanced | Percy or similar |
 | 8.11 | Security audit | Recommended | Headers, CSP, deps |
 | 8.12 | SEO validation | Recommended | Technical SEO |
-| 8.13 | API testing | Recommended | If applicable |
+| 8.13 | API testing | Advanced | If applicable |
 | 8.14 | Load testing | Advanced | Performance under load |
 | 8.15 | Error monitoring | Advanced | Sentry integration |
-| 8.16 | Analytics validation | Recommended | Tracking works |
+| 8.16 | Analytics validation | Advanced | Tracking works |
 | 8.17 | Progressive enhancement | Recommended | JS disabled testing |
+| 8.18 | Unit test suite passing | Essential | Vitest; mandatory per TDD (ADR-037), runs in `quality:ci` |
 
 ## Testing Strategies
 
@@ -185,31 +188,31 @@ pagefind: true
 
 ### Essential (all projects)
 
-- [ ] Manual tests passed — all functionality verified
-- [ ] Mobile testing complete — real devices tested
+- [ ] Manual tests passed (all functionality verified)
+- [ ] Mobile testing complete (real devices tested)
 - [ ] Cross-browser verified (Chrome, Firefox, Safari)
-- [ ] Accessibility checked with browser DevTools
-- [ ] Forms working correctly — all validations verified
-- [ ] No broken links
-- [ ] Lighthouse scores meet thresholds (Performance 95+, Accessibility 98+)
-- [ ] P0/P1 bugs fixed
+- [ ] Accessibility checked (manual audit at minimum)
+- [ ] Forms working correctly (all validations verified)
+- [ ] No broken links (all links validated)
+- [ ] Lighthouse CI floors met (`lighthouserc.json` + `lighthouserc.mobile.json`: performance ≥ 0.90, accessibility ≥ 0.95, best-practices ≥ 0.95, SEO ≥ 0.90; 95+ is the measured headline, not the gate)
+- [ ] P0 bugs fixed
+- [ ] Unit test suite passing (Vitest)
 
 ### Recommended (most projects)
 
-- [ ] Automated E2E tests for critical paths (Playwright)
-- [ ] axe-core accessibility tests integrated
-- [ ] Security headers verified (CSP, HSTS)
+- [ ] E2E test suite passing (Playwright, `pnpm run test:e2e`)
+- [ ] Automated accessibility tests passing (`pnpm run test:a11y`)
+- [ ] Security headers verified (CSP, HSTS in `public/_headers`)
 - [ ] SEO validation complete
 - [ ] Progressive enhancement tested (JS disabled)
-- [ ] Analytics validation complete
+- [ ] All severity levels of bugs triaged and fixed
 
 ### Advanced (portfolio/enterprise)
 
 - [ ] Visual regression baseline established
-- [ ] Performance budgets enforced in CI
-- [ ] Error monitoring active (Sentry or equivalent)
+- [ ] Performance budgets enforced in CI (`pnpm run perf:budgets` already runs in `ci.yml`; tighten `budgets.json` for your site)
+- [ ] Error monitoring active (Sentry or equivalent — not part of the starter)
 - [ ] Load testing completed
-- [ ] All severity levels of bugs addressed
 
 ## Rollback Strategy
 
@@ -234,14 +237,17 @@ If critical issues found:
 
 ### Key Files to Reference
 
-- `e2e/*` - End-to-end test suites (Playwright `testDir` is `./e2e`)
+- `e2e/*` - End-to-end test suites (Playwright `testDir` is `./e2e` at the repo root)
 - `playwright.config.ts` - Test configuration
-- Test utilities and helpers
+- `e2e/a11y-axe.spec.ts` - axe-core sweep, run with `pnpm run test:a11y`
+- `src/**/__tests__/*` - Colocated Vitest unit tests (Astro Container API helper in `src/components/__tests__/_helpers/container.ts`)
+- `tests/fixtures/*` - Shared test fixtures (`posts.ts`, `tokens.ts`)
+- `lighthouserc.json`, `budgets.json` - Performance thresholds
 - Bug tracking templates
 
 ### Common Prompts for This Phase
 
-- "Write E2E tests for user registration flow"
+- "Write E2E tests for the contact form flow"
 - "Create accessibility test suite"
 - "Set up visual regression testing"
 - "Debug flaky test failures"
