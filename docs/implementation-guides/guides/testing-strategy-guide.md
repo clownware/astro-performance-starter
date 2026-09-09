@@ -158,11 +158,14 @@ Not shipped, by design: no `@testing-library/preact` (`.astro` components cannot
 
 #### Configuration (shipped)
 
-`playwright.config.ts` defines three desktop browser projects from Playwright's `devices` presets, points `testDir` at `e2e/`, and starts `astro preview` for you:
+`playwright.config.ts` defines three desktop browser projects from Playwright's `devices` presets, points `testDir` at `e2e/`, and delegates the preview server to `e2e/global-setup.ts`:
 
 ```typescript
 // playwright.config.ts (shipped)
 import { defineConfig, devices } from "@playwright/test";
+
+const PORT = Number(process.env.E2E_PORT ?? 4351);
+const BASE_URL = process.env.E2E_BASE_URL ?? `http://localhost:${PORT}`;
 
 export default defineConfig({
   testDir: "./e2e",
@@ -171,8 +174,9 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
+  globalSetup: "./e2e/global-setup.ts",
   use: {
-    baseURL: "http://localhost:4321",
+    baseURL: BASE_URL,
     trace: "on-first-retry",
   },
 
@@ -181,16 +185,17 @@ export default defineConfig({
     { name: "firefox", use: { ...devices["Desktop Firefox"] } },
     { name: "webkit", use: { ...devices["Desktop Safari"] } },
   ],
-
-  webServer: {
-    command: "pnpm run preview",
-    url: "http://localhost:4321",
-    reuseExistingServer: !process.env.CI,
-  },
+  // No `webServer` block — see below.
 });
 ```
 
+There is deliberately no `webServer` block. `astro preview` detaches on some platforms and blocks on others, so Playwright's launcher either aborted the run outright or raced the detached server — and, never having owned the process, could not stop it, leaking a background daemon that later runs then silently adopted. `e2e/global-setup.ts` owns start, readiness and shutdown instead, and refuses to run at all unless the server answers this application's routes.
+
+The port is **4351**, not Astro's default 4321, because every Astro project on a machine competes for that one. Override it with `E2E_PORT`, or point at an already-running server with `E2E_BASE_URL`.
+
 Run `pnpm run build` first (preview serves `dist/`). CI runs only the `chromium` project (`pnpm exec playwright test --project=chromium`); run `pnpm run test:e2e` locally for all three. Because `trailingSlash: "always"` is set in `astro.config.mjs`, assert on `/about/`, not `/about`.
+
+After a Playwright version bump the matching browser build has to be downloaded once — `pnpm exec playwright install chromium`. Playwright says so itself when it happens, but it says it once per failing test, so the first line of a wall of identical errors is the one to read. CI installs browsers per run from a version-keyed cache.
 
 #### Basic Test Structure
 

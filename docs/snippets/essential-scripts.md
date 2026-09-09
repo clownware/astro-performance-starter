@@ -18,7 +18,7 @@ pagefind: true
     "preview": "astro preview",
     "tokens:build": "tsx scripts/src/build-tokens.ts",
     "env:validate": "tsx scripts/src/validate-env.ts",
-    "check": "SITE_URL=${SITE_URL:-http://localhost:4321} astro check",
+    "check": "astro check",
     "check:types": "tsc --noEmit"
   }
 }
