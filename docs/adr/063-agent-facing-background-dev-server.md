@@ -37,6 +37,21 @@ project is serving. This repository has twice been bitten by port-4321 collision
 port). The health endpoint does not fix that class of bug, and documentation claiming otherwise
 would recreate it.
 
+> **Amendment (2026-09-08).** The collision recurred a third time, and the mechanism turned out to
+> be this same detaching behaviour rather than the port alone. Playwright's `webServer` launched
+> `astro preview`, which detached; the launcher exited immediately, so Playwright either aborted
+> with "Process from config.webServer exited early" or won a race against the detached server
+> binding its port — and, never having owned the process, could not stop it afterwards. Every E2E
+> run therefore leaked a background preview daemon, and later runs silently adopted whatever was
+> still listening.
+>
+> The E2E path no longer uses `webServer`. `e2e/global-setup.ts` owns start, readiness, identity
+> and shutdown: it moves off the contended 4321 default (`E2E_PORT`, default 4351), reuses a
+> server only after confirming it serves this application's routes, refuses to run against
+> anything else, and stops only a server it started itself. Liveness is still not identity — that
+> part of this ADR stands — which is exactly why the check probes real routes instead of
+> `/_astro/status`.
+
 ## Decision Drivers
 
 - **Agent ergonomics**: start/verify/stop without a held terminal or log-scraping
