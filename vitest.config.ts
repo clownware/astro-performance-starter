@@ -38,7 +38,7 @@ export default getViteConfig({
       "@assets": "/src/assets",
       // astro:content is a virtual module — stub it so utilities that import
       // from it (e.g. src/utils/blog.ts) can be unit-tested without Astro's runtime.
-      "astro:content": resolve(__dirname, "src/__mocks__/astro-content.ts"),
+      "astro:content": resolve(import.meta.dirname, "src/__mocks__/astro-content.ts"),
     },
   },
 });
