@@ -9,6 +9,7 @@ import { defineConfig, envField, fontProviders } from "astro/config";
 import astroExpressiveCode from "astro-expressive-code";
 import { remarkSnippetIncludes } from "./scripts/src/remark-snippet-includes.mjs";
 import { remarkValidateLinks } from "./scripts/src/remark-validate-links.mjs";
+import { resolveSite } from "./scripts/src/resolve-site.mjs";
 import { components as mdxComponents } from "./src/components/mdx/index.ts";
 
 const rootDir = fileURLToPath(new URL(".", import.meta.url));
@@ -20,17 +21,11 @@ const pkg = JSON.parse(readFileSync(new URL("./package.json", import.meta.url), 
 
 const isGhPages = process.env.DEPLOY_TARGET === "gh-pages";
 
-// Site URL: require explicit configuration for builds, default to localhost for dev.
-// The validate-env.ts prebuild script catches misconfiguration before we get here.
-const envSite = process.env.SITE_URL || process.env.PUBLIC_SITE_URL;
-const isDev = process.argv.slice(2).includes("dev");
-const site = envSite || (isDev ? "http://localhost:4321" : undefined);
-if (!site) {
-  throw new Error(
-    "SITE_URL is required for production builds. " +
-      "Set SITE_URL or PUBLIC_SITE_URL in your environment or .env file.",
-  );
-}
+// Site URL: required for builds, which bake it into canonical URLs and the
+// sitemap; defaulted to localhost for every other command, none of which use
+// it. The validate-env.ts prebuild script is the real guard — it rejects a
+// missing SITE_URL and the template's placeholder values before a build runs.
+const site = resolveSite({ argv: process.argv.slice(2), env: process.env });
 
 // Base path: derive from package.json name for GH Pages, root for all others.
 const base = isGhPages ? `/${pkg.name}` : "/";
