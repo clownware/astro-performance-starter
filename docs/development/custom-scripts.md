@@ -46,7 +46,7 @@ This project uses a collection of custom scripts to automate common tasks, enfor
 | `check` | Run Astro type checking (`astro check`, with a local `SITE_URL` default) |
 | `check:types` | Run TypeScript type checking only (`tsc --noEmit`) |
 | `quality` | Local quality pass: `format` + `lint` + `lint:md` + `check` |
-| `quality:ci` | The full CI quality gate: `format:check` + `lint` + `lint:md` + `check` + `test:unit` + `agents:check` + `version:check` + `og:check` + `docs:count` |
+| `quality:ci` | The full CI quality gate: `format:check` + `lint` + `lint:md` + `check` + `test:unit` + `agents:check` + `version:check` + `og:check` + `docs:count` + `docs:snippets` |
 
 ## Testing Scripts
 
@@ -75,6 +75,7 @@ See [Testing Conventions](/development/testing-conventions/) for how to write te
 | Command | Description |
 | :--- | :--- |
 | `docs:count` | Verify inline counts in the docs (ADRs, components, etc.) match the filesystem (CI gate) |
+| `docs:snippets` | Verify `docs/snippets/*.md` still match the files they reproduce (CI gate) |
 | `version:check` | Verify the README footer version and `versions.json` pins match `package.json` (CI gate) |
 | `version:fix` | Rewrite the drifted values that `version:check` reports |
 | `roadmap:update` | Sync the roadmap checklist in `docs/README.md` from the implementation guides |

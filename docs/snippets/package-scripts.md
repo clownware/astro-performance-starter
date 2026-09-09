@@ -32,7 +32,7 @@ pagefind: true
     "check": "astro check",
     "check:types": "tsc --noEmit",
     "quality": "pnpm run format && pnpm run lint && pnpm run lint:md && pnpm run check",
-    "quality:ci": "pnpm run format:check && pnpm run lint && pnpm run lint:md && pnpm run check && pnpm run test:unit && pnpm run agents:check && pnpm run version:check && pnpm run og:check && pnpm run docs:count",
+    "quality:ci": "pnpm run format:check && pnpm run lint && pnpm run lint:md && pnpm run check && pnpm run test:unit && pnpm run agents:check && pnpm run version:check && pnpm run og:check && pnpm run docs:count && pnpm run docs:snippets",
     "test": "vitest",
     "test:unit": "vitest run",
     "test:coverage": "vitest run --coverage",
