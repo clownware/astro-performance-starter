@@ -7,7 +7,11 @@ export default getViteConfig({
   test: {
     environment: "jsdom",
     globals: true,
-    exclude: ["**/node_modules/**", "**/dist/**", "**/e2e/**"],
+    // `.stryker-tmp` holds a full copy of the project. `cleanTempDir: "always"`
+    // removes it on a clean exit, but a crashed mutation run leaves it behind —
+    // and then every unit run silently executes the whole suite twice, once
+    // from the sandbox. Observed as 1054 tests where there are 527.
+    exclude: ["**/node_modules/**", "**/dist/**", "**/e2e/**", "**/.stryker-tmp/**"],
     coverage: {
       provider: "v8",
       reporter: ["text", "html", "json-summary"],
