@@ -31,13 +31,22 @@
   "tempDirName": ".stryker-tmp",
   "cleanTempDir": "always",
   "incremental": false,
+  "_ignoreComment": "Stryker copies the project into a fresh sandbox per run, so anything a test or perf run writes to must be excluded. A concurrent Playwright run crashed mutation testing on 2026-09-08 with ENOENT on test-results/.last-run.json — the copy raced the write. The .pnpm entry matters for a different reason: a local pnpm store there is ~595MB, and the sandbox resolves dependencies through a node_modules symlink, so copying it was pure waste. Asserted by scripts/src/stryker-config.test.ts.",
   "ignorePatterns": [
     ".astro",
+    ".lighthouseci",
+    ".pnpm",
+    ".pnpm-store",
     ".stryker-tmp",
     "coverage",
     "dist",
+    "lighthouse-ci-reports",
+    "lighthouse-ci-reports-mobile",
     "node_modules",
+    "playwright-report",
+    "playwright/.cache",
     "reports",
+    "test-results",
     "tokens/dist"
   ]
 }
