@@ -195,7 +195,14 @@ The port is **4351**, not Astro's default 4321, because every Astro project on a
 
 Run `pnpm run build` first (preview serves `dist/`). CI runs only the `chromium` project (`pnpm exec playwright test --project=chromium`); run `pnpm run test:e2e` locally for all three. Because `trailingSlash: "always"` is set in `astro.config.mjs`, assert on `/about/`, not `/about`.
 
-After a Playwright version bump the matching browser build has to be downloaded once — `pnpm exec playwright install chromium`. Playwright says so itself when it happens, but it says it once per failing test, so the first line of a wall of identical errors is the one to read. CI installs browsers per run from a version-keyed cache.
+After a Playwright version bump the matching browser build has to be downloaded once — the binary is pinned to the package version. `e2e/global-setup.ts` checks this before any test starts and fails with the exact command to run, naming every browser the run needs and does not have:
+
+```text
+Playwright browsers are not installed: firefox, webkit.
+    pnpm exec playwright install firefox webkit
+```
+
+Only the browsers a run actually uses are checked, so `--project=chromium` does not complain about the other two. The check launches each one (~230ms) rather than testing for a file, because that also covers the headless shell Playwright starts. Any launch failure that is not a missing download is left to the tests — a preflight must never be why a run fails. CI installs browsers per run from a version-keyed cache.
 
 #### Basic Test Structure
 
