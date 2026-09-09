@@ -1,13 +1,20 @@
 import { execFile, spawn } from "node:child_process";
 import { promisify } from "node:util";
-import type { FullConfig } from "@playwright/test";
+import { chromium, firefox, type FullConfig, webkit } from "@playwright/test";
 import {
 	formatIdentityFailure,
 	probeRoutes,
 	requiredRoutes,
 } from "../scripts/src/e2e-app-identity";
+import {
+	formatMissingBrowsers,
+	isMissingBrowserError,
+	selectedProjectNames,
+} from "../scripts/src/e2e-browsers";
 
 const run = promisify(execFile);
+
+const browserTypes = { chromium, firefox, webkit };
 
 const READY_TIMEOUT_MS = 90_000;
 const POLL_INTERVAL_MS = 250;
@@ -32,7 +39,45 @@ const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
  * daemonises (macOS, observed) or stays in the foreground (CI, observed), setup
  * only polls until the app answers. Teardown covers both shapes.
  */
+/**
+ * Reports every browser the run needs but does not have, once, before any test
+ * starts — instead of Playwright repeating the same guidance per failing test.
+ *
+ * A real launch is the check: it is ~230ms and, unlike testing
+ * `executablePath()` for existence, it also covers the headless shell Playwright
+ * actually starts, which is the binary the 1.63 bump left missing.
+ */
+async function assertBrowsersInstalled(config: FullConfig): Promise<void> {
+	const projectNames = config.projects.map((project) => project.name);
+	const selected = selectedProjectNames(process.argv.slice(2), projectNames);
+
+	const needed = new Set<string>();
+	for (const name of selected) {
+		const project = config.projects.find((candidate) => candidate.name === name);
+		// Project names are conventional, not required, so prefer the resolved
+		// browserName that `devices[...]` sets.
+		const browser = project?.use?.browserName ?? name;
+		if (browser in browserTypes) needed.add(browser);
+	}
+
+	const missing: string[] = [];
+	for (const browser of needed) {
+		try {
+			const instance = await browserTypes[browser as keyof typeof browserTypes].launch();
+			await instance.close();
+		} catch (error) {
+			// Only the not-downloaded case is ours to report. Anything else is left
+			// to the tests: a preflight must never be why a run fails.
+			if (isMissingBrowserError(error)) missing.push(browser);
+		}
+	}
+
+	if (missing.length > 0) throw new Error(formatMissingBrowsers(missing));
+}
+
 export default async function globalSetup(config: FullConfig) {
+	await assertBrowsersInstalled(config);
+
 	const baseUrl = config.projects[0]?.use?.baseURL;
 	if (!baseUrl) return;
 
