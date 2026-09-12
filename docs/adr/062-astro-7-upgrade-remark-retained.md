@@ -13,7 +13,12 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-09-12: `@astrojs/mdx` is now 8.x (#401), which routes `.mdx` through the
+configured Markdown processor and warns when remark plugins would be dropped — the `unified()`
+setup below is the supported path. `@astrojs/markdown-satteri` is a peer dependency of both
+`astro@7` and `@astrojs/mdx@8`, so it stays installed regardless of the processor choice; the
+"solely for mdx@7" note under Implementation Details is superseded by this. The decision and
+its revisit trigger are unchanged.)
 
 ## Context
 

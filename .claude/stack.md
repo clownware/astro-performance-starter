@@ -29,6 +29,7 @@ pnpm design:validate  # Semantic color contrast validation
 pnpm budgets:validate # Budget override validation
 pnpm dev:agent        # Background dev server (detached, JSON status lines) — ADR-063
 pnpm dev:agent:stop   # Stop the background dev server
+pnpm exec biome check . --reporter=concise   # Biome 2.5 condensed diagnostics, sized for agent context
 ```
 
 Agent dev-server contract (ADR-063): `pnpm dev:agent` detaches; manage with

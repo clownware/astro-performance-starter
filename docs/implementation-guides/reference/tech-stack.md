@@ -19,7 +19,8 @@ Framework:
     - Zero JavaScript by default
     - Content Layer API (glob loaders, Zod v4 schemas)
     - View Transitions API (ClientRouter)
-    - Server Islands (stable)
+    - Fonts API with a local provider (ADR-053)
+    - Rust compiler + Vite 8 build, agent-aware background dev server (Astro 7, ADR-063)
 
 Build:
   bundler: Vite 8.x
@@ -112,8 +113,10 @@ Type_Checking:
 Git_Hooks:
   tool: Husky + lint-staged
   pre-commit:
-    - Format with Biome
-    - Type check changed files
+    - Format + lint staged files with Biome (lint-staged)
+    - Lint staged Markdown (markdownlint-cli2)
+  pre-push:
+    - Unit tests (Vitest)
   commit-msg:
     - Conventional commits (enforced)
 ```
@@ -169,7 +172,7 @@ Build_Time:
   - Image optimization via Sharp
   - CSS purging via Tailwind
   - Bundle analysis via Vite
-  - Compression (Brotli/Gzip)
+  - Compression (Brotli/Gzip) — applied by the host, not the build
 
 Runtime:
   Essential:
