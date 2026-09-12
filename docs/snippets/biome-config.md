@@ -10,7 +10,7 @@ pagefind: true
 ```json
 // biome.json (excerpt — see the note below for what is omitted)
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -53,7 +53,7 @@ pagefind: true
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "complexity": {
         "noBannedTypes": "error",
         "noUselessTypeConstraint": "error"
@@ -67,7 +67,7 @@ pagefind: true
         "noImplicitAnyLet": "error"
       },
       "a11y": {
-        "recommended": true
+        "preset": "recommended"
       },
       "style": {
         "noNonNullAssertion": "warn",
