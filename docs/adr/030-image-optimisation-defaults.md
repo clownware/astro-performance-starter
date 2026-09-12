@@ -11,7 +11,14 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-09-12: the config block below was recorded as
+`image.responsive: { globalStyles, layout }`, a key Astro has never had — zod
+stripped it silently, the build stayed green, and no responsive default applied
+from 2025-09-29 until the 2026-09 showcase audit caught it. The shipped keys are
+`image.layout` and `image.responsiveStyles`; the excerpt, the section headings
+and the wrapper description are corrected inline, and the behaviour is now
+pinned by a Container-API microtest — see Enforcement. The decisions themselves
+are unchanged.)
 
 ## Context
 
@@ -25,10 +32,8 @@ image: {
       limitInputPixels: 268402689, // ~16K x 16K pixels
     },
   },
-  responsive: {
-    globalStyles: true,
-    layout: 'constrained',
-  },
+  layout: 'constrained',
+  responsiveStyles: true,
   domains: [],
   remotePatterns: [],
 },
@@ -62,7 +67,8 @@ For typical web content (photos up to ~6000×4000px from modern cameras), this l
 
 ### `layout: 'constrained'`
 
-Astro's responsive image layouts:
+*(Amended 2026-09-12: the key is `image.layout`; it was recorded under a
+non-existent `image.responsive` object.)* Astro's responsive image layouts:
 
 | Layout | Behaviour | Use case |
 |--------|-----------|----------|
@@ -79,9 +85,23 @@ Astro's responsive image layouts:
 
 Users who need full-width hero images should pass `layout="full-width"` explicitly on those components.
 
-### `globalStyles: true`
+With the layout active, Astro derives `widths` and `sizes` from the rendered width
+when the caller gives none, and ignores `densities` (its Props type also forbids
+`densities` next to `layout`). The wrapper (`src/components/atoms/Image.astro`)
+therefore no longer invents default widths or densities of its own and no longer
+accepts a `densities` prop: a caller's explicit `widths` or `sizes` override the
+derivation, SVG sources are rendered with `layout="none"` (a vector has no widths
+to generate), and the `layout` prop is passed through so a single image can opt
+into `full-width` or out with `none`. *(Amended 2026-09-12; before this the
+wrapper's defaults were the only reason any raster carried a `srcset`.)*
 
-This injects a small CSS snippet that applies `max-width: 100%` and `height: auto` to all Astro-processed images globally. Without this, images may overflow their containers on narrow viewports.
+### `responsiveStyles: true`
+
+*(Amended 2026-09-12: the key is `image.responsiveStyles`; it was recorded as
+`globalStyles`.)* This injects a small CSS snippet that applies `max-width: 100%`
+to constrained images and `width: 100%` to full-width ones, plus the
+`object-fit` / `object-position` wiring for the `fit` and `position` props.
+Without this, images may overflow their containers on narrow viewports.
 
 **Why global rather than per-component?** The alternative is adding `class="w-full h-auto"` to every `<Image />` usage. Global styles are less error-prone and consistent with how browsers handle `<img>` elements by default.
 
@@ -161,9 +181,11 @@ Anything outside these two cases still halts on rule 8.
 - **Testable consequences:**
   - TC-1: no raw `<img` appears in `src/` outside the two recorded exemptions (the wrapper's string-src fallback; unrasterisable SVGs carrying an inline justifying comment).
   - TC-2: every raster asset in source and build output is within the per-image size budget.
+  - TC-3: a raster rendered through the wrapper carries the constrained layout — `data-astro-image`, a width-descriptor `srcset` and a derived `sizes` — and an SVG does not. *(Added 2026-09-12.)*
 - **Checks:**
   - TC-1 → check `no-raw-img` (status: **warn**)
   - TC-2 → `images:gate` in CI (status: **block**, pre-existing gate) — see ADR-057
+  - TC-3 → `src/components/atoms/__tests__/Image.test.ts` via `test:unit` (status: **block**)
 - **Not machine-checkable:** per-image layout/format choices remain judgment calls.
 - **Graduation log:** *(empty at creation; entries added when a check changes status)*
 

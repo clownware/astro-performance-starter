@@ -215,10 +215,15 @@ export default defineConfig({
         limitInputPixels: 268402689, // ~16K x 16K pixels max
       },
     },
-    responsive: {
-      globalStyles: true,
-      layout: "constrained",
-    },
+    // Responsive defaults (ADR-030). These are the keys Astro actually reads:
+    // `layout` makes every <Image> emit a width-descriptor srcset + sizes and
+    // a data-astro-image attribute; `responsiveStyles` injects the matching
+    // global CSS (max-width: 100% for constrained images). The previous
+    // `responsive: { globalStyles, layout }` block was a key Astro never had —
+    // zod stripped it silently and no responsive default applied for a year.
+    // src/components/atoms/__tests__/Image.test.ts pins the shipped behaviour.
+    layout: "constrained",
+    responsiveStyles: true,
     domains: [],
     remotePatterns: [],
   },

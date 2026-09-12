@@ -35,6 +35,9 @@ import Container from "@/components/structural/Container.astro";
 import Grid from "@/components/structural/Grid.astro";
 import ParallaxSection from "@/components/structural/ParallaxSection.astro";
 import Section from "@/components/structural/Section.astro";
+// The demo's one raster source: rendered through the pipeline below so the
+// emitted AVIF + width-descriptor srcset can be inspected on a live page.
+import patisserieCover from "@/content/projects/patisserie-storefront/cover.jpg";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getPublishedPosts } from "@/utils/blog";
 import { formatPostMetadata } from "@/utils/formatDate";
@@ -516,12 +519,15 @@ const demoProject = projectEntries[0] ?? null;
             <ScrollReveal>
               <ShowcaseExample
                 title="Image"
-                description="Wrapper over astro:assets <Image> with project defaults: lazy loading, async decoding, and AVIF/WebP output for raster sources. Width/height are required so layout never shifts."
+                description="Wrapper over astro:assets <Image> with project defaults: lazy loading, async decoding, AVIF output, and the constrained responsive layout (ADR-030) — a width-descriptor srcset and sizes derived from the rendered width. The left image is a real JPEG source: inspect it to see the AVIF candidates. SVG sources pass through untouched, outside the layout."
                 features={["zero-js"]}
                 a11yNote="alt is required by the Props type — no silent missing alt"
-                codeSnippet={'import hero from "@/assets/hero.png";\n&lt;Image src={hero} alt="Hero" width={1200} height={630} /&gt;'}
+                codeSnippet={'import cover from "@/content/projects/patisserie-storefront/cover.jpg";\n&lt;Image src={cover} alt="Storefront cover" width={480} height={270} /&gt;\n\n{/* SVG: passes through, no srcset */}\n&lt;Image src={mark} alt="Spark mark" width={96} height={96} /&gt;'}
               >
-                <Image src={markPrimary} alt="Astro Performance Starter spark mark" width={96} height={96} />
+                <div class="flex flex-wrap items-end gap-6">
+                  <Image src={patisserieCover} alt="Maison Pulci storefront cover, rendered from a JPEG source" width={480} height={270} />
+                  <Image src={markPrimary} alt="Astro Performance Starter spark mark" width={96} height={96} />
+                </div>
               </ShowcaseExample>
             </ScrollReveal>
 

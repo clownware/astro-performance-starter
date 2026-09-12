@@ -116,10 +116,8 @@ export default defineConfig({
         limitInputPixels: 268402689, // ~16K x 16K pixels max
       },
     },
-    responsive: {
-      globalStyles: true,
-      layout: "constrained",
-    },
+    layout: "constrained",
+    responsiveStyles: true,
     domains: [],
     remotePatterns: [],
   },
