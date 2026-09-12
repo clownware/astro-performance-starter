@@ -13,15 +13,15 @@ interface Props {
   height?: number;
   sizes?: string;
   widths?: number[];
-  densities?: number[];
   loading?: "lazy" | "eager";
   decoding?: "async" | "sync" | "auto";
   /**
    * Responsive layout (ADR-030). Defaults to the global `image.layout`
    * ("constrained"); pass "full-width" for hero banners or "none" to opt a
    * raster out of srcset/sizes generation. Under any layout other than
-   * "none", Astro derives `widths` and `sizes` when the caller gives none
-   * and ignores `densities`.
+   * "none", Astro derives `widths` and `sizes` when the caller gives none.
+   * (There is no `densities` prop: Astro ignores densities under any layout
+   * and its Props type forbids combining them with `layout`.)
    */
   layout?: "constrained" | "fixed" | "full-width" | "none";
   /** Optional shadow styles for performance modularity */
@@ -39,7 +39,6 @@ const {
   height,
   sizes,
   widths: widthsProp,
-  densities: densitiesProp,
   loading,
   decoding,
   layout,
@@ -57,12 +56,10 @@ if (typeof src === "string") {
   resolvedSrc = src as ImageMetadata;
 }
 
-// Fixed dimensions (width and/or height) take the densities branch; anything
-// else takes the widths branch. Neither invents candidates any more: the
-// global constrained layout (astro.config.mjs, ADR-030) derives the srcset
-// and sizes from the rendered width, so a caller's explicit `widths`,
-// `densities` or `sizes` override Astro's derivation and nothing else does.
-const useFixedDimensions = typeof width === "number" || typeof height === "number";
+// The wrapper no longer invents srcset candidates: the global constrained
+// layout (astro.config.mjs, ADR-030) derives `widths` and `sizes` from the
+// rendered width, so a caller's explicit `widths` or `sizes` override that
+// derivation and nothing else does.
 
 // SVG sources pass through unprocessed (Astro 6.4+ disables SVG
 // rasterization, and a vector should stay a vector anyway) and stay outside
@@ -104,7 +101,7 @@ const composedClass = [...baseClasses, ...shadowClasses, className].filter(Boole
       height={height}
       layout="none"
     />
-  ) : useFixedDimensions ? (
+  ) : (
     <AstroImage
       src={resolvedSrc as ImageMetadata}
       alt={alt}
@@ -115,19 +112,6 @@ const composedClass = [...baseClasses, ...shadowClasses, className].filter(Boole
       decoding={baseDefaults.decoding}
       width={width}
       height={height}
-      sizes={sizes}
-      densities={densitiesProp}
-      layout={layout}
-    />
-  ) : (
-    <AstroImage
-      src={resolvedSrc as ImageMetadata}
-      alt={alt}
-      class={composedClass}
-      format={baseDefaults.format}
-      quality={baseDefaults.quality}
-      loading={baseDefaults.loading}
-      decoding={baseDefaults.decoding}
       sizes={sizes}
       widths={widthsProp}
       layout={layout}

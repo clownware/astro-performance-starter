@@ -86,13 +86,14 @@ non-existent `image.responsive` object.)* Astro's responsive image layouts:
 Users who need full-width hero images should pass `layout="full-width"` explicitly on those components.
 
 With the layout active, Astro derives `widths` and `sizes` from the rendered width
-when the caller gives none, and ignores `densities`. The wrapper
-(`src/components/atoms/Image.astro`) therefore no longer invents default widths
-or densities of its own: a caller's explicit `widths`, `densities` or `sizes`
-override the derivation, SVG sources are rendered with `layout="none"` (a vector
-has no widths to generate), and the `layout` prop is passed through so a single
-image can opt into `full-width` or out with `none`. *(Amended 2026-09-12; before
-this the wrapper's defaults were the only reason any raster carried a `srcset`.)*
+when the caller gives none, and ignores `densities` (its Props type also forbids
+`densities` next to `layout`). The wrapper (`src/components/atoms/Image.astro`)
+therefore no longer invents default widths or densities of its own and no longer
+accepts a `densities` prop: a caller's explicit `widths` or `sizes` override the
+derivation, SVG sources are rendered with `layout="none"` (a vector has no widths
+to generate), and the `layout` prop is passed through so a single image can opt
+into `full-width` or out with `none`. *(Amended 2026-09-12; before this the
+wrapper's defaults were the only reason any raster carried a `srcset`.)*
 
 ### `responsiveStyles: true`
 
