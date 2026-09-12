@@ -402,7 +402,10 @@ export function Counter({ value }) {
                 When Claude Code (or any AI assistant) opens this repo, the
                 very first thing it loads is <code class="text-xs">CLAUDE.md</code> at the project root —
                 rules of engagement, scope boundaries, and a pointer to every
-                ADR that constrains architectural decisions.
+                ADR that constrains architectural decisions. The dev server is
+                agent-aware too: Astro 7 detects a coding agent and runs it
+                detached, and <code class="text-xs">pnpm dev:agent</code> wraps
+                status, logs and stop (ADR-063).
               </p>
             </div>
           </ScrollReveal>
@@ -656,7 +659,8 @@ export function Counter({ value }) {
                 One command verifies everything
               </h2>
               <p class="text-muted-foreground">
-                The toolchain is opinionated and modern. Biome instead of
+                The toolchain is opinionated and modern. Astro 7's Rust
+                compiler and Vite 8 build the site. Biome instead of
                 ESLint + Prettier. TypeScript strict by default. Performance
                 budgets enforced in CI. Tests at four layers — and a single
                 <code class="text-xs ml-1">pnpm quality</code> runs all of it.

@@ -42,7 +42,8 @@ const features: Feature[] = [
     expandedDetails: [
       "Static site generation with selective hydration for optimal performance",
       "Automatic code splitting and lazy loading for JavaScript components",
-      "Built-in image optimization with WebP/AVIF conversion",
+      "Built-in image optimization: AVIF output with a responsive srcset by default (ADR-030)",
+      "Self-hosted variable fonts via the Astro Fonts API, metric-adjusted fallbacks — CLS 0 (ADR-053)",
       "Performance budgets enforced in CI/CD pipeline",
       "Core Web Vitals monitoring and optimization",
     ],
@@ -58,6 +59,7 @@ const features: Feature[] = [
       "Role-separated workflow: Architect plans, Coder implements, Reviewer verifies (.claude/roles/)",
       "pnpm quality:ci halts on any violation — broken tests, lint, types, and markdown all block merge",
       "Every AI-readable rule names its halt condition with a stated reason, not soft guidance",
+      "Agent-aware dev server: Astro 7 backgrounds astro dev for coding agents; pnpm dev:agent wraps status, logs and stop (ADR-063)",
       "Pattern source: Uncle Bob's Clean AI: Agentic Discipline series",
     ],
   },
@@ -83,6 +85,7 @@ const features: Feature[] = [
       "Biome replaces ESLint + Prettier with 20x speed. Tailwind v4 CSS-native config. TypeScript strict mode and automated quality gates.",
     metric: "20x Faster",
     expandedDetails: [
+      "Astro 7 build: Rust compiler and Vite 8 (Rolldown) — the build step dropped from ~4.8s to ~2.7s in the upgrade (ADR-062)",
       "Biome replaces ESLint + Prettier with 20x performance improvement",
       "TypeScript strict mode catches errors before they reach production",
       "Git hooks for automated code quality checks",
