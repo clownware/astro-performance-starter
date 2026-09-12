@@ -13,6 +13,7 @@
   "astro-check": "0.9.10",
   "playwright": "1.63.0",
   "vitest": "5.0.0",
+  "stryker": "10.0.0",
   "lighthouse-ci": "0.15.1",
   "lighthouse": "13.4.1",
   "sharp": "0.35.4",

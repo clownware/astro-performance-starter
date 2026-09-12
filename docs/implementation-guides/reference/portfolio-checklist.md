@@ -17,7 +17,7 @@ All Foundation phases are Essential for every project. No optional items here.
 - [x] Repository initialized with pnpm, the Node.js release pinned in `.nvmrc` (see `versions.json`), TypeScript strict
 - [x] Content Collections schemas defined (blog, projects, pages)
 - [x] Design tokens system configured (colors, typography, spacing, motion)
-- [x] Dark mode via CSS variables with system preference detection
+- [x] Dark mode via CSS variables, dark-first with a persisted toggle (ADR-032)
 - [x] Biome configured (linting + formatting)
 - [x] GitHub Actions CI pipeline (type check, lint, build)
 - [x] Base layout with SEO metadata, OG tags, JSON-LD

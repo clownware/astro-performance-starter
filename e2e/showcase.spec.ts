@@ -20,7 +20,7 @@ test.describe("Design System", () => {
 		// CounterBadge uses role="img" + aria-label so screen readers get the
 		// final value even though the visible text is animated via CSS counter().
 		await expect(page.getByRole("img", { name: "40+ Components" })).toBeVisible();
-		await expect(page.getByRole("img", { name: "0 KB New JS Added" })).toBeVisible();
+		await expect(page.getByRole("img", { name: "0 KB JS in the design system" })).toBeVisible();
 		await expect(page.getByRole("img", { name: "95+ Lighthouse" })).toBeVisible();
 	});
 

@@ -705,8 +705,9 @@ export function Counter({ value }) {
                   </div>
                   <h3 class="font-semibold text-foreground mb-1">Performance budgets</h3>
                   <p class="text-sm text-muted-foreground">
-                    160 KB JS, 50 KB CSS, 200 KB per image. The build fails
-                    if any budget is exceeded. Overrides expire automatically.
+                    160 KB JS and 200 KB per raster image are CI gates; the
+                    50 KB CSS figure is tracked as advisory. Overrides expire
+                    automatically.
                   </p>
                 </div>
               </Card>

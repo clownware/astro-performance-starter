@@ -24,7 +24,9 @@ import BaseLayout from "@/layouts/BaseLayout.astro";
 import type { Feature, LighthouseMetric, StackRationale, TechStackItem } from "@/types/content";
 import { getPublishedPosts } from "@/utils/blog";
 import { formatPostMetadata } from "@/utils/formatDate";
+import { displayVersion } from "@/utils/stackVersions";
 import { withBase } from "@/utils/url-utils";
+import versions from "../../versions.json";
 
 /**
  * Homepage feature cards showcasing template capabilities.
@@ -70,7 +72,7 @@ const features: Feature[] = [
       "WCAG AA contrast ratio validation in build process",
       "Consistent spacing, typography, and color scales",
       "Automated design token generation from source files",
-      "Theme switching with system preference detection",
+      "Dark-first theme with a persisted toggle (ADR-032)",
       "CSS @theme inline — tokens live in CSS, no JS config file",
     ],
   },
@@ -95,7 +97,7 @@ const features: Feature[] = [
       "Battle-tested atomic design system with accessible primitives, responsive layouts, and TypeScript interfaces.",
     metric: "Type-Safe",
     expandedDetails: [
-      "Atomic design methodology: atoms, molecules, organisms, templates",
+      "Atomic design methodology: atoms, molecules, structural, islands",
       "Accessible components with proper ARIA attributes",
       "Responsive design patterns built into every component",
       "TypeScript interfaces for type-safe component props",
@@ -112,7 +114,7 @@ const features: Feature[] = [
       "Professional About page with skills showcase and responsive design",
       "Projects portfolio with grid layouts and detailed case studies",
       "Blog system with MDX support and content collections",
-      "Contact forms with Cloudflare Pages integration",
+      "Progressive-enhancement contact form: native validation first, JS second (ADR-021)",
       "Responsive navigation and footer components",
     ],
   },
@@ -131,54 +133,56 @@ const metrics: LighthouseMetric[] = [
 
 /**
  * Technology stack with versions, descriptions, and benefits.
- * Organized by category for clear understanding of architecture.
+ * Organized by category for clear understanding of architecture. Versions are
+ * derived from versions.json (ADR-061) rather than typed here — see
+ * src/utils/stackVersions.ts for why.
  */
 const techStack: TechStackItem[] = [
   {
     name: "Astro",
-    version: "v6",
-    description: "Content Layer API, View Transitions, Islands",
-    benefit: "Type-safe content, named view transitions, selective hydration",
+    version: displayVersion(versions.astro),
+    description: "Rust compiler, Vite 8, Fonts API, Content Layer, View Transitions",
+    benefit: "Zero-JS by default, islands on demand, agent-aware dev server (ADR-063)",
     category: "Framework",
   },
   {
     name: "TypeScript",
-    version: "v5",
+    version: displayVersion(versions.typescript),
     description: "Type-safe JavaScript with strict mode",
     benefit: "Catch errors early, better DX",
     category: "Language",
   },
   {
     name: "Tailwind CSS",
-    version: "v4",
+    version: displayVersion(versions.tailwindcss),
     description: "CSS-native config — no tailwind.config.js",
     benefit: "@theme in CSS, Lightning CSS compiler, zero JS config overhead",
     category: "Styling",
   },
   {
     name: "Biome",
-    version: "v2",
+    version: displayVersion(versions.biome),
     description: "All-in-one toolchain for web projects",
     benefit: "20x faster than ESLint + Prettier combined",
     category: "Tooling",
   },
   {
     name: "Preact",
-    version: "v10",
+    version: displayVersion(versions.preact),
     description: "Lightweight React alternative",
     benefit: "3KB runtime, familiar React-like syntax",
     category: "Interactivity",
   },
   {
     name: "Playwright",
-    version: "v1",
+    version: displayVersion(versions.playwright),
     description: "End-to-end testing",
     benefit: "Reliable cross-browser testing automation",
     category: "E2E Testing",
   },
   {
     name: "Vitest",
-    version: "v4",
+    version: displayVersion(versions.vitest),
     description: "Fast unit testing powered by Vite",
     benefit: "Lightning-fast test execution and hot reload",
     category: "Unit Testing",
@@ -192,14 +196,14 @@ const techStack: TechStackItem[] = [
   },
   {
     name: "Stryker",
-    version: "v9",
-    description: "Mutation testing nightly via GitHub Actions",
+    version: displayVersion(versions.stryker),
+    description: "Mutation testing weekly via GitHub Actions",
     benefit: "Verifies tests actually fail when code breaks (ADR-042)",
     category: "Mutation Testing",
   },
   {
     name: "Sharp",
-    version: "v0.34.x",
+    version: displayVersion(versions.sharp),
     description: "High-performance image processing",
     benefit: "Automatic conversion, responsive images",
     category: "Image Processing",
