@@ -1,4 +1,5 @@
-import { execFile, spawn } from "node:child_process";
+import { execFile } from "node:child_process";
+import { readFile } from "node:fs/promises";
 import { promisify } from "node:util";
 import { chromium, firefox, type FullConfig, webkit } from "@playwright/test";
 import {
@@ -24,20 +25,50 @@ const probe = (baseUrl: string) =>
 
 const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const lockFile = new URL("../.astro/preview.json", import.meta.url);
+
+interface PreviewLock {
+	pid: number;
+	port: number;
+	url: string;
+}
+
+/** The live preview lock, or null when none exists or its process is gone. */
+const readLiveLock = async (): Promise<PreviewLock | null> => {
+	let lock: PreviewLock;
+	try {
+		lock = JSON.parse(await readFile(lockFile, "utf-8")) as PreviewLock;
+	} catch {
+		return null;
+	}
+	try {
+		process.kill(lock.pid, 0);
+	} catch {
+		return null;
+	}
+	return lock;
+};
+
 /**
  * Starts and stops the preview server for the E2E run.
  *
- * Playwright's own `webServer` cannot do this. `astro preview` detaches on some
- * platforms and blocks in the foreground on others, so Playwright's launcher
- * either exited immediately — aborting with "Process from config.webServer
- * exited early", or winning a race against the detached server binding its port
- * — and, never having owned the process, could not stop it afterwards. Every
- * run leaked a daemon, and those leaked daemons are what later runs silently
- * adopted. That is the mechanism behind the port collisions in ADR-063.
+ * Playwright's own `webServer` cannot own `astro preview`: under an AI-agent
+ * environment Astro detaches it automatically (ADR-063), so the launcher saw
+ * the command exit and either aborted the run ("Process from config.webServer
+ * exited early") or leaked a daemon that later runs silently adopted — the
+ * mechanism behind the port collisions in ADR-063.
  *
- * The server is therefore spawned detached and never awaited: whether it
- * daemonises (macOS, observed) or stays in the foreground (CI, observed), setup
- * only polls until the app answers. Teardown covers both shapes.
+ * The server is therefore started with the explicit `--background` flag Astro
+ * 7.2 added, which behaves the same under an agent, in a terminal and in CI:
+ * the command returns once the server is listening, records the pid in
+ * `.astro/preview.json`, and `astro preview stop` finds it there. Setup still
+ * polls until the app answers and asserts it is this app; teardown stops the
+ * server only while the lock holds the pid this run started.
+ *
+ * Astro keeps one preview lock per project, and `--ignore-lock` is
+ * foreground-only (rejected outright under agent detection), so a preview
+ * started elsewhere — an LHCI run on 4321, one left open in a terminal — must
+ * be stopped or reused; it cannot be run alongside.
  */
 /**
  * Reports every browser the run needs but does not have, once, before any test
@@ -96,26 +127,26 @@ export default async function globalSetup(config: FullConfig) {
 		throw new Error(formatIdentityFailure(baseUrl, probes) as string);
 	}
 
-	// Detached and deliberately not awaited: `astro preview` blocks in the
-	// foreground under CI, where awaiting it hung the run until the job timeout.
-	const child = spawn("pnpm", ["exec", "astro", "preview", "--port", port], {
-		detached: true,
-		stdio: "ignore",
+	// One lock per project: a live preview on another port would make
+	// `--background` report that server instead of starting ours.
+	const held = await readLiveLock();
+	if (held && String(held.port) !== port) {
+		throw new Error(
+			`Another astro preview holds this project's lock at ${held.url} (pid ${held.pid}).\n` +
+				"Stop it with `pnpm exec astro preview stop`, or run the suite against it with " +
+				`E2E_BASE_URL=${held.url} if it serves the current build.`,
+		);
+	}
+
+	await run("pnpm", ["exec", "astro", "preview", "--background", "--port", port], {
 		env: { ...process.env, SITE_URL: process.env.SITE_URL ?? baseUrl },
 	});
-	child.unref();
+	const ownPid = (await readLiveLock())?.pid;
 
 	const stop = async () => {
-		// Covers the daemonising shape…
+		// Only the server this run started is ours to stop.
+		if (ownPid === undefined || (await readLiveLock())?.pid !== ownPid) return;
 		await run("pnpm", ["exec", "astro", "preview", "stop"]).catch(() => {});
-		// …and the foreground one, where the spawned group is itself the server.
-		if (child.pid !== undefined && child.exitCode === null) {
-			try {
-				process.kill(-child.pid, "SIGTERM");
-			} catch {
-				// Already exited, or it daemonised and the group is gone.
-			}
-		}
 	};
 
 	const deadline = Date.now() + READY_TIMEOUT_MS;

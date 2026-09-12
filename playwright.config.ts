@@ -42,10 +42,10 @@ export default defineConfig({
     },
   ],
 
-  // No `webServer` block. `astro preview` detaches, so Playwright's launcher
-  // exits immediately and either aborts the run ("Process from config.webServer
-  // exited early") or races the detached server into binding — and, never
-  // having owned the process, Playwright could not stop it either, so every run
-  // leaked a daemon for the next one to adopt. e2e/global-setup.ts owns start,
-  // readiness, identity and shutdown instead.
+  // No `webServer` block. `astro preview` runs as a background daemon here
+  // (explicit `--background`, ADR-063), which Playwright's launcher cannot own:
+  // it sees the command exit and either aborts the run ("Process from
+  // config.webServer exited early") or leaks the daemon for the next run to
+  // adopt. e2e/global-setup.ts owns start, readiness, identity and shutdown
+  // instead, and stops only the server it started.
 });
