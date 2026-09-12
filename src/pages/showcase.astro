@@ -108,7 +108,7 @@ const demoProject = projectEntries[0] ?? null;
             {/* Stats row — real numbers */}
             <div class="flex flex-wrap gap-8 sm:gap-12">
               <CounterBadge value={40} suffix="+" label="Components" />
-              <CounterBadge value={0} suffix=" KB" label="New JS Added" />
+              <CounterBadge value={0} suffix=" KB" label="JS in the design system" />
               <CounterBadge value={95} suffix="+" label="Lighthouse" />
             </div>
           </div>
@@ -790,7 +790,7 @@ const demoProject = projectEntries[0] ?? null;
           <ScrollReveal>
             <h3 class="text-2xl font-bold text-foreground mb-2">Islands Architecture</h3>
             <p class="text-muted-foreground mb-8 max-w-2xl">
-              CSS handles presentation. JavaScript handles state — only when you genuinely need it. This is the one island component in the showcase: Preact Signals for fine-grained reactivity with zero VDOM diffing.
+              CSS handles presentation. JavaScript handles state — only when you genuinely need it. SignalsCounter is one of the two sanctioned islands on this page (ADR-060); MotionLab in the Motion section is the other. Both are demo-scoped exceptions counted by the CI bundle gate — the design system itself hydrates nothing.
             </p>
           </ScrollReveal>
 

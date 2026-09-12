@@ -246,7 +246,7 @@ pnpm run tokens:build     # Rebuild design tokens (rarely needed)
 
 | Command | Description |
 |---------|-------------|
-| `pnpm run test:mutate` | Mutation testing (Stryker). Slow; runs nightly in CI, rarely run locally. See [ADR-042](docs/adr/042-mutation-testing-with-stryker.md). |
+| `pnpm run test:mutate` | Mutation testing (Stryker). Slow; runs weekly in CI, rarely run locally. See [ADR-042](docs/adr/042-mutation-testing-with-stryker.md). |
 
 **Build & Deploy**
 
@@ -288,7 +288,7 @@ pnpm run tokens:build     # Rebuild design tokens (rarely needed)
 Budgets (see `.claude/stack.md`):
 
 - **JavaScript**: < 160KB raw total
-- **CSS**: < 50KB
+- **CSS**: < 50KB (advisory — tracked, not CI-gated)
 - **Images**: < 200KB per raster file, source + build output — enforced in CI ([ADR-057](./docs/adr/057-image-budget-gate.md)); override with `IMAGE_BUDGET_KB`
 - **Font preloads**: ≤ 2 per page — enforced in CI ([ADR-058](./docs/adr/058-font-preload-budget.md)); override with `MAX_FONT_PRELOADS`
 - **Lighthouse**: gated on **desktop _and_ mobile** — Performance ≥ 90, Accessibility ≥ 95, Best-Practices ≥ 95, SEO ≥ 90 (CI floors; see `lighthouserc.json` + `lighthouserc.mobile.json`)

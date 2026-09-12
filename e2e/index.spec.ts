@@ -1,4 +1,13 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
+import { displayVersion } from "../src/utils/stackVersions";
+
+// The grid derives its versions from versions.json (ADR-061); the tests read the
+// same contract so a stale hand-typed value can never pass again (Astro "v6"
+// and Sharp "v0.34.x" both shipped after their pins had moved).
+const versions = JSON.parse(
+	readFileSync(new URL("../versions.json", import.meta.url), "utf-8"),
+) as Record<string, string>;
 
 test.describe("Homepage (index.astro)", () => {
 	test.beforeEach(async ({ page }) => {
@@ -64,11 +73,16 @@ test.describe("Homepage (index.astro)", () => {
 			await expect(techStackHeading).toBeVisible();
 		});
 
-		test("should not show a placeholder Sharp version", async ({ page }) => {
-			// vX.YZ.x placeholder format is what gets shown before scripts/src/sync-docs.ts
-			// fills in real versions; surfacing it would indicate the pipeline ran wrong.
-			const sharpVersion = page.getByText("v0.34.x");
+		test("shows the Sharp version derived from versions.json", async ({ page }) => {
+			const techSection = page.getByLabel("Technology stack section");
+			const sharpVersion = techSection.getByText(displayVersion(versions.sharp), { exact: true });
 			await expect(sharpVersion).toBeVisible();
+		});
+
+		test("shows the Astro major derived from versions.json", async ({ page }) => {
+			const techSection = page.getByLabel("Technology stack section");
+			const astroVersion = techSection.getByText(displayVersion(versions.astro), { exact: true });
+			await expect(astroVersion).toBeVisible();
 		});
 
 		test("should list Astro as a technology", async ({ page }) => {

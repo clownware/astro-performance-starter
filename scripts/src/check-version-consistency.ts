@@ -70,6 +70,7 @@ const versionsJsonToPackage: Record<string, string> = {
   "astro-check": "@astrojs/check",
   playwright: "@playwright/test",
   vitest: "vitest",
+  stryker: "@stryker-mutator/core",
   sharp: "sharp",
   husky: "husky",
   "style-dictionary": "style-dictionary",
