@@ -13,7 +13,10 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-09-12: extended to `astro preview`. The E2E suite starts the preview
+server with the explicit `--background` flag Astro 7.2 added and stops only the pid it
+started — see "Preview server" under Implementation Details. The dev-server decision is
+unchanged.)
 
 ## Context
 
@@ -127,6 +130,33 @@ The contract documented in `.claude/stack.md` (and therefore `AGENTS.md`) states
 server. Before driving tests against a port, agents must verify ownership (e.g. check
 `astro dev status` reports a pid, or request a route unique to this site).
 
+### Preview server (amendment 2026-09-12)
+
+Astro 7.2 gave `astro preview` the same background mode (`--background`, `stop`, `status`,
+`logs`, lock file `.astro/preview.json`). Under an agent environment Astro applies it
+automatically, which is why `e2e/global-setup.ts` used to observe the server "detaching on
+some platforms" and had to spawn it detached and cover both shapes at teardown. The launcher
+now passes `--background` explicitly, so the shape is the same in a terminal, under an agent
+and in CI:
+
+```bash
+pnpm exec astro preview --background --port 4351   # returns once listening; writes .astro/preview.json
+pnpm exec astro preview status
+pnpm exec astro preview stop                        # stops the lock's pid, whichever port
+```
+
+Two upstream facts shape the contract:
+
+- **One lock per project.** A second `--background` on any port reports the running server
+  instead of starting another. The E2E launcher therefore refuses to run while a live lock
+  points at a different port (an LHCI run on 4321, a preview left open in a terminal) and
+  says how to stop or reuse it, rather than silently testing the wrong server.
+- **`--ignore-lock` is foreground-only** and is rejected outright under agent detection, so it
+  is not an escape hatch for the suite.
+
+Teardown stops the server only while the lock still holds the pid the run started, so a
+preview a human started for another purpose is never killed by a test run.
+
 ## Consequences
 
 ### Positive
@@ -149,5 +179,5 @@ server. Before driving tests against a port, agents must verify ownership (e.g. 
   - TC-1: `dev:agent` and `dev:agent:stop` exist in `package.json` and wrap the documented `astro dev` subcommands.
 - **Checks:**
   - TC-1 → check `script-contract` (status: **warn**)
-- **Not machine-checkable:** upstream CLI behavior drift is caught by humans, not a gate (accepted above for a two-line surface).
+- **Not machine-checkable:** upstream CLI behavior drift is caught by humans, not a gate (accepted above for a two-line surface). The preview launcher's two paths (refuse while a foreign-port lock is live; stop only its own pid) were exercised by hand on 2026-09-12 and are covered by every E2E run, not by a dedicated check.
 - **Graduation log:** *(empty at creation; entries added when a check changes status)*
