@@ -8,8 +8,22 @@ name: Lighthouse CI
 # /adr theme-init flash (#279).
 
 on:
+  # Path-filtered (fix 2026-09-12): a docs, test, or tooling-only PR cannot move
+  # a Lighthouse score, and each audit bills ~7-10 min.
   pull_request:
     branches: [master]
+    paths:
+      - 'src/**'
+      - 'public/**'
+      - 'tokens/**'
+      - 'astro.config.mjs'
+      - 'ec.config.mjs'
+      - 'lighthouserc*.json'
+      - 'budgets.json'
+      - 'budget-overrides.json'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/lighthouse.yml'
 
 permissions:
   contents: read
@@ -22,6 +36,8 @@ jobs:
   lighthouse:
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    # Dependabot bumps were 30-50% of PRs and never change what the page renders.
+    if: github.actor != 'dependabot[bot]'
     # Gate on BOTH form factors. Mobile throttling routinely drops a site
     # 15-25 points below desktop, so desktop-only was a soft ratchet; the
     # demo passes mobile at Performance 0.98-1.00 (measured), so both gates

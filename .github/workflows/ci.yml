@@ -1,19 +1,20 @@
 name: CI
 
 on:
-  push:
-    branches: [master]
+  # No push trigger: every commit reaching the default branch has already
+  # run this pipeline on its PR, and deploys build independently, so the
+  # post-merge rerun only duplicated the bill (~2,500 billed min/month
+  # across the private clones of this template, Aug-Sep 2026).
   pull_request:
     branches: [master]
   # versions-sync.yml re-dispatches CI after it pushes a versions.json sync
   # commit to a Dependabot branch; GITHUB_TOKEN pushes never trigger runs.
   workflow_dispatch:
 
-# A newer push to the same PR supersedes the running one; master pushes are
-# never cancelled so the deploy-truth signal always completes.
+# A newer push to the same PR supersedes the running one.
 concurrency:
   group: ci-${{ github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -175,36 +176,32 @@ jobs:
 
 
   # SAST + secret scanning (ADR-046). Both are halt-on-violation gates (ADR-039):
-  # the scan command exits non-zero on a finding and fails the build.
-  # Run in their official containers — Semgrep's docs mandate the semgrep/semgrep
-  # image, and the gitleaks CLI avoids the gitleaks-action org-license requirement.
-  semgrep:
-    name: Semgrep SAST
+  # each command exits non-zero on a finding and fails the build.
+  #
+  # One job, not two: GitHub bills every job rounded UP to a whole minute and
+  # each scan finishes in ~20 s, so the earlier semgrep + gitleaks pair paid two
+  # billed minutes per run for ~40 s of work (~2 min x every CI run). Both tools
+  # still run from their official images, via `docker run` instead of a job
+  # container — Semgrep's docs mandate the semgrep/semgrep image, and the
+  # gitleaks CLI avoids the gitleaks-action org-license requirement.
+  scan:
+    name: SAST + secret scan
     runs-on: ubuntu-latest
     timeout-minutes: 10
     # Dependabot PRs only touch manifests and run with a restricted token; skip.
     if: github.actor != 'dependabot[bot]'
-    container:
-      image: semgrep/semgrep
     steps:
       - name: Checkout
         uses: actions/checkout@v7
 
       - name: Semgrep scan
         # --error exits 1 on findings; --config p/* pulls public registry rulesets.
-        run: semgrep scan --config p/javascript --config p/typescript --config p/secrets --error
-
-  gitleaks:
-    name: Secret scan
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    if: github.actor != 'dependabot[bot]'
-    container:
-      image: ghcr.io/gitleaks/gitleaks:v8.30.1
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v7
+        run: >-
+          docker run --rm -v "$PWD:/src" semgrep/semgrep
+          semgrep scan --config p/javascript --config p/typescript --config p/secrets --error
 
       - name: Gitleaks scan
         # `dir` scans the working tree; --exit-code 1 fails the build on any leak.
-        run: gitleaks dir . --config .gitleaks.toml --exit-code 1 --verbose
+        run: >-
+          docker run --rm -v "$PWD:/repo" -w /repo ghcr.io/gitleaks/gitleaks:v8.30.1
+          dir . --config .gitleaks.toml --exit-code 1 --verbose
