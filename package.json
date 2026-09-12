@@ -116,7 +116,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "@types/mdast": "^4.0.4",
     "@types/node": "^24.13.3",
-    "@vitest/coverage-v8": "^4.1.11",
+    "@vitest/coverage-v8": "^5.0.0",
     "astro": "^7.3.2",
     "changelogen": "^0.6.2",
     "glob": "^13.0.6",
@@ -136,7 +136,7 @@
     "unified": "^11.0.5",
     "unist-util-visit": "^5.1.0",
     "vfile-reporter": "^8.1.1",
-    "vitest": "^4.1.11"
+    "vitest": "^5.0.0"
   },
   "optionalDependencies": {
     "style-dictionary": "^5.5.3"

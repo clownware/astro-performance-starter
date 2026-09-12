@@ -12,7 +12,7 @@
   "astro-sitemap": "3.7.4",
   "astro-check": "0.9.10",
   "playwright": "1.63.0",
-  "vitest": "4.1.11",
+  "vitest": "5.0.0",
   "lighthouse-ci": "0.15.1",
   "lighthouse": "13.4.1",
   "sharp": "0.35.4",
