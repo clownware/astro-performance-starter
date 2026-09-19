@@ -71,6 +71,11 @@ For external images, use `<Image>` with the `inferSize` prop.
 - Absolute imports via `@/` aliases (see `tsconfig.json` paths)
 - Content Collections use Zod schemas for type-safe content
 
+## Web Security
+
+- External links get `rel="noopener noreferrer"` and `target="_blank"`
+- When adding a dependency, note its bundle size impact (budgets: ADR-000, enforced by `perf-budget-check`)
+
 ## Naming
 
 | Where | Style | Example |
