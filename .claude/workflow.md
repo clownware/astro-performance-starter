@@ -49,7 +49,7 @@ The fast inner-loop variant is `pnpm quality` (auto-fixes format and lint where 
 ## Git Hooks
 
 - **Pre-commit**: `lint-staged` runs Biome check on staged files
-- **Pre-push**: `pnpm test:unit` (push is blocked if any unit test fails; use `--no-verify` only with explicit justification)
+- **Pre-push**: `pnpm test:unit` (push is blocked if any unit test fails; never bypass with `--no-verify` — fix the failure, per constitution rule 9)
 - **Commit-msg**: `commitlint` enforces conventional commit format
 
 Branch naming: `feature/*`, `fix/*`, `docs/*`, `chore/*`, `phase{N}/*` for phased plan execution.
