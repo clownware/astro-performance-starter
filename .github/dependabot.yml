@@ -24,10 +24,27 @@ updates:
     ignore:
       - dependency-name: "typescript"
         update-types: ["version-update:semver-major"]
+      # @stryker-mutator/vitest-runner declares `vitest: ">=2.0.0"` but does
+      # not honour it: on vitest 5 mutant activation never reaches the test
+      # worker, so every mutant survives and `pnpm test:mutate` scores 0.00
+      # instead of ~82%. Nothing warns. Lift both entries together once the
+      # runner ships vitest 5 support, and re-run mutation testing to confirm.
+      - dependency-name: "vitest"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "@vitest/coverage-v8"
+        update-types: ["version-update:semver-major"]
     # Dev-only tooling lands as one weekly PR; production dependencies stay
     # individual so a runtime bump is reviewed on its own and one failing
     # bump doesn't block the rest.
+    #
+    # Majors are excluded from the group deliberately. vitest 4 -> 5 landed
+    # inside a "bump the dev-dependencies group with 2 updates" PR (#407) and
+    # silently killed mutation testing for two weeks; a major that needs its
+    # own review cannot get one while it is riding along with patches. Each
+    # major now arrives as its own PR, matching how this repo already handles
+    # deferred majors (TypeScript 7, @types/node 26, pnpm 12).
     groups:
       dev-dependencies:
         dependency-type: "development"
         patterns: ["*"]
+        update-types: ["minor", "patch"]
