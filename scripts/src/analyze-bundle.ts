@@ -252,7 +252,7 @@ async function main() {
 
     if (largeImages.length > 0) {
       console.log(
-        `📢 **CONSIDER** - ${largeImages.length} large image(s) detected. Run 'pnpm run analyze:images' to check optimization opportunities.`,
+        `📢 **CONSIDER** - ${largeImages.length} large image(s) detected. Run 'pnpm run images:analyze' to check optimization opportunities.`,
       );
       largeImages.forEach((img) => {
         console.log(`   • ${img.path}: ${formatBytes(img.size)}`);
