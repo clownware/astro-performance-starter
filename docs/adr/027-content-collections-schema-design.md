@@ -81,6 +81,7 @@ The schema design decisions are non-obvious and affect how users extend the temp
 | `role` | `string` (optional) | Your role on the project |
 | `outcomes` | `{metric, value, description?}[]` (optional) | Measurable results |
 | `externalUrl` | `url` (optional) | Live project or case study link |
+| `githubUrl` | `url` (optional) | Source repository link — rendered as ProjectCard's "Source Code" action |
 | `sortOrder` | `number` (default: 0) | Manual sort override |
 
 ### `bio` — MDX content

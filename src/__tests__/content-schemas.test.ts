@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import type { ImageFunction } from "astro/content/config";
 import { z } from "astro/zod";
 import { describe, expect, it } from "vitest";
 import { collections } from "@/content.config";
@@ -9,11 +10,33 @@ const repoRoot = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 
 /**
  * Stand-in for the `image()` helper Astro injects into schema factories. The
- * real helper resolves a path to ImageMetadata at build time; the shape is
- * irrelevant to the field-level assertions here, so a permissive schema keeps
- * the fixtures readable.
+ * real helper resolves a relative path to ImageMetadata through the asset
+ * pipeline, which is a build-time concern; this mirrors its declared shape so
+ * `cover` and `cardImage` still parse.
+ *
+ * The assertion bridges a variance mismatch rather than loosening a check:
+ * `z.union()` infers a *readonly* tuple of its options, while Astro types
+ * `ImageFunction`'s format union over a *mutable* `$ZodUnion` tuple, so no
+ * value built with the public zod API is assignable to it. The runtime shapes
+ * are identical — the literal list below matches Astro's, apng included.
  */
-const imageStub = () => z.any();
+const imageStub = (() =>
+  z.object({
+    src: z.string(),
+    width: z.number(),
+    height: z.number(),
+    format: z.union([
+      z.literal("png"),
+      z.literal("jpg"),
+      z.literal("jpeg"),
+      z.literal("tiff"),
+      z.literal("webp"),
+      z.literal("gif"),
+      z.literal("svg"),
+      z.literal("avif"),
+      z.literal("apng"),
+    ]),
+  })) as unknown as ImageFunction;
 
 function projectsSchema(): z.ZodObject<z.ZodRawShape> {
   const { schema } = collections.projects;
@@ -26,7 +49,7 @@ const validProject = {
   title: "Example",
   description: "A project used as a schema fixture.",
   date: new Date("2026-01-01"),
-  cover: "./cover.jpg",
+  cover: { src: "/_astro/cover.hash.jpg", width: 1200, height: 630, format: "jpg" },
   coverAlt: "Cover",
   tags: ["demo"],
   technologies: ["Astro"],
