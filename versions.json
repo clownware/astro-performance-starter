@@ -3,7 +3,7 @@
   "astro": "7.3.3",
   "tailwindcss": "4.3.3",
   "node": "24.21.0",
-  "pnpm": "10.13.1",
+  "pnpm": "11.27.1",
   "biome": "2.5.14",
   "typescript": "5.9.3",
   "preact": "10.29.8",

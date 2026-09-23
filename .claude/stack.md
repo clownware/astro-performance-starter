@@ -5,7 +5,7 @@ Technology facts. This file updates when dependencies change or commands move; r
 ## Versions
 
 - **Framework:** Astro 7.x + Vite 8.x (zero JS by default)
-- **Package manager:** pnpm 10.x (engine-strict, locked in `package.json`)
+- **Package manager:** pnpm 11.x (engine-strict, locked in `package.json`; settings and `overrides` live in `pnpm-workspace.yaml` — pnpm 11 ignores `package.json#pnpm`. One-day `minimumReleaseAge` supply-chain gate, ADR-065)
 - **Runtime:** Node.js 24.x LTS (see `.nvmrc`)
 - **Styling:** Tailwind CSS v4.x with CSS-native `@theme inline` design tokens
 - **Code quality:** Biome 2.x (replaces ESLint + Prettier)
@@ -59,7 +59,7 @@ Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding
 
 ## Key ADRs
 
-65 ADRs in `docs/adr/`. The structurally important ones:
+66 ADRs in `docs/adr/`. The structurally important ones:
 
 - **ADR-001:** Preact island usage policy — never `client:load` without justification
 - **ADR-023:** Testing strategy and coverage targets

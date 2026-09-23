@@ -35,7 +35,7 @@ If applicable, add screenshots to help explain your problem.
 
 - **OS**: [e.g., macOS 14.0]
 - **Node Version**: [e.g., 24.15.0]
-- **pnpm Version**: [e.g., 10.13.1]
+- **pnpm Version**: [e.g., 11.27.1]
 - **Browser**: [e.g., Chrome 120]
 
 ## Performance Impact
