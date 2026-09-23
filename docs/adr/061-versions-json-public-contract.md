@@ -188,6 +188,25 @@ to `.x` (the drift gate in the docs site consumes exact values); a post-merge
 sync on `master` (branch protection requires a review, so a bot cannot push
 there); a PAT-backed sync (works, but adds a secret every adopter must mint).
 
+## Amendment (2026-09-23) — the sync push does start runs; they wait for approval
+
+The 2026-09-02 amendment says `workflow_dispatch` is "the one event a
+`GITHUB_TOKEN` push may trigger". That is no longer what GitHub does. The sync
+commit's push creates `pull_request` runs for both `ci.yml` and
+`lighthouse.yml`, held at `action_required` because their actor is
+`github-actions[bot]` (observed on #421 and #431). Once a maintainer approves
+them they run normally and attach to the PR, so the checks tab is complete.
+
+The re-dispatch stays: it is what gives `build-test`, the only required check,
+a result on the new head without a human click, so an unattended Dependabot PR
+still shows a real pass or fail. What changes is the review step. Lighthouse has
+no dispatch path, so on a synced PR it runs **only** if the waiting runs are
+approved, and branch protection does not require it. Approving the waiting runs
+is now part of reviewing a synced Dependabot PR; `versions-sync.yml` carries the
+one-line command. This resolves #398 as its option 1 (document, add no moving
+parts) with the corrected facts. Making `lighthouse` a required check was not
+taken: its mobile leg is known to flake and would then block unrelated merges.
+
 ## References
 
 - [ADR-059: Docs Drift Gate Replaces Push-Sync](./059-docs-drift-gate.md)
