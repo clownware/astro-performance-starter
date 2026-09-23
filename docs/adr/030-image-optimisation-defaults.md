@@ -140,6 +140,16 @@ exemptions, which the codebase already practised without a record:
 
 Anything outside these two cases still halts on rule 8.
 
+*Amendment 2026-09-23 (#414):* the homepage's three state portraits
+(`state-shipped`, `state-writing`, `state-thinking`) no longer use this
+exemption. They are imported as Astro SVG components and inlined, which keeps
+their CSS animation without a raw `<img>`. Because inlined markup shares the
+page's id and class namespace, those files prefix every id and class with
+`pn-`, guarded by `src/__tests__/homepage-inline-svg.test.ts`. Exemption 2
+itself stands: the site logo and other unrasterisable SVGs rendered as files
+still need it, and Astro's SVG component is the preferred path where inlining
+is safe.
+
 ## Consequences
 
 ### Positive

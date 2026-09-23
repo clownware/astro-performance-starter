@@ -1,11 +1,13 @@
 ---
 // Pulci Nella lifecycle portraits — Foundation = shipped, Build = writing,
-// Polish = thinking. Rendered via native <img> so the embedded CSS
-// animations (state-thinking dot pulse) survive — Image.astro rasterizes
-// SVG to PNG/AVIF which kills the animation. ADR-054.
-import statePortraitShipped from "@/assets/brand/state-shipped.svg";
-import statePortraitThinking from "@/assets/brand/state-thinking.svg";
-import statePortraitWriting from "@/assets/brand/state-writing.svg";
+// Polish = thinking (ADR-054). Imported as Astro SVG components and inlined,
+// so the embedded CSS animation (the state-thinking dot pulse) survives —
+// Image.astro would rasterise it away — without an ADR-030 raw-image
+// exemption. Inlined markup shares the page's id and class namespace, so the
+// files prefix theirs with pn-; guarded by homepage-inline-svg.test.ts (#414).
+import StatePortraitShipped from "@/assets/brand/state-shipped.svg";
+import StatePortraitThinking from "@/assets/brand/state-thinking.svg";
+import StatePortraitWriting from "@/assets/brand/state-writing.svg";
 import AnimatedGradientText from "@/components/atoms/AnimatedGradientText.astro";
 import Badge from "@/components/atoms/Badge.astro";
 import Button from "@/components/atoms/Button.astro";
@@ -440,14 +442,11 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           <!-- Foundation Tier -->
           <Card class="p-6 border-l-4 border-l-secondary-500">
             <div class="mb-4 flex items-start gap-4">
-              <img
-                src={statePortraitShipped.src}
-                alt=""
+              <StatePortraitShipped
                 width="64"
                 height="64"
                 class="shrink-0 size-16 rounded-lg"
-                decoding="async"
-                loading="lazy"
+                aria-hidden="true"
               />
               <div class="min-w-0 flex-1">
                 <Badge variant="secondary" size="xs">Done</Badge>
@@ -487,14 +486,11 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           <!-- Build Tier -->
           <Card class="p-6 border-l-4 border-l-warning-600">
             <div class="mb-4 flex items-start gap-4">
-              <img
-                src={statePortraitWriting.src}
-                alt=""
+              <StatePortraitWriting
                 width="64"
                 height="64"
                 class="shrink-0 size-16 rounded-lg"
-                decoding="async"
-                loading="lazy"
+                aria-hidden="true"
               />
               <div class="min-w-0 flex-1">
                 <Badge variant="neutral" size="xs">Demo Included</Badge>
@@ -534,14 +530,11 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           <!-- Polish Tier -->
           <Card class="p-6 border-l-4 border-l-success-600">
             <div class="mb-4 flex items-start gap-4">
-              <img
-                src={statePortraitThinking.src}
-                alt=""
+              <StatePortraitThinking
                 width="64"
                 height="64"
                 class="shrink-0 size-16 rounded-lg"
-                decoding="async"
-                loading="lazy"
+                aria-hidden="true"
               />
               <div class="min-w-0 flex-1">
                 <Badge variant="primary" size="xs">Guided</Badge>

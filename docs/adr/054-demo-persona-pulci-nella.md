@@ -193,6 +193,12 @@ The mascot artwork shipped as the `state-*.svg` portraits in
 interim `avatar-placeholder.png` was removed once those SVGs landed (see the
 per-image budget gate, ADR-057).
 
+_2026-09-23 (#414):_ on the homepage, the Foundation / Build / Polish cards
+render `state-shipped`, `state-writing` and `state-thinking` as inline Astro SVG
+components rather than `<img>` (see ADR-030's amendment of the same date). Their
+ids and classes are namespaced with `pn-` so three portraits on one page cannot
+collide; the other `state-*` files are unchanged.
+
 ## Enforcement
 
 <!-- Added 2026-07-12 as an amendment under the enforcement architecture ADR (ADR-064). The original record above is unmodified. -->
