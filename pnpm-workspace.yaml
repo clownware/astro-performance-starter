@@ -1,0 +1,62 @@
+# pnpm settings. pnpm 11 reads these only from this file: it ignores the
+# `pnpm` field of package.json without a warning (pnpm/pnpm#10086), which is
+# where the overrides lived until the pnpm 11 migration (#409).
+# Guarded by scripts/src/pnpm-config.test.ts.
+
+# minimumReleaseAge is left at pnpm 11's default of 1440 minutes (one day):
+# a version is not resolved until it has been public for a day. ADR-065
+# records why, and the escape hatch for an urgent fix — minimumReleaseAgeExclude,
+# which `pnpm audit --fix` fills in for you. Do not set it to 0.
+
+# pnpm 11 makes an unlisted dependency build script an install error
+# (strictDepBuilds). pnpm 10 silently skipped esbuild's postinstall and every
+# build worked, because esbuild ships its binary as a platform optional
+# dependency (@esbuild/<platform>). Denying it keeps that behaviour exactly and
+# runs no dependency script at install time.
+allowBuilds:
+  esbuild: false
+
+overrides:
+  qs: "^6.16.0"
+  fast-uri: "^3.1.6" # caret pins the 3.x major; harmless until ajv declares fast-uri ^4 (#399)
+  browserslist: ">=4.28.7"
+  "devalue@<5.9.2": "^5.9.2" # GHSA-9rgm-9g3h-6x36 via astro/@astrojs/preact (#423); lapses once they require ^5.9.2
+  sharp: "^0.35.4"
+  "smol-toml@<1.7.1": "^1.7.1" # GHSA-7w5x-hrqm-74c2; markdownlint-cli2 <=0.23.2 pinned 1.7.0 exactly (#423)
+  "tmp@<0.2.6": "^0.2.6"
+  "uuid@^8": "^11.1.1"
+  "puppeteer-core>@puppeteer/browsers": "^3.2.1" # severed the extract-zip chain under @lhci/cli (#353)
+
+# Transitional, added by the pnpm 11 migration (#409). These exact versions
+# reached master through Dependabot's #432 while the repo was on pnpm 10, which
+# had no release-age gate — rolldown@1.2.10 was resolved 97 minutes after it
+# was published. pnpm 11 re-verifies existing lockfile entries, so without this
+# list every install fails until the newest ages out (2026-09-24T14:07Z). Each
+# entry is an exact, already-reviewed version, so nothing new is exempted.
+# Delete this whole list after that time (tracked in #436).
+minimumReleaseAgeExclude:
+  - "@puppeteer/browsers@3.2.3"
+  - "@rolldown/binding-android-arm-eabi@1.2.10"
+  - "@rolldown/binding-android-arm64@1.2.10"
+  - "@rolldown/binding-darwin-arm64@1.2.10"
+  - "@rolldown/binding-darwin-x64@1.2.10"
+  - "@rolldown/binding-freebsd-x64@1.2.10"
+  - "@rolldown/binding-linux-arm-gnueabihf@1.2.10"
+  - "@rolldown/binding-linux-arm64-gnu@1.2.10"
+  - "@rolldown/binding-linux-arm64-musl@1.2.10"
+  - "@rolldown/binding-linux-ppc64-gnu@1.2.10"
+  - "@rolldown/binding-linux-s390x-gnu@1.2.10"
+  - "@rolldown/binding-linux-x64-gnu@1.2.10"
+  - "@rolldown/binding-linux-x64-musl@1.2.10"
+  - "@rolldown/binding-openharmony-arm64@1.2.10"
+  - "@rolldown/binding-win32-arm64-msvc@1.2.10"
+  - "@rolldown/binding-win32-x64-msvc@1.2.10"
+  - "@sentry/core@10.75.3"
+  - "@sentry/node-core@10.75.3"
+  - "@sentry/node@10.75.3"
+  - "@sentry/opentelemetry@10.75.3"
+  - "@sentry/server-utils@10.75.3"
+  - "magic-string@1.4.2"
+  - "prettier@3.9.9"
+  - "puppeteer-core@25.12.0"
+  - "rolldown@1.2.10"

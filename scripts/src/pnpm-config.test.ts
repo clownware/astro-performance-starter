@@ -66,11 +66,11 @@ describe("pnpm settings live where pnpm 11 reads them", () => {
 });
 
 /**
- * ADR-066: stay on pnpm 11 (the TypeScript CLI) rather than 12 (the Rust
+ * ADR-065: stay on pnpm 11 (the TypeScript CLI) rather than 12 (the Rust
  * port, GA 2026-08-26), and keep pnpm 11's supply-chain default of a one-day
  * minimumReleaseAge instead of opting out.
  */
-describe("pnpm version and supply-chain policy (ADR-066)", () => {
+describe("pnpm version and supply-chain policy (ADR-065)", () => {
   it("pins pnpm 11 via packageManager", () => {
     expect(packageJson.packageManager).toMatch(/^pnpm@11\.\d+\.\d+/);
   });
@@ -80,7 +80,21 @@ describe("pnpm version and supply-chain policy (ADR-066)", () => {
 
     expect(
       age === undefined || Number(age) >= 1440,
-      `minimumReleaseAge is ${age}; ADR-066 keeps pnpm's one-day default. Exempt a specific urgent fix with minimumReleaseAgeExclude (pnpm audit --fix adds it) rather than lowering the gate for everything.`,
+      `minimumReleaseAge is ${age}; ADR-065 keeps pnpm's one-day default. Exempt a specific urgent fix with minimumReleaseAgeExclude (pnpm audit --fix adds it) rather than lowering the gate for everything.`,
     ).toBe(true);
+  });
+
+  it("gives Dependabot's npm updates a cooldown at least as long as the gate", () => {
+    // pnpm 11 re-verifies every lockfile entry against minimumReleaseAge, so a
+    // Dependabot version update that picked a version younger than a day would
+    // fail CI's frozen install. Dependabot applies its cooldown to transitive
+    // resolutions too, and never to security updates (dependabot-core
+    // `update_cooldown: job.security_updates_only? ? nil : job.cooldown`).
+    const dependabot = readFileSync(join(repoRoot, ".github/dependabot.yml"), "utf8");
+    const npmBlock =
+      dependabot.split(/\n\s*- package-ecosystem:/).find((block) => /"npm"/.test(block)) ?? "";
+    const days = /cooldown:\s*\n\s+default-days:\s*(\d+)/.exec(npmBlock)?.[1];
+
+    expect(Number(days ?? 0)).toBeGreaterThanOrEqual(1);
   });
 });

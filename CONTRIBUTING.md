@@ -12,7 +12,7 @@ Thank you for your interest in contributing! This project follows a structured a
 ## 📋 Prerequisites
 
 - Node.js 24.x or later
-- pnpm 10.x or later
+- pnpm 11.x (`corepack enable` picks up the pinned version from `package.json`)
 - Familiarity with our [Implementation Guides](docs/implementation-guides/README.md)
 
 ## Working with AI Agents

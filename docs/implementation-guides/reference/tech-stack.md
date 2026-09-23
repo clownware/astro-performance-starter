@@ -25,7 +25,7 @@ Framework:
 Build:
   bundler: Vite 8.x
   runtime: Node.js 24.x LTS
-  package_manager: pnpm 10.x (required)
+  package_manager: pnpm 11.x (required)
   typescript: ^5.9.3
 ```
 

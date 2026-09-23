@@ -32,6 +32,7 @@ interface PackageJsonDeps {
   devDependencies?: Record<string, string>;
   optionalDependencies?: Record<string, string>;
   engines?: Record<string, string>;
+  packageManager?: string;
 }
 
 /**
@@ -145,6 +146,33 @@ export function findNodeFieldMismatches(
 }
 
 /**
+ * The pnpm version named by a `packageManager` pin such as `pnpm@11.27.1`
+ * (a corepack `+sha512…` integrity suffix is dropped), or undefined when the
+ * field is absent or names another package manager.
+ */
+function pnpmVersionFrom(packageManager: string | undefined): string | undefined {
+  return /^pnpm@([^+\s]+)/.exec(packageManager ?? "")?.[1];
+}
+
+/**
+ * Returns a diagnostic when `versions.json`'s `pnpm` field drifted from the
+ * `packageManager` pin; null means consistent, or there is nothing to
+ * compare. Like the Node fields, `packageManager` is not a dependency, so the
+ * dep-pin check cannot see it — `pnpm` sat at a hand-edited value until the
+ * pnpm 11 migration (#409) had to change it.
+ */
+export function findPackageManagerMismatch(
+  packageManager: string | undefined,
+  versions: Record<string, string>,
+): string | null {
+  const pinned = pnpmVersionFrom(packageManager);
+  if (!pinned || !versions.pnpm || versions.pnpm === pinned) {
+    return null;
+  }
+  return `pnpm: versions.json ${versions.pnpm} ≠ package.json packageManager ${packageManager}`;
+}
+
+/**
  * Returns a copy of `versions` with every drifted exact pin rewritten to the
  * base version of its `package.json` dependency, and — when `pkg.version` is
  * present — the `template` field stamped to `v{pkg.version}`. Loose `.x`
@@ -173,6 +201,10 @@ export function syncVersionsJson(
     }
     if (key === "node-minimum" && nvmrc?.trim() && pkg.engines?.node) {
       synced[key] = baseVersion(pkg.engines.node);
+      continue;
+    }
+    if (key === "pnpm" && pnpmVersionFrom(pkg.packageManager)) {
+      synced[key] = pnpmVersionFrom(pkg.packageManager) as string;
       continue;
     }
     const depName = versionsJsonToPackage[key];
@@ -210,6 +242,7 @@ function main(): void {
   const versionsMismatches = findVersionsJsonMismatches(pkg, versions);
   const templateMismatch = findTemplateMismatch(pkgVersion, versions);
   const nodeMismatches = findNodeFieldMismatches(nvmrc, pkg.engines?.node, versions);
+  const packageManagerMismatch = findPackageManagerMismatch(pkg.packageManager, versions);
 
   if (readmeMismatches.length) {
     console.error(
@@ -237,9 +270,14 @@ function main(): void {
     }
     console.error("   Run `pnpm run version:fix` to sync them.");
   }
+  if (packageManagerMismatch) {
+    console.error(`❌ ${packageManagerMismatch}`);
+    console.error("   Run `pnpm run version:fix` to sync it.");
+  }
   if (
     readmeMismatches.length ||
     versionsMismatches.length ||
+    packageManagerMismatch ||
     templateMismatch ||
     nodeMismatches.length
   ) {

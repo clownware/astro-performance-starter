@@ -19,6 +19,15 @@ updates:
     target-branch: "master"
     registries: []
     rebase-strategy: "auto"
+    # Matches pnpm 11's one-day minimumReleaseAge (ADR-065). pnpm re-verifies
+    # every lockfile entry against that gate, so a version update picking a
+    # release younger than a day would fail CI's frozen install. Dependabot
+    # applies cooldown to transitive resolutions too, and never to security
+    # updates — those still open immediately; if the patched release is under
+    # a day old, exempt it with minimumReleaseAgeExclude (`pnpm audit --fix`
+    # writes the entry).
+    cooldown:
+      default-days: 1
     # @astrojs/check pins typescript to ^5 || ^6; the TS 7 (Go compiler) major
     # crashes `astro check`. Lift this once the Astro language server supports it.
     ignore:
