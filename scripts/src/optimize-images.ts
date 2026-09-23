@@ -387,17 +387,17 @@ async function analyzeImages() {
       console.log(`   3. ⚡ Lazy loading already configured in Image component`);
 
       if (needsOptimization.filter((img) => img.context === "content").length > 0) {
-        console.log(`   4. 🛠️ Run 'pnpm run optimize:images' to pre-optimize source images`);
+        console.log(`   4. 🛠️ Run 'pnpm run images:optimize' to pre-optimize source images`);
       }
     }
     if (staticImages.length > 0) {
       console.log(`🔧 **Static Assets (public/):**`);
-      console.log(`   1. 🛠️ Run 'pnpm run optimize:images' for manual optimization`);
+      console.log(`   1. 🛠️ Run 'pnpm run images:optimize' for manual optimization`);
       console.log(`   2. 📏 Consider reducing dimensions for oversized assets`);
       console.log(`   3. 🎨 Convert PNG to WebP/AVIF for better compression`);
     }
     console.log(`5. 🔍 Run 'pnpm run build' to see final optimized sizes`);
-    console.log(`6. 🔍 Run 'pnpm run analyze:images' again to re-analyze optimized images`);
+    console.log(`6. 🔍 Run 'pnpm run images:analyze' again to re-analyze optimized images`);
   } else {
     console.log(`🎉 All images are well-optimized for their usage!`);
   }
@@ -406,7 +406,7 @@ async function analyzeImages() {
   console.log(`\n🎯 **Optimization Recommendation:**`);
   if (needsOptimization.length > 0) {
     console.log(
-      `📢 **YES** - Run 'pnpm run optimize:images' to optimize ${needsOptimization.length} image(s)`,
+      `📢 **YES** - Run 'pnpm run images:optimize' to optimize ${needsOptimization.length} image(s)`,
     );
   } else {
     console.log(
