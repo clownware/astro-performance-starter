@@ -139,7 +139,7 @@
     "vitest": "^4.1.11"
   },
   "optionalDependencies": {
-    "style-dictionary": "^5.5.4"
+    "style-dictionary": "^5.5.5"
   },
   "lint-staged": {
     "*.{astro,ts,tsx,js,jsx,json,yml,yaml}": "biome check --write --no-errors-on-unmatched",
