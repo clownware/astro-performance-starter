@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
   findNodeFieldMismatches,
+  findPackageManagerMismatch,
   findTemplateMismatch,
   findVersionMismatches,
   findVersionsJsonMismatches,
@@ -226,5 +227,37 @@ describe("findNodeFieldMismatches", () => {
   it("skips fields that are absent from versions.json or inputs that are unavailable", () => {
     expect(findNodeFieldMismatches("24.19.0", ">=24.15.0", {})).toEqual([]);
     expect(findNodeFieldMismatches(undefined, undefined, { node: "24.19.0" })).toEqual([]);
+  });
+});
+
+/**
+ * `pnpm` in versions.json mirrors the `packageManager` pin. Like the Node
+ * fields it is not a dependency, so the dep-pin check cannot see it — it sat
+ * at 10.13.1 by hand until the pnpm 11 migration (#409) had to change it.
+ */
+describe("findPackageManagerMismatch", () => {
+  it("returns null when versions.json pnpm matches the packageManager pin", () => {
+    expect(findPackageManagerMismatch("pnpm@11.27.1", { pnpm: "11.27.1" })).toBeNull();
+  });
+
+  it("flags a pnpm field that drifted from packageManager", () => {
+    expect(findPackageManagerMismatch("pnpm@11.27.1", { pnpm: "10.13.1" })).toBe(
+      "pnpm: versions.json 10.13.1 ≠ package.json packageManager pnpm@11.27.1",
+    );
+  });
+
+  it("ignores a corepack integrity suffix on the pin", () => {
+    expect(findPackageManagerMismatch("pnpm@11.27.1+sha512.abc", { pnpm: "11.27.1" })).toBeNull();
+  });
+
+  it("skips when the field is absent, or packageManager is missing or not pnpm", () => {
+    expect(findPackageManagerMismatch("pnpm@11.27.1", {})).toBeNull();
+    expect(findPackageManagerMismatch(undefined, { pnpm: "10.13.1" })).toBeNull();
+    expect(findPackageManagerMismatch("yarn@4.9.0", { pnpm: "10.13.1" })).toBeNull();
+  });
+
+  it("is rewritten by syncVersionsJson from packageManager", () => {
+    const pkg = { packageManager: "pnpm@11.27.1" };
+    expect(syncVersionsJson(pkg, { pnpm: "10.13.1" })).toEqual({ pnpm: "11.27.1" });
   });
 });
