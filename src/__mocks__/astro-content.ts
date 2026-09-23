@@ -25,3 +25,11 @@ export const getCollection = (
   // Return a shallow copy so callers that sort in-place don't mutate the source.
   return Promise.resolve([...data]);
 };
+
+/**
+ * Identity stub for defineCollection: Astro's real implementation only tags
+ * the config object, so returning it unchanged lets tests reach into a
+ * collection's Zod schema and assert against it directly
+ * (see src/__tests__/content-schemas.test.ts).
+ */
+export const defineCollection = <T>(config: T): T => config;
