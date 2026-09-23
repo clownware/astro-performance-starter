@@ -8,7 +8,10 @@ on:
   pull_request:
     branches: [master]
   # versions-sync.yml re-dispatches CI after it pushes a versions.json sync
-  # commit to a Dependabot branch; GITHUB_TOKEN pushes never trigger runs.
+  # commit to a Dependabot branch. That GITHUB_TOKEN push does create
+  # pull_request runs, but GitHub holds them at action_required until someone
+  # approves them; the dispatch gives build-test a result on the new head
+  # without waiting for that click. See versions-sync.yml for the review step.
   workflow_dispatch:
 
 # A newer push to the same PR supersedes the running one.

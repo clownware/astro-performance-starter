@@ -7,8 +7,23 @@ name: Versions sync
 #
 # This job runs the guard script's --fix mode against the PR's files, commits
 # only versions.json back to the Dependabot branch, then re-dispatches CI for
-# the new head: GITHUB_TOKEN pushes never start workflow runs on their own, and
-# workflow_dispatch is the documented exception to that rule.
+# the new head.
+#
+# Why the re-dispatch: the GITHUB_TOKEN push below does create pull_request
+# runs (CI and Lighthouse CI) for the new head, but GitHub holds them at
+# `action_required` because their actor is github-actions[bot]. The dispatched
+# CI run needs no approval, so build-test — the required check — gets a real
+# result on the commit either way. Observed on #421 and #431, 2026-09.
+#
+# Reviewing a synced PR — approve the waiting runs before merging:
+#   - On the PR page, use the "Approve and run" banner; or
+#   - gh run list --branch <head-ref> --json databaseId,conclusion \
+#       --jq '.[] | select(.conclusion=="action_required") | .databaseId' |
+#       xargs -I{} gh api -X POST repos/{owner}/{repo}/actions/runs/{}/approve
+# Until then the checks tab and `gh pr checks` list only Trivy (the dispatched
+# run is not associated with the PR), and **Lighthouse has not run at all** —
+# it has no dispatch path, and only build-test is a required check, so an
+# unapproved synced PR can merge with no performance check. (#398)
 #
 # pull_request_target runs with a write token, so nothing from the PR head is
 # executed: there is no install, and the script itself is taken from the base
