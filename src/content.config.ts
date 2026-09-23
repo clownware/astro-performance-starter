@@ -31,6 +31,9 @@ const projectsCollection = defineCollection({
         )
         .optional(),
       externalUrl: z.url().optional(),
+      // Rendered by ProjectCard as the "Source Code" action alongside the
+      // externalUrl "Live Demo" button.
+      githubUrl: z.url().optional(),
       sortOrder: z.number().default(0),
     }),
 });

@@ -90,6 +90,7 @@ z.object({
   duration: z.string().optional(),      // Optional
   role: z.string().optional(),          // Optional
   externalUrl: z.url().optional(),      // Optional — validated as URL when present
+  githubUrl: z.url().optional(),        // Optional — source repo, paired with externalUrl
   sortOrder: z.number().default(0),     // Defaulted — manual ordering override
 })
 ```
