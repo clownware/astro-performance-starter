@@ -5,7 +5,7 @@ import { draftPost, publishedPosts } from "../../../tests/fixtures/posts";
 // astro:content is a virtual module aliased to a stub in vitest.config.ts,
 // enabling direct import of the real sortPostsByDate / getPublishedPosts /
 // getFeaturedPosts without Astro's runtime. The stub also exports
-// __setMockCollection / __resetMockCollection for controlling fixtures.
+// setMockCollection / resetMockCollection for controlling fixtures.
 
 const stub = (await import("astro:content")) as any;
 const { getPublishedPosts, getFeaturedPosts } = await import("@utils/blog");

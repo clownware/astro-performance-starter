@@ -56,6 +56,9 @@ playwright/.cache/
 
 # Lighthouse
 lighthouse-report.html
+# Local performance baseline written by scripts/src/baseline-performance.ts;
+# machine-specific, never committed
+performance-baseline.json
 lighthouse-report.json
 .lighthouseci/
 lighthouse-ci-reports/
