@@ -160,6 +160,19 @@ jobs:
       - name: Run E2E tests (Chromium)
         run: pnpm exec playwright test --project=chromium
 
+      # Only on failure: the HTML report, plus traces and screenshots from the
+      # retry, are the only way to see what broke without reproducing locally.
+      - name: Upload Playwright report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 7
+          if-no-files-found: ignore
+
       - name: Security audit (high severity)
         run: pnpm run audit:ci
 
