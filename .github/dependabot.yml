@@ -42,9 +42,12 @@ updates:
         update-types: ["version-update:semver-major"]
       - dependency-name: "@vitest/coverage-v8"
         update-types: ["version-update:semver-major"]
-    # Dev-only tooling lands as one weekly PR; production dependencies stay
-    # individual so a runtime bump is reviewed on its own and one failing
-    # bump doesn't block the rest.
+    # Minor and patch bumps, production and dev alike, land as one weekly PR.
+    # Every singleton PR (and every Dependabot rebase after a neighbouring
+    # merge) costs a CI run here and in every clone of this template; one
+    # clone billed 361 minutes of cancelled CI from rebase churn in a month
+    # (#441). Security updates are unaffected: groups apply to version updates
+    # only, so an advisory fix still opens on its own, immediately.
     #
     # Majors are excluded from the group deliberately. vitest 4 -> 5 landed
     # inside a "bump the dev-dependencies group with 2 updates" PR (#407) and
@@ -52,8 +55,8 @@ updates:
     # own review cannot get one while it is riding along with patches. Each
     # major now arrives as its own PR, matching how this repo already handles
     # deferred majors (TypeScript 7, @types/node 26, pnpm 12).
+    # Guarded by scripts/src/dependabot-config.test.ts.
     groups:
-      dev-dependencies:
-        dependency-type: "development"
+      minor-and-patch:
         patterns: ["*"]
         update-types: ["minor", "patch"]
