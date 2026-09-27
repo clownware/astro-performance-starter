@@ -7,7 +7,7 @@
   "biome": "2.5.14",
   "typescript": "5.9.3",
   "preact": "10.29.8",
-  "astro-mdx": "8.0.1",
+  "astro-mdx": "8.0.2",
   "tailwindcss-vite": "4.3.3",
   "astro-sitemap": "3.7.4",
   "astro-check": "0.9.10",
