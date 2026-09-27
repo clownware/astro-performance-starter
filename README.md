@@ -246,7 +246,7 @@ pnpm run tokens:build     # Rebuild design tokens (rarely needed)
 
 | Command | Description |
 |---------|-------------|
-| `pnpm run test:mutate` | Mutation testing (Stryker). Slow; runs weekly in CI, rarely run locally. See [ADR-042](docs/adr/042-mutation-testing-with-stryker.md). |
+| `pnpm run test:mutate` | Mutation testing (Stryker). Slow; runs monthly in CI, rarely run locally. See [ADR-042](docs/adr/042-mutation-testing-with-stryker.md). |
 
 **Build & Deploy**
 
