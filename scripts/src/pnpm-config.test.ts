@@ -35,6 +35,22 @@ function readMap(yaml: string, key: string): Record<string, string> {
   return entries;
 }
 
+/** Reads one top-level sequence as raw item lines, trailing comments kept. */
+function readList(yaml: string, key: string): string[] {
+  const items: string[] = [];
+  let inside = false;
+
+  for (const line of yaml.split("\n")) {
+    if (/^\S/.test(line)) {
+      inside = line.startsWith(`${key}:`);
+      continue;
+    }
+    if (inside && /^\s+-\s/.test(line)) items.push(line.trim());
+  }
+
+  return items;
+}
+
 function readScalar(yaml: string, key: string): string | undefined {
   return new RegExp(`^${key}:\\s*(.+?)\\s*(?:#.*)?$`, "m").exec(yaml)?.[1];
 }
@@ -82,6 +98,24 @@ describe("pnpm version and supply-chain policy (ADR-065)", () => {
       age === undefined || Number(age) >= 1440,
       `minimumReleaseAge is ${age}; ADR-065 keeps pnpm's one-day default. Exempt a specific urgent fix with minimumReleaseAgeExclude (pnpm audit --fix adds it) rather than lowering the gate for everything.`,
     ).toBe(true);
+  });
+
+  it("lets no minimumReleaseAgeExclude entry outlive its expiry", () => {
+    // An exemption is only needed until the exempted version is a day old;
+    // after that it is dead config that reads like a live exception. Each
+    // entry carries `# until <ISO 8601 UTC>`, and this goes red once that time
+    // passes — deliberately time-dependent, like a tripwire. The transitional
+    // list from the pnpm 11 migration outlived its expiry by days (#436).
+    const now = Date.now();
+    const stale = readList(workspace, "minimumReleaseAgeExclude").filter((entry) => {
+      const until = /#\s*until\s+(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}Z)\s*$/.exec(entry)?.[1];
+      return until === undefined || Date.parse(until) <= now;
+    });
+
+    expect(
+      stale,
+      "Delete these entries, or annotate a live one with `# until <UTC time it turns a day old>` (ADR-065)",
+    ).toEqual([]);
   });
 
   it("gives Dependabot's npm updates a cooldown at least as long as the gate", () => {
