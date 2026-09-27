@@ -6,7 +6,7 @@ description: >-
   minimumReleaseAge supply-chain gate, pair it with a one-day Dependabot
   cooldown, and exempt urgent security fixes individually through
   minimumReleaseAgeExclude rather than lowering the gate
-lastUpdated: 2026-09-23T00:00:00.000Z
+lastUpdated: 2026-09-26T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
@@ -138,13 +138,17 @@ costs one reviewable line. pnpm 12 is deferred under the same rule as TypeScript
 - `.github/dependabot.yml` npm ecosystem: `cooldown: default-days: 1`
 - The 25 lockfile entries resolved without the gate are exempted by exact `name@version` in a
   commented, transitional `minimumReleaseAgeExclude` list, removed once they age out (#436).
-  Each was already reviewed and merged, so the exemption admits nothing new.
+  Each was already reviewed and merged, so the exemption admits nothing new. *(amended
+  2026-09-26: removed in #436, two days after its expiry; TC-5 now catches the next one.)*
 - `versions.json`'s `pnpm` key is now stamped from `packageManager` by `version:fix` and
   compared by `version:check`, like the Node fields. It had been hand-maintained.
 
 Emergency procedure for a same-day security fix: run `pnpm audit --fix` (or add
-`"<name>@<patched version>"` to `minimumReleaseAgeExclude` by hand), commit the workspace
-change with the Dependabot PR, and remove the entry once it ages.
+`"<name>@<patched version>"` to `minimumReleaseAgeExclude` by hand), annotate the entry with
+`# until <ISO 8601 UTC>` — its publish time plus one day, e.g. `# until 2026-09-24T14:07Z` —
+commit the workspace change with the Dependabot PR, and remove the entry once it ages. TC-5
+fails the first test run after that time, so a forgotten entry cannot linger. *(amended
+2026-09-26: the annotation and TC-5 added by #436.)*
 
 ## Consequences
 
@@ -190,9 +194,11 @@ change with the Dependabot PR, and remove the entry once it ages.
   - TC-2: `packageManager` pins pnpm 11, and `minimumReleaseAge` is not lowered below one day.
   - TC-3: Dependabot's npm ecosystem has a cooldown of at least one day.
   - TC-4: `versions.json`'s `pnpm` matches `packageManager`.
+  - TC-5: every `minimumReleaseAgeExclude` entry carries a `# until <ISO 8601 UTC>` expiry that
+    has not passed. *(added 2026-09-26, #436)*
 - **Checks:**
-  - TC-1..3 → `scripts/src/pnpm-config.test.ts` via `test:unit` (status: **block**)
+  - TC-1..3, TC-5 → `scripts/src/pnpm-config.test.ts` via `test:unit` (status: **block**)
   - TC-4 → `version:check` in `quality:ci` (status: **block**)
-- **Not machine-checkable:** whether a given `minimumReleaseAgeExclude` entry was justified is a
-  review judgement.
+- **Not machine-checkable:** whether a given `minimumReleaseAgeExclude` entry was justified, and
+  whether its expiry is honest, is a review judgement. TC-5 only enforces that it has one.
 - **Graduation log:** *(empty at creation; entries added when a check changes status)*
