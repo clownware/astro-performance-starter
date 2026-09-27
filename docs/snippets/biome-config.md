@@ -10,7 +10,7 @@ pagefind: true
 ```json
 // biome.json (excerpt — see the note below for what is omitted)
 {
-  "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.5.14/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
