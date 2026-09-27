@@ -743,7 +743,7 @@ Before adding a maintenance workflow, look at `.github/workflows/` — most of t
 | `ci.yml` | push and PR to `master` | `quality:ci`, `pnpm enforce`, coverage, `budgets:validate`, `design:validate`, build, JS bundle-size gate, `perf:budgets`, `images:gate`, `fonts:gate`, Playwright e2e, `audit:ci`, Trivy, Semgrep, Gitleaks |
 | `lighthouse.yml` | PR to `master` | `lhci autorun` desktop and mobile against the floors in `lighthouserc*.json`, reports uploaded as artifacts |
 | `link-check.yml` | weekly (Mondays 06:00 UTC) and PRs touching `docs/**` | external-link rot in `docs/` (internal links are a build-time gate, ADR-005) |
-| `mutation.yml` | weekly (Mondays 07:00 UTC) | Stryker mutation run; files a tracking issue when a scheduled run fails |
+| `mutation.yml` | monthly (the 1st, 07:00 UTC) | Stryker mutation run; files a tracking issue when a scheduled run fails |
 | `versions-sync.yml` | Dependabot PRs touching `package.json` | keeps `versions.json` in step with dependency bumps (ADR-061) |
 | `deploy.yml` | push to `master` | GitHub Pages deploy |
 
