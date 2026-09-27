@@ -26,7 +26,7 @@ const devDependencies: Record<string, string> = JSON.parse(
  *   vitest 4.1.11 → 82.49% (410 killed / 79 survived)
  *   vitest 5.0.0  →  0.00% (  0 killed / 489 survived)
  *
- * 0.00 is below the `break: 50` threshold in stryker.conf.json, so the weekly
+ * 0.00 is below the `break: 50` threshold in stryker.conf.json, so the monthly
  * run exits 1 and files a tracking issue (#420) that reads like a test
  * regression. The runner's latest release (10.0.0, 2026-08-14) predates Vitest
  * 5, so there is no version to move to yet.

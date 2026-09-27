@@ -1,9 +1,12 @@
 name: Mutation Testing
 
-# Runs Stryker mutation testing weekly (and on demand via workflow_dispatch).
+# Runs Stryker mutation testing monthly (and on demand via workflow_dispatch).
 # This is a tracked-metric workflow, NOT a PR gate — see ADR-042.
 #
-# Cadence: Mondays 07:00 UTC (~midnight Pacific; nightly until 2026-08-19 — see ADR-042 amendment). Single run; the result
+# Cadence: the 1st of each month, 07:00 UTC (~midnight Pacific; nightly until
+# 2026-08-19, weekly until 2026-09-26 — see ADR-042 amendments). Pinned by
+# scripts/src/workflow-cadence.test.ts. Run it by hand after changing
+# src/utils/** if you want the score sooner. Single run; the result
 # is uploaded as an artefact and surfaced in the workflow summary.
 #
 # A failed SCHEDULED run files (or comments on) a tracking issue so a dead
@@ -12,8 +15,8 @@ name: Mutation Testing
 
 on:
   schedule:
-    # Weekly, Monday 07:00 UTC
-    - cron: '0 7 * * 1'
+    # Monthly, 1st at 07:00 UTC
+    - cron: '0 7 1 * *'
   workflow_dispatch:
 
 permissions:

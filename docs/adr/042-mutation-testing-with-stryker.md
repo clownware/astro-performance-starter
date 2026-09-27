@@ -5,7 +5,7 @@ description: >-
   test-quality verification layer on top of Vitest coverage. Establishes
   thresholds at the measured baseline of 81% (well above the 50% break),
   runs nightly in CI as a tracked metric, and does NOT gate PRs.
-lastUpdated: 2026-08-19T00:00:00.000Z
+lastUpdated: 2026-09-26T00:00:00.000Z
 tableOfContents: true
 pagefind: true
 ---
@@ -17,6 +17,15 @@ Accepted (amended 2026-08-19: cadence changed from nightly to weekly — Mondays
 a few times a month; nightly runs re-measured an unchanged tree ~30 times a
 month, and every clone of this template inherited that cost. Everything else
 in this record stands.)
+
+*(Amended 2026-09-26: cadence changed from weekly to monthly — the 1st at
+07:00 UTC, plus `workflow_dispatch`. Weekly runs billed 57–69 Actions minutes a
+month per clone of this template (~330 minutes across six clones, 2026-08-13 →
+09-12) to re-measure trees whose scripts rarely change weekly (#442). The
+silent-break case weekly runs were catching, vitest 5 zeroing the score, is now
+guarded on every PR by `mutation-runner-compat.test.ts`. A clone with a real
+domain layer under test can opt back into weekly by amending its own copy of
+this ADR and TC-2.)*
 
 ## Context
 
@@ -125,7 +134,7 @@ The 19% of survived/no-coverage mutants are concentrated in string literals (err
 
 **`.github/workflows/mutation.yml`:**
 
-- Cron: `0 7 * * 1` (weekly, Monday 07:00 UTC, ~midnight Pacific; was nightly `0 7 * * *` until 2026-08-19)
+- Cron: `0 7 1 * *` (monthly, the 1st at 07:00 UTC, ~midnight Pacific; weekly `0 7 * * 1` until 2026-09-26, nightly `0 7 * * *` until 2026-08-19)
 - Also triggerable via `workflow_dispatch`
 - Uploads `reports/mutation/` as artefact (14-day retention)
 - Does NOT gate PRs
@@ -148,7 +157,7 @@ clone-and-ship critical path. It is deliberately:
   *(amended 2026-08-02: chain updated to the current `quality:ci`; as originally
   written it listed the six gates of the day, ending at `agents:check`)*.
   `test:mutate` is absent and stays absent.
-- **Scheduled + on-demand only** (weekly since 2026-08-19, nightly before) — it runs in `.github/workflows/mutation.yml` on a
+- **Scheduled + on-demand only** (monthly since 2026-09-26, weekly from 2026-08-19, nightly before) — it runs in `.github/workflows/mutation.yml` on a
   schedule and via `workflow_dispatch`, never on PRs.
 - **Grouped as a maintainer script** in `package.json` (see ADR-052) and labelled
   Advanced/optional in the README and `.claude/stack.md`.
@@ -225,7 +234,9 @@ Future enhancements deliberately deferred:
 
 - **Testable consequences:**
   - TC-1: the scheduled mutation workflow exists and runs against the Vitest suite.
+  - TC-2: it is scheduled once a month and stays runnable via `workflow_dispatch`. *(added 2026-09-26, #442)*
 - **Checks:**
   - TC-1 → `mutation.yml` workflow (status: **warn** — deliberately never graduates; this ADR forbids PR gating on mutation score)
+  - TC-2 → `scripts/src/workflow-cadence.test.ts` via `test:unit` (status: **block** — it pins the schedule, not the score)
 - **Not machine-checkable:** mutation-score trend interpretation is a maintainer judgment.
 - **Graduation log:** *(empty at creation; entries added when a check changes status)*
