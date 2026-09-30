@@ -98,7 +98,7 @@
     "@tailwindcss/vite": "^4.3.3",
     "astro-expressive-code": "^0.44.2",
     "preact": "^10.29.8",
-    "sharp": "^0.35.4",
+    "sharp": "^0.35.5",
     "tailwindcss": "4.3.3"
   },
   "devDependencies": {
@@ -124,7 +124,7 @@
     "husky": "^9.1.7",
     "jsdom": "^30.1.1",
     "lighthouse": "^13.5.0",
-    "lint-staged": "^17.5.1",
+    "lint-staged": "^17.6.0",
     "markdownlint-cli2": "^0.23.3",
     "remark": "^15.0.1",
     "remark-mdx": "^3.1.1",
