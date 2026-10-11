@@ -1,0 +1,55 @@
+name: Notify docs site
+
+# Tells a documentation repository that what it reads from this one changed.
+# A docs site that pulls versions.json (ADR-061) and docs/ from the default
+# branch goes stale the moment either moves, and a freshness gate there then
+# fails every open PR until it resyncs. This sends it a `repository_dispatch`
+# (type `product-released`) so it can resync on the event instead of on a
+# schedule.
+#
+# Fires on default-branch pushes, not on tags: a tag push changes nothing the
+# docs site reads, so release.yml has no dispatch step.
+#
+# Adopter-clean by design: no owner-specific values, and off unless configured.
+# The job is skipped (no runner, no billed minute) while the repository
+# variable DOCS_DISPATCH_REPO is unset. To turn it on:
+#   - variable DOCS_DISPATCH_REPO: `owner/name` of the docs repository
+#   - secret DOCS_DISPATCH_TOKEN: a fine-grained token scoped to that one
+#     repository with Contents: read and write (what the dispatches API needs)
+# With the variable set and the secret missing or expired the job fails, so a
+# dead token shows up here rather than as a stale docs site.
+
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'versions.json'
+      - 'docs/**'
+
+# The job talks to another repository with its own token.
+permissions: {}
+
+concurrency:
+  group: docs-notify
+  cancel-in-progress: true
+
+jobs:
+  notify:
+    if: vars.DOCS_DISPATCH_REPO != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    steps:
+      - name: Send product-released to the docs repository
+        env:
+          GH_TOKEN: ${{ secrets.DOCS_DISPATCH_TOKEN }}
+          DOCS_REPO: ${{ vars.DOCS_DISPATCH_REPO }}
+        run: |
+          if [ -z "$GH_TOKEN" ]; then
+            echo "::error::DOCS_DISPATCH_REPO is set but the DOCS_DISPATCH_TOKEN secret is not"
+            exit 1
+          fi
+          gh api "repos/$DOCS_REPO/dispatches" \
+            -f event_type=product-released \
+            -f "client_payload[repo]=$GITHUB_REPOSITORY" \
+            -f "client_payload[sha]=$GITHUB_SHA"
