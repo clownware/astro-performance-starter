@@ -23,8 +23,12 @@ overrides:
   fast-uri: "^3.1.6" # caret pins the 3.x major; harmless until ajv declares fast-uri ^4 (#399)
   browserslist: ">=4.28.7"
   "devalue@<5.9.2": "^5.9.2" # GHSA-9rgm-9g3h-6x36 via astro/@astrojs/preact (#423); lapses once they require ^5.9.2
-  sharp: "^0.35.4"
+  sharp: "^0.35.5" # CVE-2026-96889 in bundled librsvg (#459)
   "smol-toml@<1.7.1": "^1.7.1" # GHSA-7w5x-hrqm-74c2; markdownlint-cli2 <=0.23.2 pinned 1.7.0 exactly (#423)
   "tmp@<0.2.6": "^0.2.6"
   "uuid@^8": "^11.1.1"
+  # #459: transitive advisories the parents' own ranges do not clear yet; each lapses once they do.
+  "brace-expansion@>=4.0.0 <5.0.11": "^5.0.11" # DoS via nested brace groups; via @stryker-mutator/core > minimatch
+  "http-cache-semantics@<4.3.0": "^4.3.0" # max-stale cross-user cache disclosure; via astro
+  "source-map-js@<1.2.2": "^1.2.2" # event-loop DoS on indexed source maps; via astro > magicast, svgo > css-tree
   "puppeteer-core>@puppeteer/browsers": "^3.2.1" # severed the extract-zip chain under @lhci/cli (#353)
