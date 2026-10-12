@@ -24,15 +24,15 @@ These rules apply with halt-on-violation force. If a rule fires and you cannot s
 
 ### Rules
 
-1. Architectural changes require checking `docs/adr/` first. If an Accepted ADR contradicts your proposal, halt and update the ADR or revise the proposal.
+1. Architectural changes require checking `docs/adr/` first. If an Accepted ADR contradicts the request, halt and report the conflict. Do not edit the ADR, its check, or a rule to remove the conflict; the maintainer amends or supersedes the record (ADR-066).
 2. `client:load` is forbidden without ADR justification (ADR-001). Use `client:idle` or `client:visible`. If neither works, halt and open an ADR.
 3. Hardcoded colour or spacing values are forbidden. Use design tokens from `tokens/`. If a token is missing, halt and add it.
 4. TypeScript strict mode is mandatory. Do not disable strict checks to make types pass — fix the types.
 5. Linting and formatting use Biome. Do not introduce ESLint or Prettier.
 6. The package manager is pnpm. Do not use npm or yarn commands.
-7. Prefer CSS solutions over JavaScript. JS for static behaviour requires ADR justification.
+7. Prefer CSS solutions over JavaScript. Behaviour CSS cannot provide uses the smallest targeted script in the component, with no framework island; name it in your summary. A hydrated island or a new client-side dependency requires ADR justification (ADR-001).
 8. Images use the Astro Image component. Raw `<img>` is forbidden outside the two exemptions recorded in ADR-030 (the wrapper's string-src fallback; unrasterisable SVGs with an inline justifying comment).
-9. Before claiming a change is complete, run `pnpm quality:ci`. If it exits non-zero, halt and fix the failure. Do not propose the change as complete.
+9. Before claiming a change is complete, run `pnpm quality:ci`. If it exits non-zero, halt and fix the failure. Do not propose the change as complete. Script names are a contract: renaming or removing one is forbidden (ADR-052).
 10. Production code follows a failing test. If you generate production code without a corresponding failing test, halt and write the test (ADR-037).
 
 ### Precedence
@@ -146,10 +146,11 @@ How work moves through the repo. These rules apply with the same force as `CLAUD
 | Category | Paths | Rule |
 |---|---|---|
 | Modify freely | `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `tokens/`, `public/`, `.github/workflows/` | Full read/write |
-| Read-only | `docs/` | Don't modify unless explicitly asked to update documentation |
+| Read-only | `docs/` | Don't modify unless explicitly asked to update documentation. Exception: you may add a new ADR file under `docs/adr/` with status Proposed, then run `pnpm adr:index` |
+| Ask first | `CLAUDE.md`, `.claude/`, `checks/`, `scripts/src/enforcement-checks.ts`, `scripts/src/run-enforcement.ts`, existing ADRs | Governance files. Edit only with the maintainer's approval in the session; never edit one to make a request compliant (ADR-066) |
 | Don't create | Maintenance artifacts, deployment workflows, marketing content | Suggest adding to docs site instead |
 
-Full rationale in [ADR-035](../docs/adr/035-template-scope-boundary.md).
+Full rationale in [ADR-035](../docs/adr/035-template-scope-boundary.md). The Ask-first row is backed by `permissions.ask` rules in `.claude/settings.json` ([ADR-066](../docs/adr/066-constitution-calibration.md)); a session with nobody to approve is refused, which is the intended outcome.
 
 ### Non-trivial Feature Workflow (ADR-038)
 
@@ -173,17 +174,18 @@ pnpm quality:ci
 
 If it exits non-zero, halt and fix the failure. Do not propose the change as complete. Do not work around the failure by lowering thresholds, excluding files, or skipping git hooks with `--no-verify`.
 
-**Local↔CI parity** (per [ADR-039](../docs/adr/039-halt-on-violation-enforcement.md)): `pnpm quality:ci` runs `format:check + lint + lint:md + check + test:unit`, then the repo-consistency gates `agents:check` ([ADR-045](../docs/adr/045-cross-tool-agents-spine.md)), `version:check`, `og:check`, and `docs:count`. CI runs the same plus `test:coverage` (for the artefact upload added in PR #213). Same tests; only v8 instrumentation differs. A broken unit test fails both commands.
+**Local↔CI parity** (per [ADR-039](../docs/adr/039-halt-on-violation-enforcement.md)): `pnpm quality:ci` runs `format:check + lint + lint:md + check + test:unit`, then the repo-consistency gates `agents:check` ([ADR-045](../docs/adr/045-cross-tool-agents-spine.md)), `version:check`, `og:check`, `adr:check`, `docs:count` and `docs:snippets`, then `enforce`, the ADR enforcement suite ([ADR-064](../docs/adr/064-enforcement-architecture.md)), which fails on any block-status check. CI runs the same plus `test:coverage` (for the artefact upload added in PR #213). Same tests; only v8 instrumentation differs. A broken unit test fails both commands.
 
 The fast inner-loop variant is `pnpm quality` (auto-fixes format and lint where possible; does NOT chain tests, so iteration stays fast). Reserve `pnpm quality:ci` for the final gate before claiming done.
 
 ### ADR Discipline
 
 - Check `docs/adr/` before proposing architectural changes
-- Every Accepted ADR is a constraint — if your proposal conflicts, halt and either revise the proposal or update the ADR
+- Every Accepted ADR is a constraint — if the request conflicts, halt and report it. Revise the proposal, or draft a new Proposed ADR that would supersede the record; do not edit the Accepted ADR, its check, or a rule to remove the conflict
 - If a decision should be an ADR (e.g. you're picking a tool, library, pattern, or convention), say so — don't make architectural calls inline
 - ADR template: `docs/adr/template.md`
 - ADR numbering is sequential; check the highest existing number before creating a new one
+- A new ADR starts as Proposed, keeps the template's not-enforced Enforcement stub, and is added to the index with `pnpm adr:index`. Only the maintainer moves a record to Accepted
 
 ### Git Hooks
 
@@ -233,7 +235,7 @@ Technology facts. This file updates when dependencies change or commands move; r
 
 ```bash
 pnpm quality          # format + lint + lint:md + type-check (local — auto-fixes format)
-pnpm quality:ci       # format:check + lint + lint:md + type-check + test:unit + agents/version/og/docs gates (CI gate)
+pnpm quality:ci       # format:check + lint + lint:md + type-check + test:unit + agents/version/og/adr/docs gates + enforce (CI gate)
 pnpm build            # tokens:build → astro build
 pnpm test:unit        # Vitest (run once)
 pnpm test:coverage    # Vitest with v8 coverage report
@@ -274,7 +276,7 @@ Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding
 
 ### Key ADRs
 
-66 ADRs in `docs/adr/`. The structurally important ones:
+Every ADR is listed, with its status and enforcing checks, in the generated index at [`docs/adr/README.md`](../docs/adr/README.md). The structurally important ones:
 
 - **ADR-001:** Preact island usage policy — never `client:load` without justification
 - **ADR-023:** Testing strategy and coverage targets

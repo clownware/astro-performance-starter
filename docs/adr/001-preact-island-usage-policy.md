@@ -107,10 +107,11 @@ flowchart TD
   - TC-1: no `client:load` directive exists in `src/` unless the usage site is listed in the enforcement config's island allowlist naming a justifying ADR.
   - TC-2: every `client:*` hydration directive in `src/` appears in the enumerated island allowlist (shared with ADR-060).
 - **Checks:**
-  - TC-1 → check `no-client-load` (status: **warn**)
+  - TC-1 → check `no-client-load` (status: **block**)
   - TC-2 → check `island-allowlist` (status: **warn**)
 - **Not machine-checkable:** whether a Preact island is demonstrably more efficient than a vanilla alternative, and whether a new ecosystem dependency is justified, remain judgment calls.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:**
+  - 2026-10-12 — `no-client-load` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
 
 ---
 **Date**: 2025-06-10\

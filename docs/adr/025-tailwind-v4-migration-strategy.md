@@ -130,9 +130,10 @@ Three component style blocks that used `@apply` with custom utility classes now 
   - TC-2: `@astrojs/tailwind` is absent from dependencies and `@tailwindcss/vite` is present.
   - TC-3: `src/styles/global.css` contains an `@theme inline` block.
 - **Checks:**
-  - TC-1, TC-2, TC-3 → check `tw4-shape` (status: **warn**)
+  - TC-1, TC-2, TC-3 → check `tw4-shape` (status: **block**)
 - **Not machine-checkable:** utility-vs-token style judgment inside components.
-- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+- **Graduation log:**
+  - 2026-10-12 — `tw4-shape` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
 
 ---
 **Date**: 2026-03-26\

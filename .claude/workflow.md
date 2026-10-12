@@ -7,10 +7,11 @@ How work moves through the repo. These rules apply with the same force as `CLAUD
 | Category | Paths | Rule |
 |---|---|---|
 | Modify freely | `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `tokens/`, `public/`, `.github/workflows/` | Full read/write |
-| Read-only | `docs/` | Don't modify unless explicitly asked to update documentation |
+| Read-only | `docs/` | Don't modify unless explicitly asked to update documentation. Exception: you may add a new ADR file under `docs/adr/` with status Proposed, then run `pnpm adr:index` |
+| Ask first | `CLAUDE.md`, `.claude/`, `checks/`, `scripts/src/enforcement-checks.ts`, `scripts/src/run-enforcement.ts`, existing ADRs | Governance files. Edit only with the maintainer's approval in the session; never edit one to make a request compliant (ADR-066) |
 | Don't create | Maintenance artifacts, deployment workflows, marketing content | Suggest adding to docs site instead |
 
-Full rationale in [ADR-035](../docs/adr/035-template-scope-boundary.md).
+Full rationale in [ADR-035](../docs/adr/035-template-scope-boundary.md). The Ask-first row is backed by `permissions.ask` rules in `.claude/settings.json` ([ADR-066](../docs/adr/066-constitution-calibration.md)); a session with nobody to approve is refused, which is the intended outcome.
 
 ## Non-trivial Feature Workflow (ADR-038)
 
@@ -34,17 +35,18 @@ pnpm quality:ci
 
 If it exits non-zero, halt and fix the failure. Do not propose the change as complete. Do not work around the failure by lowering thresholds, excluding files, or skipping git hooks with `--no-verify`.
 
-**Local↔CI parity** (per [ADR-039](../docs/adr/039-halt-on-violation-enforcement.md)): `pnpm quality:ci` runs `format:check + lint + lint:md + check + test:unit`, then the repo-consistency gates `agents:check` ([ADR-045](../docs/adr/045-cross-tool-agents-spine.md)), `version:check`, `og:check`, and `docs:count`. CI runs the same plus `test:coverage` (for the artefact upload added in PR #213). Same tests; only v8 instrumentation differs. A broken unit test fails both commands.
+**Local↔CI parity** (per [ADR-039](../docs/adr/039-halt-on-violation-enforcement.md)): `pnpm quality:ci` runs `format:check + lint + lint:md + check + test:unit`, then the repo-consistency gates `agents:check` ([ADR-045](../docs/adr/045-cross-tool-agents-spine.md)), `version:check`, `og:check`, `adr:check`, `docs:count` and `docs:snippets`, then `enforce`, the ADR enforcement suite ([ADR-064](../docs/adr/064-enforcement-architecture.md)), which fails on any block-status check. CI runs the same plus `test:coverage` (for the artefact upload added in PR #213). Same tests; only v8 instrumentation differs. A broken unit test fails both commands.
 
 The fast inner-loop variant is `pnpm quality` (auto-fixes format and lint where possible; does NOT chain tests, so iteration stays fast). Reserve `pnpm quality:ci` for the final gate before claiming done.
 
 ## ADR Discipline
 
 - Check `docs/adr/` before proposing architectural changes
-- Every Accepted ADR is a constraint — if your proposal conflicts, halt and either revise the proposal or update the ADR
+- Every Accepted ADR is a constraint — if the request conflicts, halt and report it. Revise the proposal, or draft a new Proposed ADR that would supersede the record; do not edit the Accepted ADR, its check, or a rule to remove the conflict
 - If a decision should be an ADR (e.g. you're picking a tool, library, pattern, or convention), say so — don't make architectural calls inline
 - ADR template: `docs/adr/template.md`
 - ADR numbering is sequential; check the highest existing number before creating a new one
+- A new ADR starts as Proposed, keeps the template's not-enforced Enforcement stub, and is added to the index with `pnpm adr:index`. Only the maintainer moves a record to Accepted
 
 ## Git Hooks
 

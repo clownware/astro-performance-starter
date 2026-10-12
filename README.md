@@ -189,7 +189,7 @@ The full apparatus is built for a template that must never regress. A personal s
 **Safe to drop** for less overhead:
 
 - **Mutation testing** — remove `.github/workflows/mutation.yml`, the `test:mutate` script, and Stryker from devDependencies ([ADR-042](./docs/adr/042-mutation-testing-with-stryker.md)).
-- **The full ADR apparatus** — `docs/adr/` and the `docs:count` guard keep a _shared_ template honest; a solo project can keep a lightweight `DECISIONS.md` (or nothing) and drop `docs:count` from `quality:ci`.
+- **The full ADR apparatus** — `docs/adr/` and the `adr:check` / `docs:count` / `enforce` guards keep a _shared_ template honest; a solo project can keep a lightweight `DECISIONS.md` (or nothing) and drop those three from `quality:ci`.
 - **Cross-tool agent spine** — if you use only one agent, drop `agents:build` / `agents:check` and keep just `CLAUDE.md`.
 - **Template-invariant guards** — `version:check` and `og:check` protect template-specific invariants; trim them from `quality:ci` as needed.
 

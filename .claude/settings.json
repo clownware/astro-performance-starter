@@ -4,6 +4,13 @@
       "Bash(pnpm run:*)",
       "Bash(pnpm test:*)",
       "Bash(pnpm exec biome:*)"
+    ],
+    "ask": [
+      "Edit(/CLAUDE.md)",
+      "Edit(/.claude/**)",
+      "Edit(/checks/**)",
+      "Edit(/scripts/src/enforcement-checks.ts)",
+      "Edit(/scripts/src/run-enforcement.ts)"
     ]
   }
 }

@@ -18,7 +18,7 @@ Technology facts. This file updates when dependencies change or commands move; r
 
 ```bash
 pnpm quality          # format + lint + lint:md + type-check (local — auto-fixes format)
-pnpm quality:ci       # format:check + lint + lint:md + type-check + test:unit + agents/version/og/docs gates (CI gate)
+pnpm quality:ci       # format:check + lint + lint:md + type-check + test:unit + agents/version/og/adr/docs gates + enforce (CI gate)
 pnpm build            # tokens:build → astro build
 pnpm test:unit        # Vitest (run once)
 pnpm test:coverage    # Vitest with v8 coverage report
@@ -59,7 +59,7 @@ Check `docs/implementation-guides/reference/budgets-guardrails.md` before adding
 
 ## Key ADRs
 
-66 ADRs in `docs/adr/`. The structurally important ones:
+Every ADR is listed, with its status and enforcing checks, in the generated index at [`docs/adr/README.md`](../docs/adr/README.md). The structurally important ones:
 
 - **ADR-001:** Preact island usage policy — never `client:load` without justification
 - **ADR-023:** Testing strategy and coverage targets

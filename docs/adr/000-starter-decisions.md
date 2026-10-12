@@ -135,10 +135,11 @@ The dual-track approach (MVP vs Showcase) has been refined by ADR-033 into a pro
   - TC-1: `package.json` pins pnpm via `packageManager` and no `package-lock.json` or `yarn.lock` exists.
   - TC-2: no ESLint or Prettier config files or dependencies exist — Biome is the only lint/format tool.
 - **Checks:**
-  - TC-1 → check `pnpm-only` (status: **warn**)
-  - TC-2 → check `biome-only` (status: **warn**)
+  - TC-1 → check `pnpm-only` (status: **block**)
+  - TC-2 → check `biome-only` (status: **block**)
 - **Not machine-checkable:** the 95+ Lighthouse target is evidenced by the Lighthouse workflow on the deployed site, not asserted per-commit; tier progression is guidance.
-- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+- **Graduation log:**
+  - 2026-10-12 — `pnpm-only` and `biome-only` graduate **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
 
 ---
 **Date**: 2024-01-15\

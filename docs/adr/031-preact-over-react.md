@@ -135,9 +135,10 @@ Add a guide to `docs/patterns/` documenting how to configure `preact/compat` ali
 - **Testable consequences:**
   - TC-1: `react` and `react-dom` are not dependencies; `preact` is.
 - **Checks:**
-  - TC-1 → check `no-react-dep` (status: **warn**)
+  - TC-1 → check `no-react-dep` (status: **block**)
 - **Not machine-checkable:** whether `preact/compat` aliasing remains prominently documented.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:**
+  - 2026-10-12 — `no-react-dep` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
 
 ---
 **Date**: 2026-02-18\

@@ -16,7 +16,9 @@ hand-maintained fields drifted; `versions.json` is the sole version manifest, se
 [ADR-061](./061-versions-json-public-contract.md). Amended 2026-08-02: `docs/temp-guides/`
 has since been removed — the notes referencing it are annotated below. Amended 2026-08-19:
 `.windsurfrules` removed from the scope table, #309 — Windsurf is no longer supported and reads
-`AGENTS.md` natively regardless)
+`AGENTS.md` natively regardless. Amended 2026-10-12: the AI Assistant Guidance gains a
+Proposed-ADR exception and an ask-first category for governance files, see
+[ADR-066](./066-constitution-calibration.md))
 
 ## Context
 
@@ -181,6 +183,8 @@ Based on this policy, AI assistants operating in the project should:
 1. **Modify freely**: Files in Category 1 (`src/`, config files, `public/`)
 2. **Read but don't modify**: Files in Category 2 (`docs/`) unless explicitly updating documentation
 3. **Suggest but don't create**: Files that would fall into Category 3 — recommend adding to docs site instead
+
+*(Amended 2026-10-12, [ADR-066](./066-constitution-calibration.md): an assistant may add a new ADR with status Proposed under `docs/adr/`; and the governance files — `CLAUDE.md`, `.claude/`, `checks/`, the enforcement scripts and existing ADRs — are edited only with the maintainer's approval in the session.)*
 
 This guidance should be reflected in `AGENTS.md` (via the layered constitution) and `docs/ai-context/INDEX.md`. *(amended 2026-08-19: originally named `.windsurfrules`, removed in #309)*
 

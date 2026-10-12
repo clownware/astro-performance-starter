@@ -5,6 +5,7 @@
  * Each check is exercised against a minimal compliant snapshot (`clean()`)
  * plus a mutation that violates exactly the invariant under test.
  */
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { CHECKS, type EnforcementConfig, type RepoSnapshot, runCheck } from "../enforcement-checks";
 
@@ -45,7 +46,7 @@ function clean(): RepoSnapshot {
           preview: "astro preview",
           quality: "x",
           "quality:ci":
-            "pnpm run format:check && pnpm run lint && pnpm run lint:md && pnpm run check && pnpm run test:unit && pnpm run agents:check && pnpm run version:check",
+            "pnpm run format:check && pnpm run lint && pnpm run lint:md && pnpm run check && pnpm run test:unit && pnpm run agents:check && pnpm run version:check && pnpm run enforce",
           test: "vitest",
           "test:unit": "vitest run",
           "test:e2e": "playwright test",
@@ -80,6 +81,17 @@ function clean(): RepoSnapshot {
       ".claude/engineering.md": "# Engineering",
       ".claude/workflow.md": "# Workflow",
       ".claude/stack.md": "# Stack",
+      ".claude/settings.json": JSON.stringify({
+        permissions: {
+          ask: [
+            "Edit(/CLAUDE.md)",
+            "Edit(/.claude/**)",
+            "Edit(/checks/**)",
+            "Edit(/scripts/src/enforcement-checks.ts)",
+            "Edit(/scripts/src/run-enforcement.ts)",
+          ],
+        },
+      }),
       "docs/README.md": "# Docs",
       "docs/adr/000-first.md": "## Status\n\nAccepted\n\n## Decision\n\nX\n\n## Enforcement\n\nY\n",
       "docs/adr/001-second.md":
@@ -418,5 +430,52 @@ describe("process/governance checks", () => {
       "## Status\n\nAccepted\n\n## Enforcement\n\nY\n",
     );
     expect(runCheck("adr-log-valid", snap, config).join()).toContain("gap");
+  });
+});
+
+describe("ADR-066 constitution calibration", () => {
+  it("governance-paths-guarded flags a settings file with no ask rules", () => {
+    const snap = withFile(clean(), ".claude/settings.json", JSON.stringify({ permissions: {} }));
+    const findings = runCheck("governance-paths-guarded", snap, config).join();
+    expect(findings).toContain("Edit(/CLAUDE.md)");
+    expect(findings).toContain("Edit(/checks/**)");
+  });
+
+  it("governance-paths-guarded flags a missing settings file", () => {
+    const snap = withoutFile(clean(), ".claude/settings.json");
+    expect(runCheck("governance-paths-guarded", snap, config).join()).toContain("settings.json");
+  });
+
+  it("governance-paths-guarded accepts a deny rule as a stronger guard than ask", () => {
+    const snap = clean();
+    const settings = JSON.parse(snap.files[".claude/settings.json"]);
+    settings.permissions.deny = settings.permissions.ask;
+    settings.permissions.ask = [];
+    snap.files[".claude/settings.json"] = JSON.stringify(settings);
+    expect(runCheck("governance-paths-guarded", snap, config)).toEqual([]);
+  });
+
+  it("ci-runs-quality flags a quality:ci that no longer runs the enforcement suite", () => {
+    const snap = clean();
+    const pkg = JSON.parse(snap.files["package.json"]);
+    pkg.scripts["quality:ci"] = pkg.scripts["quality:ci"].replace(" && pnpm run enforce", "");
+    snap.files["package.json"] = JSON.stringify(pkg);
+    expect(runCheck("ci-runs-quality", snap, config).join()).toContain("`enforce`");
+  });
+
+  it("every delegated entry in the real registry carries a remedy", () => {
+    const real = JSON.parse(readFileSync("checks/enforcement.config.json", "utf-8"));
+    const missing = real.checks
+      .filter((c: { external?: string; remedy?: string }) => c.external && !c.remedy)
+      .map((c: { id: string }) => c.id);
+    expect(missing).toEqual([]);
+  });
+
+  it("every remedy in the real registry names its governing ADR", () => {
+    const real = JSON.parse(readFileSync("checks/enforcement.config.json", "utf-8"));
+    const unnamed = real.checks
+      .filter((c: { adr: string; remedy?: string }) => c.remedy && !c.remedy.includes(c.adr))
+      .map((c: { id: string }) => c.id);
+    expect(unnamed).toEqual([]);
   });
 });

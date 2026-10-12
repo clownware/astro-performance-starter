@@ -106,9 +106,11 @@ No new top-level component categorization folders (e.g., `src/components/ui/`, `
 - **Testable consequences:**
   - TC-1: every file under `src/components/` lives in `atoms/`, `molecules/`, `organisms/`, `structural/`, `islands/` (ADR-060), `mdx/`, `a11y/`, or `__tests__/` — plus the sanctioned root-level files `ThemeSetup.astro` and `CLAUDE.md` (2026-08-02 amendment above).
 - **Checks:**
-  - TC-1 → check `atomic-dirs` (status: **warn**)
+  - TC-1 → check `atomic-dirs` (status: **block**)
 - **Not machine-checkable:** whether a given component is correctly classified between atoms, molecules, and organisms is a judgment call.
-- **Graduation log:** 2026-08-13 — calibration fix, not a graduation: `atomic-dirs` was firing on 17 files this ADR's own amendment sanctions (`a11y/`, `mdx/`, root-level `ThemeSetup.astro`/`CLAUDE.md`); the check's sanctioned set was corrected to match the record (ADR-064 rule: fix the check, don't graduate a miscalibrated one).
+- **Graduation log:**
+  - 2026-08-13 — calibration fix, not a graduation: `atomic-dirs` was firing on 17 files this ADR's own amendment sanctions (`a11y/`, `mdx/`, root-level `ThemeSetup.astro`/`CLAUDE.md`); the check's sanctioned set was corrected to match the record (ADR-064 rule: fix the check, don't graduate a miscalibrated one).
+  - 2026-10-12 — `atomic-dirs` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066. The calibration window is counted from the 2026-08-13 fix above.
 
 ---
 **Date**: 2025-06-10\

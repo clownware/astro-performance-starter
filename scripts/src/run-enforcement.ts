@@ -110,7 +110,13 @@ function main(): void {
 
   for (const entry of cfg.checks) {
     if (entry.external) {
-      rows.push({ ...entry, outcome: "DELEGATED", findings: [], external: entry.external });
+      rows.push({
+        ...entry,
+        outcome: "DELEGATED",
+        findings: [],
+        external: entry.external,
+        remedy: entry.remedy,
+      });
       continue;
     }
     const def = registry.get(entry.id);
@@ -170,6 +176,9 @@ function main(): void {
       const head = `${row.outcome.padEnd(9)} ${row.id} (${row.adr} ${row.tc})`;
       if (row.outcome === "DELEGATED") {
         console.log(`${head} — enforced by: ${row.external}`);
+        if (row.remedy) {
+          console.log(`          ↳ remedy: ${row.remedy}`);
+        }
       } else if (row.findings.length === 0) {
         console.log(head);
       } else {

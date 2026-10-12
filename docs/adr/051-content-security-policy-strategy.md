@@ -104,9 +104,10 @@ compatibility, or if the template drops view transitions and Shiki.
   - TC-1: `public/_headers` sets a `Content-Security-Policy` header.
   - TC-2: Astro's built-in `security.csp` is not enabled in `astro.config.mjs`.
 - **Checks:**
-  - TC-1, TC-2 → check `csp-shape` (status: **warn**)
+  - TC-1, TC-2 → check `csp-shape` (status: **block**)
 - **Not machine-checkable:** policy strength and directive appropriateness for a given deployment.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:**
+  - 2026-10-12 — `csp-shape` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
 
 ---
 **Date**: 2026-06-07\
