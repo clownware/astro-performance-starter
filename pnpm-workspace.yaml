@@ -31,4 +31,5 @@ overrides:
   "brace-expansion@>=4.0.0 <5.0.11": "^5.0.11" # DoS via nested brace groups; via @stryker-mutator/core > minimatch
   "http-cache-semantics@<4.3.0": "^4.3.0" # max-stale cross-user cache disclosure; via astro
   "source-map-js@<1.2.2": "^1.2.2" # event-loop DoS on indexed source maps; via astro > magicast, svgo > css-tree
+  "basic-ftp@<6.2.1": "^6.2.1" # high advisory with no 5.x fix; forces get-uri (declares ^5) across a major, dev-only under @lhci/cli (#466)
   "puppeteer-core>@puppeteer/browsers": "^3.2.1" # severed the extract-zip chain under @lhci/cli (#353)

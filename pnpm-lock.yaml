@@ -16,6 +16,7 @@ overrides:
   brace-expansion@>=4.0.0 <5.0.11: ^5.0.11
   http-cache-semantics@<4.3.0: ^4.3.0
   source-map-js@<1.2.2: ^1.2.2
+  basic-ftp@<6.2.1: ^6.2.1
   puppeteer-core>@puppeteer/browsers: ^3.2.1
 
 importers:
@@ -2492,8 +2493,8 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
-  basic-ftp@5.3.1:
-    resolution: {integrity: sha512-bopVNp6ugyA150DDuZfPFdt1KZ5a94ZDiwX4hMgZDzF+GttD80lEy8kj98kbyhLXnPvhtIo93mdnLIjpCAeeOw==}
+  basic-ftp@6.2.3:
+    resolution: {integrity: sha512-T7GYtQ2eKJUN5YORG7A8u2WfB9JMN0a4/wl3MI64qq2qTRfa3FXzoNq0DDojZDkDyStcL+TkfKsz4JHEZx5kGQ==}
     engines: {node: '>=10.0.0'}
 
   bcp-47-match@2.0.3:
@@ -8449,7 +8450,7 @@ snapshots:
 
   baseline-browser-mapping@2.11.20: {}
 
-  basic-ftp@5.3.1: {}
+  basic-ftp@6.2.3: {}
 
   bcp-47-match@2.0.3: {}
 
@@ -9367,7 +9368,7 @@ snapshots:
 
   get-uri@6.0.5(supports-color@9.4.0):
     dependencies:
-      basic-ftp: 5.3.1
+      basic-ftp: 6.2.3
       data-uri-to-buffer: 6.0.2
       debug: 4.4.3(supports-color@9.4.0)
     transitivePeerDependencies:
