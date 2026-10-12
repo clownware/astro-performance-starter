@@ -93,7 +93,8 @@ lines and protects every cloner, not just the demo.)
   - TC-1, TC-2 → check `env-via-schema` (status: **warn**)
   - TC-3 → `env:validate` in the build chain (status: **block**, pre-existing gate)
 - **Not machine-checkable:** which variables belong in the schema versus deliberate `process.env` reads (config-load-time values are exempt per this ADR).
-- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+- **Graduation log:**
+  - 2026-10-12 — `env-via-schema` stays **warn**; miscalibration fixed, not graduated (ADR-064). It matched test files asserting the raw read is absent (#456). The check now skips test files and comments. Calibration window restarts from this date.
 
 ---
 **Date**: 2026-06-07\

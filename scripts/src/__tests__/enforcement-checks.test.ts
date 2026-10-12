@@ -264,6 +264,33 @@ describe("ADR-025/032/047 styling invariants", () => {
     expect(runCheck("no-hardcoded-colors", snap, config).join()).toContain("#ff0000");
   });
 
+  it("no-hardcoded-colors ignores a hex-like token in a block comment", () => {
+    const snap = withFile(
+      clean(),
+      "src/components/islands/Demo.tsx",
+      "/**\n * Demo — the deliberate island (#250, ADR-048).\n */\nexport const x = 1;",
+    );
+    expect(runCheck("no-hardcoded-colors", snap, config)).toEqual([]);
+  });
+
+  it("no-hardcoded-colors ignores a hex value named in line and HTML comments", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      '---\n// Sale orange is #FF6B00 in the brief; use the token.\n---\n<!-- was #FF6B00 -->\n<p class="text-sale">Sale</p>',
+    );
+    expect(runCheck("no-hardcoded-colors", snap, config)).toEqual([]);
+  });
+
+  it("no-hardcoded-colors still flags a literal on a line that also has a comment", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      "<style>h1 { color: #ff0000; /* brand red */ }</style>",
+    );
+    expect(runCheck("no-hardcoded-colors", snap, config).join()).toContain("#ff0000");
+  });
+
   it("no-hardcoded-colors permits token-wrapped hsl(var(...))", () => {
     const snap = withFile(
       clean(),
@@ -309,6 +336,33 @@ describe("head/image/env/csp/fonts invariants", () => {
     expect(runCheck("head-single-source", snap, config)).toEqual([]);
   });
 
+  it("head-single-source ignores a frontmatter comment that names <title>", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/pricing.astro",
+      '---\n// SEO (ADR-029): Head.astro emits <title>, meta description, canonical URL,\nconst title = "Pricing";\n---\n<BaseLayout title={title} />',
+    );
+    expect(runCheck("head-single-source", snap, config)).toEqual([]);
+  });
+
+  it("head-single-source ignores HTML and JSX comments that name metadata tags", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      '<!-- Head.astro owns <title> and property="og:image" -->\n{/* no <title> here */}\n<p>Body</p>',
+    );
+    expect(runCheck("head-single-source", snap, config)).toEqual([]);
+  });
+
+  it("head-single-source still flags an OG tag declared after the frontmatter", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      '---\nconst t = "x";\n---\n<meta property="og:title" content={t} />',
+    );
+    expect(runCheck("head-single-source", snap, config).join()).toContain("x.astro:4");
+  });
+
   it("no-raw-img flags an unjustified raw <img>", () => {
     const snap = withFile(clean(), "src/pages/x.astro", '<img src="/x.png" alt="" />');
     expect(runCheck("no-raw-img", snap, config).join()).toContain("x.astro");
@@ -334,6 +388,24 @@ describe("head/image/env/csp/fonts invariants", () => {
   it("env-via-schema flags a raw import.meta.env.PUBLIC_ read", () => {
     const snap = withFile(clean(), "src/pages/x.astro", "const v = import.meta.env.PUBLIC_FOO;");
     expect(runCheck("env-via-schema", snap, config).join()).toContain("PUBLIC_FOO");
+  });
+
+  it("env-via-schema ignores test files that assert the raw read is absent", () => {
+    const snap = withFile(
+      clean(),
+      "src/components/structural/__tests__/Footer.test.ts",
+      'expect(source).not.toContain("import.meta.env.PUBLIC_RELEASE_LABEL");',
+    );
+    expect(runCheck("env-via-schema", snap, config)).toEqual([]);
+  });
+
+  it("env-via-schema ignores a comment that names the raw read", () => {
+    const snap = withFile(
+      clean(),
+      "src/utils/env.ts",
+      "// Never read import.meta.env.PUBLIC_FOO directly (ADR-050).\nexport const x = 1;",
+    );
+    expect(runCheck("env-via-schema", snap, config)).toEqual([]);
   });
 
   it("csp-shape flags a missing CSP header", () => {

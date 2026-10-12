@@ -83,6 +83,37 @@ function grepLines(path: string, content: string, test: RegExp): string[] {
   return out;
 }
 
+/** Block comments in the languages the checks scan: HTML, JS/CSS, and JSX. */
+const blockComment = /<!--[\s\S]*?-->|\/\*[\s\S]*?\*\//g;
+
+/** A `//` line comment. The leading boundary keeps `https://…` URLs intact. */
+const lineComment = /(^|\s)\/\/.*$/gm;
+
+/**
+ * Blank out comments while preserving every newline, so line numbers in the
+ * result still index the original file. Prose in a comment may name a tag, a
+ * colour or an env read without being one (ADR-029/047/050 false positives).
+ */
+export function stripComments(content: string): string {
+  const blank = (m: string): string => m.replace(/[^\n]/g, " ");
+  return content.replace(blockComment, blank).replace(lineComment, blank);
+}
+
+/** `grepLines` over code only: comments never match, findings quote the original line. */
+function grepCode(path: string, content: string, test: RegExp): string[] {
+  const original = content.split("\n");
+  const out: string[] = [];
+  stripComments(content)
+    .split("\n")
+    .forEach((line, i) => {
+      if (test.test(line)) out.push(`${path}:${i + 1} — ${original[i].trim().slice(0, 120)}`);
+    });
+  return out;
+}
+
+const isTestFile = (file: string): boolean =>
+  file.includes("__tests__") || file.endsWith(".test.ts");
+
 /**
  * Hydration directives in real component tags: `<Component … client:X`.
  * The tag-context requirement (`<` + capitalised name) skips prose, and
@@ -344,7 +375,8 @@ export const CHECKS: CheckDef[] = [
       const findings: string[] = [];
       for (const file of srcFiles(snap, [".astro"])) {
         if (file.endsWith("/Head.astro")) continue;
-        const lines = snap.files[file].split("\n");
+        const original = snap.files[file].split("\n");
+        const lines = stripComments(snap.files[file]).split("\n");
         lines.forEach((line, i) => {
           if (!/<title[\s>]|property=["']og:/.test(line)) return;
           // Accessible <title> inside an <svg> is an a11y pattern (ADR-019),
@@ -353,7 +385,7 @@ export const CHECKS: CheckDef[] = [
           const opens = (context.match(/<svg\b/g) ?? []).length;
           const closes = (context.match(/<\/svg>/g) ?? []).length;
           if (opens > closes) return;
-          findings.push(`${file}:${i + 1} — ${line.trim().slice(0, 120)}`);
+          findings.push(`${file}:${i + 1} — ${original[i].trim().slice(0, 120)}`);
         });
       }
       return findings;
@@ -443,9 +475,9 @@ export const CHECKS: CheckDef[] = [
     run: (snap) => {
       const findings: string[] = [];
       for (const file of srcFiles(snap, [".astro", ".css", ".ts", ".tsx"])) {
-        if (file.includes("__tests__") || file.endsWith(".test.ts")) continue;
+        if (isTestFile(file)) continue;
         if (file === "src/styles/global.css") continue; // token bridge: hsl(var(--…)) wrappers only
-        findings.push(...grepLines(file, snap.files[file], colorLiteral));
+        findings.push(...grepCode(file, snap.files[file], colorLiteral));
       }
       return findings;
     },
@@ -489,7 +521,9 @@ export const CHECKS: CheckDef[] = [
     run: (snap) => {
       const findings: string[] = [];
       for (const file of srcFiles(snap, [".astro", ".ts", ".tsx"])) {
-        findings.push(...grepLines(file, snap.files[file], /import\.meta\.env\.PUBLIC_/));
+        // Tests assert the raw read is absent; comments explain the rule. Neither is a read.
+        if (isTestFile(file)) continue;
+        findings.push(...grepCode(file, snap.files[file], /import\.meta\.env\.PUBLIC_/));
       }
       const config = snap.files["astro.config.mjs"] ?? "";
       if (!/env\s*:/.test(config) || !/schema/.test(config)) {

@@ -173,7 +173,8 @@ For blog posts and projects with a `cover` image (the schema field), the layout 
   - TC-1 → check `head-single-source` (status: **warn**)
   - TC-2 → `og:check` in `quality:ci` (status: **block**, pre-existing gate)
 - **Not machine-checkable:** metadata quality (title/description wording, default appropriateness).
-- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+- **Graduation log:**
+  - 2026-10-12 — `head-single-source` stays **warn**; miscalibration fixed, not graduated (ADR-064). It matched comment lines that name `<title>` (six false positives across two agent-run batches, #456). The check now ignores HTML, JSX, block and line comments. Calibration window restarts from this date.
 
 ---
 **Date**: 2026-02-18\
