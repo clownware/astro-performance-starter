@@ -16,6 +16,7 @@
  */
 import { type Dirent, readdirSync, readFileSync, statSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
+import { collectAdrDiff } from "./adr-append-only";
 import { CHECKS, type EnforcementConfig, type RepoSnapshot, runCheck } from "./enforcement-checks";
 
 const configPath = "checks/enforcement.config.json";
@@ -103,6 +104,8 @@ function main(): void {
   const jsonOnly = process.argv.includes("--json");
   const cfg: EnforcementConfig = JSON.parse(readFileSync(configPath, "utf-8"));
   const snap = buildSnapshot(process.cwd());
+  // The one input a path → content map cannot hold: what changed in the ADR log (ADR-068).
+  snap.adrDiff = collectAdrDiff(process.cwd());
 
   const rows: ResultRow[] = [];
   const registry = new Map(CHECKS.map((c) => [c.id, c]));

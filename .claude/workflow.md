@@ -8,10 +8,10 @@ How work moves through the repo. These rules apply with the same force as `CLAUD
 |---|---|---|
 | Modify freely | `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `tokens/`, `public/`, `.github/workflows/` | Full read/write |
 | Read-only | `docs/` | Don't modify unless explicitly asked to update documentation. Exception: you may add a new ADR file under `docs/adr/` with status Proposed, then run `pnpm adr:index` |
-| Ask first | `CLAUDE.md`, `.claude/`, `checks/`, `scripts/src/enforcement-checks.ts`, `scripts/src/run-enforcement.ts`, existing ADRs | Governance files. Edit only with the maintainer's approval in the session; never edit one to make a request compliant (ADR-066) |
+| Ask first | `CLAUDE.md`, `.claude/`, `checks/`, `scripts/src/enforcement-checks.ts`, `scripts/src/run-enforcement.ts`, `scripts/src/adr-guard.ts`, `scripts/src/adr-append-only.ts`, existing ADRs | Governance files. Edit only with the maintainer's approval in the session; never edit one to make a request compliant (ADR-066) |
 | Don't create | Maintenance artifacts, deployment workflows, marketing content | Suggest adding to docs site instead |
 
-Full rationale in [ADR-035](../docs/adr/035-template-scope-boundary.md). The Ask-first row is backed by `permissions.ask` rules in `.claude/settings.json` ([ADR-066](../docs/adr/066-constitution-calibration.md)); a session with nobody to approve is refused, which is the intended outcome.
+Full rationale in [ADR-035](../docs/adr/035-template-scope-boundary.md). The Ask-first row is backed by `permissions.ask` rules in `.claude/settings.json` ([ADR-066](../docs/adr/066-constitution-calibration.md)); a session with nobody to approve is refused, which is the intended outcome. Existing ADRs are backed by a PreToolUse hook, `scripts/src/adr-guard.ts`, which asks before any edit to a record that already exists and lets a new one through ([ADR-068](../docs/adr/068-adr-write-guard-and-append-only.md)).
 
 ## Non-trivial Feature Workflow (ADR-038)
 
@@ -44,6 +44,7 @@ The fast inner-loop variant is `pnpm quality` (auto-fixes format and lint where 
 - Check `docs/adr/` before proposing architectural changes
 - Every Accepted ADR is a constraint — if the request conflicts, halt and report it. Revise the proposal, or draft a new Proposed ADR that would supersede the record; do not edit the Accepted ADR, its check, or a rule to remove the conflict
 - If a decision should be an ADR (e.g. you're picking a tool, library, pattern, or convention), say so — don't make architectural calls inline
+- Accepted ADRs are append-only ([ADR-068](../docs/adr/068-adr-write-guard-and-append-only.md)): an amendment appends a dated note, changes the Status line, or fills the graduation log; a decision that no longer holds is superseded by a new record. `adr-append-only` reports accepted text that was removed or rewritten
 - ADR template: `docs/adr/template.md`
 - ADR numbering is sequential; check the highest existing number before creating a new one
 - A new ADR starts as Proposed, keeps the template's not-enforced Enforcement stub, and is added to the index with `pnpm adr:index`. Only the maintainer moves a record to Accepted
