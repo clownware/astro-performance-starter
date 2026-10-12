@@ -89,6 +89,17 @@ function clean(): RepoSnapshot {
             "Edit(/checks/**)",
             "Edit(/scripts/src/enforcement-checks.ts)",
             "Edit(/scripts/src/run-enforcement.ts)",
+            "Edit(/scripts/src/adr-guard.ts)",
+            "Edit(/scripts/src/adr-append-only.ts)",
+          ],
+        },
+        hooks: {
+          // biome-ignore lint/style/useNamingConvention: keys are Claude Code's hook schema
+          PreToolUse: [
+            {
+              matcher: "Edit|Write|MultiEdit",
+              hooks: [{ type: "command", command: "node scripts/src/adr-guard.ts" }],
+            },
           ],
         },
       }),
@@ -525,6 +536,44 @@ describe("ADR-066 constitution calibration", () => {
     settings.permissions.ask = [];
     snap.files[".claude/settings.json"] = JSON.stringify(settings);
     expect(runCheck("governance-paths-guarded", snap, config)).toEqual([]);
+  });
+
+  it("adr-append-only passes when the runner supplied no diff", () => {
+    expect(runCheck("adr-append-only", clean(), config)).toEqual([]);
+  });
+
+  it("adr-append-only reports text removed from an Accepted record", () => {
+    const f = "docs/adr/000-first.md";
+    const snap = {
+      ...clean(),
+      adrDiff: `diff --git a/${f} b/${f}\n--- a/${f}\n+++ b/${f}\n@@ -5 +5 @@\n-X\n+Y\n`,
+    };
+    expect(runCheck("adr-append-only", snap, config).join()).toContain(`${f}:5`);
+  });
+
+  it("adr-guard-wired flags a settings file with no PreToolUse guard", () => {
+    const snap = clean();
+    const settings = JSON.parse(snap.files[".claude/settings.json"]);
+    delete settings.hooks;
+    snap.files[".claude/settings.json"] = JSON.stringify(settings);
+    expect(runCheck("adr-guard-wired", snap, config).join()).toContain("adr-guard");
+  });
+
+  it("adr-guard-wired passes when the guard runs on Edit, Write and MultiEdit", () => {
+    expect(runCheck("adr-guard-wired", clean(), config)).toEqual([]);
+  });
+
+  it("adr-guard-wired flags a guard that no longer covers Write", () => {
+    const snap = clean();
+    const settings = JSON.parse(snap.files[".claude/settings.json"]);
+    settings.hooks = {
+      // biome-ignore lint/style/useNamingConvention: keys are Claude Code's hook schema
+      PreToolUse: [
+        { matcher: "Edit", hooks: [{ type: "command", command: "node scripts/src/adr-guard.ts" }] },
+      ],
+    };
+    snap.files[".claude/settings.json"] = JSON.stringify(settings);
+    expect(runCheck("adr-guard-wired", snap, config).join()).toContain("Write");
   });
 
   it("ci-runs-quality flags a quality:ci that no longer runs the enforcement suite", () => {

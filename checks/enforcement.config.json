@@ -64,6 +64,8 @@
     { "id": "script-contract", "adr": "ADR-052", "tc": "TC-1..2", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
     { "id": "adr-log-valid", "adr": "ADR-064", "tc": "TC-1..4", "status": "block", "added": "2026-07-12", "graduated": "2026-10-12" },
     { "id": "governance-paths-guarded", "adr": "ADR-066", "tc": "TC-1", "status": "warn", "added": "2026-10-12", "graduated": null },
+    { "id": "adr-append-only", "adr": "ADR-068", "tc": "TC-1", "status": "warn", "added": "2026-10-12", "graduated": null },
+    { "id": "adr-guard-wired", "adr": "ADR-068", "tc": "TC-2", "status": "warn", "added": "2026-10-12", "graduated": null },
     { "id": "link-validation", "adr": "ADR-005", "tc": "TC-1..2", "status": "block", "added": "pre-existing", "graduated": null, "external": "remark-validate-links in build + CI link-check job", "remedy": "Internal links must resolve (ADR-005). Fix or remove the broken link; do not disable the link validator or the link-check job." },
     { "id": "bundle-budget", "adr": "ADR-009", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "CI: JS bundle-size gate", "remedy": "Shipped JavaScript stays within the bundle budget (ADR-009; the figure is in .claude/stack.md). Remove or defer the script; raising the budget needs an ADR." },
     { "id": "unit-coverage", "adr": "ADR-023", "tc": "TC-1", "status": "block", "added": "pre-existing", "graduated": null, "external": "CI: pnpm test:coverage (thresholds)", "remedy": "Unit coverage thresholds hold (ADR-023). Add the missing test; never lower a threshold to pass." },

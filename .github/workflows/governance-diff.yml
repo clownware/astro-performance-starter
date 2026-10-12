@@ -18,6 +18,8 @@ on:
       - 'docs/adr/**'
       - 'scripts/src/enforcement-checks.ts'
       - 'scripts/src/run-enforcement.ts'
+      - 'scripts/src/adr-guard.ts'
+      - 'scripts/src/adr-append-only.ts'
 
 concurrency:
   group: governance-diff-${{ github.ref }}
@@ -43,7 +45,8 @@ jobs:
         run: |
           changed=$(git diff --name-status "$BASE_SHA...$HEAD_SHA" -- \
             CLAUDE.md AGENTS.md .claude checks docs/adr \
-            scripts/src/enforcement-checks.ts scripts/src/run-enforcement.ts)
+            scripts/src/enforcement-checks.ts scripts/src/run-enforcement.ts \
+            scripts/src/adr-guard.ts scripts/src/adr-append-only.ts)
           {
             echo "## Governance files changed in this pull request"
             echo
@@ -55,3 +58,16 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
           count=$(printf '%s\n' "$changed" | grep -c . || true)
           echo "::warning title=Governance files changed::$count governance file(s) changed. See the job summary for the list."
+
+      # ADR-068: name the accepted text that was removed or rewritten, as line
+      # annotations. The script imports only Node built-ins, so nothing is
+      # installed; Node 24 runs TypeScript directly. It never fails the job.
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version-file: '.nvmrc'
+
+      - name: Report rewritten text in Accepted ADRs
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: node scripts/src/adr-append-only.ts "$(git merge-base "$BASE_SHA" HEAD)"
