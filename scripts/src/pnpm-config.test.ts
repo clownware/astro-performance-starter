@@ -72,11 +72,12 @@ describe("pnpm settings live where pnpm 11 reads them", () => {
   it("declares the overrides in pnpm-workspace.yaml", () => {
     const overrides = readMap(workspace, "overrides");
 
-    // The two live advisory guards from #423. If either goes missing the
-    // corresponding Dependabot alert reopens.
+    // The two live advisory guards from #423 (smol-toml raised to 1.9.0 for a
+    // later advisory). If either goes missing the corresponding Dependabot
+    // alert reopens.
     expect(overrides).toMatchObject({
       "devalue@<5.9.2": "^5.9.2",
-      "smol-toml@<1.7.1": "^1.7.1",
+      "smol-toml@<1.9.0": "^1.9.0",
     });
   });
 });
