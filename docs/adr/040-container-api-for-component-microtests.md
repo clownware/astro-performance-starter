@@ -206,6 +206,7 @@ Molecule-tier microtests (Card, PostCard, ProjectCard, Tabs) build on this helpe
 - **Testable consequences:**
   - TC-1: `experimental_AstroContainer` is imported in exactly one place — the shared test helper (`src/components/__tests__/_helpers/container.ts`).
 - **Checks:**
-  - TC-1 → check `container-single-import` (status: **warn**)
+  - TC-1 → check `container-single-import` (status: **block**)
 - **Not machine-checkable:** whether new component tests actually use the helper idiomatically is a review concern.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:**
+  - 2026-10-12 — `container-single-import` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.

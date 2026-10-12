@@ -183,9 +183,10 @@ fixes tracked in the docs repository; this ADR governs only the sync architectur
 - **Testable consequences:**
   - TC-1: no `sync-docs-*` workflow exists under `.github/workflows/` — the push-sync stays retired.
 - **Checks:**
-  - TC-1 → check `no-push-sync` (status: **warn**)
+  - TC-1 → check `no-push-sync` (status: **block**)
 - **Not machine-checkable:** the drift gate itself runs in the docs repository's CI and is outside this repository's enforcement surface.
-- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+- **Graduation log:**
+  - 2026-10-12 — `no-push-sync` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
 
 ---
 **Date**: 2026-07-02\

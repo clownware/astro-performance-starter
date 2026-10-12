@@ -1,0 +1,57 @@
+name: Governance diff
+
+# Review signal, not a gate (ADR-066). Lists the governance files a pull request
+# changes so a rewritten rule, record or check cannot ride along unnoticed in a
+# large diff. It never fails: an agent that edits a check can edit a gate too,
+# so the control is the reviewer reading this list.
+#
+# The paths filter means this bills zero minutes on a pull request that touches
+# none of these files, and well under one minute when it does.
+on:
+  pull_request:
+    branches: [master]
+    paths:
+      - 'CLAUDE.md'
+      - 'AGENTS.md'
+      - '.claude/**'
+      - 'checks/**'
+      - 'docs/adr/**'
+      - 'scripts/src/enforcement-checks.ts'
+      - 'scripts/src/run-enforcement.ts'
+
+concurrency:
+  group: governance-diff-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  list:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: List changed governance files
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          changed=$(git diff --name-status "$BASE_SHA...$HEAD_SHA" -- \
+            CLAUDE.md AGENTS.md .claude checks docs/adr \
+            scripts/src/enforcement-checks.ts scripts/src/run-enforcement.ts)
+          {
+            echo "## Governance files changed in this pull request"
+            echo
+            echo "Rules, records and checks. Read each one before approving (ADR-066)."
+            echo
+            echo '```text'
+            echo "$changed"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          count=$(printf '%s\n' "$changed" | grep -c . || true)
+          echo "::warning title=Governance files changed::$count governance file(s) changed. See the job summary for the list."

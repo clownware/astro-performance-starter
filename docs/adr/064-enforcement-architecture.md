@@ -14,7 +14,9 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-10-12 by [ADR-066](066-constitution-calibration.md): the suite runs as
+the last link of `quality:ci`; delegated registry entries carry a `remedy`; permission rules in
+`.claude/settings.json` are a third enforcement surface. The graduation rules are unchanged)
 
 ## Context
 
@@ -167,7 +169,8 @@ graduate individually as their false-positive record is confirmed.
   - TC-3: superseded records carry forward links to their replacements.
   - TC-4: every ADR ends with an Enforcement section (or the not-enforced stub).
 - **Checks:**
-  - TC-1..4 → check `adr-log-valid` (status: **warn**)
+  - TC-1..4 → check `adr-log-valid` (status: **block**)
 - **Not machine-checkable:** that the calibration judgment (zero false
   positives) was made honestly is process discipline.
-- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+- **Graduation log:**
+  - 2026-10-12 — `adr-log-valid` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.

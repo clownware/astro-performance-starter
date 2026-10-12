@@ -196,9 +196,10 @@ This means the class-based strategy is required — the token system cannot be c
 - **Testable consequences:**
   - TC-1: dark mode is class-scoped — `src/styles/global.css` declares the `.dark`-based variant (`@variant dark (&:where(.dark, .dark *))`), not a media-query-only strategy.
 - **Checks:**
-  - TC-1 → check `dark-mode-shape` (status: **warn**)
+  - TC-1 → check `dark-mode-shape` (status: **block**)
 - **Not machine-checkable:** FOIT-prevention behaviour of the inline theme script is a runtime concern exercised in the browser, not statically assertable.
-- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+- **Graduation log:**
+  - 2026-10-12 — `dark-mode-shape` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
 
 ---
 **Date**: 2026-02-18\

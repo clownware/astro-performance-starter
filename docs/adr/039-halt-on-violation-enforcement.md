@@ -199,6 +199,7 @@ The "verify with" → "halt and fix" sweep is one-off. New documentation should 
   - TC-1: `.github/workflows/ci.yml` runs `pnpm run quality:ci`.
   - TC-2: the `quality:ci` script retains its documented gate steps.
 - **Checks:**
-  - TC-1, TC-2 → check `ci-runs-quality` (status: **warn**)
+  - TC-1, TC-2 → check `ci-runs-quality` (status: **block**)
 - **Not machine-checkable:** that operators actually run the gate locally before claiming done is process discipline; no edit-time hook automates it — ADR-064 records the sketched Stop-gate as not shipped, so CI is the backstop.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:**
+  - 2026-10-12 — `ci-runs-quality` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.

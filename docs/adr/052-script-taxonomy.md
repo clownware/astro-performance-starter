@@ -71,9 +71,10 @@ scheme.**
   - TC-1: every stable cloner-facing script name exists in `package.json`.
   - TC-2: the `//1`/`//2` separator keys are present, preserving the two-group ordering.
 - **Checks:**
-  - TC-1, TC-2 → check `script-contract` (status: **warn**)
+  - TC-1, TC-2 → check `script-contract` (status: **block**)
 - **Not machine-checkable:** which group a new script belongs to is a judgment call.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:**
+  - 2026-10-12 — `script-contract` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
 
 ---
 **Date**: 2026-06-07\

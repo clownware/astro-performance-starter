@@ -47,7 +47,8 @@ This contract specifies what AI assistants can expect to find and where. Read th
 ### Scope Boundary (ADR-035)
 
 - **Modify freely**: `src/`, config files (`astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`), `public/`, `tokens/`
-- **Read but don't modify**: `docs/` (unless explicitly updating documentation)
+- **Read but don't modify**: `docs/` (unless explicitly updating documentation). Exception: a new ADR with status Proposed may be added under `docs/adr/`
+- **Ask first**: `CLAUDE.md`, `.claude/`, `checks/`, the enforcement scripts and existing ADRs — edited only with the maintainer's approval ([ADR-066](/adr/066-constitution-calibration/))
 - **Don't create**: Files that belong in Category 3 per [ADR-035](/adr/035-template-scope-boundary/) (maintenance artifacts, marketing content)
 
 ### Rules of Engagement

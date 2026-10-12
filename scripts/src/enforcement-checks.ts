@@ -33,6 +33,8 @@ export interface CheckStatusEntry {
   graduated: string | null;
   /** Set when the check is enforced by an existing gate, not this runner. */
   external?: string;
+  /** Delegated entries only: the decision and the legal moves, since no registry check carries them. */
+  remedy?: string;
 }
 
 export interface EnforcementConfig {
@@ -202,6 +204,21 @@ const qualityCiSteps = [
   "test:unit",
   "agents:check",
   "version:check",
+  "enforce",
+];
+
+/**
+ * Governance paths an agent may not edit without the maintainer's approval in
+ * the session (ADR-066). `Edit(...)` rules also cover the Write tool. Existing
+ * ADRs are deliberately absent: a path rule cannot tell a new Proposed record
+ * from an edit to an Accepted one, so those are guarded by rule 1 and by review.
+ */
+const guardedPaths = [
+  "Edit(/CLAUDE.md)",
+  "Edit(/.claude/**)",
+  "Edit(/checks/**)",
+  "Edit(/scripts/src/enforcement-checks.ts)",
+  "Edit(/scripts/src/run-enforcement.ts)",
 ];
 
 export const CHECKS: CheckDef[] = [
@@ -685,6 +702,30 @@ export const CHECKS: CheckDef[] = [
         }
       }
       return findings;
+    },
+  },
+  {
+    id: "governance-paths-guarded",
+    adr: "ADR-066",
+    tc: "TC-1",
+    remedy:
+      "Governance files are edited only with the maintainer's approval (ADR-066). Restore the permissions.ask rules in .claude/settings.json; never remove one to make an edit go through.",
+    run: (snap) => {
+      const raw = snap.files[".claude/settings.json"];
+      if (raw === undefined) return [".claude/settings.json — file missing"];
+      let guarded: string[] = [];
+      try {
+        const permissions = JSON.parse(raw).permissions ?? {};
+        guarded = [...(permissions.ask ?? []), ...(permissions.deny ?? [])];
+      } catch {
+        return [".claude/settings.json — not valid JSON"];
+      }
+      return guardedPaths
+        .filter((rule) => !guarded.includes(rule))
+        .map(
+          (rule) =>
+            `.claude/settings.json — \`${rule}\` is in neither permissions.ask nor permissions.deny`,
+        );
     },
   },
 ];

@@ -61,11 +61,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Lint, format & type-check
+      # Ends with `pnpm run enforce`, the ADR enforcement suite (ADR-064).
+      - name: Lint, format, type-check, unit tests & ADR enforcement
         run: pnpm run quality:ci
-
-      - name: ADR enforcement suite (ADR-064, warn-only launch)
-        run: pnpm run enforce
 
       - name: Unit tests with coverage
         run: pnpm run test:coverage
