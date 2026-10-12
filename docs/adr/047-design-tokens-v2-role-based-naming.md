@@ -232,7 +232,8 @@ into the build.
   - TC-2 → check `no-dark-variants` (status: **warn**)
   - TC-3 → check `no-hardcoded-colors` (status: **warn**)
 - **Not machine-checkable:** whether a token name is intent-revealing is a naming judgment.
-- **Graduation log:** _(empty at creation; entries added when a check changes status)_
+- **Graduation log:**
+  - 2026-10-12 — `no-hardcoded-colors` stays **warn**; miscalibration fixed, not graduated (ADR-064). It matched comment lines, including a PR number (`#250`) read as a hex colour (#456). The check now ignores comments. Calibration window restarts from this date.
 
 ---
 **Date**: 2026-06-06\
