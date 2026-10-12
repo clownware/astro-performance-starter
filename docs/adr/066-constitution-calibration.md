@@ -14,7 +14,9 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-10-12 by [ADR-068](068-adr-write-guard-and-append-only.md): existing ADRs
+are no longer guarded by rule 1 and review alone; a PreToolUse hook asks before any edit to a
+record that already exists, and `adr-append-only` reports rewritten text)
 
 ## Context
 

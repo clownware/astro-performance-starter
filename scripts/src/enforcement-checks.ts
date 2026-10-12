@@ -12,9 +12,16 @@
  * legal moves. Bare failures train bypass behaviour.
  */
 
+import { removedFromAcceptedAdrs } from "./adr-append-only";
+
 export interface RepoSnapshot {
   /** Repo-relative path → text content ("" for binary/existence-only). */
   files: Record<string, string>;
+  /**
+   * `git diff -U0` of the records that were Accepted on the default branch, built by the runner
+   * (ADR-068). Absent when there is no base to compare against; the check then has no findings.
+   */
+  adrDiff?: string;
 }
 
 export interface IslandEntry {
@@ -78,7 +85,9 @@ function allDeps(snap: RepoSnapshot): Record<string, string> {
 function grepLines(path: string, content: string, test: RegExp): string[] {
   const out: string[] = [];
   content.split("\n").forEach((line, i) => {
-    if (test.test(line)) out.push(`${path}:${i + 1} — ${line.trim().slice(0, 120)}`);
+    if (test.test(line)) {
+      out.push(`${path}:${i + 1} — ${line.trim().slice(0, 120)}`);
+    }
   });
   return out;
 }
@@ -127,7 +136,9 @@ function grepCode(path: string, content: string, test: RegExp): string[] {
   stripComments(content)
     .split("\n")
     .forEach((line, i) => {
-      if (test.test(line)) out.push(`${path}:${i + 1} — ${original[i].trim().slice(0, 120)}`);
+      if (test.test(line)) {
+        out.push(`${path}:${i + 1} — ${original[i].trim().slice(0, 120)}`);
+      }
     });
   return out;
 }
@@ -240,6 +251,8 @@ const guardedPaths = [
   "Edit(/checks/**)",
   "Edit(/scripts/src/enforcement-checks.ts)",
   "Edit(/scripts/src/run-enforcement.ts)",
+  "Edit(/scripts/src/adr-guard.ts)",
+  "Edit(/scripts/src/adr-append-only.ts)",
 ];
 
 export const CHECKS: CheckDef[] = [
@@ -255,7 +268,9 @@ export const CHECKS: CheckDef[] = [
         findings.push("package.json — packageManager is not pinned to pnpm");
       }
       for (const lock of ["package-lock.json", "yarn.lock", "bun.lockb"]) {
-        if (lock in snap.files) findings.push(`${lock} — foreign lockfile present`);
+        if (lock in snap.files) {
+          findings.push(`${lock} — foreign lockfile present`);
+        }
       }
       return findings;
     },
@@ -340,7 +355,9 @@ export const CHECKS: CheckDef[] = [
         .filter((p) => p.startsWith("src/components/"))
         .filter((p) => {
           const seg = p.split("/")[2];
-          if (seg.includes(".")) return !componentRootFiles.has(seg);
+          if (seg.includes(".")) {
+            return !componentRootFiles.has(seg);
+          }
           return !componentDirs.has(seg);
         })
         .map(
@@ -356,7 +373,9 @@ export const CHECKS: CheckDef[] = [
       "BaseLayout owns document structure, not content patterns (ADR-013). Compose hero/CTA in the page, or supersede ADR-013.",
     run: (snap) => {
       const layout = snap.files["src/layouts/BaseLayout.astro"];
-      if (!layout) return ["src/layouts/BaseLayout.astro — file missing"];
+      if (!layout) {
+        return ["src/layouts/BaseLayout.astro — file missing"];
+      }
       return grepLines("src/layouts/BaseLayout.astro", layout, /<slot\s+name=/);
     },
   },
@@ -395,17 +414,23 @@ export const CHECKS: CheckDef[] = [
     run: (snap) => {
       const findings: string[] = [];
       for (const file of srcFiles(snap, [".astro"])) {
-        if (file.endsWith("/Head.astro")) continue;
+        if (file.endsWith("/Head.astro")) {
+          continue;
+        }
         const original = snap.files[file].split("\n");
         const lines = stripComments(snap.files[file]).split("\n");
         lines.forEach((line, i) => {
-          if (!/<title[\s>]|property=["']og:/.test(line)) return;
+          if (!/<title[\s>]|property=["']og:/.test(line)) {
+            return;
+          }
           // Accessible <title> inside an <svg> is an a11y pattern (ADR-019),
           // not document metadata — skip when an svg opens in the preceding lines.
           const context = lines.slice(Math.max(0, i - 10), i + 1).join("\n");
           const opens = (context.match(/<svg\b/g) ?? []).length;
           const closes = (context.match(/<\/svg>/g) ?? []).length;
-          if (opens > closes) return;
+          if (opens > closes) {
+            return;
+          }
           findings.push(`${file}:${i + 1} — ${original[i].trim().slice(0, 120)}`);
         });
       }
@@ -426,7 +451,9 @@ export const CHECKS: CheckDef[] = [
         const original = snap.files[file].split("\n");
         const lines = markupOnly(file, snap.files[file]).split("\n");
         lines.forEach((line, i) => {
-          if (!/<img\b/.test(line)) return;
+          if (!/<img\b/.test(line)) {
+            return;
+          }
           if (!justifiedNearby(original, i, "ADR-030")) {
             findings.push(`${file}:${i + 1} — raw <img> without ADR-030 exemption comment`);
           }
@@ -446,7 +473,9 @@ export const CHECKS: CheckDef[] = [
       const findings = ["react", "react-dom"]
         .filter((d) => d in deps)
         .map((d) => `package.json — dependency \`${d}\` present (Preact-only per ADR-031)`);
-      if (!("preact" in deps)) findings.push("package.json — preact missing");
+      if (!("preact" in deps)) {
+        findings.push("package.json — preact missing");
+      }
       return findings;
     },
   },
@@ -498,15 +527,21 @@ export const CHECKS: CheckDef[] = [
     run: (snap) => {
       const findings: string[] = [];
       for (const file of srcFiles(snap, [".astro", ".css", ".ts", ".tsx"])) {
-        if (isTestFile(file)) continue;
-        if (file === "src/styles/global.css") continue; // token bridge: hsl(var(--…)) wrappers only
+        if (isTestFile(file)) {
+          continue;
+        }
+        if (file === "src/styles/global.css") {
+          continue; // token bridge: hsl(var(--…)) wrappers only
+        }
         // A literal that cannot be a token (a meta attribute, an alpha mask) may
         // stay with an inline `ADR-047` justification on the preceding lines.
         const original = snap.files[file].split("\n");
         stripComments(snap.files[file])
           .split("\n")
           .forEach((line, i) => {
-            if (!colorLiteral.test(line) || justifiedNearby(original, i, "ADR-047")) return;
+            if (!colorLiteral.test(line) || justifiedNearby(original, i, "ADR-047")) {
+              return;
+            }
             findings.push(`${file}:${i + 1} — ${original[i].trim().slice(0, 120)}`);
           });
       }
@@ -527,7 +562,9 @@ export const CHECKS: CheckDef[] = [
       for (const file of styleFiles) {
         const content = markupOnly(file, snap.files[file]);
         const hasMotion = /@keyframes|\banimation(?:-name)?\s*:/.test(content);
-        if (!hasMotion) continue;
+        if (!hasMotion) {
+          continue;
+        }
         if (!content.includes("prefers-reduced-motion")) {
           findings.push(`${file} — animation without a prefers-reduced-motion gate`);
         }
@@ -553,7 +590,9 @@ export const CHECKS: CheckDef[] = [
       const findings: string[] = [];
       for (const file of srcFiles(snap, [".astro", ".ts", ".tsx"])) {
         // Tests assert the raw read is absent; comments explain the rule. Neither is a read.
-        if (isTestFile(file)) continue;
+        if (isTestFile(file)) {
+          continue;
+        }
         findings.push(...grepCode(file, snap.files[file], /import\.meta\.env\.PUBLIC_/));
       }
       const config = snap.files["astro.config.mjs"] ?? "";
@@ -743,7 +782,9 @@ export const CHECKS: CheckDef[] = [
       "Governance files are edited only with the maintainer's approval (ADR-066). Restore the permissions.ask rules in .claude/settings.json; never remove one to make an edit go through.",
     run: (snap) => {
       const raw = snap.files[".claude/settings.json"];
-      if (raw === undefined) return [".claude/settings.json — file missing"];
+      if (raw === undefined) {
+        return [".claude/settings.json — file missing"];
+      }
       let guarded: string[] = [];
       try {
         const permissions = JSON.parse(raw).permissions ?? {};
@@ -759,6 +800,46 @@ export const CHECKS: CheckDef[] = [
         );
     },
   },
+  {
+    id: "adr-append-only",
+    adr: "ADR-068",
+    tc: "TC-1",
+    remedy:
+      "An Accepted ADR is append-only (ADR-068). Restore the original text, then append a dated note, change the Status line, or supersede the record with a new Proposed ADR. If the maintainer approved this rewrite as a correction, say so in the pull request.",
+    run: (snap) => (snap.adrDiff === undefined ? [] : removedFromAcceptedAdrs(snap.adrDiff)),
+  },
+  {
+    id: "adr-guard-wired",
+    adr: "ADR-068",
+    tc: "TC-2",
+    remedy:
+      "Existing ADRs are guarded at write time by scripts/src/adr-guard.ts (ADR-068). Restore the PreToolUse hook in .claude/settings.json with a matcher covering Edit, Write and MultiEdit; never remove it to make an edit go through.",
+    run: (snap) => {
+      const raw = snap.files[".claude/settings.json"];
+      if (raw === undefined) {
+        return [".claude/settings.json — file missing"];
+      }
+      let groups: { matcher?: string; hooks?: { command?: string }[] }[] = [];
+      try {
+        groups = JSON.parse(raw).hooks?.PreToolUse ?? [];
+      } catch {
+        return [".claude/settings.json — not valid JSON"];
+      }
+      const covered = new Set(
+        groups
+          .filter((g) => (g.hooks ?? []).some((h) => (h.command ?? "").includes("adr-guard")))
+          .flatMap((g) => (g.matcher ?? "").split("|")),
+      );
+      if (covered.size === 0) {
+        return [".claude/settings.json — no PreToolUse hook runs scripts/src/adr-guard.ts"];
+      }
+      return ["Edit", "Write", "MultiEdit"]
+        .filter((tool) => !covered.has(tool))
+        .map(
+          (tool) => `.claude/settings.json — the adr-guard hook's matcher does not cover ${tool}`,
+        );
+    },
+  },
 ];
 
 const checkIndex = new Map(CHECKS.map((c) => [c.id, c]));
@@ -766,6 +847,8 @@ const checkIndex = new Map(CHECKS.map((c) => [c.id, c]));
 /** Run one check by id. Throws on unknown ids — config/registry drift is a bug. */
 export function runCheck(id: string, snap: RepoSnapshot, cfg: EnforcementConfig): string[] {
   const check = checkIndex.get(id);
-  if (!check) throw new Error(`Unknown enforcement check: ${id}`);
+  if (!check) {
+    throw new Error(`Unknown enforcement check: ${id}`);
+  }
   return check.run(snap, cfg);
 }

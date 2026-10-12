@@ -10,7 +10,22 @@
       "Edit(/.claude/**)",
       "Edit(/checks/**)",
       "Edit(/scripts/src/enforcement-checks.ts)",
-      "Edit(/scripts/src/run-enforcement.ts)"
+      "Edit(/scripts/src/run-enforcement.ts)",
+      "Edit(/scripts/src/adr-guard.ts)",
+      "Edit(/scripts/src/adr-append-only.ts)"
+    ]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/src/adr-guard.ts"
+          }
+        ]
+      }
     ]
   }
 }

@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Existing ADRs are guarded at write time and checked at diff time ([ADR-068](./docs/adr/068-adr-write-guard-and-append-only.md)): a PreToolUse hook (`scripts/src/adr-guard.ts`) asks before any edit to a record that already exists and denies hand-edits of `AGENTS.md`; `adr-append-only` reports accepted text that was removed or rewritten, in the enforcement suite and as line annotations from the `governance-diff` workflow; `adr-guard-wired` reports a missing hook. Both checks start at `warn`
 - `versions.json` declared a public consumption contract — additive keys fine, renames/removals breaking ([ADR-061](./docs/adr/061-versions-json-public-contract.md))
 - `version:check` now fails on a drifted `template` field in `versions.json`; `version:fix` stamps it from `package.json` `"version"` (the field had shipped drifted: v0.2.0 vs 0.9.0)
 - GitHub Releases published automatically on `v*` tag push via `.github/workflows/release.yml`, with the body extracted from that version's CHANGELOG section (`scripts/src/extract-changelog.ts`)
