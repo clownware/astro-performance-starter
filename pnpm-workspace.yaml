@@ -24,7 +24,7 @@ overrides:
   browserslist: ">=4.28.7"
   "devalue@<5.9.2": "^5.9.2" # GHSA-9rgm-9g3h-6x36 via astro/@astrojs/preact (#423); lapses once they require ^5.9.2
   sharp: "^0.35.5" # CVE-2026-96889 in bundled librsvg (#459)
-  "smol-toml@<1.7.1": "^1.7.1" # GHSA-7w5x-hrqm-74c2; markdownlint-cli2 <=0.23.2 pinned 1.7.0 exactly (#423)
+  "smol-toml@<1.9.0": "^1.9.0" # GHSA-7w5x-hrqm-74c2 (#423), then Dependabot alert 30; markdownlint-cli2 0.23.x pins an exact older release
   "tmp@<0.2.6": "^0.2.6"
   "uuid@^8": "^11.1.1"
   # #459: transitive advisories the parents' own ranges do not clear yet; each lapses once they do.

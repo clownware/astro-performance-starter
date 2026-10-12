@@ -10,7 +10,7 @@ overrides:
   browserslist: '>=4.28.7'
   devalue@<5.9.2: ^5.9.2
   sharp: ^0.35.5
-  smol-toml@<1.7.1: ^1.7.1
+  smol-toml@<1.9.0: ^1.9.0
   tmp@<0.2.6: ^0.2.6
   uuid@^8: ^11.1.1
   brace-expansion@>=4.0.0 <5.0.11: ^5.0.11
@@ -5115,10 +5115,6 @@ packages:
   smart-buffer@4.2.0:
     resolution: {integrity: sha512-94hK0Hh8rPqQl2xXc3HsaBoOXKV20MToPkcXvwbISWLEs+64sBq5kFgn2kJDHb1Pry9yrP0dxrCI9RRci7RXKg==}
     engines: {node: '>= 6.0.0', npm: '>= 3.0.0'}
-
-  smol-toml@1.8.0:
-    resolution: {integrity: sha512-kCZr2V3ch9i00x8zXRhjUNVcjG9ijES5dDudkXvUVCT5QlJNQWElSJdZqyPemffHoLNUYwOcou0Fy+ojN0uHSQ==}
-    engines: {node: '>= 18'}
 
   smol-toml@1.9.0:
     resolution: {integrity: sha512-hpd+HLON7HdZXqYchMM/+LaTTbdK0AU3NngIJ4KVyWbY9bfQqdL9cD+4yf6dUoU2Ap4VsU0JkQi6FxAI1B2mXQ==}
@@ -10368,7 +10364,7 @@ snapshots:
       markdownlint: 0.41.1(supports-color@9.4.0)
       markdownlint-cli2-formatter-default: 0.0.6(markdownlint-cli2@0.23.3(supports-color@9.4.0))
       micromatch: 4.0.8
-      smol-toml: 1.8.0
+      smol-toml: 1.9.0
     transitivePeerDependencies:
       - supports-color
 
@@ -11806,8 +11802,6 @@ snapshots:
   slash@5.1.0: {}
 
   smart-buffer@4.2.0: {}
-
-  smol-toml@1.8.0: {}
 
   smol-toml@1.9.0: {}
 
