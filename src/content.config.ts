@@ -122,7 +122,7 @@ const experienceCollection = defineCollection({
   }),
 });
 
-// Architecture Decision Records (ADR-062 — publish ADRs as web routes).
+// Architecture Decision Records (ADR-067 — publish ADRs as web routes).
 // Glob excludes README.md, template.md, and any non-numbered files so the
 // collection contains only real ADRs. The numeric prefix on the file name
 // IS the ADR number.

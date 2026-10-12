@@ -107,7 +107,7 @@ Everything you need to customize and extend lives in `docs/`:
 - **[Implementation Roadmap](./docs/README.md#implementation-roadmap)** — Phased development guide
 - **[AI Context Guides](./docs/ai-context/)** — Optimized for AI assistants
 
-> The `docs/` folder contains extensive reference material. Only `docs/adr/` is published (rendered at `/adr/` — ADR-062); everything else stays out of the build.
+> The `docs/` folder contains extensive reference material. Only `docs/adr/` is published (rendered at `/adr/` — ADR-067); everything else stays out of the build.
 
 ## 🎨 Progressive Implementation
 
