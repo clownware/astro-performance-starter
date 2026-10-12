@@ -11,12 +11,13 @@ pagefind: true
 
 ## Status
 
-Accepted (amended 2026-08-02: collection count updated — ADR-062 added a sixth
-collection, `adr`; the draft-support driver is scoped to `blog` and `projects`)
+Accepted (amended 2026-08-02: collection count updated — a sixth collection, `adr`, was added;
+the draft-support driver is scoped to `blog` and `projects`. Amended 2026-10-12: that amendment
+cited ADR-062 for the `adr` collection; the record is [ADR-067](067-adrs-published-as-web-routes.md), #391)
 
 ## Context
 
-Astro's Content Collections API provides type-safe, schema-validated content management. The starter ships with six collections pre-configured in `src/content.config.ts` *(amended 2026-08-02: originally five — ADR-062 later added the `adr` collection, which publishes `docs/adr/` as web routes and is documented there)*. These represent the most common content types for portfolio and small production sites — the primary audience for this template.
+Astro's Content Collections API provides type-safe, schema-validated content management. The starter ships with six collections pre-configured in `src/content.config.ts` *(amended 2026-08-02: originally five — the `adr` collection was added later; it publishes `docs/adr/` as web routes and is documented in [ADR-067](067-adrs-published-as-web-routes.md))*. These represent the most common content types for portfolio and small production sites — the primary audience for this template.
 
 The schema design decisions are non-obvious and affect how users extend the template. Without documentation, users frequently ask: why these collections, why these fields, why JSON for some and MDX for others.
 
