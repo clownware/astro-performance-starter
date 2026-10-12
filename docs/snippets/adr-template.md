@@ -161,6 +161,18 @@ How will we know if this decision was correct?
 
 Additional implementation notes, migration strategies, or other relevant information that doesn't fit in the sections above.
 
+## Enforcement
+
+<!--
+  Required on every ADR (ADR-064); `adr-log-valid` reports a record without it.
+  While the status is Proposed, keep the not-enforced stub below as written.
+  On acceptance, replace it with: Testable consequences (TC-n), Checks
+  (TC → check id → warn|block), Not machine-checkable, and a Graduation log.
+-->
+
+Not enforced — this record's status is **Proposed**; only Accepted ADRs are binding
+(see the status table in the ADR README and ADR-039).
+
 ---
 **Date**: YYYY-MM-DD\
 **Participants**: [List of people involved in the decision]\
