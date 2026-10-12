@@ -59,6 +59,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
     {...attrs}
   >
       <div class="project-card__image-container relative overflow-hidden">
+        {/* ADR-030 exemption 1: a string src (remote or public/) cannot go through the image pipeline. */}
         {typeof image === "string" ? (
           <img
             src={image}
@@ -87,7 +88,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
               </time>
             )}
             {isRecent && (
-              <Badge class="bg-secondary-600 text-primary-foreground text-xs px-2 py-0.5">New</Badge>
+              <Badge variant="solid" class="text-xs px-2 py-0.5">New</Badge>
             )}
             {client && (
               <span class="flex items-center gap-1">
@@ -195,6 +196,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
     {...attrs}
   >
     <div class="project-card__image-container relative overflow-hidden">
+      {/* ADR-030 exemption 1: a string src (remote or public/) cannot go through the image pipeline. */}
       {typeof image === "string" ? (
         <img
           src={image}
@@ -223,7 +225,7 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
             </time>
           )}
           {isRecent && (
-            <Badge class="bg-secondary-600 text-primary-foreground text-xs px-2 py-0.5">New</Badge>
+            <Badge variant="solid" class="text-xs px-2 py-0.5">New</Badge>
           )}
           {client && (
             <span class="flex items-center gap-1">
@@ -344,6 +346,8 @@ const isRecent = date ? Date.now() - new Date(date).getTime() < 7 * 24 * 60 * 60
     content: '';
     position: absolute;
     inset: 0;
+    /* A shadow scrim over the photo. It darkens in both themes, so a role token
+       (which flips in dark) would be wrong here — ADR-047 exemption. */
     background: linear-gradient(
       to bottom,
       transparent 0%,

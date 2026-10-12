@@ -112,7 +112,7 @@ const pageDescription =
       <div class="flex flex-wrap justify-center gap-3">
         <button
           type="button"
-          class="filter-btn active inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium border border-border bg-surface text-foreground transition-colors duration-200 hover:bg-primary-200 dark:hover:bg-primary-800 cursor-pointer"
+          class="filter-btn active inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium border border-border bg-surface text-foreground transition-colors duration-200 hover:bg-tint cursor-pointer"
           data-filter="all"
           aria-pressed="true"
         >
@@ -121,7 +121,7 @@ const pageDescription =
         {allTechStack.map((tech) => (
           <button
             type="button"
-            class="filter-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200 cursor-pointer hover:bg-primary-200 dark:hover:bg-primary-800 transition-colors duration-200"
+            class="filter-badge inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-tint text-tint-foreground cursor-pointer hover:bg-tint transition-colors duration-200"
             data-filter={tech.toLowerCase()}
             aria-pressed="false"
           >

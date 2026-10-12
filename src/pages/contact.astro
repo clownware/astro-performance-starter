@@ -122,14 +122,14 @@ const responseExpectations: ResponseExpectation[] = [
   {
     icon: "target",
     iconLabel: "Target",
-    bgClass: "bg-secondary-100 dark:bg-secondary-900",
+    bgClass: "bg-tint-secondary",
     title: "Detailed Follow-up",
     description: "Within 24 hours, we'll provide a comprehensive response to your inquiry",
   },
   {
     icon: "handshake",
     iconLabel: "Handshake",
-    bgClass: "bg-primary-100 dark:bg-primary-900",
+    bgClass: "bg-tint",
     title: "Next Steps",
     description: "We'll schedule a call or meeting to discuss your project in detail",
   },
@@ -213,7 +213,7 @@ const responseExpectations: ResponseExpectation[] = [
               {contactMethods.map((method) => (
                 <Card class="p-6">
                   <div class="flex items-start space-x-4">
-                    <div class="shrink-0 w-12 h-12 bg-primary-100 dark:bg-primary-900 rounded-lg flex items-center justify-center text-primary-700 dark:text-primary-300">
+                    <div class="shrink-0 w-12 h-12 bg-tint rounded-lg flex items-center justify-center text-tint-foreground">
                       <Icon name={method.icon} class="size-6" decorative />
                     </div>
                     <div class="flex-1">
@@ -301,7 +301,7 @@ const responseExpectations: ResponseExpectation[] = [
           <div class="grid md:grid-cols-3 gap-8">
             {responseExpectations.map((expectation) => (
               <div class="space-y-4">
-                <div class={`w-16 h-16 ${expectation.bgClass} rounded-full flex items-center justify-center mx-auto text-primary-700 dark:text-primary-300`}>
+                <div class={`w-16 h-16 ${expectation.bgClass} rounded-full flex items-center justify-center mx-auto text-tint-foreground`}>
                   <Icon name={expectation.icon} class="size-7" decorative />
                 </div>
                 <h3 class="text-xl font-semibold text-foreground">

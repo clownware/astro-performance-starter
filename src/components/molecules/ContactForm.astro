@@ -208,4 +208,12 @@ const { action = "/contact", class: className, ...attrs } = Astro.props;
   .animate-spin {
     animation: spin 1s linear infinite;
   }
+
+  /* ADR-048: the submit button's label already says "Sending"; the spinner
+     holds still for readers who ask for less motion. */
+  @media (prefers-reduced-motion: reduce) {
+    .animate-spin {
+      animation: none;
+    }
+  }
 </style>

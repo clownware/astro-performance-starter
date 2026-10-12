@@ -3,16 +3,19 @@ import type { HTMLAttributes } from "astro/types";
 
 interface Props extends Omit<HTMLAttributes<"span">, "class"> {
   class?: string;
-  variant?: "primary" | "secondary" | "neutral";
+  variant?: "primary" | "secondary" | "neutral" | "solid";
   size?: "xs" | "sm" | "md";
 }
 
 const { class: className, role, variant = "primary", size = "sm", ...rest } = Astro.props;
 
-const variantClasses: Record<"primary" | "secondary" | "neutral", string> = {
-  primary: "bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200",
-  secondary: "bg-secondary-100 text-secondary-800 dark:bg-secondary-900 dark:text-secondary-200",
+const variantClasses: Record<"primary" | "secondary" | "neutral" | "solid", string> = {
+  primary: "bg-tint text-tint-foreground",
+  secondary: "bg-tint-secondary text-tint-secondary-foreground",
   neutral: "bg-surface text-muted-foreground border border-border",
+  // High-emphasis marker ("New"). A variant, so callers never stack a second
+  // background utility on top of the primary tint.
+  solid: "bg-secondary-600 text-primary-foreground",
 };
 
 const sizeClasses: Record<"xs" | "sm" | "md", string> = {

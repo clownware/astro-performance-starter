@@ -551,3 +551,77 @@ describe("ADR-066 constitution calibration", () => {
     expect(unnamed).toEqual([]);
   });
 });
+
+describe("calibration: comments and frontmatter strings are not code (#435, #472)", () => {
+  it("no-raw-img ignores an <img mentioned in a code comment", () => {
+    const snap = withFile(
+      clean(),
+      "src/components/atoms/Wrapper.astro",
+      "---\nconst resolved = null; // Fallback to native <img> below\n---\n<p>ok</p>",
+    );
+    expect(runCheck("no-raw-img", snap, config)).toEqual([]);
+  });
+
+  it("no-raw-img ignores an <img quoted in a multi-line frontmatter string", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      "---\nconst rules = `7. Prefer CSS.\n8. Use Astro Image — no raw <img> tags.\n9. Verify.`;\n---\n<pre>{rules}</pre>",
+    );
+    expect(runCheck("no-raw-img", snap, config)).toEqual([]);
+  });
+
+  it("no-raw-img still flags a real <img> in the template of a file with frontmatter strings", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      '---\nconst t = `it\'s a string`;\n---\n<p>Don\'t</p>\n<img src="/x.png" alt="" />',
+    );
+    expect(runCheck("no-raw-img", snap, config).join()).toContain("x.astro:5");
+  });
+
+  it("no-raw-img still reads the ADR-030 justification from a comment", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      '{/* ADR-030 exemption 2: animated SVG, the image pipeline would rasterise it */}\n<img src={avatar} alt="" />',
+    );
+    expect(runCheck("no-raw-img", snap, config)).toEqual([]);
+  });
+
+  it("no-hardcoded-colors permits a literal carrying an ADR-047 justification", () => {
+    const snap = withFile(
+      clean(),
+      "src/components/molecules/Head.astro",
+      '<!-- ADR-047 exemption: a meta attribute cannot read a CSS variable -->\n<meta name="theme-color" content="#0e0f16" />',
+    );
+    expect(runCheck("no-hardcoded-colors", snap, config)).toEqual([]);
+  });
+
+  it("no-hardcoded-colors still flags a literal with no justification nearby", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      "<!-- ADR-047 exemption: far away -->\n\n\n\n\n\n\n<style>h1 { color: #ff0000; }</style>",
+    );
+    expect(runCheck("no-hardcoded-colors", snap, config).join()).toContain("#ff0000");
+  });
+
+  it("motion-gated ignores keyframes shown as a code sample in a frontmatter string", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      "---\nconst sample = `.fade { animation: fade-up linear both; }\n@keyframes fade-up { from { opacity: 0; } }`;\n---\n<pre>{sample}</pre>",
+    );
+    expect(runCheck("motion-gated", snap, config)).toEqual([]);
+  });
+
+  it("motion-gated still flags real ungated motion beside a frontmatter sample", () => {
+    const snap = withFile(
+      clean(),
+      "src/pages/x.astro",
+      "---\nconst sample = `plain`;\n---\n<style>@keyframes spin { to { transform: rotate(360deg); } } .x { animation: spin 1s; }</style>",
+    );
+    expect(runCheck("motion-gated", snap, config).join()).toContain("prefers-reduced-motion");
+  });
+});

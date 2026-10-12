@@ -99,6 +99,27 @@ export function stripComments(content: string): string {
   return content.replace(blockComment, blank).replace(lineComment, blank);
 }
 
+/**
+ * Blank an `.astro` file's frontmatter, preserving newlines. Frontmatter is
+ * script: it cannot emit markup or CSS, so a tag or a keyframe named there is a
+ * string (a code sample, a quoted rule), never the thing itself.
+ */
+export function blankFrontmatter(content: string): string {
+  const m = content.match(/^---\r?\n[\s\S]*?\r?\n---[ \t]*(?=\r?\n|$)/);
+  return m ? m[0].replace(/[^\n]/g, " ") + content.slice(m[0].length) : content;
+}
+
+/** Markup and styles only: no frontmatter (for `.astro`), no comments. */
+const markupOnly = (file: string, content: string): string =>
+  stripComments(file.endsWith(".astro") ? blankFrontmatter(content) : content);
+
+/** True when one of the `reach` lines up to and including `i` names `token`. */
+const justifiedNearby = (lines: string[], i: number, token: string, reach = 5): boolean =>
+  lines
+    .slice(Math.max(0, i - reach), i + 1)
+    .join("\n")
+    .includes(token);
+
 /** `grepLines` over code only: comments never match, findings quote the original line. */
 function grepCode(path: string, content: string, test: RegExp): string[] {
   const original = content.split("\n");
@@ -400,11 +421,13 @@ export const CHECKS: CheckDef[] = [
     run: (snap) => {
       const findings: string[] = [];
       for (const file of srcFiles(snap, [".astro", ".tsx"])) {
-        const lines = snap.files[file].split("\n");
+        // Match on markup only; read the justification from the original lines,
+        // because the justification is itself a comment.
+        const original = snap.files[file].split("\n");
+        const lines = markupOnly(file, snap.files[file]).split("\n");
         lines.forEach((line, i) => {
           if (!/<img\b/.test(line)) return;
-          const context = lines.slice(Math.max(0, i - 5), i + 1).join("\n");
-          if (!context.includes("ADR-030")) {
+          if (!justifiedNearby(original, i, "ADR-030")) {
             findings.push(`${file}:${i + 1} — raw <img> without ADR-030 exemption comment`);
           }
         });
@@ -471,13 +494,21 @@ export const CHECKS: CheckDef[] = [
     adr: "ADR-047",
     tc: "TC-3",
     remedy:
-      "Colours come from design tokens (ADR-047, constitution rule 3). Use a token; if one is missing, add it to tokens/ first.",
+      "Colours come from design tokens (ADR-047, constitution rule 3). Use a token; if one is missing, add it to tokens/ first. A literal that cannot be a token needs an inline `ADR-047` justifying comment on the preceding lines.",
     run: (snap) => {
       const findings: string[] = [];
       for (const file of srcFiles(snap, [".astro", ".css", ".ts", ".tsx"])) {
         if (isTestFile(file)) continue;
         if (file === "src/styles/global.css") continue; // token bridge: hsl(var(--…)) wrappers only
-        findings.push(...grepCode(file, snap.files[file], colorLiteral));
+        // A literal that cannot be a token (a meta attribute, an alpha mask) may
+        // stay with an inline `ADR-047` justification on the preceding lines.
+        const original = snap.files[file].split("\n");
+        stripComments(snap.files[file])
+          .split("\n")
+          .forEach((line, i) => {
+            if (!colorLiteral.test(line) || justifiedNearby(original, i, "ADR-047")) return;
+            findings.push(`${file}:${i + 1} — ${original[i].trim().slice(0, 120)}`);
+          });
       }
       return findings;
     },
@@ -494,7 +525,7 @@ export const CHECKS: CheckDef[] = [
         (p) => p.startsWith("src/") && (p.endsWith(".css") || p.endsWith(".astro")),
       );
       for (const file of styleFiles) {
-        const content = snap.files[file];
+        const content = markupOnly(file, snap.files[file]);
         const hasMotion = /@keyframes|\banimation(?:-name)?\s*:/.test(content);
         if (!hasMotion) continue;
         if (!content.includes("prefers-reduced-motion")) {

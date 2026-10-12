@@ -51,7 +51,8 @@ const formatPeriod = (start: Date, end: Date | undefined, current: boolean) => {
       <div class="mx-auto max-w-7xl px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
           <div class="mb-8">
-            {/* Native <img> bypasses Astro's image pipeline so the embedded
+            {/* ADR-030 exemption 2 (unrasterisable SVG).
+                Native <img> bypasses Astro's image pipeline so the embedded
                 cursor-blink CSS animation in state-idle.svg survives unchanged.
                 The SVG paints its own slate-950 background; rounded-full on the
                 <img> clips to a disc. */}

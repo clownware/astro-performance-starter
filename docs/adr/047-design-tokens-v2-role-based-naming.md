@@ -12,7 +12,8 @@ pagefind: true
 
 ## Status
 
-Accepted (amended 2026-07-05 to record the v2.1 token changes shipped 2026-06-07)
+Accepted (amended 2026-07-05 to record the v2.1 token changes shipped 2026-06-07; amended
+2026-10-12 to record the v2.2 tint and accent roles and the justified-literal exemption)
 
 ## Context
 
@@ -141,6 +142,47 @@ ways this record originally required an amendment for:
 The drift-guard test (`src/__tests__/design-tokens.test.ts`) pins the green mapping;
 this amendment is the "ADR-047 v2.1" it refers to.
 
+### Amendment — v2.2 tint and accent roles (2026-10-12)
+
+Thirty call sites still spelled out a light and a dark step by hand
+(`bg-primary-100 text-primary-800 dark:bg-primary-900 dark:text-primary-200`), which is the
+per-component theming this record set out to remove and what `no-dark-variants` reports. Five
+roles replace those pairs. Each references the brand scales, so the rendered colours are
+unchanged:
+
+| Role token | Light | Dark | Replaces |
+| --- | --- | --- | --- |
+| `tint` | `violet-100` | `violet-900` | `bg-primary-100 dark:bg-primary-900` |
+| `tintForeground` | `violet-800` | `violet-200` | `text-primary-800 dark:text-primary-200` |
+| `tintSecondary` | `rose-100` | `rose-900` | `bg-secondary-100 dark:bg-secondary-900` |
+| `tintSecondaryForeground` | `rose-800` | `rose-200` | `text-secondary-800 dark:text-secondary-200` |
+| `accent` | `violet-600` | `violet-400` | `text-primary-600 dark:text-primary-400`, and the `border-` form |
+
+Utilities: `bg-tint text-tint-foreground`, `bg-tint-secondary text-tint-secondary-foreground`,
+`text-accent`, `border-accent`. The contrast sweep gates each foreground on its tint at AA and
+`accent` at the 3:1 non-text bar. `src/__tests__/design-tokens.test.ts` pins the mapping and
+asserts that no `dark:` utility remains in `src/` markup.
+
+Three sites changed colour, deliberately:
+
+- `Blockquote` uses `surfaceAccent`, the role that already means a violet-tinted emphasis
+  panel, in place of `primary-50` / `primary-950`.
+- The contact page's icon chips use `tintForeground` (one step stronger than the
+  `primary-700` / `primary-300` they had).
+- The homepage's tech-category badges passed `bg-secondary-100` through `class` on top of the
+  primary variant, so they rendered rose in light and violet in dark. They now use the
+  secondary variant and are rose in both.
+
+`dark:prose-invert` was removed from the two prose containers: `.prose` already reads role
+tokens in `global.css`, and computed colours are identical with and without it. `Badge` gains a
+`solid` variant for the "New" marker so no caller stacks a second background on a variant.
+
+**Justified literals (TC-3).** Some literals cannot be tokens: a `<meta name="theme-color">`
+attribute cannot read a CSS variable, a mask's `#000` is an alpha channel, and a shadow scrim
+must darken in both themes. `no-hardcoded-colors` accepts a literal that carries an inline
+`ADR-047` justifying comment within the five lines above it, the same mechanism rule 8 uses for
+`ADR-030`. A comment that names the ADR without a reason is a review failure.
+
 ### Utility rename map (component codemod)
 
 | Old utility | New utility |
@@ -234,6 +276,8 @@ into the build.
 - **Not machine-checkable:** whether a token name is intent-revealing is a naming judgment.
 - **Graduation log:**
   - 2026-10-12 — `no-hardcoded-colors` stays **warn**; miscalibration fixed, not graduated (ADR-064). It matched comment lines, including a PR number (`#250`) read as a hex colour (#456). The check now ignores comments. Calibration window restarts from this date.
+  - 2026-10-12 — `no-dark-variants` stays **warn**; backlog cleared (30 findings to 0) by the v2.2 roles above. It graduates once it has held zero through the ADR-064 window.
+  - 2026-10-12 — `no-hardcoded-colors` stays **warn**; it now accepts a literal with an inline `ADR-047` justification (see the v2.2 amendment). Backlog cleared (5 findings to 0, #472). Calibration window restarts from this date.
 
 ---
 **Date**: 2026-06-06\

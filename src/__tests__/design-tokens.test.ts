@@ -1,4 +1,4 @@
-import { readFileSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
@@ -28,6 +28,11 @@ interface SemanticTokens {
     surface: TokenLeaf;
     surfaceRaised: TokenLeaf;
     surfaceAccent: TokenLeaf;
+    tint: TokenLeaf;
+    tintForeground: TokenLeaf;
+    tintSecondary: TokenLeaf;
+    tintSecondaryForeground: TokenLeaf;
+    accent: TokenLeaf;
     foreground: TokenLeaf;
     mutedForeground: TokenLeaf;
     border: TokenLeaf;
@@ -61,6 +66,11 @@ describe("design tokens v2 — role tokens present with light + dark", () => {
     "surface",
     "surfaceRaised",
     "surfaceAccent",
+    "tint",
+    "tintForeground",
+    "tintSecondary",
+    "tintSecondaryForeground",
+    "accent",
     "foreground",
     "mutedForeground",
     "border",
@@ -170,5 +180,58 @@ describe("design tokens v2 — typography", () => {
 
   it("resolves the text family Inter-first", () => {
     expect(base.fontFamily.text.value.startsWith('"Inter"')).toBe(true);
+  });
+});
+
+/**
+ * ADR-047 v2.2 (2026-10-12): the tint and accent roles replace the manual
+ * `dark:` pairs components used to spell out (`bg-primary-100 … dark:bg-primary-900`).
+ * They reference the brand scales, so the rendered colours are unchanged.
+ */
+describe("design tokens v2.2 — tint and accent roles", () => {
+  it.each([
+    ["tint", "{color.violet.100}", "{color.violet.900}"],
+    ["tintForeground", "{color.violet.800}", "{color.violet.200}"],
+    ["tintSecondary", "{color.rose.100}", "{color.rose.900}"],
+    ["tintSecondaryForeground", "{color.rose.800}", "{color.rose.200}"],
+    ["accent", "{color.violet.600}", "{color.violet.400}"],
+  ] as const)("%s maps to the scale steps the dark: pairs used", (role, light, dark) => {
+    expect(semantic.semantic[role].value).toBe(light);
+    expect(semantic.semantic[role].dark).toBe(dark);
+  });
+
+  it("bridges every role into Tailwind through @theme inline", () => {
+    const css = readFileSync(resolve(here, "../styles/global.css"), "utf-8");
+    for (const name of [
+      "tint",
+      "tint-foreground",
+      "tint-secondary",
+      "tint-secondary-foreground",
+      "accent",
+    ]) {
+      expect(css, name).toContain(`--color-${name}: hsl(var(--color-${name}));`);
+    }
+  });
+
+  it("leaves no manual dark: utility in src/ markup", () => {
+    const offenders: string[] = [];
+    const walk = (dir: string): void => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const full = resolve(dir, entry.name);
+        if (entry.isDirectory()) {
+          if (entry.name !== "__tests__") walk(full);
+        } else if (/\.(astro|tsx)$/.test(entry.name)) {
+          readFileSync(full, "utf-8")
+            .split("\n")
+            .forEach((line, i) => {
+              if (/[\s"'`{]dark:[a-z-]/.test(line) && !/^\s*(\/\/|<!--|\*)/.test(line)) {
+                offenders.push(`${full.split("/src/")[1]}:${i + 1}`);
+              }
+            });
+        }
+      }
+    };
+    walk(resolve(here, ".."));
+    expect(offenders).toEqual([]);
   });
 });
