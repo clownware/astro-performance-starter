@@ -7,7 +7,11 @@
   # 'unsafe-inline' is a deliberate, documented choice — see ADR-051. Astro 6's
   # built-in CSP is hash-only and incompatible with ClientRouter + Shiki, so this
   # header-based CSP (required for island scripts + Tailwind utility styles) stays.
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
+  # `data:` in script-src is for Astro's ClientRouter, which appends an empty
+  # <script type="module" src="data:application/javascript,"> to wait for inline
+  # module scripts after a view-transition navigation. With 'unsafe-inline' already
+  # allowed it grants an injected script nothing it did not have.
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' data:; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'
   Cache-Control: public, max-age=0, must-revalidate
 
 /_astro/*

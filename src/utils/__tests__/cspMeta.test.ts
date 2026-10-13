@@ -87,6 +87,18 @@ describe("the shipped policy and its meta element", () => {
     expect(cspForMeta(shipped)).toContain("script-src 'self' 'unsafe-inline'");
   });
 
+  // Astro's ClientRouter appends <script type="module" src="data:application/javascript,">
+  // after a page whose last module script is inline, to wait for it before firing
+  // astro:page-load. Without `data:` in script-src the browser blocks that script and
+  // logs an error on every such navigation (found on the live site after #481).
+  it("allows the data: script the view-transition router relies on, while ClientRouter is in use", () => {
+    const layout = readFileSync(resolve(root, "src/layouts/BaseLayout.astro"), "utf-8");
+    expect(layout).toContain("<ClientRouter");
+    const scriptSrc =
+      (cspForMeta(shipped) ?? "").split("; ").find((d) => d.startsWith("script-src ")) ?? "";
+    expect(scriptSrc.split(" ")).toContain("data:");
+  });
+
   it("Head.astro derives the meta element from public/_headers, with no second copy of the policy", () => {
     expect(head).toContain('http-equiv="Content-Security-Policy"');
     expect(head).toContain("cspForMeta(");

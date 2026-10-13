@@ -147,3 +147,26 @@ origin.
 
 **Considered and not taken.** Emitting the element on the demo only, behind a deploy flag: it
 would make the demo differ from what a cloner builds.
+
+## Amendment 2026-10-13 (2): `data:` in `script-src` for the view-transition router
+
+The first real deployment of the meta element showed what the local browser pass had missed.
+After a view-transition navigation to a page whose last module script is inline, Astro's
+`ClientRouter` appends `<script type="module" src="data:application/javascript,">` so it can
+wait for that script before firing `astro:page-load`. The policy blocked it. The page still
+rendered, because the router treats the error as completion, but the wait it exists for was
+cut short and the browser logged an error on each such navigation.
+
+The same block applied on every header-capable host since this policy first shipped. Nobody
+saw it because the demo enforced nothing.
+
+**Change.** `script-src` in `public/_headers` gains `data:`. With `'unsafe-inline'` already
+allowed, a `data:` script source gives an injected script nothing it did not already have, so
+the policy is not meaningfully weaker. Remove it together with `ClientRouter` if view
+transitions are ever dropped; `src/utils/__tests__/cspMeta.test.ts` ties the two.
+
+**Verification.** The original pass navigated only to a page without a trailing inline module
+script. This one drove sixteen router navigations across every top-level page, a blog post and
+an ADR page, in both directions, on a GitHub Pages style build: no `securitypolicyviolation`
+event.
+
