@@ -90,10 +90,11 @@ After cloning, update these files to make the template yours:
 - **Tailwind CSS** 4.x with CSS-native `@theme` design token system
 - **Biome** 2.x for formatting and linting (20x faster than ESLint+Prettier)
 - **Node.js** 24.x (locked via `.nvmrc`)
-- **pnpm** 10.x (pinned via `packageManager` + Corepack; `engines` declares the floor)
+- **pnpm** 11.x (pinned via `packageManager` + Corepack; `engines` declares the floor)
 - Atomic design structure in `src/components/`
 - Content collections with MDX support
 - GitHub Actions CI/CD (build, lint, type-check, security audit)
+- Security headers (CSP, HSTS and others) in `public/_headers`, applied by header-capable hosts such as Cloudflare Pages and Netlify. GitHub Pages, the default deploy, ignores the file, so the shipped demo sends none of them ([ADR-051](./docs/adr/051-content-security-policy-strategy.md))
 - Pre-commit hooks for code quality
 - E2E tests with Playwright, unit tests with Vitest
 
