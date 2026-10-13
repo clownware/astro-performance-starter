@@ -12,8 +12,8 @@ pagefind: true
 
 ## Status
 
-Proposed (retroactive: records a decision shipped 2026-06-07 in `1ec8fc90`, closing #262; the
-maintainer moves it to Accepted on review, per [ADR-066](066-constitution-calibration.md))
+Accepted (retroactive: records a decision shipped 2026-06-07 in `1ec8fc90`, closing #262.
+Written as Proposed in #473; accepted by the maintainer 2026-10-12)
 
 ## Context
 
@@ -102,10 +102,20 @@ reference material for the docs site, not template content.
 
 ## Enforcement
 
-Not enforced — this record's status is **Proposed**; only Accepted ADRs are binding
-(see the status table in the ADR README and ADR-039).
+- **Testable consequences:**
+  - TC-1: every file matched by the `adr` collection's glob satisfies its frontmatter schema.
+  - TC-2: every `/adr/<slug>/` link in content resolves to a record in `docs/adr/`.
+- **Checks:**
+  - TC-1 → `astro check` and the build (status: **block**, pre-existing gate) — the `zod-build`
+    entry registered under ADR-027
+  - TC-2 → the build's link validator and the CI link-check job (status: **block**, pre-existing
+    gate) — the `link-validation` entry registered under ADR-005
+- **Not machine-checkable:** that `docs/adr/` remains the only part of `docs/` published as
+  routes. Nothing asserts it today; a new collection over another `docs/` folder is a review
+  catch under ADR-035.
+- **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
 ---
 **Date**: 2026-10-12\
 **Participants**: Chris Pezza, Claude\
-**Outcome**: Deferred
+**Outcome**: Accepted
