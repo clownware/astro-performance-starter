@@ -72,7 +72,7 @@ Every ADR is listed, with its status and enforcing checks, in the generated inde
 
 - **Target:** GitHub Pages via `.github/workflows/deploy.yml` (push to `master`); `SITE_URL` is set by the workflow
 - **Output:** `dist/`
-- **Security headers:** `public/_headers` — honoured by header-capable hosts (Cloudflare Pages, Netlify); a no-op on the GitHub Pages demo (ADR-051)
+- **Security headers:** `public/_headers` — honoured by header-capable hosts (Cloudflare Pages, Netlify); a no-op on the GitHub Pages demo. The CSP alone is also emitted as a `<meta>` element, generated from that file, so every host enforces it (ADR-051)
 
 ## Cross-tool spine
 

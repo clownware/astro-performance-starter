@@ -94,7 +94,7 @@ After cloning, update these files to make the template yours:
 - Atomic design structure in `src/components/`
 - Content collections with MDX support
 - GitHub Actions CI/CD (build, lint, type-check, security audit)
-- Security headers (CSP, HSTS and others) in `public/_headers`, applied by header-capable hosts such as Cloudflare Pages and Netlify. GitHub Pages, the default deploy, ignores the file, so the shipped demo sends none of them ([ADR-051](./docs/adr/051-content-security-policy-strategy.md))
+- Security headers (CSP, HSTS and others) in `public/_headers`, applied by header-capable hosts such as Cloudflare Pages and Netlify. GitHub Pages, the default deploy, ignores the file. The build therefore also emits the CSP as a `<meta>` element on every page, so it is enforced on any host; the rest (HSTS, `frame-ancestors` and the other headers) still needs a host that sends headers ([ADR-051](./docs/adr/051-content-security-policy-strategy.md))
 - Pre-commit hooks for code quality
 - E2E tests with Playwright, unit tests with Vitest
 
