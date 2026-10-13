@@ -27,12 +27,19 @@ describe("security claims match the shipped deploy", () => {
     expect(line).toContain("051-content-security-policy-strategy.md");
   });
 
+  it("README says the CSP also ships as a meta element, and what that cannot cover", () => {
+    const line = readme.split("\n").find((l) => l.includes("public/_headers")) ?? "";
+    expect(line).toMatch(/<meta>/);
+    expect(line).toMatch(/frame-ancestors/);
+  });
+
   it("the showcase security card does not advertise headers without the host caveat", () => {
     const showcase = read("src/pages/showcase.astro");
     const card = showcase.match(/title="Security"[\s\S]*?\/>/)?.[0] ?? "";
     expect(card, "security card not found").not.toBe("");
     expect(card).not.toMatch(/Hardened headers/);
     expect(card).toMatch(/header-capable host/i);
+    expect(card).toMatch(/CSP on every host/);
   });
 
   it("README states the pnpm major that package.json pins", () => {

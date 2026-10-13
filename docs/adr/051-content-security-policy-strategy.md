@@ -10,7 +10,7 @@ pagefind: true
 
 ## Status
 
-Accepted (header-based CSP via `public/_headers`; the evaluated alternative — Astro's built-in `security.csp` — was rejected, see Decision)
+Accepted (header-based CSP via `public/_headers`; the evaluated alternative — Astro's built-in `security.csp` — was rejected, see Decision. Amended 2026-10-13: the same policy is also emitted as a `<meta>` element generated from `public/_headers`, see the amendment at the end of this record)
 
 ## Context
 
@@ -103,8 +103,10 @@ compatibility, or if the template drops view transitions and Shiki.
 - **Testable consequences:**
   - TC-1: `public/_headers` sets a `Content-Security-Policy` header.
   - TC-2: Astro's built-in `security.csp` is not enabled in `astro.config.mjs`.
+  - TC-3 _(added 2026-10-13)_: the CSP `<meta>` element is derived from `public/_headers`, omits the directives a meta element cannot enforce, and precedes every script, style and font in `<head>`.
 - **Checks:**
   - TC-1, TC-2 → check `csp-shape` (status: **block**)
+  - TC-3 → `src/utils/__tests__/cspMeta.test.ts` via `test:unit` (status: **block**)
 - **Not machine-checkable:** policy strength and directive appropriateness for a given deployment.
 - **Graduation log:**
   - 2026-10-12 — `csp-shape` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
@@ -113,3 +115,35 @@ compatibility, or if the template drops view transitions and Shiki.
 **Date**: 2026-06-07\
 **Participants**: Template maintainers\
 **Outcome**: Built-in `security.csp` rejected; header-based CSP retained as the production default
+
+## Amendment 2026-10-13: the policy is also delivered as a meta element (#480)
+
+The Decision above accepted that "the GitHub Pages demo enforces no CSP". That stopped being
+acceptable once the template's own pages advertised the policy (#397): the default deploy is
+the one most cloners start from, and it enforced nothing.
+
+**Change.** In production builds `Head.astro` emits
+`<meta http-equiv="Content-Security-Policy">` on every page. Its content is read from
+`public/_headers` at build time by `src/utils/cspMeta.ts`, so the header file stays the single
+source and the two cannot drift. A cloner who extends a `*-src` directive in `_headers`, as the
+Consequences section tells them to, changes both.
+
+**What the meta element does not cover.** Browsers ignore `frame-ancestors`, `report-uri`,
+`report-to` and `sandbox` in a meta element, so the generator drops them. Click-jacking
+protection (`frame-ancestors 'none'`, `X-Frame-Options`), HSTS, `X-Content-Type-Options`,
+`Referrer-Policy` and `Permissions-Policy` still require a host that sends headers. On such a
+host the browser applies both copies of the policy, which are identical apart from
+`frame-ancestors`.
+
+**What is unchanged.** The rejection of Astro's built-in `security.csp`, the
+`'unsafe-inline'` trade-off and its reasons, and `public/_headers` as the place a policy is
+edited. The meta element is not emitted by the dev server, whose client is not written for it.
+
+**Verification.** A build with the GitHub Pages base path was served with no response headers
+and exercised in a browser: seven pages, a view-transition navigation, a hydrated island, the
+theme toggle and Shiki-highlighted code, with no `securitypolicyviolation` event and no console
+error. The built site loads no cross-origin resource, and its one real form posts to its own
+origin.
+
+**Considered and not taken.** Emitting the element on the demo only, behind a deploy flag: it
+would make the demo differ from what a cloner builds.

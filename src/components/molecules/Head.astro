@@ -1,6 +1,9 @@
 ---
 import { Font } from "astro:assets";
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
 import { siteMetadata } from "@/config";
+import { cspForMeta, cspFromHeadersFile } from "@/utils/cspMeta";
 import { withBase } from "@/utils/url-utils";
 import { validateOgImage } from "@/utils/validateOgImage";
 
@@ -125,9 +128,19 @@ if (ogType === "article" && ogArticle) {
 }
 
 const jsonLd = JSON.stringify({ "@context": "https://schema.org", "@graph": jsonLdGraph });
+
+// ADR-051: public/_headers is the single source of the policy. Hosts that apply
+// the file send it as a header; this element carries it everywhere else. It is
+// production-only so the dev server's client is not subject to it, and it reads
+// the file at build time (the site is static, so this runs in Node).
+const cspMeta = import.meta.env.PROD
+  ? cspForMeta(cspFromHeadersFile(readFileSync(join(process.cwd(), "public", "_headers"), "utf-8")))
+  : null;
 ---
 
 <meta charset="UTF-8" />
+{/* Must precede every script, style and font: a policy only governs what follows it. */}
+{cspMeta && <meta http-equiv="Content-Security-Policy" content={cspMeta} />}
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="color-scheme" content="light dark" />
 <meta name="generator" content={Astro.generator} />
