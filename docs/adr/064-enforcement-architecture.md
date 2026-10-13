@@ -103,6 +103,11 @@ Adopt Option 3. The enforcement architecture is:
   guard, a Stop-gate) were sketched in the #327 amendment text but **not
   shipped**; no hook mechanism exists in this repo. If they land later, they
   extend this record via amendment.
+- **Amended 2026-10-13: both hooks have landed.** The PreToolUse guard is
+  [ADR-068](068-adr-write-guard-and-append-only.md) and the Stop-gate is
+  [ADR-069](069-stop-gate-hook.md). Hooks in `.claude/settings.json` are an enforcement surface
+  beside CI and the local chain. They inform and delay an agent session; neither is a gate, and
+  the graduation rules are unchanged.
 
 ### Check lifecycle
 

@@ -20,6 +20,7 @@ on:
       - 'scripts/src/run-enforcement.ts'
       - 'scripts/src/adr-guard.ts'
       - 'scripts/src/adr-append-only.ts'
+      - 'scripts/src/stop-gate.ts'
 
 concurrency:
   group: governance-diff-${{ github.ref }}
@@ -46,7 +47,7 @@ jobs:
           changed=$(git diff --name-status "$BASE_SHA...$HEAD_SHA" -- \
             CLAUDE.md AGENTS.md .claude checks docs/adr \
             scripts/src/enforcement-checks.ts scripts/src/run-enforcement.ts \
-            scripts/src/adr-guard.ts scripts/src/adr-append-only.ts)
+            scripts/src/adr-guard.ts scripts/src/adr-append-only.ts scripts/src/stop-gate.ts)
           {
             echo "## Governance files changed in this pull request"
             echo

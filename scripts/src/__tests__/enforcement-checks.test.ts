@@ -91,6 +91,7 @@ function clean(): RepoSnapshot {
             "Edit(/scripts/src/run-enforcement.ts)",
             "Edit(/scripts/src/adr-guard.ts)",
             "Edit(/scripts/src/adr-append-only.ts)",
+            "Edit(/scripts/src/stop-gate.ts)",
           ],
         },
         hooks: {
@@ -101,6 +102,8 @@ function clean(): RepoSnapshot {
               hooks: [{ type: "command", command: "node scripts/src/adr-guard.ts" }],
             },
           ],
+          // biome-ignore lint/style/useNamingConvention: keys are Claude Code's hook schema
+          Stop: [{ hooks: [{ type: "command", command: "node scripts/src/stop-gate.ts" }] }],
         },
       }),
       "docs/README.md": "# Docs",
@@ -574,6 +577,18 @@ describe("ADR-066 constitution calibration", () => {
     };
     snap.files[".claude/settings.json"] = JSON.stringify(settings);
     expect(runCheck("adr-guard-wired", snap, config).join()).toContain("Write");
+  });
+
+  it("stop-gate-wired flags a settings file with no Stop hook", () => {
+    const snap = clean();
+    const settings = JSON.parse(snap.files[".claude/settings.json"]);
+    delete settings.hooks.Stop;
+    snap.files[".claude/settings.json"] = JSON.stringify(settings);
+    expect(runCheck("stop-gate-wired", snap, config).join()).toContain("stop-gate");
+  });
+
+  it("stop-gate-wired passes when the Stop hook runs the gate script", () => {
+    expect(runCheck("stop-gate-wired", clean(), config)).toEqual([]);
   });
 
   it("ci-runs-quality flags a quality:ci that no longer runs the enforcement suite", () => {

@@ -12,7 +12,8 @@
       "Edit(/scripts/src/enforcement-checks.ts)",
       "Edit(/scripts/src/run-enforcement.ts)",
       "Edit(/scripts/src/adr-guard.ts)",
-      "Edit(/scripts/src/adr-append-only.ts)"
+      "Edit(/scripts/src/adr-append-only.ts)",
+      "Edit(/scripts/src/stop-gate.ts)"
     ]
   },
   "hooks": {
@@ -23,6 +24,16 @@
           {
             "type": "command",
             "command": "node scripts/src/adr-guard.ts"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node scripts/src/stop-gate.ts"
           }
         ]
       }
