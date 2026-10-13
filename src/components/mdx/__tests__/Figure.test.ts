@@ -10,6 +10,12 @@ describe("Figure (mdx)", () => {
     expect(html).toContain('alt="System diagram"');
   });
 
+  it("loads the image lazily, like the Image wrapper's string-src fallback (ADR-030)", async () => {
+    const html = await render(Figure, { src: "/img/diagram.svg", alt: "System diagram" });
+    expect(html).toContain('loading="lazy"');
+    expect(html).toContain('decoding="async"');
+  });
+
   it("renders no figcaption when caption is omitted", async () => {
     const html = await render(Figure, { src: "/img/diagram.svg", alt: "System diagram" });
     expect(html).not.toContain("<figcaption");

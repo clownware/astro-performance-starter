@@ -38,9 +38,9 @@ See `docs/patterns/component-patterns.md` for the full spec. Component-scoped gu
 Tokens are the single source of truth in `tokens/`. Build with `pnpm run tokens:build`.
 The token layer is role-based (ADR-047): names describe intent, not tiers.
 
-- Role naming: `background`, `surface`, `foreground`, `muted-foreground`, `border`, `border-emphasis`, `link`, `success`/`warning`/`error`
+- Role naming: `background`, `surface`, `foreground`, `muted-foreground`, `border`, `border-emphasis`, `link`, `accent`, `tint`/`tint-foreground`, `tint-secondary`/`tint-secondary-foreground`, `success`/`warning`/`error`
 - CSS variables: `--color-foreground`, `--color-surface`, `--color-muted-foreground`
-- Tailwind classes: `text-foreground`, `bg-surface`, `text-muted-foreground`, `text-link`
+- Tailwind classes: `text-foreground`, `bg-surface`, `text-muted-foreground`, `text-link`, `bg-tint text-tint-foreground`, `text-accent`
 - Brand scales `primary`/`secondary` (50–950) are retained for gradients and hover states
 - Status colours are single role tokens — tint with opacity (`bg-success/10`, `text-error`), never 3-step scales
 - Typography: `font-display` (Geist headlines) / `font-text` (Inter body) via the `fontFamily` token group
@@ -49,7 +49,7 @@ The token layer is role-based (ADR-047): names describe intent, not tiers.
 Forbidden:
 
 - Hardcoded colours (`bg-white`, `text-slate-600`) and old palette names (`gray`→`slate`, `moonstone`→`violet`)
-- Manual dark variants (`dark:bg-slate-800`) — the role tokens handle this
+- Manual dark variants (`dark:bg-slate-800`, `bg-primary-100 dark:bg-primary-900`) — the role tokens handle this (`bg-tint`)
 - Hardcoded spacing values that bypass Tailwind's scale
 
 ## Images

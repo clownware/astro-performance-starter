@@ -91,6 +91,11 @@
   --color-surface: hsl(var(--color-surface));
   --color-surface-raised: hsl(var(--color-surface-raised));
   --color-surface-accent: hsl(var(--color-surface-accent));
+  --color-tint: hsl(var(--color-tint));
+  --color-tint-foreground: hsl(var(--color-tint-foreground));
+  --color-tint-secondary: hsl(var(--color-tint-secondary));
+  --color-tint-secondary-foreground: hsl(var(--color-tint-secondary-foreground));
+  --color-accent: hsl(var(--color-accent));
   --color-foreground: hsl(var(--color-foreground));
   --color-muted-foreground: hsl(var(--color-muted-foreground));
   --color-border: hsl(var(--color-border));

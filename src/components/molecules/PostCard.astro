@@ -26,6 +26,7 @@ const img = post.data.cardImage ?? post.data.cover;
 <Card class="group relative w-full overflow-hidden transition-all duration-300 hover:shadow-lg">
   {img ? (
     <div class="aspect-video overflow-hidden">
+      {/* ADR-030 exemption 1: a string src (remote or public/) cannot go through the image pipeline. */}
       {typeof img === "string" ? (
         <img
           src={img}

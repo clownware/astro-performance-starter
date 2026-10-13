@@ -140,6 +140,12 @@ exemptions, which the codebase already practised without a record:
 
 Anything outside these two cases still halts on rule 8.
 
+*Amendment 2026-10-12 (#435):* the MDX `Figure` component is recorded under exemption 1. Its
+`src` prop is a string by contract (a remote URL or a `public/` path written in MDX), the same
+case as the wrapper's fallback, and it now sets `loading="lazy"` and `decoding="async"` as the
+wrapper does. Every exempt `<img>` in `src/` carries an inline comment naming `ADR-030` and
+which exemption applies.
+
 *Amendment 2026-09-23 (#414):* the homepage's three state portraits
 (`state-shipped`, `state-writing`, `state-thinking`) no longer use this
 exemption. They are imported as Astro SVG components and inlined, which keeps
@@ -197,7 +203,8 @@ is safe.
   - TC-2 → `images:gate` in CI (status: **block**, pre-existing gate) — see ADR-057
   - TC-3 → `src/components/atoms/__tests__/Image.test.ts` via `test:unit` (status: **block**)
 - **Not machine-checkable:** per-image layout/format choices remain judgment calls.
-- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+- **Graduation log:**
+  - 2026-10-12 — `no-raw-img` stays **warn**; miscalibration fixed and backlog cleared (11 findings to 0, #435). The check matched an `<img` named in a code comment and in a string in a page's frontmatter; it now reads markup only (no `.astro` frontmatter, no comments) while still taking the `ADR-030` justification from the comment above the tag. The other nine were legitimate exemptions missing the keyword. Calibration window restarts from this date.
 
 ---
 **Date**: 2026-02-18\

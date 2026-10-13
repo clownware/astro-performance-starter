@@ -86,6 +86,11 @@
       "value": "256 60% 96%",
       "dark": "256 38% 13%"
     },
+    "tint": { "value": "{color.violet.100}", "dark": "{color.violet.900}" },
+    "tintForeground": { "value": "{color.violet.800}", "dark": "{color.violet.200}" },
+    "tintSecondary": { "value": "{color.rose.100}", "dark": "{color.rose.900}" },
+    "tintSecondaryForeground": { "value": "{color.rose.800}", "dark": "{color.rose.200}" },
+    "accent": { "value": "{color.violet.600}", "dark": "{color.violet.400}" },
     "foreground": {
       "value": "{color.charcoal}",
       "dark": "{color.slate.50}"

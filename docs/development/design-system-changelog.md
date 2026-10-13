@@ -10,6 +10,19 @@ pagefind: true
 
 This document tracks changes to the design system — the token sources in `tokens/` (`base.json`, `semantic.json`), the generated `tokens/dist/tokens.css`, and the theme mechanism. The authoritative record for the current token model is [ADR-047](/adr/047-design-tokens-v2-role-based-naming/); this page is the short history.
 
+## 2026-10-12 - Design system v2.2: tint and accent roles
+
+### Added
+
+- Five role tokens that replace hand-written light/dark pairs: `tint` / `tintForeground` (violet), `tintSecondary` / `tintSecondaryForeground` (rose), and `accent` (icons and rule borders). Utilities: `bg-tint text-tint-foreground`, `bg-tint-secondary text-tint-secondary-foreground`, `text-accent`, `border-accent`. Recorded as the v2.2 amendment to ADR-047.
+- `Badge` has a `solid` variant for high-emphasis markers such as "New".
+
+### Changed
+
+- No `dark:` utility remains in `src/` markup; a unit test guards it.
+- `Blockquote` uses `surfaceAccent`. Contact-page icon chips use `tintForeground`. Homepage tech-category badges are rose in both themes (they were violet in dark).
+- `dark:prose-invert` removed from the blog and ADR prose containers; `.prose` already reads role tokens.
+
 ## 2026-06-07 - Design system v2.1 tokens
 
 ### Changed

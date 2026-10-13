@@ -90,7 +90,8 @@ const { sections, class: className, ariaLabel = "Page sections" } = Astro.props;
   @media (max-width: 1023px) {
     .scroll-spy {
       /* Soft 1.25rem fade. Wide enough to signal scrollability without
-         visibly dimming an active item that lands near the right edge. */
+         visibly dimming an active item that lands near the right edge.
+         ADR-047 exemption: #000 is the mask's alpha channel, not a painted colour. */
       mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 1.25rem), transparent 100%);
       -webkit-mask-image: linear-gradient(to right, #000 0, #000 calc(100% - 1.25rem), transparent 100%);
     }

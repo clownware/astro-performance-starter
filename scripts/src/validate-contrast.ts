@@ -128,6 +128,12 @@ const pairs: Pair[] = [
   { fg: "error", bg: "background", min: aaNormal },
   { fg: "error", bg: "surface", min: aaNormal },
   { fg: "primaryForeground", bg: "primary.600", min: aaNormal },
+  // Tinted badges and chips (ADR-047 v2.2): label text on its own tint.
+  { fg: "tintForeground", bg: "tint", min: aaNormal },
+  { fg: "tintSecondaryForeground", bg: "tintSecondary", min: aaNormal },
+  // accent styles icons and rule borders, never body copy.
+  { fg: "accent", bg: "background", min: aaLarge, note: "icons/borders only" },
+  { fg: "accent", bg: "surface", min: aaLarge, note: "icons/borders only" },
   // warning is amber — it cannot reach 4.5:1 on a white surface without going
   // muddy, and its real usages are decorative (aria-hidden checkmarks), badge
   // fills, and large Callout headings — so it is held to the 3:1 large-text /

@@ -331,7 +331,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
           <li>
             <Card class="border-2 border-primary-300 bg-surface p-6 text-center h-full">
               <div class="flex items-center justify-center gap-2 text-3xl font-bold text-link" aria-label={`${metric.label} score: ${metric.score}`}>
-                <Icon name={metric.icon} class="size-6 text-primary-600 dark:text-primary-400" decorative />
+                <Icon name={metric.icon} class="size-6 text-accent" decorative />
                 {metric.score}
               </div>
               <div class="mt-1 text-sm font-medium text-muted-foreground">{metric.label}</div>
@@ -602,7 +602,7 @@ const latestPostsWithMetadata = latestPosts.map((post) => ({
         {techStack.map((tech) => (
           <Card class="p-6 text-center hover:shadow-lg transition-shadow group">
             <div class="mb-3">
-              <Badge class="bg-secondary-100 text-secondary-800 text-xs">
+              <Badge variant="secondary" size="xs">
                 {tech.category}
               </Badge>
             </div>

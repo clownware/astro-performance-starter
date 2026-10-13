@@ -118,7 +118,7 @@ const composedClass = [...baseClasses, ...shadowClasses, className].filter(Boole
     />
   )
 ) : (
-  // Fallback for string src paths – native <img>
+  // ADR-030 exemption 1: the wrapper's string-src fallback – native <img>
   <img
     src={src as string}
     alt={alt}

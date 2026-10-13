@@ -11,6 +11,9 @@ const { src, alt, caption, ...figureAttrs } = Astro.props;
 ---
 
 <figure {...figureAttrs}>
-  <img src={src} alt={alt} />
+  {/* ADR-030 exemption 1: `src` is a string by contract (a remote URL or a public/ path
+      written in MDX), which the image pipeline cannot process. Same case as the Image
+      wrapper's string-src fallback, with the same lazy loading. */}
+  <img src={src} alt={alt} loading="lazy" decoding="async" />
   {caption && <figcaption>{caption}</figcaption>}
 </figure>

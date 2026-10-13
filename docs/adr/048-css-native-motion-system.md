@@ -147,7 +147,8 @@ selected for this starter.
 - **Checks:**
   - TC-1, TC-2 → check `motion-gated` (status: **warn**) — flagged medium-brittle at creation; calibrate in warn before any promotion
 - **Not machine-checkable:** meaningful resting states and the boundedness of decorative motion are judgments.
-- **Graduation log:** *(empty at creation; entries added when a check changes status)*
+- **Graduation log:**
+  - 2026-10-12 — `motion-gated` stays **warn**; miscalibration fixed and backlog cleared (2 findings to 0). It matched keyframes shown as a code sample in a page's frontmatter string (`how-it-works.astro`); it now reads markup and styles only. `ContactForm`'s spinner gained a `prefers-reduced-motion: reduce` rule. Calibration window restarts from this date.
 
 ---
 **Date**: 2026-06-06\
