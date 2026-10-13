@@ -203,3 +203,8 @@ The "verify with" → "halt and fix" sweep is one-off. New documentation should 
 - **Not machine-checkable:** that operators actually run the gate locally before claiming done is process discipline; no edit-time hook automates it — ADR-064 records the sketched Stop-gate as not shipped, so CI is the backstop.
 - **Graduation log:**
   - 2026-10-12 — `ci-runs-quality` graduates **warn → block** under [ADR-066](066-constitution-calibration.md). Evidence: zero findings in all 45 CI runs that reached the suite between 2026-09-23 and 2026-10-12 (the logs GitHub retains; runs that failed earlier in the job did not execute it), and zero on `master` at graduation. Proposed from that record; graduated by the maintainer on merging ADR-066.
+- **Amended 2026-10-13 by [ADR-069](069-stop-gate-hook.md):** a Stop hook now runs the unit tests and
+  the enforcement suite when an agent finishes a turn, blocks at most twice, then warns the
+  maintainer. It does not run the whole of `quality:ci` and it can be waited out, so CI remains
+  the gate and the not-machine-checkable line above still holds for everything the hook does not
+  run.
