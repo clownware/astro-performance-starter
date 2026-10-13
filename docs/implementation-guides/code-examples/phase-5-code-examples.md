@@ -860,9 +860,9 @@ import Grid from "@/components/structural/Grid.astro";
   <ExpandableFeatureCard
     icon="shield-check"
     title="Security"
-    description="Hardened headers and CI scanning."
-    metric="CSP + HSTS"
-    expandedDetails={["Header-based CSP", "Gitleaks + Semgrep in CI", "No third-party requests"]}
+    description="Scanned in CI, with a header policy ready for your host."
+    metric="CI-scanned"
+    expandedDetails={["Gitleaks + Semgrep in CI", "CSP + HSTS on a header-capable host", "No third-party requests"]}
   />
 </Grid>
 ```
