@@ -253,6 +253,7 @@ const guardedPaths = [
   "Edit(/scripts/src/run-enforcement.ts)",
   "Edit(/scripts/src/adr-guard.ts)",
   "Edit(/scripts/src/adr-append-only.ts)",
+  "Edit(/scripts/src/stop-gate.ts)",
 ];
 
 export const CHECKS: CheckDef[] = [
@@ -838,6 +839,29 @@ export const CHECKS: CheckDef[] = [
         .map(
           (tool) => `.claude/settings.json — the adr-guard hook's matcher does not cover ${tool}`,
         );
+    },
+  },
+  {
+    id: "stop-gate-wired",
+    adr: "ADR-069",
+    tc: "TC-1",
+    remedy:
+      "The Stop-gate runs the unit tests and the enforcement suite when an agent finishes a turn (ADR-069). Restore the Stop hook in .claude/settings.json that runs scripts/src/stop-gate.ts; never remove it to finish a turn. STOP_GATE_OFF=1 is the maintainer's kill-switch for one session.",
+    run: (snap) => {
+      const raw = snap.files[".claude/settings.json"];
+      if (raw === undefined) {
+        return [".claude/settings.json — file missing"];
+      }
+      let groups: { hooks?: { command?: string }[] }[] = [];
+      try {
+        groups = JSON.parse(raw).hooks?.Stop ?? [];
+      } catch {
+        return [".claude/settings.json — not valid JSON"];
+      }
+      const wired = groups.some((g) =>
+        (g.hooks ?? []).some((h) => (h.command ?? "").includes("stop-gate")),
+      );
+      return wired ? [] : [".claude/settings.json — no Stop hook runs scripts/src/stop-gate.ts"];
     },
   },
 ];

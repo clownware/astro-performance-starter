@@ -147,7 +147,7 @@ How work moves through the repo. These rules apply with the same force as `CLAUD
 |---|---|---|
 | Modify freely | `src/`, `astro.config.mjs`, `tsconfig.json`, `biome.json`, `package.json`, `tokens/`, `public/`, `.github/workflows/` | Full read/write |
 | Read-only | `docs/` | Don't modify unless explicitly asked to update documentation. Exception: you may add a new ADR file under `docs/adr/` with status Proposed, then run `pnpm adr:index` |
-| Ask first | `CLAUDE.md`, `.claude/`, `checks/`, `scripts/src/enforcement-checks.ts`, `scripts/src/run-enforcement.ts`, `scripts/src/adr-guard.ts`, `scripts/src/adr-append-only.ts`, existing ADRs | Governance files. Edit only with the maintainer's approval in the session; never edit one to make a request compliant (ADR-066) |
+| Ask first | `CLAUDE.md`, `.claude/`, `checks/`, `scripts/src/enforcement-checks.ts`, `scripts/src/run-enforcement.ts`, `scripts/src/adr-guard.ts`, `scripts/src/adr-append-only.ts`, `scripts/src/stop-gate.ts`, existing ADRs | Governance files. Edit only with the maintainer's approval in the session; never edit one to make a request compliant (ADR-066) |
 | Don't create | Maintenance artifacts, deployment workflows, marketing content | Suggest adding to docs site instead |
 
 Full rationale in [ADR-035](../docs/adr/035-template-scope-boundary.md). The Ask-first row is backed by `permissions.ask` rules in `.claude/settings.json` ([ADR-066](../docs/adr/066-constitution-calibration.md)); a session with nobody to approve is refused, which is the intended outcome. Existing ADRs are backed by a PreToolUse hook, `scripts/src/adr-guard.ts`, which asks before any edit to a record that already exists and lets a new one through ([ADR-068](../docs/adr/068-adr-write-guard-and-append-only.md)).
@@ -175,6 +175,8 @@ pnpm quality:ci
 If it exits non-zero, halt and fix the failure. Do not propose the change as complete. Do not work around the failure by lowering thresholds, excluding files, or skipping git hooks with `--no-verify`.
 
 **Local↔CI parity** (per [ADR-039](../docs/adr/039-halt-on-violation-enforcement.md)): `pnpm quality:ci` runs `format:check + lint + lint:md + check + test:unit`, then the repo-consistency gates `agents:check` ([ADR-045](../docs/adr/045-cross-tool-agents-spine.md)), `version:check`, `og:check`, `adr:check`, `docs:count` and `docs:snippets`, then `enforce`, the ADR enforcement suite ([ADR-064](../docs/adr/064-enforcement-architecture.md)), which fails on any block-status check. CI runs the same plus `test:coverage` (for the artefact upload added in PR #213). Same tests; only v8 instrumentation differs. A broken unit test fails both commands.
+
+A Stop hook, `scripts/src/stop-gate.ts`, runs `pnpm test:unit` and `pnpm enforce` when you finish a turn ([ADR-069](../docs/adr/069-stop-gate-hook.md)). If it blocks, fix the failure; do not edit a test, a check or its status to get past it. If you cannot fix it, start your final message with `GATE FAILING:` and say what is failing and what you need. The hook is not the gate: `pnpm quality:ci` still is.
 
 The fast inner-loop variant is `pnpm quality` (auto-fixes format and lint where possible; does NOT chain tests, so iteration stays fast). Reserve `pnpm quality:ci` for the final gate before claiming done.
 

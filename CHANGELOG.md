@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Stop-gate hook ([ADR-069](./docs/adr/069-stop-gate-hook.md)): `scripts/src/stop-gate.ts` runs `pnpm test:unit` and `pnpm enforce` when an agent finishes a turn, blocks the same session at most twice, then lets the turn end and warns the maintainer that the gate is still failing. `STOP_GATE_OFF=1` disables it for a session; `stop-gate-wired` reports a missing hook
 - Existing ADRs are guarded at write time and checked at diff time ([ADR-068](./docs/adr/068-adr-write-guard-and-append-only.md)): a PreToolUse hook (`scripts/src/adr-guard.ts`) asks before any edit to a record that already exists and denies hand-edits of `AGENTS.md`; `adr-append-only` reports accepted text that was removed or rewritten, in the enforcement suite and as line annotations from the `governance-diff` workflow; `adr-guard-wired` reports a missing hook. Both checks start at `warn`
 - `versions.json` declared a public consumption contract — additive keys fine, renames/removals breaking ([ADR-061](./docs/adr/061-versions-json-public-contract.md))
 - `version:check` now fails on a drifted `template` field in `versions.json`; `version:fix` stamps it from `package.json` `"version"` (the field had shipped drifted: v0.2.0 vs 0.9.0)
