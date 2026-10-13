@@ -118,6 +118,6 @@ working in its area: the row tells you a decision exists, not what it permits.
 | [ADR-064](064-enforcement-architecture.md) | Enforcement Architecture and Graduation Model | Accepted | `adr-log-valid` (block) |
 | [ADR-065](065-pnpm-11-and-release-age-gate.md) | pnpm 11 With the One-Day Release-Age Gate | Accepted | – |
 | [ADR-066](066-constitution-calibration.md) | Constitution Calibration From the With-and-Without Test | Accepted | `governance-paths-guarded` (warn) |
-| [ADR-067](067-adrs-published-as-web-routes.md) | ADRs Published as Web Routes | Proposed | – |
+| [ADR-067](067-adrs-published-as-web-routes.md) | ADRs Published as Web Routes | Accepted | – |
 | [ADR-068](068-adr-write-guard-and-append-only.md) | Write-Time Guard and Append-Only Check for Accepted ADRs | Accepted | `adr-append-only` (warn), `adr-guard-wired` (warn) |
 <!-- adr-index:end -->
