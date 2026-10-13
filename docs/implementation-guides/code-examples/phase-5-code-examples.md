@@ -862,7 +862,7 @@ import Grid from "@/components/structural/Grid.astro";
     title="Security"
     description="Scanned in CI, with a header policy ready for your host."
     metric="CI-scanned"
-    expandedDetails={["Gitleaks + Semgrep in CI", "CSP + HSTS on a header-capable host", "No third-party requests"]}
+    expandedDetails={["Gitleaks + Semgrep in CI", "CSP on every host; HSTS on a header-capable host", "No third-party requests"]}
   />
 </Grid>
 ```
