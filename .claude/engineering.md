@@ -94,4 +94,4 @@ For external images, use `<Image>` with the `inferSize` prop.
 4. Test names describe behaviour, not implementation.
 5. Never lower a coverage threshold to make CI pass. Add the missing test or open an ADR documenting the exception.
 
-The practical companion with examples lives at [`docs/development/testing-conventions.md`](../docs/development/testing-conventions.md). The exemplar test file is [`src/utils/__tests__/formatDate.test.ts`](../src/utils/__tests__/formatDate.test.ts). The Architect pass from [ADR-038](../docs/adr/038-agent-roles.md) produces the failing test these rules govern.
+The practical companion with examples lives at [`docs/development/testing-conventions.md`](../docs/development/testing-conventions.md). The exemplar test file is [`src/utils/__tests__/formatDate.test.ts`](../src/utils/__tests__/formatDate.test.ts). When the three-pass workflow is requested, its Architect pass ([ADR-038](../docs/adr/038-agent-roles.md)) produces the failing test these rules govern; otherwise you write it first yourself (constitution rule 10).
