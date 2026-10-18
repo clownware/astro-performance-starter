@@ -5,7 +5,7 @@
   "node": "24.21.0",
   "pnpm": "11.27.1",
   "biome": "2.5.15",
-  "typescript": "5.9.3",
+  "typescript": "6.0.3",
   "preact": "10.29.8",
   "astro-mdx": "8.1.0",
   "tailwindcss-vite": "4.3.3",
