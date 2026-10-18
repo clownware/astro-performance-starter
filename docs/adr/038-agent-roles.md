@@ -12,7 +12,8 @@ pagefind: true
 
 ## Status
 
-Accepted
+Accepted (amended 2026-10-18: the three-pass workflow runs when the operator requests it, not on
+every feature that meets the trigger conditions; see the amendment at the end of this record)
 
 ## Context
 
@@ -203,3 +204,33 @@ The hand-off announcements (e.g. "Architect pass complete. ADR-NNN drafted; test
 
 - **Not machine-checkable:** whether the Architect/Coder/Reviewer passes actually happened is visible in PR artefacts by convention but is not machine-assertable from the repo state.
 - **Graduation log:** _(empty at creation; entries added when a check changes status)_
+
+## Amendment 2026-10-18: the three-pass workflow is opt-in (#471)
+
+**Decision.** The workflow runs when the operator asks for it. Without a request the agent works in
+one pass. Constitution rule 10 (a failing test before production code, [ADR-037](037-testing-philosophy.md))
+and rule 9 (the quality gate, [ADR-039](039-halt-on-violation-enforcement.md)) are unchanged and
+still apply to every change. For work that meets the original trigger conditions, the agent says
+the workflow is available. The role files are unchanged.
+
+**Why.** The with-and-without test recorded in [ADR-066](066-constitution-calibration.md) gave two
+results about this record:
+
+- _It was one link in a chain that stopped ordinary work._ Asked for a dismissible announcement
+  bar, the constitution as it stood stopped in 6 of 6 runs, each citing this workflow alongside rule
+  7 and read-only `docs/`. ADR-066 cut the other two links.
+- _It was skipped silently once it no longer blocked._ In the rerun under ADR-066's wording, with this
+  record still mandatory, the same task was built in 6 of 6 runs and a test file changed in all 6,
+  but one final message of six mentioned the Architect pass and none ran the passes. The trigger
+  conditions plainly applied: the feature touches ADR-001, ADR-035 and ADR-037.
+
+The test-writing this record was meant to secure is delivered by rule 10 on its own. A rule that
+binds on paper and is skipped in practice teaches the agent that rules are optional, which costs more
+than the workflow gives when nobody requested it.
+
+**Limits.** One task, three runs per model per arm. The decision rests on that and on the
+maintainer's judgement, not on a test of this change by itself.
+
+**Revisit** if PRs from unrequested one-pass work show the failure modes in the Context section
+(tests after code, scope drift, review indistinguishable from implementation) despite rule 10.
+

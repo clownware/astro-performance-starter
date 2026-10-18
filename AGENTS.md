@@ -135,7 +135,7 @@ For external images, use `<Image>` with the `inferSize` prop.
 4. Test names describe behaviour, not implementation.
 5. Never lower a coverage threshold to make CI pass. Add the missing test or open an ADR documenting the exception.
 
-The practical companion with examples lives at [`docs/development/testing-conventions.md`](../docs/development/testing-conventions.md). The exemplar test file is [`src/utils/__tests__/formatDate.test.ts`](../src/utils/__tests__/formatDate.test.ts). The Architect pass from [ADR-038](../docs/adr/038-agent-roles.md) produces the failing test these rules govern.
+The practical companion with examples lives at [`docs/development/testing-conventions.md`](../docs/development/testing-conventions.md). The exemplar test file is [`src/utils/__tests__/formatDate.test.ts`](../src/utils/__tests__/formatDate.test.ts). When the three-pass workflow is requested, its Architect pass ([ADR-038](../docs/adr/038-agent-roles.md)) produces the failing test these rules govern; otherwise you write it first yourself (constitution rule 10).
 
 ## Workflow
 
@@ -152,15 +152,17 @@ How work moves through the repo. These rules apply with the same force as `CLAUD
 
 Full rationale in [ADR-035](../docs/adr/035-template-scope-boundary.md). The Ask-first row is backed by `permissions.ask` rules in `.claude/settings.json` ([ADR-066](../docs/adr/066-constitution-calibration.md)); a session with nobody to approve is refused, which is the intended outcome. Existing ADRs are backed by a PreToolUse hook, `scripts/src/adr-guard.ts`, which asks before any edit to a record that already exists and lets a new one through ([ADR-068](../docs/adr/068-adr-write-guard-and-append-only.md)).
 
-### Non-trivial Feature Workflow (ADR-038)
+### Three-pass Workflow, on request (ADR-038)
 
-For any feature that touches multiple ADRs, has non-obvious acceptance criteria, adds a dependency, or changes a public API, use the three-pass workflow:
+Use the three-pass workflow when the operator asks for it, for example by naming it or one of its roles. Otherwise work in one pass: constitution rule 10 still requires a failing test before production code, and rule 9 still requires `pnpm quality:ci` before calling the work done. For a feature that touches several ADRs, adds a dependency or changes a public API, say in your summary that the three-pass workflow is available.
+
+When requested:
 
 1. **Architect pass** ([`.claude/roles/architect.md`](roles/architect.md)) — write or update the relevant ADR; write the failing test scaffold; no production code
 2. **Coder pass** ([`.claude/roles/coder.md`](roles/coder.md)) — minimum implementation to make the failing test pass; no test edits beyond what the Architect scaffolded
 3. **Reviewer pass** ([`.claude/roles/reviewer.md`](roles/reviewer.md)) — run `pnpm quality:ci`; report delta vs. the Architect plan; recommend (no commits)
 
-Each pass produces a concrete artefact and announces hand-off explicitly. The operator (human) enforces the hand-off: refuse to merge work that skipped a pass. Trivial changes (typo, single-line, single rename) can skip the pattern.
+Each pass produces a concrete artefact and announces hand-off explicitly. The operator (human) enforces the hand-off: refuse to merge requested work that skipped a pass.
 
 Full rationale in [ADR-038](../docs/adr/038-agent-roles.md).
 

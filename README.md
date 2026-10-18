@@ -128,7 +128,7 @@ The constitution layers responsibility:
 
 - **[`CLAUDE.md`](./CLAUDE.md)** — top-level entry: stack, scope boundaries, halt conditions
 - **`.claude/engineering.md`** — components, design system, TypeScript, testing discipline ([ADR-037](./docs/adr/037-testing-philosophy.md))
-- **`.claude/workflow.md`** — three-pass Architect → Coder → Reviewer ([ADR-038](./docs/adr/038-agent-roles.md)), quality gate ([ADR-039](./docs/adr/039-halt-on-violation-enforcement.md))
+- **`.claude/workflow.md`** — scope boundaries, the quality gate ([ADR-039](./docs/adr/039-halt-on-violation-enforcement.md)), and the three-pass Architect → Coder → Reviewer workflow on request ([ADR-038](./docs/adr/038-agent-roles.md))
 - **`.claude/stack.md`** — tooling, versions, performance budgets
 - **`.claude/roles/`** — per-pass prompts (architect, coder, reviewer)
 
@@ -154,7 +154,7 @@ One source of truth, every tool stays in sync. Edit the layered files in `.claud
 
 Entry points:
 
-- **Agent workflow**: `.claude/workflow.md` — three-pass pattern, quality gate, ADR discipline
+- **Agent workflow**: `.claude/workflow.md` — quality gate, ADR discipline, three-pass pattern on request
 - **Architectural constraints**: `docs/adr/` — every Accepted ADR is a rule the agent must respect
 - **Performance limits**: budgets in `.claude/stack.md`, checked before adding dependencies
 - **Zero config**: no MCP server, no API — well-structured markdown any agent can read
