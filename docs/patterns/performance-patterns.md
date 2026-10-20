@@ -64,7 +64,7 @@ import cover from '@/assets/images/cover.jpg';
 />
 ```
 
-`<Image>` has no `formats` prop — if you need an AVIF → WebP → JPEG `<picture>` chain, use `<Picture formats={['avif', 'webp']}>` from `astro:assets` directly.
+`<Image>` has no `formats` prop — if you need an AVIF → WebP → JPEG `<picture>` chain, use `<Picture formats={['avif', 'webp']}>` from `astro:assets` directly. The showcase has a live `<Picture>` demo next to the Image demo. Anywhere else in `src/`, `src/__tests__/picture-scope.test.ts` fails until you amend ADR-030 to record the new use.
 
 ### 2. Progressive Image Loading
 

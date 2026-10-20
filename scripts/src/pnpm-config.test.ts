@@ -80,6 +80,20 @@ describe("pnpm settings live where pnpm 11 reads them", () => {
       "smol-toml@<1.9.0": "^1.9.0",
     });
   });
+
+  it("guards the markdownlint and typography advisories its parents still pin", () => {
+    const overrides = readMap(workspace, "overrides");
+
+    // markdownlint-cli2 0.23.3 pins markdown-it 15.0.1 exactly and reaches
+    // katex 0.16 through micromark-extension-math; @tailwindcss/typography and
+    // postcss-nested still declare postcss-selector-parser 6. Dependabot
+    // alerts 26, 29, 32, 34 and 35 reopen if these go missing.
+    expect(overrides).toMatchObject({
+      "markdown-it@15": "^15.0.3",
+      "katex@<0.18.2": "^0.18.2",
+      "postcss-selector-parser@<7.1.6": "^7.1.6",
+    });
+  });
 });
 
 /**

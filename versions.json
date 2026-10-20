@@ -1,6 +1,6 @@
 {
   "template": "v0.9.0",
-  "astro": "7.4.0",
+  "astro": "7.4.1",
   "tailwindcss": "4.3.3",
   "node": "24.21.0",
   "pnpm": "11.27.1",
@@ -10,7 +10,7 @@
   "astro-mdx": "8.1.0",
   "tailwindcss-vite": "4.3.3",
   "astro-sitemap": "3.7.4",
-  "astro-check": "0.9.10",
+  "astro-check": "0.9.11",
   "playwright": "1.64.1",
   "vitest": "4.1.11",
   "stryker": "10.0.0",

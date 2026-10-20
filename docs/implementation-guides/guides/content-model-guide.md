@@ -227,14 +227,19 @@ Example `src/content/navigation/header.json` (the shipped file — trimmed):
 
 ### Cross-Reference Pattern
 
-Reference other collection entries by ID string:
+`relatedPosts` in both `blog` and `projects` uses `reference()` from `astro:content` ([ADR-027](/adr/027-content-collections-schema-design/)). Each frontmatter id becomes a `{ collection, id }` reference that `getEntries()` resolves:
 
 ```typescript
-// Blog — related posts by slug
-relatedPosts: z.array(z.string()).optional(), // IDs of related blog entries
+relatedPosts: z.array(reference("blog")).optional(),
 ```
 
-Astro doesn't enforce referential integrity here — the IDs are plain strings. Validate references in your templates if needed.
+```yaml
+relatedPosts: ["building-this-template", "design-decisions"]
+```
+
+Astro logs an unknown id at build time but does not fail the build on it. `getRelatedPosts()` in `src/utils/blog.ts` resolves the references, throws on a missing post (which does fail the build) and drops drafts. Blog posts render the result as "Related posts", and project pages as "Related Writing".
+
+Use the same pattern for any new link between collections. Route it through a resolver that throws on a missing entry, since `reference()` alone won't stop the build.
 
 ## Querying and Filtering
 

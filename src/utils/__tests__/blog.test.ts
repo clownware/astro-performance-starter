@@ -8,7 +8,7 @@ import { draftPost, publishedPosts } from "../../../tests/fixtures/posts";
 // setMockCollection / resetMockCollection for controlling fixtures.
 
 const stub = (await import("astro:content")) as any;
-const { getPublishedPosts, getFeaturedPosts } = await import("@utils/blog");
+const { getPublishedPosts, getFeaturedPosts, getRelatedPosts } = await import("@utils/blog");
 
 // Build a minimal post shape — only the fields sortPostsByDate accesses.
 const makePost = (date: Date, title = "Test Post") =>
@@ -142,5 +142,40 @@ describe("getFeaturedPosts", () => {
 
     const posts = await getFeaturedPosts();
     expect(posts.find((p) => p.id === draftPost.id)).toBeUndefined();
+  });
+});
+
+describe("getRelatedPosts", () => {
+  const ref = (id: string) => ({ collection: "blog" as const, id });
+
+  beforeEach(() => {
+    stub.setMockCollection([...publishedPosts, draftPost]);
+  });
+
+  afterEach(() => {
+    stub.resetMockCollection();
+  });
+
+  it("resolves references to entries, in frontmatter order", async () => {
+    const [first, second] = publishedPosts;
+    const posts = await getRelatedPosts([ref(second.id), ref(first.id)]);
+
+    expect(posts.map((p) => p.id)).toEqual([second.id, first.id]);
+  });
+
+  it("drops references to draft posts", async () => {
+    const posts = await getRelatedPosts([ref(draftPost.id), ref(publishedPosts[0].id)]);
+
+    expect(posts.map((p) => p.id)).toEqual([publishedPosts[0].id]);
+  });
+
+  it("throws on a reference to a post that does not exist", async () => {
+    // Astro logs an unknown reference id but still builds; without this the
+    // page would render around a hole, or crash on undefined.data.
+    await expect(getRelatedPosts([ref("no-such-post")])).rejects.toThrow(/no-such-post/);
+  });
+
+  it("returns an empty array when the project lists no related posts", async () => {
+    expect(await getRelatedPosts(undefined)).toEqual([]);
   });
 });

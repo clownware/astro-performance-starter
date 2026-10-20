@@ -85,7 +85,7 @@ const blogCollection = defineCollection({
 ```typescript
 // src/content.config.ts
 // Handle relationships between content
-import { defineCollection, getEntry } from 'astro:content';
+import { type CollectionEntry, defineCollection, getEntries, getEntry, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
@@ -108,10 +108,10 @@ const postsCollection = defineCollection({
   schema: ({ image }) => z.object({
     title: z.string(),
     date: z.date(),
-    // Reference to author by ID
-    author: z.string(), // matches author filename
-    // Multiple related posts
-    relatedPosts: z.array(z.string()).optional(),
+    // Typed reference: the frontmatter holds the author's id
+    author: reference('authors'),
+    // Multiple related posts, same pattern
+    relatedPosts: z.array(reference('posts')).optional(),
     // Category taxonomy
     category: z.enum(['development', 'design', 'business']),
     tags: z.array(z.string()).default([]),
@@ -119,16 +119,13 @@ const postsCollection = defineCollection({
   }),
 });
 
-// Helper to resolve references
-export async function getPostWithAuthor(post: any) {
-  const author = await getEntry('authors', post.data.author);
-  return {
-    ...post,
-    data: {
-      ...post.data,
-      author: author?.data || null,
-    },
-  };
+// Resolve references. Astro logs an unknown id but still builds, so throw
+// to fail the build (the starter's getRelatedPosts() in src/utils/blog.ts does this).
+export async function getPostWithAuthor(post: CollectionEntry<'posts'>) {
+  const author = await getEntry(post.data.author);
+  if (!author) throw new Error(`Unknown author "${post.data.author.id}"`);
+  const related = await getEntries(post.data.relatedPosts ?? []);
+  return { ...post, author: author.data, related };
 }
 ```
 
