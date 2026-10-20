@@ -1,4 +1,5 @@
 ---
+import { Picture } from "astro:assets";
 import { getCollection } from "astro:content";
 import markPrimary from "@/assets/brand/mark-primary.svg";
 import AnimatedGradientText from "@/components/atoms/AnimatedGradientText.astro";
@@ -36,7 +37,8 @@ import Grid from "@/components/structural/Grid.astro";
 import ParallaxSection from "@/components/structural/ParallaxSection.astro";
 import Section from "@/components/structural/Section.astro";
 // The demo's one raster source: rendered through the pipeline below so the
-// emitted AVIF + width-descriptor srcset can be inspected on a live page.
+// emitted AVIF + width-descriptor srcset can be inspected on a live page, and
+// again through <Picture> for the multi-format contrast (ADR-030, 2026-10-20).
 import patisserieCover from "@/content/projects/patisserie-storefront/cover.jpg";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import { getPublishedPosts } from "@/utils/blog";
@@ -527,6 +529,30 @@ const demoProject = projectEntries[0] ?? null;
                 <div class="flex flex-wrap items-end gap-6">
                   <Image src={patisserieCover} alt="Maison Pulci storefront cover, rendered from a JPEG source" width={480} height={270} />
                   <Image src={markPrimary} alt="Astro Performance Starter spark mark" width={96} height={96} />
+                </div>
+              </ShowcaseExample>
+            </ScrollReveal>
+
+            {/* Picture: showcase-only, ADR-030 amendment 2026-10-20 */}
+            <ScrollReveal>
+              <ShowcaseExample
+                title="Picture"
+                description="Astro's <Picture> from astro:assets, shown for contrast with Image above. It emits a <picture> with AVIF and WebP <source> elements over a JPEG fallback <img>, so the browser picks the first format it can decode. The starter does not use it for site images: AVIF decodes in every browser it supports, and one format keeps the build and image cache smaller (ADR-030). Reach for it when you must support browsers without AVIF."
+                features={["zero-js"]}
+                a11yNote="alt lives on the fallback <img>, which every browser renders whichever source it picks"
+                codeSnippet={'import { Picture } from "astro:assets";\nimport cover from "@/content/projects/patisserie-storefront/cover.jpg";\n\n&lt;Picture\n  src={cover}\n  formats={["avif", "webp"]}\n  fallbackFormat="jpg"\n  alt="Storefront cover"\n  width={480}\n  height={270}\n/&gt;'}
+              >
+                <div data-testid="picture-demo">
+                  <Picture
+                    src={patisserieCover}
+                    formats={["avif", "webp"]}
+                    fallbackFormat="jpg"
+                    alt="Maison Pulci storefront cover, served as AVIF or WebP with a JPEG fallback"
+                    width={480}
+                    height={270}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
               </ShowcaseExample>
             </ScrollReveal>

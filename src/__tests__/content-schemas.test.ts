@@ -80,6 +80,37 @@ describe("projects collection schema", () => {
 });
 
 /**
+ * `relatedPosts` on projects uses Astro's `reference("blog")`: the frontmatter
+ * holds plain blog ids, and the schema turns each into a `{ collection, id }`
+ * reference that `getEntries()` resolves. An id with no matching entry is
+ * caught by getRelatedPosts (see src/utils/__tests__/blog.test.ts), because
+ * Astro only logs it.
+ */
+describe("projects collection schema: relatedPosts references", () => {
+  it("parses blog ids into blog-collection references", () => {
+    const result = projectsSchema().safeParse({
+      ...validProject,
+      relatedPosts: ["building-this-template", "why-astro-in-2026"],
+    });
+
+    expect(result.success && result.data.relatedPosts).toEqual([
+      { collection: "blog", id: "building-this-template" },
+      { collection: "blog", id: "why-astro-in-2026" },
+    ]);
+  });
+
+  it("rejects a related post that is not an id string", () => {
+    expect(projectsSchema().safeParse({ ...validProject, relatedPosts: [42] }).success).toBe(false);
+  });
+
+  it("leaves relatedPosts optional", () => {
+    const result = projectsSchema().safeParse(validProject);
+
+    expect(result.success && result.data.relatedPosts).toBeUndefined();
+  });
+});
+
+/**
  * The projects index page reads fields straight off `entry.data`. A field the
  * schema does not declare is always `undefined`, so whatever it feeds renders
  * as dead markup — silently, because nothing type-errors on an unknown key

@@ -1,5 +1,5 @@
 import type { CollectionEntry } from "astro:content";
-import { getCollection } from "astro:content";
+import { getCollection, getEntries } from "astro:content";
 
 /**
  * Sort blog posts by date (newest first)
@@ -34,4 +34,30 @@ export async function getFeaturedPosts(limit = 3): Promise<CollectionEntry<"blog
   });
 
   return sortPostsByDate(featuredPosts).slice(0, limit);
+}
+
+/**
+ * Resolve a project's `relatedPosts` references to published blog posts,
+ * keeping frontmatter order. Astro only logs a reference to a missing entry
+ * and still builds, so a missing post throws here to fail the build. Drafts
+ * are dropped so a project can't link to an unpublished post.
+ */
+export async function getRelatedPosts(
+  refs: CollectionEntry<"projects">["data"]["relatedPosts"],
+): Promise<CollectionEntry<"blog">[]> {
+  if (!refs?.length) return [];
+  // Astro types every resolved entry as present; at runtime a missing one is undefined.
+  const posts: (CollectionEntry<"blog"> | undefined)[] = await getEntries(refs);
+  const published: CollectionEntry<"blog">[] = [];
+
+  for (const [index, post] of posts.entries()) {
+    if (post === undefined) {
+      throw new Error(
+        `relatedPosts references blog post "${refs[index].id}", which does not exist`,
+      );
+    }
+    if (post.data.draft !== true) published.push(post);
+  }
+
+  return published;
 }
