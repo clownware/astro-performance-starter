@@ -28,7 +28,7 @@ importers:
         version: 0.4.4
       '@astrojs/mdx':
         specifier: ^8.1.0
-        version: 8.1.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 8.1.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@astrojs/markdown-satteri@0.4.4)(astro@7.4.1(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1))
       '@astrojs/preact':
         specifier: ^6.1.0
         version: 6.1.0(@babel/core@7.29.7(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(preact@10.29.8)(rollup@4.62.2)(supports-color@9.4.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1)
@@ -46,7 +46,7 @@ importers:
         version: 4.3.3(vite@8.3.4(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1))
       astro-expressive-code:
         specifier: ^0.44.2
-        version: 0.44.2(astro@7.4.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1))
+        version: 0.44.2(astro@7.4.1(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1))
       preact:
         specifier: ^10.29.8
         version: 10.29.8(preact-render-to-string@6.8.1)
@@ -58,8 +58,8 @@ importers:
         version: 4.3.3
     devDependencies:
       '@astrojs/check':
-        specifier: ^0.9.10
-        version: 0.9.10(prettier@3.9.9)(typescript@5.9.3)
+        specifier: ^0.9.11
+        version: 0.9.11(@emnapi/runtime@1.11.3)(prettier@3.9.9)(typescript@5.9.3)
       '@astrojs/markdown-remark':
         specifier: ^7.3.3
         version: 7.3.3(supports-color@9.4.0)
@@ -103,8 +103,8 @@ importers:
         specifier: ^4.1.11
         version: 4.1.11(vitest@4.1.11)
       astro:
-        specifier: ^7.4.0
-        version: 7.4.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1)
+        specifier: ^7.4.1
+        version: 7.4.1(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1)
       changelogen:
         specifier: ^0.6.2
         version: 0.6.2(magicast@0.5.5)
@@ -177,8 +177,12 @@ packages:
     resolution: {integrity: sha512-A6f1nKy99I6tyoK82U6kBHvQQZmdHmTmPzJYPY/0eaOW0r8/qPmEOwjGHs+hL/vCgOwQTupu4LT1XtXNUuDruA==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
 
-  '@astrojs/check@0.9.10':
-    resolution: {integrity: sha512-zgx/UQMozdjOa3bOxjgeCFdtpE3c9rRX6xHwa+2QXvy8z8Akifu2AtubHyv/zzC2znO8dl8fFWL4K+Ba9kS8HQ==}
+  '@astrojs/astro2tsx@0.1.3':
+    resolution: {integrity: sha512-GMDC7Eo0myBUA/QLBl0u+OcegJ8LiBhccmNZR34KmprQNP8gQUJlWlOOZWUsxNA2rNS6GuPYcGDyLoPnjmn4/Q==}
+    engines: {node: ^20.19.0 || >=22.12.0}
+
+  '@astrojs/check@0.9.11':
+    resolution: {integrity: sha512-TcDC2KT3t0XHFv/geBsA02/HuVXuzLwAfAzLPG2FvBW/DL3tzxu2voVaqcKSN56dN2DNlYC/3FKrmxrDs6actg==}
     hasBin: true
     peerDependencies:
       typescript: ^5.0.0 || ^6.0.0
@@ -260,8 +264,8 @@ packages:
   '@astrojs/internal-helpers@0.13.0':
     resolution: {integrity: sha512-20jxQqnSmpskcGyad7N5l6Xf1gz0UCa6lNde44bEBdaXGpncEYfAZJ142r2ZgzBaG4dUyzGmhqZWv1INU2eiHQ==}
 
-  '@astrojs/language-server@2.16.11':
-    resolution: {integrity: sha512-sJ/EfnFp0+gurTrkvONtd9qRqmMZLT9bHelfI1SA35CaQVTrRrA74qteOcNT/al1b9Atg3IiH1Jk/qfckyC+fg==}
+  '@astrojs/language-server@2.17.2':
+    resolution: {integrity: sha512-WzqCBYo0RtKrkPLPMnTz2+UOQPosaFhoG/PvoSyPIgBU0BKeS6qeaYv7Rscq7P1LxJdoN0VosQF2h2TZTsIGHg==}
     hasBin: true
     peerDependencies:
       prettier: ^3.0.0
@@ -1404,9 +1408,6 @@ packages:
   '@jridgewell/source-map@0.3.11':
     resolution: {integrity: sha512-ZMp1V8ZFcPG5dIWnQLr3NSI1MiCU7UETdS/A0G8V/XWHvJv3ZsFqutJn1Y5RPmAPX6F3BiE397OqveU/9NCuIA==}
 
-  '@jridgewell/sourcemap-codec@1.5.5':
-    resolution: {integrity: sha512-cYQ9310grqxueWbl+WuIUIaiUaDcj7WOq5fVhEljNVgRfOUhY9fy2zTvfoqWsnebh8Sl70VScFbICvJnLKB0Og==}
-
   '@jridgewell/sourcemap-codec@1.6.0':
     resolution: {integrity: sha512-T7jf+5zgsZHwNJ4lvQ7/aezbyk0nNX+zJVWpmHA7VYsEx7a7qr5Rg5IbtJFqkgze5Y2sruq1RUY8Q837Od7iFw==}
 
@@ -1990,56 +1991,28 @@ packages:
     resolution: {integrity: sha512-zCKpyDIWKHwtervNK2ZlaK8mMV7gVUijAgFeJStH+CU/imcdquizV3pFLlSQYRswG+Lbyd6CT/LGRh3IbtkCFw==}
     engines: {node: '>=8'}
 
-  '@shikijs/core@4.4.3':
-    resolution: {integrity: sha512-QCR4q2ZO/ILJEuwiBMel4wdcTDb1JGwfjKTxPDF6x8ixOaluPrVqIn06C99AcRPhmYlBR56d/Fb+GN58GzExpg==}
-    engines: {node: '>=20'}
-
   '@shikijs/core@4.5.0':
     resolution: {integrity: sha512-6CIgwq+bt2JZ3OSjb/nBkkwEf/CfpHcbam+Mg5Pllco7HAGRQ2/EFhZrrJtbyNTgKwknfVS+llsXGygiDGwJWw==}
-    engines: {node: '>=20'}
-
-  '@shikijs/engine-javascript@4.4.3':
-    resolution: {integrity: sha512-FbOjFJp9VLdo1Wevs10BBtVxiTWwNLqZh5Gkhjgda/ioL15YOgeSl9n+6XMa3qRlPQzfhFNe641SrynFHYG0nQ==}
     engines: {node: '>=20'}
 
   '@shikijs/engine-javascript@4.5.0':
     resolution: {integrity: sha512-Ed6UdEj84LyYkwnxM5CvSMWAD+id9ExTYri0/+x41U9zrgNifPSS9lZm0JqBP0VfYI8yr8tY5nbNq9+p9R0kFA==}
     engines: {node: '>=20'}
 
-  '@shikijs/engine-oniguruma@4.4.3':
-    resolution: {integrity: sha512-EcOQkxdxGQrc1Row/cC2c96/v1dbZqGnEVu1qTuT/MJmp6+cXCvQussowVmCv5Tqr3KuY3c7IbM6HTW3LJ1k9w==}
-    engines: {node: '>=20'}
-
   '@shikijs/engine-oniguruma@4.5.0':
     resolution: {integrity: sha512-dKVmbJecVdB9recl8a/CU4jdpNXyjJQrIcesIkpS70s5HS02ohpnCSpMUbotPnEUzbAcLQ+S4hwZYbkBBiTcJw==}
-    engines: {node: '>=20'}
-
-  '@shikijs/langs@4.4.3':
-    resolution: {integrity: sha512-ePic0yfAJGOF83D5wBHK/00EjK65oahBYxFk5epgq33WRv7X9UuxLEV8PtR0szC0z8dl7INIpIodB99JRFlR+A==}
     engines: {node: '>=20'}
 
   '@shikijs/langs@4.5.0':
     resolution: {integrity: sha512-wwBTqwduXSz0X4v9Qa2EWeFaYJEw1clCncWjoRNQRbVDu3SPRTRWucnouYapKj3b8Q+sk/41Vbc4B5c8nuYzLA==}
     engines: {node: '>=20'}
 
-  '@shikijs/primitive@4.4.3':
-    resolution: {integrity: sha512-m0wBeLDQDeIxRdUmrCPdQqfuUamDwRL5isCfYbguKD6NiaKpVbsv+3J81DyIKgNW5h4WAIIr8T4EkgQrBBxvaQ==}
-    engines: {node: '>=20'}
-
   '@shikijs/primitive@4.5.0':
     resolution: {integrity: sha512-UM7ShlA8oz0OWxLLO8BmO9Ip6fVqdkt8yF0EH7nOCqHfrx1eEAzF0ZUVK7L+I8NEgeu1PEWSRlxaiPPeCb4iDg==}
     engines: {node: '>=20'}
 
-  '@shikijs/themes@4.4.3':
-    resolution: {integrity: sha512-w8UHjeUnIR965KMWJHUPXOc2mNJUnK3vpVLYLvw5IYU2mnTTJ89E24OrJDBNiJDQ0qzb0tc4l7mrIXx5cFeIyw==}
-    engines: {node: '>=20'}
-
   '@shikijs/themes@4.5.0':
     resolution: {integrity: sha512-zGb87H3UBbpuI4yoh5UguB1XbU+2BDU3kflM7UfZ+Cy2hWo9lBtqjSVK20gmLY6ukYl040hAypGXMgud9vul8Q==}
-    engines: {node: '>=20'}
-
-  '@shikijs/types@4.4.3':
-    resolution: {integrity: sha512-UEJxmRR++MAGR6hugn0vgVS2W/6lWAts84FFSrnlH9sP0LNol7E5+NQ792pH8liWUhyMyjhTgSUH3k7iD7tc5g==}
     engines: {node: '>=20'}
 
   '@shikijs/types@4.5.0':
@@ -2479,8 +2452,8 @@ packages:
     peerDependencies:
       astro: ^4.0.0-beta || ^5.0.0-beta || ^3.3.0 || ^6.0.0-beta || ^7.0.0
 
-  astro@7.4.0:
-    resolution: {integrity: sha512-6ThZU2bp7asGSceVcnh3r23dE88HpYN5vxtnCWYYrjr8lpQjx4eDW6/W8WgNlcc+T/b8zHmQ/EcS4DpQG4ZoOg==}
+  astro@7.4.1:
+    resolution: {integrity: sha512-mzWNEWSef1VQDgFku6Gp0v8Qx53NOkNlOIDQcX9ovxAZ1QXic6cks/FFo+gxPM9anXuat4X1FhB61KTk3XFvgg==}
     engines: {node: '>=22.22.0', npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
     peerDependencies:
@@ -2651,10 +2624,6 @@ packages:
 
   chardet@2.2.0:
     resolution: {integrity: sha512-rddelWYNPRrXq6PtNEN2S3f6t9ILzvqaN5pVgi4kqt9jHQaXIial9PznB5iSPVlQSLNaaH22ItWz3EJtQ10+OA==}
-
-  chokidar@4.0.3:
-    resolution: {integrity: sha512-Qgzu8kfBvo+cA4962jnP1KkS6Dop5NS6g7R5LFYJr4b8Ub94PPQXUksCw9PvXoeXPRRddRNC5C1JQUR2SMGtnA==}
-    engines: {node: '>= 14.16.0'}
 
   chokidar@5.0.0:
     resolution: {integrity: sha512-TQMmc3w+5AxjpL8iIiwebF73dRDF4fBIieAqGn9RGCWaEVwQ6Fb2cGe31Yns0RRIzii5goJ1Y7xbMwo1TxMplw==}
@@ -3112,9 +3081,6 @@ packages:
   es-module-lexer@2.3.2:
     resolution: {integrity: sha512-poHGpORABojJJucnV9KbOavETW8lBVnphkW77ER5/BQ5Fz7oXSoCNek7IH3vR5nRjdsEz926ibFYX8KtLQmdyw==}
 
-  es-module-lexer@3.0.2:
-    resolution: {integrity: sha512-BuIB67FngDSyQ/dpQNOZybwdEBDUGJQvOqwWr4ha/ufYiqzuEwPkKO2zLhRAgay28tStRIHUeWmszZAJo3GCOg==}
-
   es-module-lexer@3.0.4:
     resolution: {integrity: sha512-BldNY5mwkVu+cQ5Ymn3e6hB9Sx8XHx4ZevWbiUyZbfKxJxYO27Hf0wfzkxIaD5CAJMaGl3YspKELj0ff/7nCMA==}
 
@@ -3346,10 +3312,6 @@ packages:
   get-caller-file@2.0.5:
     resolution: {integrity: sha512-DyFP3BM/3YHTQOCUL/w0OZHR0lpKeGrxotcHWcqNEdnltqFwXVfhEBQ94eIo34AfQpo0rGki4cyIiftY06h2Fg==}
     engines: {node: 6.* || 8.* || >= 10.*}
-
-  get-east-asian-width@1.6.0:
-    resolution: {integrity: sha512-QRbvDIbx6YklUe6RxeTeleMR0yv3cYH6PsPZHcnVn7xv7zO1BHN8r0XETu8n6Ye3Q+ahtSarc3WgtNWmehIBfA==}
-    engines: {node: '>=18'}
 
   get-east-asian-width@1.7.0:
     resolution: {integrity: sha512-XjH1AECxf0giL2V1aU8vKyRR2ppRUb5c0EvT7zuJTokQ74bNo52zOtghqdWIqrhUD79fo3x0WfKZdOqxF6LG1Q==}
@@ -4769,10 +4731,6 @@ packages:
   rc9@3.0.1:
     resolution: {integrity: sha512-gMDyleLWVE+i6Sgtc0QbbY6pEKqYs97NGi6isHQPqYlLemPoO8dxQ3uGi0f4NiP98c+jMW6cG1Kx9dDwfvqARQ==}
 
-  readdirp@4.1.2:
-    resolution: {integrity: sha512-GDhwkLfywWL2s6vEjyhri+eXmfH6j1L7JE27WhqLeYzoh/A3DBaYGEj2H/HFZCn/kMfim73FXxEJTw06WtxQwg==}
-    engines: {node: '>= 14.18.0'}
-
   readdirp@5.1.1:
     resolution: {integrity: sha512-Kko+Y5XQ6fM+Ce3dq3m9YGxnacYZYl9cA1wZjaF3Vbry2L3i1qVg8+CAgNPsXRArPMUMCaOR7oa9Nqntc43JKA==}
     engines: {node: '>= 20.19.0'}
@@ -4998,10 +4956,6 @@ packages:
   shebang-regex@3.0.0:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
-
-  shiki@4.4.3:
-    resolution: {integrity: sha512-Mb/GvXPHBAXdgGIcnfU5L3ldpn1XcxrGkPHwqgRx17/I2XRfqlFKk2vGkHWINn1kdXvzJZeuO3is6I9KLPFm0g==}
-    engines: {node: '>=20'}
 
   shiki@4.5.0:
     resolution: {integrity: sha512-OcRW72ngQvc+MSVWBRIovC/BTW589iUE/Vxav7VeM4RcY9MUjqB+IR6ILG1k9nuW6LiG/nct9uma4/MBtnZbmQ==}
@@ -5395,10 +5349,6 @@ packages:
   undici-types@7.24.6:
     resolution: {integrity: sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==}
 
-  undici@8.11.2:
-    resolution: {integrity: sha512-u4UB2/IrKdU6lFxumHmmo1a3fCQO5tzQllRorfoRS63txhrB7xTpSn1PftwC4qEHkOaqP95fCWW4lJzwErwzhQ==}
-    engines: {node: '>=22.19.0'}
-
   undici@8.12.2:
     resolution: {integrity: sha512-XtuDWVdqTLr3NAxm2ly9/hU6kUsJOgGh1RASzMBbsw6aWCOaQzHdW+QQDfdERjfJ2V5vL5pRPa4RetO9UfivDg==}
     engines: {node: '>=22.19.0'}
@@ -5776,9 +5726,6 @@ packages:
   vscode-nls@5.2.0:
     resolution: {integrity: sha512-RAaHx7B14ZU04EU31pT+rKz2/zSl7xMsfIZuo8pd+KZO6PXtQmpevpq3vxvWNcrGbdmhM/rr5Uw5Mz+NBfhVng==}
 
-  vscode-uri@3.1.0:
-    resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
-
   vscode-uri@3.2.0:
     resolution: {integrity: sha512-m2gXo3bn0G1kT9InzMf07fTbqMbGtyckj3bH5ktLO+1Ssv+yiATZ4dhwaQv9UZWxJh6E9IFGnQyjgWVDWVBDrg==}
 
@@ -5965,10 +5912,6 @@ packages:
     resolution: {integrity: sha512-GZtjxm/J/4TSxuL3FNYjCmLktBTnIw/rVmKSIyKeYAZpmJB2ig9VauCC5xsa82GNKVKDAqpOn3KVzNt0zmrU0g==}
     engines: {node: '>=12'}
 
-  yargs@18.0.0:
-    resolution: {integrity: sha512-4UEqdc2RYGHZc7Doyqkrqiln3p9X2DZVxaGbwhn2pi7MrRagKaOcIKe8L3OxYcbhXLgLFUS3zAYuQjKBQgmuNg==}
-    engines: {node: ^20.19.0 || ^22.12.0 || >=23}
-
   yargs@18.2.0:
     resolution: {integrity: sha512-9OpKOLeaoNFecEp7P6iYbzze/5CqWoH7N3SMs/6y1XF4nMvFMspEGZzJ6uFi9MmQwXhyzqYoSEKO3tvA3Z/o2w==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=23}
@@ -5993,9 +5936,6 @@ packages:
   zod@4.4.3:
     resolution: {integrity: sha512-ytENFjIJFl2UwYglde2jchW2Hwm4GJFLDiSXWdTrJQBIN9Fcyp7n4DhxJEiWNAJMV1/BqWfW/kkg71UDcHJyTQ==}
 
-  zod@4.6.5:
-    resolution: {integrity: sha512-v5l/aFXZQeai4awLbOpSoHecE9UiMrnfx75tEXLjNonXVARxQ5mOeipTjROUchszUNCqnE+hqAMujRsRHsut2Q==}
-
   zod@4.6.7:
     resolution: {integrity: sha512-g8W2D2kU6a8untc053fX1uVBKzM7yqAxW/3zwk83+6RyF2+SKOuV+c0wBDhUwzV1PaGapmZH+rmcUzPf+3CGwg==}
 
@@ -6019,14 +5959,22 @@ snapshots:
       is-potential-custom-element-name: 1.0.1
       lru-cache: 11.5.3
 
-  '@astrojs/check@0.9.10(prettier@3.9.9)(typescript@5.9.3)':
+  '@astrojs/astro2tsx@0.1.3(@emnapi/runtime@1.11.3)':
     dependencies:
-      '@astrojs/language-server': 2.16.11(prettier@3.9.9)(typescript@5.9.3)
-      chokidar: 4.0.3
+      '@emnapi/core': 1.11.3
+      '@napi-rs/wasm-runtime': 1.2.4(@emnapi/core@1.11.3)(@emnapi/runtime@1.11.3)
+    transitivePeerDependencies:
+      - '@emnapi/runtime'
+
+  '@astrojs/check@0.9.11(@emnapi/runtime@1.11.3)(prettier@3.9.9)(typescript@5.9.3)':
+    dependencies:
+      '@astrojs/language-server': 2.17.2(@emnapi/runtime@1.11.3)(prettier@3.9.9)(typescript@5.9.3)
+      chokidar: 5.0.0
       kleur: 4.1.5
       typescript: 5.9.3
-      yargs: 18.0.0
+      yargs: 18.2.0
     transitivePeerDependencies:
+      - '@emnapi/runtime'
       - prettier
       - prettier-plugin-astro
 
@@ -6094,11 +6042,10 @@ snapshots:
       unified: 11.0.5
       yaml: 2.9.1
 
-  '@astrojs/language-server@2.16.11(prettier@3.9.9)(typescript@5.9.3)':
+  '@astrojs/language-server@2.17.2(@emnapi/runtime@1.11.3)(prettier@3.9.9)(typescript@5.9.3)':
     dependencies:
-      '@astrojs/compiler': 2.13.1
+      '@astrojs/astro2tsx': 0.1.3(@emnapi/runtime@1.11.3)
       '@astrojs/yaml2ts': 0.2.4
-      '@jridgewell/sourcemap-codec': 1.5.5
       '@volar/kit': 2.4.28(typescript@5.9.3)
       '@volar/language-core': 2.4.28
       '@volar/language-server': 2.4.28(typescript@5.9.3)
@@ -6113,10 +6060,11 @@ snapshots:
       volar-service-typescript-twoslash-queries: 0.0.71(@volar/language-service@2.4.28(typescript@5.9.3))(typescript@5.9.3)
       volar-service-yaml: 0.0.71(@volar/language-service@2.4.28(typescript@5.9.3))
       vscode-html-languageservice: 5.6.2
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
     optionalDependencies:
       prettier: 3.9.9
     transitivePeerDependencies:
+      - '@emnapi/runtime'
       - typescript
 
   '@astrojs/markdown-remark@7.3.3(supports-color@9.4.0)':
@@ -6153,11 +6101,11 @@ snapshots:
       github-slugger: 2.0.0
       satteri: 0.10.5
 
-  '@astrojs/mdx@8.1.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@astrojs/markdown-satteri@0.4.4)(astro@7.4.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1))':
+  '@astrojs/mdx@8.1.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@astrojs/markdown-satteri@0.4.4)(astro@7.4.1(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1))':
     dependencies:
       '@astrojs/internal-helpers': 0.13.0
       '@astrojs/markdown-satteri': 0.4.4
-      astro: 7.4.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1)
+      astro: 7.4.1(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1)
       es-module-lexer: 3.0.4
     optionalDependencies:
       '@astrojs/markdown-remark': 7.3.3(supports-color@9.4.0)
@@ -6880,7 +6828,6 @@ snapshots:
     dependencies:
       '@emnapi/wasi-threads': 1.2.3
       tslib: 2.8.1
-    optional: true
 
   '@emnapi/runtime@1.11.1':
     dependencies:
@@ -6890,7 +6837,6 @@ snapshots:
   '@emnapi/runtime@1.11.3':
     dependencies:
       tslib: 2.8.1
-    optional: true
 
   '@emnapi/wasi-threads@1.2.2':
     dependencies:
@@ -6900,7 +6846,6 @@ snapshots:
   '@emnapi/wasi-threads@1.2.3':
     dependencies:
       tslib: 2.8.1
-    optional: true
 
   '@esbuild/aix-ppc64@0.28.2':
     optional: true
@@ -7001,7 +6946,7 @@ snapshots:
   '@expressive-code/plugin-shiki@0.44.2':
     dependencies:
       '@expressive-code/core': 0.44.2
-      shiki: 4.4.3
+      shiki: 4.5.0
 
   '@expressive-code/plugin-text-markers@0.44.2':
     dependencies:
@@ -7276,8 +7221,6 @@ snapshots:
       '@jridgewell/trace-mapping': 0.3.31
     optional: true
 
-  '@jridgewell/sourcemap-codec@1.5.5': {}
-
   '@jridgewell/sourcemap-codec@1.6.0': {}
 
   '@jridgewell/trace-mapping@0.3.31':
@@ -7514,7 +7457,6 @@ snapshots:
       '@emnapi/core': 1.11.3
       '@emnapi/runtime': 1.11.3
       '@tybys/wasm-util': 0.10.4
-    optional: true
 
   '@nodable/entities@3.0.0': {}
 
@@ -7861,14 +7803,6 @@ snapshots:
     dependencies:
       '@sentry/types': 7.120.4
 
-  '@shikijs/core@4.4.3':
-    dependencies:
-      '@shikijs/primitive': 4.4.3
-      '@shikijs/types': 4.4.3
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.5
-      hast-util-to-html: 9.0.5
-
   '@shikijs/core@4.5.0':
     dependencies:
       '@shikijs/primitive': 4.5.0
@@ -7877,41 +7811,20 @@ snapshots:
       '@types/hast': 3.0.5
       hast-util-to-html: 9.0.5
 
-  '@shikijs/engine-javascript@4.4.3':
-    dependencies:
-      '@shikijs/types': 4.4.3
-      '@shikijs/vscode-textmate': 10.0.2
-      oniguruma-to-es: 4.3.6
-
   '@shikijs/engine-javascript@4.5.0':
     dependencies:
       '@shikijs/types': 4.5.0
       '@shikijs/vscode-textmate': 10.0.2
       oniguruma-to-es: 4.3.6
 
-  '@shikijs/engine-oniguruma@4.4.3':
-    dependencies:
-      '@shikijs/types': 4.4.3
-      '@shikijs/vscode-textmate': 10.0.2
-
   '@shikijs/engine-oniguruma@4.5.0':
     dependencies:
       '@shikijs/types': 4.5.0
       '@shikijs/vscode-textmate': 10.0.2
 
-  '@shikijs/langs@4.4.3':
-    dependencies:
-      '@shikijs/types': 4.4.3
-
   '@shikijs/langs@4.5.0':
     dependencies:
       '@shikijs/types': 4.5.0
-
-  '@shikijs/primitive@4.4.3':
-    dependencies:
-      '@shikijs/types': 4.4.3
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.5
 
   '@shikijs/primitive@4.5.0':
     dependencies:
@@ -7919,18 +7832,9 @@ snapshots:
       '@shikijs/vscode-textmate': 10.0.2
       '@types/hast': 3.0.5
 
-  '@shikijs/themes@4.4.3':
-    dependencies:
-      '@shikijs/types': 4.4.3
-
   '@shikijs/themes@4.5.0':
     dependencies:
       '@shikijs/types': 4.5.0
-
-  '@shikijs/types@4.4.3':
-    dependencies:
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.5
 
   '@shikijs/types@4.5.0':
     dependencies:
@@ -8093,7 +7997,6 @@ snapshots:
   '@tybys/wasm-util@0.10.4':
     dependencies:
       tslib: 2.8.1
-    optional: true
 
   '@types/chai@5.2.3':
     dependencies:
@@ -8212,7 +8115,7 @@ snapshots:
       typesafe-path: 0.2.2
       typescript: 5.9.3
       vscode-languageserver-textdocument: 1.0.14
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
 
   '@volar/language-core@2.4.28':
     dependencies:
@@ -8228,7 +8131,7 @@ snapshots:
       vscode-languageserver: 9.0.1
       vscode-languageserver-protocol: 3.18.2
       vscode-languageserver-textdocument: 1.0.14
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
     optionalDependencies:
       typescript: 5.9.3
 
@@ -8237,7 +8140,7 @@ snapshots:
       '@volar/language-core': 2.4.28
       vscode-languageserver-protocol: 3.18.2
       vscode-languageserver-textdocument: 1.0.14
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
     optionalDependencies:
       typescript: 5.9.3
 
@@ -8374,13 +8277,13 @@ snapshots:
 
   astring@1.9.0: {}
 
-  astro-expressive-code@0.44.2(astro@7.4.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1)):
+  astro-expressive-code@0.44.2(astro@7.4.1(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1)):
     dependencies:
-      astro: 7.4.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1)
+      astro: 7.4.1(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1)
       rehype-expressive-code: 0.44.2
       url-extras: 0.1.0
 
-  astro@7.4.0(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1):
+  astro@7.4.1(@astrojs/markdown-remark@7.3.3(supports-color@9.4.0))(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(terser@5.39.0)(tsx@4.23.15)(yaml@2.9.1):
     dependencies:
       '@astrojs/compiler-rs': 0.5.1
       '@astrojs/internal-helpers': 0.13.0
@@ -8652,10 +8555,6 @@ snapshots:
   chardet@0.7.0: {}
 
   chardet@2.2.0: {}
-
-  chokidar@4.0.3:
-    dependencies:
-      readdirp: 4.1.2
 
   chokidar@5.0.0:
     dependencies:
@@ -9082,8 +8981,6 @@ snapshots:
 
   es-module-lexer@2.3.2: {}
 
-  es-module-lexer@3.0.2: {}
-
   es-module-lexer@3.0.4: {}
 
   es-object-atoms@1.1.2:
@@ -9387,8 +9284,6 @@ snapshots:
   gensync@1.0.0-beta.2: {}
 
   get-caller-file@2.0.5: {}
-
-  get-east-asian-width@1.6.0: {}
 
   get-east-asian-width@1.7.0: {}
 
@@ -9738,7 +9633,7 @@ snapshots:
   import-in-the-middle@3.5.1:
     dependencies:
       cjs-module-lexer: 2.2.1
-      es-module-lexer: 3.0.2
+      es-module-lexer: 3.0.4
       module-details-from-path: 1.0.4
 
   import-meta-resolve@4.2.0: {}
@@ -10849,7 +10744,7 @@ snapshots:
 
   mutation-server-protocol@0.4.1:
     dependencies:
-      zod: 4.6.5
+      zod: 4.6.7
 
   mutation-testing-elements@3.8.4: {}
 
@@ -11245,8 +11140,6 @@ snapshots:
       defu: 6.1.7
       destr: 2.0.5
 
-  readdirp@4.1.2: {}
-
   readdirp@5.1.1: {}
 
   recma-build-jsx@1.0.0:
@@ -11626,17 +11519,6 @@ snapshots:
 
   shebang-regex@3.0.0: {}
 
-  shiki@4.4.3:
-    dependencies:
-      '@shikijs/core': 4.4.3
-      '@shikijs/engine-javascript': 4.4.3
-      '@shikijs/engine-oniguruma': 4.4.3
-      '@shikijs/langs': 4.4.3
-      '@shikijs/themes': 4.4.3
-      '@shikijs/types': 4.4.3
-      '@shikijs/vscode-textmate': 10.0.2
-      '@types/hast': 3.0.5
-
   shiki@4.5.0:
     dependencies:
       '@shikijs/core': 4.5.0
@@ -11778,7 +11660,7 @@ snapshots:
   string-width@7.2.0:
     dependencies:
       emoji-regex: 10.6.0
-      get-east-asian-width: 1.6.0
+      get-east-asian-width: 1.7.0
       strip-ansi: 7.2.0
 
   string-width@8.2.1:
@@ -11883,7 +11765,7 @@ snapshots:
   terser@5.39.0:
     dependencies:
       '@jridgewell/source-map': 0.3.11
-      acorn: 8.18.0
+      acorn: 8.19.0
       commander: 2.20.3
       source-map-support: 0.5.21
     optional: true
@@ -12027,8 +11909,6 @@ snapshots:
 
   undici-types@7.24.6: {}
 
-  undici@8.11.2: {}
-
   undici@8.12.2: {}
 
   unicorn-magic@0.3.0: {}
@@ -12050,7 +11930,7 @@ snapshots:
       css-tree: 3.2.1
       fnv1a-64: 0.1.2
       std-env: 4.2.0
-      undici: 8.11.2
+      undici: 8.12.2
 
   unique-string@2.0.0:
     dependencies:
@@ -12253,7 +12133,7 @@ snapshots:
     dependencies:
       vscode-css-languageservice: 6.3.10
       vscode-languageserver-textdocument: 1.0.14
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
     optionalDependencies:
       '@volar/language-service': 2.4.28(typescript@5.9.3)
 
@@ -12262,7 +12142,7 @@ snapshots:
       '@emmetio/css-parser': 0.4.1
       '@emmetio/html-matcher': 1.3.0
       '@vscode/emmet-helper': 2.11.0
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
     optionalDependencies:
       '@volar/language-service': 2.4.28(typescript@5.9.3)
 
@@ -12270,20 +12150,20 @@ snapshots:
     dependencies:
       vscode-html-languageservice: 5.6.2
       vscode-languageserver-textdocument: 1.0.14
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
     optionalDependencies:
       '@volar/language-service': 2.4.28(typescript@5.9.3)
 
   volar-service-prettier@0.0.71(@volar/language-service@2.4.28(typescript@5.9.3))(prettier@3.9.9):
     dependencies:
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
     optionalDependencies:
       '@volar/language-service': 2.4.28(typescript@5.9.3)
       prettier: 3.9.9
 
   volar-service-typescript-twoslash-queries@0.0.71(@volar/language-service@2.4.28(typescript@5.9.3))(typescript@5.9.3):
     dependencies:
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
     optionalDependencies:
       '@volar/language-service': 2.4.28(typescript@5.9.3)
       typescript: 5.9.3
@@ -12295,14 +12175,14 @@ snapshots:
       typescript-auto-import-cache: 0.3.6
       vscode-languageserver-textdocument: 1.0.14
       vscode-nls: 5.2.0
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
     optionalDependencies:
       '@volar/language-service': 2.4.28(typescript@5.9.3)
       typescript: 5.9.3
 
   volar-service-yaml@0.0.71(@volar/language-service@2.4.28(typescript@5.9.3)):
     dependencies:
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
       yaml-language-server: 1.23.0
     optionalDependencies:
       '@volar/language-service': 2.4.28(typescript@5.9.3)
@@ -12319,7 +12199,7 @@ snapshots:
       '@vscode/l10n': 0.0.18
       vscode-languageserver-textdocument: 1.0.14
       vscode-languageserver-types: 3.18.0
-      vscode-uri: 3.1.0
+      vscode-uri: 3.2.0
 
   vscode-json-languageservice@4.1.8:
     dependencies:
@@ -12354,8 +12234,6 @@ snapshots:
       vscode-languageserver-protocol: 3.17.5
 
   vscode-nls@5.2.0: {}
-
-  vscode-uri@3.1.0: {}
 
   vscode-uri@3.2.0: {}
 
@@ -12538,15 +12416,6 @@ snapshots:
       y18n: 5.0.8
       yargs-parser: 21.1.1
 
-  yargs@18.0.0:
-    dependencies:
-      cliui: 9.0.1
-      escalade: 3.2.0
-      get-caller-file: 2.0.5
-      string-width: 7.2.0
-      y18n: 5.0.8
-      yargs-parser: 22.0.0
-
   yargs@18.2.0:
     dependencies:
       cliui: 9.0.1
@@ -12571,8 +12440,6 @@ snapshots:
   zod@3.25.76: {}
 
   zod@4.4.3: {}
-
-  zod@4.6.5: {}
 
   zod@4.6.7: {}
 
