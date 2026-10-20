@@ -33,3 +33,7 @@ overrides:
   "source-map-js@<1.2.2": "^1.2.2" # event-loop DoS on indexed source maps; via astro > magicast, svgo > css-tree
   "basic-ftp@<6.2.1": "^6.2.1" # high advisory with no 5.x fix; forces get-uri (declares ^5) across a major, dev-only under @lhci/cli (#466)
   "puppeteer-core>@puppeteer/browsers": "^3.2.1" # severed the extract-zip chain under @lhci/cli (#353)
+  # #496: parents still pin vulnerable releases; each lapses once their own range reaches the patch.
+  "markdown-it@15": "^15.0.3" # GHSA-r7fv-28h4-cvq7 and GHSA-vfgh-jcmw-g37q; markdownlint-cli2 0.23.3 pins 15.0.1 exactly
+  "katex@<0.18.2": "^0.18.2" # Dependabot alert 29; dev-only via markdownlint > micromark-extension-math
+  "postcss-selector-parser@<7.1.6": "^7.1.6" # Dependabot alert 26; crosses 6 -> 7 under @tailwindcss/typography and postcss-nested, built CSS unchanged
