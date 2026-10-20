@@ -5,6 +5,8 @@
 // Tests can override the dataset via setMockCollection(entries) and the
 // optional filter passed by callers (e.g. blog.ts) is honoured.
 
+import { z } from "astro/zod";
+
 type Entry = { id: string; data: Record<string, unknown> };
 
 let mockCollection: Entry[] = [];
@@ -33,3 +35,19 @@ export const getCollection = (
  * (see src/__tests__/content-schemas.test.ts).
  */
 export const defineCollection = <T>(config: T): T => config;
+
+/**
+ * Parse-shape stub for reference(): a frontmatter id becomes the
+ * `{ collection, id }` object Astro's helper emits. Astro also logs an unknown
+ * id at build time, but does not fail the build on it.
+ */
+export const reference = (collection: string) => z.string().transform((id) => ({ collection, id }));
+
+/**
+ * Resolves references against the mock dataset, keeping the caller's order.
+ * Like Astro's, a reference with no matching entry resolves to `undefined`.
+ */
+export const getEntries = (
+  refs: { collection: string; id: string }[],
+): Promise<(Entry | undefined)[]> =>
+  Promise.resolve(refs.map((ref) => mockCollection.find((entry) => entry.id === ref.id)));
