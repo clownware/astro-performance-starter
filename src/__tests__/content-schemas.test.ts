@@ -45,6 +45,20 @@ function projectsSchema(): z.ZodObject<z.ZodRawShape> {
   return resolved as z.ZodObject<z.ZodRawShape>;
 }
 
+function blogSchema(): z.ZodObject<z.ZodRawShape> {
+  const { schema } = collections.blog;
+  const resolved = typeof schema === "function" ? schema({ image: imageStub }) : schema;
+
+  return resolved as z.ZodObject<z.ZodRawShape>;
+}
+
+const validPost = {
+  title: "Example post",
+  description: "A post used as a schema fixture.",
+  date: new Date("2026-01-01"),
+  coverAlt: "Cover",
+};
+
 const validProject = {
   title: "Example",
   description: "A project used as a schema fixture.",
@@ -138,5 +152,21 @@ describe("projects index page reads only declared fields", () => {
       undeclared,
       `src/pages/projects/index.astro reads these off entry.data, but the projects schema in src/content.config.ts does not declare them — they are always undefined: ${undeclared.join(", ")}`,
     ).toEqual([]);
+  });
+});
+
+describe("blog collection schema: relatedPosts references (ADR-027 amendment 2026-10-20)", () => {
+  it("parses blog ids into blog-collection references", () => {
+    const result = blogSchema().safeParse({ ...validPost, relatedPosts: ["design-decisions"] });
+
+    expect(result.success && result.data.relatedPosts).toEqual([
+      { collection: "blog", id: "design-decisions" },
+    ]);
+  });
+
+  it("leaves relatedPosts optional", () => {
+    const result = blogSchema().safeParse(validPost);
+
+    expect(result.success && result.data.relatedPosts).toBeUndefined();
   });
 });

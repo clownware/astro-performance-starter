@@ -8,7 +8,9 @@ import BaseLayout from "@layouts/BaseLayout.astro";
 import { formatPostMetadata } from "@utils/formatDate";
 import { generateAllShareUrls } from "@utils/socialShare";
 import ReadingProgress from "@/components/atoms/ReadingProgress.astro";
+import PostCard from "@/components/molecules/PostCard.astro";
 import ScrollSpy from "@/components/molecules/ScrollSpy.astro";
+import { getRelatedPosts } from "@/utils/blog";
 import { withBase } from "@/utils/url-utils";
 
 export interface Props {
@@ -35,6 +37,12 @@ const shareUrls = generateAllShareUrls({
   title,
   description,
 });
+
+// Posts linked through reference("blog") in this post's frontmatter (ADR-027)
+const relatedPosts = (await getRelatedPosts(post.data.relatedPosts)).map((related) => ({
+  ...related,
+  metadata: formatPostMetadata(related.data.date, related.body ?? ""),
+}));
 
 const tocSections = headings
   .filter((h) => h.depth <= 3)
@@ -192,6 +200,16 @@ const tocSections = headings
         </div>
       </aside>
     </div>
+
+    <!-- Related Posts (content-collection references) -->
+    {relatedPosts.length > 0 && (
+      <section class="mt-16 border-t border-border pt-8" aria-labelledby="related-posts-heading">
+        <h2 id="related-posts-heading" class="mb-6 text-2xl font-semibold text-foreground">Related posts</h2>
+        <div class="grid gap-6 md:grid-cols-2">
+          {relatedPosts.map((related) => <PostCard post={related} />)}
+        </div>
+      </section>
+    )}
 
     <!-- Previous/Next Navigation -->
     {(prevPost || nextPost) && (

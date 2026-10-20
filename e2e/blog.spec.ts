@@ -135,6 +135,18 @@ test.describe("Blog Post Layout", () => {
 		await expect(postNav.getByRole("link").first()).toBeVisible();
 	});
 
+	test("should link the posts listed in relatedPosts", async ({ page }) => {
+		// blog.relatedPosts is z.array(reference("blog")) (ADR-027 amendment
+		// 2026-10-20); BlogLayout resolves it through getRelatedPosts().
+		await page.goto("/blog/design-decisions/");
+
+		const related = page.getByRole("region", { name: "Related posts" });
+		await expect(related).toBeVisible();
+		await expect(
+			related.getByRole("link", { name: /Building This Template/ }),
+		).toHaveAttribute("href", /\/blog\/building-this-template\/$/);
+	});
+
 	test("should display post metadata correctly", async ({ page }) => {
 		await page.goto("/blog/why-astro-in-2026/");
 
