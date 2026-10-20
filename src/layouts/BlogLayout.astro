@@ -62,7 +62,7 @@ const tocSections = headings
   }}
 >
   <ReadingProgress />
-  <article class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 bg-background-default">
+  <article aria-labelledby="post-title" class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8 bg-background-default">
     <!-- Article Header -->
     <header class="mb-12">
       <!-- Breadcrumb -->
@@ -96,6 +96,7 @@ const tocSections = headings
 
       <!-- Article Title -->
       <h1
+        id="post-title"
         transition:name={"post-title-" + post.id}
         class="mb-6 text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl"
       >
@@ -201,16 +202,6 @@ const tocSections = headings
       </aside>
     </div>
 
-    <!-- Related Posts (content-collection references) -->
-    {relatedPosts.length > 0 && (
-      <section class="mt-16 border-t border-border pt-8" aria-labelledby="related-posts-heading">
-        <h2 id="related-posts-heading" class="mb-6 text-2xl font-semibold text-foreground">Related posts</h2>
-        <div class="grid gap-6 md:grid-cols-2">
-          {relatedPosts.map((related) => <PostCard post={related} />)}
-        </div>
-      </section>
-    )}
-
     <!-- Previous/Next Navigation -->
     {(prevPost || nextPost) && (
       <nav class="mt-16 border-t border-border pt-8" aria-label="Post navigation">
@@ -263,6 +254,18 @@ const tocSections = headings
       </nav>
     )}
   </article>
+  <!-- Related Posts (content-collection references). Outside the post's
+       <article>: PostCard renders its own <article>, and these are not part
+       of the post. -->
+  {relatedPosts.length > 0 && (
+    <section class="mx-auto max-w-4xl px-4 pb-12 sm:px-6 lg:px-8" aria-labelledby="related-posts-heading">
+      <h2 id="related-posts-heading" class="mb-6 text-2xl font-semibold text-foreground">Related posts</h2>
+      <div class="grid gap-6 md:grid-cols-2">
+        {relatedPosts.map((related) => <PostCard post={related} />)}
+      </div>
+    </section>
+  )}
+
 </BaseLayout>
 
 <style>

@@ -85,8 +85,9 @@ test.describe("Blog Post Layout", () => {
 	test("should have proper article structure", async ({ page }) => {
 		await page.goto("/blog/why-astro-in-2026/");
 
-		// Verify article structure
-		const article = page.locator("article");
+		// The post's own article, named by its h1. Related-post cards are
+		// articles too, so a bare locator("article") is ambiguous.
+		const article = page.getByRole("article", { name: "Why Astro in 2026" });
 		await expect(article).toBeVisible();
 
 		// Check for breadcrumb navigation
@@ -150,12 +151,10 @@ test.describe("Blog Post Layout", () => {
 	test("should display post metadata correctly", async ({ page }) => {
 		await page.goto("/blog/why-astro-in-2026/");
 
-		// Check for article title
-		const h1 = page.locator("article h1");
-		await expect(h1).toBeVisible();
-
-		// Check for metadata elements (author, date, reading time)
-		const article = page.locator("article");
+		// The post's own article, named by its h1 (related-post cards are
+		// articles too).
+		const article = page.getByRole("article", { name: "Why Astro in 2026" });
 		await expect(article).toBeVisible();
+		await expect(article.getByRole("heading", { level: 1 })).toBeVisible();
 	});
 });
