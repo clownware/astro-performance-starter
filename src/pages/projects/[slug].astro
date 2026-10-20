@@ -1,7 +1,9 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import Badge from "@/components/atoms/Badge.astro";
+import PostCard from "@/components/molecules/PostCard.astro";
 import ProjectLayout from "@/layouts/ProjectLayout.astro";
+import { getRelatedPosts } from "@/utils/blog";
 import { formatDate, formatPostMetadata } from "@/utils/formatDate";
 import { withBase } from "@/utils/url-utils";
 
@@ -47,6 +49,12 @@ const projectMetadata = formatPostMetadata(project.date, project.description);
 
 // Add slug to project for layout
 const projectWithSlug = { ...project, slug: entry.id };
+
+// Write-ups linked through reference("blog") in the project's frontmatter
+const relatedPosts = (await getRelatedPosts(project.relatedPosts)).map((post) => ({
+  ...post,
+  metadata: formatPostMetadata(post.data.date, post.body ?? ""),
+}));
 
 // Determine stats: prefer outcome metrics, fall back to reading time
 const hasOutcomes = project.outcomes && project.outcomes.length > 0;
@@ -96,6 +104,16 @@ const hasOutcomes = project.outcomes && project.outcomes.length > 0;
       </div>
     )}
   </div>
+
+  <!-- Related Writing (content-collection references) -->
+  {relatedPosts.length > 0 && (
+    <section class="related-writing mt-12" aria-labelledby="related-writing-heading">
+      <h3 id="related-writing-heading" class="text-xl font-semibold text-foreground mb-6">Related Writing</h3>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {relatedPosts.map((post) => <PostCard post={post} />)}
+      </div>
+    </section>
+  )}
 
   <!-- Related Projects -->
   {allProjects.filter(p => p.slug !== entry.id).length > 0 && (
