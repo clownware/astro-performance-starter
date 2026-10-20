@@ -1,6 +1,6 @@
 ---
 title: 'ADR-030: Image Optimisation Defaults'
-lastUpdated: 2026-02-18T00:00:00.000Z
+lastUpdated: 2026-10-20T00:00:00.000Z
 description: >-
   Documents the non-obvious image optimisation configuration choices in
   astro.config.mjs — Sharp service, constrained layout, AVIF/WebP output,
@@ -109,6 +109,8 @@ Without this, images may overflow their containers on narrow viewports.
 
 *(Amended 2026-08-13 to ship-truth: the founding text described multi-format `<picture>` output, which the wrapper does not produce.)* The `Image` wrapper emits a **single** `<img>` per source: `resolveImageFormat` defaults to AVIF (~50% smaller than JPEG), honours an explicit `format` prop, and passes SVGs through unrasterised. There is no `<picture>`/multi-format fallback — AVIF support is universal in the template's supported browsers, and one variant keeps the build and the image cache small.
 
+*Amendment 2026-10-20 (#493): `<Picture>` as a showcase-only example.* The single-format decision above stands for every image the site renders. One exception is recorded: `src/pages/showcase.astro` may render Astro's `<Picture>` (from `astro:assets`) to show what multi-format output looks like and why the starter does not use it by default. The demo emits AVIF and WebP `<source>` elements over a JPEG fallback `<img>`, from the same JPEG source the Image demo uses. The showcase's job is to explain the starter's choices, and a choice is easier to judge when the alternative is visible next to it. The cost is a few extra variants of one image in the build, which are counted by the ADR-057 image budget like any other output. No other file may import `Picture`. Multi-format output elsewhere still needs its own amendment. TC-4 below pins this.
+
 ### `domains: []` and `remotePatterns: []`
 
 Remote image optimisation is disabled by default. Users must explicitly allowlist external image domains. This is a security decision — processing arbitrary remote URLs would allow SSRF-style attacks if the site ever processes user-provided URLs.
@@ -198,10 +200,12 @@ is safe.
   - TC-1: no raw `<img` appears in `src/` outside the two recorded exemptions (the wrapper's string-src fallback; unrasterisable SVGs carrying an inline justifying comment).
   - TC-2: every raster asset in source and build output is within the per-image size budget.
   - TC-3: a raster rendered through the wrapper carries the constrained layout — `data-astro-image`, a width-descriptor `srcset` and a derived `sizes` — and an SVG does not. *(Added 2026-09-12.)*
+  - TC-4: `Picture` from `astro:assets` is imported only by `src/pages/showcase.astro`, and the demo renders AVIF and WebP sources over a JPEG fallback. *(Added 2026-10-20.)*
 - **Checks:**
   - TC-1 → check `no-raw-img` (status: **warn**)
   - TC-2 → `images:gate` in CI (status: **block**, pre-existing gate) — see ADR-057
   - TC-3 → `src/components/atoms/__tests__/Image.test.ts` via `test:unit` (status: **block**)
+  - TC-4 → `src/__tests__/picture-scope.test.ts` via `test:unit` (status: **block**); the rendered sources → `e2e/showcase.spec.ts` in CI
 - **Not machine-checkable:** per-image layout/format choices remain judgment calls.
 - **Graduation log:**
   - 2026-10-12 — `no-raw-img` stays **warn**; miscalibration fixed and backlog cleared (11 findings to 0, #435). The check matched an `<img` named in a code comment and in a string in a page's frontmatter; it now reads markup only (no `.astro` frontmatter, no comments) while still taking the `ADR-030` justification from the comment above the tag. The other nine were legitimate exemptions missing the keyword. Calibration window restarts from this date.

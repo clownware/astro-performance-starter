@@ -63,7 +63,7 @@ Astro converts formats at build time through Sharp. Two components are involved,
 - `<Image>` (from `astro:assets`) emits **one** `<img>` in a single output format (`format` prop).
 - `<Picture>` emits a `<picture>` element with one `<source>` per entry in `formats` plus a fallback `<img>`.
 
-The starter's `src/components/atoms/Image.astro` wraps `<Image>` and defaults to **single-format AVIF** (`resolveImageFormat()` in `src/utils/resolveImageFormat.ts`, [ADR-030](/adr/030-image-optimisation-defaults/)) with `widths` `[320, 640, 1024]`, `sizes="100vw"`, lazy loading and async decoding. Prefer the atom for content images; reach for `<Picture>` only when you need a multi-format fallback chain.
+The starter's `src/components/atoms/Image.astro` wraps `<Image>` and defaults to **single-format AVIF** (`resolveImageFormat()` in `src/utils/resolveImageFormat.ts`, [ADR-030](/adr/030-image-optimisation-defaults/)) with `widths` `[320, 640, 1024]`, `sizes="100vw"`, lazy loading and async decoding. Prefer the atom for content images; reach for `<Picture>` only when you need a multi-format fallback chain. The showcase has a live `<Picture>` demo next to the Image demo. Anywhere else in `src/`, `src/__tests__/picture-scope.test.ts` fails until you amend ADR-030 to record the new use.
 
 ```astro
 ---
