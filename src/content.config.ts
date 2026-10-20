@@ -60,7 +60,9 @@ const blogCollection = defineCollection({
       author: z.string().default("Your Name"), // Default author
       readingTime: z.number().optional(), // Optional: can be calculated
       canonicalUrl: z.url().optional(),
-      relatedPosts: z.array(z.string()).optional(), // ids of related posts
+      // Blog ids as typed references (ADR-027 amendment 2026-10-20); resolved
+      // by getRelatedPosts(), which fails the build on a missing post.
+      relatedPosts: z.array(reference("blog")).optional(),
     }),
 });
 

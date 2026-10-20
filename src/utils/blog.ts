@@ -37,13 +37,13 @@ export async function getFeaturedPosts(limit = 3): Promise<CollectionEntry<"blog
 }
 
 /**
- * Resolve a project's `relatedPosts` references to published blog posts,
+ * Resolve a blog post's or project's `relatedPosts` references to published blog posts,
  * keeping frontmatter order. Astro only logs a reference to a missing entry
  * and still builds, so a missing post throws here to fail the build. Drafts
  * are dropped so a project can't link to an unpublished post.
  */
 export async function getRelatedPosts(
-  refs: CollectionEntry<"projects">["data"]["relatedPosts"],
+  refs: CollectionEntry<"blog" | "projects">["data"]["relatedPosts"],
 ): Promise<CollectionEntry<"blog">[]> {
   if (!refs?.length) return [];
   // Astro types every resolved entry as present; at runtime a missing one is undefined.

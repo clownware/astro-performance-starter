@@ -23,7 +23,7 @@ The full `blog` schema, as defined in `src/content.config.ts`:
 
 ```typescript
 // src/content.config.ts (excerpt — see the file for all six collections)
-import { defineCollection } from "astro:content";
+import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
@@ -45,7 +45,7 @@ const blogCollection = defineCollection({
       author: z.string().default("Your Name"), // Default author
       readingTime: z.number().optional(), // Optional: can be calculated
       canonicalUrl: z.url().optional(),
-      relatedPosts: z.array(z.string()).optional(), // ids of related posts
+      relatedPosts: z.array(reference("blog")).optional(), // blog ids, checked at build
     }),
 });
 
