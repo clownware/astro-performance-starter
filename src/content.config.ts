@@ -1,5 +1,5 @@
 // src/content.config.ts
-import { defineCollection } from "astro:content";
+import { defineCollection, reference } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 
@@ -34,6 +34,9 @@ const projectsCollection = defineCollection({
       // Rendered by ProjectCard as the "Source Code" action alongside the
       // externalUrl "Live Demo" button.
       githubUrl: z.url().optional(),
+      // Blog ids, validated by reference(): a typo or a deleted post fails the
+      // build instead of rendering a dead link. Resolved by getRelatedPosts().
+      relatedPosts: z.array(reference("blog")).optional(),
       sortOrder: z.number().default(0),
     }),
 });
@@ -57,7 +60,9 @@ const blogCollection = defineCollection({
       author: z.string().default("Your Name"), // Default author
       readingTime: z.number().optional(), // Optional: can be calculated
       canonicalUrl: z.url().optional(),
-      relatedPosts: z.array(z.string()).optional(), // ids of related posts
+      // Blog ids as typed references (ADR-027 amendment 2026-10-20); resolved
+      // by getRelatedPosts(), which fails the build on a missing post.
+      relatedPosts: z.array(reference("blog")).optional(),
     }),
 });
 

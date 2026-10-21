@@ -47,6 +47,10 @@
     ".pnpm/**",
     "dist/**",
     ".astro/**",
+    // Playwright output (gitignored): a failed local e2e run writes .md error
+    // contexts here, which would otherwise fail lint:md in quality:ci.
+    "playwright-report/**",
+    "test-results/**",
     "CHANGELOG.md", // Often auto-generated
     "**/CHANGELOG.md"
   ],

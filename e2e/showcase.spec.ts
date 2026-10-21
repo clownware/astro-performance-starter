@@ -138,4 +138,29 @@ test.describe("Design System", () => {
 		).toHaveCount(0);
 		await page.keyboard.press("Escape");
 	});
+
+	test("should render the Picture demo as AVIF and WebP sources over a JPEG fallback", async ({ page }) => {
+		// ADR-030 amendment 2026-10-20: <Picture> is allowed as a showcase-only
+		// example of multi-format output; the site's Image wrapper stays AVIF-only.
+		const picture = page.getByTestId("picture-demo").locator("picture");
+		await expect(picture).toHaveCount(1);
+
+		const types = await picture.locator("source").evaluateAll((sources) =>
+			sources.map((source) => source.getAttribute("type")),
+		);
+		expect(types).toEqual(["image/avif", "image/webp"]);
+
+		const fallback = picture.locator("img");
+		await expect(fallback).toHaveAttribute("src", /\.jpg$/);
+		await expect(fallback).toHaveAttribute("width", /\d+/);
+		await expect(fallback).toHaveAttribute("height", /\d+/);
+		await expect(fallback).toHaveAttribute("alt", /.+/);
+
+		// A browser that decodes AVIF picks the first source, not the fallback.
+		await fallback.scrollIntoViewIfNeeded();
+		await expect
+			.poll(() => fallback.evaluate((img: HTMLImageElement) => img.currentSrc))
+			.toMatch(/\.avif$/);
+	});
 });
+

@@ -1,6 +1,6 @@
 ---
 title: 'ADR-027: Content Collections Schema Design'
-lastUpdated: 2026-02-18T00:00:00.000Z
+lastUpdated: 2026-10-20T00:00:00.000Z
 description: >-
   Documents the design decisions behind the five original content collections
   (blog, projects, bio, experience, navigation), their schema fields, storage
@@ -56,6 +56,8 @@ The schema design decisions are non-obvious and affect how users extend the temp
 | `readingTime` | `number` (optional) | Can be calculated automatically |
 | `canonicalUrl` | `url` (optional) | For cross-posted content |
 | `relatedPosts` | `string[]` (optional) | Slugs of related posts |
+
+*Amendment 2026-10-20 (#498): `relatedPosts` uses typed references.* In both `blog` and `projects`, `relatedPosts` is now `z.array(reference("blog")).optional()`. The frontmatter still holds plain blog ids, as the table above records, but the schema turns each id into a `{ collection, id }` reference. `projects.relatedPosts` was added this way in #494 and was never entered in the `projects` table below. Both fields are resolved by `getRelatedPosts()` in `src/utils/blog.ts`. It drops drafts, and it throws on an id with no matching post, because Astro only logs an unknown reference and still exits 0 (checked on astro 7.3.8 and 7.4.1). Blog posts render the result as "Related posts" in `BlogLayout`, and projects as "Related Writing" on the project page. Why: a string id had nothing to check it and nothing rendered it, so a typo or a renamed post linked nowhere without warning. TC-2 below pins this.
 
 ### `projects` — MDX content
 
@@ -202,8 +204,10 @@ This ADR supersedes [ADR-017](./017-experience-content-collection.md) for the ex
 
 - **Testable consequences:**
   - TC-1: every content entry validates against its Zod schema — the build fails otherwise.
+  - TC-2: `relatedPosts` in `blog` and `projects` parses to blog references; a reference to a missing post fails the build; a blog post renders its related posts. *(Added 2026-10-20.)*
 - **Checks:**
   - TC-1 → `astro check` + build in `quality:ci` (status: **block**, pre-existing gate)
+  - TC-2 → `src/__tests__/content-schemas.test.ts` and `src/utils/__tests__/blog.test.ts` via `test:unit` (status: **block**); the rendered section → `e2e/blog.spec.ts` in CI
 - **Not machine-checkable:** whether the schemas still cover the common case for new adopters.
 - **Graduation log:** *(empty at creation; entries added when a check changes status)*
 
