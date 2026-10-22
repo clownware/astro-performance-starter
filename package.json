@@ -99,7 +99,7 @@
     "@preact/signals": "^2.11.3",
     "@tailwindcss/vite": "^4.3.3",
     "astro-expressive-code": "^0.44.2",
-    "preact": "^10.29.8",
+    "preact": "^11.0.1",
     "sharp": "^0.35.5",
     "tailwindcss": "4.3.3"
   },
