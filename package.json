@@ -119,7 +119,7 @@
     "@types/mdast": "^4.0.4",
     "@types/node": "^24.19.2",
     "@vitest/coverage-v8": "^4.1.12",
-    "astro": "^7.4.1",
+    "astro": "^7.4.7",
     "changelogen": "^0.6.2",
     "glob": "^13.0.6",
     "gray-matter": "^4.0.3",
